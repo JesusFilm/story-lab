@@ -1,0 +1,17 @@
+Generation mode: built-in image_gen tool
+Asset: shepherd-reference-sheet.png
+
+Final prompt:
+
+Use case: stylized-concept.
+Asset type: production character reference sheet for a game artist and 3D character modeler.
+Primary request: a human shepherd in a semi-realistic AA video game art style, shown in front, side, and back views, all of the same character in the same neutral T-pose.
+Subject: a grounded adult male shepherd with a lean, sturdy build, weathered face, short curly dark hair and a modest beard. Simple practical pastoral clothing: a worn woven knee-length tunic with elbow-length sleeves, a plain leather belt, a short sleeveless sheepskin vest, and leather sandals. Believable anatomy, understated design, natural fabric construction, visible seams and restrained wear. Empty hands.
+Style/medium: polished semi-realistic 3D game character rendering with believable skin, woven cloth, wool, and aged leather. The visual fidelity of a well-made AA game; subtly simplified forms and materials, realistic human proportions, clean readable silhouette.
+Composition/framing: one wide landscape reference sheet, approximately 16:9, containing exactly three full-body orthographic views in a single horizontal row: FRONT on the left, SIDE in the center facing to the right, BACK on the right. Allocate more width to front and back for their outstretched arms. Keep all three figures at precisely the same scale, head height, shoulder height, and ground line. Adequate blank gaps so no figures touch. Include every fingertip and the soles of the feet.
+Pose and camera, critical: front and back have both arms extended perfectly straight and horizontal at shoulder height, elbows straight, palms facing the ground, legs straight, feet hip-width apart, weight evenly distributed, head level. For the SIDE view rotate the camera exactly 90 degrees around the SAME T-posed model: the head, chest, pelvis and feet appear in true profile, while the near arm points directly toward the camera, so it is foreshortened to a compact hand/forearm/shoulder form, with the far arm behind it. Do not lower the side-view arms or put them forward along the image plane. Orthographic cameras, no three-quarter views, no perspective distortion.
+Consistency: exactly the same face, hairstyle, body proportions, garments, garment lengths, belt position, sandals, seams and material colors in every view. The back must reveal the actual rear garment construction.
+Scene/backdrop and lighting: plain light neutral gray studio background, soft even neutral illumination, very subtle ground shadow, material detail and anatomy easy to inspect, no dramatic lighting or scenery.
+Text: only the small clean unobtrusive labels "FRONT", "SIDE", and "BACK" centered below their respective figures. No other text.
+Avoid: cartoon or anime proportions, chibi styling, exaggerated muscles, fantasy armor, weapons, staff, sheep, extra props, extra poses or inset portraits, ornate frames, watermark, cropping, overlapping views, inconsistent clothing, A-poses.
+

@@ -1,0 +1,1 @@
+{"name":"story-lab-portal","private":true,"scripts":{"build":"python3 build.py","test":"python3 verify.py"},"dependencies":{"three":"0.169.0"}}

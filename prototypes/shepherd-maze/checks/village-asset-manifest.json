@@ -1,0 +1,2942 @@
+{
+  "generator": "Blender 5.1.2",
+  "map_sha256": "9cd81b0ab05be3e4bd35a5b69994c1d4fd744fe77d9a077b947322d7c1b44698",
+  "source_map": "maps/village/maze-layout.json",
+  "foundry_manifest": "maps/village/foundry-manifest.json",
+  "world_units": "metres",
+  "blender_axes": "x east, y north, z up",
+  "gltf_axes": "x east, y up, z south",
+  "solids": [
+    {
+      "name": "Wall_000",
+      "foundry_id": "v-1-0",
+      "kind": "low-wall",
+      "rect_m": [
+        9.75,
+        0,
+        10.25,
+        12
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_001",
+      "foundry_id": "v-4-0",
+      "kind": "market",
+      "rect_m": [
+        32,
+        0,
+        36,
+        12
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_002",
+      "foundry_id": "v-6-0",
+      "kind": "low-wall",
+      "rect_m": [
+        49.75,
+        0,
+        50.25,
+        12
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_003",
+      "foundry_id": "v-7-0",
+      "kind": "low-wall",
+      "rect_m": [
+        57.75,
+        0,
+        58.25,
+        12
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_004",
+      "foundry_id": "v-10-0",
+      "kind": "market",
+      "rect_m": [
+        80,
+        0,
+        84,
+        12
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_005",
+      "foundry_id": "v-5-1",
+      "kind": "low-wall",
+      "rect_m": [
+        41.75,
+        8,
+        42.25,
+        20
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_006",
+      "foundry_id": "v-6-1",
+      "kind": "low-wall",
+      "rect_m": [
+        49.75,
+        8,
+        50.25,
+        20
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_007",
+      "foundry_id": "v-9-1",
+      "kind": "home",
+      "rect_m": [
+        72,
+        8,
+        76,
+        20
+      ],
+      "height": 5.454999923706055
+    },
+    {
+      "name": "Wall_008",
+      "foundry_id": "v-10-1",
+      "kind": "market",
+      "rect_m": [
+        80,
+        8,
+        84,
+        20
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_009",
+      "foundry_id": "v-5-2",
+      "kind": "low-wall",
+      "rect_m": [
+        41.75,
+        16,
+        42.25,
+        28
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_010",
+      "foundry_id": "v-8-2",
+      "kind": "animal-stall",
+      "rect_m": [
+        64,
+        16,
+        68,
+        28
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_011",
+      "foundry_id": "v-10-2",
+      "kind": "market",
+      "rect_m": [
+        80,
+        16,
+        84,
+        28
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_012",
+      "foundry_id": "v-4-3",
+      "kind": "market",
+      "rect_m": [
+        32,
+        24,
+        36,
+        36
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_013",
+      "foundry_id": "v-9-3",
+      "kind": "home",
+      "rect_m": [
+        72,
+        24,
+        76,
+        36
+      ],
+      "height": 4.814999580383301
+    },
+    {
+      "name": "Wall_014",
+      "foundry_id": "v-1-4",
+      "kind": "low-wall",
+      "rect_m": [
+        9.75,
+        32,
+        10.25,
+        44
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_015",
+      "foundry_id": "v-4-4",
+      "kind": "low-wall",
+      "rect_m": [
+        33.75,
+        32,
+        34.25,
+        44
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_016",
+      "foundry_id": "v-5-4",
+      "kind": "animal-stall",
+      "rect_m": [
+        40,
+        32,
+        44,
+        44
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_017",
+      "foundry_id": "v-6-4",
+      "kind": "low-wall",
+      "rect_m": [
+        49.75,
+        32,
+        50.25,
+        44
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_018",
+      "foundry_id": "v-9-4",
+      "kind": "low-wall",
+      "rect_m": [
+        73.75,
+        32,
+        74.25,
+        44
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_019",
+      "foundry_id": "v-11-4",
+      "kind": "low-wall",
+      "rect_m": [
+        89.75,
+        32,
+        90.25,
+        44
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_020",
+      "foundry_id": "v-3-5",
+      "kind": "low-wall",
+      "rect_m": [
+        25.75,
+        40,
+        26.25,
+        52
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_021",
+      "foundry_id": "v-7-5",
+      "kind": "market",
+      "rect_m": [
+        56,
+        40,
+        60,
+        52
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_022",
+      "foundry_id": "v-8-5",
+      "kind": "animal-stall",
+      "rect_m": [
+        64,
+        40,
+        68,
+        52
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_023",
+      "foundry_id": "v-9-5",
+      "kind": "low-wall",
+      "rect_m": [
+        73.75,
+        40,
+        74.25,
+        52
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_024",
+      "foundry_id": "v-11-5",
+      "kind": "animal-stall",
+      "rect_m": [
+        88,
+        40,
+        92,
+        52
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_025",
+      "foundry_id": "v-1-6",
+      "kind": "low-wall",
+      "rect_m": [
+        9.75,
+        48,
+        10.25,
+        60
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_026",
+      "foundry_id": "v-2-6",
+      "kind": "low-wall",
+      "rect_m": [
+        17.75,
+        48,
+        18.25,
+        60
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_027",
+      "foundry_id": "v-4-6",
+      "kind": "low-wall",
+      "rect_m": [
+        33.75,
+        48,
+        34.25,
+        60
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_028",
+      "foundry_id": "v-8-6",
+      "kind": "animal-stall",
+      "rect_m": [
+        64,
+        48,
+        68,
+        60
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_029",
+      "foundry_id": "v-9-6",
+      "kind": "home",
+      "rect_m": [
+        72,
+        48,
+        76,
+        60
+      ],
+      "height": 4.814999580383301
+    },
+    {
+      "name": "Wall_030",
+      "foundry_id": "v-11-6",
+      "kind": "animal-stall",
+      "rect_m": [
+        88,
+        48,
+        92,
+        60
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_031",
+      "foundry_id": "v-1-7",
+      "kind": "market",
+      "rect_m": [
+        8,
+        56,
+        12,
+        68
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_032",
+      "foundry_id": "v-2-7",
+      "kind": "low-wall",
+      "rect_m": [
+        17.75,
+        56,
+        18.25,
+        68
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_033",
+      "foundry_id": "v-3-7",
+      "kind": "low-wall",
+      "rect_m": [
+        25.75,
+        56,
+        26.25,
+        68
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_034",
+      "foundry_id": "v-7-7",
+      "kind": "market",
+      "rect_m": [
+        56,
+        56,
+        60,
+        68
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_035",
+      "foundry_id": "v-8-7",
+      "kind": "low-wall",
+      "rect_m": [
+        65.75,
+        56,
+        66.25,
+        68
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_036",
+      "foundry_id": "v-11-7",
+      "kind": "low-wall",
+      "rect_m": [
+        89.75,
+        56,
+        90.25,
+        68
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_037",
+      "foundry_id": "v-1-8",
+      "kind": "market",
+      "rect_m": [
+        8,
+        64,
+        12,
+        76
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_038",
+      "foundry_id": "v-3-8",
+      "kind": "home",
+      "rect_m": [
+        24,
+        64,
+        28,
+        76
+      ],
+      "height": 5.135000228881836
+    },
+    {
+      "name": "Wall_039",
+      "foundry_id": "v-4-8",
+      "kind": "low-wall",
+      "rect_m": [
+        33.75,
+        64,
+        34.25,
+        76
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_040",
+      "foundry_id": "v-5-8",
+      "kind": "low-wall",
+      "rect_m": [
+        41.75,
+        64,
+        42.25,
+        76
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_041",
+      "foundry_id": "v-7-8",
+      "kind": "market",
+      "rect_m": [
+        56,
+        64,
+        60,
+        76
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_042",
+      "foundry_id": "v-10-8",
+      "kind": "low-wall",
+      "rect_m": [
+        81.75,
+        64,
+        82.25,
+        76
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_043",
+      "foundry_id": "v-3-9",
+      "kind": "low-wall",
+      "rect_m": [
+        25.75,
+        72,
+        26.25,
+        84
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_044",
+      "foundry_id": "v-5-9",
+      "kind": "animal-stall",
+      "rect_m": [
+        40,
+        72,
+        44,
+        84
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_045",
+      "foundry_id": "v-9-9",
+      "kind": "low-wall",
+      "rect_m": [
+        73.75,
+        72,
+        74.25,
+        84
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_046",
+      "foundry_id": "h-2-1",
+      "kind": "home",
+      "rect_m": [
+        16,
+        8,
+        28,
+        12
+      ],
+      "height": 5.135000228881836
+    },
+    {
+      "name": "Wall_047",
+      "foundry_id": "h-3-1",
+      "kind": "low-wall",
+      "rect_m": [
+        24,
+        9.75,
+        36,
+        10.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_048",
+      "foundry_id": "h-8-1",
+      "kind": "low-wall",
+      "rect_m": [
+        64,
+        9.75,
+        76,
+        10.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_049",
+      "foundry_id": "h-9-1",
+      "kind": "market",
+      "rect_m": [
+        72,
+        8,
+        84,
+        12
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_050",
+      "foundry_id": "h-10-1",
+      "kind": "low-wall",
+      "rect_m": [
+        80,
+        9.75,
+        92,
+        10.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_051",
+      "foundry_id": "h-1-2",
+      "kind": "low-wall",
+      "rect_m": [
+        8,
+        17.75,
+        20,
+        18.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_052",
+      "foundry_id": "h-2-2",
+      "kind": "low-wall",
+      "rect_m": [
+        16,
+        17.75,
+        28,
+        18.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_053",
+      "foundry_id": "h-3-2",
+      "kind": "market",
+      "rect_m": [
+        24,
+        16,
+        36,
+        20
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_054",
+      "foundry_id": "h-4-2",
+      "kind": "low-wall",
+      "rect_m": [
+        32,
+        17.75,
+        44,
+        18.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_055",
+      "foundry_id": "h-5-2",
+      "kind": "low-wall",
+      "rect_m": [
+        40,
+        17.75,
+        52,
+        18.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_056",
+      "foundry_id": "h-7-2",
+      "kind": "animal-stall",
+      "rect_m": [
+        56,
+        16,
+        68,
+        20
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_057",
+      "foundry_id": "h-11-2",
+      "kind": "home",
+      "rect_m": [
+        88,
+        16,
+        100,
+        20
+      ],
+      "height": 4.814999580383301
+    },
+    {
+      "name": "Wall_058",
+      "foundry_id": "h-0-3",
+      "kind": "low-wall",
+      "rect_m": [
+        0,
+        25.75,
+        12,
+        26.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_059",
+      "foundry_id": "h-1-3",
+      "kind": "low-wall",
+      "rect_m": [
+        8,
+        25.75,
+        20,
+        26.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_060",
+      "foundry_id": "h-3-3",
+      "kind": "low-wall",
+      "rect_m": [
+        24,
+        25.75,
+        36,
+        26.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_061",
+      "foundry_id": "h-6-3",
+      "kind": "market",
+      "rect_m": [
+        48,
+        24,
+        60,
+        28
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_062",
+      "foundry_id": "h-7-3",
+      "kind": "animal-stall",
+      "rect_m": [
+        56,
+        24,
+        68,
+        28
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_063",
+      "foundry_id": "h-8-3",
+      "kind": "home",
+      "rect_m": [
+        64,
+        24,
+        76,
+        28
+      ],
+      "height": 5.454999923706055
+    },
+    {
+      "name": "Wall_064",
+      "foundry_id": "h-10-3",
+      "kind": "low-wall",
+      "rect_m": [
+        80,
+        25.75,
+        92,
+        26.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_065",
+      "foundry_id": "h-1-4",
+      "kind": "animal-stall",
+      "rect_m": [
+        8,
+        32,
+        20,
+        36
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_066",
+      "foundry_id": "h-3-4",
+      "kind": "market",
+      "rect_m": [
+        24,
+        32,
+        36,
+        36
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_067",
+      "foundry_id": "h-7-4",
+      "kind": "low-wall",
+      "rect_m": [
+        56,
+        33.75,
+        68,
+        34.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_068",
+      "foundry_id": "h-8-4",
+      "kind": "low-wall",
+      "rect_m": [
+        64,
+        33.75,
+        76,
+        34.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_069",
+      "foundry_id": "h-10-4",
+      "kind": "animal-stall",
+      "rect_m": [
+        80,
+        32,
+        92,
+        36
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_070",
+      "foundry_id": "h-0-5",
+      "kind": "low-wall",
+      "rect_m": [
+        0,
+        41.75,
+        12,
+        42.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_071",
+      "foundry_id": "h-2-5",
+      "kind": "low-wall",
+      "rect_m": [
+        16,
+        41.75,
+        28,
+        42.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_072",
+      "foundry_id": "h-4-5",
+      "kind": "low-wall",
+      "rect_m": [
+        32,
+        41.75,
+        44,
+        42.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_073",
+      "foundry_id": "h-5-5",
+      "kind": "low-wall",
+      "rect_m": [
+        40,
+        41.75,
+        52,
+        42.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_074",
+      "foundry_id": "h-7-5",
+      "kind": "animal-stall",
+      "rect_m": [
+        56,
+        40,
+        68,
+        44
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_075",
+      "foundry_id": "h-9-5",
+      "kind": "market",
+      "rect_m": [
+        72,
+        40,
+        84,
+        44
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_076",
+      "foundry_id": "h-1-6",
+      "kind": "low-wall",
+      "rect_m": [
+        8,
+        49.75,
+        20,
+        50.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_077",
+      "foundry_id": "h-4-6",
+      "kind": "low-wall",
+      "rect_m": [
+        32,
+        49.75,
+        44,
+        50.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_078",
+      "foundry_id": "h-6-6",
+      "kind": "low-wall",
+      "rect_m": [
+        48,
+        49.75,
+        60,
+        50.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_079",
+      "foundry_id": "h-9-6",
+      "kind": "market",
+      "rect_m": [
+        72,
+        48,
+        84,
+        52
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_080",
+      "foundry_id": "h-10-6",
+      "kind": "low-wall",
+      "rect_m": [
+        80,
+        49.75,
+        92,
+        50.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_081",
+      "foundry_id": "h-3-7",
+      "kind": "low-wall",
+      "rect_m": [
+        24,
+        57.75,
+        36,
+        58.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_082",
+      "foundry_id": "h-5-7",
+      "kind": "low-wall",
+      "rect_m": [
+        40,
+        57.75,
+        52,
+        58.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_083",
+      "foundry_id": "h-6-7",
+      "kind": "market",
+      "rect_m": [
+        48,
+        56,
+        60,
+        60
+      ],
+      "height": 2.9000000953674316
+    },
+    {
+      "name": "Wall_084",
+      "foundry_id": "h-8-7",
+      "kind": "low-wall",
+      "rect_m": [
+        64,
+        57.75,
+        76,
+        58.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_085",
+      "foundry_id": "h-10-7",
+      "kind": "animal-stall",
+      "rect_m": [
+        80,
+        56,
+        92,
+        60
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_086",
+      "foundry_id": "h-0-8",
+      "kind": "low-wall",
+      "rect_m": [
+        0,
+        65.75,
+        12,
+        66.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_087",
+      "foundry_id": "h-5-8",
+      "kind": "low-wall",
+      "rect_m": [
+        40,
+        65.75,
+        52,
+        66.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_088",
+      "foundry_id": "h-7-8",
+      "kind": "animal-stall",
+      "rect_m": [
+        56,
+        64,
+        68,
+        68
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_089",
+      "foundry_id": "h-9-8",
+      "kind": "low-wall",
+      "rect_m": [
+        72,
+        65.75,
+        84,
+        66.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_090",
+      "foundry_id": "h-11-8",
+      "kind": "home",
+      "rect_m": [
+        88,
+        64,
+        100,
+        68
+      ],
+      "height": 5.135000228881836
+    },
+    {
+      "name": "Wall_091",
+      "foundry_id": "h-1-9",
+      "kind": "low-wall",
+      "rect_m": [
+        8,
+        73.75,
+        20,
+        74.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_092",
+      "foundry_id": "h-4-9",
+      "kind": "animal-stall",
+      "rect_m": [
+        32,
+        72,
+        44,
+        76
+      ],
+      "height": 2.9225001335144043
+    },
+    {
+      "name": "Wall_093",
+      "foundry_id": "h-5-9",
+      "kind": "low-wall",
+      "rect_m": [
+        40,
+        73.75,
+        52,
+        74.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_094",
+      "foundry_id": "h-8-9",
+      "kind": "home",
+      "rect_m": [
+        64,
+        72,
+        76,
+        76
+      ],
+      "height": 5.135000228881836
+    },
+    {
+      "name": "Wall_095",
+      "foundry_id": "h-9-9",
+      "kind": "low-wall",
+      "rect_m": [
+        72,
+        73.75,
+        84,
+        74.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_096",
+      "foundry_id": "h-10-9",
+      "kind": "low-wall",
+      "rect_m": [
+        80,
+        73.75,
+        92,
+        74.25
+      ],
+      "height": 0.9900000095367432
+    },
+    {
+      "name": "Wall_097",
+      "foundry_id": "post-0-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        0,
+        0,
+        4,
+        4
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_098",
+      "foundry_id": "post-1-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        8,
+        0,
+        12,
+        4
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_099",
+      "foundry_id": "post-2-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        16,
+        0,
+        20,
+        4
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_100",
+      "foundry_id": "post-3-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        24,
+        0,
+        28,
+        4
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_101",
+      "foundry_id": "post-4-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        32,
+        0,
+        36,
+        4
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_102",
+      "foundry_id": "post-5-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        40,
+        0,
+        44,
+        4
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_103",
+      "foundry_id": "post-6-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        48,
+        0,
+        52,
+        4
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_104",
+      "foundry_id": "post-7-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        56,
+        0,
+        60,
+        4
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_105",
+      "foundry_id": "post-8-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        64,
+        0,
+        68,
+        4
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_106",
+      "foundry_id": "post-9-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        72,
+        0,
+        76,
+        4
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_107",
+      "foundry_id": "post-10-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        80,
+        0,
+        84,
+        4
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_108",
+      "foundry_id": "post-11-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        88,
+        0,
+        92,
+        4
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_109",
+      "foundry_id": "post-12-0",
+      "kind": "low-courtyard",
+      "rect_m": [
+        96,
+        0,
+        100,
+        4
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_110",
+      "foundry_id": "post-0-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        0,
+        8,
+        4,
+        12
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_111",
+      "foundry_id": "post-1-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        8,
+        8,
+        12,
+        12
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_112",
+      "foundry_id": "post-2-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        16,
+        8,
+        20,
+        12
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_113",
+      "foundry_id": "post-3-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        24,
+        8,
+        28,
+        12
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_114",
+      "foundry_id": "post-4-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        32,
+        8,
+        36,
+        12
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_115",
+      "foundry_id": "post-5-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        40,
+        8,
+        44,
+        12
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_116",
+      "foundry_id": "post-6-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        48,
+        8,
+        52,
+        12
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_117",
+      "foundry_id": "post-7-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        56,
+        8,
+        60,
+        12
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_118",
+      "foundry_id": "post-8-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        64,
+        8,
+        68,
+        12
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_119",
+      "foundry_id": "post-9-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        72,
+        8,
+        76,
+        12
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_120",
+      "foundry_id": "post-10-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        80,
+        8,
+        84,
+        12
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_121",
+      "foundry_id": "post-11-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        88,
+        8,
+        92,
+        12
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_122",
+      "foundry_id": "post-12-1",
+      "kind": "low-courtyard",
+      "rect_m": [
+        96,
+        8,
+        100,
+        12
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_123",
+      "foundry_id": "post-0-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        0,
+        16,
+        4,
+        20
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_124",
+      "foundry_id": "post-1-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        8,
+        16,
+        12,
+        20
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_125",
+      "foundry_id": "post-2-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        16,
+        16,
+        20,
+        20
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_126",
+      "foundry_id": "post-3-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        24,
+        16,
+        28,
+        20
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_127",
+      "foundry_id": "post-4-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        32,
+        16,
+        36,
+        20
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_128",
+      "foundry_id": "post-5-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        40,
+        16,
+        44,
+        20
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_129",
+      "foundry_id": "post-6-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        48,
+        16,
+        52,
+        20
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_130",
+      "foundry_id": "post-7-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        56,
+        16,
+        60,
+        20
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_131",
+      "foundry_id": "post-8-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        64,
+        16,
+        68,
+        20
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_132",
+      "foundry_id": "post-9-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        72,
+        16,
+        76,
+        20
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_133",
+      "foundry_id": "post-10-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        80,
+        16,
+        84,
+        20
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_134",
+      "foundry_id": "post-11-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        88,
+        16,
+        92,
+        20
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_135",
+      "foundry_id": "post-12-2",
+      "kind": "low-courtyard",
+      "rect_m": [
+        96,
+        16,
+        100,
+        20
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_136",
+      "foundry_id": "post-0-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        0,
+        24,
+        4,
+        28
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_137",
+      "foundry_id": "post-1-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        8,
+        24,
+        12,
+        28
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_138",
+      "foundry_id": "post-2-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        16,
+        24,
+        20,
+        28
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_139",
+      "foundry_id": "post-3-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        24,
+        24,
+        28,
+        28
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_140",
+      "foundry_id": "post-4-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        32,
+        24,
+        36,
+        28
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_141",
+      "foundry_id": "post-5-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        40,
+        24,
+        44,
+        28
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_142",
+      "foundry_id": "post-6-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        48,
+        24,
+        52,
+        28
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_143",
+      "foundry_id": "post-7-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        56,
+        24,
+        60,
+        28
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_144",
+      "foundry_id": "post-8-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        64,
+        24,
+        68,
+        28
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_145",
+      "foundry_id": "post-9-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        72,
+        24,
+        76,
+        28
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_146",
+      "foundry_id": "post-10-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        80,
+        24,
+        84,
+        28
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_147",
+      "foundry_id": "post-11-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        88,
+        24,
+        92,
+        28
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_148",
+      "foundry_id": "post-12-3",
+      "kind": "low-courtyard",
+      "rect_m": [
+        96,
+        24,
+        100,
+        28
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_149",
+      "foundry_id": "post-0-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        0,
+        32,
+        4,
+        36
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_150",
+      "foundry_id": "post-1-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        8,
+        32,
+        12,
+        36
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_151",
+      "foundry_id": "post-2-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        16,
+        32,
+        20,
+        36
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_152",
+      "foundry_id": "post-3-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        24,
+        32,
+        28,
+        36
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_153",
+      "foundry_id": "post-4-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        32,
+        32,
+        36,
+        36
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_154",
+      "foundry_id": "post-5-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        40,
+        32,
+        44,
+        36
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_155",
+      "foundry_id": "post-6-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        48,
+        32,
+        52,
+        36
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_156",
+      "foundry_id": "post-7-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        56,
+        32,
+        60,
+        36
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_157",
+      "foundry_id": "post-8-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        64,
+        32,
+        68,
+        36
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_158",
+      "foundry_id": "post-9-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        72,
+        32,
+        76,
+        36
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_159",
+      "foundry_id": "post-10-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        80,
+        32,
+        84,
+        36
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_160",
+      "foundry_id": "post-11-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        88,
+        32,
+        92,
+        36
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_161",
+      "foundry_id": "post-12-4",
+      "kind": "low-courtyard",
+      "rect_m": [
+        96,
+        32,
+        100,
+        36
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_162",
+      "foundry_id": "post-0-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        0,
+        40,
+        4,
+        44
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_163",
+      "foundry_id": "post-1-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        8,
+        40,
+        12,
+        44
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_164",
+      "foundry_id": "post-2-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        16,
+        40,
+        20,
+        44
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_165",
+      "foundry_id": "post-3-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        24,
+        40,
+        28,
+        44
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_166",
+      "foundry_id": "post-4-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        32,
+        40,
+        36,
+        44
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_167",
+      "foundry_id": "post-5-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        40,
+        40,
+        44,
+        44
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_168",
+      "foundry_id": "post-6-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        48,
+        40,
+        52,
+        44
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_169",
+      "foundry_id": "post-7-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        56,
+        40,
+        60,
+        44
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_170",
+      "foundry_id": "post-8-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        64,
+        40,
+        68,
+        44
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_171",
+      "foundry_id": "post-9-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        72,
+        40,
+        76,
+        44
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_172",
+      "foundry_id": "post-10-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        80,
+        40,
+        84,
+        44
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_173",
+      "foundry_id": "post-11-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        88,
+        40,
+        92,
+        44
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_174",
+      "foundry_id": "post-12-5",
+      "kind": "low-courtyard",
+      "rect_m": [
+        96,
+        40,
+        100,
+        44
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_175",
+      "foundry_id": "post-0-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        0,
+        48,
+        4,
+        52
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_176",
+      "foundry_id": "post-1-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        8,
+        48,
+        12,
+        52
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_177",
+      "foundry_id": "post-2-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        16,
+        48,
+        20,
+        52
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_178",
+      "foundry_id": "post-3-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        24,
+        48,
+        28,
+        52
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_179",
+      "foundry_id": "post-4-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        32,
+        48,
+        36,
+        52
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_180",
+      "foundry_id": "post-5-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        40,
+        48,
+        44,
+        52
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_181",
+      "foundry_id": "post-6-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        48,
+        48,
+        52,
+        52
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_182",
+      "foundry_id": "post-7-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        56,
+        48,
+        60,
+        52
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_183",
+      "foundry_id": "post-8-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        64,
+        48,
+        68,
+        52
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_184",
+      "foundry_id": "post-9-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        72,
+        48,
+        76,
+        52
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_185",
+      "foundry_id": "post-10-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        80,
+        48,
+        84,
+        52
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_186",
+      "foundry_id": "post-11-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        88,
+        48,
+        92,
+        52
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_187",
+      "foundry_id": "post-12-6",
+      "kind": "low-courtyard",
+      "rect_m": [
+        96,
+        48,
+        100,
+        52
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_188",
+      "foundry_id": "post-0-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        0,
+        56,
+        4,
+        60
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_189",
+      "foundry_id": "post-1-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        8,
+        56,
+        12,
+        60
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_190",
+      "foundry_id": "post-2-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        16,
+        56,
+        20,
+        60
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_191",
+      "foundry_id": "post-3-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        24,
+        56,
+        28,
+        60
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_192",
+      "foundry_id": "post-4-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        32,
+        56,
+        36,
+        60
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_193",
+      "foundry_id": "post-5-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        40,
+        56,
+        44,
+        60
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_194",
+      "foundry_id": "post-6-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        48,
+        56,
+        52,
+        60
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_195",
+      "foundry_id": "post-7-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        56,
+        56,
+        60,
+        60
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_196",
+      "foundry_id": "post-8-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        64,
+        56,
+        68,
+        60
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_197",
+      "foundry_id": "post-9-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        72,
+        56,
+        76,
+        60
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_198",
+      "foundry_id": "post-10-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        80,
+        56,
+        84,
+        60
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_199",
+      "foundry_id": "post-11-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        88,
+        56,
+        92,
+        60
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_200",
+      "foundry_id": "post-12-7",
+      "kind": "low-courtyard",
+      "rect_m": [
+        96,
+        56,
+        100,
+        60
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_201",
+      "foundry_id": "post-0-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        0,
+        64,
+        4,
+        68
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_202",
+      "foundry_id": "post-1-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        8,
+        64,
+        12,
+        68
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_203",
+      "foundry_id": "post-2-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        16,
+        64,
+        20,
+        68
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_204",
+      "foundry_id": "post-3-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        24,
+        64,
+        28,
+        68
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_205",
+      "foundry_id": "post-4-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        32,
+        64,
+        36,
+        68
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_206",
+      "foundry_id": "post-5-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        40,
+        64,
+        44,
+        68
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_207",
+      "foundry_id": "post-6-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        48,
+        64,
+        52,
+        68
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_208",
+      "foundry_id": "post-7-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        56,
+        64,
+        60,
+        68
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_209",
+      "foundry_id": "post-8-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        64,
+        64,
+        68,
+        68
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_210",
+      "foundry_id": "post-9-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        72,
+        64,
+        76,
+        68
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_211",
+      "foundry_id": "post-10-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        80,
+        64,
+        84,
+        68
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_212",
+      "foundry_id": "post-11-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        88,
+        64,
+        92,
+        68
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_213",
+      "foundry_id": "post-12-8",
+      "kind": "low-courtyard",
+      "rect_m": [
+        96,
+        64,
+        100,
+        68
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_214",
+      "foundry_id": "post-0-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        0,
+        72,
+        4,
+        76
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_215",
+      "foundry_id": "post-1-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        8,
+        72,
+        12,
+        76
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_216",
+      "foundry_id": "post-2-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        16,
+        72,
+        20,
+        76
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_217",
+      "foundry_id": "post-3-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        24,
+        72,
+        28,
+        76
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_218",
+      "foundry_id": "post-4-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        32,
+        72,
+        36,
+        76
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_219",
+      "foundry_id": "post-5-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        40,
+        72,
+        44,
+        76
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_220",
+      "foundry_id": "post-6-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        48,
+        72,
+        52,
+        76
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_221",
+      "foundry_id": "post-7-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        56,
+        72,
+        60,
+        76
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_222",
+      "foundry_id": "post-8-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        64,
+        72,
+        68,
+        76
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_223",
+      "foundry_id": "post-9-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        72,
+        72,
+        76,
+        76
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_224",
+      "foundry_id": "post-10-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        80,
+        72,
+        84,
+        76
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_225",
+      "foundry_id": "post-11-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        88,
+        72,
+        92,
+        76
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_226",
+      "foundry_id": "post-12-9",
+      "kind": "low-courtyard",
+      "rect_m": [
+        96,
+        72,
+        100,
+        76
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_227",
+      "foundry_id": "post-0-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        0,
+        80,
+        4,
+        84
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_228",
+      "foundry_id": "post-1-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        8,
+        80,
+        12,
+        84
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_229",
+      "foundry_id": "post-2-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        16,
+        80,
+        20,
+        84
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_230",
+      "foundry_id": "post-3-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        24,
+        80,
+        28,
+        84
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_231",
+      "foundry_id": "post-4-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        32,
+        80,
+        36,
+        84
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_232",
+      "foundry_id": "post-5-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        40,
+        80,
+        44,
+        84
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_233",
+      "foundry_id": "post-6-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        48,
+        80,
+        52,
+        84
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_234",
+      "foundry_id": "post-7-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        56,
+        80,
+        60,
+        84
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_235",
+      "foundry_id": "post-8-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        64,
+        80,
+        68,
+        84
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_236",
+      "foundry_id": "post-9-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        72,
+        80,
+        76,
+        84
+      ],
+      "height": 1.1999999284744263
+    },
+    {
+      "name": "Wall_237",
+      "foundry_id": "post-10-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        80,
+        80,
+        84,
+        84
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_238",
+      "foundry_id": "post-11-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        88,
+        80,
+        92,
+        84
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_239",
+      "foundry_id": "post-12-10",
+      "kind": "low-courtyard",
+      "rect_m": [
+        96,
+        80,
+        100,
+        84
+      ],
+      "height": 1.0899999141693115
+    },
+    {
+      "name": "Wall_240",
+      "foundry_id": "north",
+      "kind": "boundary",
+      "rect_m": [
+        0,
+        0,
+        100,
+        4
+      ],
+      "height": 1.1400001049041748
+    },
+    {
+      "name": "Wall_241",
+      "foundry_id": "south",
+      "kind": "boundary",
+      "rect_m": [
+        0,
+        80,
+        100,
+        84
+      ],
+      "height": 1.1579999923706055
+    },
+    {
+      "name": "Wall_242",
+      "foundry_id": "west",
+      "kind": "boundary",
+      "rect_m": [
+        0,
+        0,
+        4,
+        84
+      ],
+      "height": 1.1760001182556152
+    },
+    {
+      "name": "Wall_243",
+      "foundry_id": "east",
+      "kind": "boundary",
+      "rect_m": [
+        96,
+        0,
+        100,
+        84
+      ],
+      "height": 1.194000005722046
+    }
+  ],
+  "bounds_verified": true,
+  "goal_shelter": "Corner posts and offset manger clear both centreline approaches; overhead roof at 3.05m.",
+  "provenance": "Original procedural village adaptation; no historical accuracy claim. Character unchanged."
+}

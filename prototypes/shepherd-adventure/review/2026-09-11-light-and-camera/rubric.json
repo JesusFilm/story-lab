@@ -1,0 +1,51 @@
+{
+  "date": "2026-09-11",
+  "reviewer": "Codex implementing agent",
+  "criteriaSource": "../../../../../games/shepherd-maze/2026-09-11-light-and-camera.md",
+  "criteria": [
+    {
+      "id": "stable-camera",
+      "status": "automated-pass; full 14-area keyboard playthrough completed",
+      "evidence": [
+        "../../checks/journey-camera-verification.json",
+        "market-settled.jpg",
+        "completed-full-run.jpg"
+      ],
+      "confidence": "high for stationary numerical convergence; moderate for perceived comfort"
+    },
+    {
+      "id": "clear-investigation",
+      "status": "implemented-and-exercised",
+      "evidence": [
+        "first-interaction.jpg",
+        "wick-discovery.jpg"
+      ],
+      "confidence": "high for visible action and successful keyboard use; requires user playtest"
+    },
+    {
+      "id": "preparation",
+      "status": "automated-and-browser-sequence-pass",
+      "evidence": [
+        "../../checks/journey-verification.json",
+        "lantern-lit.jpg"
+      ],
+      "confidence": "high for reachable states; enjoyment unassessed"
+    },
+    {
+      "id": "quiet-reward",
+      "status": "visual-implemented; audio-quality-unassessed",
+      "evidence": [
+        "wick-discovery.jpg",
+        "route-discovery.jpg"
+      ],
+      "confidence": "moderate for visual; unassessed for audible mix"
+    },
+    {
+      "id": "asset-polish",
+      "status": "references-prepared; exact-input-approval-pending",
+      "evidence": "../../../../../games/shepherd-maze/2026-09-11-well-and-gate-assets.md",
+      "confidence": "models-not-yet-generated"
+    }
+  ],
+  "compositeScore": null
+}

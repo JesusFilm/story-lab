@@ -1,0 +1,61 @@
+{
+  "retrieved": "2026-09-10",
+  "license": "CC0-1.0 (3D source assets)",
+  "files": [
+    {
+      "path": ".cache/free-models/universal-base-characters.zip",
+      "bytes": 128968391,
+      "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+    },
+    {
+      "path": ".cache/free-models/modular-character-outfits-fantasy.zip",
+      "bytes": 294347394,
+      "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+    },
+    {
+      "path": ".cache/free-models/universal-animation-library.zip",
+      "bytes": 15904933,
+      "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+    },
+    {
+      "path": ".cache/free-models/MONK_1.blend",
+      "bytes": 5642310,
+      "sha256": "db2c8e43782044061424df1329017f19920f61017144120deda53bd82e74263e"
+    },
+    {
+      "path": "public/models-v2/listener-blue.glb",
+      "bytes": 1541116,
+      "sha256": "59606d9b62077015408bb51eab1c6b5a311da5b04797a00a18b87cf31af4ba4c"
+    },
+    {
+      "path": "public/models-v2/listener-olive.glb",
+      "bytes": 1236888,
+      "sha256": "097f4afdf152125f1b9878b61ab9c391222b36bfe37028bc637ca233e3013282"
+    },
+    {
+      "path": "public/models-v2/listener-woman.glb",
+      "bytes": 1470404,
+      "sha256": "6b46d299be523e78598676b02f503855482d5990dfc56d044208334e5c82c8ae"
+    },
+    {
+      "path": "public/models-v2/listener-elder.glb",
+      "bytes": 1421856,
+      "sha256": "be45736f391096c4958f1d69a9d325e975794a02465ed81f98668dc6b6dfe5a8"
+    },
+    {
+      "path": "public/models-v2/teacher.glb",
+      "bytes": 1341544,
+      "sha256": "bdbcbbc386e4fdbbd41f4faf0c3461dc640056c03f248c2611a5f640e4551689"
+    },
+    {
+      "path": "public/models-v2/listener-earth.glb",
+      "bytes": 1304152,
+      "sha256": "fcdf1b3107e28683861634c24ff99215e4f31888d49f3a20e4bcc3514397d861"
+    },
+    {
+      "path": "public/models-v2/motions.json",
+      "bytes": 2912839,
+      "sha256": "b4a60bc9be2143322c10b845374c67a076e082a68e1b77a21bfd9f3cd89023d5"
+    }
+  ]
+}

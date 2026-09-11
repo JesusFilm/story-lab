@@ -1,0 +1,49 @@
+{
+  "date": "2026-09-08",
+  "seed": "bethlehem-village-02",
+  "checks": {
+    "foundry_verified": true,
+    "asset_hash_matches": true,
+    "exact_raster_coverage": {
+      "pixels": 134400
+    },
+    "all_corridors_clear": {
+      "edges": 121,
+      "samples": 19481,
+      "radius": 0.43
+    },
+    "junctions_warn_wait_and_accept_early_taps": {
+      "approaches": 87
+    },
+    "routes": [
+      {
+        "metres": 207.99999999999372,
+        "seconds": 52.4600000000026
+      },
+      {
+        "metres": 223.99999999999218,
+        "seconds": 55.60000000000309
+      },
+      {
+        "metres": 239.99999999999238,
+        "seconds": 61.180000000003965
+      }
+    ],
+    "guidance": {
+      "positions": 242
+    },
+    "first_choice": {
+      "metres": 8,
+      "seconds": 2.109999999999999,
+      "node": "0,1"
+    },
+    "structure_counts": {
+      "low-wall": 56,
+      "market": 17,
+      "home": 9,
+      "animal-stall": 15,
+      "low-courtyard": 143,
+      "boundary": 4
+    }
+  }
+}

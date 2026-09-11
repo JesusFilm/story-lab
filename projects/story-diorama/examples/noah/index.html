@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Story Diorama · Through the waters</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./loading-theatre.css" />
+    <link rel="stylesheet" href="../../src/story-diorama.css" />
+    <link rel="stylesheet" href="./page.css" />
+  </head>
+  <body>
+    <div
+      id="loading"
+      class="loading-theatre"
+      data-loading-option="1"
+      aria-label="Loading Story Diorama"
+    >
+      <canvas aria-hidden="true"></canvas>
+      <h2>Every flock has a show-off.</h2>
+      <p id="loading-text" role="status" aria-live="polite">
+        Preparing the scene…
+      </p>
+      <p class="loading-note">Getting your story ready.</p>
+      <span class="loading-elapsed" aria-hidden="true">0s</span>
+      <div class="loading-actions">
+        <button type="button" class="loading-pause">Pause animation</button
+        ><button type="button" class="loading-retry" hidden>
+          Reload prototype
+        </button>
+      </div>
+    </div>
+    <script src="./loading-theatre.js"></script>
+    <header>
+      <a class="brand" href="./index.html"><b>◈</b> Story Diorama</a>
+      <nav>
+        <a href="https://jesusfilm.github.io/story-lab-demos/"
+          >Back to Story Lab</a
+        ><a id="lab-link" href="../../../../prototypes/story-diorama-lab/"
+          >Options playground ↗</a
+        >
+      </nav>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">A storytelling component / Example 01</p>
+          <h1>Through <em>the waters.</em></h1>
+          <p class="sub">
+            An illustrated telling of Noah, the ark, and the flood.
+          </p>
+        </div>
+        <span class="tag">GENESIS 6–9 · 4 SCENES · 8 PASSAGES</span>
+      </section>
+      <div id="layout">
+        <div>
+          <div class="stage-wrap">
+            <section id="diorama" aria-label="Noah story"></section>
+            <div id="start-card" class="start-card">
+              <div class="start-inner">
+                <p class="eyebrow">An ancient story, a moment to listen.</p>
+                <h2>A world of water.<br />A thread of hope.</h2>
+                <p>
+                  Choose how the story unfolds.<br />Gentle music begins when
+                  you start.
+                </p>
+                <div class="start-buttons">
+                  <button class="primary" id="start-auto">
+                    ▶ Watch the story</button
+                  ><button id="start-manual">Read at my pace →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="transport">
+            <button id="pause" disabled>Pause</button
+            ><button id="next" disabled>Next →</button
+            ><button id="replay" disabled>↺ Replay</button
+            ><button id="mute" aria-pressed="false">Sound on</button
+            ><label class="volume"
+              >Volume
+              <input
+                id="volume"
+                type="range"
+                min="0"
+                max="100"
+                value="65" /></label
+            ><span id="status" class="status" role="status"
+              >Ready to begin</span
+            >
+          </div>
+          <div class="audio-alert" id="audio-alert" hidden>
+            <span>Sound could not start.</span>
+            <button id="retry-audio">Retry sound</button>
+            <button id="silent">Continue muted</button>
+          </div>
+          <div class="chapters" aria-label="Jump to chapter"></div>
+        </div>
+        <aside id="lab-panel" class="lab-panel" hidden></aside>
+      </div>
+      <section class="bottom">
+        <div>
+          <h3>One image. Many moments.</h3>
+          <p>
+            A scene can hold several passages while the music continues beneath
+            them. Choose automatic playback, or reveal each passage and continue
+            at your own pace.
+          </p>
+          <p>
+            Space reveals or advances the text. P pauses. Use chapter cards to
+            jump. A hidden tab pauses the story; press Resume when you return.
+          </p>
+          <details>
+            <summary>Read the complete text</summary>
+            <div id="transcript"></div>
+          </details>
+        </div>
+        <div>
+          <h3>About this telling</h3>
+          <p>
+            Scripture is from the Berean Standard Bible (public domain). The
+            skeptical onlookers are an artistic dramatization; Genesis does not
+            explicitly describe people ridiculing Noah. The closing painting
+            combines the dove and rainbow as an illustration of renewal.
+          </p>
+          <p>
+            The flood passage names the loss of life. The paintings contain no
+            graphic imagery.
+          </p>
+          <details>
+            <summary>Music, artwork &amp; sources</summary>
+            <p>
+              “Reverie”, “Childhood”, and “Hiraeth” by
+              <a href="https://www.scottbuckley.com.au/">Scott Buckley</a> —
+              released under
+              <a href="https://creativecommons.org/licenses/by/4.0/"
+                >CC BY 4.0</a
+              >. Downloaded via
+              <a href="https://www.free-stock-music.com/">Free Stock Music</a>.
+              Playback applies fades, volume adjustments and optional looping.
+            </p>
+            <p>
+              Four original AI-generated illustrations, created with built-in
+              ImageGen. Dramatic oil painting, chiaroscuro, and expansive
+              biblical landscapes.
+            </p>
+            <p>
+              Scripture:
+              <a href="https://biblehub.com/bsb/genesis/6.htm">Genesis 6</a>,
+              <a href="https://biblehub.com/bsb/genesis/7.htm">7</a>,
+              <a href="https://biblehub.com/bsb/genesis/8.htm">8</a>,
+              <a href="https://biblehub.com/bsb/genesis/9.htm">9</a>.
+              <a href="https://berean.bible/licensing.htm"
+                >BSB public-domain declaration</a
+              >.
+            </p>
+          </details>
+        </div>
+      </section>
+      <footer>
+        <span>STORY DIORAMA / STORY LAB</span
+        ><span>Images · Words · Sound</span>
+      </footer>
+    </main>
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>

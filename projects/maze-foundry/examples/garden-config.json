@@ -1,0 +1,14 @@
+{
+  "seed": "garden-example",
+  "columns": 12,
+  "rows": 10,
+  "wallMode": "uniform",
+  "wallThickness": 0.75,
+  "minWinPaths": 2,
+  "minDeadEnds": 8,
+  "minSolutionLength": 20,
+  "maxCorridorLength": 9,
+  "maxFirstChoice": 4,
+  "branchBias": 0.35,
+  "loopProbability": 0.06
+}

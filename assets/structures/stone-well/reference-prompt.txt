@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset ID: stone-well. Asset type: isolated three-quarter single-object reconstruction reference for one static 3D game mesh.
+Primary request: a low rustic circular stone well with a genuinely open center, for the shepherd journey village.
+Selected visual direction: follow-the-light-aa v003 visual rules, applied as an unapproved new-asset sample. Polished semi-realistic AA game art, grounded proportions, tactile matte warm sand/cream limestone, readable sturdy irregular construction. The inspected Follow the light village anchor controls the modest limestone forms; the inspected low-wall-kit reference controls stone color and wear. This is creative game adaptation, not historical verification.
+Subject: only a squat freestanding masonry well curb, about 2.2 m outside diameter and 0.85 m tall, with a broad 1.4 m inner opening. Three irregular courses of hand-laid limestone blocks, a worn but subtly uneven coping ring, visible stone-lined inner wall. The dark hollow shaft must read clearly; absolutely no lid, filled disc, water surface, bucket, rope, windlass, timber supports, roof, paving base, plants or attached scenery.
+Scene/backdrop: plain light gray studio background, no environment.
+Composition/framing: square canvas, one complete isolated well, elevated three-quarter view at about 30 degrees looking down enough to reveal the hollow center and inner masonry, generous clear margins, no cutaway and no multiple views.
+Lighting: soft even neutral light revealing true base colors, no baked amber glow or blue nighttime shadows, no hard dramatic shadows.
+Materials: naturally worn matte warm limestone, restrained surface texture and mortar seams, believable construction, coherent scale, no glossy plastic or extreme rubble damage.
+Constraints: one object only; open center; no text, labels, watermark, dimensions, arrows, people, extra objects, depth-of-field blur or collage.

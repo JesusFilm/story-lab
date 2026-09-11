@@ -1,0 +1,6630 @@
+{
+  "schemaVersion": 1,
+  "generatorVersion": "0.1.0",
+  "algorithm": "growing-tree-braided-v1",
+  "seed": "settlement-example",
+  "attempt": 0,
+  "config": {
+    "seed": "settlement-example",
+    "columns": 20,
+    "rows": 16,
+    "passageWidth": 2,
+    "wallMode": "mixed",
+    "wallThickness": 1,
+    "thinWall": 0.5,
+    "thickWall": 1.5,
+    "thickProbability": 0.4,
+    "pixelsPerMetre": 8,
+    "playerWidth": 1,
+    "minWinPaths": 3,
+    "minDeadEnds": 18,
+    "minSolutionLength": 36,
+    "minChoiceSpacing": 2,
+    "maxCorridorLength": 12,
+    "maxFirstChoice": 6,
+    "branchBias": 0.6,
+    "loopProbability": 0.04,
+    "maxAttempts": 80,
+    "simulationRuns": 24,
+    "wallOverrides": {}
+  },
+  "image": {
+    "width": 572,
+    "height": 460,
+    "pixelsPerMetre": 8,
+    "origin": "top-left",
+    "axes": "pixel x → world +X; pixel y → world +Z",
+    "pixelSampling": "pixel centres: (index + 0.5) / pixelsPerMetre",
+    "walkableValue": 255,
+    "wallValue": 0,
+    "connectivity": 4,
+    "antialias": false,
+    "outerBoundary": "closed; start and exit are interior goal cells"
+  },
+  "size": {
+    "widthMetres": 71.5,
+    "heightMetres": 57.5,
+    "cellPitchMetres": 3.5,
+    "passageWidthMetres": 2
+  },
+  "start": {
+    "cell": 0,
+    "column": 0,
+    "row": 0,
+    "pixel": {
+      "x": 20,
+      "y": 20
+    },
+    "metres": {
+      "x": 2.5625,
+      "z": 2.5625
+    }
+  },
+  "exit": {
+    "cell": 319,
+    "column": 19,
+    "row": 15,
+    "pixel": {
+      "x": 552,
+      "y": 440
+    },
+    "metres": {
+      "x": 69.0625,
+      "z": 55.0625
+    }
+  },
+  "adjacency": [
+    [
+      1
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      1,
+      3,
+      22
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      3,
+      24
+    ],
+    [
+      6
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      8,
+      10
+    ],
+    [
+      9,
+      11,
+      30
+    ],
+    [
+      10,
+      12
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      12,
+      14
+    ],
+    [
+      13,
+      15,
+      34
+    ],
+    [
+      14,
+      16
+    ],
+    [
+      15,
+      17,
+      36
+    ],
+    [
+      16,
+      37
+    ],
+    [
+      19,
+      38
+    ],
+    [
+      18
+    ],
+    [
+      21,
+      40
+    ],
+    [
+      20,
+      41
+    ],
+    [
+      2,
+      23
+    ],
+    [
+      22,
+      24
+    ],
+    [
+      4,
+      23,
+      25
+    ],
+    [
+      24,
+      45
+    ],
+    [
+      27
+    ],
+    [
+      26,
+      28,
+      47
+    ],
+    [
+      27,
+      48
+    ],
+    [
+      30
+    ],
+    [
+      10,
+      29
+    ],
+    [
+      32,
+      51
+    ],
+    [
+      31,
+      33,
+      52
+    ],
+    [
+      32,
+      53
+    ],
+    [
+      14,
+      35
+    ],
+    [
+      34
+    ],
+    [
+      16
+    ],
+    [
+      17,
+      57
+    ],
+    [
+      18,
+      39
+    ],
+    [
+      38,
+      59
+    ],
+    [
+      20,
+      60
+    ],
+    [
+      21,
+      42,
+      61
+    ],
+    [
+      41,
+      43
+    ],
+    [
+      42,
+      44
+    ],
+    [
+      43,
+      64
+    ],
+    [
+      25,
+      46
+    ],
+    [
+      45,
+      47,
+      66
+    ],
+    [
+      27,
+      46
+    ],
+    [
+      28,
+      49
+    ],
+    [
+      48,
+      50
+    ],
+    [
+      49,
+      70
+    ],
+    [
+      31
+    ],
+    [
+      32,
+      72
+    ],
+    [
+      33,
+      54
+    ],
+    [
+      53,
+      55,
+      74
+    ],
+    [
+      54,
+      56
+    ],
+    [
+      55,
+      76
+    ],
+    [
+      37,
+      58,
+      77
+    ],
+    [
+      57,
+      78
+    ],
+    [
+      39,
+      79
+    ],
+    [
+      40,
+      80
+    ],
+    [
+      41,
+      62
+    ],
+    [
+      61,
+      63,
+      82
+    ],
+    [
+      62,
+      83
+    ],
+    [
+      44,
+      65
+    ],
+    [
+      64,
+      85
+    ],
+    [
+      46,
+      67
+    ],
+    [
+      66,
+      87
+    ],
+    [
+      69,
+      88
+    ],
+    [
+      68,
+      70
+    ],
+    [
+      50,
+      69
+    ],
+    [
+      72,
+      91
+    ],
+    [
+      52,
+      71
+    ],
+    [
+      74,
+      93
+    ],
+    [
+      54,
+      73
+    ],
+    [
+      76,
+      95
+    ],
+    [
+      56,
+      75
+    ],
+    [
+      57,
+      97
+    ],
+    [
+      58,
+      79
+    ],
+    [
+      59,
+      78
+    ],
+    [
+      60,
+      81
+    ],
+    [
+      80,
+      82,
+      101
+    ],
+    [
+      62,
+      81
+    ],
+    [
+      63,
+      84
+    ],
+    [
+      83,
+      104
+    ],
+    [
+      65,
+      86
+    ],
+    [
+      85
+    ],
+    [
+      67,
+      107
+    ],
+    [
+      68,
+      89
+    ],
+    [
+      88,
+      90
+    ],
+    [
+      89,
+      110
+    ],
+    [
+      71,
+      111
+    ],
+    [
+      93,
+      112
+    ],
+    [
+      73,
+      92,
+      113
+    ],
+    [
+      95,
+      114
+    ],
+    [
+      75,
+      94,
+      96,
+      115
+    ],
+    [
+      95
+    ],
+    [
+      77,
+      98
+    ],
+    [
+      97,
+      99
+    ],
+    [
+      98,
+      119
+    ],
+    [
+      101
+    ],
+    [
+      81,
+      100
+    ],
+    [
+      103,
+      122
+    ],
+    [
+      102,
+      104
+    ],
+    [
+      84,
+      103
+    ],
+    [
+      106,
+      125
+    ],
+    [
+      105,
+      126
+    ],
+    [
+      87
+    ],
+    [
+      109
+    ],
+    [
+      108,
+      129
+    ],
+    [
+      90,
+      111,
+      130
+    ],
+    [
+      91,
+      110
+    ],
+    [
+      92,
+      132
+    ],
+    [
+      93,
+      133
+    ],
+    [
+      94,
+      134
+    ],
+    [
+      95,
+      116
+    ],
+    [
+      115,
+      136
+    ],
+    [
+      118,
+      137
+    ],
+    [
+      117
+    ],
+    [
+      99,
+      139
+    ],
+    [
+      121
+    ],
+    [
+      120,
+      122
+    ],
+    [
+      102,
+      121,
+      123,
+      142
+    ],
+    [
+      122,
+      143
+    ],
+    [
+      144
+    ],
+    [
+      105,
+      145
+    ],
+    [
+      106,
+      127
+    ],
+    [
+      126,
+      147
+    ],
+    [
+      129,
+      148
+    ],
+    [
+      109,
+      128,
+      149
+    ],
+    [
+      110,
+      150
+    ],
+    [
+      132
+    ],
+    [
+      112,
+      131,
+      152
+    ],
+    [
+      113,
+      134
+    ],
+    [
+      114,
+      133,
+      135
+    ],
+    [
+      134
+    ],
+    [
+      116,
+      156
+    ],
+    [
+      117,
+      138,
+      157
+    ],
+    [
+      137,
+      158
+    ],
+    [
+      119,
+      159
+    ],
+    [
+      141
+    ],
+    [
+      140,
+      161
+    ],
+    [
+      122,
+      162
+    ],
+    [
+      123,
+      163
+    ],
+    [
+      124,
+      145
+    ],
+    [
+      125,
+      144,
+      146
+    ],
+    [
+      145,
+      166
+    ],
+    [
+      127,
+      148,
+      167
+    ],
+    [
+      128,
+      147
+    ],
+    [
+      129,
+      150
+    ],
+    [
+      130,
+      149,
+      151,
+      170
+    ],
+    [
+      150,
+      171
+    ],
+    [
+      132,
+      153
+    ],
+    [
+      152,
+      173
+    ],
+    [
+      155,
+      174
+    ],
+    [
+      154,
+      175
+    ],
+    [
+      136,
+      176
+    ],
+    [
+      137,
+      177
+    ],
+    [
+      138,
+      159
+    ],
+    [
+      139,
+      158
+    ],
+    [
+      161,
+      180
+    ],
+    [
+      141,
+      160,
+      162,
+      181
+    ],
+    [
+      142,
+      161
+    ],
+    [
+      143,
+      164
+    ],
+    [
+      163,
+      165,
+      184
+    ],
+    [
+      164
+    ],
+    [
+      146
+    ],
+    [
+      147,
+      187
+    ],
+    [
+      169,
+      188
+    ],
+    [
+      168,
+      170,
+      189
+    ],
+    [
+      150,
+      169
+    ],
+    [
+      151
+    ],
+    [
+      192
+    ],
+    [
+      153,
+      193
+    ],
+    [
+      154
+    ],
+    [
+      155,
+      176,
+      195
+    ],
+    [
+      156,
+      175
+    ],
+    [
+      157,
+      178,
+      197
+    ],
+    [
+      177,
+      179
+    ],
+    [
+      178,
+      199
+    ],
+    [
+      160,
+      181
+    ],
+    [
+      161,
+      180
+    ],
+    [
+      183,
+      202
+    ],
+    [
+      182,
+      203
+    ],
+    [
+      164,
+      185
+    ],
+    [
+      184,
+      186,
+      205
+    ],
+    [
+      185,
+      187
+    ],
+    [
+      167,
+      186,
+      207
+    ],
+    [
+      168,
+      208
+    ],
+    [
+      169,
+      209
+    ],
+    [
+      191,
+      210
+    ],
+    [
+      190,
+      192
+    ],
+    [
+      172,
+      191
+    ],
+    [
+      173,
+      194,
+      213
+    ],
+    [
+      193,
+      214
+    ],
+    [
+      175
+    ],
+    [
+      197,
+      216
+    ],
+    [
+      177,
+      196
+    ],
+    [
+      199,
+      218
+    ],
+    [
+      179,
+      198,
+      219
+    ],
+    [
+      201,
+      220
+    ],
+    [
+      200
+    ],
+    [
+      182,
+      203
+    ],
+    [
+      183,
+      202,
+      204
+    ],
+    [
+      203,
+      205
+    ],
+    [
+      185,
+      204
+    ],
+    [
+      207
+    ],
+    [
+      187,
+      206
+    ],
+    [
+      188,
+      228
+    ],
+    [
+      189,
+      210
+    ],
+    [
+      190,
+      209,
+      230
+    ],
+    [
+      212
+    ],
+    [
+      211,
+      213,
+      232
+    ],
+    [
+      193,
+      212
+    ],
+    [
+      194,
+      234
+    ],
+    [
+      216,
+      235
+    ],
+    [
+      196,
+      215,
+      236
+    ],
+    [
+      218,
+      237
+    ],
+    [
+      198,
+      217,
+      219
+    ],
+    [
+      199,
+      218
+    ],
+    [
+      200,
+      221,
+      240
+    ],
+    [
+      220,
+      222
+    ],
+    [
+      221,
+      223
+    ],
+    [
+      222,
+      224
+    ],
+    [
+      223,
+      225
+    ],
+    [
+      224
+    ],
+    [
+      246
+    ],
+    [
+      228,
+      247
+    ],
+    [
+      208,
+      227,
+      229
+    ],
+    [
+      228,
+      249
+    ],
+    [
+      210,
+      231
+    ],
+    [
+      230,
+      251
+    ],
+    [
+      212,
+      252
+    ],
+    [
+      234,
+      253
+    ],
+    [
+      214,
+      233,
+      235
+    ],
+    [
+      215,
+      234
+    ],
+    [
+      216,
+      237
+    ],
+    [
+      217,
+      236,
+      238,
+      257
+    ],
+    [
+      237,
+      239
+    ],
+    [
+      238,
+      259
+    ],
+    [
+      220,
+      260
+    ],
+    [
+      242
+    ],
+    [
+      241,
+      243
+    ],
+    [
+      242,
+      263
+    ],
+    [
+      245,
+      264
+    ],
+    [
+      244,
+      265
+    ],
+    [
+      226,
+      266
+    ],
+    [
+      227,
+      267
+    ],
+    [
+      249,
+      268
+    ],
+    [
+      229,
+      248
+    ],
+    [
+      270
+    ],
+    [
+      231,
+      271
+    ],
+    [
+      232
+    ],
+    [
+      233,
+      254,
+      273
+    ],
+    [
+      253,
+      255
+    ],
+    [
+      254,
+      256,
+      275
+    ],
+    [
+      255,
+      257
+    ],
+    [
+      237,
+      256
+    ],
+    [
+      259,
+      278
+    ],
+    [
+      239,
+      258
+    ],
+    [
+      240,
+      261,
+      280
+    ],
+    [
+      260
+    ],
+    [
+      282
+    ],
+    [
+      243,
+      264,
+      283
+    ],
+    [
+      244,
+      263
+    ],
+    [
+      245,
+      285
+    ],
+    [
+      246,
+      286
+    ],
+    [
+      247,
+      287
+    ],
+    [
+      248,
+      269
+    ],
+    [
+      268,
+      270
+    ],
+    [
+      250,
+      269
+    ],
+    [
+      251,
+      291
+    ],
+    [
+      273
+    ],
+    [
+      253,
+      272
+    ],
+    [
+      294
+    ],
+    [
+      255,
+      276
+    ],
+    [
+      275,
+      277
+    ],
+    [
+      276,
+      297
+    ],
+    [
+      258,
+      279
+    ],
+    [
+      278,
+      299
+    ],
+    [
+      260,
+      300
+    ],
+    [
+      282,
+      301
+    ],
+    [
+      262,
+      281,
+      302
+    ],
+    [
+      263,
+      303
+    ],
+    [
+      285,
+      304
+    ],
+    [
+      265,
+      284
+    ],
+    [
+      266,
+      306
+    ],
+    [
+      267
+    ],
+    [
+      289
+    ],
+    [
+      288,
+      290
+    ],
+    [
+      289,
+      291
+    ],
+    [
+      271,
+      290,
+      292,
+      311
+    ],
+    [
+      291,
+      293
+    ],
+    [
+      292,
+      313
+    ],
+    [
+      274,
+      295,
+      314
+    ],
+    [
+      294,
+      296
+    ],
+    [
+      295
+    ],
+    [
+      277,
+      317
+    ],
+    [
+      299
+    ],
+    [
+      279,
+      298,
+      319
+    ],
+    [
+      280,
+      301
+    ],
+    [
+      281,
+      300
+    ],
+    [
+      282,
+      303
+    ],
+    [
+      283,
+      302
+    ],
+    [
+      284,
+      305
+    ],
+    [
+      304,
+      306
+    ],
+    [
+      286,
+      305,
+      307
+    ],
+    [
+      306,
+      308
+    ],
+    [
+      307,
+      309
+    ],
+    [
+      308,
+      310
+    ],
+    [
+      309,
+      311
+    ],
+    [
+      291,
+      310
+    ],
+    [
+      313
+    ],
+    [
+      293,
+      312,
+      314
+    ],
+    [
+      294,
+      313
+    ],
+    [
+      316
+    ],
+    [
+      315,
+      317
+    ],
+    [
+      297,
+      316,
+      318
+    ],
+    [
+      317
+    ],
+    [
+      299
+    ]
+  ],
+  "wallSegments": [
+    {
+      "id": "v-5-0",
+      "orientation": "v",
+      "column": 5,
+      "row": 0,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 144,
+      "y": 0,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-18-0",
+      "orientation": "v",
+      "column": 18,
+      "row": 0,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 504,
+      "y": 0,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-2-1",
+      "orientation": "v",
+      "column": 2,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 60,
+      "y": 28,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-6-1",
+      "orientation": "v",
+      "column": 6,
+      "row": 1,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 168,
+      "y": 28,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-9-1",
+      "orientation": "v",
+      "column": 9,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 256,
+      "y": 28,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-11-1",
+      "orientation": "v",
+      "column": 11,
+      "row": 1,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 308,
+      "y": 28,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-14-1",
+      "orientation": "v",
+      "column": 14,
+      "row": 1,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 392,
+      "y": 28,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-16-1",
+      "orientation": "v",
+      "column": 16,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 452,
+      "y": 28,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-17-1",
+      "orientation": "v",
+      "column": 17,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 480,
+      "y": 28,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-18-1",
+      "orientation": "v",
+      "column": 18,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 508,
+      "y": 28,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-1-2",
+      "orientation": "v",
+      "column": 1,
+      "row": 2,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 28,
+      "y": 56,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-5-2",
+      "orientation": "v",
+      "column": 5,
+      "row": 2,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 140,
+      "y": 56,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-8-2",
+      "orientation": "v",
+      "column": 8,
+      "row": 2,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 228,
+      "y": 56,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-11-2",
+      "orientation": "v",
+      "column": 11,
+      "row": 2,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 308,
+      "y": 56,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-12-2",
+      "orientation": "v",
+      "column": 12,
+      "row": 2,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 336,
+      "y": 56,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-13-2",
+      "orientation": "v",
+      "column": 13,
+      "row": 2,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 368,
+      "y": 56,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-17-2",
+      "orientation": "v",
+      "column": 17,
+      "row": 2,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 476,
+      "y": 56,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-19-2",
+      "orientation": "v",
+      "column": 19,
+      "row": 2,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 536,
+      "y": 56,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-1-3",
+      "orientation": "v",
+      "column": 1,
+      "row": 3,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 32,
+      "y": 84,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-4-3",
+      "orientation": "v",
+      "column": 4,
+      "row": 3,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 112,
+      "y": 84,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-6-3",
+      "orientation": "v",
+      "column": 6,
+      "row": 3,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 172,
+      "y": 84,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-8-3",
+      "orientation": "v",
+      "column": 8,
+      "row": 3,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 228,
+      "y": 84,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-11-3",
+      "orientation": "v",
+      "column": 11,
+      "row": 3,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 308,
+      "y": 84,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-13-3",
+      "orientation": "v",
+      "column": 13,
+      "row": 3,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 364,
+      "y": 84,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-15-3",
+      "orientation": "v",
+      "column": 15,
+      "row": 3,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 424,
+      "y": 84,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-17-3",
+      "orientation": "v",
+      "column": 17,
+      "row": 3,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 480,
+      "y": 84,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-18-3",
+      "orientation": "v",
+      "column": 18,
+      "row": 3,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 508,
+      "y": 84,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-3-4",
+      "orientation": "v",
+      "column": 3,
+      "row": 4,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 84,
+      "y": 112,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-5-4",
+      "orientation": "v",
+      "column": 5,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 144,
+      "y": 112,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-7-4",
+      "orientation": "v",
+      "column": 7,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 200,
+      "y": 112,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-8-4",
+      "orientation": "v",
+      "column": 8,
+      "row": 4,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 224,
+      "y": 112,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-11-4",
+      "orientation": "v",
+      "column": 11,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 312,
+      "y": 112,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-12-4",
+      "orientation": "v",
+      "column": 12,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 340,
+      "y": 112,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-14-4",
+      "orientation": "v",
+      "column": 14,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 396,
+      "y": 112,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-17-4",
+      "orientation": "v",
+      "column": 17,
+      "row": 4,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 476,
+      "y": 112,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-2-5",
+      "orientation": "v",
+      "column": 2,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 60,
+      "y": 140,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-5-5",
+      "orientation": "v",
+      "column": 5,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 144,
+      "y": 140,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-7-5",
+      "orientation": "v",
+      "column": 7,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 200,
+      "y": 140,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-8-5",
+      "orientation": "v",
+      "column": 8,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 228,
+      "y": 140,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-10-5",
+      "orientation": "v",
+      "column": 10,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 284,
+      "y": 140,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-12-5",
+      "orientation": "v",
+      "column": 12,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 340,
+      "y": 140,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-13-5",
+      "orientation": "v",
+      "column": 13,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 368,
+      "y": 140,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-14-5",
+      "orientation": "v",
+      "column": 14,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 396,
+      "y": 140,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-15-5",
+      "orientation": "v",
+      "column": 15,
+      "row": 5,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 420,
+      "y": 140,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-17-5",
+      "orientation": "v",
+      "column": 17,
+      "row": 5,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 476,
+      "y": 140,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-19-5",
+      "orientation": "v",
+      "column": 19,
+      "row": 5,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 532,
+      "y": 140,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-4-6",
+      "orientation": "v",
+      "column": 4,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 116,
+      "y": 168,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-5-6",
+      "orientation": "v",
+      "column": 5,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 144,
+      "y": 168,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-6-6",
+      "orientation": "v",
+      "column": 6,
+      "row": 6,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 168,
+      "y": 168,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-8-6",
+      "orientation": "v",
+      "column": 8,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 228,
+      "y": 168,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-10-6",
+      "orientation": "v",
+      "column": 10,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 284,
+      "y": 168,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-11-6",
+      "orientation": "v",
+      "column": 11,
+      "row": 6,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 308,
+      "y": 168,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-13-6",
+      "orientation": "v",
+      "column": 13,
+      "row": 6,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 364,
+      "y": 168,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-16-6",
+      "orientation": "v",
+      "column": 16,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 452,
+      "y": 168,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-17-6",
+      "orientation": "v",
+      "column": 17,
+      "row": 6,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 476,
+      "y": 168,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-19-6",
+      "orientation": "v",
+      "column": 19,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 536,
+      "y": 168,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-2-7",
+      "orientation": "v",
+      "column": 2,
+      "row": 7,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 56,
+      "y": 196,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-3-7",
+      "orientation": "v",
+      "column": 3,
+      "row": 7,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 84,
+      "y": 196,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-4-7",
+      "orientation": "v",
+      "column": 4,
+      "row": 7,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 116,
+      "y": 196,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-7-7",
+      "orientation": "v",
+      "column": 7,
+      "row": 7,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 200,
+      "y": 196,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-9-7",
+      "orientation": "v",
+      "column": 9,
+      "row": 7,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 256,
+      "y": 196,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-12-7",
+      "orientation": "v",
+      "column": 12,
+      "row": 7,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 340,
+      "y": 196,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-14-7",
+      "orientation": "v",
+      "column": 14,
+      "row": 7,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 392,
+      "y": 196,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-16-7",
+      "orientation": "v",
+      "column": 16,
+      "row": 7,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 452,
+      "y": 196,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-17-7",
+      "orientation": "v",
+      "column": 17,
+      "row": 7,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 476,
+      "y": 196,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-18-7",
+      "orientation": "v",
+      "column": 18,
+      "row": 7,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 504,
+      "y": 196,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-3-8",
+      "orientation": "v",
+      "column": 3,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 88,
+      "y": 224,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-6-8",
+      "orientation": "v",
+      "column": 6,
+      "row": 8,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 168,
+      "y": 224,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-7-8",
+      "orientation": "v",
+      "column": 7,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 200,
+      "y": 224,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-8-8",
+      "orientation": "v",
+      "column": 8,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 228,
+      "y": 224,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-11-8",
+      "orientation": "v",
+      "column": 11,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 312,
+      "y": 224,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-12-8",
+      "orientation": "v",
+      "column": 12,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 340,
+      "y": 224,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-13-8",
+      "orientation": "v",
+      "column": 13,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 368,
+      "y": 224,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-14-8",
+      "orientation": "v",
+      "column": 14,
+      "row": 8,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 392,
+      "y": 224,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-15-8",
+      "orientation": "v",
+      "column": 15,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 424,
+      "y": 224,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-17-8",
+      "orientation": "v",
+      "column": 17,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 480,
+      "y": 224,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-2-9",
+      "orientation": "v",
+      "column": 2,
+      "row": 9,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 60,
+      "y": 252,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-4-9",
+      "orientation": "v",
+      "column": 4,
+      "row": 9,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 116,
+      "y": 252,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-8-9",
+      "orientation": "v",
+      "column": 8,
+      "row": 9,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 224,
+      "y": 252,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-9-9",
+      "orientation": "v",
+      "column": 9,
+      "row": 9,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 252,
+      "y": 252,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-10-9",
+      "orientation": "v",
+      "column": 10,
+      "row": 9,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 284,
+      "y": 252,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-13-9",
+      "orientation": "v",
+      "column": 13,
+      "row": 9,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 368,
+      "y": 252,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-15-9",
+      "orientation": "v",
+      "column": 15,
+      "row": 9,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 424,
+      "y": 252,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-16-9",
+      "orientation": "v",
+      "column": 16,
+      "row": 9,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 452,
+      "y": 252,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-18-9",
+      "orientation": "v",
+      "column": 18,
+      "row": 9,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 504,
+      "y": 252,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-2-10",
+      "orientation": "v",
+      "column": 2,
+      "row": 10,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 60,
+      "y": 280,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-6-10",
+      "orientation": "v",
+      "column": 6,
+      "row": 10,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 168,
+      "y": 280,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-8-10",
+      "orientation": "v",
+      "column": 8,
+      "row": 10,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 228,
+      "y": 280,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-9-10",
+      "orientation": "v",
+      "column": 9,
+      "row": 10,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 256,
+      "y": 280,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-11-10",
+      "orientation": "v",
+      "column": 11,
+      "row": 10,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 308,
+      "y": 280,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-14-10",
+      "orientation": "v",
+      "column": 14,
+      "row": 10,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 392,
+      "y": 280,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-15-10",
+      "orientation": "v",
+      "column": 15,
+      "row": 10,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 424,
+      "y": 280,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-17-10",
+      "orientation": "v",
+      "column": 17,
+      "row": 10,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 476,
+      "y": 280,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-6-11",
+      "orientation": "v",
+      "column": 6,
+      "row": 11,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 172,
+      "y": 308,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-7-11",
+      "orientation": "v",
+      "column": 7,
+      "row": 11,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 200,
+      "y": 308,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-10-11",
+      "orientation": "v",
+      "column": 10,
+      "row": 11,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 280,
+      "y": 308,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-12-11",
+      "orientation": "v",
+      "column": 12,
+      "row": 11,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 340,
+      "y": 308,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-13-11",
+      "orientation": "v",
+      "column": 13,
+      "row": 11,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 364,
+      "y": 308,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-16-11",
+      "orientation": "v",
+      "column": 16,
+      "row": 11,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 448,
+      "y": 308,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-1-12",
+      "orientation": "v",
+      "column": 1,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 32,
+      "y": 336,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-4-12",
+      "orientation": "v",
+      "column": 4,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 116,
+      "y": 336,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-6-12",
+      "orientation": "v",
+      "column": 6,
+      "row": 12,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 168,
+      "y": 336,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-7-12",
+      "orientation": "v",
+      "column": 7,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 200,
+      "y": 336,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-8-12",
+      "orientation": "v",
+      "column": 8,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 228,
+      "y": 336,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-10-12",
+      "orientation": "v",
+      "column": 10,
+      "row": 12,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 280,
+      "y": 336,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-11-12",
+      "orientation": "v",
+      "column": 11,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 312,
+      "y": 336,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-12-12",
+      "orientation": "v",
+      "column": 12,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 340,
+      "y": 336,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-13-12",
+      "orientation": "v",
+      "column": 13,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 368,
+      "y": 336,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-18-12",
+      "orientation": "v",
+      "column": 18,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 508,
+      "y": 336,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-2-13",
+      "orientation": "v",
+      "column": 2,
+      "row": 13,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 56,
+      "y": 364,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-3-13",
+      "orientation": "v",
+      "column": 3,
+      "row": 13,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 88,
+      "y": 364,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-5-13",
+      "orientation": "v",
+      "column": 5,
+      "row": 13,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 144,
+      "y": 364,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-6-13",
+      "orientation": "v",
+      "column": 6,
+      "row": 13,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 168,
+      "y": 364,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-7-13",
+      "orientation": "v",
+      "column": 7,
+      "row": 13,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 196,
+      "y": 364,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-8-13",
+      "orientation": "v",
+      "column": 8,
+      "row": 13,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 224,
+      "y": 364,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-11-13",
+      "orientation": "v",
+      "column": 11,
+      "row": 13,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 312,
+      "y": 364,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-12-13",
+      "orientation": "v",
+      "column": 12,
+      "row": 13,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 340,
+      "y": 364,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-14-13",
+      "orientation": "v",
+      "column": 14,
+      "row": 13,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 396,
+      "y": 364,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-15-13",
+      "orientation": "v",
+      "column": 15,
+      "row": 13,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 420,
+      "y": 364,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-18-13",
+      "orientation": "v",
+      "column": 18,
+      "row": 13,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 504,
+      "y": 364,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-1-14",
+      "orientation": "v",
+      "column": 1,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 32,
+      "y": 392,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-3-14",
+      "orientation": "v",
+      "column": 3,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 88,
+      "y": 392,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-4-14",
+      "orientation": "v",
+      "column": 4,
+      "row": 14,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 112,
+      "y": 392,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-6-14",
+      "orientation": "v",
+      "column": 6,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 172,
+      "y": 392,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-7-14",
+      "orientation": "v",
+      "column": 7,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 200,
+      "y": 392,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-8-14",
+      "orientation": "v",
+      "column": 8,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 228,
+      "y": 392,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-14-14",
+      "orientation": "v",
+      "column": 14,
+      "row": 14,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 392,
+      "y": 392,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-17-14",
+      "orientation": "v",
+      "column": 17,
+      "row": 14,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 476,
+      "y": 392,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-18-14",
+      "orientation": "v",
+      "column": 18,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 508,
+      "y": 392,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-2-15",
+      "orientation": "v",
+      "column": 2,
+      "row": 15,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 56,
+      "y": 420,
+      "w": 12,
+      "h": 40
+    },
+    {
+      "id": "v-4-15",
+      "orientation": "v",
+      "column": 4,
+      "row": 15,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 116,
+      "y": 420,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-12-15",
+      "orientation": "v",
+      "column": 12,
+      "row": 15,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 340,
+      "y": 420,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-15-15",
+      "orientation": "v",
+      "column": 15,
+      "row": 15,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 424,
+      "y": 420,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "v-19-15",
+      "orientation": "v",
+      "column": 19,
+      "row": 15,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 536,
+      "y": 420,
+      "w": 4,
+      "h": 40
+    },
+    {
+      "id": "h-0-1",
+      "orientation": "h",
+      "column": 0,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 0,
+      "y": 32,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-1-1",
+      "orientation": "h",
+      "column": 1,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 28,
+      "y": 32,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-3-1",
+      "orientation": "h",
+      "column": 3,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 84,
+      "y": 32,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-5-1",
+      "orientation": "h",
+      "column": 5,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 140,
+      "y": 32,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-6-1",
+      "orientation": "h",
+      "column": 6,
+      "row": 1,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 168,
+      "y": 28,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-7-1",
+      "orientation": "h",
+      "column": 7,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 196,
+      "y": 32,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-8-1",
+      "orientation": "h",
+      "column": 8,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 224,
+      "y": 32,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-9-1",
+      "orientation": "h",
+      "column": 9,
+      "row": 1,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 252,
+      "y": 28,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-11-1",
+      "orientation": "h",
+      "column": 11,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 308,
+      "y": 32,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-12-1",
+      "orientation": "h",
+      "column": 12,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 336,
+      "y": 32,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-13-1",
+      "orientation": "h",
+      "column": 13,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 364,
+      "y": 32,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-15-1",
+      "orientation": "h",
+      "column": 15,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 420,
+      "y": 32,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-19-1",
+      "orientation": "h",
+      "column": 19,
+      "row": 1,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 532,
+      "y": 32,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-2-2",
+      "orientation": "h",
+      "column": 2,
+      "row": 2,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 56,
+      "y": 60,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-3-2",
+      "orientation": "h",
+      "column": 3,
+      "row": 2,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 84,
+      "y": 60,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-4-2",
+      "orientation": "h",
+      "column": 4,
+      "row": 2,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 112,
+      "y": 56,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-6-2",
+      "orientation": "h",
+      "column": 6,
+      "row": 2,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 168,
+      "y": 60,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-9-2",
+      "orientation": "h",
+      "column": 9,
+      "row": 2,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 252,
+      "y": 60,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-10-2",
+      "orientation": "h",
+      "column": 10,
+      "row": 2,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 280,
+      "y": 60,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-14-2",
+      "orientation": "h",
+      "column": 14,
+      "row": 2,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 392,
+      "y": 60,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-15-2",
+      "orientation": "h",
+      "column": 15,
+      "row": 2,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 420,
+      "y": 56,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-16-2",
+      "orientation": "h",
+      "column": 16,
+      "row": 2,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 448,
+      "y": 60,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-18-2",
+      "orientation": "h",
+      "column": 18,
+      "row": 2,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 504,
+      "y": 60,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-2-3",
+      "orientation": "h",
+      "column": 2,
+      "row": 3,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 56,
+      "y": 84,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-3-3",
+      "orientation": "h",
+      "column": 3,
+      "row": 3,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 84,
+      "y": 84,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-5-3",
+      "orientation": "h",
+      "column": 5,
+      "row": 3,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 140,
+      "y": 88,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-7-3",
+      "orientation": "h",
+      "column": 7,
+      "row": 3,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 196,
+      "y": 84,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-8-3",
+      "orientation": "h",
+      "column": 8,
+      "row": 3,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 224,
+      "y": 84,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-9-3",
+      "orientation": "h",
+      "column": 9,
+      "row": 3,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 252,
+      "y": 88,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-11-3",
+      "orientation": "h",
+      "column": 11,
+      "row": 3,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 308,
+      "y": 88,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-13-3",
+      "orientation": "h",
+      "column": 13,
+      "row": 3,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 364,
+      "y": 88,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-15-3",
+      "orientation": "h",
+      "column": 15,
+      "row": 3,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 420,
+      "y": 84,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-1-4",
+      "orientation": "h",
+      "column": 1,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 28,
+      "y": 116,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-4-4",
+      "orientation": "h",
+      "column": 4,
+      "row": 4,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 112,
+      "y": 112,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-6-4",
+      "orientation": "h",
+      "column": 6,
+      "row": 4,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 168,
+      "y": 112,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-9-4",
+      "orientation": "h",
+      "column": 9,
+      "row": 4,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 252,
+      "y": 112,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-10-4",
+      "orientation": "h",
+      "column": 10,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 280,
+      "y": 116,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-12-4",
+      "orientation": "h",
+      "column": 12,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 336,
+      "y": 116,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-14-4",
+      "orientation": "h",
+      "column": 14,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 392,
+      "y": 116,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-16-4",
+      "orientation": "h",
+      "column": 16,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 448,
+      "y": 116,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-18-4",
+      "orientation": "h",
+      "column": 18,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 504,
+      "y": 116,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-19-4",
+      "orientation": "h",
+      "column": 19,
+      "row": 4,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 532,
+      "y": 116,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-0-5",
+      "orientation": "h",
+      "column": 0,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 0,
+      "y": 144,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-2-5",
+      "orientation": "h",
+      "column": 2,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 56,
+      "y": 144,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-3-5",
+      "orientation": "h",
+      "column": 3,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 84,
+      "y": 144,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-5-5",
+      "orientation": "h",
+      "column": 5,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 140,
+      "y": 144,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-6-5",
+      "orientation": "h",
+      "column": 6,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 168,
+      "y": 144,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-8-5",
+      "orientation": "h",
+      "column": 8,
+      "row": 5,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 224,
+      "y": 140,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-9-5",
+      "orientation": "h",
+      "column": 9,
+      "row": 5,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 252,
+      "y": 140,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-16-5",
+      "orientation": "h",
+      "column": 16,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 448,
+      "y": 144,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-17-5",
+      "orientation": "h",
+      "column": 17,
+      "row": 5,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 476,
+      "y": 140,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-18-5",
+      "orientation": "h",
+      "column": 18,
+      "row": 5,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 504,
+      "y": 144,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-0-6",
+      "orientation": "h",
+      "column": 0,
+      "row": 6,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 0,
+      "y": 168,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-1-6",
+      "orientation": "h",
+      "column": 1,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 28,
+      "y": 172,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-3-6",
+      "orientation": "h",
+      "column": 3,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 84,
+      "y": 172,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-4-6",
+      "orientation": "h",
+      "column": 4,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 112,
+      "y": 172,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-7-6",
+      "orientation": "h",
+      "column": 7,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 196,
+      "y": 172,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-8-6",
+      "orientation": "h",
+      "column": 8,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 224,
+      "y": 172,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-11-6",
+      "orientation": "h",
+      "column": 11,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 308,
+      "y": 172,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-15-6",
+      "orientation": "h",
+      "column": 15,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 420,
+      "y": 172,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-18-6",
+      "orientation": "h",
+      "column": 18,
+      "row": 6,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 504,
+      "y": 172,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-0-7",
+      "orientation": "h",
+      "column": 0,
+      "row": 7,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 0,
+      "y": 200,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-1-7",
+      "orientation": "h",
+      "column": 1,
+      "row": 7,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 28,
+      "y": 200,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-6-7",
+      "orientation": "h",
+      "column": 6,
+      "row": 7,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 168,
+      "y": 200,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-11-7",
+      "orientation": "h",
+      "column": 11,
+      "row": 7,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 308,
+      "y": 196,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-13-7",
+      "orientation": "h",
+      "column": 13,
+      "row": 7,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 364,
+      "y": 200,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-14-7",
+      "orientation": "h",
+      "column": 14,
+      "row": 7,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 392,
+      "y": 200,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-15-7",
+      "orientation": "h",
+      "column": 15,
+      "row": 7,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 420,
+      "y": 200,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-0-8",
+      "orientation": "h",
+      "column": 0,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 0,
+      "y": 228,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-4-8",
+      "orientation": "h",
+      "column": 4,
+      "row": 8,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 112,
+      "y": 224,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-5-8",
+      "orientation": "h",
+      "column": 5,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 140,
+      "y": 228,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-8-8",
+      "orientation": "h",
+      "column": 8,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 224,
+      "y": 228,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-9-8",
+      "orientation": "h",
+      "column": 9,
+      "row": 8,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 252,
+      "y": 224,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-12-8",
+      "orientation": "h",
+      "column": 12,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 336,
+      "y": 228,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-18-8",
+      "orientation": "h",
+      "column": 18,
+      "row": 8,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 504,
+      "y": 228,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-19-8",
+      "orientation": "h",
+      "column": 19,
+      "row": 8,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 532,
+      "y": 224,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-2-9",
+      "orientation": "h",
+      "column": 2,
+      "row": 9,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 56,
+      "y": 256,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-3-9",
+      "orientation": "h",
+      "column": 3,
+      "row": 9,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 84,
+      "y": 252,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-5-9",
+      "orientation": "h",
+      "column": 5,
+      "row": 9,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 140,
+      "y": 256,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-6-9",
+      "orientation": "h",
+      "column": 6,
+      "row": 9,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 168,
+      "y": 252,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-10-9",
+      "orientation": "h",
+      "column": 10,
+      "row": 9,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 280,
+      "y": 252,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-11-9",
+      "orientation": "h",
+      "column": 11,
+      "row": 9,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 308,
+      "y": 256,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-14-9",
+      "orientation": "h",
+      "column": 14,
+      "row": 9,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 392,
+      "y": 256,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-16-9",
+      "orientation": "h",
+      "column": 16,
+      "row": 9,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 448,
+      "y": 252,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-18-9",
+      "orientation": "h",
+      "column": 18,
+      "row": 9,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 504,
+      "y": 252,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-0-10",
+      "orientation": "h",
+      "column": 0,
+      "row": 10,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 0,
+      "y": 284,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-1-10",
+      "orientation": "h",
+      "column": 1,
+      "row": 10,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 28,
+      "y": 284,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-4-10",
+      "orientation": "h",
+      "column": 4,
+      "row": 10,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 112,
+      "y": 284,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-6-10",
+      "orientation": "h",
+      "column": 6,
+      "row": 10,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 168,
+      "y": 280,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-11-10",
+      "orientation": "h",
+      "column": 11,
+      "row": 10,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 308,
+      "y": 284,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-12-10",
+      "orientation": "h",
+      "column": 12,
+      "row": 10,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 336,
+      "y": 284,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-15-10",
+      "orientation": "h",
+      "column": 15,
+      "row": 10,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 420,
+      "y": 284,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-17-10",
+      "orientation": "h",
+      "column": 17,
+      "row": 10,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 476,
+      "y": 280,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-1-11",
+      "orientation": "h",
+      "column": 1,
+      "row": 11,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 28,
+      "y": 312,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-2-11",
+      "orientation": "h",
+      "column": 2,
+      "row": 11,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 56,
+      "y": 308,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-3-11",
+      "orientation": "h",
+      "column": 3,
+      "row": 11,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 84,
+      "y": 308,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-4-11",
+      "orientation": "h",
+      "column": 4,
+      "row": 11,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 112,
+      "y": 312,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-5-11",
+      "orientation": "h",
+      "column": 5,
+      "row": 11,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 140,
+      "y": 312,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-6-11",
+      "orientation": "h",
+      "column": 6,
+      "row": 11,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 168,
+      "y": 308,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-7-11",
+      "orientation": "h",
+      "column": 7,
+      "row": 11,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 196,
+      "y": 308,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-9-11",
+      "orientation": "h",
+      "column": 9,
+      "row": 11,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 252,
+      "y": 312,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-11-11",
+      "orientation": "h",
+      "column": 11,
+      "row": 11,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 308,
+      "y": 312,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-13-11",
+      "orientation": "h",
+      "column": 13,
+      "row": 11,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 364,
+      "y": 308,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-18-11",
+      "orientation": "h",
+      "column": 18,
+      "row": 11,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 504,
+      "y": 308,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-19-11",
+      "orientation": "h",
+      "column": 19,
+      "row": 11,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 532,
+      "y": 312,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-1-12",
+      "orientation": "h",
+      "column": 1,
+      "row": 12,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 28,
+      "y": 336,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-2-12",
+      "orientation": "h",
+      "column": 2,
+      "row": 12,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 56,
+      "y": 336,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-3-12",
+      "orientation": "h",
+      "column": 3,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 84,
+      "y": 340,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-4-12",
+      "orientation": "h",
+      "column": 4,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 112,
+      "y": 340,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-5-12",
+      "orientation": "h",
+      "column": 5,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 140,
+      "y": 340,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-8-12",
+      "orientation": "h",
+      "column": 8,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 224,
+      "y": 340,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-10-12",
+      "orientation": "h",
+      "column": 10,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 280,
+      "y": 340,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-14-12",
+      "orientation": "h",
+      "column": 14,
+      "row": 12,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 392,
+      "y": 336,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-15-12",
+      "orientation": "h",
+      "column": 15,
+      "row": 12,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 420,
+      "y": 336,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-16-12",
+      "orientation": "h",
+      "column": 16,
+      "row": 12,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 448,
+      "y": 340,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-18-12",
+      "orientation": "h",
+      "column": 18,
+      "row": 12,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 504,
+      "y": 336,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-1-13",
+      "orientation": "h",
+      "column": 1,
+      "row": 13,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 28,
+      "y": 368,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-2-13",
+      "orientation": "h",
+      "column": 2,
+      "row": 13,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 56,
+      "y": 368,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-9-13",
+      "orientation": "h",
+      "column": 9,
+      "row": 13,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 252,
+      "y": 368,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-12-13",
+      "orientation": "h",
+      "column": 12,
+      "row": 13,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 336,
+      "y": 368,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-14-13",
+      "orientation": "h",
+      "column": 14,
+      "row": 13,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 392,
+      "y": 364,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-16-13",
+      "orientation": "h",
+      "column": 16,
+      "row": 13,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 448,
+      "y": 368,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-17-13",
+      "orientation": "h",
+      "column": 17,
+      "row": 13,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 476,
+      "y": 368,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-19-13",
+      "orientation": "h",
+      "column": 19,
+      "row": 13,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 532,
+      "y": 364,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-1-14",
+      "orientation": "h",
+      "column": 1,
+      "row": 14,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 28,
+      "y": 392,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-4-14",
+      "orientation": "h",
+      "column": 4,
+      "row": 14,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 112,
+      "y": 392,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-8-14",
+      "orientation": "h",
+      "column": 8,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 224,
+      "y": 396,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-9-14",
+      "orientation": "h",
+      "column": 9,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 252,
+      "y": 396,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-10-14",
+      "orientation": "h",
+      "column": 10,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 280,
+      "y": 396,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-12-14",
+      "orientation": "h",
+      "column": 12,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 336,
+      "y": 396,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-13-14",
+      "orientation": "h",
+      "column": 13,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 364,
+      "y": 396,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-15-14",
+      "orientation": "h",
+      "column": 15,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 420,
+      "y": 396,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-16-14",
+      "orientation": "h",
+      "column": 16,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 448,
+      "y": 396,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-18-14",
+      "orientation": "h",
+      "column": 18,
+      "row": 14,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 504,
+      "y": 396,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-5-15",
+      "orientation": "h",
+      "column": 5,
+      "row": 15,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 140,
+      "y": 420,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-7-15",
+      "orientation": "h",
+      "column": 7,
+      "row": 15,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 196,
+      "y": 424,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-8-15",
+      "orientation": "h",
+      "column": 8,
+      "row": 15,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 224,
+      "y": 424,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-9-15",
+      "orientation": "h",
+      "column": 9,
+      "row": 15,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 252,
+      "y": 424,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-10-15",
+      "orientation": "h",
+      "column": 10,
+      "row": 15,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 280,
+      "y": 420,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-12-15",
+      "orientation": "h",
+      "column": 12,
+      "row": 15,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 336,
+      "y": 424,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-15-15",
+      "orientation": "h",
+      "column": 15,
+      "row": 15,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 420,
+      "y": 424,
+      "w": 40,
+      "h": 4
+    },
+    {
+      "id": "h-16-15",
+      "orientation": "h",
+      "column": 16,
+      "row": 15,
+      "thicknessMetres": 1.5,
+      "requestedThickness": 1.5,
+      "x": 448,
+      "y": 420,
+      "w": 40,
+      "h": 12
+    },
+    {
+      "id": "h-18-15",
+      "orientation": "h",
+      "column": 18,
+      "row": 15,
+      "thicknessMetres": 0.5,
+      "requestedThickness": 0.5,
+      "x": 504,
+      "y": 424,
+      "w": 40,
+      "h": 4
+    }
+  ],
+  "verifiedWinPaths": [
+    [
+      0,
+      1,
+      2,
+      3,
+      4,
+      24,
+      25,
+      45,
+      46,
+      47,
+      27,
+      28,
+      48,
+      49,
+      50,
+      70,
+      69,
+      68,
+      88,
+      89,
+      90,
+      110,
+      111,
+      91,
+      71,
+      72,
+      52,
+      32,
+      33,
+      53,
+      54,
+      74,
+      73,
+      93,
+      92,
+      112,
+      132,
+      152,
+      153,
+      173,
+      193,
+      194,
+      214,
+      234,
+      235,
+      215,
+      216,
+      236,
+      237,
+      238,
+      239,
+      259,
+      258,
+      278,
+      279,
+      299,
+      319
+    ],
+    [
+      0,
+      1,
+      2,
+      22,
+      23,
+      24,
+      25,
+      45,
+      46,
+      47,
+      27,
+      28,
+      48,
+      49,
+      50,
+      70,
+      69,
+      68,
+      88,
+      89,
+      90,
+      110,
+      111,
+      91,
+      71,
+      72,
+      52,
+      32,
+      33,
+      53,
+      54,
+      74,
+      73,
+      93,
+      92,
+      112,
+      132,
+      152,
+      153,
+      173,
+      193,
+      194,
+      214,
+      234,
+      235,
+      215,
+      216,
+      236,
+      237,
+      238,
+      239,
+      259,
+      258,
+      278,
+      279,
+      299,
+      319
+    ],
+    [
+      0,
+      1,
+      2,
+      22,
+      23,
+      24,
+      25,
+      45,
+      46,
+      47,
+      27,
+      28,
+      48,
+      49,
+      50,
+      70,
+      69,
+      68,
+      88,
+      89,
+      90,
+      110,
+      111,
+      91,
+      71,
+      72,
+      52,
+      32,
+      33,
+      53,
+      54,
+      74,
+      73,
+      93,
+      92,
+      112,
+      132,
+      152,
+      153,
+      173,
+      193,
+      194,
+      214,
+      234,
+      233,
+      253,
+      254,
+      255,
+      256,
+      257,
+      237,
+      238,
+      239,
+      259,
+      258,
+      278,
+      279,
+      299,
+      319
+    ]
+  ],
+  "deadEndPaths": [
+    [
+      10,
+      9,
+      8,
+      7,
+      6,
+      5
+    ],
+    [
+      10,
+      30,
+      29
+    ],
+    [
+      14,
+      34,
+      35
+    ],
+    [
+      16,
+      36
+    ],
+    [
+      27,
+      26
+    ],
+    [
+      32,
+      31,
+      51
+    ],
+    [
+      41,
+      42,
+      43,
+      44,
+      64,
+      65,
+      85,
+      86
+    ],
+    [
+      46,
+      66,
+      67,
+      87,
+      107
+    ],
+    [
+      57,
+      58,
+      78,
+      79,
+      59,
+      39,
+      38,
+      18,
+      19
+    ],
+    [
+      81,
+      101,
+      100
+    ],
+    [
+      95,
+      96
+    ],
+    [
+      122,
+      121,
+      120
+    ],
+    [
+      129,
+      109,
+      108
+    ],
+    [
+      132,
+      131
+    ],
+    [
+      134,
+      135
+    ],
+    [
+      137,
+      117,
+      118
+    ],
+    [
+      145,
+      144,
+      124
+    ],
+    [
+      145,
+      146,
+      166
+    ],
+    [
+      150,
+      151,
+      171
+    ],
+    [
+      161,
+      141,
+      140
+    ],
+    [
+      164,
+      165
+    ],
+    [
+      175,
+      155,
+      154,
+      174
+    ],
+    [
+      175,
+      195
+    ],
+    [
+      187,
+      207,
+      206
+    ],
+    [
+      210,
+      190,
+      191,
+      192,
+      172
+    ],
+    [
+      212,
+      211
+    ],
+    [
+      212,
+      232,
+      252
+    ],
+    [
+      220,
+      200,
+      201
+    ],
+    [
+      220,
+      221,
+      222,
+      223,
+      224,
+      225
+    ],
+    [
+      228,
+      227,
+      247,
+      267,
+      287
+    ],
+    [
+      228,
+      229,
+      249,
+      248,
+      268,
+      269,
+      270,
+      250
+    ],
+    [
+      253,
+      273,
+      272
+    ],
+    [
+      260,
+      261
+    ],
+    [
+      263,
+      243,
+      242,
+      241
+    ],
+    [
+      282,
+      262
+    ],
+    [
+      291,
+      290,
+      289,
+      288
+    ],
+    [
+      294,
+      274
+    ],
+    [
+      294,
+      295,
+      296
+    ],
+    [
+      299,
+      298
+    ],
+    [
+      306,
+      286,
+      266,
+      246,
+      226
+    ],
+    [
+      313,
+      312
+    ],
+    [
+      317,
+      316,
+      315
+    ],
+    [
+      317,
+      318
+    ]
+  ],
+  "verification": {
+    "passed": true,
+    "checks": [
+      {
+        "id": "graph-integrity",
+        "label": "Reciprocal, orthogonal graph",
+        "pass": true,
+        "actual": "valid",
+        "target": "required"
+      },
+      {
+        "id": "raster-size",
+        "label": "Raster matches physical size contract",
+        "pass": true,
+        "actual": "572 × 460",
+        "target": "572 × 460"
+      },
+      {
+        "id": "binary",
+        "label": "Only black and white pixels",
+        "pass": true,
+        "actual": "0 / 255",
+        "target": "required"
+      },
+      {
+        "id": "boundary",
+        "label": "Closed outer boundary",
+        "pass": true,
+        "actual": "sealed",
+        "target": "required"
+      },
+      {
+        "id": "connected-pixels",
+        "label": "Every walkable pixel is reachable",
+        "pass": true,
+        "actual": "167872 / 167872",
+        "target": "required"
+      },
+      {
+        "id": "clearance",
+        "label": "Player footprint reaches every cell",
+        "pass": true,
+        "actual": "320 cells",
+        "target": "1 m square"
+      },
+      {
+        "id": "open-passages",
+        "label": "Swept player clears every open passage",
+        "pass": true,
+        "actual": "327 passages",
+        "target": "required"
+      },
+      {
+        "id": "closed-walls",
+        "label": "Closed walls contain no shortcuts",
+        "pass": true,
+        "actual": "277 segments",
+        "target": "required"
+      },
+      {
+        "id": "connected-graph",
+        "label": "All cells connect to the exit",
+        "pass": true,
+        "actual": 320,
+        "target": 320
+      },
+      {
+        "id": "win-paths",
+        "label": "Distinct simple win paths",
+        "actual": 3,
+        "target": "≥ 3",
+        "pass": true
+      },
+      {
+        "id": "dead-ends",
+        "label": "Dead ends (excluding start / exit)",
+        "actual": 43,
+        "target": "≥ 18",
+        "pass": true
+      },
+      {
+        "id": "solution-length",
+        "label": "Shortest win path · steps",
+        "actual": 56,
+        "target": "≥ 36",
+        "pass": true
+      },
+      {
+        "id": "choice-min",
+        "label": "Minimum choice spacing · steps",
+        "actual": 2,
+        "target": "≥ 2",
+        "pass": true
+      },
+      {
+        "id": "corridor-max",
+        "label": "Longest forced corridor · steps",
+        "actual": 11,
+        "target": "≤ 12",
+        "pass": true
+      },
+      {
+        "id": "first-choice",
+        "label": "First choice · steps",
+        "actual": 2,
+        "target": "≤ 6",
+        "pass": true
+      },
+      {
+        "id": "simulation",
+        "label": "Adversarial traversal reaches the exit",
+        "pass": true,
+        "actual": 194,
+        "target": "≤ 2 × cells"
+      }
+    ],
+    "metrics": {
+      "choices": [
+        2,
+        10,
+        14,
+        16,
+        24,
+        27,
+        32,
+        41,
+        46,
+        54,
+        57,
+        62,
+        81,
+        93,
+        95,
+        110,
+        122,
+        129,
+        132,
+        134,
+        137,
+        145,
+        147,
+        150,
+        161,
+        164,
+        169,
+        175,
+        177,
+        185,
+        187,
+        193,
+        199,
+        203,
+        210,
+        212,
+        216,
+        218,
+        220,
+        228,
+        234,
+        237,
+        253,
+        255,
+        260,
+        263,
+        282,
+        291,
+        294,
+        299,
+        306,
+        313,
+        317
+      ],
+      "deadEnds": [
+        5,
+        19,
+        26,
+        29,
+        35,
+        36,
+        51,
+        86,
+        96,
+        100,
+        107,
+        108,
+        118,
+        120,
+        124,
+        131,
+        135,
+        140,
+        165,
+        166,
+        171,
+        172,
+        174,
+        195,
+        201,
+        206,
+        211,
+        225,
+        226,
+        241,
+        250,
+        252,
+        261,
+        262,
+        272,
+        274,
+        287,
+        288,
+        296,
+        298,
+        312,
+        315,
+        318
+      ],
+      "corridors": [
+        [
+          2,
+          1,
+          0
+        ],
+        [
+          2,
+          3,
+          4,
+          24
+        ],
+        [
+          2,
+          22,
+          23,
+          24
+        ],
+        [
+          10,
+          9,
+          8,
+          7,
+          6,
+          5
+        ],
+        [
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        [
+          10,
+          30,
+          29
+        ],
+        [
+          14,
+          15,
+          16
+        ],
+        [
+          14,
+          34,
+          35
+        ],
+        [
+          16,
+          17,
+          37,
+          57
+        ],
+        [
+          16,
+          36
+        ],
+        [
+          24,
+          25,
+          45,
+          46
+        ],
+        [
+          27,
+          26
+        ],
+        [
+          27,
+          28,
+          48,
+          49,
+          50,
+          70,
+          69,
+          68,
+          88,
+          89,
+          90,
+          110
+        ],
+        [
+          27,
+          47,
+          46
+        ],
+        [
+          32,
+          31,
+          51
+        ],
+        [
+          32,
+          33,
+          53,
+          54
+        ],
+        [
+          32,
+          52,
+          72,
+          71,
+          91,
+          111,
+          110
+        ],
+        [
+          41,
+          21,
+          20,
+          40,
+          60,
+          80,
+          81
+        ],
+        [
+          41,
+          42,
+          43,
+          44,
+          64,
+          65,
+          85,
+          86
+        ],
+        [
+          41,
+          61,
+          62
+        ],
+        [
+          46,
+          66,
+          67,
+          87,
+          107
+        ],
+        [
+          54,
+          55,
+          56,
+          76,
+          75,
+          95
+        ],
+        [
+          54,
+          74,
+          73,
+          93
+        ],
+        [
+          57,
+          58,
+          78,
+          79,
+          59,
+          39,
+          38,
+          18,
+          19
+        ],
+        [
+          57,
+          77,
+          97,
+          98,
+          99,
+          119,
+          139,
+          159,
+          158,
+          138,
+          137
+        ],
+        [
+          62,
+          63,
+          83,
+          84,
+          104,
+          103,
+          102,
+          122
+        ],
+        [
+          62,
+          82,
+          81
+        ],
+        [
+          81,
+          101,
+          100
+        ],
+        [
+          93,
+          92,
+          112,
+          132
+        ],
+        [
+          93,
+          113,
+          133,
+          134
+        ],
+        [
+          95,
+          94,
+          114,
+          134
+        ],
+        [
+          95,
+          96
+        ],
+        [
+          95,
+          115,
+          116,
+          136,
+          156,
+          176,
+          175
+        ],
+        [
+          110,
+          130,
+          150
+        ],
+        [
+          122,
+          121,
+          120
+        ],
+        [
+          122,
+          123,
+          143,
+          163,
+          164
+        ],
+        [
+          122,
+          142,
+          162,
+          161
+        ],
+        [
+          129,
+          109,
+          108
+        ],
+        [
+          129,
+          128,
+          148,
+          147
+        ],
+        [
+          129,
+          149,
+          150
+        ],
+        [
+          132,
+          131
+        ],
+        [
+          132,
+          152,
+          153,
+          173,
+          193
+        ],
+        [
+          134,
+          135
+        ],
+        [
+          137,
+          117,
+          118
+        ],
+        [
+          137,
+          157,
+          177
+        ],
+        [
+          145,
+          125,
+          105,
+          106,
+          126,
+          127,
+          147
+        ],
+        [
+          145,
+          144,
+          124
+        ],
+        [
+          145,
+          146,
+          166
+        ],
+        [
+          147,
+          167,
+          187
+        ],
+        [
+          150,
+          151,
+          171
+        ],
+        [
+          150,
+          170,
+          169
+        ],
+        [
+          161,
+          141,
+          140
+        ],
+        [
+          161,
+          160,
+          180,
+          181,
+          161
+        ],
+        [
+          164,
+          165
+        ],
+        [
+          164,
+          184,
+          185
+        ],
+        [
+          169,
+          168,
+          188,
+          208,
+          228
+        ],
+        [
+          169,
+          189,
+          209,
+          210
+        ],
+        [
+          175,
+          155,
+          154,
+          174
+        ],
+        [
+          175,
+          195
+        ],
+        [
+          177,
+          178,
+          179,
+          199
+        ],
+        [
+          177,
+          197,
+          196,
+          216
+        ],
+        [
+          185,
+          186,
+          187
+        ],
+        [
+          185,
+          205,
+          204,
+          203
+        ],
+        [
+          187,
+          207,
+          206
+        ],
+        [
+          193,
+          194,
+          214,
+          234
+        ],
+        [
+          193,
+          213,
+          212
+        ],
+        [
+          199,
+          198,
+          218
+        ],
+        [
+          199,
+          219,
+          218
+        ],
+        [
+          203,
+          183,
+          182,
+          202,
+          203
+        ],
+        [
+          210,
+          190,
+          191,
+          192,
+          172
+        ],
+        [
+          210,
+          230,
+          231,
+          251,
+          271,
+          291
+        ],
+        [
+          212,
+          211
+        ],
+        [
+          212,
+          232,
+          252
+        ],
+        [
+          216,
+          215,
+          235,
+          234
+        ],
+        [
+          216,
+          236,
+          237
+        ],
+        [
+          218,
+          217,
+          237
+        ],
+        [
+          220,
+          200,
+          201
+        ],
+        [
+          220,
+          221,
+          222,
+          223,
+          224,
+          225
+        ],
+        [
+          220,
+          240,
+          260
+        ],
+        [
+          228,
+          227,
+          247,
+          267,
+          287
+        ],
+        [
+          228,
+          229,
+          249,
+          248,
+          268,
+          269,
+          270,
+          250
+        ],
+        [
+          234,
+          233,
+          253
+        ],
+        [
+          237,
+          238,
+          239,
+          259,
+          258,
+          278,
+          279,
+          299
+        ],
+        [
+          237,
+          257,
+          256,
+          255
+        ],
+        [
+          253,
+          254,
+          255
+        ],
+        [
+          253,
+          273,
+          272
+        ],
+        [
+          255,
+          275,
+          276,
+          277,
+          297,
+          317
+        ],
+        [
+          260,
+          261
+        ],
+        [
+          260,
+          280,
+          300,
+          301,
+          281,
+          282
+        ],
+        [
+          263,
+          243,
+          242,
+          241
+        ],
+        [
+          263,
+          264,
+          244,
+          245,
+          265,
+          285,
+          284,
+          304,
+          305,
+          306
+        ],
+        [
+          263,
+          283,
+          303,
+          302,
+          282
+        ],
+        [
+          282,
+          262
+        ],
+        [
+          291,
+          290,
+          289,
+          288
+        ],
+        [
+          291,
+          292,
+          293,
+          313
+        ],
+        [
+          291,
+          311,
+          310,
+          309,
+          308,
+          307,
+          306
+        ],
+        [
+          294,
+          274
+        ],
+        [
+          294,
+          295,
+          296
+        ],
+        [
+          294,
+          314,
+          313
+        ],
+        [
+          299,
+          298
+        ],
+        [
+          299,
+          319
+        ],
+        [
+          306,
+          286,
+          266,
+          246,
+          226
+        ],
+        [
+          313,
+          312
+        ],
+        [
+          317,
+          316,
+          315
+        ],
+        [
+          317,
+          318
+        ]
+      ],
+      "deadEndPaths": [
+        [
+          10,
+          9,
+          8,
+          7,
+          6,
+          5
+        ],
+        [
+          10,
+          30,
+          29
+        ],
+        [
+          14,
+          34,
+          35
+        ],
+        [
+          16,
+          36
+        ],
+        [
+          27,
+          26
+        ],
+        [
+          32,
+          31,
+          51
+        ],
+        [
+          41,
+          42,
+          43,
+          44,
+          64,
+          65,
+          85,
+          86
+        ],
+        [
+          46,
+          66,
+          67,
+          87,
+          107
+        ],
+        [
+          57,
+          58,
+          78,
+          79,
+          59,
+          39,
+          38,
+          18,
+          19
+        ],
+        [
+          81,
+          101,
+          100
+        ],
+        [
+          95,
+          96
+        ],
+        [
+          122,
+          121,
+          120
+        ],
+        [
+          129,
+          109,
+          108
+        ],
+        [
+          132,
+          131
+        ],
+        [
+          134,
+          135
+        ],
+        [
+          137,
+          117,
+          118
+        ],
+        [
+          145,
+          144,
+          124
+        ],
+        [
+          145,
+          146,
+          166
+        ],
+        [
+          150,
+          151,
+          171
+        ],
+        [
+          161,
+          141,
+          140
+        ],
+        [
+          164,
+          165
+        ],
+        [
+          175,
+          155,
+          154,
+          174
+        ],
+        [
+          175,
+          195
+        ],
+        [
+          187,
+          207,
+          206
+        ],
+        [
+          210,
+          190,
+          191,
+          192,
+          172
+        ],
+        [
+          212,
+          211
+        ],
+        [
+          212,
+          232,
+          252
+        ],
+        [
+          220,
+          200,
+          201
+        ],
+        [
+          220,
+          221,
+          222,
+          223,
+          224,
+          225
+        ],
+        [
+          228,
+          227,
+          247,
+          267,
+          287
+        ],
+        [
+          228,
+          229,
+          249,
+          248,
+          268,
+          269,
+          270,
+          250
+        ],
+        [
+          253,
+          273,
+          272
+        ],
+        [
+          260,
+          261
+        ],
+        [
+          263,
+          243,
+          242,
+          241
+        ],
+        [
+          282,
+          262
+        ],
+        [
+          291,
+          290,
+          289,
+          288
+        ],
+        [
+          294,
+          274
+        ],
+        [
+          294,
+          295,
+          296
+        ],
+        [
+          299,
+          298
+        ],
+        [
+          306,
+          286,
+          266,
+          246,
+          226
+        ],
+        [
+          313,
+          312
+        ],
+        [
+          317,
+          316,
+          315
+        ],
+        [
+          317,
+          318
+        ]
+      ],
+      "paths": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          24,
+          25,
+          45,
+          46,
+          47,
+          27,
+          28,
+          48,
+          49,
+          50,
+          70,
+          69,
+          68,
+          88,
+          89,
+          90,
+          110,
+          111,
+          91,
+          71,
+          72,
+          52,
+          32,
+          33,
+          53,
+          54,
+          74,
+          73,
+          93,
+          92,
+          112,
+          132,
+          152,
+          153,
+          173,
+          193,
+          194,
+          214,
+          234,
+          235,
+          215,
+          216,
+          236,
+          237,
+          238,
+          239,
+          259,
+          258,
+          278,
+          279,
+          299,
+          319
+        ],
+        [
+          0,
+          1,
+          2,
+          22,
+          23,
+          24,
+          25,
+          45,
+          46,
+          47,
+          27,
+          28,
+          48,
+          49,
+          50,
+          70,
+          69,
+          68,
+          88,
+          89,
+          90,
+          110,
+          111,
+          91,
+          71,
+          72,
+          52,
+          32,
+          33,
+          53,
+          54,
+          74,
+          73,
+          93,
+          92,
+          112,
+          132,
+          152,
+          153,
+          173,
+          193,
+          194,
+          214,
+          234,
+          235,
+          215,
+          216,
+          236,
+          237,
+          238,
+          239,
+          259,
+          258,
+          278,
+          279,
+          299,
+          319
+        ],
+        [
+          0,
+          1,
+          2,
+          22,
+          23,
+          24,
+          25,
+          45,
+          46,
+          47,
+          27,
+          28,
+          48,
+          49,
+          50,
+          70,
+          69,
+          68,
+          88,
+          89,
+          90,
+          110,
+          111,
+          91,
+          71,
+          72,
+          52,
+          32,
+          33,
+          53,
+          54,
+          74,
+          73,
+          93,
+          92,
+          112,
+          132,
+          152,
+          153,
+          173,
+          193,
+          194,
+          214,
+          234,
+          233,
+          253,
+          254,
+          255,
+          256,
+          257,
+          237,
+          238,
+          239,
+          259,
+          258,
+          278,
+          279,
+          299,
+          319
+        ]
+      ],
+      "shortestLength": 56,
+      "firstChoice": 2,
+      "maxCorridor": 11,
+      "minChoiceSpacing": 2,
+      "meanCorridor": 3.1142857142857143,
+      "cells": 320,
+      "edges": 327,
+      "cycleRank": 8
+    },
+    "simulations": {
+      "rows": [
+        {
+          "name": "Adversarial memory explorer",
+          "runs": 1,
+          "completed": 1,
+          "steps": 194,
+          "required": true
+        },
+        {
+          "name": "Left / right wall followers",
+          "runs": 2,
+          "completed": 2,
+          "steps": 588,
+          "required": false
+        },
+        {
+          "name": "Seeded explorers without memory",
+          "runs": 24,
+          "completed": 19,
+          "steps": 40578,
+          "meanSteps": 1691,
+          "maxSteps": 3840,
+          "budgetPerRun": 3840,
+          "required": false
+        }
+      ],
+      "adversarialTrace": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        24,
+        23,
+        22,
+        23,
+        24,
+        25,
+        45,
+        46,
+        47,
+        27,
+        26,
+        27,
+        28,
+        48,
+        49,
+        50,
+        70,
+        69,
+        68,
+        88,
+        89,
+        90,
+        110,
+        111,
+        91,
+        71,
+        72,
+        52,
+        32,
+        31,
+        51,
+        31,
+        32,
+        33,
+        53,
+        54,
+        55,
+        56,
+        76,
+        75,
+        95,
+        94,
+        114,
+        134,
+        133,
+        113,
+        93,
+        73,
+        74,
+        73,
+        93,
+        92,
+        112,
+        132,
+        131,
+        132,
+        152,
+        153,
+        173,
+        193,
+        194,
+        214,
+        234,
+        233,
+        253,
+        254,
+        255,
+        256,
+        257,
+        237,
+        217,
+        218,
+        198,
+        199,
+        179,
+        178,
+        177,
+        157,
+        137,
+        117,
+        118,
+        117,
+        137,
+        138,
+        158,
+        159,
+        139,
+        119,
+        99,
+        98,
+        97,
+        77,
+        57,
+        37,
+        17,
+        16,
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        30,
+        29,
+        30,
+        10,
+        11,
+        12,
+        13,
+        14,
+        34,
+        35,
+        34,
+        14,
+        15,
+        16,
+        36,
+        16,
+        17,
+        37,
+        57,
+        58,
+        78,
+        79,
+        59,
+        39,
+        38,
+        18,
+        19,
+        18,
+        38,
+        39,
+        59,
+        79,
+        78,
+        58,
+        57,
+        77,
+        97,
+        98,
+        99,
+        119,
+        139,
+        159,
+        158,
+        138,
+        137,
+        157,
+        177,
+        197,
+        196,
+        216,
+        215,
+        235,
+        215,
+        216,
+        236,
+        216,
+        196,
+        197,
+        177,
+        178,
+        179,
+        199,
+        219,
+        199,
+        198,
+        218,
+        217,
+        237,
+        238,
+        239,
+        259,
+        258,
+        278,
+        279,
+        299,
+        298,
+        299,
+        319
+      ],
+      "passed": true,
+      "note": "Memory traversal is required. Wall followers and random walkers are bounded diagnostics: loops can trap them. These are not human difficulty scores."
+    }
+  }
+}

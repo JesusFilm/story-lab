@@ -1,0 +1,58 @@
+{
+  "cues": [
+    {
+      "text": "There were shepherds in the same country staying in the field, and keeping watch by night over their flock.",
+      "reference": "Luke 2:8",
+      "title": "Outside Bethlehem",
+      "version": "World English Bible · public domain",
+      "image": "./announcement.jpg",
+      "alt": "Three shepherds and their sheep look up at a radiant angel above the fields outside Bethlehem.",
+      "music": {
+        "src": "./silent-night-96k.mp3",
+        "name": "Silent Night — Kevin MacLeod",
+        "loop": true,
+        "volume": 0.45,
+        "fade": 1800
+      }
+    },
+    {
+      "text": "Behold, an angel of the Lord stood by them, and the glory of the Lord shone around them, and they were terrified.",
+      "reference": "Luke 2:9",
+      "title": "An angel of the Lord",
+      "version": "World English Bible · public domain"
+    },
+    {
+      "text": "The angel said to them, “Don’t be afraid, for behold, I bring you good news of great joy which will be to all the people.",
+      "reference": "Luke 2:10",
+      "title": "Good news of great joy",
+      "version": "World English Bible · public domain",
+      "bubble": true
+    },
+    {
+      "text": "For there is born to you today, in David’s city, a Savior, who is Christ the Lord.",
+      "reference": "Luke 2:11",
+      "title": "Christ the Lord",
+      "version": "World English Bible · public domain",
+      "bubble": true
+    },
+    {
+      "text": "This is the sign to you: you will find a baby wrapped in strips of cloth, lying in a feeding trough.”",
+      "reference": "Luke 2:12",
+      "title": "Remember the sign",
+      "version": "World English Bible · public domain",
+      "bubble": true
+    },
+    {
+      "text": "Suddenly, there was with the angel a multitude of the heavenly army praising God and saying, “Glory to God in the highest, on earth peace, good will toward men.”",
+      "reference": "Luke 2:13–14",
+      "title": "Glory to God",
+      "version": "World English Bible · public domain"
+    },
+    {
+      "text": "When the angels went away from them into the sky, the shepherds said to one another, “Let’s go to Bethlehem, now, and see this thing that has happened, which the Lord has made known to us.”",
+      "reference": "Luke 2:15",
+      "title": "Let’s go to Bethlehem",
+      "version": "World English Bible · public domain"
+    }
+  ]
+}

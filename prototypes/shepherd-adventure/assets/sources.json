@@ -1,0 +1,307 @@
+{
+  "note": "Independent prototype copies. Source paths and generation records describe provenance, not runtime dependencies. Historical references/ paths now live under assets/references/.",
+  "files": [
+    {
+      "file": "assets/shepherd-prototype.glb",
+      "source": "prototypes/shepherd-maze/assets/shepherd-prototype.glb",
+      "sha256": "05d79df52d8f044843e6f352bd8e6781ca506b143d6d941f13b2d2f400be730b"
+    },
+    {
+      "file": "map/maze-layout.json",
+      "source": "references/reference-pack-v1/storyline-1-shepherd/map/maze-layout.json",
+      "sha256": "abe8b354a287d034725085180ee91577b38d736832d326c9a0ea751404cecf31"
+    },
+    {
+      "file": "assets/shepherd-tripo-v2.glb",
+      "source": "assets/characters/shepherd/animated.glb",
+      "sha256": "4589ee4bfeda946310017ea8ee0f1dc1660ab852200a4a737d6349ded5e9e3fe"
+    },
+    {
+      "file": "assets/low-wall-kit-tripo-v2.glb",
+      "source": "assets/structures/low-wall-kit/model.glb",
+      "sha256": "d7069dbae36d9347f4b36b1532496fced2419d4142ea7bf5da2714a3c9110617"
+    },
+    {
+      "file": "assets/house-01-tripo-v2.glb",
+      "source": "assets/structures/house-01/model.glb",
+      "sha256": "7a05ffc1260fdca80cbefd2490f6e0e2ada0241e554a521d117e10705c464c05"
+    },
+    {
+      "file": "assets/market-stall-tripo-v2.glb",
+      "source": "assets/structures/market-stall/model.glb",
+      "sha256": "a4657064c8b6ea5a0a7db6842d92508c37ea2feada48c03db4695a25af3f18eb"
+    },
+    {
+      "file": "assets/animal-pen-tripo-v2.glb",
+      "source": "assets/structures/animal-pen/model.glb",
+      "sha256": "d46961854bb782496d3b01e4de9e3b9f6ae5cef168bbb9f69a3c31dd25e005f1"
+    },
+    {
+      "file": "assets/structure-lamp-tripo-v2.glb",
+      "source": "assets/objects/structure-lamp/model.glb",
+      "sha256": "5e26fdb36e10c862f75896002981354d29c137d181bcafef0ee1f551689d0b14"
+    },
+    {
+      "file": "assets/sheep-tripo-v2.glb",
+      "source": "assets/animals/sheep/animated.glb",
+      "sha256": "cee1fc0aa3715cba94abc949da68009ef34cb337ecc902ead1af68953ef3314f"
+    },
+    {
+      "file": "assets/stone-well-tripo.glb",
+      "source": "assets/structures/stone-well/model.glb",
+      "sha256": "1a22f6c9c25ddaa115bf77f95e7df79a67f0436bcb9fda0f83a5b47e8da1fa25"
+    },
+    {
+      "file": "assets/timber-gate-tripo.glb",
+      "source": "assets/structures/timber-gate/model.glb",
+      "sha256": "fba37fbe18cc673604a80d3ee192220dd83e71b1e2a4fd3230c65b6878a75b2f"
+    },
+    {
+      "file": "assets/shepherd-prototype.blend",
+      "source": "prototypes/shepherd-maze/assets/shepherd-prototype.blend",
+      "sha256": "51b0d24221f6517d769b334bfcce5bc7454977abce0efba193bdd8dcce6141a8"
+    },
+    {
+      "file": "assets/portable-lantern-tripo.glb",
+      "source": "assets/objects/structure-lamp/model-2.glb",
+      "sha256": "d3d4dde3bcf6ddbb8a3fa347589d6bb98523a2f2421ace329101cba83e0ae9b3"
+    },
+    {
+      "file": "assets/low-wall-perimeter.glb",
+      "source": "assets/structures/low-wall-kit/derived/shepherd-adventure-perimeter/low-wall-perimeter.glb",
+      "sha256": "980554316cd43950008dce3e3c1319b12490a6790bf73dab533a2158687cc834"
+    },
+    {
+      "file": "assets/nature/Bark_DeadTree.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_DeadTree.png",
+      "sha256": "498c5a20e54df4be73f543a786497e7df840ae907242e142621e22dd16a07aec",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Bark_DeadTree_Normal.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_DeadTree_Normal.png",
+      "sha256": "d3a0dc287eba6512851a0e3aca12cb348e2168dc6787ea3b01ef622514642988",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Bark_NormalTree.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_NormalTree.png",
+      "sha256": "f40d425d875500b4fb4a9543cc361c5330f5058468e4d0f905631de516dda8c0",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Bark_NormalTree_Normal.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_NormalTree_Normal.png",
+      "sha256": "17a53781868cada06020a478a88efe449322637f3e2924ea489b087c92aeab3b",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Bark_TwistedTree.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_TwistedTree.png",
+      "sha256": "b721ec3a567efdd52aba75021c3ec4562a4392dc916c5e11b08b9afd2c8c8db4",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Bark_TwistedTree_Normal.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_TwistedTree_Normal.png",
+      "sha256": "d3a0dc287eba6512851a0e3aca12cb348e2168dc6787ea3b01ef622514642988",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/CommonTree_2.bin",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/CommonTree_2.bin",
+      "sha256": "a273d69de31a675a9d7e3eb3c43f804aef2d1b031692111b9e76eb3b0b686d0c",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/CommonTree_2.gltf",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/CommonTree_2.gltf",
+      "sha256": "7504f9ac12da4e559003d251b08e4b30c4466ca244c29a91df6f436c9cbd068d",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/DeadTree_2.bin",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/DeadTree_2.bin",
+      "sha256": "de7861981fa7ff6faafc30a705e49b45c315a718747e0ae08dc5acb34eedea10",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/DeadTree_2.gltf",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/DeadTree_2.gltf",
+      "sha256": "f02b1d88153ed9c2402de3894e07d6ec4a6214962dc0c3798db5e58ddceaab52",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/LICENSE.txt",
+      "source": "assets/nature/quaternius-stylized-nature/originals/License_Standard.txt",
+      "sha256": "120710e542c3ebaf83856c4eb55b4a1e680593b39302eba7fdc5d942dfe78c58",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Leaves_NormalTree.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Leaves_NormalTree.png",
+      "sha256": "171ad1c8fa6ddde351a3b3c9e2b1457d5c7a4a43ba4fd55a83801029db797151",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Leaves_NormalTree_C.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Leaves_NormalTree_C.png",
+      "sha256": "998612bdf0b76a22f5f54d65cd7a457815d2842d89653fa4348a4ebb42933ad3",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Leaves_TwistedTree.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Leaves_TwistedTree.png",
+      "sha256": "d548e707fa34a558f88f477fa98f7b4ad3afbd4ceb7ab954506be694edf0f2ba",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Leaves_TwistedTree_C.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Leaves_TwistedTree_C.png",
+      "sha256": "0e459b56b14c0e81b1b7cf3d1e8c6f0bb71790eb6c46bb02a76a922d8df646ea",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/PathRocks_Diffuse.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/PathRocks_Diffuse.png",
+      "sha256": "85a04abb2c136fee53b376daf3b7d7f96fdf3966de0258dff6fe2b24da792b23",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Pebble_Round_2.bin",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Pebble_Round_2.bin",
+      "sha256": "1bfde4a0934efd627c559a93d7ec28614b029efc48ce92c86060a6284ea911a9",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Pebble_Round_2.gltf",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Pebble_Round_2.gltf",
+      "sha256": "1cb5ab8c7b21931203354096aac49c729cb2c8ceb39cf4ec1d45f2dc037a0b35",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Rock_Medium_1.bin",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Rock_Medium_1.bin",
+      "sha256": "ea79527d4c2b3bdb7a28bf589bf0c1fd96d192a4d0738636753911dd58681e99",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Rock_Medium_1.gltf",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Rock_Medium_1.gltf",
+      "sha256": "397bb3e98cea97282c00f5370c15f88e9de410a78c2371b2270ea53b9053b239",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Rock_Medium_2.bin",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Rock_Medium_2.bin",
+      "sha256": "76b60bf8349f71abdb0ed462b3223d93c2dcabdfb5754bc132e18b021cc6c805",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Rock_Medium_2.gltf",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Rock_Medium_2.gltf",
+      "sha256": "8b635c9569ae6aee5331f361eb6b2ecce061131498ef89f1a54bab60deab2a77",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Rock_Medium_3.bin",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Rock_Medium_3.bin",
+      "sha256": "63f94bce2d3fb3fe25b2d6c843a828b1bec76855dbaac93fcf5d43582309caad",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Rock_Medium_3.gltf",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Rock_Medium_3.gltf",
+      "sha256": "8382224ed9d1db520be04aee848b0ab671832b162ef5a2ba5370fc61b2d33a24",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/Rocks_Diffuse.png",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Rocks_Diffuse.png",
+      "sha256": "2dd54656f9a35aad155c9c13b9d1e0c3026509a1ab4926cbe6203a7f4b0834d5",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/TwistedTree_1.bin",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/TwistedTree_1.bin",
+      "sha256": "58e4c16c16e0a71051af76a37be0641ea8f7089652687f957383d3c4bd24723b",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/TwistedTree_1.gltf",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/TwistedTree_1.gltf",
+      "sha256": "67c77864d59d349a96dbdb2a96424ed1a947ef82d598e4db65cad7d3df56710e",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/TwistedTree_3.bin",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/TwistedTree_3.bin",
+      "sha256": "04ad394055b72a3d3717d8e3617ae733ea155580330d94d7387238928755eaca",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/nature/TwistedTree_3.gltf",
+      "source": "assets/nature/quaternius-stylized-nature/originals/glTF/TwistedTree_3.gltf",
+      "sha256": "50f5133306d694e80598a5a1aaccea4d419852493e58e731026eca53a403e9e7",
+      "origin": "third-party-non-tripo",
+      "author": "Quaternius",
+      "license": "CC0-1.0"
+    }
+  ]
+}

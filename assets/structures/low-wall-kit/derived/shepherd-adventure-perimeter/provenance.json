@@ -1,0 +1,10 @@
+{
+  "origin": "derived-existing-tripo",
+  "source": "prototypes/shepherd-adventure/assets/low-wall-kit-tripo-v2.glb",
+  "source_sha256": "d7069dbae36d9347f4b36b1532496fced2419d4142ea7bf5da2714a3c9110617",
+  "operation": "Blender 5.1.2 decimate ratio 0.20; original textures retained",
+  "triangles": 5824,
+  "sha256": "980554316cd43950008dce3e3c1319b12490a6790bf73dab533a2158687cc834",
+  "script": "export.py",
+  "new_tripo_job": false
+}

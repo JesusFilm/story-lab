@@ -1,0 +1,68 @@
+[
+  {
+    "level": "info",
+    "message": "Journey motion: preset:biped:idle",
+    "timestamp": "2026-09-10T20:10:00.111Z",
+    "url": "http://127.0.0.1:8765/src/journey.mjs"
+  },
+  {
+    "level": "info",
+    "message": "Journey motion: preset:biped:look_around",
+    "timestamp": "2026-09-10T20:10:04.286Z",
+    "url": "http://127.0.0.1:8765/src/journey.mjs"
+  },
+  {
+    "level": "info",
+    "message": "Journey motion: preset:biped:idle",
+    "timestamp": "2026-09-10T20:10:20.561Z",
+    "url": "http://127.0.0.1:8765/src/journey.mjs"
+  },
+  {
+    "level": "info",
+    "message": "Journey motion: preset:biped:look_around",
+    "timestamp": "2026-09-10T20:10:47.781Z",
+    "url": "http://127.0.0.1:8765/src/journey.mjs"
+  },
+  {
+    "level": "info",
+    "message": "Journey motion: preset:biped:turn",
+    "timestamp": "2026-09-10T20:11:03.129Z",
+    "url": "http://127.0.0.1:8765/src/journey.mjs"
+  },
+  {
+    "level": "info",
+    "message": "Journey motion: preset:biped:idle",
+    "timestamp": "2026-09-10T20:11:03.770Z",
+    "url": "http://127.0.0.1:8765/src/journey.mjs"
+  },
+  {
+    "level": "info",
+    "message": "Journey motion: preset:biped:walk",
+    "timestamp": "2026-09-10T20:11:03.779Z",
+    "url": "http://127.0.0.1:8765/src/journey.mjs"
+  },
+  {
+    "level": "info",
+    "message": "Journey motion: preset:biped:run",
+    "timestamp": "2026-09-10T20:11:04.844Z",
+    "url": "http://127.0.0.1:8765/src/journey.mjs"
+  },
+  {
+    "level": "info",
+    "message": "Journey motion: preset:biped:walk",
+    "timestamp": "2026-09-10T20:11:07.976Z",
+    "url": "http://127.0.0.1:8765/src/journey.mjs"
+  },
+  {
+    "level": "info",
+    "message": "Journey motion: preset:biped:idle",
+    "timestamp": "2026-09-10T20:11:09.093Z",
+    "url": "http://127.0.0.1:8765/src/journey.mjs"
+  },
+  {
+    "level": "info",
+    "message": "Journey motion: preset:biped:look_around",
+    "timestamp": "2026-09-10T20:11:13.094Z",
+    "url": "http://127.0.0.1:8765/src/journey.mjs"
+  }
+]

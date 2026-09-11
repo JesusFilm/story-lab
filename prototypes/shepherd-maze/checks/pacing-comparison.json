@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-08",
+  "method": "Simulated actual controllers at 10ms updates, including automatic turns; not an audience playtest",
+  "before": {
+    "distance_m": 112,
+    "seconds": 38.6,
+    "peak_speed_m_s": 3.2
+  },
+  "after": {
+    "distance_m": 112,
+    "seconds": 22.99,
+    "peak_speed_m_s": 6.4
+  },
+  "seconds_saved": 15.61,
+  "percent_faster_to_first_choice": 40.4
+}

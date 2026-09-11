@@ -1,0 +1,136 @@
+{
+  "status": "PASS",
+  "checks": {
+    "storyline-1-shepherd_image_count": true,
+    "storyline-1-shepherd/01-angel-in-the-field_prompt": true,
+    "storyline-1-shepherd/01-angel-in-the-field_landscape_resolution": true,
+    "storyline-1-shepherd/02-follow-the-light_prompt": true,
+    "storyline-1-shepherd/02-follow-the-light_landscape_resolution": true,
+    "storyline-1-shepherd/03-nativity-arrival_prompt": true,
+    "storyline-1-shepherd/03-nativity-arrival_landscape_resolution": true,
+    "storyline-2-temple_image_count": true,
+    "storyline-2-temple/01-return-to-jerusalem_prompt": true,
+    "storyline-2-temple/01-return-to-jerusalem_landscape_resolution": true,
+    "storyline-2-temple/02-jerusalem-search-district_prompt": true,
+    "storyline-2-temple/02-jerusalem-search-district_landscape_resolution": true,
+    "storyline-2-temple/03-market-witness_prompt": true,
+    "storyline-2-temple/03-market-witness_landscape_resolution": true,
+    "storyline-2-temple/04-found-among-the-teachers_prompt": true,
+    "storyline-2-temple/04-found-among-the-teachers_landscape_resolution": true,
+    "maze_checks_pass": true,
+    "map_has_editable_exports": true,
+    "mask_strictly_binary": true,
+    "saved_mask_matches_layout": true,
+    "saved_mask_all_passages_reachable": true,
+    "saved_mask_shortest_distance_matches_graph": true,
+    "gallery_local_links_exist": true
+  },
+  "files": [
+    {
+      "path": "storyline-1-shepherd/images/01-angel-in-the-field.png",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "bytes": 2419134,
+      "sha256": "734410adcc81ad1a04cc4ef24a01c2a55644098b6cf1402a02da70e870097cf8",
+      "generation_mode": "built-in image_gen",
+      "c2pa_gpt_image_2_0_marker": true
+    },
+    {
+      "path": "storyline-1-shepherd/images/02-follow-the-light.png",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "bytes": 2572914,
+      "sha256": "b1821759199a604cef7828eae687931223e0671889851f69727e2563f60adef0",
+      "generation_mode": "built-in image_gen",
+      "c2pa_gpt_image_2_0_marker": true
+    },
+    {
+      "path": "storyline-1-shepherd/images/03-nativity-arrival.png",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "bytes": 2452151,
+      "sha256": "5318d424a0e9bd37e2af6544bf63ed362311ba6cb02c96e34ef101542fd136c8",
+      "generation_mode": "built-in image_gen",
+      "c2pa_gpt_image_2_0_marker": true
+    },
+    {
+      "path": "storyline-2-temple/images/01-return-to-jerusalem.png",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "bytes": 2562521,
+      "sha256": "565003e1cbfc61f1b91a502331918fa680544fd4f76daa54d8c8a93ca91bd999",
+      "generation_mode": "built-in image_gen",
+      "c2pa_gpt_image_2_0_marker": true
+    },
+    {
+      "path": "storyline-2-temple/images/02-jerusalem-search-district.png",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "bytes": 2961729,
+      "sha256": "423e9b05a6f516424c46af8fe2d18fabac603a1530821025a99479e26f096ff7",
+      "generation_mode": "built-in image_gen",
+      "c2pa_gpt_image_2_0_marker": true
+    },
+    {
+      "path": "storyline-2-temple/images/03-market-witness.png",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "bytes": 2821887,
+      "sha256": "c77350e7235641683c904f6fd24462dd64873621dbbfd125365167ad6acee0bb",
+      "generation_mode": "built-in image_gen",
+      "c2pa_gpt_image_2_0_marker": true
+    },
+    {
+      "path": "storyline-2-temple/images/04-found-among-the-teachers.png",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "bytes": 2686133,
+      "sha256": "8ed082344fe09b83f933b0887026c0885900df41f7ad133b127092c7fa34b1d7",
+      "generation_mode": "built-in image_gen",
+      "c2pa_gpt_image_2_0_marker": true
+    },
+    {
+      "path": "storyline-1-shepherd/map/maze-annotated.png",
+      "format": "PNG",
+      "width": 2240,
+      "height": 2240,
+      "mode": "RGB",
+      "sha256": "887e017bd989032b397b9d209203a13a8b4ed18d6a42905005ab66b1b9386532",
+      "generation_mode": "deterministic Python diagram"
+    },
+    {
+      "path": "storyline-1-shepherd/map/maze-clean.png",
+      "format": "PNG",
+      "width": 2240,
+      "height": 2240,
+      "mode": "RGB",
+      "sha256": "aadb988956a14572d3a3f5778b469b0ab3584a65e7ea6bf90933acc366e88f48",
+      "generation_mode": "deterministic Python diagram"
+    },
+    {
+      "path": "storyline-1-shepherd/map/walkability-mask.png",
+      "format": "PNG",
+      "width": 560,
+      "height": 560,
+      "mode": "L",
+      "sha256": "b4ed6abe19177fca12461dad25b311f247976c0844ca90762e6bbf593f020f6b",
+      "generation_mode": "deterministic Python diagram"
+    }
+  ],
+  "visual_review": "VISUAL-REVIEW.md",
+  "limitations": "Image decoding and graph checks do not establish historical accuracy, 3D usability or real-device latency."
+}

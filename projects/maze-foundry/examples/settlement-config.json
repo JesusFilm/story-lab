@@ -1,0 +1,11 @@
+{
+  "seed": "settlement-example",
+  "columns": 20,
+  "rows": 16,
+  "wallMode": "mixed",
+  "thinWall": 0.5,
+  "thickWall": 1.5,
+  "thickProbability": 0.4,
+  "minWinPaths": 3,
+  "minChoiceSpacing": 2
+}

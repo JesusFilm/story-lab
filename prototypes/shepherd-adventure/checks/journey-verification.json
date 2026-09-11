@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "checks": 12,
+  "knowledgeStates": 113,
+  "routes": [
+    {
+      "route": "animal-fold with preparation and welcome gate",
+      "metres": 276
+    },
+    {
+      "route": "overlook with preparation and welcome gate",
+      "metres": 308
+    }
+  ],
+  "limits": "State safety and reachability do not establish enjoyment, clue readability or actual remote performance."
+}

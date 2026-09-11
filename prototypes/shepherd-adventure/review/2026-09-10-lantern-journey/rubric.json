@@ -1,0 +1,43 @@
+{
+  "source": "Frozen criteria in games/shepherd-maze/2026-09-10-lantern-journey.md, written before implementation",
+  "author": "Codex, implementing agent",
+  "userApproval": "pending",
+  "compositeScore": null,
+  "criteria": [
+    {
+      "id": "exterior-and-light",
+      "result": "partial",
+      "evidence": "after-intro.jpg",
+      "assessment": "Field, horizon and localized warm pools are present. Gallery-level material richness is not achieved.",
+      "confidence": "medium"
+    },
+    {
+      "id": "meaningful-choice",
+      "result": "implemented; human interest unassessed",
+      "evidence": "after-survey.jpg",
+      "assessment": "Costs, refills and alternatives are readable at desktop; three viable routes and a blocked shortcut verified.",
+      "confidence": "high for function"
+    },
+    {
+      "id": "remote-completion",
+      "result": "passed on keyboard",
+      "evidence": "after-arrival.jpg",
+      "assessment": "Complete 93 m arrow/OK journey, pause and recovery verified; physical TV untested.",
+      "confidence": "high"
+    },
+    {
+      "id": "camera-and-ground",
+      "result": "implemented; taste pending",
+      "evidence": "after-junction.jpg",
+      "assessment": "Independent camera bearing, survey, irregular terrain and paths; narrow survey not fully reviewed.",
+      "confidence": "medium"
+    },
+    {
+      "id": "preservation-and-budget",
+      "result": "passed",
+      "evidence": "before-source.zip",
+      "assessment": "Original maze remains runnable; canonical models unchanged; zero paid generations.",
+      "confidence": "high"
+    }
+  ]
+}

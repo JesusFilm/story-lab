@@ -1,0 +1,71 @@
+{
+  "date": "2026-09-10",
+  "environment": "Local headless Chrome; desktop and emulated touch",
+  "checks": {
+    "starts_and_walks_without_holding": {
+      "pass": true
+    },
+    "running_animation_and_walk_after_pause": {
+      "pass": true,
+      "runningSpeed": 8,
+      "runBlend": 0.9706687915153352
+    },
+    "tap_uturn_wait_resume": {
+      "pass": true
+    },
+    "remote_menu_warning_and_cancel": {
+      "pass": true
+    },
+    "confirmation_enables_guidance": {
+      "pass": true
+    },
+    "village_blender_bounds_match": {
+      "pass": true,
+      "walls": 244
+    },
+    "arrow_only_early_key_queues_automatic_turn": {
+      "pass": true
+    },
+    "no_choice_waits_and_single_late_tap_moves": {
+      "pass": true
+    },
+    "held_key_repeat_does_not_choose": {
+      "pass": true
+    },
+    "old_decision_rejected_after_uturn": {
+      "pass": true
+    },
+    "blur_pauses_and_freezes_trail_age": {
+      "pass": true
+    },
+    "visible_recent_footprints": {
+      "pass": true,
+      "count": 13,
+      "alpha": 0.938835
+    },
+    "maximum_circular_map_stays_clipped_after_guidance": {
+      "pass": true
+    },
+    "guided_completion": {
+      "pass": true
+    },
+    "new_run_and_easy_guidance": {
+      "pass": true
+    },
+    "deadend_back_arrow_and_resume_arrow_touch": {
+      "pass": true
+    },
+    "emulated_touch_taps_and_mobile_layout": {
+      "pass": true
+    },
+    "frame_timing": {
+      "median_ms": 16.700000000000728,
+      "p95_ms": 16.700000000000728,
+      "note": "Short headless desktop sample; physical TV/phone unverified"
+    },
+    "no_browser_errors": {
+      "pass": true
+    }
+  },
+  "errors": []
+}

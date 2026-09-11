@@ -1,0 +1,13 @@
+[
+ {"id":"01-riches","label":"Riches and comfort","start":4.9,"end":9.65},
+ {"id":"02-laughter","label":"Laughter and sorrow","start":21.5,"end":26.15},
+ {"id":"03-love-enemies","label":"Love your enemies","start":29.35,"end":54.35},
+ {"id":"04-other-cheek","label":"Turn the other cheek","start":60.9,"end":67.5},
+ {"id":"05-give-freely","label":"Give freely","start":72.75,"end":82.15},
+ {"id":"06-let-go","label":"Let go of what is taken","start":83.85,"end":88.8},
+ {"id":"07-golden-rule","label":"Do for others","start":92.1,"end":96.8},
+ {"id":"08-love-beyond","label":"Love beyond those who love you","start":102.05,"end":120.64},
+ {"id":"09-mercy","label":"Love and mercy","start":136.08,"end":156.65},
+ {"id":"10-forgive","label":"Do not judge; forgive","start":162.5,"end":174.85},
+ {"id":"11-measure","label":"The measure you give","start":182.15,"end":203.6}
+]

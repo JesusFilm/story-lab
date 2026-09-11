@@ -1,0 +1,10 @@
+Generation mode: built-in image_gen
+Reference: ../../../../assets/characters/shepherd/shepherd-reference-sheet.png (character and style)
+
+Use case: stylized-concept.
+Asset type: cinematic environment and character reference for a family-friendly Biblical 3D interactive experience, one landscape image approximately 16:9.
+Primary request: A shepherd in the fields outside Bethlehem at night beholds an angel announcing the birth of a baby king.
+Input image: character and material STYLE REFERENCE only, the existing shepherd turnaround. Depict that same curly dark-haired bearded adult shepherd in an oatmeal knee-length woven tunic, plain leather belt, short sleeveless sheepskin vest, leather sandals, now naturally posed.
+Scene: a low limestone ridge, dry grasses, a handful of sheep, a distant modest ancient Judean settlement. The shepherd stands in the lower foreground in three-quarter back view, face slightly visible, shielding his eyes with one hand in wonder. Ahead a single luminous human-like angel in flowing pale robes floats above the field, serene, welcoming, no weapon. A bright star is visible above the distant settlement.
+Style: polished semi-realistic AA 3D game concept art, grounded proportions, clearly modeled stone, wool, linen and terrain; restrained painterly atmosphere, readable forms suitable for modeling reference. Reverent and hopeful, dramatic warm ivory angel light against deep indigo night, gentle moonlit sheep. Beautiful strong cinematic silhouette.
+Composition: wide establishing shot, full shepherd with feet visible, field-to-settlement spatial relationship clear, angel and shepherd well separated. No text, no lettering, no UI, no watermark, no modern objects, no medieval European buildings, no fantasy armor. This is a scene, not a character sheet.

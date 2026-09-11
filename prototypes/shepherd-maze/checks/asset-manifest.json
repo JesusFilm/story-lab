@@ -1,0 +1,1693 @@
+{
+  "generator": "Blender 5.1.2",
+  "map_sha256": "abe8b354a287d034725085180ee91577b38d736832d326c9a0ea751404cecf31",
+  "source_map": "references/reference-pack-v1/storyline-1-shepherd/map/maze-layout.json",
+  "world_units": "metres",
+  "blender_axes": "x east, y north, z up",
+  "gltf_axes": "x east, y up, z south",
+  "solid_rectangles": [
+    {
+      "name": "Wall_000",
+      "rect_tiles": [
+        0,
+        0,
+        33,
+        1
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_001",
+      "rect_tiles": [
+        34,
+        0,
+        35,
+        8
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_002",
+      "rect_tiles": [
+        0,
+        1,
+        1,
+        4
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_003",
+      "rect_tiles": [
+        24,
+        1,
+        25,
+        6
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_004",
+      "rect_tiles": [
+        30,
+        1,
+        31,
+        2
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_005",
+      "rect_tiles": [
+        2,
+        2,
+        3,
+        3
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_006",
+      "rect_tiles": [
+        4,
+        2,
+        13,
+        3
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_007",
+      "rect_tiles": [
+        14,
+        2,
+        19,
+        3
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_008",
+      "rect_tiles": [
+        20,
+        2,
+        23,
+        3
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_009",
+      "rect_tiles": [
+        26,
+        2,
+        27,
+        4
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_010",
+      "rect_tiles": [
+        28,
+        2,
+        31,
+        3
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_011",
+      "rect_tiles": [
+        32,
+        2,
+        33,
+        4
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_012",
+      "rect_tiles": [
+        4,
+        3,
+        5,
+        5
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_013",
+      "rect_tiles": [
+        6,
+        3,
+        7,
+        8
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_014",
+      "rect_tiles": [
+        12,
+        3,
+        13,
+        4
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_015",
+      "rect_tiles": [
+        14,
+        3,
+        15,
+        4
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_016",
+      "rect_tiles": [
+        20,
+        3,
+        21,
+        4
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_017",
+      "rect_tiles": [
+        0,
+        4,
+        3,
+        5
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_018",
+      "rect_tiles": [
+        8,
+        4,
+        11,
+        5
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_019",
+      "rect_tiles": [
+        12,
+        4,
+        15,
+        5
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_020",
+      "rect_tiles": [
+        16,
+        4,
+        23,
+        5
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_021",
+      "rect_tiles": [
+        26,
+        4,
+        33,
+        5
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_022",
+      "rect_tiles": [
+        0,
+        5,
+        1,
+        8
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_023",
+      "rect_tiles": [
+        2,
+        5,
+        3,
+        7
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_024",
+      "rect_tiles": [
+        8,
+        5,
+        9,
+        12
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_025",
+      "rect_tiles": [
+        10,
+        5,
+        11,
+        6
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_026",
+      "rect_tiles": [
+        14,
+        5,
+        15,
+        10
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_027",
+      "rect_tiles": [
+        22,
+        5,
+        23,
+        6
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_028",
+      "rect_tiles": [
+        28,
+        5,
+        29,
+        10
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_029",
+      "rect_tiles": [
+        4,
+        6,
+        5,
+        7
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_030",
+      "rect_tiles": [
+        10,
+        6,
+        13,
+        7
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_031",
+      "rect_tiles": [
+        16,
+        6,
+        21,
+        7
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_032",
+      "rect_tiles": [
+        22,
+        6,
+        27,
+        7
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_033",
+      "rect_tiles": [
+        30,
+        6,
+        33,
+        7
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_034",
+      "rect_tiles": [
+        12,
+        7,
+        13,
+        8
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_035",
+      "rect_tiles": [
+        16,
+        7,
+        17,
+        8
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_036",
+      "rect_tiles": [
+        20,
+        7,
+        21,
+        8
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_037",
+      "rect_tiles": [
+        26,
+        7,
+        27,
+        8
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_038",
+      "rect_tiles": [
+        30,
+        7,
+        31,
+        10
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_039",
+      "rect_tiles": [
+        0,
+        8,
+        7,
+        9
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_040",
+      "rect_tiles": [
+        10,
+        8,
+        13,
+        9
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_041",
+      "rect_tiles": [
+        16,
+        8,
+        19,
+        9
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_042",
+      "rect_tiles": [
+        20,
+        8,
+        23,
+        9
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_043",
+      "rect_tiles": [
+        24,
+        8,
+        27,
+        9
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_044",
+      "rect_tiles": [
+        32,
+        8,
+        35,
+        9
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_045",
+      "rect_tiles": [
+        0,
+        9,
+        1,
+        20
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_046",
+      "rect_tiles": [
+        6,
+        9,
+        7,
+        11
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_047",
+      "rect_tiles": [
+        16,
+        9,
+        17,
+        11
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_048",
+      "rect_tiles": [
+        20,
+        9,
+        21,
+        14
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_049",
+      "rect_tiles": [
+        22,
+        9,
+        23,
+        12
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_050",
+      "rect_tiles": [
+        24,
+        9,
+        25,
+        11
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_051",
+      "rect_tiles": [
+        34,
+        9,
+        35,
+        16
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_052",
+      "rect_tiles": [
+        2,
+        10,
+        5,
+        11
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_053",
+      "rect_tiles": [
+        10,
+        10,
+        15,
+        11
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_054",
+      "rect_tiles": [
+        18,
+        10,
+        19,
+        12
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_055",
+      "rect_tiles": [
+        26,
+        10,
+        29,
+        11
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_056",
+      "rect_tiles": [
+        30,
+        10,
+        33,
+        11
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_057",
+      "rect_tiles": [
+        4,
+        11,
+        5,
+        12
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_058",
+      "rect_tiles": [
+        10,
+        11,
+        11,
+        12
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_059",
+      "rect_tiles": [
+        14,
+        11,
+        15,
+        12
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_060",
+      "rect_tiles": [
+        26,
+        11,
+        27,
+        12
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_061",
+      "rect_tiles": [
+        28,
+        11,
+        29,
+        12
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_062",
+      "rect_tiles": [
+        32,
+        11,
+        33,
+        16
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_063",
+      "rect_tiles": [
+        2,
+        12,
+        3,
+        13
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_064",
+      "rect_tiles": [
+        4,
+        12,
+        9,
+        13
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_065",
+      "rect_tiles": [
+        10,
+        12,
+        13,
+        13
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_066",
+      "rect_tiles": [
+        14,
+        12,
+        19,
+        13
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_067",
+      "rect_tiles": [
+        22,
+        12,
+        27,
+        13
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_068",
+      "rect_tiles": [
+        28,
+        12,
+        31,
+        13
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_069",
+      "rect_tiles": [
+        6,
+        13,
+        7,
+        16
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_070",
+      "rect_tiles": [
+        10,
+        13,
+        11,
+        14
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_071",
+      "rect_tiles": [
+        16,
+        13,
+        17,
+        14
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_072",
+      "rect_tiles": [
+        30,
+        13,
+        31,
+        14
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_073",
+      "rect_tiles": [
+        2,
+        14,
+        5,
+        15
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_074",
+      "rect_tiles": [
+        8,
+        14,
+        11,
+        15
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_075",
+      "rect_tiles": [
+        12,
+        14,
+        17,
+        15
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_076",
+      "rect_tiles": [
+        18,
+        14,
+        21,
+        15
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_077",
+      "rect_tiles": [
+        22,
+        14,
+        23,
+        18
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_078",
+      "rect_tiles": [
+        24,
+        14,
+        31,
+        15
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_079",
+      "rect_tiles": [
+        2,
+        15,
+        3,
+        20
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_080",
+      "rect_tiles": [
+        10,
+        15,
+        11,
+        16
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_081",
+      "rect_tiles": [
+        14,
+        15,
+        15,
+        17
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_082",
+      "rect_tiles": [
+        18,
+        15,
+        19,
+        16
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_083",
+      "rect_tiles": [
+        24,
+        15,
+        25,
+        20
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_084",
+      "rect_tiles": [
+        30,
+        15,
+        31,
+        18
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_085",
+      "rect_tiles": [
+        4,
+        16,
+        9,
+        17
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_086",
+      "rect_tiles": [
+        10,
+        16,
+        13,
+        17
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_087",
+      "rect_tiles": [
+        16,
+        16,
+        21,
+        17
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_088",
+      "rect_tiles": [
+        26,
+        16,
+        29,
+        17
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_089",
+      "rect_tiles": [
+        32,
+        16,
+        35,
+        17
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_090",
+      "rect_tiles": [
+        4,
+        17,
+        5,
+        18
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_091",
+      "rect_tiles": [
+        12,
+        17,
+        13,
+        20
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_092",
+      "rect_tiles": [
+        20,
+        17,
+        21,
+        18
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_093",
+      "rect_tiles": [
+        26,
+        17,
+        27,
+        21
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_094",
+      "rect_tiles": [
+        28,
+        17,
+        29,
+        20
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_095",
+      "rect_tiles": [
+        34,
+        17,
+        35,
+        24
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_096",
+      "rect_tiles": [
+        4,
+        18,
+        11,
+        19
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_097",
+      "rect_tiles": [
+        14,
+        18,
+        19,
+        19
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_098",
+      "rect_tiles": [
+        20,
+        18,
+        23,
+        19
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_099",
+      "rect_tiles": [
+        30,
+        18,
+        33,
+        19
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_100",
+      "rect_tiles": [
+        8,
+        19,
+        9,
+        22
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_101",
+      "rect_tiles": [
+        0,
+        20,
+        5,
+        21
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_102",
+      "rect_tiles": [
+        6,
+        20,
+        7,
+        22
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_103",
+      "rect_tiles": [
+        10,
+        20,
+        25,
+        21
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_104",
+      "rect_tiles": [
+        28,
+        20,
+        33,
+        21
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_105",
+      "rect_tiles": [
+        0,
+        21,
+        1,
+        30
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_106",
+      "rect_tiles": [
+        4,
+        21,
+        5,
+        22
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_107",
+      "rect_tiles": [
+        12,
+        21,
+        13,
+        24
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_108",
+      "rect_tiles": [
+        32,
+        21,
+        33,
+        22
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_109",
+      "rect_tiles": [
+        2,
+        22,
+        3,
+        24
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_110",
+      "rect_tiles": [
+        4,
+        22,
+        7,
+        23
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_111",
+      "rect_tiles": [
+        8,
+        22,
+        11,
+        23
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_112",
+      "rect_tiles": [
+        14,
+        22,
+        27,
+        23
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_113",
+      "rect_tiles": [
+        28,
+        22,
+        33,
+        23
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_114",
+      "rect_tiles": [
+        8,
+        23,
+        9,
+        24
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_115",
+      "rect_tiles": [
+        14,
+        23,
+        15,
+        27
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_116",
+      "rect_tiles": [
+        24,
+        23,
+        25,
+        28
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_117",
+      "rect_tiles": [
+        30,
+        23,
+        31,
+        25
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_118",
+      "rect_tiles": [
+        2,
+        24,
+        9,
+        25
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_119",
+      "rect_tiles": [
+        10,
+        24,
+        13,
+        25
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_120",
+      "rect_tiles": [
+        16,
+        24,
+        23,
+        25
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_121",
+      "rect_tiles": [
+        26,
+        24,
+        29,
+        25
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_122",
+      "rect_tiles": [
+        32,
+        24,
+        35,
+        25
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_123",
+      "rect_tiles": [
+        4,
+        25,
+        5,
+        28
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_124",
+      "rect_tiles": [
+        8,
+        25,
+        9,
+        26
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_125",
+      "rect_tiles": [
+        12,
+        25,
+        13,
+        32
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_126",
+      "rect_tiles": [
+        18,
+        25,
+        19,
+        27
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_127",
+      "rect_tiles": [
+        22,
+        25,
+        23,
+        29
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_128",
+      "rect_tiles": [
+        26,
+        25,
+        27,
+        27
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_129",
+      "rect_tiles": [
+        28,
+        25,
+        29,
+        26
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_130",
+      "rect_tiles": [
+        32,
+        25,
+        33,
+        26
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_131",
+      "rect_tiles": [
+        34,
+        25,
+        35,
+        30
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_132",
+      "rect_tiles": [
+        2,
+        26,
+        3,
+        30
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_133",
+      "rect_tiles": [
+        6,
+        26,
+        11,
+        27
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_134",
+      "rect_tiles": [
+        16,
+        26,
+        17,
+        34
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_135",
+      "rect_tiles": [
+        20,
+        26,
+        21,
+        28
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_136",
+      "rect_tiles": [
+        28,
+        26,
+        33,
+        27
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_137",
+      "rect_tiles": [
+        10,
+        27,
+        11,
+        29
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_138",
+      "rect_tiles": [
+        30,
+        27,
+        31,
+        28
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_139",
+      "rect_tiles": [
+        4,
+        28,
+        7,
+        29
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_140",
+      "rect_tiles": [
+        8,
+        28,
+        9,
+        30
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_141",
+      "rect_tiles": [
+        14,
+        28,
+        15,
+        31
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_142",
+      "rect_tiles": [
+        18,
+        28,
+        21,
+        29
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_143",
+      "rect_tiles": [
+        24,
+        28,
+        29,
+        29
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_144",
+      "rect_tiles": [
+        30,
+        28,
+        33,
+        29
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_145",
+      "rect_tiles": [
+        6,
+        29,
+        7,
+        30
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_146",
+      "rect_tiles": [
+        18,
+        29,
+        19,
+        30
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_147",
+      "rect_tiles": [
+        24,
+        29,
+        25,
+        32
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_148",
+      "rect_tiles": [
+        30,
+        29,
+        31,
+        30
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_149",
+      "rect_tiles": [
+        0,
+        30,
+        5,
+        31
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_150",
+      "rect_tiles": [
+        6,
+        30,
+        11,
+        31
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_151",
+      "rect_tiles": [
+        18,
+        30,
+        23,
+        31
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_152",
+      "rect_tiles": [
+        26,
+        30,
+        31,
+        31
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_153",
+      "rect_tiles": [
+        32,
+        30,
+        35,
+        31
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_154",
+      "rect_tiles": [
+        0,
+        31,
+        1,
+        35
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_155",
+      "rect_tiles": [
+        4,
+        31,
+        5,
+        32
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_156",
+      "rect_tiles": [
+        10,
+        31,
+        11,
+        34
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_157",
+      "rect_tiles": [
+        18,
+        31,
+        19,
+        33
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_158",
+      "rect_tiles": [
+        22,
+        31,
+        23,
+        32
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_159",
+      "rect_tiles": [
+        28,
+        31,
+        29,
+        32
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_160",
+      "rect_tiles": [
+        34,
+        31,
+        35,
+        34
+      ],
+      "height": 2.2
+    },
+    {
+      "name": "Wall_161",
+      "rect_tiles": [
+        2,
+        32,
+        3,
+        34
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_162",
+      "rect_tiles": [
+        4,
+        32,
+        9,
+        33
+      ],
+      "height": 2.5
+    },
+    {
+      "name": "Wall_163",
+      "rect_tiles": [
+        12,
+        32,
+        15,
+        33
+      ],
+      "height": 3.4
+    },
+    {
+      "name": "Wall_164",
+      "rect_tiles": [
+        20,
+        32,
+        21,
+        34
+      ],
+      "height": 2.9
+    },
+    {
+      "name": "Wall_165",
+      "rect_tiles": [
+        22,
+        32,
+        27,
+        33
+      ],
+      "height": 2.7
+    },
+    {
+      "name": "Wall_166",
+      "rect_tiles": [
+        28,
+        32,
+        33,
+        33
+      ],
+      "height": 3.1
+    },
+    {
+      "name": "Wall_167",
+      "rect_tiles": [
+        2,
+        34,
+        35,
+        35
+      ],
+      "height": 2.2
+    }
+  ],
+  "cars": "3 static blockouts south of maze, outside its 140m footprint",
+  "character": "Original procedural smooth prototype; articulated object pivots, no skin rig",
+  "point_1": "Existing end node [16, 0], provisional interpretation"
+}

@@ -1,0 +1,37 @@
+{
+  "cues": [
+    {
+      "text": "They came with haste and found both Mary and Joseph, and the baby was lying in the feeding trough.",
+      "reference": "Luke 2:16",
+      "title": "Just as they were told",
+      "version": "World English Bible · public domain",
+      "image": "./nativity.jpg",
+      "alt": "Three shepherds gather reverently with Mary and Joseph around Jesus lying in a manger in a warm lamplit shelter.",
+      "music": {
+        "src": "./silent-night-96k.mp3",
+        "name": "Silent Night — Kevin MacLeod",
+        "loop": true,
+        "volume": 0.45,
+        "fade": 1800
+      }
+    },
+    {
+      "text": "When they saw it, they publicized widely the saying which was spoken to them about this child. All who heard it wondered at the things which were spoken to them by the shepherds.",
+      "reference": "Luke 2:17–18",
+      "title": "They shared the good news",
+      "version": "World English Bible · public domain"
+    },
+    {
+      "text": "But Mary kept all these sayings, pondering them in her heart.",
+      "reference": "Luke 2:19",
+      "title": "Mary remembered",
+      "version": "World English Bible · public domain"
+    },
+    {
+      "text": "The shepherds returned, glorifying and praising God for all the things that they had heard and seen, just as it was told them.",
+      "reference": "Luke 2:20",
+      "title": "Glorifying and praising God",
+      "version": "World English Bible · public domain"
+    }
+  ]
+}

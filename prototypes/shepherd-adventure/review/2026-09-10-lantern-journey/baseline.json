@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-10",
+  "owner": "Codex",
+  "sourceRevision": "file-sync workspace; no git",
+  "viewport": [
+    1440,
+    810
+  ],
+  "browser": "Chrome via Computer Use",
+  "scenario": "Medium V2; Enter, Left at first junction, Up at second, Down to turn back; 48 metres explored",
+  "sound": "unassessed",
+  "files": {
+    "index.html": "607188ee737c977084999ae40915d9e29614e754abce147daed1f8f12fd05959",
+    "style.css": "4c6bef7d4c4232b857d0b56334db77c6269687847874d91a48289d004e1b20b6",
+    "serve.py": "9ee9e575c2b3d2c24371d818d98244fb92ab7eb34ff0048a6ea7437a81bef849",
+    "src/character-variants.mjs": "b226d19f17af5e546047a37e44d40e6815b802e2b5142a05472a19099ea39ce6",
+    "src/controller.mjs": "6c75cdf9862f1b27f4edd09a5e2e110245e967ba077a0cda94d1bbda5797bbcb",
+    "src/environment-variants.mjs": "8b64e620f42ad409cf1771457a323db1401889ebdcbe6c31735640801454d1dc",
+    "src/main.mjs": "fdafc1db6940af0e1329b6f5928258c9d1c7e176852ca55c22edd0c385ef9091",
+    "src/night-village.mjs": "ee3b4e6758bece85ee494b10920e1a8868636aaab51495683fd4af5a4dba218a",
+    "src/session.mjs": "a819d7805e2fc417bcaeb2ef36cce08b16b669ef884207f16c7901716a1cf977"
+  }
+}

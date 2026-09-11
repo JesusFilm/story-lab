@@ -1,0 +1,1089 @@
+{
+  "generatorVersion": "0.1.0",
+  "seedsPerPresetAndWallMode": 20,
+  "total": 120,
+  "passed": 120,
+  "milliseconds": 931,
+  "results": [
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-0",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 17,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-1",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-2",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-3",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-4",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-5",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-6",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-7",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-8",
+      "passed": true,
+      "attempts": 3,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-9",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-10",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 8,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-11",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-12",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-13",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 8,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-14",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 8,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-15",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 4,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-16",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-17",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 4,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-18",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "uniform",
+      "seed": "regression-easy-uniform-19",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-0",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-1",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-2",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-3",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-4",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-5",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-6",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-7",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-8",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-9",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-10",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-11",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-12",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-13",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-14",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-15",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-16",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-17",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-18",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 3,
+      "failures": []
+    },
+    {
+      "preset": "easy",
+      "wallMode": "mixed",
+      "seed": "regression-easy-mixed-19",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 2,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-0",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-1",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 7,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-2",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 7,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-3",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-4",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-5",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-6",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-7",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-8",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-9",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-10",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-11",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-12",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-13",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-14",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-15",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-16",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-17",
+      "passed": true,
+      "attempts": 3,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-18",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "uniform",
+      "seed": "regression-balanced-uniform-19",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 5,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-0",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-1",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-2",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 8,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-3",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 14,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-4",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 8,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-5",
+      "passed": true,
+      "attempts": 4,
+      "milliseconds": 8,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-6",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-7",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-8",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 7,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-9",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-10",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 7,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-11",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-12",
+      "passed": true,
+      "attempts": 6,
+      "milliseconds": 9,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-13",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-14",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-15",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-16",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-17",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-18",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "balanced",
+      "wallMode": "mixed",
+      "seed": "regression-balanced-mixed-19",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 6,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-0",
+      "passed": true,
+      "attempts": 3,
+      "milliseconds": 12,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-1",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 11,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-2",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 11,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-3",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 12,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-4",
+      "passed": true,
+      "attempts": 7,
+      "milliseconds": 16,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-5",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 10,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-6",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 10,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-7",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 11,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-8",
+      "passed": true,
+      "attempts": 3,
+      "milliseconds": 13,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-9",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 12,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-10",
+      "passed": true,
+      "attempts": 20,
+      "milliseconds": 32,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-11",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 14,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-12",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 12,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-13",
+      "passed": true,
+      "attempts": 11,
+      "milliseconds": 21,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-14",
+      "passed": true,
+      "attempts": 4,
+      "milliseconds": 13,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-15",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 11,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-16",
+      "passed": true,
+      "attempts": 3,
+      "milliseconds": 11,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-17",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 10,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-18",
+      "passed": true,
+      "attempts": 5,
+      "milliseconds": 14,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "uniform",
+      "seed": "regression-hard-uniform-19",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 11,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-0",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 12,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-1",
+      "passed": true,
+      "attempts": 3,
+      "milliseconds": 16,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-2",
+      "passed": true,
+      "attempts": 3,
+      "milliseconds": 14,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-3",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 13,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-4",
+      "passed": true,
+      "attempts": 3,
+      "milliseconds": 14,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-5",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 13,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-6",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 12,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-7",
+      "passed": true,
+      "attempts": 3,
+      "milliseconds": 15,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-8",
+      "passed": true,
+      "attempts": 7,
+      "milliseconds": 19,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-9",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 15,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-10",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 12,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-11",
+      "passed": true,
+      "attempts": 3,
+      "milliseconds": 13,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-12",
+      "passed": true,
+      "attempts": 3,
+      "milliseconds": 15,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-13",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 13,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-14",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 13,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-15",
+      "passed": true,
+      "attempts": 1,
+      "milliseconds": 12,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-16",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 14,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-17",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 15,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-18",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 13,
+      "failures": []
+    },
+    {
+      "preset": "hard",
+      "wallMode": "mixed",
+      "seed": "regression-hard-mixed-19",
+      "passed": true,
+      "attempts": 2,
+      "milliseconds": 12,
+      "failures": []
+    }
+  ]
+}

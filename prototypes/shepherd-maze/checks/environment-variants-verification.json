@@ -1,0 +1,43 @@
+{
+  "date": "2026-09-10",
+  "environment": "Local headless Chrome",
+  "checks": {
+    "v2_replaces_all_tagged_solids": {
+      "pass": true,
+      "counts": {
+        "low-wall": 56,
+        "market": 17,
+        "home": 9,
+        "animal-stall": 15,
+        "low-courtyard": 143
+      }
+    },
+    "generated_lamps_and_one_animated_sheep_per_pen": {
+      "pass": true,
+      "lamps": 82,
+      "sheep": 15,
+      "clips": [
+        "preset:quadruped:walk",
+        "idle"
+      ]
+    },
+    "fits_preserve_foundry_footprints": {
+      "pass": true,
+      "grounded": 240,
+      "houseHeight": 2.984547911739259,
+      "courtyardHomes": 143
+    },
+    "live_whole_prototype_switch_preserves_run": {
+      "pass": true,
+      "distance": 1.01384,
+      "footprints": 1
+    },
+    "direct_v1_path_preserved": {
+      "pass": true
+    },
+    "no_browser_errors": {
+      "pass": true
+    }
+  },
+  "errors": []
+}

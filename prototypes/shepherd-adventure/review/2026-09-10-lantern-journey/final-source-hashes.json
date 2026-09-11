@@ -1,0 +1,8 @@
+{
+  "journey.html": "542c79f6e05d18daf4aa1430b999bdf082d54e243c750d3af85fb6dfa5b6f8b8",
+  "journey.css": "61eed86432f3415ca6f48418afb88833a16cb0dab0d8c6a4a357c77bb1227e21",
+  "src/journey-model.mjs": "969ad207a7a7d6a949036bd5f3219103e1e410354d608a3f1599dd689a5ccfce",
+  "src/journey-world.mjs": "f42d5169e47546cb1e7052c8732df78f39ae64f148f12687b056661c43d212fc",
+  "src/journey.mjs": "d9afeb84a19f635f342c2c47aa927d5127795d39c66e5de46566d2df94e3203b",
+  "checks/verify-journey.mjs": "03b8c95225ffb94ea696b38662902a28f4002b8641faa85b0911edbc91e85539"
+}

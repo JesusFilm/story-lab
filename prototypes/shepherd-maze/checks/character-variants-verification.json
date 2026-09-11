@@ -1,0 +1,49 @@
+{
+  "date": "2026-09-10",
+  "environment": "Local headless Chrome; desktop and emulated touch",
+  "checks": {
+    "v2_url_and_five_clips": {
+      "pass": true,
+      "animation": "preset:biped:idle",
+      "calibration": {
+        "boundsMin": [
+          -0.10178980430252349,
+          -0.5503260583759719,
+          -0.2175491739132427
+        ],
+        "boundsMax": [
+          0.18336655094572243,
+          0.46258333889442016,
+          0.22071924436736712
+        ],
+        "height": 1.0129093972703922,
+        "scale": 1.6980788258407802,
+        "groundOffset": 0.934497027036655
+      }
+    },
+    "live_switch_preserves_run": {
+      "pass": true,
+      "distance": 0.9503800000000014,
+      "footprints": 1
+    },
+    "walk_and_run_select_authored_clips": {
+      "pass": true
+    },
+    "turn_and_stand_select_authored_clips": {
+      "pass": true
+    },
+    "look_around_idle_variation": {
+      "pass": true
+    },
+    "v1_url_path": {
+      "pass": true
+    },
+    "mobile_toggle": {
+      "pass": true
+    },
+    "no_browser_errors": {
+      "pass": true
+    }
+  },
+  "errors": []
+}

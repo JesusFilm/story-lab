@@ -1,0 +1,817 @@
+{
+  "status": "passed",
+  "modelCount": 16,
+  "wallSegments": 119,
+  "nature": {
+    "placements": [
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": -26,
+        "z": 12,
+        "height": 4.417726843315177,
+        "outside": false
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -31,
+        "z": -14,
+        "height": 4.795294702216052,
+        "outside": false
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": -29,
+        "z": -27,
+        "height": 4.857787960837595,
+        "outside": false
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": 29,
+        "z": 20,
+        "height": 5.1484294041758405,
+        "outside": false
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": 32,
+        "z": -20,
+        "height": 4.418073882046156,
+        "outside": false
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": -10,
+        "z": 36,
+        "height": 5.429010799317621,
+        "outside": false
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": 18,
+        "z": 37,
+        "height": 4.670387699897401,
+        "outside": false
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -35,
+        "z": 35,
+        "height": 5.383692444465123,
+        "outside": false
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 35,
+        "z": -39,
+        "height": 5.1717314819572495,
+        "outside": false
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": 12,
+        "z": -36,
+        "height": 1.3,
+        "outside": false
+      },
+      {
+        "name": "Rock_Medium_2",
+        "kind": "boulder",
+        "x": 16,
+        "z": -37,
+        "height": 1.1,
+        "outside": false
+      },
+      {
+        "name": "Rock_Medium_3",
+        "kind": "boulder",
+        "x": 27,
+        "z": -37,
+        "height": 1.6,
+        "outside": false
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": 10,
+        "z": -46,
+        "height": 1.2,
+        "outside": false
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -58.53366930037737,
+        "z": -2.008409712696448,
+        "height": 6.175929594389163,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 61.51488027255982,
+        "z": -75.14308636425994,
+        "height": 7.311399460514076,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": -23.077102277893573,
+        "z": -102.58247477840632,
+        "height": 7.769655980053358,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": 54.29660600842908,
+        "z": 56.92430135048926,
+        "height": 5.725419127405621,
+        "outside": true
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -57.33825806155801,
+        "z": 46.27627464919351,
+        "height": 6.195675365044735,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": 45.36702552577481,
+        "z": -96.68384585902095,
+        "height": 4.993377638957464,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": -17.681238388177007,
+        "z": 56.66170848719776,
+        "height": 6.981767029990442,
+        "outside": true
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -46.21989124082029,
+        "z": -2.335053387330845,
+        "height": 7.748089148732833,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 59.265708656050265,
+        "z": 42.131644043372944,
+        "height": 7.240821522683836,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": -12.570961157325655,
+        "z": -92.46727592684329,
+        "height": 4.9804963754257185,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": 30.8283212617971,
+        "z": 53.89377633295953,
+        "height": 4.957376522314735,
+        "outside": true
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -45.972718672826886,
+        "z": 22.256452887086198,
+        "height": 4.64632029205095,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 54.40825035888702,
+        "z": -9.273361990926787,
+        "height": 4.899272485845723,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": -2.834048594813794,
+        "z": 63.67821719683707,
+        "height": 6.018152571679093,
+        "outside": true
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -58.34963673725724,
+        "z": -33.20249901921488,
+        "height": 5.66220621408429,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 45.851369141601026,
+        "z": 22.590365570271388,
+        "height": 5.869435275834985,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": -47.61442090617493,
+        "z": -88.6286058658734,
+        "height": 6.284338817442768,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": 11.257529847789556,
+        "z": 51.788612531498075,
+        "height": 5.32423296275083,
+        "outside": true
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -51.65188291668892,
+        "z": -33.79670499288477,
+        "height": 7.371206274605356,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 51.67449557315558,
+        "z": 33.76620045141317,
+        "height": 7.615407222812063,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": 0.4499664041213691,
+        "z": -97.01851864811033,
+        "height": 4.648674974846654,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": -46.74486308125779,
+        "z": 54.86311752535403,
+        "height": 7.0443411460379135,
+        "outside": true
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -62.8588194809854,
+        "z": -27.53910986916162,
+        "height": 7.020065302192233,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 55.90153705235571,
+        "z": -55.349059745436534,
+        "height": 6.922070913878269,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": -39.542413868475705,
+        "z": -88.2444717483595,
+        "height": 6.897371117840521,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": -32.00737652136013,
+        "z": 61.19332000799477,
+        "height": 7.0917650472605605,
+        "outside": true
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -49.72880443185568,
+        "z": -25.16407148190774,
+        "height": 7.331795648834667,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 62.49083327036351,
+        "z": -38.38798147230409,
+        "height": 6.974738810886629,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": -23.39029056718573,
+        "z": 63.92020585201681,
+        "height": 5.385585975763388,
+        "outside": true
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -47.367339888587594,
+        "z": -69.86147962254472,
+        "height": 6.824167042295448,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": -50.50968700321391,
+        "z": -100.55948809441179,
+        "height": 7.2047394628403705,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": -33.39764102129266,
+        "z": 50.281183609738946,
+        "height": 6.4584444290259855,
+        "outside": true
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -56.87992372736335,
+        "z": 7.426464797696099,
+        "height": 6.753444047807715,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 56.206106445752084,
+        "z": -2.0455127952154726,
+        "height": 5.706487149861641,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": -39.56589765148237,
+        "z": -99.16404942143708,
+        "height": 7.484825366805307,
+        "outside": true
+      },
+      {
+        "name": "CommonTree_2",
+        "kind": "tree",
+        "x": -50.45346896164119,
+        "z": -17.08135303785093,
+        "height": 5.1733098747907205,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 47.27545001450926,
+        "z": 4.46694455225952,
+        "height": 5.542181165353395,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": 18.772643802221864,
+        "z": -90.00154814682901,
+        "height": 7.012320300727151,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": -18.576315024401993,
+        "z": 49.854815324768424,
+        "height": 6.347970236954279,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 50.1417981935665,
+        "z": -16.646234037121758,
+        "height": 7.412684461777099,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_3",
+        "kind": "tree",
+        "x": -31.580920305568725,
+        "z": -99.84663139935583,
+        "height": 6.857203258085065,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": -4.305980789940804,
+        "z": 56.78056378103793,
+        "height": 6.587083615944721,
+        "outside": true
+      },
+      {
+        "name": "TwistedTree_1",
+        "kind": "tree",
+        "x": 48.55637597758323,
+        "z": -3.416352207539603,
+        "height": 5.045106876664795,
+        "outside": true
+      },
+      {
+        "name": "DeadTree_2",
+        "kind": "tree",
+        "x": -13.426375563722104,
+        "z": 52.21495863236487,
+        "height": 5.941917937458493,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_3",
+        "kind": "boulder",
+        "x": 50.204028541035285,
+        "z": 25.727413824499834,
+        "height": 1.3172633696347473,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": -46.22364318659424,
+        "z": -14.79701739744663,
+        "height": 1.9193564540473742,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_2",
+        "kind": "boulder",
+        "x": 59.35449853304943,
+        "z": -25.658924923714938,
+        "height": 1.8716059189755467,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_3",
+        "kind": "boulder",
+        "x": 18.254384937864984,
+        "z": 50.96132605205987,
+        "height": 1.8517554478021336,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": -26.65187103385843,
+        "z": 45.72167481909156,
+        "height": 2.6452584010781717,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_2",
+        "kind": "boulder",
+        "x": 53.5711913572747,
+        "z": -18.04742407421187,
+        "height": 1.376467486936599,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_2",
+        "kind": "boulder",
+        "x": 52.63308860059693,
+        "z": -29.786724247147273,
+        "height": 0.901927862339653,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_3",
+        "kind": "boulder",
+        "x": 47.384898698725706,
+        "z": -13.26399829310446,
+        "height": 2.678447899594903,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_3",
+        "kind": "boulder",
+        "x": 13.01918099220217,
+        "z": 57.65455898850425,
+        "height": 1.142391939763911,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_2",
+        "kind": "boulder",
+        "x": -8.124015119533558,
+        "z": 52.00998283520178,
+        "height": 1.3627098547993226,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_3",
+        "kind": "boulder",
+        "x": 0.5343162218081601,
+        "z": 57.43873693162345,
+        "height": 2.4854841597843915,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": 47.66583740653823,
+        "z": 14.915219796090362,
+        "height": 0.9819969502510502,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_3",
+        "kind": "boulder",
+        "x": -53.14707018738595,
+        "z": 2.7077122891888106,
+        "height": 1.9269053053809329,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": 43.731172105683065,
+        "z": 25.86134088701445,
+        "height": 1.7323089370969682,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": 23.963371495968858,
+        "z": 50.82025782331006,
+        "height": 0.8089811771875247,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_2",
+        "kind": "boulder",
+        "x": -55.761727745766564,
+        "z": -21.355572210164055,
+        "height": 1.8198716887738555,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_3",
+        "kind": "boulder",
+        "x": -48.90056474111574,
+        "z": 15.114188305839232,
+        "height": 2.3462380947778,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": -28.47041390309431,
+        "z": 56.07101806608251,
+        "height": 1.557478633360006,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_3",
+        "kind": "boulder",
+        "x": 22.01083236455594,
+        "z": 52.919184915202585,
+        "height": 1.370148107688874,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": -52.41134177944909,
+        "z": 24.414985221001626,
+        "height": 0.8575365679105743,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": -44.61631234213123,
+        "z": -34.684074528563045,
+        "height": 1.7320528099313377,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_2",
+        "kind": "boulder",
+        "x": 56.23028647198538,
+        "z": -13.502554613057157,
+        "height": 1.010085230018012,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_3",
+        "kind": "boulder",
+        "x": 1.8358273346040772,
+        "z": 64.84389141405488,
+        "height": 2.0369506018701937,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_2",
+        "kind": "boulder",
+        "x": -51.966576622272925,
+        "z": 11.836457868192813,
+        "height": 2.610175522789359,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_2",
+        "kind": "boulder",
+        "x": 32.86326009151377,
+        "z": 48.47135818484858,
+        "height": 1.347156427358277,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": 51.40304006039421,
+        "z": 22.740030745655332,
+        "height": 0.8778156707761808,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_2",
+        "kind": "boulder",
+        "x": 43.03116700934198,
+        "z": -38.0809198607251,
+        "height": 2.0091478894930335,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_1",
+        "kind": "boulder",
+        "x": 53.25998272538049,
+        "z": -0.02628333124036608,
+        "height": 1.7120595839805899,
+        "outside": true
+      },
+      {
+        "name": "Rock_Medium_2",
+        "kind": "boulder",
+        "x": 58.66303270909875,
+        "z": -21.954434784920025,
+        "height": 0.899434183887206,
+        "outside": true
+      }
+    ],
+    "pebbleCount": 1652,
+    "sourceModels": [
+      "CommonTree_2",
+      "TwistedTree_1",
+      "TwistedTree_3",
+      "DeadTree_2",
+      "Rock_Medium_1",
+      "Rock_Medium_2",
+      "Rock_Medium_3",
+      "Pebble_Round_2"
+    ]
+  },
+  "lanternCount": 22,
+  "lanternScaleAndStateVerified": true,
+  "fetched": [
+    {
+      "url": "/assets/stone-well-tripo.glb",
+      "bytes": 2086868
+    },
+    {
+      "url": "/assets/timber-gate-tripo.glb",
+      "bytes": 1802148
+    },
+    {
+      "url": "/assets/portable-lantern-tripo.glb",
+      "bytes": 1113992
+    },
+    {
+      "url": "/assets/timber-gate-tripo.glb",
+      "bytes": 1802148
+    },
+    {
+      "url": "/assets/stone-well-tripo.glb",
+      "bytes": 2086868
+    },
+    {
+      "url": "/assets/house-01-tripo-v2.glb",
+      "bytes": 1497544
+    },
+    {
+      "url": "/assets/market-stall-tripo-v2.glb",
+      "bytes": 1918476
+    },
+    {
+      "url": "/assets/animal-pen-tripo-v2.glb",
+      "bytes": 1789052
+    },
+    {
+      "url": "/assets/low-wall-perimeter.glb",
+      "bytes": 1203940
+    },
+    {
+      "url": "/assets/nature/TwistedTree_1.gltf",
+      "bytes": 2822
+    },
+    {
+      "url": "/assets/nature/CommonTree_2.gltf",
+      "bytes": 2861
+    },
+    {
+      "url": "/assets/nature/TwistedTree_3.gltf",
+      "bytes": 2820
+    },
+    {
+      "url": "/assets/nature/DeadTree_2.gltf",
+      "bytes": 1629
+    },
+    {
+      "url": "/assets/nature/Rock_Medium_1.gltf",
+      "bytes": 1343
+    },
+    {
+      "url": "/assets/nature/Pebble_Round_2.gltf",
+      "bytes": 1360
+    },
+    {
+      "url": "/assets/nature/Rock_Medium_3.gltf",
+      "bytes": 1344
+    },
+    {
+      "url": "/assets/nature/Rock_Medium_2.gltf",
+      "bytes": 1337
+    }
+  ],
+  "wellReplacesBlockRing": true,
+  "wellPosition": [
+    14.2,
+    0.32535654752263526,
+    4.2
+  ],
+  "wellPathClearance": 0.7793383382331598,
+  "gateReplacesBarMeshes": true,
+  "closedGateBounds": {
+    "min": [
+      -1.4999999999999964,
+      0,
+      -0.07499999999999851
+    ],
+    "max": [
+      1.5000000000000036,
+      1.9000000000000001,
+      0.07500000000000158
+    ]
+  },
+  "openedGateBounds": {
+    "min": [
+      -1.5519069323435737,
+      0,
+      -0.0029259064157318715
+    ],
+    "max": [
+      -1.26605697760678,
+      1.9000000000000001,
+      2.9943808623454258
+    ]
+  },
+  "gatePostsStayFixed": true,
+  "movingOcclusionBoundsVerified": true,
+  "canonicalSourcesUnchanged": true,
+  "minimumStructurePathClearance": 0.9218195509888406,
+  "limits": "Headless geometry/material loading and HTTP check; image decoding, visual composition, hinge hardware appearance and device performance not reviewed."
+}

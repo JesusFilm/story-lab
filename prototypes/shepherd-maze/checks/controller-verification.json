@@ -1,0 +1,69 @@
+{
+  "date": "2026-09-08",
+  "scope": "Graph movement, footprints and difficulty policies; not physical-device testing",
+  "checks": {
+    "all_graph_corridors_clear": {
+      "pass": true,
+      "edges": 296,
+      "samples": 23976,
+      "radius_m": 0.43
+    },
+    "every_junction_approach_warns_waits_and_auto_turns_early": {
+      "pass": true,
+      "approaches": 139,
+      "speed_m_s": 3.8
+    },
+    "walk_run_resume_and_anticipation": {
+      "pass": true,
+      "walk_m_s": 3.8,
+      "run_m_s": 8,
+      "first_full_run_at_m": 10.037150000000004
+    },
+    "running_approaches_preserve_choice_time": {
+      "pass": true,
+      "approaches": 139
+    },
+    "full_running_trail_fits_render_capacity": {
+      "pass": true,
+      "prints": 815,
+      "capacity": 816
+    },
+    "route_A_tap_navigation": {
+      "pass": true,
+      "metres": 832.0000000000095,
+      "decisions": 13
+    },
+    "route_B_tap_navigation": {
+      "pass": true,
+      "metres": 1039.9999999999998,
+      "decisions": 20
+    },
+    "route_C_tap_navigation": {
+      "pass": true,
+      "metres": 960.0000000000081,
+      "decisions": 19
+    },
+    "mid_edge_uturn_deadend_and_explicit_resume": {
+      "pass": true
+    },
+    "uturn_cancels_queued_and_stale_commands": {
+      "pass": true
+    },
+    "guidance_from_arbitrary_edges": {
+      "pass": true,
+      "positions": 592
+    },
+    "footprints_alternate_visible_at_20s_expire_at_60s": {
+      "pass": true
+    },
+    "easy_assistance_policy": {
+      "pass": true
+    },
+    "medium_assistance_policy": {
+      "pass": true
+    },
+    "maximum_assistance_policy": {
+      "pass": true
+    }
+  }
+}

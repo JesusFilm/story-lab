@@ -1,0 +1,21 @@
+{
+  "seed": "bethlehem-village-02",
+  "columns": 12,
+  "rows": 10,
+  "passageWidth": 4,
+  "wallMode": "mixed",
+  "thinWall": 0.5,
+  "thickWall": 4,
+  "thickProbability": 0.48,
+  "pixelsPerMetre": 4,
+  "playerWidth": 1,
+  "minWinPaths": 3,
+  "minDeadEnds": 8,
+  "minSolutionLength": 26,
+  "minChoiceSpacing": 1,
+  "maxCorridorLength": 8,
+  "maxFirstChoice": 3,
+  "branchBias": 0.35,
+  "loopProbability": 0.06,
+  "maxAttempts": 200
+}

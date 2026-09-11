@@ -1,0 +1,52 @@
+{
+  "status": "implemented-awaiting-user-playtest",
+  "date": "2026-09-10",
+  "reviewer": "Codex, implementing agent",
+  "criteriaSource": "../../../../../games/shepherd-maze/2026-09-10-search-and-camera.md",
+  "userSelected": "Explore and read clues; investigate landmarks, make deductions, risk detours for information.",
+  "criteria": [
+    {
+      "id": "camera",
+      "outcome": "functional-checks-pass; human-motion-quality-unassessed",
+      "confidence": "high for sampled building rays; limited for complete visual coverage",
+      "evidence": [
+        "../../checks/journey-camera-verification.json",
+        "after-ridge.jpg",
+        "after-fold-inspection.jpg"
+      ],
+      "limits": "No full-body/tree/prop guarantee. No recorded motion or real TV test."
+    },
+    {
+      "id": "night",
+      "outcome": "kept by implementing agent",
+      "confidence": "medium",
+      "evidence": [
+        "before-ridge.jpg",
+        "after-ridge.jpg"
+      ],
+      "limits": "Same location and viewport, different intentional camera framing; lamp clocks not frozen."
+    },
+    {
+      "id": "investigation",
+      "outcome": "mechanics implemented; enjoyment unassessed",
+      "confidence": "high for reachability; unassessed for fun",
+      "evidence": [
+        "../../checks/journey-verification.json",
+        "after-arrival.jpg",
+        "after-notebook.jpg"
+      ],
+      "limits": "Short authored routes with automatic discovery on inspection; deductions may remain too easy."
+    },
+    {
+      "id": "remote-input",
+      "outcome": "keyboard pass; physical remote unassessed",
+      "confidence": "high for exercised keyboard actions",
+      "evidence": [
+        "after-narrow-notebook.jpg",
+        "README.md"
+      ],
+      "limits": "No TV input transport, performance, or viewing-distance legibility test."
+    }
+  ],
+  "compositeScore": null
+}

@@ -1,0 +1,8 @@
+Generation mode: built-in image_gen
+
+Use case: stylized-concept.
+Asset type: one wide 16:9 cinematic keyframe for a Biblical family 3D game, storyline: searching for twelve-year-old Jesus.
+Primary request: Mary and Joseph realize Jesus is absent from their returning traveling party and decide to go back to Jerusalem. Show thoughtful urgency and parental concern, no panic or threat.
+Scene: a travelers' evening rest on the road through the Judean hills, one day's journey out, Jerusalem NOT visible from this distant rest stop. Several families in simple linen and wool clothing, pack donkeys, baskets and bedrolls gather at dusk. Mary and Joseph stand in the foreground separated from the group, looking back along the road that curves beyond a ridge.
+Character continuity: Mary is an adult Jewish woman in her thirties, olive complexion, dark hair mostly covered by a cream linen head veil, dusty muted blue mantle, simple earth-colored dress. Joseph is an adult Jewish man in his forties, olive complexion, short dark beard with slight gray, plain clay-brown robe and sand-colored shawl, sandals. Readable natural faces and practical clothing, Mary gestures back toward the road and Joseph listens. No Jesus in this image.
+Style: polished semi-realistic AA game 3D rendering, grounded anatomy, substantial limestone terrain, visible woven cloth, warm dusk amber against cool purple hills; humane and reverent. Camera low enough for emotions and wide enough to show the path, full bodies in lower middle, cinematic staging with generous uncluttered terrain ahead. No words, no UI, no modern objects, no medieval armor, no churches or minarets.

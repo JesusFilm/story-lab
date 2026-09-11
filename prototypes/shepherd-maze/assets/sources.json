@@ -1,0 +1,55 @@
+{
+  "note": "Independent prototype copies. Source paths and generation records describe provenance, not runtime dependencies. Historical references/ paths now live under assets/references/.",
+  "files": [
+    {
+      "file": "map/maze-layout.json",
+      "source": "references/reference-pack-v1/storyline-1-shepherd/map/maze-layout.json",
+      "sha256": "abe8b354a287d034725085180ee91577b38d736832d326c9a0ea751404cecf31"
+    },
+    {
+      "file": "assets/shepherd-tripo-v2.glb",
+      "source": "assets/characters/shepherd/animated.glb",
+      "sha256": "4589ee4bfeda946310017ea8ee0f1dc1660ab852200a4a737d6349ded5e9e3fe"
+    },
+    {
+      "file": "assets/low-wall-kit-tripo-v2.glb",
+      "source": "assets/structures/low-wall-kit/model.glb",
+      "sha256": "d7069dbae36d9347f4b36b1532496fced2419d4142ea7bf5da2714a3c9110617"
+    },
+    {
+      "file": "assets/house-01-tripo-v2.glb",
+      "source": "assets/structures/house-01/model.glb",
+      "sha256": "7a05ffc1260fdca80cbefd2490f6e0e2ada0241e554a521d117e10705c464c05"
+    },
+    {
+      "file": "assets/market-stall-tripo-v2.glb",
+      "source": "assets/structures/market-stall/model.glb",
+      "sha256": "a4657064c8b6ea5a0a7db6842d92508c37ea2feada48c03db4695a25af3f18eb"
+    },
+    {
+      "file": "assets/animal-pen-tripo-v2.glb",
+      "source": "assets/structures/animal-pen/model.glb",
+      "sha256": "d46961854bb782496d3b01e4de9e3b9f6ae5cef168bbb9f69a3c31dd25e005f1"
+    },
+    {
+      "file": "assets/structure-lamp-tripo-v2.glb",
+      "source": "assets/objects/structure-lamp/model.glb",
+      "sha256": "5e26fdb36e10c862f75896002981354d29c137d181bcafef0ee1f551689d0b14"
+    },
+    {
+      "file": "assets/sheep-tripo-v2.glb",
+      "source": "assets/animals/sheep/animated.glb",
+      "sha256": "cee1fc0aa3715cba94abc949da68009ef34cb337ecc902ead1af68953ef3314f"
+    },
+    {
+      "file": "assets/stone-well-tripo.glb",
+      "source": "assets/structures/stone-well/model.glb",
+      "sha256": "1a22f6c9c25ddaa115bf77f95e7df79a67f0436bcb9fda0f83a5b47e8da1fa25"
+    },
+    {
+      "file": "assets/timber-gate-tripo.glb",
+      "source": "assets/structures/timber-gate/model.glb",
+      "sha256": "fba37fbe18cc673604a80d3ee192220dd83e71b1e2a4fd3230c65b6878a75b2f"
+    }
+  ]
+}

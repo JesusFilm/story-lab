@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Shepherd Maze · Story Lab</title>
+ <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Ctext y='.9em' font-size='43'%3E✦%3C/text%3E%3C/svg%3E">
+ <link rel="stylesheet" href="style.css">
+ <script type="importmap">{"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/"}}</script>
+<link rel="stylesheet" href="./loading-theatre.css"></head>
+<body>
+ <canvas id="world" aria-label="Interactive 3D shepherd maze"></canvas>
+ <header>
+  <div class="brand"><span class="brand-star">✦</span><div><span class="eyebrow">WATCH GAME / 01</span><h1>Follow the light</h1></div></div>
+  <div class="top-actions"><span class="prototype" id="difficulty-badge">Medium</span><button id="character-version" class="version-toggle" role="switch" aria-checked="true" aria-label="Prototype V2 Tripo. Activate to switch character and environment." disabled><span id="character-version-code">V2</span><span class="version-name"> · Tripo</span></button><button id="pause" disabled>Pause & help <kbd>OK</kbd></button></div>
+ </header>
+ <aside id="mission"><div class="eyebrow">YOUR DESTINATION</div><div class="destination"><span class="point">1</span><div><strong>The open stall</strong><span>Find your way through the village</span></div></div><div class="mission-line" id="run-status">FIND YOUR OWN WAY</div></aside>
+ <aside id="map-panel" hidden><div class="map-heading"><span class="eyebrow" id="map-title">VILLAGE MAP</span><span>N ↑</span></div><canvas id="minimap" width="350" height="350" aria-label="Maze map showing your position and recent footprints"></canvas><div class="map-legend"><span><i class="you"></i>You</span><span><i class="trail"></i>Footprints</span></div><div class="map-foot" id="map-note">Full map · footprints fade</div><button id="route">Help me finish…</button><div id="route-status" hidden>Guided run</div></aside>
+ <section id="intro" class="dialog"><span class="eyebrow">A WALK THROUGH BETHLEHEM</span><h2>A small shepherd.<br>A winding way home.</h2><p>Walk automatically. Choose your path with a tap.</p><div class="eyebrow difficulty-label">CHOOSE YOUR CHALLENGE</div><div class="difficulty-picker" role="group" aria-label="Difficulty"><button data-difficulty="easy" aria-pressed="false">Easy</button><button data-difficulty="medium" class="active" aria-pressed="true">Medium</button><button data-difficulty="maximum" aria-pressed="false">Maximum</button></div><p id="difficulty-description">Full map. Reveal a route if you need help finishing.</p><button class="primary" id="start">Begin walk <span>↗</span></button><div class="intro-note">← → Choose difficulty · OK / Enter to begin</div><p><a href="http://127.0.0.1:8766/" style="color:#f0cd80">Compare Shepherd Adventure →</a></p></section>
+ <section id="decisions" hidden><div id="choices" role="group" aria-label="Available paths"></div></section>
+ <div id="decision-announcement" class="sr-only" aria-live="polite"></div>
+ <div id="modal-shade" hidden></div>
+ <section id="menu" class="dialog" role="dialog" aria-modal="true" aria-labelledby="menu-title" aria-describedby="menu-copy" hidden><span id="menu-eyebrow" class="eyebrow">TAKE A BREATH</span><h2 id="menu-title">Journey paused.</h2><p id="menu-copy"></p><div id="menu-actions"></div><div class="intro-note">↑ ↓ Choose · OK / Enter to select</div></section>
+ <div id="loading" class="loading-theatre" data-loading-option="1" aria-label="Loading prototype"><canvas aria-hidden="true"></canvas><h2>Every flock has a show-off.</h2><p id="loading-text" role="status" aria-live="polite">Preparing the scene…</p><p class="loading-note">Getting your story ready.</p><span class="loading-elapsed" aria-hidden="true">0s</span><div class="loading-actions"><button type="button" class="loading-pause">Pause animation</button><button type="button" class="loading-retry" hidden>Reload prototype</button></div></div><script src="./loading-theatre.js"></script>
+ <div id="toast" role="status" aria-live="polite"></div>
+ <footer><div class="control-guide"><strong>A tap is all it takes</strong><span>← ↑ → Choose · ↓ Turn back · ↑ Resume · OK Pause / help · V Version</span></div><div class="footer-right"><span id="travelled">0 m explored</span><button id="restart">New walk</button></div></footer>
+
+ <script type="module" src="src/main.mjs"></script>
+</body>
+</html>

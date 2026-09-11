@@ -1,0 +1,322 @@
+{
+  "origin": "third-party",
+  "generator": "not-tripo",
+  "author": "Quaternius",
+  "pack": "Stylized Nature MegaKit Standard",
+  "license": "CC0-1.0",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "source_url": "https://quaternius.com/packs/stylizednaturemegakit.html",
+  "author_distribution": "https://opengameart.org/content/stylized-nature-megakit",
+  "download_mirror": "https://github.com/agentkaerf/FreeModels",
+  "mirror_commit": "db3df04d1e4714298a09510b26fb6de6645138a2",
+  "downloaded": "2026-09-11",
+  "models": [
+    "CommonTree_2",
+    "TwistedTree_1",
+    "TwistedTree_3",
+    "DeadTree_2",
+    "Rock_Medium_1",
+    "Rock_Medium_2",
+    "Rock_Medium_3",
+    "Pebble_Round_2"
+  ],
+  "files": [
+    {
+      "path": "originals/License_Standard.txt",
+      "sha256": "120710e542c3ebaf83856c4eb55b4a1e680593b39302eba7fdc5d942dfe78c58",
+      "bytes": 852
+    },
+    {
+      "path": "originals/glTF/Bark_DeadTree.png",
+      "sha256": "8f055724c35f8e8c5685a505775b3b9ebfc6b4745308ef35ce1cfe6fd976153f",
+      "bytes": 4228870
+    },
+    {
+      "path": "originals/glTF/Bark_DeadTree_Normal.png",
+      "sha256": "692da2f58909263f074cb17b36defd09f56bf89ab7efda567a9a3e59261747b3",
+      "bytes": 5728199
+    },
+    {
+      "path": "originals/glTF/Bark_NormalTree.png",
+      "sha256": "f36e94fdd73255347325b998e02a0b2575fdf714b0315bfe5e8ff34bc8e13603",
+      "bytes": 3894788
+    },
+    {
+      "path": "originals/glTF/Bark_NormalTree_Normal.png",
+      "sha256": "852f6155404b8c39e100e41e26970e02a6a5c81b482d3726618dab28e3ad03a2",
+      "bytes": 4384496
+    },
+    {
+      "path": "originals/glTF/Bark_TwistedTree.png",
+      "sha256": "01608a96c42954eb725b32824530b51e67a2f3d85432d21a8d8adff958d2084a",
+      "bytes": 4630805
+    },
+    {
+      "path": "originals/glTF/Bark_TwistedTree_Normal.png",
+      "sha256": "692da2f58909263f074cb17b36defd09f56bf89ab7efda567a9a3e59261747b3",
+      "bytes": 5728199
+    },
+    {
+      "path": "originals/glTF/CommonTree_2.bin",
+      "sha256": "a273d69de31a675a9d7e3eb3c43f804aef2d1b031692111b9e76eb3b0b686d0c",
+      "bytes": 423024
+    },
+    {
+      "path": "originals/glTF/CommonTree_2.gltf",
+      "sha256": "67160975f0ac991b4a2ffb2add4ab4037b5e9c1bef9f66dac5235fcf0ba9bd52",
+      "bytes": 3866
+    },
+    {
+      "path": "originals/glTF/DeadTree_2.bin",
+      "sha256": "de7861981fa7ff6faafc30a705e49b45c315a718747e0ae08dc5acb34eedea10",
+      "bytes": 453824
+    },
+    {
+      "path": "originals/glTF/DeadTree_2.gltf",
+      "sha256": "5cbff9f1277e905eaf8e40d9028fa80b0d6b635aa0677076ffa81fcf377ffabf",
+      "bytes": 2213
+    },
+    {
+      "path": "originals/glTF/Leaves_NormalTree_C.png",
+      "sha256": "998612bdf0b76a22f5f54d65cd7a457815d2842d89653fa4348a4ebb42933ad3",
+      "bytes": 158796
+    },
+    {
+      "path": "originals/glTF/Leaves_TwistedTree_C.png",
+      "sha256": "0e459b56b14c0e81b1b7cf3d1e8c6f0bb71790eb6c46bb02a76a922d8df646ea",
+      "bytes": 70353
+    },
+    {
+      "path": "originals/glTF/PathRocks_Diffuse.png",
+      "sha256": "85a04abb2c136fee53b376daf3b7d7f96fdf3966de0258dff6fe2b24da792b23",
+      "bytes": 811732
+    },
+    {
+      "path": "originals/glTF/Pebble_Round_2.bin",
+      "sha256": "1bfde4a0934efd627c559a93d7ec28614b029efc48ce92c86060a6284ea911a9",
+      "bytes": 7468
+    },
+    {
+      "path": "originals/glTF/Pebble_Round_2.gltf",
+      "sha256": "d840c072326701dd5b6c884871948b67cb38e7d10d28773c89ee2ae89da810eb",
+      "bytes": 1848
+    },
+    {
+      "path": "originals/glTF/Rock_Medium_1.bin",
+      "sha256": "ea79527d4c2b3bdb7a28bf589bf0c1fd96d192a4d0738636753911dd58681e99",
+      "bytes": 13284
+    },
+    {
+      "path": "originals/glTF/Rock_Medium_1.gltf",
+      "sha256": "5d1ab1fa03218f4a908728ed0eabe6486344a7e4f510b0d3d6f837fd1d011bd8",
+      "bytes": 1831
+    },
+    {
+      "path": "originals/glTF/Rock_Medium_2.bin",
+      "sha256": "76b60bf8349f71abdb0ed462b3223d93c2dcabdfb5754bc132e18b021cc6c805",
+      "bytes": 9432
+    },
+    {
+      "path": "originals/glTF/Rock_Medium_2.gltf",
+      "sha256": "fac2d05a05f2d0d2098de59c09b58f42cc875c9caca4fd4c4bd57f3d36e7b12e",
+      "bytes": 1825
+    },
+    {
+      "path": "originals/glTF/Rock_Medium_3.bin",
+      "sha256": "63f94bce2d3fb3fe25b2d6c843a828b1bec76855dbaac93fcf5d43582309caad",
+      "bytes": 20124
+    },
+    {
+      "path": "originals/glTF/Rock_Medium_3.gltf",
+      "sha256": "9a575b911372cf91693aa3a56aea8137ec2251c2b99fb34a31272ee64503047f",
+      "bytes": 1832
+    },
+    {
+      "path": "originals/glTF/Rocks_Diffuse.png",
+      "sha256": "b813696df6081f469a127092eb0ce45cc39d56f3ccc0699152bfcd3804810b48",
+      "bytes": 2517398
+    },
+    {
+      "path": "originals/glTF/TwistedTree_1.bin",
+      "sha256": "58e4c16c16e0a71051af76a37be0641ea8f7089652687f957383d3c4bd24723b",
+      "bytes": 732456
+    },
+    {
+      "path": "originals/glTF/TwistedTree_1.gltf",
+      "sha256": "8544b084e1fadfbec981e964ce27463f50c39c460513e0d3442160880c5908a7",
+      "bytes": 3819
+    },
+    {
+      "path": "originals/glTF/TwistedTree_3.bin",
+      "sha256": "04ad394055b72a3d3717d8e3617ae733ea155580330d94d7387238928755eaca",
+      "bytes": 771176
+    },
+    {
+      "path": "originals/glTF/TwistedTree_3.gltf",
+      "sha256": "c719e6f2f26bb5f4a32f92194b71f432e2444870cb0f3b41989e05c7ad3b9ecd",
+      "bytes": 3817
+    },
+    {
+      "path": "originals/glTF/Leaves_NormalTree.png",
+      "sha256": "171ad1c8fa6ddde351a3b3c9e2b1457d5c7a4a43ba4fd55a83801029db797151",
+      "bytes": 158772
+    },
+    {
+      "path": "originals/glTF/Leaves_TwistedTree.png",
+      "sha256": "d548e707fa34a558f88f477fa98f7b4ad3afbd4ceb7ab954506be694edf0f2ba",
+      "bytes": 69611
+    }
+  ],
+  "runtime_modifications": [
+    "Textures capped at 1024px.",
+    "Runtime glTF selects original uncoloured foliage variants; source glTF remains unchanged.",
+    "Muted olive foliage and stone tints, varied size/rotation, and shared geometry are applied at runtime."
+  ],
+  "runtime_files": [
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Bark_DeadTree.png",
+      "sha256": "498c5a20e54df4be73f543a786497e7df840ae907242e142621e22dd16a07aec",
+      "bytes": 1301370
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Bark_DeadTree_Normal.png",
+      "sha256": "d3a0dc287eba6512851a0e3aca12cb348e2168dc6787ea3b01ef622514642988",
+      "bytes": 1721802
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Bark_NormalTree.png",
+      "sha256": "f40d425d875500b4fb4a9543cc361c5330f5058468e4d0f905631de516dda8c0",
+      "bytes": 1228434
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Bark_NormalTree_Normal.png",
+      "sha256": "17a53781868cada06020a478a88efe449322637f3e2924ea489b087c92aeab3b",
+      "bytes": 1365524
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Bark_TwistedTree.png",
+      "sha256": "b721ec3a567efdd52aba75021c3ec4562a4392dc916c5e11b08b9afd2c8c8db4",
+      "bytes": 1375499
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Bark_TwistedTree_Normal.png",
+      "sha256": "d3a0dc287eba6512851a0e3aca12cb348e2168dc6787ea3b01ef622514642988",
+      "bytes": 1721802
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/CommonTree_2.bin",
+      "sha256": "a273d69de31a675a9d7e3eb3c43f804aef2d1b031692111b9e76eb3b0b686d0c",
+      "bytes": 423024
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/CommonTree_2.gltf",
+      "sha256": "7504f9ac12da4e559003d251b08e4b30c4466ca244c29a91df6f436c9cbd068d",
+      "bytes": 2861
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/DeadTree_2.bin",
+      "sha256": "de7861981fa7ff6faafc30a705e49b45c315a718747e0ae08dc5acb34eedea10",
+      "bytes": 453824
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/DeadTree_2.gltf",
+      "sha256": "f02b1d88153ed9c2402de3894e07d6ec4a6214962dc0c3798db5e58ddceaab52",
+      "bytes": 1629
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/LICENSE.txt",
+      "sha256": "120710e542c3ebaf83856c4eb55b4a1e680593b39302eba7fdc5d942dfe78c58",
+      "bytes": 852
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Leaves_NormalTree.png",
+      "sha256": "171ad1c8fa6ddde351a3b3c9e2b1457d5c7a4a43ba4fd55a83801029db797151",
+      "bytes": 158772
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Leaves_NormalTree_C.png",
+      "sha256": "998612bdf0b76a22f5f54d65cd7a457815d2842d89653fa4348a4ebb42933ad3",
+      "bytes": 158796
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Leaves_TwistedTree.png",
+      "sha256": "d548e707fa34a558f88f477fa98f7b4ad3afbd4ceb7ab954506be694edf0f2ba",
+      "bytes": 69611
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Leaves_TwistedTree_C.png",
+      "sha256": "0e459b56b14c0e81b1b7cf3d1e8c6f0bb71790eb6c46bb02a76a922d8df646ea",
+      "bytes": 70353
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/PathRocks_Diffuse.png",
+      "sha256": "85a04abb2c136fee53b376daf3b7d7f96fdf3966de0258dff6fe2b24da792b23",
+      "bytes": 811732
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Pebble_Round_2.bin",
+      "sha256": "1bfde4a0934efd627c559a93d7ec28614b029efc48ce92c86060a6284ea911a9",
+      "bytes": 7468
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Pebble_Round_2.gltf",
+      "sha256": "1cb5ab8c7b21931203354096aac49c729cb2c8ceb39cf4ec1d45f2dc037a0b35",
+      "bytes": 1360
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Rock_Medium_1.bin",
+      "sha256": "ea79527d4c2b3bdb7a28bf589bf0c1fd96d192a4d0738636753911dd58681e99",
+      "bytes": 13284
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Rock_Medium_1.gltf",
+      "sha256": "397bb3e98cea97282c00f5370c15f88e9de410a78c2371b2270ea53b9053b239",
+      "bytes": 1343
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Rock_Medium_2.bin",
+      "sha256": "76b60bf8349f71abdb0ed462b3223d93c2dcabdfb5754bc132e18b021cc6c805",
+      "bytes": 9432
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Rock_Medium_2.gltf",
+      "sha256": "8b635c9569ae6aee5331f361eb6b2ecce061131498ef89f1a54bab60deab2a77",
+      "bytes": 1337
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Rock_Medium_3.bin",
+      "sha256": "63f94bce2d3fb3fe25b2d6c843a828b1bec76855dbaac93fcf5d43582309caad",
+      "bytes": 20124
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Rock_Medium_3.gltf",
+      "sha256": "8382224ed9d1db520be04aee848b0ab671832b162ef5a2ba5370fc61b2d33a24",
+      "bytes": 1344
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/Rocks_Diffuse.png",
+      "sha256": "2dd54656f9a35aad155c9c13b9d1e0c3026509a1ab4926cbe6203a7f4b0834d5",
+      "bytes": 1142110
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.bin",
+      "sha256": "58e4c16c16e0a71051af76a37be0641ea8f7089652687f957383d3c4bd24723b",
+      "bytes": 732456
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.gltf",
+      "sha256": "67c77864d59d349a96dbdb2a96424ed1a947ef82d598e4db65cad7d3df56710e",
+      "bytes": 2822
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.bin",
+      "sha256": "04ad394055b72a3d3717d8e3617ae733ea155580330d94d7387238928755eaca",
+      "bytes": 771176
+    },
+    {
+      "path": "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.gltf",
+      "sha256": "50f5133306d694e80598a5a1aaccea4d419852493e58e731026eca53a403e9e7",
+      "bytes": 2820
+    }
+  ]
+}

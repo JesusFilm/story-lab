@@ -1,0 +1,39 @@
+{
+  "name": "@story-lab/story-diorama",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/story-diorama.d.mts",
+      "import": "./src/story-diorama.mjs"
+    },
+    "./controls": {
+      "types": "./src/controls.d.mts",
+      "import": "./src/controls.mjs"
+    },
+    "./styles.css": "./src/story-diorama.css",
+    "./controls.css": "./src/controls.css"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "sync-playground": "node scripts/sync-playground.mjs",
+    "start": "python3 -m http.server 8768 --bind 127.0.0.1 --directory ../..",
+    "test:browser": "node scripts/check-browser.mjs",
+    "test:audio": "node scripts/check-audio.mjs",
+    "test:integration": "node scripts/check-integration.mjs"
+  },
+  "description": "Embeddable browser story scenes with independent presentation and optional game-owned controls.",
+  "types": "./src/story-diorama.d.mts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "src",
+    "README.md",
+    "AGENTS.md",
+    "docs/integration.md",
+    "docs/api.md",
+    "examples/minimal"
+  ]
+}

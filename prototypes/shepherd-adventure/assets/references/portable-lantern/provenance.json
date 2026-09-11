@@ -1,0 +1,32 @@
+{
+  "asset": "structure-lamp",
+  "variant": "portable-lantern",
+  "reference": "ref-aa2a5344-49c3-4908-969a-c1d2d4de5405",
+  "status": "reference-approved",
+  "style": "follow-the-light-aa",
+  "revision": "v003",
+  "style_authorization": "prototypes/AGENTS.md",
+  "generation_mode": "codex-native-imagegen",
+  "source": "assets/objects/structure-lamp/styles/follow-the-light-aa/references/imagegen/ref-aa2a5344-49c3-4908-969a-c1d2d4de5405",
+  "anchor": "assets/references/reference-pack-v1/storyline-1-shepherd/images/02-follow-the-light.png",
+  "anchor_sha256": "b1821759199a604cef7828eae687931223e0671889851f69727e2563f60adef0",
+  "reference_sha256": "ea992de1ac4bc24af3a8ceacc0109b176c55b18e1ee4a6a7a7c3191e9018ee0b",
+  "intended_height_metres": 0.3,
+  "tripo_submitted": true,
+  "reference_approval": {
+    "by": "Jaco",
+    "evidence": "approve the tripo generation",
+    "date": "2026-09-11"
+  },
+  "generation_request": {
+    "status": "downloaded",
+    "stage": "mesh",
+    "model": "v3.1-20260211",
+    "face_limit": 12000,
+    "texture": true,
+    "pbr": true,
+    "tripo_submitted": true,
+    "resume_requires_new_approval": false,
+    "operation": "op-4170bb3e-5016-4f18-a8a5-bb9b9ad9f351"
+  }
+}

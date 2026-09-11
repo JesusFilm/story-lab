@@ -1,0 +1,106 @@
+{
+  "duration": 136.21,
+  "gap": 0.32,
+  "sampleRate": 24000,
+  "segments": [
+    {
+      "id": "01-riches",
+      "label": "Riches and comfort",
+      "start": 4.9,
+      "end": 9.65,
+      "editStart": 0.0,
+      "editEnd": 4.75,
+      "audio": "/audio/01-riches.wav"
+    },
+    {
+      "id": "02-laughter",
+      "label": "Laughter and sorrow",
+      "start": 21.5,
+      "end": 26.15,
+      "editStart": 5.07,
+      "editEnd": 9.72,
+      "audio": "/audio/02-laughter.wav"
+    },
+    {
+      "id": "03-love-enemies",
+      "label": "Love your enemies",
+      "start": 29.35,
+      "end": 54.35,
+      "editStart": 10.04,
+      "editEnd": 35.04,
+      "audio": "/audio/03-love-enemies.wav"
+    },
+    {
+      "id": "04-other-cheek",
+      "label": "Turn the other cheek",
+      "start": 60.9,
+      "end": 67.5,
+      "editStart": 35.36,
+      "editEnd": 41.96,
+      "audio": "/audio/04-other-cheek.wav"
+    },
+    {
+      "id": "05-give-freely",
+      "label": "Give freely",
+      "start": 72.75,
+      "end": 82.15,
+      "editStart": 42.28,
+      "editEnd": 51.68,
+      "audio": "/audio/05-give-freely.wav"
+    },
+    {
+      "id": "06-let-go",
+      "label": "Let go of what is taken",
+      "start": 83.85,
+      "end": 88.8,
+      "editStart": 52.0,
+      "editEnd": 56.95,
+      "audio": "/audio/06-let-go.wav"
+    },
+    {
+      "id": "07-golden-rule",
+      "label": "Do for others",
+      "start": 92.1,
+      "end": 96.8,
+      "editStart": 57.27,
+      "editEnd": 61.97,
+      "audio": "/audio/07-golden-rule.wav"
+    },
+    {
+      "id": "08-love-beyond",
+      "label": "Love beyond those who love you",
+      "start": 102.05,
+      "end": 120.64,
+      "editStart": 62.29,
+      "editEnd": 80.88,
+      "audio": "/audio/08-love-beyond.wav"
+    },
+    {
+      "id": "09-mercy",
+      "label": "Love and mercy",
+      "start": 136.08,
+      "end": 156.65,
+      "editStart": 81.2,
+      "editEnd": 101.77,
+      "audio": "/audio/09-mercy.wav"
+    },
+    {
+      "id": "10-forgive",
+      "label": "Do not judge; forgive",
+      "start": 162.5,
+      "end": 174.85,
+      "editStart": 102.09,
+      "editEnd": 114.44,
+      "audio": "/audio/10-forgive.wav"
+    },
+    {
+      "id": "11-measure",
+      "label": "The measure you give",
+      "start": 182.15,
+      "end": 203.6,
+      "editStart": 114.76,
+      "editEnd": 136.21,
+      "audio": "/audio/11-measure.wav"
+    }
+  ]
+}

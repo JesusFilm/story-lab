@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "checks": {
+    "all_289_graph_nodes_connected": true,
+    "opposite_sides": true,
+    "three_distinct_simple_successful_routes": true,
+    "meaningful_alternative_routes": true,
+    "at_least_20_dead_ends": true,
+    "at_least_4_loops": true,
+    "fastest_travel_at_least_3_minutes": true,
+    "reference_routes_under_7_minutes_with_choice_allowance": true,
+    "raster_all_walkable_tiles_connected": true,
+    "raster_shortest_matches_graph": true,
+    "exactly_two_boundary_openings": true,
+    "all_defaults_strictly_approach_exit": true,
+    "obstacles_on_open_edges_away_from_junctions": true,
+    "rendered_route_lines_stay_in_walkable_mask": true
+  },
+  "seed": 210,
+  "nodes": 289,
+  "edges": 296,
+  "cycle_rank": 8,
+  "dead_ends": 32,
+  "routes": [
+    {
+      "id": "A",
+      "length_m": 832,
+      "edges": 104,
+      "decision_junctions": 13,
+      "travel_seconds": 260.0,
+      "with_2s_per_choice_seconds": 286.0
+    },
+    {
+      "id": "B",
+      "length_m": 1040,
+      "edges": 130,
+      "decision_junctions": 20,
+      "travel_seconds": 325.0,
+      "with_2s_per_choice_seconds": 365.0
+    },
+    {
+      "id": "C",
+      "length_m": 960,
+      "edges": 120,
+      "decision_junctions": 19,
+      "travel_seconds": 300.0,
+      "with_2s_per_choice_seconds": 338.0
+    }
+  ],
+  "shortest_path_edges": 104,
+  "timing_scope": "Estimates, not user playtests. Excludes intro/outro, dead-end detours, auto-obstacle animation time and runtime latency.",
+  "not_verified": [
+    "3D line of sight",
+    "engine collision/navmesh",
+    "controller latency on real hardware",
+    "historical reconstruction"
+  ],
+  "wall_following": {
+    "left": {
+      "reaches_exit": true,
+      "steps": 116,
+      "travel_minutes": 4.83,
+      "repeated_orientation_state": false
+    },
+    "right": {
+      "reaches_exit": true,
+      "steps": 178,
+      "travel_minutes": 7.42,
+      "repeated_orientation_state": false
+    }
+  }
+}

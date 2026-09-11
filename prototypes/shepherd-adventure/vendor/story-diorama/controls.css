@@ -1,0 +1,35 @@
+/* Optional. Custom controls can omit this stylesheet entirely. */
+.sd-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sd-control-gap, 8px);
+  font-family: var(--sd-control-font, system-ui);
+}
+.sd-controls button {
+  font: inherit;
+  color: var(--sd-control-color, #f3efe6);
+  background: var(--sd-control-background, #23312e);
+  border: 1px solid var(--sd-control-border, #627368);
+  border-radius: var(--sd-control-radius, 5px);
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.sd-controls button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.sd-controls button:focus-visible,
+.sd-controls input:focus-visible {
+  outline: 2px solid var(--sd-control-accent, #d8bc88);
+  outline-offset: 3px;
+}
+.sd-controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sd-controls input {
+  accent-color: var(--sd-control-accent, #d8bc88);
+  max-width: 120px;
+}
