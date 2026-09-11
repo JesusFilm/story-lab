@@ -3,7 +3,9 @@
 Baseline: b54fdd5d19ef0018a55edea1d2b0a10f23c970d9, clean main.
 Direction: user's 12 September feedback; minimal text, simultaneous visible choices,
 automatic discovery. Existing night scene is the visual reference. No additional
-preference question was necessary. No annotated screenshot was attached to the request.
+preference question was necessary. The annotated screenshot arrived during implementation. Its red-marked sound
+switch now lives in the menu; the location name fades after arrival. The purple
+carousel/investigate cluster is replaced by the landmark cards.
 
 Before/after PNGs use Chrome, 1280×800 and 390×844, reduced motion, threshold staged
 with a lantern and gate already observed. Both scenes use the same location and

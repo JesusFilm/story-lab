@@ -46,3 +46,6 @@ header{top:22px;right:24px;left:auto;z-index:3}.head-actions #pause{font-size:22
 #travel{bottom:42px}#travel span{font-size:18px}footer{bottom:15px;left:20px;right:auto}footer button{border:0;background:transparent}#inspection .small,#inspect-tag,#discovery{display:none!important}#inspection{border-radius:16px;border:1px solid #d6b57666}#inspection h2{font-size:25px}#inspection p{font-size:15px}
 @media(max-width:700px){#chapter{top:20px;left:18px;max-width:70vw}#chapter h2{font-size:19px}header{top:15px;right:15px}#decision{bottom:52px;gap:10px}#route-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.route-card{grid-template-columns:28px 1fr 12px;gap:6px;font-size:15px;padding:10px;min-height:64px;text-align:left}.route-card svg{width:27px;height:30px}.route-card small{font-size:10px}#message{font-size:16px;padding:0 12px}#travel{width:85vw;bottom:65px}}
 @media(prefers-reduced-motion:reduce){.route-card:hover{transform:none}#message.noticed{animation:none}}
+
+/* Arrival names briefly orient; sound belongs with the other optional settings. */
+#chapter{opacity:0}#chapter.place-arrival{animation:place-arrival 8s both}@keyframes place-arrival{0%{opacity:0}10%,65%{opacity:1}100%{opacity:0}}footer{display:none}
