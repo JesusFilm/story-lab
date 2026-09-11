@@ -21,7 +21,10 @@ Kept, based on implementing-agent review of paired captures. These are usability
 hypotheses; enjoyment still requires Jaco's playtest. Model checks pass both complete
 routes, automatic supplies, pause, recovery, reset and the independent 113-state
 reachability audit. Presentation checks pass. No 3D geometry or paid generation changed.
-Runtime changes have not been published; portal source hashes require a fresh review.
+The new runtime module and changed sources are explicitly registered for portal export.
+A Chrome mobile walkthrough also completes the full route using actual destination
+buttons, including blocked paths, automatic preparation/discovery and the ending.
+Travel is accelerated in that check; it does not assess walking pace. No deployment.
 
 Next playtest question: do the landmark symbols and highlighted trails make the next
 move obvious without reading the notebook?

@@ -82,7 +82,7 @@ function input(key){
  }
  if(journey.phase==='walking'){if(['Enter',' ','Select'].includes(key))showPause(true);return;}
  if(key==='ArrowUp'){journey.inspect();updateUI();return;}
- if(key==='ArrowLeft')journey.select(-1);else if(key==='ArrowRight')journey.select(1);else if(['Enter',' ','Select'].includes(key))journey.commit();updateUI();
+ if(key==='ArrowLeft'||key==='ArrowRight'){const delta=key==='ArrowLeft'?-1:1;for(let i=0;i<journey.options.length;i++){journey.select(delta);if(!$('#route-choices').children[journey.selected]?.disabled)break;}$('#route-choices').children[journey.selected]?.focus();}else if(['Enter',' ','Select'].includes(key))journey.commit();updateUI();
 }
 function remember(){journey.paused=false;journey.notebook=true;document.activeElement?.blur();updateUI();}
 $('#look-again').onclick=()=>{showPause(false);journey.inspect();updateUI();};
