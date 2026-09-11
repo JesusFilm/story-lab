@@ -515,8 +515,8 @@
     "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.bin": "04ad394055b72a3d3717d8e3617ae733ea155580330d94d7387238928755eaca",
     "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.gltf": "50f5133306d694e80598a5a1aaccea4d419852493e58e731026eca53a403e9e7",
     "prototypes/shepherd-adventure/src/lamp-craft.mjs": "0a11345baf9d7210102b55056ac64296e882e863047e81bc628255a47d781c6f",
-    "prototypes/shepherd-adventure/src/lamp-workbench.mjs": "a2a84e8d18b7ce18fd79d79a000e5b6ac0b0ad847ea062489356517793b0b47f",
-    "prototypes/shepherd-adventure/workbench.css": "665f91d0b5a64a59b15edadef8272925e527ade5da8719ffa07138798a9b44b4",
+    "prototypes/shepherd-adventure/src/lamp-workbench.mjs": "46711142db4a79f656dfa071f879b425ea829cf4cdf66d1d9e59be0b56b4fbfb",
+    "prototypes/shepherd-adventure/workbench.css": "97a030b8fd9ee47d6ca325e7859c4aa1cd0f044120581ebb31d186434041ed63",
     "prototypes/shepherd-adventure/assets/workbench/stall.jpg": "229c3eda7ae80a0491069cfe582265d4d75ac7f997509d596da3980f7a1a3269"
   }
 }
