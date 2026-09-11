@@ -705,7 +705,7 @@
       "Pebble_Round_2"
     ]
   },
-  "lanternCount": 22,
+  "lanternCount": 20,
   "lanternScaleAndStateVerified": true,
   "fetched": [
     {
@@ -745,24 +745,28 @@
       "bytes": 1203940
     },
     {
-      "url": "/assets/nature/TwistedTree_1.gltf",
-      "bytes": 2822
+      "url": "/assets/nature/TwistedTree_3.gltf",
+      "bytes": 2820
     },
     {
       "url": "/assets/nature/CommonTree_2.gltf",
       "bytes": 2861
     },
     {
-      "url": "/assets/nature/TwistedTree_3.gltf",
-      "bytes": 2820
+      "url": "/assets/nature/TwistedTree_1.gltf",
+      "bytes": 2822
+    },
+    {
+      "url": "/assets/nature/Rock_Medium_1.gltf",
+      "bytes": 1343
     },
     {
       "url": "/assets/nature/DeadTree_2.gltf",
       "bytes": 1629
     },
     {
-      "url": "/assets/nature/Rock_Medium_1.gltf",
-      "bytes": 1343
+      "url": "/assets/nature/Rock_Medium_2.gltf",
+      "bytes": 1337
     },
     {
       "url": "/assets/nature/Pebble_Round_2.gltf",
@@ -771,10 +775,6 @@
     {
       "url": "/assets/nature/Rock_Medium_3.gltf",
       "bytes": 1344
-    },
-    {
-      "url": "/assets/nature/Rock_Medium_2.gltf",
-      "bytes": 1337
     }
   ],
   "wellReplacesBlockRing": true,
