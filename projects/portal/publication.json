@@ -99,7 +99,11 @@
         "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.bin",
         "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.gltf",
         "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.bin",
-        "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.gltf"
+        "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.gltf",
+        "prototypes/shepherd-adventure/src/lamp-craft.mjs",
+        "prototypes/shepherd-adventure/src/lamp-workbench.mjs",
+        "prototypes/shepherd-adventure/workbench.css",
+        "prototypes/shepherd-adventure/assets/workbench/stall.jpg"
       ],
       "image_alt": "A shepherd carrying a glowing lantern faces the timber gate and lamplit stone walls of the sleeping market",
       "image_version": "8fa1d09eaa07",
@@ -177,7 +181,7 @@
     {
       "slug": "story-diorama-lab",
       "title": "Story Diorama",
-      "description": "A reusable storytelling component combining illustrated scenes, scrolling text and gentle soundtracks. Watch Noah\u2019s story or explore the playback and layout controls.",
+      "description": "A reusable storytelling component combining illustrated scenes, scrolling text and gentle soundtracks. Watch Noah’s story or explore the playback and layout controls.",
       "image_alt": "Illustrative painting of Noah beside the wooden framework of the ark, from the Story Diorama demonstration",
       "entry": "noah.html",
       "plain_static": true,
@@ -278,15 +282,15 @@
     "prototypes/shepherd-maze/assets/structure-lamp-tripo-v2.glb": "5e26fdb36e10c862f75896002981354d29c137d181bcafef0ee1f551689d0b14",
     "prototypes/shepherd-maze/assets/village-world.glb": "37f5c082c6112ad2d4e1b698a128692c088ba24ea1507fc7c85067e9f7c421e2",
     "prototypes/shepherd-maze/maps/village/maze-layout.json": "9cd81b0ab05be3e4bd35a5b69994c1d4fd744fe77d9a077b947322d7c1b44698",
-    "prototypes/shepherd-adventure/index.html": "14d53782a7a364a96934c880d520631295e6a934abafbc4f028a5b38d5341fbf",
+    "prototypes/shepherd-adventure/index.html": "29ff139f14b1f418c24fe072c035a1b8800e840759036a42fa87a8eec241fbd2",
     "prototypes/shepherd-adventure/journey.css": "4bd81c1124d37c522c203b9c8586a6e2e9548e7230ce4378e9f05c336be12a98",
     "prototypes/shepherd-adventure/src/character-variants.mjs": "8af5c68c21e8a61a4803eaefaaf0817971ede2209e6f2d5c1580238107200cb5",
     "prototypes/shepherd-adventure/src/journey-camera.mjs": "614ca84ad9924f7465f826eaa6921cb6e926b226221f7ed5ae6298387bea514e",
-    "prototypes/shepherd-adventure/src/journey-model.mjs": "67938dc21e6296cb6a70c103c2c4fd5be855dcdcea3196ed7a3c66384d4a24ca",
+    "prototypes/shepherd-adventure/src/journey-model.mjs": "4d4c75d6c3c290b07399f9b3ce16f7781f50696b2e2b374f533b88272886be77",
     "prototypes/shepherd-adventure/src/journey-poi-models.mjs": "eeac6c0a98f3f60d7de8dfdc5b79dada08da9ff19b04751d9511e053324bf6e5",
     "prototypes/shepherd-adventure/src/journey-terrain.mjs": "36091c947e75d1fef49c06947190f85fb525aa7e0f8253bc5afd521bc3ae9df0",
-    "prototypes/shepherd-adventure/src/journey-world.mjs": "af7cfd616ac827cb4119346b571309deef7a9ac2fa5545657328ce30a76255b0",
-    "prototypes/shepherd-adventure/src/journey.mjs": "0de6a1a46c6bf0a1da4055ec99220c85645cc6c9c8d9f791589801b3ea9c3bb2",
+    "prototypes/shepherd-adventure/src/journey-world.mjs": "8c08bf7295ae03a7bc1d1c43ad40a4744b82e492bc55f43ce8a2368cdcf0fa73",
+    "prototypes/shepherd-adventure/src/journey.mjs": "c4a32d28a5c0683b5cbec79e1dddaa1df47051a1fc96ec9be6c0ef77a418f31b",
     "prototypes/shepherd-adventure/assets/animal-pen-tripo-v2.glb": "d46961854bb782496d3b01e4de9e3b9f6ae5cef168bbb9f69a3c31dd25e005f1",
     "prototypes/shepherd-adventure/assets/house-01-tripo-v2.glb": "7a05ffc1260fdca80cbefd2490f6e0e2ada0241e554a521d117e10705c464c05",
     "prototypes/shepherd-adventure/assets/market-stall-tripo-v2.glb": "a4657064c8b6ea5a0a7db6842d92508c37ea2feada48c03db4695a25af3f18eb",
@@ -509,6 +513,10 @@
     "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.bin": "58e4c16c16e0a71051af76a37be0641ea8f7089652687f957383d3c4bd24723b",
     "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.gltf": "67c77864d59d349a96dbdb2a96424ed1a947ef82d598e4db65cad7d3df56710e",
     "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.bin": "04ad394055b72a3d3717d8e3617ae733ea155580330d94d7387238928755eaca",
-    "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.gltf": "50f5133306d694e80598a5a1aaccea4d419852493e58e731026eca53a403e9e7"
+    "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.gltf": "50f5133306d694e80598a5a1aaccea4d419852493e58e731026eca53a403e9e7",
+    "prototypes/shepherd-adventure/src/lamp-craft.mjs": "0a11345baf9d7210102b55056ac64296e882e863047e81bc628255a47d781c6f",
+    "prototypes/shepherd-adventure/src/lamp-workbench.mjs": "a2a84e8d18b7ce18fd79d79a000e5b6ac0b0ad847ea062489356517793b0b47f",
+    "prototypes/shepherd-adventure/workbench.css": "665f91d0b5a64a59b15edadef8272925e527ade5da8719ffa07138798a9b44b4",
+    "prototypes/shepherd-adventure/assets/workbench/stall.jpg": "229c3eda7ae80a0491069cfe582265d4d75ac7f997509d596da3980f7a1a3269"
   }
 }
