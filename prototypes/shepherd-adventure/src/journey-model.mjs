@@ -1,6 +1,7 @@
+import {LampCraft} from './lamp-craft.mjs';
 // An authored investigation: knowledge opens routes; light has no resource cost.
 export const NODES=[
- {id:'hearth',name:'The sheltered hearth',x:-12,z:30,fire:true,chapter:'A light for the road',note:'An empty clay lamp rests beside the embers. It needs a wick and oil.'},
+ {id:'hearth',name:'The sheltered hearth',x:-12,z:30,fire:true,chapter:'A light for the road',note:'Everything for a small light is laid out on one sheltered workbench.'},
  {id:'wick',name:'The linen awning',x:-23,z:32,chapter:'Under the linen awning',note:'A loose strip of linen hangs beside the folded cloth.'},
  {id:'oil',name:'The oil store',x:-25,z:20,chapter:'Beside the oil jars',note:'A small pouring jar rests beside the larger sealed vessels.'},
  {id:'field',name:'The shepherd’s field',x:0,z:52,fire:false,chapter:'Outside Bethlehem',note:'A baby lying in a manger. Somewhere beyond these few lights.'},
@@ -26,7 +27,7 @@ export const NODE=Object.fromEntries(NODES.map(n=>[n.id,n]));
 export function links(id){return EDGES.filter(e=>e.a===id||e.b===id).map(e=>({...e,to:e.a===id?e.b:e.a})).sort((a,b)=>NODE[a.to].x-NODE[b.to].x||NODE[a.to].z-NODE[b.to].z);}
 export function lanePoints(edge){const a=NODE[edge.a],b=NODE[edge.b];const dx=b.x-a.x,dz=b.z-a.z,len=Math.hypot(dx,dz);return Array.from({length:25},(_,i)=>{const t=i/24,bend=Math.sin(t*Math.PI)*1.15;return {x:a.x+dx*t-dz/len*bend,z:a.z+dz*t+dx/len*bend};});}
 export const OBSERVATIONS={
- hearth:{title:'Make a light for the road',body:'The empty clay lamp needs a linen wick and a little oil. Look beneath the nearby awning and beside the storage jars, then return to these embers.',kind:'lamp'},
+ hearth:{title:'Make a light for the road',body:'Fit a short wick, fill to the oil mark, secure the cap and strike a spark. Everything is here on the workbench.',kind:'lamp'},
  wick:{title:'A wick from the linen',body:'You take a loose strip of linen for the lamp. A small beginning: with oil and a flame, it will light the lanes ahead.',kind:'linen'},
  oil:{title:'Oil for the lamp',body:'You fill the small lamp cup from the pouring jar. Bring it and a linen wick to the sheltered hearth.',kind:'oil'},
  field:{title:'Remember the sign',body:'The announcement spoke of a baby lying in a manger. Look for a place where animals are fed. A bright house alone is not enough.',kind:'lantern'},
@@ -43,8 +44,8 @@ export const OBSERVATIONS={
 };
 export class Journey{
  constructor(){this.reset();}
- reset(){this.gateSequence=null;this.followers=[];this.at='field';this.previous=null;this.travel=null;this.phase='intro';this.paused=false;this.selected=0;this.inspection=null;this.inspectionYaw=0;this.notebook=false;this.visited=new Set(['field']);this.inspected=new Set();this.inventory=new Set();this.reward=null;this.firstDiscovery=false;this.discoveries=new Set();this.traversed=new Set();this.distance=0;this.recoveries=0;this.message='';this.decisions=0;}
- get options(){return links(this.at).filter(e=>!['overlook','rear'].includes(e.requires)||this.discoveries.has(e.requires)||this.traversed.has(e.id));}
+ reset(){this.craft=new LampCraft();this.gateSequence=null;this.followers=[];this.at='field';this.previous=null;this.travel=null;this.phase='intro';this.paused=false;this.selected=0;this.inspection=null;this.inspectionYaw=0;this.notebook=false;this.visited=new Set(['field']);this.inspected=new Set();this.inventory=new Set();this.reward=null;this.firstDiscovery=false;this.discoveries=new Set();this.traversed=new Set();this.distance=0;this.recoveries=0;this.message='';this.decisions=0;}
+ get options(){return links(this.at).filter(e=>!['wick','oil'].includes(e.to)).filter(e=>!['overlook','rear'].includes(e.requires)||this.discoveries.has(e.requires)||this.traversed.has(e.id));}
  get choice(){return this.options[this.selected%this.options.length];}
  get lantern(){return this.inventory.has('lantern');}
  get gateOpen(){return this.discoveries.has('gate');}
@@ -60,10 +61,7 @@ export class Journey{
   }
   if(this.at==='hearth'){
    if(this.lantern)this.inspection={...this.inspection,title:'Your lantern is ready',body:'Its small flame is steady. Return to the village threshold and explore the darker lanes.'};
-   else if(this.inventory.has('wick')&&this.inventory.has('oil')){
-    this.inventory.add('lantern');this.selected=this.options.findIndex(e=>e.to==='gate');this.inspection={...this.inspection,title:'A light of your own',body:'The wick catches. A small pool of warm light opens around you. Carry it into the village—and leave a way for those who follow.'};
-    this.reward={title:'Lantern equipped',detail:'You can now follow the darker lanes. Your light is shown beside the route controls.',kind:'lantern'};
-   }else this.inspection.body='The lamp still needs '+(!this.inventory.has('wick')&&!this.inventory.has('oil')?'a linen wick from the awning and oil from the jars':!this.inventory.has('wick')?'a linen wick from the awning':'oil from the storage jars')+'. Bring them back to these embers to light it.';
+   else {this.phase='craft';this.inspection=null;return true;}
   }
   if(this.at==='gate'&&!this.lantern)this.inspection={...this.inspection,title:'Before the darker lanes',body:'You have no light of your own. A sheltered hearth beside the threshold holds an empty lamp. Follow the nearby flame and press ↑ to examine it.'};
   if(this.at==='market'&&this.gateOpen)this.inspection={...this.inspection,title:'An open way for others',body:'The bar is lifted and the gate lamp is lit. The short way through is open.'};
@@ -71,6 +69,10 @@ export class Journey{
   if(this.inspection.unlock)this.discoveries.add(this.inspection.unlock);
   if(newRoute){this.reward={title:this.at==='arch'?'A way for those behind you':'A new way through',detail:this.firstDiscovery?'This connection is now remembered in your notebook.':'You found this by investigating. Other places may offer clues, supplies—or simply quiet.',kind:'route'};this.firstDiscovery=true;}
   this.phase=this.at==='goal'?'arrival':'inspect';this.message='';return true;
+ }
+ finishCraft(){
+  if(this.phase!=='craft'||this.craft.result!=='lit')return false;
+  this.inventory=new Set([...this.inventory,'wick','oil','lantern']);this.phase='choice';this.inspection=null;this.reward=null;this.message='A steady light for the road.';this.selected=Math.max(0,this.options.findIndex(e=>e.to==='gate'));return true;
  }
  closeInspection(){if(this.phase!=='inspect')return false;this.phase='choice';this.inspection=null;this.reward=null;return true;}
  commit(edge=this.choice){
