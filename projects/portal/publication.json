@@ -99,7 +99,15 @@
         "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.bin",
         "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.gltf",
         "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.bin",
-        "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.gltf"
+        "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.gltf",
+        "prototypes/shepherd-adventure/assets/story/watch.jpg",
+        "prototypes/shepherd-adventure/assets/story/reassurance.jpg",
+        "prototypes/shepherd-adventure/assets/story/gathering.jpg",
+        "prototypes/shepherd-adventure/assets/story/host.jpg",
+        "prototypes/shepherd-adventure/assets/story/departure.jpg",
+        "prototypes/shepherd-adventure/assets/story/sharing.jpg",
+        "prototypes/shepherd-adventure/assets/story/mary.jpg",
+        "prototypes/shepherd-adventure/assets/story/return.jpg"
       ],
       "image_alt": "A shepherd carrying a glowing lantern faces the timber gate and lamplit stone walls of the sleeping market",
       "image_version": "8fa1d09eaa07",
@@ -177,7 +185,7 @@
     {
       "slug": "story-diorama-lab",
       "title": "Story Diorama",
-      "description": "A reusable storytelling component combining illustrated scenes, scrolling text and gentle soundtracks. Watch Noah\u2019s story or explore the playback and layout controls.",
+      "description": "A reusable storytelling component combining illustrated scenes, scrolling text and gentle soundtracks. Watch Noah’s story or explore the playback and layout controls.",
       "image_alt": "Illustrative painting of Noah beside the wooden framework of the ark, from the Story Diorama demonstration",
       "entry": "noah.html",
       "plain_static": true,
@@ -473,8 +481,8 @@
     "prototypes/shepherd-adventure/vendor/story-diorama/story-diorama.css": "4244ea03138f7a3b2c398d3ac2332044a75fc2a2b581c8a8df45bf266d698824",
     "prototypes/shepherd-adventure/vendor/story-diorama/timeline.mjs": "68adccfbef6d978f1d29db95b5626906841272bdd5429118159dd406afa39131",
     "prototypes/shepherd-adventure/vendor/story-diorama/appearance.mjs": "375b8f59a6d6d74d0dbedae89d1f11eaf96ff5f42b2b550685fe0457e3006a55",
-    "prototypes/shepherd-adventure/assets/story/opening.json": "2aff038b3179195d5b6f62ee4de7cbb6a99aff864c0b01f196c00ed5ff889ce8",
-    "prototypes/shepherd-adventure/assets/story/ending.json": "7a8092a0b0af134b0fdf4e216a0b30c8b52b908635660eab5add86cdd5dda6f5",
+    "prototypes/shepherd-adventure/assets/story/opening.json": "843993c014a509b86e3202c17df6e1b7aab77e614d63ad1b273ded12fd1203ac",
+    "prototypes/shepherd-adventure/assets/story/ending.json": "256b3801d210e5904aa14ef94ed56f7dec41a2fe942b45b7c78c09d9a7294f60",
     "prototypes/shepherd-adventure/src/journey-presentation.mjs": "d06c162e99430c1b0938e460371aaa0c539f8c5ae894fd30082af20d38a2421d",
     "prototypes/shepherd-adventure/src/journey-nature.mjs": "cd02dd582496a40daa8c353f3617af537c2be3dd2aa92b1d046c900e94a39c3d",
     "prototypes/shepherd-adventure/src/journey-boundaries.mjs": "d9359542ebb0ec0c72fda01e5527a3e84c4cea143ada149bcf1393c6f0e5c4f7",
@@ -509,6 +517,14 @@
     "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.bin": "58e4c16c16e0a71051af76a37be0641ea8f7089652687f957383d3c4bd24723b",
     "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.gltf": "67c77864d59d349a96dbdb2a96424ed1a947ef82d598e4db65cad7d3df56710e",
     "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.bin": "04ad394055b72a3d3717d8e3617ae733ea155580330d94d7387238928755eaca",
-    "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.gltf": "50f5133306d694e80598a5a1aaccea4d419852493e58e731026eca53a403e9e7"
+    "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.gltf": "50f5133306d694e80598a5a1aaccea4d419852493e58e731026eca53a403e9e7",
+    "prototypes/shepherd-adventure/assets/story/watch.jpg": "abba0bdd31a0986b456e1a857674048a36d6860cc11acbc91bce4bfea8012f29",
+    "prototypes/shepherd-adventure/assets/story/reassurance.jpg": "af60aacce0b2f81e4266366486f6777eeaf87c1629bcfe122251e61145be2dd5",
+    "prototypes/shepherd-adventure/assets/story/gathering.jpg": "dec129c961e4259632940ee7cc744789de63d6677d73438e1bfad31ad0377415",
+    "prototypes/shepherd-adventure/assets/story/host.jpg": "596b9f38169e78f5b6d7c827981ff926e608cca0efdf5bd8d5e646b169092aab",
+    "prototypes/shepherd-adventure/assets/story/departure.jpg": "472e33b612edacfdbaae83b89802a5fe5b2e8fdd954fdc6b1a57a8552a20ac46",
+    "prototypes/shepherd-adventure/assets/story/sharing.jpg": "69ca5cbafe9eb3f3aafb0d961beaa01729703c7b4abcd5997030e21f572ac2aa",
+    "prototypes/shepherd-adventure/assets/story/mary.jpg": "e466995205c308dfd75249d4dddb7ae0e1acfd1a8de1c8b9b83d7f5b42026d3c",
+    "prototypes/shepherd-adventure/assets/story/return.jpg": "27e9936c009dc948dd61029f3ef6b235af9985748baa56e123b68b7a5aa06100"
   }
 }

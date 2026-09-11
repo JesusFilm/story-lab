@@ -145,13 +145,18 @@ its media lease; only the small loader/player modules stay in the module cache.
 
 [Review both stories without loading 3D](story-preview.html) (opening then ending,
 repeating for review); add `?story=ending` to begin at the Nativity.
-Two native ImageGen scenes use Follow the Light AA v003. The announcement shows
-three shepherds and an angel with a live HTML thought-style speech bubble.
-Full World English Bible verses are split into seven opening and four ending
-passages. The final passage waits for your confirmation before leaving the story. At 150 words per minute, the scripture is roughly 1¾ minutes overall.
-A return/praise illustration would be the first useful addition; the current
-ending holds on the Nativity while recounting Luke 2:20. The heavenly host and
-sharing the news likewise use the two establishing images as visual context.
+Ten native ImageGen scenes use Follow the Light AA v003. The opening moves through
+quiet watch, alarm, reassurance, a gathering heavenly host, joyful praise and
+departure. The ending shows the Nativity, sharing the news, Mary pondering and the
+return in praise. Eight opening and four ending passages preserve the full World
+English Bible text of Luke 2:8–20. Each visual change uses a 1.8-second dissolve;
+reduced motion uses an immediate change. The final passage still waits for Begin
+or Finish. The scripture appears once in its reading panel rather than being
+repeated in a speech bubble.
+
+Original generated PNGs and exact prompts are retained in
+[the story reference library](../../assets/references/shepherd-story/README.md).
+The prototype owns compressed JPEG copies and has no runtime library dependency.
 
 Music: Kevin MacLeod’s gentle solo-piano “Silent Night”, free under CC BY 3.0,
 with visible attribution and a local 96 kbps MP3 (1.6 MiB instead of 5.1 MiB). It accompanies the story sequences;
@@ -167,5 +172,5 @@ reduced-motion startup. These are staged lifecycle checks, not a full walking te
 
 The portal exporter now respects `owns_loading` for this prototype, avoiding its
 generic eager Three.js wrapper. New story runtime files are explicitly listed.
-A full portal rebuild remains blocked by pre-existing source-review mismatches
-(first: this prototype’s `journey.css`); the new architecture has not been published.
+The full portal rebuild succeeds with the expanded explicit image list. These
+feature changes have not been deployed.

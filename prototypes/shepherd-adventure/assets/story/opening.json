@@ -5,54 +5,99 @@
       "reference": "Luke 2:8",
       "title": "Outside Bethlehem",
       "version": "World English Bible · public domain",
-      "image": "./announcement.jpg",
-      "alt": "Three shepherds and their sheep look up at a radiant angel above the fields outside Bethlehem.",
+      "image": "./watch.jpg",
+      "alt": "Three shepherds quietly keep watch over their sheep by a small fire, with Bethlehem below the starry sky.",
       "music": {
         "src": "./silent-night-96k.mp3",
         "name": "Silent Night — Kevin MacLeod",
         "loop": true,
         "volume": 0.45,
         "fade": 1800
+      },
+      "options": {
+        "transition": "dissolve",
+        "transitionMs": 1800
       }
     },
     {
       "text": "Behold, an angel of the Lord stood by them, and the glory of the Lord shone around them, and they were terrified.",
       "reference": "Luke 2:9",
       "title": "An angel of the Lord",
-      "version": "World English Bible · public domain"
+      "version": "World English Bible · public domain",
+      "image": "./announcement.jpg",
+      "alt": "A single radiant angel appears; three shepherds look up in alarm.",
+      "options": {
+        "transition": "dissolve",
+        "transitionMs": 1800
+      }
     },
     {
       "text": "The angel said to them, “Don’t be afraid, for behold, I bring you good news of great joy which will be to all the people.",
       "reference": "Luke 2:10",
       "title": "Good news of great joy",
       "version": "World English Bible · public domain",
-      "bubble": true
+      "image": "./reassurance.jpg",
+      "alt": "The same angel speaks as the shepherds lower their hands and listen with growing relief.",
+      "options": {
+        "transition": "dissolve",
+        "transitionMs": 1800
+      }
     },
     {
       "text": "For there is born to you today, in David’s city, a Savior, who is Christ the Lord.",
       "reference": "Luke 2:11",
       "title": "Christ the Lord",
       "version": "World English Bible · public domain",
-      "bubble": true
+      "options": {
+        "transition": "dissolve",
+        "transitionMs": 1800
+      }
     },
     {
       "text": "This is the sign to you: you will find a baby wrapped in strips of cloth, lying in a feeding trough.”",
       "reference": "Luke 2:12",
       "title": "Remember the sign",
       "version": "World English Bible · public domain",
-      "bubble": true
+      "options": {
+        "transition": "dissolve",
+        "transitionMs": 1800
+      }
     },
     {
-      "text": "Suddenly, there was with the angel a multitude of the heavenly army praising God and saying, “Glory to God in the highest, on earth peace, good will toward men.”",
-      "reference": "Luke 2:13–14",
+      "text": "Suddenly, there was with the angel a multitude of the heavenly army praising God and saying,",
+      "reference": "Luke 2:13",
+      "title": "A multitude of angels",
+      "version": "World English Bible · public domain",
+      "image": "./gathering.jpg",
+      "alt": "More angels gather behind the messenger as the shepherds look up in wonder.",
+      "options": {
+        "transition": "dissolve",
+        "transitionMs": 1800
+      }
+    },
+    {
+      "text": "“Glory to God in the highest, on earth peace, good will toward men.”",
+      "reference": "Luke 2:14",
       "title": "Glory to God",
-      "version": "World English Bible · public domain"
+      "version": "World English Bible · public domain",
+      "image": "./host.jpg",
+      "alt": "A vast heavenly host fills the sky with ivory light; the three shepherds lift their faces and hands in joy.",
+      "options": {
+        "transition": "dissolve",
+        "transitionMs": 1800
+      }
     },
     {
       "text": "When the angels went away from them into the sky, the shepherds said to one another, “Let’s go to Bethlehem, now, and see this thing that has happened, which the Lord has made known to us.”",
       "reference": "Luke 2:15",
       "title": "Let’s go to Bethlehem",
-      "version": "World English Bible · public domain"
+      "version": "World English Bible · public domain",
+      "image": "./departure.jpg",
+      "alt": "The angels have departed and the three shepherds set off down the hillside toward Bethlehem.",
+      "options": {
+        "transition": "dissolve",
+        "transitionMs": 1800
+      }
     }
   ]
 }
