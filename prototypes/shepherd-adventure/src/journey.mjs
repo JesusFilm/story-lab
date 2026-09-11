@@ -1,3 +1,4 @@
+import {renderRoutes} from './journey-routes.mjs';
 import {blendFrame} from './journey-presentation.mjs';
 import {JourneyCamera,routeLookahead} from './journey-camera.mjs';
 import * as THREE from 'three';
@@ -39,7 +40,7 @@ const openingFrame={position:{x:-9,y:8,z:85},look:{x:-4,y:23,z:-8}};
 const physicalClues=new Set(['hearth','wick','oil','well','market','square','pen','arch','lookout']);
 function currentFrame(){return {position:{...camera.position},look:{...look}};}
 function applyFrame(frame){camera.position.set(frame.position.x,frame.position.y,frame.position.z);look.set(frame.look.x,frame.look.y,frame.look.z);camera.lookAt(look);}
-function followingFrame(dt,instant=false){const p=journey.position,preview=journey.phase==='choice'||journey.phase==='intro'?NODE[journey.choice?.to]:null,ahead=routeLookahead(journey.travel)||preview;return cameraRig.update({player:{...p,y:height(p.x,p.z)},heading:ahead?Math.atan2(ahead.x-p.x,ahead.z-p.z):heading,ahead,boxes:world.occluders,dt,instant,portrait:camera.aspect<1});}
+function followingFrame(dt,instant=false){const p=journey.position,preview=journey.phase==='intro'?NODE[journey.choice?.to]:null,ahead=routeLookahead(journey.travel)||preview;return cameraRig.update({player:{...p,y:height(p.x,p.z)},heading:ahead?Math.atan2(ahead.x-p.x,ahead.z-p.z):heading,ahead,boxes:world.occluders,dt,instant,portrait:camera.aspect<1});}
 
 let audioContext,audioGain,sound=false,spoken='';
 function speak(text){if(!sound||!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=.87;u.volume=.85;speechSynthesis.speak(u);}
@@ -63,7 +64,7 @@ function ding(){
 function startOpeningCamera(){activated=true;introElapsed=0;cameraRig.reset();applyFrame(openingFrame);updateUI();}
 function reset(){story.close();story.release('ending');gateShot=null;companions.forEach(c=>c.root.visible=false);introElapsed=0;inspectionShot=returnShot=null;cameraRig.reset();journey.reset();signature='';oldPhase='intro';heading=desiredHeading=Math.PI;spoken='';if('speechSynthesis' in window)speechSynthesis.cancel();updateUI();updateCamera(1,true);story.open('opening');}
 function begin(){if(!ready)return;introElapsed=10;journey.start();applyFrame(followingFrame(0,true));updateUI();}
-const menuButtons=[$('#resume'),$('#back'),$('#remember'),$('#recover'),$('#restart')];
+const menuButtons=[$('#resume'),$('#back'),$('#remember'),$('#recover'),$('#restart'),$('#look-again')];
 function showPause(value){if(!ready||!['choice','walking','inspect','gate-sequence'].includes(journey.phase))return;journey.paused=value;menuIndex=0;$('#back').disabled=journey.phase!=='choice'||!journey.previous;focusMenu();if('speechSynthesis' in window){if(value)speechSynthesis.pause();else speechSynthesis.resume();}updateUI();}
 function focusMenu(){menuButtons.forEach((b,i)=>b.classList.toggle('selected',i===menuIndex));if(journey.paused)menuButtons[menuIndex].focus({preventScroll:true});else document.activeElement?.blur();}
 function recover(){journey.recover();document.activeElement?.blur();updateUI();updateCamera(1,true);}
@@ -84,6 +85,7 @@ function input(key){
  if(key==='ArrowLeft')journey.select(-1);else if(key==='ArrowRight')journey.select(1);else if(['Enter',' ','Select'].includes(key))journey.commit();updateUI();
 }
 function remember(){journey.paused=false;journey.notebook=true;document.activeElement?.blur();updateUI();}
+$('#look-again').onclick=()=>{showPause(false);journey.inspect();updateUI();};
 $('#interact').onclick=()=>input('ArrowUp');$('#begin').onclick=begin;$('#prev').onclick=()=>input('ArrowLeft');$('#next').onclick=()=>input('ArrowRight');$('#commit').onclick=()=>input('Enter');$('#survey').onclick=()=>input('ArrowUp');$('#pause').onclick=()=>showPause(true);$('#resume').onclick=()=>showPause(false);$('#back').onclick=()=>{showPause(false);journey.back();updateUI();};$('#remember').onclick=remember;$('#recover').onclick=recover;$('#restart').onclick=reset;$('#again').onclick=reset;$('#sound').onclick=toggleSound;$('#inspect-close').onclick=()=>input('Enter');$('#notes-close').onclick=()=>input('Enter');
 addEventListener('keydown',e=>{if(!activated||story.active||!$('#loading').hidden)return;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' ','Select','Escape','p','P'].includes(e.key)){e.preventDefault();if(e.repeat||held.has(e.key))return;held.add(e.key);input(e.key);}});addEventListener('keyup',e=>held.delete(e.key));
 function blur(){held.clear();if(['choice','walking','gate-sequence'].includes(journey.phase)&&!journey.paused&&!journey.notebook)showPause(true);}addEventListener('blur',blur);document.addEventListener('visibilitychange',()=>{if(document.hidden)blur();});
@@ -99,6 +101,7 @@ function drawNotebook(){
  if(!journey.inspected.size)$('#observations').textContent='No observations yet. Raise your lantern with ↑ when you stop somewhere.';
 }
 function updateUI(){
+ renderRoutes($('#route-choices'),journey,edge=>{journey.commit(edge);updateUI();},index=>{journey.selected=index;});
  if(journey.at==='arch')story.prepare('ending').catch(()=>{});
  const {phase}=journey,n=NODE[journey.at],choice=journey.choice,dest=choice&&NODE[choice.to];
  const actions={field:'Remember the sign',gate:journey.lantern?'Read the village':'Find a light for the road',hearth:journey.lantern?'Rest by the hearth':journey.inventory.has('wick')&&journey.inventory.has('oil')?'Light your lantern':'Examine the empty lamp',wick:'Examine the linen',oil:'Examine the oil jars',well:'Examine the tracks',square:'Read the signs',market:journey.gateOpen?'Look through the gate':'Examine the gate',lookout:'Look beyond the roofs',pen:'Look behind the trough',arch:journey.gateOpen?'Look toward the shelter':'Lift the bar · Light the way',goal:'Look inside the shelter'};
@@ -113,10 +116,10 @@ function updateUI(){
  $('#inspection').hidden=phase!=='inspect'||journey.paused||journey.notebook;
  if(journey.inspection){$('#inspect-title').textContent=journey.inspection.title;$('#inspect-copy').textContent=journey.inspection.body;$('#inspect-tag').textContent=journey.inspection.unlock?'A USEFUL DISCOVERY':'LOOK CLOSELY';}
  $('#survey').textContent=phase==='inspect'?'↑ Return':'↑ Investigate';$('#survey').disabled=phase==='walking';$('#survey').setAttribute('aria-pressed',String(phase==='inspect'));
- $('#pause').textContent=journey.paused?'Paused':phase==='walking'?'OK Pause':'↓ Options';$('#place').textContent=n.chapter;$('#chapter-number').textContent=journey.at==='field'?'01 / THE FIELDS':journey.at==='goal'?'03 / THE SHELTER':!journey.lantern?'01 / A LIGHT FOR THE ROAD':'02 / THE SEARCH';
+ $('#pause').textContent=journey.paused?'Paused':'☰';$('#pause').setAttribute('aria-label','Pause and options');$('#place').textContent=n.chapter;$('#chapter-number').textContent=journey.at==='field'?'01 / THE FIELDS':journey.at==='goal'?'03 / THE SHELTER':!journey.lantern?'01 / A LIGHT FOR THE ROAD':'02 / THE SEARCH';
  $('#place-note').textContent=journey.at==='gate'&&!journey.lantern?'A sheltered flame nearby. Make a lantern before following the darker lanes.':n.note;
  if(choice){const known=journey.visited.has(choice.to);$('#lane-name').textContent=`${journey.selected+1} / ${journey.options.length} PATHS`;$('#destination').textContent=known?dest.name:choice.name;$('#cost').textContent=(['gate','welcome'].includes(choice.requires)&&!journey.gateOpen)?'Lift the bar from behind · ↑ Interact':journey.at==='gate'&&!journey.lantern&&!['field','hearth'].includes(choice.to)?'Too dark ahead · Prepare a lantern at the hearth':known?'A place you remember · OK Walk':'Beyond the next bend · OK Explore';$('#commit').classList.remove('blocked');$('#commit').setAttribute('aria-label',`${$('#destination').textContent}. ${$('#cost').textContent}.`);}
- $('#message').textContent=journey.message;$('#travel-name').textContent=journey.gateSequence?({approach:'Walking to the gate lamp…',light:'Sharing the flame and lifting the bar…',return:'Returning to the passage…',watch:'A way for the shepherds following you…'}[journey.gateSequence.stage]):journey.travel?(journey.visited.has(journey.travel.to)?`Back to ${NODE[journey.travel.to].name}`:'Into the next lane…'):'';
+ if($('#message').textContent!==journey.message){$('#message').textContent=journey.message;$('#message').classList.remove('noticed');void $('#message').offsetWidth;$('#message').classList.add('noticed');}$('#travel-name').textContent=journey.gateSequence?({approach:'Walking to the gate lamp…',light:'Sharing the flame and lifting the bar…',return:'Returning to the passage…',watch:'A way for the shepherds following you…'}[journey.gateSequence.stage]):journey.travel?(journey.visited.has(journey.travel.to)?`Back to ${NODE[journey.travel.to].name}`:'Into the next lane…'):'';
  $('#choice-help').textContent='← → Choose · OK Walk · ↑ Investigate · ↓ Options';
  $('#ending-detail').textContent=`${Math.round(journey.distance)} metres through the night. ${journey.inspected.size} places investigated. ${journey.gateOpen?'The gate is lit and open for those following.':'Take a moment here.'}`;
  $('#footer-note').textContent=phase==='arrival'?'Route, clues and village details are creative adaptations.':'A story of arrival · Inspired by Luke 2:8–20';

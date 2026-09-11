@@ -32,3 +32,17 @@ body.intro #intro>p:not(:first-of-type),body.intro #intro>a{display:none}
 body.intro #intro>p{font-size:13px;margin:8px 0}
 body.intro #intro button{width:auto;margin:10px auto 0;padding:8px 16px;font-size:12px;gap:20px}
 body.intro #intro>small{font-size:9px}
+
+/* Quiet exploration: the landscape and simultaneous destinations lead. */
+body:not(.intro) .brand, #fuel, #equipment, #survey, #chapter-number,
+#place-note, .choice-row, #interact, #choice-help, #footer-note, #travel small {display:none!important}
+header{top:22px;right:24px;left:auto;z-index:3}.head-actions #pause{font-size:22px;padding:8px 15px;border-radius:50%;background:#081522bb}
+#chapter{top:24px;left:28px}#chapter h2{font:20px Georgia;color:#e4dac4;margin:8px 0;text-shadow:0 2px 10px #000}
+#decision{bottom:36px;width:min(780px,calc(100vw - 32px));display:flex;flex-direction:column-reverse;gap:12px}
+#route-choices{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.route-card{position:relative;display:grid;grid-template-columns:40px auto 16px;align-items:center;gap:10px;min-height:70px;padding:12px 16px;border-radius:16px;background:linear-gradient(145deg,#132632ee,#08121bee);border:1px solid #b0ac894d;box-shadow:0 8px 30px #0003;font:17px Georgia;color:#f0e0bf}
+.route-card svg{width:34px;height:34px;fill:none;stroke:#e7c98c;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.route-direction{font:20px Georgia;color:#ebc887}.route-card small{grid-column:2/4;font:11px system-ui;letter-spacing:0;color:#b8b9b3}.route-card:disabled{opacity:.55}.route-card.chosen{border-color:#e6c48799}.route-card:hover{background:#23343df2;transform:translateY(-2px)}
+#message{font:italic 18px/1.4 Georgia;text-shadow:0 2px 8px #000;color:#f3e2bb;margin:0 auto;min-height:0;max-width:520px;pointer-events:none}#message.noticed{animation:notice 9s both}@keyframes notice{0%{opacity:0;transform:translateY(5px)}8%,80%{opacity:1;transform:none}100%{opacity:0}}
+#travel{bottom:42px}#travel span{font-size:18px}footer{bottom:15px;left:20px;right:auto}footer button{border:0;background:transparent}#inspection .small,#inspect-tag,#discovery{display:none!important}#inspection{border-radius:16px;border:1px solid #d6b57666}#inspection h2{font-size:25px}#inspection p{font-size:15px}
+@media(max-width:700px){#chapter{top:20px;left:18px;max-width:70vw}#chapter h2{font-size:19px}header{top:15px;right:15px}#decision{bottom:52px;gap:10px}#route-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.route-card{grid-template-columns:28px 1fr 12px;gap:6px;font-size:15px;padding:10px;min-height:64px;text-align:left}.route-card svg{width:27px;height:30px}.route-card small{font-size:10px}#message{font-size:16px;padding:0 12px}#travel{width:85vw;bottom:65px}}
+@media(prefers-reduced-motion:reduce){.route-card:hover{transform:none}#message.noticed{animation:none}}

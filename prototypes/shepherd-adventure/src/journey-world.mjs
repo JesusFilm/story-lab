@@ -74,9 +74,9 @@ export function createJourneyWorld(scene){
  for(const path of paths){
   const ribbon=sampleRibbon(path.points,.32,(x,z)=>terrainSurface(pos,x,z));
   const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(ribbon.positions,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(ribbon.uvs,2));geometry.setIndex(ribbon.indices);
-  const mat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-1,uniforms:{time:{value:0},reverse:{value:false},still:{value:false}},
+  const mat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-1,uniforms:{emphasis:{value:1},time:{value:0},reverse:{value:false},still:{value:false}},
    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
-   fragmentShader:`varying vec2 vUv;uniform float time;uniform bool reverse;uniform bool still;void main(){float along=reverse?1.-vUv.x:vUv.x;float phase=mod(time*.24,1.28)-.14;float tail=phase-along;float pulse=still?0.:smoothstep(-.025,0.,tail)*(1.-smoothstep(0.,.19,tail));float edge=abs(vUv.y-.5)*2.;float core=1.-smoothstep(.25,.55,edge);float halo=1.-smoothstep(.15,1.,edge);vec3 color=mix(vec3(.65,.39,.12),vec3(1.,.89,.52),pulse);gl_FragColor=vec4(color,halo*(.18+.4*pulse)+core*(.4+.2*pulse));}`});
+   fragmentShader:`varying vec2 vUv;uniform float time;uniform float emphasis;uniform bool reverse;uniform bool still;void main(){float along=reverse?1.-vUv.x:vUv.x;float phase=mod(time*.24,1.28)-.14;float tail=phase-along;float pulse=still?0.:smoothstep(-.025,0.,tail)*(1.-smoothstep(0.,.19,tail));float edge=abs(vUv.y-.5)*2.;float core=1.-smoothstep(.25,.55,edge);float halo=1.-smoothstep(.15,1.,edge);vec3 color=mix(vec3(.65,.39,.12),vec3(1.,.89,.52),pulse);gl_FragColor=vec4(color,(halo*(.18+.4*pulse)+core*(.4+.2*pulse))*emphasis);}`});
   const line=new THREE.Mesh(geometry,mat);line.renderOrder=2;routeGroup.add(line);routes.push({edge:path.edge,line});
  }
  const markers=[];
@@ -166,7 +166,7 @@ export function createJourneyWorld(scene){
   lantern.visible=journey.lantern;
   lantern.position.set(p.x+Math.sin(heading)*.95+Math.cos(heading)*.35,height(p.x,p.z)+(1.05+(journey.gateSequence?.stage==='light'?Math.sin(Math.PI*Math.min(3,journey.gateSequence.elapsed)/3)*.9:0))+(reduced?0:Math.sin(time*2.4)*.045),p.z+Math.cos(heading)*.95-Math.sin(heading)*.35);
   lantern.rotation.y=heading;carried.intensity=journey.lantern?20:0;
-  routes.forEach(({edge,line})=>{const active=journey.phase==='choice'&&edge.id===selected?.id;const reveal=journey.phase==='inspect'&&((journey.at==='lookout'&&edge.requires==='overlook')||(journey.at==='pen'&&edge.requires==='rear'));line.visible=active||reveal;line.material.uniforms.time.value=time;line.material.uniforms.reverse.value=edge.b===journey.at;line.material.uniforms.still.value=reduced;});
+  routes.forEach(({edge,line})=>{const active=journey.phase==='choice'&&journey.options.some(option=>option.id===edge.id);const reveal=journey.phase==='inspect'&&((journey.at==='lookout'&&edge.requires==='overlook')||(journey.at==='pen'&&edge.requires==='rear'));line.visible=active||reveal;line.material.uniforms.emphasis.value=edge.id===selected?.id||reveal?1:.32;line.material.uniforms.time.value=time;line.material.uniforms.reverse.value=edge.b===journey.at;line.material.uniforms.still.value=reduced;});
   markers.forEach(({node,mesh})=>{mesh.visible=false;});
   flames.forEach(f=>f.material.opacity=.62);
  }};

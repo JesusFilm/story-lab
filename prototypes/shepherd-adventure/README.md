@@ -28,10 +28,12 @@ pinned Three.js 0.169.0 into `/tmp/watch-game-blender-runtime` on first use.
 `WATCH_GAME_RUNTIME` overrides that location. No Blender or Tripo token is needed.
 
 After the illustrated intro, the camera starts in the distant field and eases into the follow camera over about
-eight seconds; OK skips it. Reduced-motion mode shows a short still establishing
-view instead. Left/right previews paths. OK/Enter begins, walks a selected path, pauses travel,
-or closes an inspection. Up investigates at a stop. Down opens options, including
-notebook, retrace, recovery and restart. Optional sound starts off.
+eight seconds; OK skips it. Tap a landmark card to walk there. All paths appear together;
+hover or keyboard focus brightens the corresponding ground trail. Left/right and
+Enter remain available. Arrival automatically gathers supplies and discovers routes;
+a short observation appears without stopping play. Longer observations are available
+in the notebook under the menu. The gate welcome and shelter ending start on arrival.
+The menu also offers pause, look around, retrace, recovery and restart. Sound is optional.
 
 ## Sources and local assets
 
