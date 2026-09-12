@@ -88,7 +88,17 @@ export class Journey{
   if(this.phase==='gate-sequence'){this.stepGate(dt);return;}
   if(this.phase!=='walking')return;
   const t=this.travel;const run=t.canRun&&t.progress>2.5&&t.length-t.progress>4;const targetSpeed=run?4.4:2.8;t.speed+=(targetSpeed-t.speed)*(1-Math.exp(-4*dt));const amount=Math.min(dt*t.speed,t.length-t.progress);t.progress+=amount;this.distance+=amount;
-  if(t.progress>=t.length-1e-8){this.previous=t.from;this.at=t.to;this.visited.add(this.at);this.traversed.add(t.edge.id);this.travel=null;this.phase='choice';this.selected=Math.max(0,this.options.findIndex(e=>this.at==='gate'&&!this.lantern?e.to==='hearth':e.to!==this.previous));}
+  if(t.progress>=t.length-1e-8){this.previous=t.from;this.at=t.to;this.visited.add(this.at);this.traversed.add(t.edge.id);this.travel=null;this.phase='choice';this.selected=Math.max(0,this.options.findIndex(e=>this.at==='gate'&&!this.lantern?e.to==='hearth':e.to!==this.previous));this.noticeArrival();}
+ }
+ noticeArrival(){
+  // Discovery belongs to arrival, never to a second, easily missed button press.
+  if(this.inspected.has(this.at)&&!(this.at==='hearth'&&!this.lantern))return;
+  this.inspect();
+  if(this.phase==='inspect'){
+   const lines={hearth:this.lantern?'Your light is ready.':'A wick and oil will give this lamp a flame.',wick:'Linen for a wick.',oil:'Oil for the lamp.',gate:this.lantern?'Follow the lanes toward a manger.':'Make a light at the nearby hearth.',olive:'Closed homes. A higher path overlooks the roofs.',well:'Hoofprints lead toward the courtyard.',market:'The gate is barred from the far side.',square:'Tracks lead to the fold. Straw lies by the wall.',ridge:'An animal fold lies below.',lookout:'A hidden lane behind the courtyard wall.',pen:'No family here. A gap leads behind the wall.'};
+   const message=lines[this.at]||this.inspection.title;
+   this.closeInspection();this.message=message;
+  }
  }
  stepGate(dt){
   const s=this.gateSequence,route=gateApproach(),length=polylineLength(route);s.elapsed+=dt;

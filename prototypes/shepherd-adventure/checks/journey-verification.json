@@ -1,14 +1,14 @@
 {
   "status": "passed",
-  "checks": 12,
+  "checks": 7,
   "knowledgeStates": 113,
   "routes": [
     {
-      "route": "animal-fold with preparation and welcome gate",
+      "route": "well → square → pen → arch → goal",
       "metres": 276
     },
     {
-      "route": "overlook with preparation and welcome gate",
+      "route": "olive → lookout → olive → market → square → arch → goal",
       "metres": 308
     }
   ],
