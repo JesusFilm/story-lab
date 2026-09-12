@@ -108,7 +108,7 @@ for proto in MANIFEST['prototypes']:
         text = re.sub(r'<details>.*?</details>', '<p>Images are embedded for offline reading. Reference art and a saved prototype image illustrate the learning record; diagrams are explanatory.</p><p><a href="./">Play Shepherd Maze</a> · <a href="../shepherd-adventure/">Play Shepherd Adventure</a> · <a href="../../">All prototypes</a></p>', text, flags=re.S)
         text = text.replace('<header>', '<header><p><a href="../../">← All prototypes</a></p>', 1)
         write(base+'retrospective.html', text)
-        retrospective_link = f'<a class="retrospective-link" href="{base}retrospective.html">Read retrospective <span aria-hidden="true">↗</span></a>'
+        retrospective_link = f'<a class="retrospective-link" href="{base}retrospective.html" target="_blank" rel="noopener noreferrer">Read retrospective <span aria-hidden="true">↗</span></a>'
     cards.append(prototype_card(proto, retrospective_link))
 
 write('index.html', page('Play', f'''<section class="intro"><span class="eyebrow">A collection of experiments</span><h1>Step into a story.</h1><p>Small journeys through biblical worlds. Choose a prototype and start exploring.</p></section><section id="prototypes" class="prototype-grid" aria-label="Playable prototypes">{''.join(cards)}</section><a class="library-link" href="library/"><div><span class="eyebrow">Behind the scenes</span><h2>The pieces of the world</h2><p>Turn the models around and read the prompts that shaped their reference art.</p></div><span class="action">Explore {len(MANIFEST['assets'])} assets ↗</span></a>'''))
