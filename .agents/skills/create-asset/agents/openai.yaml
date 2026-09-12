@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Story Lab asset"
+  short_description: "Style reference to 3D model, library and prototype"
+  default_prompt: "Use $create-asset to create a market stall; ask where I want to use it."

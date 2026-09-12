@@ -65,6 +65,11 @@ publication review and test cold-load, failure, mobile and deployment-path behav
 
 ## Simple asset library direction
 
+For new or replacement 3D assets, use the project-local
+[`create-asset` skill](.agents/skills/create-asset/SKILL.md). A short request such as
+`$create-asset market stall` starts the style/reference/model/library workflow and
+asks where to use the result, including a library-only option.
+
 Use `styles/<style>/README.md` as the single current visual guide with a small set
 of reference images. Link to it relatively from asset descriptions. New assets
 should use descriptive filenames under their category and asset name. Preserve
