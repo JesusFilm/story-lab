@@ -5,11 +5,11 @@
   "routes": [
     {
       "route": "well → square → pen → arch → goal",
-      "metres": 220
+      "metres": 234
     },
     {
       "route": "olive → lookout → olive → market → square → arch → goal",
-      "metres": 252
+      "metres": 265
     }
   ],
   "limits": "State safety and reachability do not establish enjoyment, clue readability or actual remote performance."

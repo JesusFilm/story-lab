@@ -63,3 +63,8 @@ button:focus-visible{outline:2px solid #f0d69c;outline-offset:4px}button.primary
 body.intro #intro{position:absolute;left:20px;bottom:18px;top:auto;width:auto;transform:none;padding:0;background:none;border:0;box-shadow:none}
 body.intro #intro button,#story-sound,#story-skip{width:auto;margin:0;background:none;box-shadow:none;border:0;border-radius:0;color:#e3d3b2;font:14px Georgia,serif;padding:12px 8px;text-shadow:0 2px 5px #000}
 .craft-tool{padding:14px 18px}.craft-tool .tool-symbol{color:#76512c}.craft-tool button{background:var(--hide)}.craft-leave,#craft-resume{border-radius:2px;background:var(--hide)}
+
+/* Keep the family unobstructed while the player chooses when to hear the story. */
+#arrival-action{position:absolute;bottom:max(54px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:3}
+#arrival-action button{white-space:nowrap}
+body.ended .head-actions{display:flex}

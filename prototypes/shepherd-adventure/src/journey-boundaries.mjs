@@ -1,10 +1,12 @@
 import * as THREE from 'three';
+import {ANIMAL_AREA_WALLS} from './journey-nativity.mjs';
 import {height} from './journey-terrain.mjs';
 
 export const VILLAGE_BOUNDS={minX:-40,maxX:40,minZ:-80,maxZ:42,entryHalfWidth:6};
 export function boundaryRuns(gate){
  const b=VILLAGE_BOUNDS,toWorld=([x,z])=>({x:gate.x+Math.cos(gate.yaw)*x+Math.sin(gate.yaw)*z,z:gate.z-Math.sin(gate.yaw)*x+Math.cos(gate.yaw)*z});
  return [
+  ...ANIMAL_AREA_WALLS,
   {kind:'shelter-screen',a:{x:9,z:-39},b:{x:29,z:-39},height:3.4},
   {kind:'shelter-screen',a:{x:9,z:-39},b:{x:9,z:-46},height:3.4},
   {kind:'gate-wing',a:toWorld([1.48,0]),b:toWorld([7.6,0]),height:1.35},

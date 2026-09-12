@@ -1,3 +1,5 @@
+import {ARRIVAL_DURATION,ARRIVAL_POSITIONS,ARRIVAL_HEADING} from './journey-arrival.mjs';
+import {FINAL_APPROACH_CONTROLS,finalApproachSpeed} from './journey-animal-route.mjs';
 import {LampCraft} from './lamp-craft.mjs';
 // An authored investigation: knowledge opens routes; light has no resource cost.
 export const NODES=[
@@ -14,7 +16,7 @@ export const NODES=[
  {id:'lookout',name:'The hillside overlook',x:-32,z:-4,chapter:'Above the sleeping village',note:'The climb offers a different view of the lanes below.'},
  {id:'arch',name:'The rear passage',x:-8,z:-26,fire:true,chapter:'Behind the last houses',note:'You have come around the wall. A quiet shelter lies beyond the passage.'},
  {id:'pen',name:'The animal fold',x:18,z:-25,chapter:'At the animal fold',note:'Animals, straw and a trough. This could be a place to look.'},
- {id:'goal',name:'The open shelter',x:3,z:-66,chapter:'At a quiet shelter',note:'Lamplight under a low roof. Look inside.'}
+ {id:'goal',name:'The open shelter',x:-28,z:-72,chapter:'At a quiet shelter',note:'Lamplight under a low roof. Look inside.'}
 ];
 export const EDGES=[
  ['gate','hearth','A sheltered flame beside the lane'],['hearth','wick','Under the linen awning'],['hearth','oil','Toward the oil jars'],['field','gate','A lane toward the village'],['gate','olive','Lamplight among the trees'],['gate','well','A worn stone lane'],['gate','ridge','A footpath into the wind'],
@@ -25,7 +27,17 @@ export const EDGES=[
 ].map(([a,b,name,requires],i)=>({id:`lane-${i}`,a,b,name,requires}));
 export const NODE=Object.fromEntries(NODES.map(n=>[n.id,n]));
 export function links(id){return EDGES.filter(e=>e.a===id||e.b===id).map(e=>({...e,to:e.a===id?e.b:e.a})).sort((a,b)=>NODE[a.to].x-NODE[b.to].x||NODE[a.to].z-NODE[b.to].z);}
-export function lanePoints(edge){const a=NODE[edge.a],b=NODE[edge.b];const dx=b.x-a.x,dz=b.z-a.z,len=Math.hypot(dx,dz);return Array.from({length:25},(_,i)=>{const t=i/24,bend=Math.sin(t*Math.PI)*1.15;return {x:a.x+dx*t-dz/len*bend,z:a.z+dz*t+dx/len*bend};});}
+export function lanePoints(edge){
+ if(edge.a==='arch'&&edge.b==='goal'){
+  // The approved route enters once, passes the sheep and stays inside to the shelter.
+  const controls=[NODE.arch,...FINAL_APPROACH_CONTROLS.slice(1,-1),NODE.goal];
+  const points=[];
+  for(let j=0;j<controls.length-1;j++){
+   const p0=controls[Math.max(0,j-1)],p1=controls[j],p2=controls[j+1],p3=controls[Math.min(controls.length-1,j+2)];
+   for(let i=0;i<8;i++){const t=i/8,t2=t*t,t3=t2*t;const v=k=>.5*((2*p1[k])+(-p0[k]+p2[k])*t+(2*p0[k]-5*p1[k]+4*p2[k]-p3[k])*t2+(-p0[k]+3*p1[k]-3*p2[k]+p3[k])*t3);points.push({x:v('x'),z:v('z')});}
+  }return [...points,{x:NODE.goal.x,z:NODE.goal.z}];
+ }
+const a=NODE[edge.a],b=NODE[edge.b];const dx=b.x-a.x,dz=b.z-a.z,len=Math.hypot(dx,dz);return Array.from({length:25},(_,i)=>{const t=i/24,bend=Math.sin(t*Math.PI)*1.15;return {x:a.x+dx*t-dz/len*bend,z:a.z+dz*t+dx/len*bend};});}
 export const OBSERVATIONS={
  hearth:{title:'Make a light for the road',body:'Fit a short wick, fill to the oil mark, secure the cap and strike a spark. Everything is here on the workbench.',kind:'lamp'},
  wick:{title:'A wick from the linen',body:'You take a loose strip of linen for the lamp. A small beginning: with oil and a flame, it will light the lanes ahead.',kind:'linen'},
@@ -44,7 +56,7 @@ export const OBSERVATIONS={
 };
 export class Journey{
  constructor(){this.reset();}
- reset(){this.followerTime=null;this.introTime=0;this.awaitingFollow=false;this.gateHold=null;this.craft=new LampCraft();this.gateSequence=null;this.followers=[];this.at='field';this.previous=null;this.travel=null;this.phase='intro';this.paused=false;this.selected=0;this.inspection=null;this.inspectionYaw=0;this.notebook=false;this.visited=new Set(['field']);this.inspected=new Set();this.inventory=new Set();this.reward=null;this.firstDiscovery=false;this.discoveries=new Set();this.traversed=new Set();this.distance=0;this.recoveries=0;this.message='';this.decisions=0;}
+ reset(){this.arrivalTime=0;this.outroStarted=false;this.followerTime=null;this.introTime=0;this.awaitingFollow=false;this.gateHold=null;this.craft=new LampCraft();this.gateSequence=null;this.followers=[];this.at='field';this.previous=null;this.travel=null;this.phase='intro';this.paused=false;this.selected=0;this.inspection=null;this.inspectionYaw=0;this.notebook=false;this.visited=new Set(['field']);this.inspected=new Set();this.inventory=new Set();this.reward=null;this.firstDiscovery=false;this.discoveries=new Set();this.traversed=new Set();this.distance=0;this.recoveries=0;this.message='';this.decisions=0;}
  get options(){if(this.awaitingFollow)return links('arch').filter(e=>e.to==='goal').map(e=>({...e,name:'follow the others'}));return links(this.at).filter(e=>!['field','wick','oil'].includes(e.to)).filter(e=>!['overlook','rear'].includes(e.requires)||this.discoveries.has(e.requires)||this.traversed.has(e.id));}
  get choice(){return this.options[this.selected%this.options.length];}
  get lantern(){return this.inventory.has('lantern');}
@@ -85,13 +97,15 @@ export class Journey{
  }
  back(){return this.commit(this.options.find(e=>e.to===this.previous)||null);}
  recover(){if(!['choice','walking','inspect','gate-sequence'].includes(this.phase))return false;this.gateSequence=null;this.gateHold=null;this.awaitingFollow=false;this.followerTime=null;this.followers=[];if(!this.gateOpen)this.inspected.delete('arch');this.at='gate';this.travel=null;this.inspection=null;this.phase='choice';this.paused=false;this.previous=null;this.selected=0;if(!this.lantern)this.selected=this.options.findIndex(e=>e.to==='hearth');this.recoveries++;this.visited.add('gate');this.message='Back at the village threshold. You remember everything you found.';return true;}
+ beginOutro(){if(this.phase!=='arrival'||this.paused||this.arrivalTime<ARRIVAL_DURATION||this.outroStarted)return false;this.outroStarted=true;return true;}
  step(dt){
   if(this.paused||!Number.isFinite(dt)||dt<=0)return;
   if(this.phase==='intro'){this.introTime=Math.min(INTRO_DURATION,this.introTime+dt);return;}
   if(this.phase==='gate-sequence'){this.stepGate(dt);return;}
   if(this.followerTime!==null){this.followerTime+=dt;this.updateFollowers(this.followerTime);}
+  if(this.phase==='arrival'){this.arrivalTime=Math.min(ARRIVAL_DURATION,this.arrivalTime+dt);return;}
   if(this.phase!=='walking')return;
-  const t=this.travel;const run=t.following||(t.canRun&&t.progress>2.5&&t.length-t.progress>4);const targetSpeed=run?4.4:2.8;t.speed+=(targetSpeed-t.speed)*(1-Math.exp(-4*dt));const amount=Math.min(dt*t.speed,t.length-t.progress);t.progress+=amount;this.distance+=amount;
+  const t=this.travel;const run=t.following||(t.canRun&&t.progress>2.5&&t.length-t.progress>4);const targetSpeed=t.to==='goal'?finalApproachSpeed(this.position):(run?4.4:2.8);t.speed+=(targetSpeed-t.speed)*(1-Math.exp(-4*dt));const amount=Math.min(dt*t.speed,t.length-t.progress);t.progress+=amount;this.distance+=amount;
   if(t.progress>=t.length-1e-8){this.previous=t.from;this.at=t.to;this.visited.add(this.at);this.traversed.add(t.edge.id);this.travel=null;this.phase='choice';this.selected=Math.max(0,this.options.findIndex(e=>this.at==='gate'&&!this.lantern?e.to==='hearth':e.to!==this.previous));this.noticeArrival();}
  }
  noticeArrival(){
@@ -117,17 +131,21 @@ export class Journey{
    if(s.elapsed>3.9+17/4.6){this.followerTime=s.elapsed;this.gateHold=this.position;this.awaitingFollow=true;this.phase='choice';this.gateSequence=null;this.selected=0;this.message='The others have gone ahead. Follow when you are ready.';}
   }
  }
- updateFollowers(time){const path=followerRoute(),total=polylineLength(path),start=total-polylineLength(lanePoints(EDGES.find(e=>e.b==='goal')))-polylineLength(lanePoints(EDGES.find(e=>e.a==='market'&&e.b==='arch')).slice(6))-5;this.followers=[0,1].map(i=>{const d=start+Math.max(0,(time-3-i*.9)*4.6);return {...pointOnPath(path,Math.min(total-i*1.4,d)),visible:time>=3+i*.9,moving:d<total-i*1.4};});}
+ updateFollowers(time){
+  const shared=followerRoute(),start=polylineLength(shared)-polylineLength(lanePoints(EDGES.find(e=>e.b==='goal')))-polylineLength(lanePoints(EDGES.find(e=>e.a==='market'&&e.b==='arch')).slice(6))-5;
+  this.followers=[0,1].map(i=>{const path=followerArrivalRoute(i),total=polylineLength(path),d=start+Math.max(0,(time-3-i*.9)*4.6),moving=d<total;return {...pointOnPath(path,Math.min(total,d)),...(moving?{}:{heading:ARRIVAL_HEADING}),visible:time>=3+i*.9,moving};});
+ }
+
  get position(){
   if(this.phase==='intro')return openingActors(this.introTime).player;
   if(this.gateHold)return {...this.gateHold};
   if(this.gateSequence){const s=this.gateSequence,path=gateApproach();const p=pointOnPath(path,['light','watch'].includes(s.stage)?polylineLength(path):s.progress);if(['light','watch'].includes(s.stage)){const lane=lanePoints(EDGES.find(e=>e.a==='market'&&e.b==='arch')),a=lane[6],b=lane[7],yaw=Math.atan2(b.x-a.x,b.z-a.z);p.heading=Math.atan2(a.x+Math.cos(yaw)*1.55-p.x,a.z-Math.sin(yaw)*1.55-p.z);}return p;}
 
-  if(!this.travel)return {...NODE[this.at]};
+  if(!this.travel)return {...NODE[this.at],...(this.at==='goal'?{heading:ARRIVAL_HEADING}:{})};
   let d=this.travel.progress;const {points,lengths}=this.travel;
   for(let i=0;i<lengths.length;i++){if(d<=lengths[i]){const f=d/lengths[i];return {x:points[i].x+(points[i+1].x-points[i].x)*f,z:points[i].z+(points[i+1].z-points[i].z)*f,heading:Math.atan2(points[i+1].x-points[i].x,points[i+1].z-points[i].z)};}d-=lengths[i];}return {...NODE[this.travel.to]};
  }
- snapshot(){return {at:this.at,phase:this.phase,paused:this.paused,selected:this.choice?.to,visited:[...this.visited],inspected:[...this.inspected],discoveries:[...this.discoveries],traversed:[...this.traversed],gateOpen:this.gateOpen,inventory:[...this.inventory],lantern:this.lantern,distance:this.distance,recoveries:this.recoveries,decisions:this.decisions,position:this.position};}
+ snapshot(){return {arrivalTime:this.arrivalTime,outroStarted:this.outroStarted,at:this.at,phase:this.phase,paused:this.paused,selected:this.choice?.to,visited:[...this.visited],inspected:[...this.inspected],discoveries:[...this.discoveries],traversed:[...this.traversed],gateOpen:this.gateOpen,inventory:[...this.inventory],lantern:this.lantern,distance:this.distance,recoveries:this.recoveries,decisions:this.decisions,position:this.position};}
 }
 
 export function polylineLength(points){return points.slice(1).reduce((n,p,i)=>n+Math.hypot(p.x-points[i].x,p.z-points[i].z),0);}
@@ -138,3 +156,5 @@ export function followPlayerRoute(){const gate=gateApproach().at(-1),lane=lanePo
 export const INTRO_DURATION=10;
 export const openingPath=[{x:0,z:100},{x:0,z:52}];
 export function openingActors(time){const t=Math.max(0,Math.min(INTRO_DURATION,time));return {player:{x:0,z:90-3.8*t,heading:Math.PI},followers:[0,1].map(i=>({x:i?1.1:-1.1,z:98+i*2-3.8*t,heading:Math.PI,visible:true,moving:t<INTRO_DURATION}))};}
+
+export function followerArrivalRoute(index){return [...followerRoute().filter(p=>p.z>-65),{x:-27,z:-66},ARRIVAL_POSITIONS[index+1]];}

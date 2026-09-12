@@ -24,3 +24,6 @@ the reference, original source, prepared runtime model and render checks.
 Supporting shepherds: [Tall companion](characters/shepherd-companion-tall/README.md)
 and [stocky companion](characters/shepherd-companion-stocky/README.md), with idle
 and running animations matching the opening story artwork.
+
+[Nativity family](characters/nativity-family/README.md): Mary, Joseph and baby Jesus
+in a manger, with a static Pixal3D model and review renders.

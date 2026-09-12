@@ -1,3 +1,4 @@
+import {NATIVITY,createNativityShelter,dressNativity} from './journey-nativity.mjs';
 import {addVillageNature} from './journey-nature.mjs';
 import {addVillageWalls,VILLAGE_BOUNDS} from './journey-boundaries.mjs';
 import {LANTERN_URL,CARRIED_LANTERN_HEIGHT,SETTLEMENT_LANTERN_HEIGHT,fitLantern,setLanternLit} from './journey-lantern.mjs';
@@ -50,11 +51,11 @@ export function createJourneyWorld(scene){
  const ground=new THREE.Mesh(terrain,new THREE.MeshStandardMaterial({map:tex,vertexColors:true,roughness:1,bumpMap:tex,bumpScale:.1}));ground.receiveShadow=true;scene.add(ground);
  // Distant land masses keep an actual horizon beyond the settlement.
  const hillMat=new THREE.MeshBasicMaterial({color:'#020409'});
- for(let i=0;i<17;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(1,14,7),hillMat);m.scale.set(18+rng()*30,6+rng()*11,15+rng()*23);m.position.set(-130+i*17,-3,-103-rng()*20);scene.add(m);}
+ for(let i=0;i<17;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(1,14,7),hillMat);m.scale.set(18+rng()*30,6+rng()*11,15+rng()*23);m.name='distant-horizon-hill';m.position.set(-130+i*17,-3,-120-m.scale.z-rng()*20);scene.add(m);}
  // Low grass remains procedural; all trees and rocks use licensed model assets.
  const dummy=new THREE.Object3D();let placed=0;
  const blade=new THREE.ConeGeometry(.1,.65,3),tufts=new THREE.InstancedMesh(blade,new THREE.MeshStandardMaterial({color:'#696445',roughness:1,flatShading:true}),4000);placed=0;
- for(let i=0;i<15000&&placed<4000;i++){const x=(rng()-.5)*120,z=rng()*140-80;if(pathDistance(x,z)<2.1)continue;const s=.25+rng()*.8;dummy.position.set(x,height(x,z)+s*.28,z);dummy.scale.set(s,s,s);dummy.rotation.set(.2,rng()*6,.3);dummy.updateMatrix();tufts.setMatrixAt(placed++,dummy.matrix);}tufts.count=placed;scene.add(tufts);
+ for(let i=0;i<15000&&placed<4000;i++){const x=(rng()-.5)*120,z=rng()*140-80;if(pathDistance(x,z)<2.1||(Math.abs(x-NATIVITY.x)<NATIVITY.depth/2+.4&&Math.abs(z-NATIVITY.z)<NATIVITY.width/2+.4))continue;const s=.25+rng()*.8;dummy.position.set(x,height(x,z)+s*.28,z);dummy.scale.set(s,s,s);dummy.rotation.set(.2,rng()*6,.3);dummy.updateMatrix();tufts.setMatrixAt(placed++,dummy.matrix);}tufts.count=placed;scene.add(tufts);
  const bark=new THREE.MeshStandardMaterial({color:'#453e31',roughness:1});
  // Sparse sky stars; no destination beacon reveals the solution.
  const stars=[];for(let i=0;i<900;i++){const theta=rng()*Math.PI*2,v=.08+rng()*.9;stars.push(Math.cos(theta)*Math.sqrt(1-v*v)*210,v*210,Math.sin(theta)*Math.sqrt(1-v*v)*210);}
@@ -83,16 +84,10 @@ export function createJourneyWorld(scene){
  }
  const markers=[];
  for(const n of NODES){const m=new THREE.Mesh(new THREE.RingGeometry(n.fire?.7:.5,n.fire?.85:.61,40),new THREE.MeshBasicMaterial({color:n.fire?'#e5c07a':'#9bb9c8',transparent:true,opacity:.8,side:THREE.DoubleSide,depthWrite:false}));m.rotation.x=-Math.PI/2;m.position.set(n.x,height(n.x,n.z)+.10,n.z);scene.add(m);markers.push({node:n,mesh:m});}
- // Open shelter with a simple manger and swaddled stand-in.
- const shelter=new THREE.Group();shelter.position.set(3,height(3,NODE.goal.z-3),NODE.goal.z-3);scene.add(shelter);
- recordFeature(shelter,'Nativity shelter','shelter');
+ const shelter=createNativityShelter(scene,recordFeature);
  const timber=new THREE.MeshStandardMaterial({color:'#65503a',roughness:1}),straw=new THREE.MeshStandardMaterial({color:'#766248',roughness:1});
  function box(parent,w,h,d,x,y,z,mat){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m;}
- for(const x of [-3,3])for(const z of [-1.8,1.8])box(shelter,.24,3.4,.24,x,1.7,z,timber);
- const roof=box(shelter,6.8,.22,4.6,0,3.5,0,straw);roof.rotation.z=.06;
- for(let i=0;i<17;i++)box(shelter,.11,.13,4.8,-3.2+i*.4,3.68,0,timber);
- box(shelter,1.1,.45,.65,0,.8,0,timber);for(const x of [-.4,.4])box(shelter,.1,.65,.12,x,.32,0,timber);
- box(shelter,.95,.08,.55,0,1.04,0,straw);lightAt(5,NODE.goal.z,2.2,32);
+ lightAt(NATIVITY.x+2,NATIVITY.z+2,2.5,32);
  // Environmental clues are represented in the scene, not solely in a text reward.
  const clueTargets={};
  function target(id,x,y,z){clueTargets[id]={x,y:height(x,z)+y,z};}
@@ -115,7 +110,7 @@ export function createJourneyWorld(scene){
  const gateLeaf=new THREE.Group();gateLeaf.name='journey-gate-hinge';gateLeaf.position.x=-1.5;gate.add(gateLeaf);
  target('market',gp.x,1.2,gp.z);target('arch',gp.x,1.2,gp.z);
  const gateLampX=gp.x+Math.cos(gate.rotation.y)*1.55,gateLampZ=gp.z-Math.sin(gate.rotation.y)*1.55;const gateLamp=lightAt(gateLampX,gateLampZ,2.25,18);gateLamp.root.name='gate-lantern';
- target('lookout',-2.5,1,-19);target('olive',-23,2,3);target('ridge',18,2,-25);target('gate',0,1.5,15);target('field',1.5,1.2,36);target('goal',3,1,NODE.goal.z-3);
+ target('lookout',-2.5,1,-19);target('olive',-23,2,3);target('ridge',18,2,-25);target('gate',0,1.5,15);target('field',1.5,1.2,36);target('goal',NATIVITY.x+1,1,NATIVITY.z);
  // One sheltered workbench holds all three components.
  const workbenches=[];
  for(const id of ['hearth']){
@@ -128,11 +123,7 @@ export function createJourneyWorld(scene){
   const empty=lampVisual(CARRIED_LANTERN_HEIGHT);empty.root.name='hearth-lantern';empty.root.position.y=.725+CARRIED_LANTERN_HEIGHT/2;empty.core.visible=false;empty.halo.visible=false;g.add(empty.root);
   target(id,g.position.x,.9,g.position.z);
  }
- watchOcclusion(feed,'prop');watchOcclusion(shelter,'shelter');
- // Deliberately simple swaddled-baby stand-in for close inspection, not a production character.
- const linen=new THREE.MeshStandardMaterial({color:'#ded7b9',roughness:1});
- const bundle=new THREE.Mesh(new THREE.CapsuleGeometry(.14,.32,4,8),linen);bundle.rotation.z=Math.PI/2;bundle.position.set(0,1.18,0);shelter.add(bundle);
- const face=new THREE.Mesh(new THREE.SphereGeometry(.1,10,8),new THREE.MeshStandardMaterial({color:'#ba8865',roughness:1}));face.position.set(.24,1.2,0);shelter.add(face);
+ watchOcclusion(feed,'prop');
 
  // Shared Tripo body, with the flame and real illumination controlled separately.
  const carriedVisual=lampVisual(CARRIED_LANTERN_HEIGHT),lantern=carriedVisual.root;lantern.name='carried-lantern';scene.add(lantern);
@@ -154,6 +145,7 @@ export function createJourneyWorld(scene){
   }throw new Error('No clear scenery placement near '+x+','+z);
  }
  async function dress(loader){
+  await dressNativity(loader,scene,shelter,recordFeature,watchOcclusion);modelCount+=6;
   const jarSource=(await loader.loadAsync('/assets/oil-jar-pixal3d.glb')).scene;
   for(const bench of workbenches){const jar=jarSource.clone(true);jar.name='workbench-oil-jar';jar.position.set(.68,.725,0);jar.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});bench.add(jar);watchOcclusion(bench,'prop');modelCount++;}
   const lanternSource=(await loader.loadAsync(LANTERN_URL)).scene;

@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "report": [
+    {
+      "aspect": 1.7777777777777777,
+      "visibleSeconds": 7.033333333333318,
+      "longestContinuousSeconds": 7.033333333333318,
+      "walkSeconds": 8.79999999999998,
+      "maxCameraStepMetres": 0.10592442294292644,
+      "frame": {
+        "position": {
+          "x": -24.6505101480925,
+          "y": 4.661121261645214,
+          "z": -36.97733182380496
+        },
+        "look": {
+          "x": -28.67553465093797,
+          "y": 1.2333469839667204,
+          "z": -47.47434010278363
+        },
+        "player": {
+          "x": -26.41884317636801,
+          "z": -44.63571848878414,
+          "heading": -2.729853240242637
+        }
+      }
+    },
+    {
+      "aspect": 0.46208530805687204,
+      "visibleSeconds": 4.7666666666666595,
+      "longestContinuousSeconds": 4.7666666666666595,
+      "walkSeconds": 8.79999999999998,
+      "maxCameraStepMetres": 0.21682527302438886,
+      "frame": {
+        "position": {
+          "x": -23.080294288913255,
+          "y": 4.754979190180288,
+          "z": -32.01387616603031
+        },
+        "look": {
+          "x": -28.896277152223785,
+          "y": 1.2186458839817356,
+          "z": -47.73655055351613
+        },
+        "player": {
+          "x": -26.47400114780556,
+          "z": -44.76363455921443,
+          "heading": -2.773966126276015
+        }
+      }
+    }
+  ],
+  "limits": "Actual sheep projection, wall/structure obstruction and pen/gate raycasts. Does not establish runtime lighting or physical-device performance."
+}

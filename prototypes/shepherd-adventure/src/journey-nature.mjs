@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {ANIMAL_AREA_TREES} from './journey-nativity.mjs';
 import {height} from './journey-terrain.mjs';
 import {VILLAGE_BOUNDS} from './journey-boundaries.mjs';
 export const NATURE_MODELS=['CommonTree_2','TwistedTree_1','TwistedTree_3','DeadTree_2','Rock_Medium_1','Rock_Medium_2','Rock_Medium_3','Pebble_Round_2'];
@@ -18,6 +19,7 @@ export async function addVillageNature(loader,scene,fits,pathDistance,watchOcclu
   const root=new THREE.Group(),model=sources[name].clone(true);root.add(model);root.name=kind+'-'+name;root.userData.source='quaternius-cc0';root.position.set(x,height(x,z)-(kind==='boulder'?.1:.07),z);root.rotation.y=rng()*Math.PI*2;
   const width=.85+rng()*.3;root.scale.set(h*width,h,h*(.85+rng()*.3));scene.add(root);watchOcclusion(root,kind==='tree'?'tree':'boulder');occupied.push({x,z,r:kind==='tree'?2.5:1.5});placements.push({name,kind,x,z,height:h,outside});
  }
+ for(const [i,[x,z]] of ANIMAL_AREA_TREES.entries())put(TREE_MODELS[i%3],x,z,5.2,'tree');
  // Retain familiar courtyard silhouettes, but use real branches and alpha-cut leaves.
  for(const [i,[x,z]] of [[-25,22],[-26,12],[-23,3],[-31,-14],[-29,-27],[29,20],[32,-20],[-10,36],[18,37],[-35,35],[35,-39]].entries()){
   if(pathDistance(x,z)>2.8&&buildingDistance(x,z)>1.8)put(TREE_MODELS[i%3],x,z,4.2+rng()*1.5,'tree');

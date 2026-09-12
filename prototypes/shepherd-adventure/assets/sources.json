@@ -339,6 +339,12 @@
       "file": "assets/shepherd-companion-stocky.glb",
       "source": "assets/characters/shepherd-companion-stocky/runtime.glb",
       "sha256": "ec5a3f70cb036b014d64409e4f6e03e85393994d3791cdb50721c405f9a28f12"
+    },
+    {
+      "file": "assets/nativity-family-pixal3d.glb",
+      "source": "assets/characters/nativity-family/nativity-family-pixal3d-runtime.glb",
+      "sha256": "b2f4cb054b1ee19090de8594fd21f1eb642bc2af0a026cdaaeb67eab7b86bf7e",
+      "note": "Static family tableau; original source, reference and render review retained in the library."
     }
   ]
 }
