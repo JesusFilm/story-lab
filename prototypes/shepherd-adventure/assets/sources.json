@@ -302,6 +302,12 @@
       "origin": "third-party-non-tripo",
       "author": "Quaternius",
       "license": "CC0-1.0"
+    },
+    {
+      "file": "assets/oil-jar-pixal3d.glb",
+      "source": "assets/objects/oil-jar/oil-jar-pixal3d-runtime.glb",
+      "sha256": "cf259c8361a982a2614cb1897a742c8fa201c187640d159dc9f3804dad207187",
+      "origin": "Pixal3D generated from native ImageGen reference; Blender static-prop preparation"
     }
   ]
 }

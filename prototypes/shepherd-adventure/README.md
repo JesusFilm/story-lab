@@ -179,6 +179,14 @@ feature changes have not been deployed.
 
 ## Lamp workbench
 
+The 3D workbench oil jar now uses an independent 28 cm Pixal3D model, replacing
+the stretched-sphere placeholder. It has 7,998 triangles and baked 1K textures,
+and loads through the normal foreground model-loading phase. Its reference,
+source model and matched Blender renders are in
+[the oil jar library entry](../../assets/objects/oil-jar/README.md). The illustrated
+crafting interface still uses its own artwork. This replacement was verified with
+model renders and structural checks; it has not had a new browser playtest.
+
 The hearth opens a first-person illustrated workbench. Fit and raise the wick to
 the brass mark, pour oil to its mark, tighten the cap and strike a spark. Inputs
 are discrete; there is no timing window. An incorrect setup fails with a specific
