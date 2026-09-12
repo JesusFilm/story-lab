@@ -1,5 +1,5 @@
 {
-  "bytes": 235691602,
+  "bytes": 235691637,
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "animal-pen.jpg": "d328cae2864bfcce5c17bb73607408f7473537294b41d083093eb701005ab368",
@@ -162,7 +162,7 @@
     "prototypes/shepherd-adventure/src/journey-arrival.mjs": "cc5a3704e86e3a2715488dda1195dfeeeb05d329c760d63871412cd8f81521d8",
     "prototypes/shepherd-adventure/src/journey-boundaries.mjs": "6fbbfcb9067271c262ce46928d72550336dab6e31cb6ab9ce921c163e8f8edd9",
     "prototypes/shepherd-adventure/src/journey-camera.mjs": "e283fca9ef0d54c6419008370426ce81744ade98cd39d3c6c4b1e9bc77278441",
-    "prototypes/shepherd-adventure/src/journey-debug.mjs": "ed1745879690ce2238eae9b95cdeaa5279e76e6d7dab05d75cd61d74e8f16848",
+    "prototypes/shepherd-adventure/src/journey-debug.mjs": "1b87eff9b947bd79cd28df6f83af2f0466366592d5368cf63cca1eb3de6005cc",
     "prototypes/shepherd-adventure/src/journey-lantern.mjs": "71a468be4a1ac84c7de0ea22f9551b287c850d9ed7b5df1472be8ef67ac6dfcd",
     "prototypes/shepherd-adventure/src/journey-model.mjs": "c7e0537c3297cd5427b878d50e6f16a42f71a6767b7d60f4e5ed1b252da68acb",
     "prototypes/shepherd-adventure/src/journey-nativity.mjs": "d2ba32a839b63a128aecd2397a9681de963906c0ddcb47e170a79c716958f6e4",

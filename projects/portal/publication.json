@@ -624,6 +624,6 @@
     "prototypes/shepherd-adventure/assets/sheep-tripo-v2.glb": "cee1fc0aa3715cba94abc949da68009ef34cb337ecc902ead1af68953ef3314f",
     "prototypes/shepherd-adventure/src/journey-animal-route.mjs": "757a532df49034fbb7315a774fce633bbb649888b146073b85690ba5827870ce",
     "prototypes/shepherd-adventure/src/journey-arrival.mjs": "cc5a3704e86e3a2715488dda1195dfeeeb05d329c760d63871412cd8f81521d8",
-    "prototypes/shepherd-adventure/src/journey-debug.mjs": "ed1745879690ce2238eae9b95cdeaa5279e76e6d7dab05d75cd61d74e8f16848"
+    "prototypes/shepherd-adventure/src/journey-debug.mjs": "1b87eff9b947bd79cd28df6f83af2f0466366592d5368cf63cca1eb3de6005cc"
   }
 }
