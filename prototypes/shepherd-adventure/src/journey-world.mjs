@@ -112,14 +112,15 @@ export function createJourneyWorld(scene){
  target('market',gp.x,1.2,gp.z);target('arch',gp.x,1.2,gp.z);
  const gateLampX=gp.x+Math.cos(gate.rotation.y)*1.55,gateLampZ=gp.z-Math.sin(gate.rotation.y)*1.55;const gateLamp=lightAt(gateLampX,gateLampZ,2.25,18);gateLamp.root.name='gate-lantern';
  target('lookout',-2.5,1,-19);target('olive',-23,2,3);target('ridge',18,2,-25);target('gate',0,1.5,15);target('field',1.5,1.2,36);target('goal',3,1,NODE.goal.z-3);
- // Three close preparation stops, with local sources rather than a player orb.
- for(const id of ['hearth','wick','oil']){
+ // One sheltered workbench holds all three components.
+ for(const id of ['hearth']){
   const n=NODE[id],g=new THREE.Group();g.position.set(n.x+1.5,height(n.x+1.5,n.z),n.z);scene.add(g);
-  box(g,1.8,.15,1,0,.65,0,timber);for(const x of [-.7,.7])box(g,.12,.65,.12,x,.32,0,timber);
-  if(id==='wick'){box(g,1.1,.09,.65,0,.78,0,new THREE.MeshStandardMaterial({color:'#b9ac8e',roughness:1}));for(const x of [-1,1])box(g,.1,2.3,.1,x,1.15,-.3,timber);box(g,2.3,.08,1.5,0,2.3,0,straw);}
-  else if(id==='oil'){for(const x of [-.45,.35]){const jar=new THREE.Mesh(new THREE.SphereGeometry(.25,12,8),new THREE.MeshStandardMaterial({color:'#91613d',roughness:.85}));jar.scale.y=1.4;jar.position.set(x,1.02,0);g.add(jar);}}
-  else{const empty=lampVisual(CARRIED_LANTERN_HEIGHT);empty.root.name='hearth-lantern';empty.root.position.y=.725+CARRIED_LANTERN_HEIGHT/2;empty.core.visible=false;empty.halo.visible=false;g.add(empty.root);}
-  target(id,g.position.x,.9,g.position.z);if(id!=='hearth'){lightAt(n.x+1.5,n.z,1.6,15);box(g,.08,1.5,.08,0,.75,0,timber);}watchOcclusion(g,'prop');
+  box(g,2.1,.15,1,0,.65,0,timber);for(const x of [-.85,.85])box(g,.12,.65,.12,x,.32,0,timber);
+  box(g,.5,.08,.45,-.65,.77,0,new THREE.MeshStandardMaterial({color:'#b9ac8e',roughness:1}));
+  const jar=new THREE.Mesh(new THREE.SphereGeometry(.2,12,8),new THREE.MeshStandardMaterial({color:'#91613d',roughness:.85}));jar.scale.y=1.4;jar.position.set(.68,.96,0);g.add(jar);
+  for(const x of [-1.1,1.1])box(g,.1,2.3,.1,x,1.15,-.35,timber);box(g,2.5,.08,1.7,0,2.3,0,straw);
+  const empty=lampVisual(CARRIED_LANTERN_HEIGHT);empty.root.name='hearth-lantern';empty.root.position.y=.725+CARRIED_LANTERN_HEIGHT/2;empty.core.visible=false;empty.halo.visible=false;g.add(empty.root);
+  target(id,g.position.x,.9,g.position.z);watchOcclusion(g,'prop');
  }
  watchOcclusion(feed,'prop');watchOcclusion(shelter,'shelter');
  // Deliberately simple swaddled-baby stand-in for close inspection, not a production character.

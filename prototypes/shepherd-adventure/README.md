@@ -7,7 +7,7 @@
 
 Can preparing a light, noticing clues and discovering routes make the shepherd's
 search for the Nativity more engaging? This experiment moves from an open field
-into a quiet nighttime village. Find a wick and oil, light the lamp, investigate
+into a quiet nighttime village. Make a lamp at one sheltered workbench, investigate
 landmarks, discover a way around a gate, and leave the gate open and lit for others.
 Inspect the final shelter to complete the journey.
 
@@ -171,3 +171,17 @@ The portal exporter now respects `owns_loading` for this prototype, avoiding its
 generic eager Three.js wrapper. New story runtime files are explicitly listed.
 A full portal rebuild remains blocked by pre-existing source-review mismatches
 (first: this prototype’s `journey.css`); the new architecture has not been published.
+
+## Lamp workbench
+
+The hearth opens a first-person illustrated workbench. Fit and raise the wick to
+the brass mark, pour oil to its mark, tighten the cap and strike a spark. Inputs
+are discrete; there is no timing window. An incorrect setup fails with a specific
+explanation and a fresh retry. Leaving preserves the unfinished setup; restart
+clears it. Take your light awards the carried lantern only after a steady flame.
+The old wick/oil detours are no longer offered.
+
+[Workbench-only preview](workbench-preview.html). Run
+`node checks/verify-lamp-craft.mjs` to verify all 50 component combinations.
+The stall is native ImageGen artwork, with an editable SVG lamp cutaway and
+controls; no new Tripo model or paid Tripo job was needed.

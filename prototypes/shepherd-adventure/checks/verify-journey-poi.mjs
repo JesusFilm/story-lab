@@ -33,7 +33,7 @@ for(const wall of world.wallSegments){const dx=wall.b.x-wall.a.x,dz=wall.b.z-wal
 for(const {rect:[x,z,x2,z2]} of world.fits){assert(x-(-40)>6&&40-x2>6&&z-(-80)>6&&42-z2>6,'Perimeter crowds a settlement structure');}
 
 const lanternBodies=[];scene.traverse(o=>{if(o.name==='portable-lantern-tripo')lanternBodies.push(o);});
-assert.equal(world.lanternCount,22,'Every settlement light, hearth prop and carried lantern has a mount');
+assert.equal(world.lanternCount,20,'Single workbench removes the two separate supply-station lights');
 assert.equal(lanternBodies.length,world.lanternCount,'No old procedural lantern body remains');
 const sharedGeometries=new Set();for(const body of lanternBodies){const size=new THREE.Box3().setFromObject(body).getSize(new THREE.Vector3());assert(Math.abs(size.y-body.userData.heightMetres)<1e-5,'Lantern is fitted to its intended physical height');body.traverse(o=>{if(o.isMesh)sharedGeometries.add(o.geometry);});}
 assert(sharedGeometries.size<lanternBodies.length,'Instances reuse model geometry');

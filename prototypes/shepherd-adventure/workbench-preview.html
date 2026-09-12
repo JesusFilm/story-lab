@@ -1,0 +1,4 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lamp workbench study</title><link rel="stylesheet" href="journey.css"><link rel="stylesheet" href="workbench.css"><body><button id="open">Make a light</button><p id="outcome"></p><script type="module">
+import {Journey} from './src/journey-model.mjs';import {createLampWorkbench} from './src/lamp-workbench.mjs';
+const journey=new Journey();journey.start();journey.at='hearth';const bench=createLampWorkbench(journey,()=>{bench.render();document.querySelector('#outcome').textContent=journey.lantern?'Your lantern is ready.':''});document.querySelector('#open').onclick=()=>{journey.inspect();bench.render()};document.querySelector('#open').click();
+</script></body></html>

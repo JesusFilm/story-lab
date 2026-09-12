@@ -1,4 +1,5 @@
 import {renderRoutes} from './journey-routes.mjs';
+import {createLampWorkbench} from './lamp-workbench.mjs';
 import {blendFrame} from './journey-presentation.mjs';
 import {JourneyCamera,routeLookahead} from './journey-camera.mjs';
 import * as THREE from 'three';
@@ -10,6 +11,7 @@ import {createJourneyWorld,height} from './journey-world.mjs';
 
 export async function createGame(story){
 const $=s=>document.querySelector(s),journey=new Journey();
+const workbench=createLampWorkbench(journey,()=>updateUI());
 let activated=false;
 const renderer=new THREE.WebGLRenderer({canvas:$('#world'),antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
@@ -71,6 +73,7 @@ function recover(){journey.recover();document.activeElement?.blur();updateUI();u
 function input(key){
  if(!ready)return;
  if(story.active||!activated)return;
+ if(journey.phase==='craft')return;
  if(journey.phase==='intro'){if(['Enter',' ','Select'].includes(key))begin();else if(key==='ArrowUp')toggleSound();return;}
  if(journey.phase==='arrival'){if(['Enter',' ','Select'].includes(key))reset();return;}
  if(journey.notebook){if(['Enter',' ','Select','Escape'].includes(key)){journey.notebook=false;updateUI();}else if(key==='ArrowUp'||key==='ArrowDown')$('#notes').scrollBy({top:key==='ArrowDown'?120:-120,behavior:reduced?'auto':'smooth'});return;}
@@ -87,7 +90,7 @@ function input(key){
 function remember(){journey.paused=false;journey.notebook=true;document.activeElement?.blur();updateUI();}
 $('#look-again').onclick=()=>{showPause(false);journey.inspect();updateUI();};
 $('#interact').onclick=()=>input('ArrowUp');$('#begin').onclick=begin;$('#prev').onclick=()=>input('ArrowLeft');$('#next').onclick=()=>input('ArrowRight');$('#commit').onclick=()=>input('Enter');$('#survey').onclick=()=>input('ArrowUp');$('#pause').onclick=()=>showPause(true);$('#resume').onclick=()=>showPause(false);$('#back').onclick=()=>{showPause(false);journey.back();updateUI();};$('#remember').onclick=remember;$('#recover').onclick=recover;$('#restart').onclick=reset;$('#again').onclick=reset;$('#sound').onclick=toggleSound;$('#inspect-close').onclick=()=>input('Enter');$('#notes-close').onclick=()=>input('Enter');
-addEventListener('keydown',e=>{if(!activated||story.active||!$('#loading').hidden)return;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' ','Select','Escape','p','P'].includes(e.key)){e.preventDefault();if(e.repeat||held.has(e.key))return;held.add(e.key);input(e.key);}});addEventListener('keyup',e=>held.delete(e.key));
+addEventListener('keydown',e=>{if(!activated||story.active||journey.phase==='craft'||!$('#loading').hidden)return;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' ','Select','Escape','p','P'].includes(e.key)){e.preventDefault();if(e.repeat||held.has(e.key))return;held.add(e.key);input(e.key);}});addEventListener('keyup',e=>held.delete(e.key));
 function blur(){held.clear();if(['choice','walking','gate-sequence'].includes(journey.phase)&&!journey.paused&&!journey.notebook)showPause(true);}addEventListener('blur',blur);document.addEventListener('visibilitychange',()=>{if(document.hidden)blur();});
 addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();updateCamera(1,true);});
 function drawNotebook(){
@@ -102,12 +105,13 @@ function drawNotebook(){
 }
 function updateUI(){
  renderRoutes($('#route-choices'),journey,edge=>{journey.commit(edge);updateUI();},index=>{journey.selected=index;});
+ workbench.render();
  if(journey.at==='arch')story.prepare('ending').catch(()=>{});
  const {phase}=journey,n=NODE[journey.at],choice=journey.choice,dest=choice&&NODE[choice.to];
- const actions={field:'Remember the sign',gate:journey.lantern?'Read the village':'Find a light for the road',hearth:journey.lantern?'Rest by the hearth':journey.inventory.has('wick')&&journey.inventory.has('oil')?'Light your lantern':'Examine the empty lamp',wick:'Examine the linen',oil:'Examine the oil jars',well:'Examine the tracks',square:'Read the signs',market:journey.gateOpen?'Look through the gate':'Examine the gate',lookout:'Look beyond the roofs',pen:'Look behind the trough',arch:journey.gateOpen?'Look toward the shelter':'Lift the bar · Light the way',goal:'Look inside the shelter'};
+ const actions={field:'Remember the sign',gate:journey.lantern?'Read the village':'Find a light for the road',hearth:journey.lantern?'Rest by the hearth':journey.inventory.has('wick')&&journey.inventory.has('oil')?'Light your lantern':'Make your lantern',wick:'Examine the linen',oil:'Examine the oil jars',well:'Examine the tracks',square:'Read the signs',market:journey.gateOpen?'Look through the gate':'Examine the gate',lookout:'Look beyond the roofs',pen:'Look behind the trough',arch:journey.gateOpen?'Look toward the shelter':'Lift the bar · Light the way',goal:'Look inside the shelter'};
  $('#interact').textContent='↑ '+(actions[journey.at]||'Look closer');$('#interact').classList.toggle('unseen',!journey.inspected.has(journey.at));
  const help=document.createElement('small');help.textContent=journey.inspected.has(journey.at)?'You can look again. Only some places reveal new paths.':'Stop and investigate — walking alone does not reveal clues.';$('#interact').append(help);
- const inventory=journey.inventory;$('#equipment').classList.toggle('equipped',journey.lantern);$('#equipment').innerHTML='<svg viewBox="0 0 26 36" aria-hidden="true"><path d="M9 7V5a4 4 0 0 1 8 0v2M6 9h14l2 20H4L6 9Zm-2 23h18M8 12l2 14h6l2-14M13 17v6"/></svg><div><b>'+ (journey.lantern?'Lantern equipped':'Make a light')+'</b>'+(journey.lantern?'A steady flame for the road':(inventory.has('wick')?'✓ Wick':'○ Wick')+' · '+(inventory.has('oil')?'✓ Oil':'○ Oil')+' · Light at hearth')+'</div>';
+ const inventory=journey.inventory;$('#equipment').classList.toggle('equipped',journey.lantern);$('#equipment').innerHTML='<svg viewBox="0 0 26 36" aria-hidden="true"><path d="M9 7V5a4 4 0 0 1 8 0v2M6 9h14l2 20H4L6 9Zm-2 23h18M8 12l2 14h6l2-14M13 17v6"/></svg><div><b>'+ (journey.lantern?'Lantern equipped':'Make a light')+'</b>'+(journey.lantern?'A steady flame for the road':(inventory.has('wick')?'✓ Wick':'Wick')+' · '+(inventory.has('oil')?'✓ Oil':'Oil')+' · Workbench at hearth')+'</div>';
  $('#discovery').hidden=!journey.reward;if(journey.reward){$('#reward-title').textContent=journey.reward.title;$('#reward-detail').textContent=journey.reward.detail;}
 
  document.body.classList.toggle('intro',phase==='intro');document.body.classList.remove('survey');document.body.classList.toggle('ended',phase==='arrival');document.body.classList.toggle('inspecting',phase==='inspect');

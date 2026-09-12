@@ -1,15 +1,15 @@
 {
   "status": "passed",
   "checks": 7,
-  "knowledgeStates": 113,
+  "knowledgeStates": 82,
   "routes": [
     {
       "route": "well → square → pen → arch → goal",
-      "metres": 276
+      "metres": 220
     },
     {
       "route": "olive → lookout → olive → market → square → arch → goal",
-      "metres": 308
+      "metres": 252
     }
   ],
   "limits": "State safety and reachability do not establish enjoyment, clue readability or actual remote performance."
