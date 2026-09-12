@@ -20,6 +20,6 @@ try {
  const path=(await page.locator('#debug-status').textContent()).slice(6);assert.match(path,/^captures\/[\w-]+\.png$/);const file=new URL('../'+path,import.meta.url),bytes=await readFile(file);assert(bytes.length>10000);const encoded=await page.locator('#debug-image').evaluate(c=>c.toDataURL().split(',')[1]);assert.equal(bytes.toString('base64'),encoded);
  await page.screenshot({path:'/tmp/shepherd-debug-capture.png'});await unlink(file);
  const bad=await page.request.post(origin+'/__debug/capture',{headers:{Origin:'https://example.com','Content-Type':'image/png'},data:bytes});assert.equal(bad.status(),403);
- await page.locator('#debug-freeze').click();await page.mouse.click(900,600);await page.keyboard.down('e');await page.waitForTimeout(200);await page.keyboard.up('e');assert((await pos())[1]>frozen[1]);
+ await page.locator('#debug-freeze').click();await page.mouse.click(900,600);await page.keyboard.down('Space');await page.waitForTimeout(200);await page.keyboard.up('Space');assert((await pos())[1]>frozen[1]);const elevated=await pos();await page.keyboard.down('ShiftLeft');await page.waitForTimeout(200);await page.keyboard.up('ShiftLeft');assert((await pos())[1]<elevated[1]);
  assert.deepEqual(errors,[]);console.log('PASS: bookmarks, WASD/mouse flight, elevation, freeze, shapes, undo, exact PNG saved to captures, foreign-origin rejection, no page errors.');
 } finally {await browser.close();}

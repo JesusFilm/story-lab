@@ -19,7 +19,7 @@ adaptations; the biblical frame draws on Luke 2:8–20.
 ## Scene inspector
 
 For fast visual review, run the local server and open `/?debug`. WASD flies,
-right-mouse drag looks, Q/E changes height, Shift boosts speed, and the wheel sets
+right-mouse drag looks, Space rises, Left Shift descends, Ctrl boosts speed, and the wheel sets
 speed. Jump directly to the Nativity or another scene, then **Freeze & annotate**
 and **Capture** to save an annotated PNG into `captures/`.
 See the [audited request and controls](docs/debug-capture-workflow.md).

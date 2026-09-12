@@ -15,10 +15,10 @@ and the journey and frames the Nativity immediately. The scene uses the game's
 actual models and lighting. The game simulation stays frozen while inspecting;
 this is an environment review, not a staged completion of the story.
 
-- WASD flies forward/backward and sideways; Q/E moves down/up.
+- WASD flies forward/backward and sideways; Space moves up and Left Shift moves down.
 - Hold the right mouse button and drag to look in any direction. Pitch is limited
   just short of vertical to avoid flipping; there are no camera collision limits.
-- Hold Shift for four times the speed. The wheel or speed slider sets 1–60 m/s.
+- Hold Ctrl for four times the speed. The wheel or speed slider sets 1–60 m/s.
 - Scene shortcuts: Nativity, Animal pen, Village, Overview and Start.
 - Freeze & annotate locks the frame. Choose Pen, Arrow, Line, Rectangle or Ellipse,
   any pen color, and one of three widths. Undo removes the last mark; Clear removes
@@ -52,3 +52,8 @@ portrait and reduced motion. Journey state and Nativity geometry checks passed.
 The portal built and verified 240 files across all three supported base paths. The public export includes the inspector module, but never captures or
 the local write endpoint. The Nativity work was committed separately as
 `39b58d2`; this inspector is developed on `codex/shepherd-debug-capture`.
+
+## Control revision — 12 September 2026
+
+Requested Space/Left Shift in place of Q/E. Space now rises and Left Shift
+descends; the speed boost moves to Ctrl to avoid conflicting with descent.
