@@ -17,7 +17,7 @@ export function renderRoutes(container,journey,walk,focus){
  if(container.dataset.key!==key){
   container.dataset.key=key;container.replaceChildren();
   journey.options.forEach((edge,index)=>{
-   const [icon,name]=stops[edge.to],blocked=(journey.at==='gate'&&!journey.lantern&&!['field','hearth'].includes(edge.to))||(['gate','welcome'].includes(edge.requires)&&!journey.gateOpen);
+   const [icon,stopName]=stops[edge.to],name=journey.awaitingFollow?'follow the others':stopName,blocked=(journey.at==='gate'&&!journey.lantern&&!['field','hearth'].includes(edge.to))||(['gate','welcome'].includes(edge.requires)&&!journey.gateOpen);
    const button=document.createElement('button');button.className='route-card';button.dataset.to=edge.to;
    button.innerHTML=`<svg viewBox="0 0 32 32" aria-hidden="true"><path d="${art[icon]}"/></svg><span>${name}</span><span class="route-direction" aria-hidden="true">${blocked?'⌑':'↗'}</span>`;
    button.disabled=blocked;button.setAttribute('aria-label',blocked?`${name}: ${journey.lantern?'gate barred; find a way around':'make a lamp at the hearth first'}`:`Walk to ${name}`);

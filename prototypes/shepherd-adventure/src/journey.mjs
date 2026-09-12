@@ -5,8 +5,9 @@ import {JourneyCamera,routeLookahead} from './journey-camera.mjs';
 import * as THREE from 'three';
 import {clone as cloneSkeleton} from 'three/addons/utils/SkeletonUtils.js';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {CompanionCharacter} from './companion-character.mjs';
 import {CharacterVariants} from './character-variants.mjs';
-import {Journey,NODE,NODES,EDGES,OBSERVATIONS} from './journey-model.mjs';
+import {Journey,NODE,NODES,EDGES,OBSERVATIONS,openingActors,INTRO_DURATION} from './journey-model.mjs';
 import {createJourneyWorld,height} from './journey-world.mjs';
 
 export async function createGame(story){
@@ -33,12 +34,12 @@ beam.position.copy(starlight.position);beam.quaternion.setFromUnitVectors(new TH
 const starCanvas=document.createElement('canvas');starCanvas.width=starCanvas.height=128;const starContext=starCanvas.getContext('2d'),starGradient=starContext.createRadialGradient(64,64,0,64,64,64);starGradient.addColorStop(0,'#ffffff');starGradient.addColorStop(.08,'#e2efffff');starGradient.addColorStop(.25,'#a7caff88');starGradient.addColorStop(1,'#8bb9ff00');starContext.fillStyle=starGradient;starContext.fillRect(0,0,128,128);
 const starHalo=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(starCanvas),transparent:true,depthWrite:false,fog:false,blending:THREE.AdditiveBlending,toneMapped:false}));starHalo.position.copy(star.position);starHalo.scale.set(7,7,7);scene.add(starHalo);
 const world=createJourneyWorld(scene),avatar=new THREE.Group();scene.add(avatar);const characters=new CharacterVariants(avatar);
-const companions=[0,1].map(()=>{const root=new THREE.Group();root.visible=false;scene.add(root);return {root,character:new CharacterVariants(root)};});
+const companions=['tall','stocky'].map(variant=>{const root=new THREE.Group();root.visible=false;scene.add(root);return {root,character:new CompanionCharacter(root,variant)};});
 let gateShot=null;
 let ready=false,last=0,clock=0,signature='',oldPhase='intro',menuIndex=0,heading=Math.PI,desiredHeading=Math.PI,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const held=new Set(),camTarget=new THREE.Vector3(),lookTarget=new THREE.Vector3(),look=new THREE.Vector3();
 let lastAnimation=null,introElapsed=0,inspectionShot=null,returnShot=null;
-const openingFrame={position:{x:-9,y:8,z:85},look:{x:-4,y:23,z:-8}};
+const openingFrame={position:{x:-3,y:10,z:112},look:{x:0,y:1.5,z:80}};
 const physicalClues=new Set(['hearth','wick','oil','well','market','square','pen','arch','lookout']);
 function currentFrame(){return {position:{...camera.position},look:{...look}};}
 function applyFrame(frame){camera.position.set(frame.position.x,frame.position.y,frame.position.z);look.set(frame.look.x,frame.look.y,frame.look.z);camera.lookAt(look);}
@@ -67,18 +68,18 @@ function startOpeningCamera(){activated=true;introElapsed=0;cameraRig.reset();ap
 function reset(){story.close();story.release('ending');gateShot=null;companions.forEach(c=>c.root.visible=false);introElapsed=0;inspectionShot=returnShot=null;cameraRig.reset();journey.reset();signature='';oldPhase='intro';heading=desiredHeading=Math.PI;spoken='';if('speechSynthesis' in window)speechSynthesis.cancel();updateUI();updateCamera(1,true);story.open('opening');}
 function begin(){if(!ready)return;introElapsed=10;journey.start();applyFrame(followingFrame(0,true));updateUI();}
 const menuButtons=[$('#resume'),$('#restart')];
-function showPause(value){if(!ready||!['choice','walking','inspect','gate-sequence'].includes(journey.phase))return;journey.paused=value;menuIndex=0;if('speechSynthesis' in window){if(value)speechSynthesis.pause();else speechSynthesis.resume();}updateUI();focusMenu();}
+function showPause(value){if(!ready||!['intro','choice','walking','inspect','gate-sequence'].includes(journey.phase))return;journey.paused=value;menuIndex=0;if('speechSynthesis' in window){if(value)speechSynthesis.pause();else speechSynthesis.resume();}updateUI();focusMenu();}
 function focusMenu(){menuButtons.forEach((b,i)=>b.classList.toggle('selected',i===menuIndex));if(journey.paused)menuButtons[menuIndex].focus({preventScroll:true});else document.activeElement?.blur();}
 function recover(){journey.recover();document.activeElement?.blur();updateUI();updateCamera(1,true);}
 function input(key){
  if(!ready)return;
  if(story.active||!activated)return;
  if(journey.phase==='craft')return;
- if(journey.phase==='intro'){if(['Enter',' ','Select'].includes(key))begin();else if(key==='ArrowUp')toggleSound();return;}
  if(journey.phase==='arrival'){if(['Enter',' ','Select'].includes(key))reset();return;}
  if(journey.notebook){if(['Enter',' ','Select','Escape'].includes(key)){journey.notebook=false;updateUI();}else if(key==='ArrowUp'||key==='ArrowDown')$('#notes').scrollBy({top:key==='ArrowDown'?120:-120,behavior:reduced?'auto':'smooth'});return;}
  if(journey.paused){if(key==='ArrowDown'||key==='ArrowUp'){do{menuIndex=(menuIndex+(key==='ArrowUp'?-1:1)+menuButtons.length)%menuButtons.length;}while(menuButtons[menuIndex].disabled);focusMenu();}else if(['Enter',' ','Select'].includes(key))menuButtons[menuIndex].click();else if(key==='Escape')showPause(false);return;}
  if(key==='ArrowDown'||key==='Escape'||key==='p'||key==='P'){showPause(true);return;}
+ if(journey.phase==='intro'){if(['Enter',' ','Select'].includes(key))begin();else if(key==='ArrowUp')toggleSound();return;}
  if(journey.phase==='gate-sequence')return;
  if(journey.phase==='inspect'){
   if(['Enter',' ','Select','ArrowUp'].includes(key))journey.closeInspection();updateUI();return;
@@ -91,7 +92,7 @@ function remember(){journey.paused=false;journey.notebook=true;document.activeEl
 
 $('#interact').onclick=()=>input('ArrowUp');$('#begin').onclick=begin;$('#prev').onclick=()=>input('ArrowLeft');$('#next').onclick=()=>input('ArrowRight');$('#commit').onclick=()=>input('Enter');$('#survey').onclick=()=>input('ArrowUp');$('#pause').onclick=()=>showPause(true);$('#resume').onclick=()=>showPause(false);$('#restart').onclick=reset;$('#again').onclick=reset;$('#inspect-close').onclick=()=>input('Enter');$('#notes-close').onclick=()=>input('Enter');
 addEventListener('keydown',e=>{if(!activated||story.active||journey.phase==='craft'||!$('#loading').hidden)return;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' ','Select','Escape','p','P'].includes(e.key)){e.preventDefault();if(e.repeat||held.has(e.key))return;held.add(e.key);input(e.key);}});addEventListener('keyup',e=>held.delete(e.key));
-function blur(){held.clear();if(['choice','walking','gate-sequence'].includes(journey.phase)&&!journey.paused&&!journey.notebook)showPause(true);}addEventListener('blur',blur);document.addEventListener('visibilitychange',()=>{if(document.hidden)blur();});
+function blur(){held.clear();if(['intro','choice','walking','gate-sequence'].includes(journey.phase)&&!journey.paused&&!journey.notebook)showPause(true);}addEventListener('blur',blur);document.addEventListener('visibilitychange',()=>{if(document.hidden)blur();});
 addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();updateCamera(1,true);});
 function drawNotebook(){
  const xy=n=>({x:28+(n.x+32)/60*264,y:20+(n.z-NODE.goal.z)/(NODE.field.z-NODE.goal.z)*228});
@@ -119,13 +120,13 @@ function updateUI(){
  $('#decision').hidden=phase!=='choice'||journey.paused||journey.notebook;$('#travel').hidden=!['walking','gate-sequence'].includes(phase)||journey.paused||journey.notebook;$('#fuel').hidden=['intro','arrival','inspect'].includes(phase);$('#notes').hidden=!journey.notebook;
  $('#inspection').hidden=phase!=='inspect'||journey.paused||journey.notebook;
  if(journey.inspection){$('#inspect-title').textContent=journey.inspection.title;$('#inspect-copy').textContent=journey.inspection.body;$('#inspect-tag').textContent=journey.inspection.unlock?'A USEFUL DISCOVERY':'LOOK CLOSELY';}
- $('#survey').textContent=phase==='inspect'?'↑ Return':'↑ Investigate';$('#survey').disabled=phase==='walking';$('#survey').setAttribute('aria-pressed',String(phase==='inspect'));
+ $('#survey').textContent=phase==='inspect'?'↑ Return':'↑ Investigate';$('#survey').disabled=phase==='walking'||journey.awaitingFollow;$('#interact').hidden=journey.awaitingFollow;$('#survey').setAttribute('aria-pressed',String(phase==='inspect'));
  if(phase==='choice'&&$('#chapter').dataset.place!==journey.at){$('#chapter').dataset.place=journey.at;$('#chapter').classList.remove('place-arrival');void $('#chapter').offsetWidth;$('#chapter').classList.add('place-arrival');}
  $('#pause').textContent='☰';$('#pause').hidden=journey.paused;$('#pause').setAttribute('aria-label','Pause and options');$('#place').textContent=n.chapter;$('#chapter-number').textContent=journey.at==='field'?'01 / THE FIELDS':journey.at==='goal'?'03 / THE SHELTER':!journey.lantern?'01 / A LIGHT FOR THE ROAD':'02 / THE SEARCH';
  $('#place-note').textContent=journey.at==='gate'&&!journey.lantern?'A sheltered flame nearby. Make a lantern before following the darker lanes.':n.note;
  if(choice){const known=journey.visited.has(choice.to);$('#lane-name').textContent=`${journey.selected+1} / ${journey.options.length} PATHS`;$('#destination').textContent=known?dest.name:choice.name;$('#cost').textContent=(['gate','welcome'].includes(choice.requires)&&!journey.gateOpen)?'Lift the bar from behind · ↑ Interact':journey.at==='gate'&&!journey.lantern&&!['field','hearth'].includes(choice.to)?'Too dark ahead · Prepare a lantern at the hearth':known?'A place you remember · OK Walk':'Beyond the next bend · OK Explore';$('#commit').classList.remove('blocked');$('#commit').setAttribute('aria-label',`${$('#destination').textContent}. ${$('#cost').textContent}.`);}
  if($('#message').textContent!==journey.message){$('#message').textContent=journey.message;$('#message').classList.remove('noticed');void $('#message').offsetWidth;$('#message').classList.add('noticed');}$('#travel-name').textContent=journey.gateSequence?({approach:'Walking to the gate lamp…',light:'Sharing the flame and lifting the bar…',return:'Returning to the passage…',watch:'A way for the shepherds following you…'}[journey.gateSequence.stage]):journey.travel?(journey.visited.has(journey.travel.to)?`Back to ${NODE[journey.travel.to].name}`:'Into the next lane…'):'';
- $('#choice-help').textContent='← → Choose · OK Walk · ↑ Investigate · ↓ Options';
+ $('#choice-help').textContent=journey.awaitingFollow?'OK Follow the others · ↓ Options':'← → Choose · OK Walk · ↑ Investigate · ↓ Options';
  $('#ending-detail').textContent=`${Math.round(journey.distance)} metres through the night. ${journey.inspected.size} places investigated. ${journey.gateOpen?'The gate is lit and open for those following.':'Take a moment here.'}`;
  $('#footer-note').textContent=phase==='arrival'?'Route, clues and village details are creative adaptations.':'A story of arrival · Inspired by Luke 2:8–20';
  if(phase!==oldPhase){if(phase==='inspect'){speak(journey.inspection.body);if(journey.reward)ding();}if(phase==='arrival'){if('speechSynthesis' in window)speechSynthesis.cancel();audioContext?.suspend();story.open('ending');};oldPhase=phase;}
@@ -134,11 +135,13 @@ function updateUI(){
 function updateCamera(dt,instant=false){
  if(story.active||journey.notebook||journey.paused)return;
  if(journey.phase==='intro'){
-  if(!instant&&!document.hidden)introElapsed+=dt;
+  introElapsed=journey.introTime;
   const end=followingFrame(0,true);
-  // Establish the distant village, then ease into the exact gameplay camera.
-  applyFrame(reduced?openingFrame:blendFrame(openingFrame,end,(introElapsed-1.5)/7));
-  if(introElapsed>=(reduced?2.5:8.5)){journey.start();applyFrame(end);updateUI();}
+  // Overtake the two companions, reveal the lead, and meet the follow camera.
+  const pass={position:{x:-3,y:3.8,z:78},look:{x:0,y:1.2,z:70}};
+  const shot=introElapsed<6?blendFrame(openingFrame,pass,introElapsed/6):blendFrame(pass,end,(introElapsed-6)/4);
+  applyFrame(reduced?end:shot);
+  if(introElapsed>=INTRO_DURATION){journey.start();applyFrame(end);updateUI();}
   return;
  }
  if(journey.phase==='gate-sequence'){
@@ -146,10 +149,11 @@ function updateCamera(dt,instant=false){
   if(journey.gateSequence.stage==='watch'){
    if(!gateShot)gateShot={from:currentFrame(),elapsed:0};gateShot.elapsed+=dt;
    const lead=journey.followers[0],gate=world.clueTargets.arch;
-   const target=lead?.visible&&lead.z<NODE.arch.z?{x:lead.x,y:height(lead.x,lead.z)+1,z:lead.z}:gate;
+   const target=lead?.visible&&lead.z<journey.position.z?{x:lead.x,y:height(lead.x,lead.z)+1,z:lead.z}:gate;
    gateShot.aim??={...gate};for(const axis of ['x','y','z'])gateShot.aim[axis]+=(target[axis]-gateShot.aim[axis])*(1-Math.exp(-1.3*dt));
-   const destination={position:{x:NODE.arch.x-6,y:height(NODE.arch.x,NODE.arch.z)+5,z:NODE.arch.z-7},look:gateShot.aim};
-   applyFrame(blendFrame(gateShot.from,destination,gateShot.elapsed/3));
+   const player=journey.position;
+   const destination={position:{x:player.x+7,y:height(player.x,player.z)+(camera.aspect<1?10:3.6),z:player.z+5},look:gateShot.aim};
+   applyFrame(reduced?{...destination,look:gate}:blendFrame(gateShot.from,destination,gateShot.elapsed/3));
   }else applyFrame(followingFrame(dt,instant));
   return;
  }
@@ -175,13 +179,13 @@ function updateCamera(dt,instant=false){
 
 function animate(time){
  requestAnimationFrame(animate);const dt=Math.min((time-last)/1000||.016,.05);last=time;if(!ready||!activated||story.active)return;
- const active=!story.active&&!journey.paused&&!journey.notebook,oldDistance=journey.distance;if(active){clock+=dt;if(!returnShot)journey.step(dt);}
- const p=journey.position,movement=(journey.distance-oldDistance)/dt;
+ const active=!document.hidden&&!story.active&&!journey.paused&&!journey.notebook,oldDistance=journey.distance;if(active){clock+=dt;if(!returnShot)journey.step(dt);}
+ const p=journey.position,movement=journey.phase==='intro'?3.8:(journey.distance-oldDistance)/dt;
  if(p.heading!==undefined)desiredHeading=p.heading;
  heading+=Math.atan2(Math.sin(desiredHeading-heading),Math.cos(desiredHeading-heading))*(1-Math.exp(-8*dt));avatar.position.set(p.x,height(p.x,p.z)+.015,p.z);avatar.rotation.y=heading;
- const running=(journey.travel?.speed||0)>3.6;characters.update(active?dt:0,{controller:{phase:journey.phase,gait:running?'run':'walk'},movement,gaitBlend:running?1:0,paused:!active});
+ const running=journey.phase==='intro'||(journey.travel?.speed||0)>3.6;characters.update(active?dt:0,{controller:{phase:journey.phase,gait:running?'run':'walk'},movement,gaitBlend:running?1:0,paused:!active});
  if(characters.animation!==lastAnimation){lastAnimation=characters.animation;console.info('Journey motion: '+lastAnimation);}
- companions.forEach((c,i)=>{const f=journey.followers[i];c.root.visible=!!f?.visible;if(!f)return;c.root.position.set(f.x,height(f.x,f.z)+.015,f.z);c.root.rotation.y=f.heading;c.character.update(active?dt:0,{controller:{phase:f.moving?'walking':'choice',gait:'run'},movement:f.moving?4.6:0,gaitBlend:1,paused:!active});});
+ companions.forEach((c,i)=>{const f=(journey.phase==='intro'?openingActors(journey.introTime).followers:journey.followers)[i];c.root.visible=!!f?.visible;if(!f)return;c.root.position.set(f.x,height(f.x,f.z)+.015,f.z);c.root.rotation.y=f.heading;c.character.update(active?dt:0,{controller:{phase:f.moving?'walking':'choice',gait:'run'},movement:f.moving?4.6:0,gaitBlend:1,paused:!active});});
  world.update(active?dt:0,clock,journey,heading,reduced);updateCamera(dt);const fadedObjects=world.updateOcclusion(camera,p,dt,journey.phase==='inspect');
  const next=[journey.phase,journey.gateSequence?.stage,journey.at,journey.selected,journey.paused,journey.notebook,journey.inspected.size,journey.message].join('|');if(next!==signature){signature=next;updateUI();}
  renderer.render(scene,camera);

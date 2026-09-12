@@ -329,6 +329,16 @@
       "sha256": "621200ae8361e23544837a9550f0e89cb129b8669e3efc35a5068a04f3845ea8",
       "reference": "assets/structures/tanner-market-stall/tanner-market-stall-reference.png",
       "preparation": "2.8 m, base zero, source front offset compensated by world placement; conservative decimation, source UV atlas and embedded 2K textures."
+    },
+    {
+      "file": "assets/shepherd-companion-tall.glb",
+      "source": "assets/characters/shepherd-companion-tall/runtime.glb",
+      "sha256": "2f016139b1577b935b96ed2425b4325af0c7a57429eedd6b725552ac60e25f90"
+    },
+    {
+      "file": "assets/shepherd-companion-stocky.glb",
+      "source": "assets/characters/shepherd-companion-stocky/runtime.glb",
+      "sha256": "ec5a3f70cb036b014d64409e4f6e03e85393994d3791cdb50721c405f9a28f12"
     }
   ]
 }

@@ -20,3 +20,7 @@ reference, source model, prepared runtime model and comparison renders.
 [Oil jar](objects/oil-jar/README.md) demonstrates the
 [Pixal3D image-to-model workflow](../projects/pixal3d-assets/README.md), including
 the reference, original source, prepared runtime model and render checks.
+
+Supporting shepherds: [Tall companion](characters/shepherd-companion-tall/README.md)
+and [stocky companion](characters/shepherd-companion-stocky/README.md), with idle
+and running animations matching the opening story artwork.

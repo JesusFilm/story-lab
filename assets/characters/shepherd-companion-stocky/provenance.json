@@ -1,0 +1,39 @@
+{
+  "generator": "Tripo",
+  "model_version": "v3.1-20260211",
+  "face_limit": 20000,
+  "pbr": true,
+  "orientation": "align_image",
+  "rig": "biped / tripo",
+  "animations": [
+    "preset:idle",
+    "preset:run"
+  ],
+  "animate_in_place": true,
+  "runtime": {
+    "height_metres": 1.66,
+    "scale": 1.6415704653093575,
+    "ground_offset": 0.9087591554245319,
+    "yaw_degrees": -90,
+    "run_height_correction_metres": 0.086,
+    "preparation": "Non-destructive scene-root transform; preserve skinning, textures and animation tracks."
+  },
+  "sha256": {
+    "review-preset-idle-2.png": "0abaf8604ae160439013aa9cda2bf28bb9df15ad7ab857e4cc4e2ce7fa8e70f1",
+    "review-preset-idle-3.png": "4f482d512634fb09b41a3ee0346b586d896f53281321bc0bf81397a2987dca3a",
+    "review-preset-idle-1.png": "3d77a3f0b9d125d9df9271a5af7be8396a33588a1deeb750beb59a9163d3a1f2",
+    "review-preset-idle-0.png": "2ee1c86dd5a92e009a36c146f7aba9e66243e46bf91f3c067ad2007854f7fdd6",
+    "animated-model.glb": "20992fefc2e602966a2fd4f6d68d32183d339ab8674418c9ed4e404fb6086793",
+    "review-preset-run-1.png": "5d2e3224ad42b57306098380e1e0918a0c05dabb2a90f06164c9bff510c136d3",
+    "review-preset-run-0.png": "a3447f4426acbcb2816fbe559d1e5dcf656daca30dc56736048b3a434b4bbdd5",
+    "review-preset-run-2.png": "6373f1e25cc90044b001c64e2aaddc11c81c24b35b4c831f42c88fcf37457756",
+    "review-preset-run-3.png": "103166c0006d69b9b71001125fb471a9fc1285f97990255fee85f56511acb43f",
+    "reference-prompt.txt": "400e65d30d6b4ac5713676405a0891e38527fdd4e9997f95568bcb9620780810",
+    "source-pbr_model.glb": "1f8c5f7b30a4144e2afcf9d73e0b37e06135a7a92fcc021cde67594c9c81f9ca",
+    "reference.png": "d8ef975ca8c4e38cc59258994be8c6665cab9aa9ca6b1830362a9f608b5212ad",
+    "review-back.png": "be9ac2f040c8aa569b848b5422a9f57baa5361b7d980c5262f4c2c4d94b2555f",
+    "runtime.glb": "ec5a3f70cb036b014d64409e4f6e03e85393994d3791cdb50721c405f9a28f12",
+    "review-front.png": "3df4bcfdab81a700b0aa4c84a29d269eea0776a1585e8cdc63ae21e03f20eb67",
+    "rig-model.glb": "8a8815416e519f3b442d2c85ecd77646a5bb4686f8d85e8fe32ec206895c1127"
+  }
+}

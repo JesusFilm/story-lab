@@ -44,15 +44,15 @@ export const OBSERVATIONS={
 };
 export class Journey{
  constructor(){this.reset();}
- reset(){this.craft=new LampCraft();this.gateSequence=null;this.followers=[];this.at='field';this.previous=null;this.travel=null;this.phase='intro';this.paused=false;this.selected=0;this.inspection=null;this.inspectionYaw=0;this.notebook=false;this.visited=new Set(['field']);this.inspected=new Set();this.inventory=new Set();this.reward=null;this.firstDiscovery=false;this.discoveries=new Set();this.traversed=new Set();this.distance=0;this.recoveries=0;this.message='';this.decisions=0;}
- get options(){return links(this.at).filter(e=>!['field','wick','oil'].includes(e.to)).filter(e=>!['overlook','rear'].includes(e.requires)||this.discoveries.has(e.requires)||this.traversed.has(e.id));}
+ reset(){this.followerTime=null;this.introTime=0;this.awaitingFollow=false;this.gateHold=null;this.craft=new LampCraft();this.gateSequence=null;this.followers=[];this.at='field';this.previous=null;this.travel=null;this.phase='intro';this.paused=false;this.selected=0;this.inspection=null;this.inspectionYaw=0;this.notebook=false;this.visited=new Set(['field']);this.inspected=new Set();this.inventory=new Set();this.reward=null;this.firstDiscovery=false;this.discoveries=new Set();this.traversed=new Set();this.distance=0;this.recoveries=0;this.message='';this.decisions=0;}
+ get options(){if(this.awaitingFollow)return links('arch').filter(e=>e.to==='goal').map(e=>({...e,name:'follow the others'}));return links(this.at).filter(e=>!['field','wick','oil'].includes(e.to)).filter(e=>!['overlook','rear'].includes(e.requires)||this.discoveries.has(e.requires)||this.traversed.has(e.id));}
  get choice(){return this.options[this.selected%this.options.length];}
  get lantern(){return this.inventory.has('lantern');}
  get gateOpen(){return this.discoveries.has('gate');}
- start(){if(this.phase!=='intro')return false;this.phase='choice';return true;}
+ start(){if(this.phase!=='intro')return false;this.introTime=INTRO_DURATION;this.followers=[];this.phase='choice';return true;}
  select(delta){if(this.phase!=='choice'||this.paused)return false;this.selected=(this.selected+delta+this.options.length)%this.options.length;this.message='';return true;}
  inspect(){
-  if(this.phase!=='choice'||this.paused)return false;
+  if(this.phase!=='choice'||this.paused||this.awaitingFollow)return false;
   const first=!this.inspected.has(this.at);this.reward=null;this.inspected.add(this.at);this.inspection={...OBSERVATIONS[this.at],node:this.at};this.inspectionYaw=0;
   const newRoute=this.inspection.unlock&&!this.discoveries.has(this.inspection.unlock);
   if(this.at==='wick'||this.at==='oil'){
@@ -78,18 +78,20 @@ export class Journey{
  commit(edge=this.choice){
   if(this.phase!=='choice'||this.paused||!edge||!this.options.some(e=>e.id===edge.id&&e.to===edge.to))return false;
   if((this.at==='gate'&&!this.lantern&&!['field','hearth'].includes(edge.to))||(['gate','welcome'].includes(edge.requires)&&!this.gateOpen)){return this.inspect();}
-  const raw=lanePoints(edge),points=edge.a===this.at?raw:raw.slice().reverse();
+  const following=this.awaitingFollow;const raw=lanePoints(edge),points=following?followPlayerRoute():edge.a===this.at?raw:raw.slice().reverse();this.awaitingFollow=false;this.gateHold=null;
   const lengths=points.slice(1).map((p,i)=>Math.hypot(p.x-points[i].x,p.z-points[i].z));
-  this.travel={edge,from:this.at,to:edge.to,points,lengths,length:lengths.reduce((a,b)=>a+b,0),progress:0,speed:2.8,canRun:this.traversed.has(edge.id)||(this.lantern&&this.discoveries.size>0)};
+  this.travel={edge,from:this.at,to:edge.to,points,lengths,length:lengths.reduce((a,b)=>a+b,0),progress:0,speed:following?4.4:2.8,following,canRun:this.traversed.has(edge.id)||(this.lantern&&this.discoveries.size>0)};
   this.phase='walking';this.message='';this.decisions++;return true;
  }
  back(){return this.commit(this.options.find(e=>e.to===this.previous)||null);}
- recover(){if(!['choice','walking','inspect','gate-sequence'].includes(this.phase))return false;this.gateSequence=null;this.followers=[];if(!this.gateOpen)this.inspected.delete('arch');this.at='gate';this.travel=null;this.inspection=null;this.phase='choice';this.paused=false;this.previous=null;this.selected=0;if(!this.lantern)this.selected=this.options.findIndex(e=>e.to==='hearth');this.recoveries++;this.visited.add('gate');this.message='Back at the village threshold. You remember everything you found.';return true;}
+ recover(){if(!['choice','walking','inspect','gate-sequence'].includes(this.phase))return false;this.gateSequence=null;this.gateHold=null;this.awaitingFollow=false;this.followerTime=null;this.followers=[];if(!this.gateOpen)this.inspected.delete('arch');this.at='gate';this.travel=null;this.inspection=null;this.phase='choice';this.paused=false;this.previous=null;this.selected=0;if(!this.lantern)this.selected=this.options.findIndex(e=>e.to==='hearth');this.recoveries++;this.visited.add('gate');this.message='Back at the village threshold. You remember everything you found.';return true;}
  step(dt){
   if(this.paused||!Number.isFinite(dt)||dt<=0)return;
+  if(this.phase==='intro'){this.introTime=Math.min(INTRO_DURATION,this.introTime+dt);return;}
   if(this.phase==='gate-sequence'){this.stepGate(dt);return;}
+  if(this.followerTime!==null){this.followerTime+=dt;this.updateFollowers(this.followerTime);}
   if(this.phase!=='walking')return;
-  const t=this.travel;const run=t.canRun&&t.progress>2.5&&t.length-t.progress>4;const targetSpeed=run?4.4:2.8;t.speed+=(targetSpeed-t.speed)*(1-Math.exp(-4*dt));const amount=Math.min(dt*t.speed,t.length-t.progress);t.progress+=amount;this.distance+=amount;
+  const t=this.travel;const run=t.following||(t.canRun&&t.progress>2.5&&t.length-t.progress>4);const targetSpeed=run?4.4:2.8;t.speed+=(targetSpeed-t.speed)*(1-Math.exp(-4*dt));const amount=Math.min(dt*t.speed,t.length-t.progress);t.progress+=amount;this.distance+=amount;
   if(t.progress>=t.length-1e-8){this.previous=t.from;this.at=t.to;this.visited.add(this.at);this.traversed.add(t.edge.id);this.travel=null;this.phase='choice';this.selected=Math.max(0,this.options.findIndex(e=>this.at==='gate'&&!this.lantern?e.to==='hearth':e.to!==this.previous));this.noticeArrival();}
  }
  noticeArrival(){
@@ -104,20 +106,22 @@ export class Journey{
  }
  stepGate(dt){
   const s=this.gateSequence,route=gateApproach(),length=polylineLength(route);s.elapsed+=dt;
-  if(s.stage==='approach'||s.stage==='return'){
+  if(s.stage==='approach'){
    const amount=Math.min(dt*2.8,length-s.progress);s.progress+=amount;this.distance+=amount;
-   if(s.progress>=length){s.stage=s.stage==='approach'?'light':'watch';s.elapsed=0;s.progress=0;}
+   if(s.progress>=length){s.stage='light';s.elapsed=0;s.progress=0;}
   }else if(s.stage==='light'){
    if(s.elapsed>=1.2)this.discoveries.add('gate');
-   if(s.elapsed>=3){s.stage='return';s.elapsed=0;}
+   if(s.elapsed>=3){s.stage='watch';s.elapsed=0;}
   }else if(s.stage==='watch'){
-   const path=followerRoute(),total=polylineLength(path);
-   this.followers=[0,1].map(i=>{const d=Math.max(0,(s.elapsed-3-i*.9)*4.6);return {...pointOnPath(path,Math.min(total-i*1.4,d)),visible:s.elapsed>=3+i*.9,moving:d<total-i*1.4};});
-   if(s.elapsed>3.9+total/4.6+2){this.phase='choice';this.gateSequence=null;this.selected=this.options.findIndex(e=>e.to==='goal');this.message='The others have gone ahead. Follow when you are ready.';}
+   this.updateFollowers(s.elapsed);
+   if(s.elapsed>3.9+17/4.6){this.followerTime=s.elapsed;this.gateHold=this.position;this.awaitingFollow=true;this.phase='choice';this.gateSequence=null;this.selected=0;this.message='The others have gone ahead. Follow when you are ready.';}
   }
  }
+ updateFollowers(time){const path=followerRoute(),total=polylineLength(path),start=total-polylineLength(lanePoints(EDGES.find(e=>e.b==='goal')))-polylineLength(lanePoints(EDGES.find(e=>e.a==='market'&&e.b==='arch')).slice(6))-5;this.followers=[0,1].map(i=>{const d=start+Math.max(0,(time-3-i*.9)*4.6);return {...pointOnPath(path,Math.min(total-i*1.4,d)),visible:time>=3+i*.9,moving:d<total-i*1.4};});}
  get position(){
-  if(this.gateSequence){const s=this.gateSequence,path=gateApproach();if(s.stage==='watch')return {...NODE.arch};if(s.stage==='return')return pointOnPath(path.slice().reverse(),s.progress);const p=pointOnPath(path,s.stage==='light'?polylineLength(path):s.progress);if(s.stage==='light'){const lane=lanePoints(EDGES.find(e=>e.a==='market'&&e.b==='arch')),a=lane[6],b=lane[7],yaw=Math.atan2(b.x-a.x,b.z-a.z);p.heading=Math.atan2(a.x+Math.cos(yaw)*1.55-p.x,a.z-Math.sin(yaw)*1.55-p.z);}return p;}
+  if(this.phase==='intro')return openingActors(this.introTime).player;
+  if(this.gateHold)return {...this.gateHold};
+  if(this.gateSequence){const s=this.gateSequence,path=gateApproach();const p=pointOnPath(path,['light','watch'].includes(s.stage)?polylineLength(path):s.progress);if(['light','watch'].includes(s.stage)){const lane=lanePoints(EDGES.find(e=>e.a==='market'&&e.b==='arch')),a=lane[6],b=lane[7],yaw=Math.atan2(b.x-a.x,b.z-a.z);p.heading=Math.atan2(a.x+Math.cos(yaw)*1.55-p.x,a.z-Math.sin(yaw)*1.55-p.z);}return p;}
 
   if(!this.travel)return {...NODE[this.at]};
   let d=this.travel.progress;const {points,lengths}=this.travel;
@@ -129,4 +133,8 @@ export class Journey{
 export function polylineLength(points){return points.slice(1).reduce((n,p,i)=>n+Math.hypot(p.x-points[i].x,p.z-points[i].z),0);}
 export function pointOnPath(points,d){for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],l=Math.hypot(b.x-a.x,b.z-a.z);if(d<=l||i===points.length-1){const t=Math.min(1,d/l);return {x:a.x+(b.x-a.x)*t,z:a.z+(b.z-a.z)*t,heading:Math.atan2(b.x-a.x,b.z-a.z)};}d-=l;}}
 export function gateApproach(){const path=lanePoints(EDGES.find(e=>e.a==='market'&&e.b==='arch'));const a=path[6],b=path[7],yaw=Math.atan2(b.x-a.x,b.z-a.z);return [...path.slice(8).reverse(),{x:a.x+Math.cos(yaw)*1.1+Math.sin(yaw)*1.1,z:a.z-Math.sin(yaw)*1.1+Math.cos(yaw)*1.1}];}
-export function followerRoute(){return [...lanePoints(EDGES.find(e=>e.a==='market'&&e.b==='arch')),...lanePoints(EDGES.find(e=>e.b==='goal')).slice(1)];}
+export function followerRoute(){return [['gate','olive'],['olive','market'],['market','arch'],['arch','goal']].flatMap(([a,b],i)=>lanePoints(EDGES.find(e=>e.a===a&&e.b===b)).slice(i?1:0));}
+export function followPlayerRoute(){const gate=gateApproach().at(-1),lane=lanePoints(EDGES.find(e=>e.a==='market'&&e.b==='arch'));return [gate,...lane.slice(8),...lanePoints(EDGES.find(e=>e.b==='goal')).slice(1)];}
+export const INTRO_DURATION=10;
+export const openingPath=[{x:0,z:100},{x:0,z:52}];
+export function openingActors(time){const t=Math.max(0,Math.min(INTRO_DURATION,time));return {player:{x:0,z:90-3.8*t,heading:Math.PI},followers:[0,1].map(i=>({x:i?1.1:-1.1,z:98+i*2-3.8*t,heading:Math.PI,visible:true,moving:t<INTRO_DURATION}))};}

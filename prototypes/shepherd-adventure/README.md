@@ -27,8 +27,8 @@ Python 3.9+, Node.js/npm and a WebGL 2 browser are required. The server installs
 pinned Three.js 0.169.0 into `/tmp/watch-game-blender-runtime` on first use.
 `WATCH_GAME_RUNTIME` overrides that location. No Blender or Tripo token is needed.
 
-After the illustrated intro, the camera starts in the distant field and eases into the follow camera over about
-eight seconds; OK skips it. Tap a landmark card to walk there. All paths appear together;
+After the illustrated intro, a ten-second camera approach passes two running
+companions and catches the main shepherd near the settlement; Skip intro ends it. Tap a landmark card to walk there. All paths appear together;
 hover or keyboard focus brightens the corresponding ground trail. Left/right and
 Enter remain available. Arrival automatically gathers supplies and discovers routes;
 a short observation appears without stopping play. Longer observations are available
@@ -168,7 +168,10 @@ repository root. Independent runtime files and license are under this prototype'
 license, runtime texture adaptations and file hashes are retained in provenance.
 No new paid generation was used for this environment pass.
 
-The rear-passage interaction now walks the shepherd to the gate lamp, shares the flame, opens the gate, and returns him to his post. Two animated shepherds then run through to the shelter before manual control resumes. Pause and restart remain available during the sequence. The shelter sits farther beyond a screened stone courtyard, and settlement lamps use fixed lights with constant brightness instead of a proximity-switched light pool.
+The rear-passage interaction walks the shepherd to the gate lamp, shares the flame
+and opens the gate. He stays there while the two distinct animated companions run
+past from the entrance-side path. The single “follow the others” option runs him
+continuously from the gate to the final shelter. Pause and restart remain available during the sequence. The shelter sits farther beyond a screened stone courtyard, and settlement lamps use fixed lights with constant brightness instead of a proximity-switched light pool.
 
 ## Illustrated opening and ending
 
@@ -247,3 +250,17 @@ controls; no new Tripo model or paid Tripo job was needed.
 ## Material UI (12 September 2026)
 
 The journey and both scripture sequences share flax linen panels, leather controls and timber route signs, guided by the tanner stall reference. Pause offers Continue and Restart. The opening camera has a quiet bottom-left Skip intro. Scripture waits for Start (which unlocks music), Next verse, and Start adventure or Finish story. Sound defaults on; the first preview is silent until Start. See `assets/story/CREDITS.md` for music attribution. The portal omits its injected return link for this prototype.
+
+
+## Companion and cutscene update (12 September 2026)
+
+[Requested current-to-new direction and audit](docs/content-update-2026-09-12.md).
+The two supporting shepherds use separate Tripo models matching the opening art,
+with idle and running clips. Their runtime copies are independent of the library.
+The opening path extends into the field with a clear camera corridor and side trees
+and boulders. The settlement map includes this approach. Pause and restart work
+during the opening and gate sequences; reduced motion avoids the opening fly-through.
+
+Run `node checks/verify-companion-scenes.mjs` and
+`node checks/verify-companion-models.mjs` for scene continuity and sampled skinning,
+clip playback, bounds and foot contact. See the audit for validation limits.

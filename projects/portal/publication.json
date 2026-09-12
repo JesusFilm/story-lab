@@ -116,7 +116,10 @@
         "prototypes/shepherd-adventure/assets/oil-jar-pixal3d.glb",
         "prototypes/shepherd-adventure/assets/vegetable-market-stall-pixal3d.glb",
         "prototypes/shepherd-adventure/assets/pottery-market-stall-pixal3d.glb",
-        "prototypes/shepherd-adventure/assets/tanner-market-stall-pixal3d.glb"
+        "prototypes/shepherd-adventure/assets/tanner-market-stall-pixal3d.glb",
+        "prototypes/shepherd-adventure/src/companion-character.mjs",
+        "prototypes/shepherd-adventure/assets/shepherd-companion-tall.glb",
+        "prototypes/shepherd-adventure/assets/shepherd-companion-stocky.glb"
       ],
       "image_alt": "A shepherd carrying a glowing lantern faces the timber gate and lamplit stone walls of the sleeping market",
       "image_version": "8fa1d09eaa07",
@@ -302,6 +305,20 @@
       "model": "prototypes/shepherd-adventure/assets/tanner-market-stall-pixal3d.glb",
       "prompt": "assets/structures/tanner-market-stall/tanner-market-stall-prompt.txt",
       "reference": "assets/structures/tanner-market-stall/tanner-market-stall-reference.png"
+    },
+    {
+      "slug": "shepherd-companion-tall",
+      "title": "Shepherd companion \u2014 tall",
+      "model": "prototypes/shepherd-adventure/assets/shepherd-companion-tall.glb",
+      "prompt": "assets/characters/shepherd-companion-tall/reference-prompt.txt",
+      "reference": "assets/characters/shepherd-companion-tall/reference.png"
+    },
+    {
+      "slug": "shepherd-companion-stocky",
+      "title": "Shepherd companion \u2014 stocky",
+      "model": "prototypes/shepherd-adventure/assets/shepherd-companion-stocky.glb",
+      "prompt": "assets/characters/shepherd-companion-stocky/reference-prompt.txt",
+      "reference": "assets/characters/shepherd-companion-stocky/reference.png"
     }
   ],
   "reviewed_files": {
@@ -327,11 +344,11 @@
     "prototypes/shepherd-adventure/journey.css": "3a7a55acf3624e681434d06ba5cacbc64540042219734d1dd3ce7628500a2388",
     "prototypes/shepherd-adventure/src/character-variants.mjs": "8af5c68c21e8a61a4803eaefaaf0817971ede2209e6f2d5c1580238107200cb5",
     "prototypes/shepherd-adventure/src/journey-camera.mjs": "614ca84ad9924f7465f826eaa6921cb6e926b226221f7ed5ae6298387bea514e",
-    "prototypes/shepherd-adventure/src/journey-model.mjs": "9b22a1f6e662a664e8233f651236d183a32073daba3b3f1419d0af3d3011f663",
+    "prototypes/shepherd-adventure/src/journey-model.mjs": "244de5e47f0f862f90cbfd8eeef8adb0d5fe8303ea648213637415fedea8fffe",
     "prototypes/shepherd-adventure/src/journey-poi-models.mjs": "eeac6c0a98f3f60d7de8dfdc5b79dada08da9ff19b04751d9511e053324bf6e5",
     "prototypes/shepherd-adventure/src/journey-terrain.mjs": "36091c947e75d1fef49c06947190f85fb525aa7e0f8253bc5afd521bc3ae9df0",
-    "prototypes/shepherd-adventure/src/journey-world.mjs": "78e7219140013b9606465935cceca35904ad0320baba15340694ffb7cf74891e",
-    "prototypes/shepherd-adventure/src/journey.mjs": "5c4bdce2873642e0d64027739f15450332bf4694dc8a0eee993dd83b7b935029",
+    "prototypes/shepherd-adventure/src/journey-world.mjs": "3095642efdce0eab1dce3f0bdfb751d327f0c4b334d3abb10ae52caf4ddf197a",
+    "prototypes/shepherd-adventure/src/journey.mjs": "5b3831a27bd78d582c41bdb1589952542d3179b2eb6f10f4cba98d1ebd9fc198",
     "prototypes/shepherd-adventure/assets/animal-pen-tripo-v2.glb": "d46961854bb782496d3b01e4de9e3b9f6ae5cef168bbb9f69a3c31dd25e005f1",
     "prototypes/shepherd-adventure/assets/house-01-tripo-v2.glb": "7a05ffc1260fdca80cbefd2490f6e0e2ada0241e554a521d117e10705c464c05",
     "prototypes/shepherd-adventure/assets/market-stall-tripo-v2.glb": "a4657064c8b6ea5a0a7db6842d92508c37ea2feada48c03db4695a25af3f18eb",
@@ -521,7 +538,7 @@
     "prototypes/shepherd-adventure/assets/story/opening.json": "f1ac315a0bd34b0ed2c241b9efd00688a6e23b898cca48cea229a187c0553c85",
     "prototypes/shepherd-adventure/assets/story/ending.json": "256b3801d210e5904aa14ef94ed56f7dec41a2fe942b45b7c78c09d9a7294f60",
     "prototypes/shepherd-adventure/src/journey-presentation.mjs": "d06c162e99430c1b0938e460371aaa0c539f8c5ae894fd30082af20d38a2421d",
-    "prototypes/shepherd-adventure/src/journey-nature.mjs": "cd02dd582496a40daa8c353f3617af537c2be3dd2aa92b1d046c900e94a39c3d",
+    "prototypes/shepherd-adventure/src/journey-nature.mjs": "76a57b9d27a5b30d6a4f382cf7f381bb795254e9e7f2e657035125997df9f9e9",
     "prototypes/shepherd-adventure/src/journey-boundaries.mjs": "d9359542ebb0ec0c72fda01e5527a3e84c4cea143ada149bcf1393c6f0e5c4f7",
     "prototypes/shepherd-adventure/src/journey-lantern.mjs": "171931a27bffa6811cdacf93af1dcce45afb257e509fb47d566c1d90bde3f3ee",
     "prototypes/shepherd-adventure/assets/portable-lantern-tripo.glb": "d3d4dde3bcf6ddbb8a3fa347589d6bb98523a2f2421ace329101cba83e0ae9b3",
@@ -555,7 +572,7 @@
     "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.gltf": "67c77864d59d349a96dbdb2a96424ed1a947ef82d598e4db65cad7d3df56710e",
     "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.bin": "04ad394055b72a3d3717d8e3617ae733ea155580330d94d7387238928755eaca",
     "prototypes/shepherd-adventure/assets/nature/TwistedTree_3.gltf": "50f5133306d694e80598a5a1aaccea4d419852493e58e731026eca53a403e9e7",
-    "prototypes/shepherd-adventure/src/journey-routes.mjs": "23c78464f2da211575c9aaaa094b613aec3b49cab34a49a53cfd16e47c4c355f",
+    "prototypes/shepherd-adventure/src/journey-routes.mjs": "4db66f9862a4a274146225e4501f691e6af65e19da01ab2a251e5380c7e84789",
     "prototypes/shepherd-adventure/src/lamp-craft.mjs": "0a11345baf9d7210102b55056ac64296e882e863047e81bc628255a47d781c6f",
     "prototypes/shepherd-adventure/src/lamp-workbench.mjs": "46711142db4a79f656dfa071f879b425ea829cf4cdf66d1d9e59be0b56b4fbfb",
     "prototypes/shepherd-adventure/workbench.css": "97a030b8fd9ee47d6ca325e7859c4aa1cd0f044120581ebb31d186434041ed63",
@@ -579,6 +596,13 @@
     "assets/structures/pottery-market-stall/pottery-market-stall-reference.png": "3450f92c39ac7a9d18be711e8ce321f639d6ea01583e5fbe4391cd8b647b7700",
     "prototypes/shepherd-adventure/assets/tanner-market-stall-pixal3d.glb": "621200ae8361e23544837a9550f0e89cb129b8669e3efc35a5068a04f3845ea8",
     "assets/structures/tanner-market-stall/tanner-market-stall-prompt.txt": "9b4da90b71d5dafbb12816ed3d6db1f7b59619f9292db139ee3549038e2c867b",
-    "assets/structures/tanner-market-stall/tanner-market-stall-reference.png": "0f77b44eaf2000ab9d853c1b2740d60a1cd8bae58f8c3af6c601fab930c55019"
+    "assets/structures/tanner-market-stall/tanner-market-stall-reference.png": "0f77b44eaf2000ab9d853c1b2740d60a1cd8bae58f8c3af6c601fab930c55019",
+    "prototypes/shepherd-adventure/assets/shepherd-companion-tall.glb": "2f016139b1577b935b96ed2425b4325af0c7a57429eedd6b725552ac60e25f90",
+    "assets/characters/shepherd-companion-tall/reference-prompt.txt": "953e1662e36f2187cddd83be85f981cb6b979c5e2717c0d6066ad003cd4e782e",
+    "assets/characters/shepherd-companion-tall/reference.png": "b5ab996cef8803242467e06bf8f351d4a8ef333fd033958f3391759b3820f599",
+    "prototypes/shepherd-adventure/assets/shepherd-companion-stocky.glb": "ec5a3f70cb036b014d64409e4f6e03e85393994d3791cdb50721c405f9a28f12",
+    "assets/characters/shepherd-companion-stocky/reference-prompt.txt": "400e65d30d6b4ac5713676405a0891e38527fdd4e9997f95568bcb9620780810",
+    "assets/characters/shepherd-companion-stocky/reference.png": "d8ef975ca8c4e38cc59258994be8c6665cab9aa9ca6b1830362a9f608b5212ad",
+    "prototypes/shepherd-adventure/src/companion-character.mjs": "91d3a4335638402008e8cb42fa81d2c5d6e6475030379e7de5083932f9ca8f22"
   }
 }

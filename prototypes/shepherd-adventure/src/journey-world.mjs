@@ -5,12 +5,12 @@ import {terrainSurface,sampleRibbon} from './journey-presentation.mjs';
 import {obstructionTarget} from './journey-camera.mjs';
 import {loadJourneyPOIModels} from './journey-poi-models.mjs';
 import * as THREE from 'three';
-import {NODES,NODE,EDGES,lanePoints} from './journey-model.mjs';
+import {NODES,NODE,EDGES,lanePoints,openingPath} from './journey-model.mjs';
 
 function random(seed=914){return ()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};}
 import {height} from './journey-terrain.mjs';
 export {height} from './journey-terrain.mjs';
-const paths=EDGES.map(e=>({edge:e,points:lanePoints(e)}));
+const paths=[...EDGES.map(e=>({edge:e,points:lanePoints(e)})),{edge:{id:'opening-approach',a:'field',b:'field'},points:openingPath}];
 function distanceToSegment(x,z,a,b){const dx=b.x-a.x,dz=b.z-a.z,t=THREE.MathUtils.clamp(((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz),0,1);return Math.hypot(x-a.x-t*dx,z-a.z-t*dz);}
 function pathDistance(x,z){let d=1e4;for(const path of paths)for(let i=1;i<path.points.length;i++)d=Math.min(d,distanceToSegment(x,z,path.points[i-1],path.points[i]));return d;}
 function dirtTexture(){

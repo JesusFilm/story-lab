@@ -14,6 +14,7 @@ export async function addVillageNature(loader,scene,fits,pathDistance,watchOcclu
  const occupied=[];
  function buildingDistance(x,z){return Math.min(...fits.map(({rect:[a,b,c,d]})=>Math.hypot(Math.max(a-x,0,x-c),Math.max(b-z,0,z-d))));}
  function put(name,x,z,h,kind,outside=false){
+  if(z>45&&Math.abs(x)<(kind==='tree'?10:5))return;
   const root=new THREE.Group(),model=sources[name].clone(true);root.add(model);root.name=kind+'-'+name;root.userData.source='quaternius-cc0';root.position.set(x,height(x,z)-(kind==='boulder'?.1:.07),z);root.rotation.y=rng()*Math.PI*2;
   const width=.85+rng()*.3;root.scale.set(h*width,h,h*(.85+rng()*.3));scene.add(root);watchOcclusion(root,kind==='tree'?'tree':'boulder');occupied.push({x,z,r:kind==='tree'?2.5:1.5});placements.push({name,kind,x,z,height:h,outside});
  }
@@ -22,6 +23,7 @@ export async function addVillageNature(loader,scene,fits,pathDistance,watchOcclu
   if(pathDistance(x,z)>2.8&&buildingDistance(x,z)>1.8)put(TREE_MODELS[i%3],x,z,4.2+rng()*1.5,'tree');
  }
  for(const [i,[x,z,h]] of [[12,-36,1.3],[16,-37,1.1],[27,-37,1.6],[10,-46,1.2]].entries())put(ROCK_MODELS[i%3],x,z,h,'boulder');
+ for(const [i,z] of [57,69,82,95].entries()){put(TREE_MODELS[i%3],i%2?-12:12,z,5,'tree',true);put(ROCK_MODELS[i%3],i%2?9:-9,z+3,1.5,'boulder',true);}
  const b=VILLAGE_BOUNDS;
  // Irregular woodland clusters beyond the wall, leaving the arrival lane clear.
  for(let i=0;i<52;i++){
