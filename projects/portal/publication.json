@@ -124,7 +124,8 @@
         "prototypes/shepherd-adventure/assets/nativity-family-pixal3d.glb",
         "prototypes/shepherd-adventure/assets/sheep-tripo-v2.glb",
         "prototypes/shepherd-adventure/src/journey-animal-route.mjs",
-        "prototypes/shepherd-adventure/src/journey-arrival.mjs"
+        "prototypes/shepherd-adventure/src/journey-arrival.mjs",
+        "prototypes/shepherd-adventure/src/journey-debug.mjs"
       ],
       "image_alt": "A shepherd carrying a glowing lantern faces the timber gate and lamplit stone walls of the sleeping market",
       "image_version": "8fa1d09eaa07",
@@ -360,7 +361,7 @@
     "prototypes/shepherd-adventure/src/journey-poi-models.mjs": "eeac6c0a98f3f60d7de8dfdc5b79dada08da9ff19b04751d9511e053324bf6e5",
     "prototypes/shepherd-adventure/src/journey-terrain.mjs": "36091c947e75d1fef49c06947190f85fb525aa7e0f8253bc5afd521bc3ae9df0",
     "prototypes/shepherd-adventure/src/journey-world.mjs": "48c50d4a90f2d3bc65fbf78e5509e152c2b01c8b83e9d87cc838de93cc713de3",
-    "prototypes/shepherd-adventure/src/journey.mjs": "a0398f697941e45449147163a5afb3e1647fa780ffb70555d562ecaef2aea482",
+    "prototypes/shepherd-adventure/src/journey.mjs": "4636fd457f3206edbaa3e11d349a811559804ea8e4541329294b5bbc1c31a926",
     "prototypes/shepherd-adventure/assets/animal-pen-tripo-v2.glb": "d46961854bb782496d3b01e4de9e3b9f6ae5cef168bbb9f69a3c31dd25e005f1",
     "prototypes/shepherd-adventure/assets/house-01-tripo-v2.glb": "7a05ffc1260fdca80cbefd2490f6e0e2ada0241e554a521d117e10705c464c05",
     "prototypes/shepherd-adventure/assets/market-stall-tripo-v2.glb": "a4657064c8b6ea5a0a7db6842d92508c37ea2feada48c03db4695a25af3f18eb",
@@ -535,7 +536,7 @@
     "prototypes/story-diorama-lab/assets/hiraeth.mp3": "f790c7d53b8d802981ff7cdd8c59e22cdfe103ea66aba296c6cf1a65fe7fcf01",
     "projects/portal/public/story-diorama-lab.jpg": "5aa260fc01c5b5015d3af3870b8492b128ed24d2a1cb72ff32c8b8380c01c68e",
     "projects/portal/public/shepherd-adventure.jpg": "8fa1d09eaa07a1f5f61fa8071eec52e27749c262e35b60a81ffa1792f3cb9069",
-    "prototypes/shepherd-adventure/src/boot.mjs": "3e4321c31030f203bb623428cef4aea3967625f7a11bfd6fb9295f88e0bccbfa",
+    "prototypes/shepherd-adventure/src/boot.mjs": "e833b7948c151b5cfdd23f154bfc7e399251915cdd64c4443ed4f374990c2307",
     "prototypes/shepherd-adventure/src/journey-story.mjs": "8c285310cab0b40246c2394490c1e2872c38ad4fb77b4b0aa28094928eef5f5e",
     "prototypes/shepherd-adventure/src/story-media.mjs": "598e60f11874c2caa5cdc60f2785c805e3e568a44630498801f4b9f0954fef8b",
     "prototypes/shepherd-adventure/src/journey-story-data.mjs": "af729b8adc360ba028318a2b81bfb2acc6d93139a9e706ddae36c1c7c338b7b7",
@@ -622,6 +623,7 @@
     "assets/characters/nativity-family/nativity-family-reference.png": "7f1c963f48c3fc828e2b0580ea923f32ad98dd9f1b43d9828ccfd2e44cdbecd0",
     "prototypes/shepherd-adventure/assets/sheep-tripo-v2.glb": "cee1fc0aa3715cba94abc949da68009ef34cb337ecc902ead1af68953ef3314f",
     "prototypes/shepherd-adventure/src/journey-animal-route.mjs": "757a532df49034fbb7315a774fce633bbb649888b146073b85690ba5827870ce",
-    "prototypes/shepherd-adventure/src/journey-arrival.mjs": "cc5a3704e86e3a2715488dda1195dfeeeb05d329c760d63871412cd8f81521d8"
+    "prototypes/shepherd-adventure/src/journey-arrival.mjs": "cc5a3704e86e3a2715488dda1195dfeeeb05d329c760d63871412cd8f81521d8",
+    "prototypes/shepherd-adventure/src/journey-debug.mjs": "ed1745879690ce2238eae9b95cdeaa5279e76e6d7dab05d75cd61d74e8f16848"
   }
 }
