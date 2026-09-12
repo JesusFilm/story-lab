@@ -9,7 +9,7 @@ Can preparing a light, noticing clues and discovering routes make the shepherd's
 search for the Nativity more engaging? This experiment moves from an open field
 into a quiet nighttime village. Make a lamp at one sheltered workbench, investigate
 landmarks, discover a way around a gate, and leave the gate open and lit for others.
-Inspect the final shelter to complete the journey.
+At the final shelter, the camera eases into first person. Choose “heard the good news” to play the ending diorama.
 
 There is no maze generation, fuel arithmetic, timer or loss of lives. The fourteen
 locations use authored paths, with observations remembered in a notebook. This is
@@ -32,7 +32,7 @@ companions and catches the main shepherd near the settlement; Skip intro ends it
 hover or keyboard focus brightens the corresponding ground trail. Left/right and
 Enter remain available. Arrival automatically gathers supplies and discovers routes;
 a short observation appears without stopping play. Longer observations are available
-in the notebook under the menu. The gate welcome and shelter ending start on arrival.
+in the notebook under the menu. The gate welcome starts on arrival; the shelter ending waits for “heard the good news”.
 The menu also offers pause, look around, retrace, recovery and restart. Sound is optional.
 
 ## Sources and local assets
@@ -66,8 +66,8 @@ animation blending. They do not establish enjoyment or finished visual quality.
 
 The night atmosphere and investigation direction reflect Jaco's feedback. The specific
 preparation/discovery loop remains experimental. No general collision solver, save
-system, final Nativity cast or production integration is implemented. The last shelter
-contains a simple swaddled stand-in. Physical-device behavior requires playtesting.
+system or production integration is implemented. The Nativity cast is a static
+Pixal3D tableau intended for frontal viewing. Physical-device behavior requires playtesting.
 
 [Restored maze comparison](../shepherd-maze/README.md) · migration record
 
@@ -186,7 +186,7 @@ The game module and models prepare behind the opening, without advancing simulat
 or rendering the hidden scene. Begin waits for any remaining game preparation, then
 starts the star/settlement establishing shot. Restart reuses the loaded game.
 
-At the back gate (`arch`), the ending image and soundtrack preload silently. Arrival
+At the back gate (`arch`), the ending image and soundtrack preload silently. Choosing “heard the good news”
 joins that same request if still pending, or opens immediately if ready. Story close
 destroys the player, clears image DOM, aborts outstanding fetches and revokes all
 story-owned blob URLs. Browser HTTP cache and garbage collection remain browser-owned;
@@ -264,3 +264,51 @@ during the opening and gate sequences; reduced motion avoids the opening fly-thr
 Run `node checks/verify-companion-scenes.mjs` and
 `node checks/verify-companion-models.mjs` for scene continuity and sampled skinning,
 clip playback, bounds and foot contact. See the audit for validation limits.
+
+
+## Nativity animal area (12 September 2026)
+
+[Request, layout and progress audit](docs/nativity-scene/request-and-progress.md).
+A curved approach enters one open southeast gate, passes the sheep and reaches the larger northwest shelter within the same enclosure.
+Mary, Joseph and baby Jesus in a manger match the ending artwork. The extended low stone
+enclosure surrounds both the shelter and inner sheep pen, with four surrounding trees.
+Five stationary sheep reuse the existing model: three in the pen and two at the
+shelter. The single livestock gate stands open; the existing village gate remains interactive.
+The original village fold still supplies its rear-passage discovery clue.
+
+The family has 149,691 triangles and embedded 2K textures. Small inferred rear-cloth
+holes are concealed by frontal staging; the model is static. All animal poses are
+held still to preserve the calm setting. No new Tripo generation was needed.
+
+Run `node checks/verify-nativity-area.mjs` for final-route clearance and scene checks,
+and `node checks/verify-animal-route-view.mjs` for landscape/portrait sheep visibility,
+then the existing journey, companion, POI, camera and settlement-map checks.
+Offline composition renders use actual game geometry with simplified environment
+materials; they do not establish browser lighting or physical-device performance.
+
+The final route follows the approved light-blue annotation: enter from the southeast,
+curve northwest past the pen, then continue north to the shelter without a second
+exit. The main shepherd eases to 2 m/s inside the animal area. The follow camera
+smoothly widens, rises and looks toward the sheep, then returns to the shelter
+approach. Portrait framing allows extra distance to retain both shepherd and sheep.
+Pause, reduced motion and the existing companion route remain supported.
+
+
+## Nativity playtest fixes
+
+The dark horizon hills now stay at least 40 m beyond the north wall. The open
+animal gate leaf has two vertical end posts, and every sheep-fence rail terminates
+at a post, including both sides of its entrance. The three shepherds finish 2.2 m
+apart in a row facing the family.
+
+Arrival takes six seconds to settle behind the main shepherd's shoulder and move
+to his eye-level view. The avatar is hidden as the camera reaches his eyes. The
+“heard the good news” button appears after the reveal and is the only way to start
+the outro. Pause/resume and restart work throughout; reduced motion uses the final
+view immediately. Background ending-media prefetch remains intact.
+
+Checks: `verify-nativity-arrival.mjs` covers geometry, spacing and state;
+`verify-arrival-browser.mjs` covers landscape/portrait, the camera endpoint,
+pause/resume, explicit outro, restart and reduced motion. Browser screenshots:
+[landscape](docs/nativity-scene/arrival-landscape.png),
+[portrait](docs/nativity-scene/arrival-portrait.png).

@@ -23,7 +23,7 @@ try{
  await page.route('**/nativity.jpg',async route=>{endingRequests++;await endingGate;await route.continue();});
  await page.evaluate(async()=>{const {Journey}=await import('./src/journey-model.mjs');const original=Journey.prototype.inspect;window.stageAt=at=>{Journey.prototype.inspect=function(){this.at=at;this.phase='choice';this.gateSequence=null;this.discoveries.add('gate');return original.call(this);};window.lanternJourney.command('ArrowUp');};window.stageAt('arch');});
  await page.waitForTimeout(300);assert.equal(endingRequests,1);assert(await page.locator('#loading').isHidden());
- await page.evaluate(()=>{window.lanternJourney.command('Enter');window.stageAt('goal');});await page.locator('#loading').waitFor({state:'visible'});releaseEnding();await page.locator('#story-overlay').waitFor({state:'visible'});assert(await page.locator('#loading').isHidden());assert.equal(endingRequests,1);
+ await page.evaluate(()=>{window.lanternJourney.command('Enter');window.stageAt('goal');});await page.locator('#hear-good-news').click();await page.locator('#loading').waitFor({state:'visible'});releaseEnding();await page.locator('#story-overlay').waitFor({state:'visible'});assert(await page.locator('#loading').isHidden());assert.equal(endingRequests,1);
  assert.equal(await page.locator('#story-sound').textContent(),'Sound off');await page.locator('#story-skip').click();assert(await page.locator('#ending').isVisible());assert.equal(await page.locator('#story-scene img').count(),0);
  // Restart keeps the prepared 3D world, but acquires a new story lease.
  await page.locator('#again').click();await page.locator('#story-overlay').waitFor({state:'visible'});await page.locator('#story-skip').click();await page.locator('#begin').click();
@@ -31,7 +31,7 @@ try{
  await page.waitForFunction(()=>performance.getEntriesByType('resource').filter(r=>r.name.endsWith('nativity.jpg')).length>=2);
  await page.waitForTimeout(500);
  await page.evaluate(()=>{window.loaderFlashes=0;new MutationObserver(()=>{if(!document.querySelector('#loading').hidden)window.loaderFlashes++;}).observe(document.querySelector('#loading'),{attributes:true,attributeFilter:['hidden']});window.lanternJourney.command('Enter');window.stageAt('goal');});
- await page.locator('#story-overlay').waitFor({state:'visible'});assert.equal(await page.evaluate(()=>window.loaderFlashes),0);await page.locator('#story-skip').click();
+ await page.locator('#hear-good-news').click();await page.locator('#story-overlay').waitFor({state:'visible'});assert.equal(await page.evaluate(()=>window.loaderFlashes),0);await page.locator('#story-skip').click();
  assert.deepEqual(errors,[]);console.log('PASS: story-first gesture start; music defaults on/mutes; game imports in background; early Begin waits; media released; camera order; gate prefetch; ending joins pending download.');
  await page.close();
  const failure=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});await failure.route('**/announcement.jpg',r=>r.abort());await failure.goto(origin+'/');await failure.locator('.loading-retry').waitFor({state:'visible'});await failure.unroute('**/announcement.jpg');await failure.locator('.loading-retry').click();await failure.locator('#story-overlay').waitFor({state:'visible'});await failure.screenshot({path:'/tmp/shepherd-loading-mobile.png'});await failure.close();console.log('PASS: failed intro retries; mobile/reduced-motion story opens.');

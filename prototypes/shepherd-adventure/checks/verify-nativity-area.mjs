@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import {loadSettlement,THREE} from './load-settlement.mjs';
+const {NATIVITY,ANIMAL_AREA_WALLS,ANIMAL_AREA_TREES}=await import('../src/journey-nativity.mjs');
+import {NODES,NODE,EDGES,lanePoints,followPlayerRoute,followerRoute} from '../src/journey-model.mjs';
+const {world,scene}=await loadSettlement();
+const shelter=world.settlementFeatures.find(f=>f.kind==='shelter').root;
+assert.equal(shelter.position.x,NATIVITY.x);assert.equal(shelter.position.z,NATIVITY.z);
+assert.equal(shelter.rotation.y,Math.PI/2);
+const family=shelter.children.find(o=>o.type==='Group');assert(family,'Generated family present');
+const familyBounds=new THREE.Box3().setFromObject(family);assert(Math.abs(familyBounds.max.y-familyBounds.min.y-1.8)<.02);
+assert(world.settlementFeatures.some(f=>f.label==='Quiet animal pen'));
+assert.equal(world.settlementFeatures.filter(f=>f.kind==='animal').length,5);
+assert(world.wallSegments.some(s=>s.kind==='animal-area-wall'));
+assert.equal(world.settlementFeatures.filter(f=>f.label==='Animal-area gate').length,1);
+assert.equal(scene.getObjectByName('open-animal-gate-leaf').rotation.y,Math.PI*.48);
+assert(!ANIMAL_AREA_WALLS.some(w=>w.a.z===-63&&w.b.z===-63),'No dividing wall or northern exit');
+for(const [x,z] of ANIMAL_AREA_TREES)assert(world.nature.placements.some(p=>p.kind==='tree'&&p.x===x&&p.z===z));
+function distance(p,a,b){const dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.z-a.z)*dz)/(dx*dx+dz*dz)));return Math.hypot(p.x-a.x-t*dx,p.z-a.z-t*dz);}
+const path=lanePoints(EDGES.find(e=>e.b==='goal'));
+assert.deepEqual(path.at(-1),{x:NODE.goal.x,z:NODE.goal.z});
+assert(path.some(p=>Math.hypot(p.x+21,p.z+39)<.01),'Route passes through the single gate');
+assert(path.some(p=>Math.hypot(p.x+35,p.z+53)<8),'Route comes close to sheep');
+for(const p of path){for(const wall of ANIMAL_AREA_WALLS)assert(distance(p,wall.a,wall.b)>1.05,'Final lane clears enclosure walls');assert(p.x>-29,'Lane stops outside open shelter');}
+for(const route of [followPlayerRoute(),followerRoute()])assert.deepEqual(route.at(-1),path.at(-1));
+assert(NODES.filter(n=>n.id!=='goal'&&n.z<-35).length===0);
+const animals=world.settlementFeatures.filter(f=>f.kind==='animal').map(f=>f.root);
+const before=animals.map(r=>r.matrixWorld.toArray());
+const journey={position:NODE.goal,at:'goal',lantern:true,phase:'arrival',options:[],gateOpen:true};world.update(10,10,journey);
+scene.updateMatrixWorld(true);assert.deepEqual(animals.map(r=>r.matrixWorld.toArray()),before,'Animals remain still');
+console.log('Nativity area passed: generated family, shelter dimensions/orientation, five calm sheep, pen, gate, trees, wall clearance and continuous final routes.');

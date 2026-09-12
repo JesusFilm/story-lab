@@ -25,3 +25,9 @@ flame, glass emission and point lighting are applied at runtime.
 Quaternius's free CC0 Stylized Nature MegaKit. They are **non-Tripo** assets;
 `nature/LICENSE.txt` and `nature/provenance.json` retain licensing and source details.
 The corresponding originals and manifests are in the root `assets/nature/` library.
+
+## Nativity family
+
+`nativity-family-pixal3d.glb` is the independent 1.8 m static family tableau.
+Its embedded textures and geometry need no external library files. Five sheep
+reuse `sheep-tripo-v2.glb` in a fixed idle pose around the new enclosure and shelter.

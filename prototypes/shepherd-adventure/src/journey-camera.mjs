@@ -24,7 +24,7 @@ export function routeLookahead(travel,metres=3.5){
 export class JourneyCamera{
  constructor(){this.yaw=Math.PI;this.position=null;this.look=null;this.lastDiagnostics=null;this.selectedArm=null;this.armAge=0;}
  reset(){this.position=null;this.look=null;this.yaw=Math.PI;this.selectedArm=null;this.armAge=0;}
- update({player,heading,ahead,boxes=[],dt=.016,instant=false,portrait=false}){
+ update({player,heading,ahead,boxes=[],dt=.016,instant=false,portrait=false,interest=null}){
   const ground=player.y||0,chest={x:player.x,y:ground+1.15,z:player.z};
   const delta=angleDelta(this.yaw,heading);this.yaw+=instant?delta:clamp(delta,-1.6*dt,1.6*dt);
   // Read what is immediately ahead, not the far endpoint beyond intervening houses.
@@ -32,10 +32,12 @@ export class JourneyCamera{
   const gaze=ahead||{x:player.x+forward.x*3,z:player.z+forward.z*3};
   const toward=Math.hypot(gaze.x-player.x,gaze.z-player.z)||1;
   const look={x:player.x+(gaze.x-player.x)*Math.min(1.6,toward)/toward,y:ground+1.25,z:player.z+(gaze.z-player.z)*Math.min(1.6,toward)/toward};
+  const interestWeight=interest?.weight||0;
+  if(interestWeight){look.x+=(interest.x-look.x)*interestWeight*.55;look.z+=(interest.z-look.z)*interestWeight*.55;look.y+=(interest.y-look.y)*interestWeight*.55;}
   let best=null,bestScore=Infinity;const candidates=[];this.armAge+=dt;
   for(const offset of [0,.32,-.32,.65,-.65,1,-1,1.45,-1.45,Math.PI])for(const elevation of [3.6,5.4,7.5]){
-   const yaw=this.yaw+offset,back=portrait?7.5:6.3;
-   const pos={x:player.x-Math.sin(yaw)*back+Math.cos(yaw)*.85,y:ground+elevation,z:player.z-Math.cos(yaw)*back-Math.sin(yaw)*.85};
+   const yaw=this.yaw+offset,back=(portrait?7.5:6.3)+interestWeight*(portrait?12:2.8);
+   const pos={x:player.x-Math.sin(yaw)*back+Math.cos(yaw)*.85,y:ground+elevation+interestWeight*2.4,z:player.z-Math.cos(yaw)*back-Math.sin(yaw)*.85};
    const hidden=blocked(chest,pos,boxes,.2),gazeHidden=blocked(look,pos,boxes,.15);
    const score=(hidden?10000:0)+(gazeHidden?200:0)+Math.abs(offset)*8+(elevation-3.6)*3;
    const candidate={pos,score,offset,elevation,clear:!hidden&&!gazeHidden};candidates.push(candidate);if(score<bestScore){best=candidate;bestScore=score;}
