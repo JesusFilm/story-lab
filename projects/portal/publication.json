@@ -481,7 +481,7 @@
     "prototypes/shepherd-adventure/vendor/story-diorama/story-diorama.css": "4244ea03138f7a3b2c398d3ac2332044a75fc2a2b581c8a8df45bf266d698824",
     "prototypes/shepherd-adventure/vendor/story-diorama/timeline.mjs": "68adccfbef6d978f1d29db95b5626906841272bdd5429118159dd406afa39131",
     "prototypes/shepherd-adventure/vendor/story-diorama/appearance.mjs": "375b8f59a6d6d74d0dbedae89d1f11eaf96ff5f42b2b550685fe0457e3006a55",
-    "prototypes/shepherd-adventure/assets/story/opening.json": "843993c014a509b86e3202c17df6e1b7aab77e614d63ad1b273ded12fd1203ac",
+    "prototypes/shepherd-adventure/assets/story/opening.json": "f1ac315a0bd34b0ed2c241b9efd00688a6e23b898cca48cea229a187c0553c85",
     "prototypes/shepherd-adventure/assets/story/ending.json": "256b3801d210e5904aa14ef94ed56f7dec41a2fe942b45b7c78c09d9a7294f60",
     "prototypes/shepherd-adventure/src/journey-presentation.mjs": "d06c162e99430c1b0938e460371aaa0c539f8c5ae894fd30082af20d38a2421d",
     "prototypes/shepherd-adventure/src/journey-nature.mjs": "cd02dd582496a40daa8c353f3617af537c2be3dd2aa92b1d046c900e94a39c3d",

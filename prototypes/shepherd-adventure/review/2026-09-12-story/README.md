@@ -32,3 +32,13 @@ does not reproduce on the current base.
 
 Next question: does the gathering → host transition give the announcement enough
 emotional movement when played at its natural reading pace?
+
+## Playtest pacing adjustment
+
+After a complete playthrough, the user accepted the images/transitions and requested
+earlier image changes. Opening-only cue timing now reveals at 45 characters/second,
+holds for 2.2 seconds and fades text over 0.25 seconds. The 1.8-second image dissolves,
+scripture, ending timing and final confirmation are unchanged. Automatic image changes
+start at about 4.8s (announcement), 9.8s (reassurance), 23.9s (gathering), 28.4s
+(full host), with no Next presses. Verified through the actual Timeline clock.
+The user's follow-up excludes computer use; this adjustment uses code checks only.

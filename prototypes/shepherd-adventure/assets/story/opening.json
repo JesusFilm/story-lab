@@ -16,7 +16,10 @@
       },
       "options": {
         "transition": "dissolve",
-        "transitionMs": 1800
+        "transitionMs": 1800,
+        "speed": 45,
+        "hold": 2200,
+        "fade": 250
       }
     },
     {
@@ -28,7 +31,10 @@
       "alt": "A single radiant angel appears; three shepherds look up in alarm.",
       "options": {
         "transition": "dissolve",
-        "transitionMs": 1800
+        "transitionMs": 1800,
+        "speed": 45,
+        "hold": 2200,
+        "fade": 250
       }
     },
     {
@@ -40,7 +46,10 @@
       "alt": "The same angel speaks as the shepherds lower their hands and listen with growing relief.",
       "options": {
         "transition": "dissolve",
-        "transitionMs": 1800
+        "transitionMs": 1800,
+        "speed": 45,
+        "hold": 2200,
+        "fade": 250
       }
     },
     {
@@ -50,7 +59,10 @@
       "version": "World English Bible · public domain",
       "options": {
         "transition": "dissolve",
-        "transitionMs": 1800
+        "transitionMs": 1800,
+        "speed": 45,
+        "hold": 2200,
+        "fade": 250
       }
     },
     {
@@ -60,7 +72,10 @@
       "version": "World English Bible · public domain",
       "options": {
         "transition": "dissolve",
-        "transitionMs": 1800
+        "transitionMs": 1800,
+        "speed": 45,
+        "hold": 2200,
+        "fade": 250
       }
     },
     {
@@ -72,7 +87,10 @@
       "alt": "More angels gather behind the messenger as the shepherds look up in wonder.",
       "options": {
         "transition": "dissolve",
-        "transitionMs": 1800
+        "transitionMs": 1800,
+        "speed": 45,
+        "hold": 2200,
+        "fade": 250
       }
     },
     {
@@ -84,7 +102,10 @@
       "alt": "A vast heavenly host fills the sky with ivory light; the three shepherds lift their faces and hands in joy.",
       "options": {
         "transition": "dissolve",
-        "transitionMs": 1800
+        "transitionMs": 1800,
+        "speed": 45,
+        "hold": 2200,
+        "fade": 250
       }
     },
     {
@@ -96,7 +117,10 @@
       "alt": "The angels have departed and the three shepherds set off down the hillside toward Bethlehem.",
       "options": {
         "transition": "dissolve",
-        "transitionMs": 1800
+        "transitionMs": 1800,
+        "speed": 45,
+        "hold": 2200,
+        "fade": 250
       }
     }
   ]
