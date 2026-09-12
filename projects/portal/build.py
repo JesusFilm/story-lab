@@ -91,7 +91,8 @@ for proto in MANIFEST['prototypes']:
                 # imports Three.js eagerly and would delay their small intro.
                 if not proto.get('owns_loading'):
                     text = re.sub(r'<script type="module" src="([^"]+)"></script>', r'<script src="../../prototype-loader.js" data-entry="\1"></script>', text)
-                text = text.replace('<body>', '<body><a href="../../" style="position:fixed;right:1rem;top:5rem;z-index:1000;color:#fff;background:#142330;padding:.5rem .75rem;border-radius:.5rem;font:14px system-ui">← Story Lab</a>')
+                if slug != 'shepherd-adventure':
+                    text = text.replace('<body>', '<body><a href="../../" style="position:fixed;right:1rem;top:5rem;z-index:1000;color:#fff;background:#142330;padding:.5rem .75rem;border-radius:.5rem;font:14px system-ui">← Story Lab</a>')
             write(base+relative, text)
         else:
             copy(p, base+relative)

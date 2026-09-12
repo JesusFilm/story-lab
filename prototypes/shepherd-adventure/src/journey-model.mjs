@@ -45,7 +45,7 @@ export const OBSERVATIONS={
 export class Journey{
  constructor(){this.reset();}
  reset(){this.craft=new LampCraft();this.gateSequence=null;this.followers=[];this.at='field';this.previous=null;this.travel=null;this.phase='intro';this.paused=false;this.selected=0;this.inspection=null;this.inspectionYaw=0;this.notebook=false;this.visited=new Set(['field']);this.inspected=new Set();this.inventory=new Set();this.reward=null;this.firstDiscovery=false;this.discoveries=new Set();this.traversed=new Set();this.distance=0;this.recoveries=0;this.message='';this.decisions=0;}
- get options(){return links(this.at).filter(e=>!['wick','oil'].includes(e.to)).filter(e=>!['overlook','rear'].includes(e.requires)||this.discoveries.has(e.requires)||this.traversed.has(e.id));}
+ get options(){return links(this.at).filter(e=>!['field','wick','oil'].includes(e.to)).filter(e=>!['overlook','rear'].includes(e.requires)||this.discoveries.has(e.requires)||this.traversed.has(e.id));}
  get choice(){return this.options[this.selected%this.options.length];}
  get lantern(){return this.inventory.has('lantern');}
  get gateOpen(){return this.discoveries.has('gate');}

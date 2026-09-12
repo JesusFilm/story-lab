@@ -176,9 +176,9 @@ Story Diorama 0.2 is copied in full into `vendor/story-diorama/`. The prototype 
 all runtime artwork and music in `assets/story/`; no library checkout is needed.
 The opening loads its image, full audio file and scripture before importing Three.js.
 The Follow the lantern loader shows “Loading...” during foreground waits. The story
-starts automatically with music enabled; browser autoplay restrictions may require
-Enable music. Music off keeps the story running. Passages advance automatically,
-with Next/OK available; the last passage waits for Begin adventure or Finish story.
+opens on a silent first-verse preview with Sound on selected. Start begins music
+inside the browser gesture; Next verse advances one passage at a time. The last
+passage waits for Start adventure or Finish story.
 The game module and models prepare behind the opening, without advancing simulation
 or rendering the hidden scene. Begin waits for any remaining game preparation, then
 starts the star/settlement establishing shot. Restart reuses the loaded game.
@@ -206,8 +206,8 @@ Original generated PNGs and exact prompts are retained in
 The prototype owns compressed JPEG copies and has no runtime library dependency.
 
 Music: Kevin MacLeod’s gentle solo-piano “Silent Night”, free under CC BY 3.0,
-with visible attribution and a local 96 kbps MP3 (1.6 MiB instead of 5.1 MiB). It accompanies the story sequences;
-the existing gameplay ambience retains its own Sound switch. See
+with attribution in the packaged media credits and a local 96 kbps MP3 (1.6 MiB instead of 5.1 MiB). It accompanies the story sequences;
+the diorama sound control sits at bottom left. See
 [media credits](assets/story/CREDITS.md) for sources, license and illustrative choices.
 
 ## Loading checks
@@ -243,3 +243,7 @@ The old wick/oil detours are no longer offered.
 `node checks/verify-lamp-craft.mjs` to verify all 50 component combinations.
 The stall is native ImageGen artwork, with an editable SVG lamp cutaway and
 controls; no new Tripo model or paid Tripo job was needed.
+
+## Material UI (12 September 2026)
+
+The journey and both scripture sequences share flax linen panels, leather controls and timber route signs, guided by the tanner stall reference. Pause offers Continue and Restart. The opening camera has a quiet bottom-left Skip intro. Scripture waits for Start (which unlocks music), Next verse, and Start adventure or Finish story. Sound defaults on; the first preview is silent until Start. See `assets/story/CREDITS.md` for music attribution. The portal omits its injected return link for this prototype.

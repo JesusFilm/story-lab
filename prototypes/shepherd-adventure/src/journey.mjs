@@ -47,11 +47,11 @@ function followingFrame(dt,instant=false){const p=journey.position,preview=journ
 let audioContext,audioGain,sound=false,spoken='';
 function speak(text){if(!sound||!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=.87;u.volume=.85;speechSynthesis.speak(u);}
 async function toggleSound(){
- sound=!sound;$('#sound').textContent=sound?'Sound on':'Sound off';$('#sound').setAttribute('aria-pressed',String(sound));
+ sound=!sound;
  if(sound){try{if(!audioContext){audioContext=new AudioContext();audioGain=audioContext.createGain();audioGain.gain.value=.026;audioGain.connect(audioContext.destination);
   for(const f of [146.83,220,293.66]){const o=audioContext.createOscillator();o.type='sine';o.frequency.value=f;const g=audioContext.createGain();g.gain.value=.14;o.connect(g);g.connect(audioGain);o.start();}
   const buffer=audioContext.createBuffer(1,audioContext.sampleRate*3,audioContext.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=Math.random()*2-1;const noise=audioContext.createBufferSource();noise.buffer=buffer;noise.loop=true;const filter=audioContext.createBiquadFilter();filter.type='lowpass';filter.frequency.value=340;noise.connect(filter);filter.connect(audioGain);noise.start();
- }await audioContext.resume();speak(journey.phase==='intro'?$('#intro>p').textContent:journey.phase==='arrival'?$('#ending>p').textContent:NODE[journey.at].note);}catch{sound=false;$('#sound').textContent='Sound unavailable';}}
+ }await audioContext.resume();speak(journey.phase==='intro'?'A child is born in Bethlehem.':journey.phase==='arrival'?$('#ending>p').textContent:NODE[journey.at].note);}catch{sound=false;}}
  else{audioContext?.suspend();if('speechSynthesis' in window)speechSynthesis.cancel();}
 }
 function ding(){
@@ -66,8 +66,8 @@ function ding(){
 function startOpeningCamera(){activated=true;introElapsed=0;cameraRig.reset();applyFrame(openingFrame);updateUI();}
 function reset(){story.close();story.release('ending');gateShot=null;companions.forEach(c=>c.root.visible=false);introElapsed=0;inspectionShot=returnShot=null;cameraRig.reset();journey.reset();signature='';oldPhase='intro';heading=desiredHeading=Math.PI;spoken='';if('speechSynthesis' in window)speechSynthesis.cancel();updateUI();updateCamera(1,true);story.open('opening');}
 function begin(){if(!ready)return;introElapsed=10;journey.start();applyFrame(followingFrame(0,true));updateUI();}
-const menuButtons=[$('#resume'),$('#back'),$('#remember'),$('#recover'),$('#restart'),$('#look-again'),$('#sound')];
-function showPause(value){if(!ready||!['choice','walking','inspect','gate-sequence'].includes(journey.phase))return;journey.paused=value;menuIndex=0;$('#back').disabled=journey.phase!=='choice'||!journey.previous;focusMenu();if('speechSynthesis' in window){if(value)speechSynthesis.pause();else speechSynthesis.resume();}updateUI();}
+const menuButtons=[$('#resume'),$('#restart')];
+function showPause(value){if(!ready||!['choice','walking','inspect','gate-sequence'].includes(journey.phase))return;journey.paused=value;menuIndex=0;if('speechSynthesis' in window){if(value)speechSynthesis.pause();else speechSynthesis.resume();}updateUI();focusMenu();}
 function focusMenu(){menuButtons.forEach((b,i)=>b.classList.toggle('selected',i===menuIndex));if(journey.paused)menuButtons[menuIndex].focus({preventScroll:true});else document.activeElement?.blur();}
 function recover(){journey.recover();document.activeElement?.blur();updateUI();updateCamera(1,true);}
 function input(key){
@@ -88,8 +88,8 @@ function input(key){
  if(key==='ArrowLeft'||key==='ArrowRight'){const delta=key==='ArrowLeft'?-1:1;for(let i=0;i<journey.options.length;i++){journey.select(delta);if(!$('#route-choices').children[journey.selected]?.disabled)break;}$('#route-choices').children[journey.selected]?.focus();}else if(['Enter',' ','Select'].includes(key))journey.commit();updateUI();
 }
 function remember(){journey.paused=false;journey.notebook=true;document.activeElement?.blur();updateUI();}
-$('#look-again').onclick=()=>{showPause(false);journey.inspect();updateUI();};
-$('#interact').onclick=()=>input('ArrowUp');$('#begin').onclick=begin;$('#prev').onclick=()=>input('ArrowLeft');$('#next').onclick=()=>input('ArrowRight');$('#commit').onclick=()=>input('Enter');$('#survey').onclick=()=>input('ArrowUp');$('#pause').onclick=()=>showPause(true);$('#resume').onclick=()=>showPause(false);$('#back').onclick=()=>{showPause(false);journey.back();updateUI();};$('#remember').onclick=remember;$('#recover').onclick=recover;$('#restart').onclick=reset;$('#again').onclick=reset;$('#sound').onclick=toggleSound;$('#inspect-close').onclick=()=>input('Enter');$('#notes-close').onclick=()=>input('Enter');
+
+$('#interact').onclick=()=>input('ArrowUp');$('#begin').onclick=begin;$('#prev').onclick=()=>input('ArrowLeft');$('#next').onclick=()=>input('ArrowRight');$('#commit').onclick=()=>input('Enter');$('#survey').onclick=()=>input('ArrowUp');$('#pause').onclick=()=>showPause(true);$('#resume').onclick=()=>showPause(false);$('#restart').onclick=reset;$('#again').onclick=reset;$('#inspect-close').onclick=()=>input('Enter');$('#notes-close').onclick=()=>input('Enter');
 addEventListener('keydown',e=>{if(!activated||story.active||journey.phase==='craft'||!$('#loading').hidden)return;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' ','Select','Escape','p','P'].includes(e.key)){e.preventDefault();if(e.repeat||held.has(e.key))return;held.add(e.key);input(e.key);}});addEventListener('keyup',e=>held.delete(e.key));
 function blur(){held.clear();if(['choice','walking','gate-sequence'].includes(journey.phase)&&!journey.paused&&!journey.notebook)showPause(true);}addEventListener('blur',blur);document.addEventListener('visibilitychange',()=>{if(document.hidden)blur();});
 addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();updateCamera(1,true);});
@@ -121,7 +121,7 @@ function updateUI(){
  if(journey.inspection){$('#inspect-title').textContent=journey.inspection.title;$('#inspect-copy').textContent=journey.inspection.body;$('#inspect-tag').textContent=journey.inspection.unlock?'A USEFUL DISCOVERY':'LOOK CLOSELY';}
  $('#survey').textContent=phase==='inspect'?'↑ Return':'↑ Investigate';$('#survey').disabled=phase==='walking';$('#survey').setAttribute('aria-pressed',String(phase==='inspect'));
  if(phase==='choice'&&$('#chapter').dataset.place!==journey.at){$('#chapter').dataset.place=journey.at;$('#chapter').classList.remove('place-arrival');void $('#chapter').offsetWidth;$('#chapter').classList.add('place-arrival');}
- $('#pause').textContent=journey.paused?'Paused':'☰';$('#pause').setAttribute('aria-label','Pause and options');$('#place').textContent=n.chapter;$('#chapter-number').textContent=journey.at==='field'?'01 / THE FIELDS':journey.at==='goal'?'03 / THE SHELTER':!journey.lantern?'01 / A LIGHT FOR THE ROAD':'02 / THE SEARCH';
+ $('#pause').textContent='☰';$('#pause').hidden=journey.paused;$('#pause').setAttribute('aria-label','Pause and options');$('#place').textContent=n.chapter;$('#chapter-number').textContent=journey.at==='field'?'01 / THE FIELDS':journey.at==='goal'?'03 / THE SHELTER':!journey.lantern?'01 / A LIGHT FOR THE ROAD':'02 / THE SEARCH';
  $('#place-note').textContent=journey.at==='gate'&&!journey.lantern?'A sheltered flame nearby. Make a lantern before following the darker lanes.':n.note;
  if(choice){const known=journey.visited.has(choice.to);$('#lane-name').textContent=`${journey.selected+1} / ${journey.options.length} PATHS`;$('#destination').textContent=known?dest.name:choice.name;$('#cost').textContent=(['gate','welcome'].includes(choice.requires)&&!journey.gateOpen)?'Lift the bar from behind · ↑ Interact':journey.at==='gate'&&!journey.lantern&&!['field','hearth'].includes(choice.to)?'Too dark ahead · Prepare a lantern at the hearth':known?'A place you remember · OK Walk':'Beyond the next bend · OK Explore';$('#commit').classList.remove('blocked');$('#commit').setAttribute('aria-label',`${$('#destination').textContent}. ${$('#cost').textContent}.`);}
  if($('#message').textContent!==journey.message){$('#message').textContent=journey.message;$('#message').classList.remove('noticed');void $('#message').offsetWidth;$('#message').classList.add('noticed');}$('#travel-name').textContent=journey.gateSequence?({approach:'Walking to the gate lamp…',light:'Sharing the flame and lifting the bar…',return:'Returning to the passage…',watch:'A way for the shepherds following you…'}[journey.gateSequence.stage]):journey.travel?(journey.visited.has(journey.travel.to)?`Back to ${NODE[journey.travel.to].name}`:'Into the next lane…'):'';

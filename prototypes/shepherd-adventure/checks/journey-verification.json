@@ -1,7 +1,7 @@
 {
   "status": "passed",
   "checks": 7,
-  "knowledgeStates": 82,
+  "knowledgeStates": 75,
   "routes": [
     {
       "route": "well → square → pen → arch → goal",

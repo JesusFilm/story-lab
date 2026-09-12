@@ -49,3 +49,17 @@ header{top:22px;right:24px;left:auto;z-index:3}.head-actions #pause{font-size:22
 
 /* Arrival names briefly orient; sound belongs with the other optional settings. */
 #chapter{opacity:0}#chapter.place-arrival{animation:place-arrival 8s both}@keyframes place-arrival{0%{opacity:0}10%,65%{opacity:1}100%{opacity:0}}footer{display:none}
+
+/* Shared, handmade materials: flax weave, stitched hide and rough timber. */
+:root{--flax:#dfd0ac;--ink:#30271c;--linen:repeating-linear-gradient(0deg,#493b2310 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,#fff5d51c 0 1px,transparent 1px 4px),linear-gradient(110deg,#c9b78f,#e7d8b7 48%,#c6b18b);--hide:radial-gradient(ellipse at 25% 20%,#aa784530,transparent 65%),repeating-linear-gradient(173deg,#140b0514 0 1px,transparent 1px 5px),linear-gradient(110deg,#503820,#302217);--wood:repeating-linear-gradient(3deg,#100b0628 0 2px,transparent 2px 7px),linear-gradient(95deg,#38291e,#665039 48%,#38291e);font-family:Georgia,'Times New Roman',serif}
+button,.route-card,.craft-tool button,.craft-finish button{font-family:Georgia,serif;border-radius:2px;color:#f1e2bd;background:var(--hide);border:1px solid #a58a5f;box-shadow:inset 0 0 0 3px #2c1d13,inset 0 0 0 4px #a98b5955,0 4px 10px #0005;min-height:44px}
+button:hover,.route-card:hover{background:var(--hide);filter:brightness(1.15);transform:none}
+button:focus-visible{outline:2px solid #f0d69c;outline-offset:4px}button.primary{background:var(--hide);color:#f7e6bc;border:1px solid #8e7047;justify-content:center;font-weight:400}
+.story,#inspection,#inspection:has(#discovery:not([hidden])),.craft-tool{background:var(--linen);color:var(--ink);border:7px solid #4b3723;border-image:none;border-radius:2px;box-shadow:inset 0 0 0 1px #a18a62,0 12px 45px #0007;padding:26px 30px}
+.story p,.story .small,#inspection p,.craft-tool{color:#4c402e}.story h2,#inspection h2{color:#30271c;font-weight:400}.story small,#inspection small{color:#675237}
+#menu{width:min(360px,85vw);text-align:center;padding:28px 30px 20px;box-shadow:0 0 0 100vmax #080b0db3,0 15px 60px #0008}#menu h2{margin:0 0 24px;font-size:38px}#menu button{font-size:18px}#menu .small{margin:22px 0 0;letter-spacing:.03em}
+.route-card{background:var(--wood);border-radius:2px;border-color:#9e855b;box-shadow:inset 0 0 0 3px #302317,0 6px 15px #0006;min-height:68px}.route-card small{font-family:Georgia,serif;color:#d2c09f}.route-card svg{stroke:#dfc795}.route-card.chosen{border-color:#cfb57e}
+.head-actions #pause{border-radius:2px;background:var(--hide);font-size:20px;padding:7px 12px}.brand{display:none!important}
+body.intro #intro{position:absolute;left:20px;bottom:18px;top:auto;width:auto;transform:none;padding:0;background:none;border:0;box-shadow:none}
+body.intro #intro button,#story-sound,#story-skip{width:auto;margin:0;background:none;box-shadow:none;border:0;border-radius:0;color:#e3d3b2;font:14px Georgia,serif;padding:12px 8px;text-shadow:0 2px 5px #000}
+.craft-tool{padding:14px 18px}.craft-tool .tool-symbol{color:#76512c}.craft-tool button{background:var(--hide)}.craft-leave,#craft-resume{border-radius:2px;background:var(--hide)}
