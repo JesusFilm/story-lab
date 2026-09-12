@@ -11,3 +11,7 @@ independent local copies. Copy required textures and licenses with an asset.
 
 Distinct useful model and animation variants are retained with descriptive names.
 Reference prompts describe the artwork, not a record of approvals or provider jobs.
+
+[Oil jar](objects/oil-jar/README.md) demonstrates the
+[Pixal3D image-to-model workflow](../projects/pixal3d-assets/README.md), including
+the reference, original source, prepared runtime model and render checks.

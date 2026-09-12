@@ -1,0 +1,64 @@
+{
+  "source": {
+    "triangles": 978578,
+    "meshes": 1,
+    "uv_layers": [
+      1
+    ],
+    "textures": [
+      {
+        "name": "Image_0",
+        "size": [
+          4096,
+          4096
+        ]
+      },
+      {
+        "name": "Image_1",
+        "size": [
+          4096,
+          4096
+        ]
+      }
+    ]
+  },
+  "runtime": {
+    "triangles": 7998,
+    "meshes": 1,
+    "uv_layers": [
+      1
+    ],
+    "textures": [
+      {
+        "name": "Base color",
+        "size": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "name": "Normal",
+        "size": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "name": "Roughness",
+        "size": [
+          1024,
+          1024
+        ]
+      }
+    ]
+  },
+  "height_metres": 0.28,
+  "decimation_ratio": 0.008175127583084843,
+  "texture_limit": 1024,
+  "orientation_xyz_degrees": [
+    30.0,
+    0.0,
+    0.0
+  ],
+  "note": "Weld, decimate, unwrap and bake source base color, roughness and tangent normals. Static prop; not rigged."
+}
