@@ -18,3 +18,13 @@ Artwork: two native ImageGen illustrations created 2026-09-11 in Follow the Ligh
 Original PNGs and exact prompts: assets/references/shepherd-adventure-story/ in the source asset library.
 Runtime JPEG copies are owned by this prototype. Art review is pending; only two images were generated.
 No extra generation or paid music license was purchased.
+
+## Expanded illustrated sequence
+
+Eight additional native ImageGen illustrations, 12 September 2026, follow the
+existing announcement and Nativity character/style references. Runtime JPEGs:
+watch, reassurance, gathering, host, departure, sharing, mary and return.
+Originals and prompts: [story reference library](../../../../assets/references/shepherd-story/README.md).
+Visual guide: [Follow the Light](../../../../styles/follow-the-light/README.md).
+The unchanged World English Bible text is public domain; Luke 2:13 and 2:14 now
+have separate visual beats. The return's dawn is an illustrative choice.

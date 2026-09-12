@@ -1,0 +1,8 @@
+import assert from 'node:assert/strict';import {readFileSync,existsSync} from 'node:fs';import {Timeline} from '../vendor/story-diorama/timeline.mjs';
+const root=new URL('../assets/story/',import.meta.url),opening=JSON.parse(readFileSync(new URL('opening.json',root))),ending=JSON.parse(readFileSync(new URL('ending.json',root)));
+assert.equal(opening.cues.length,8);assert.equal(ending.cues.length,4);
+const images=new Set();for(const story of [opening,ending]){new Timeline(story.cues);for(const cue of story.cues){assert(cue.text&&cue.reference);if(cue.image){assert(existsSync(new URL(cue.image,root)));assert(cue.alt);images.add(cue.image);}assert.equal(cue.options.transition,'dissolve');assert.equal(cue.options.transitionMs,1800);}}
+assert.equal(images.size,10);assert.equal(opening.cues[5].image,'./gathering.jpg');assert.equal(opening.cues[6].image,'./host.jpg');assert.equal(ending.cues[3].image,'./return.jpg');console.log('PASS: 12 passages, 10 local illustrations with alt text, valid dissolves, gathering → host and return-in-praise beats.');
+// Exercise the actual story clock without clicks: early changes must be apparent.
+const pacing=new Timeline(opening.cues,{mode:'auto',speed:34,hold:4500,fade:350});let ms=0;const starts=[0];while(pacing.index<6){ms+=10;if(pacing.tick(10))starts.push(ms);assert(ms<60000);}
+assert(starts[1]<5000,'First image must change within five seconds');assert(starts[5]<25000,'Gathering angels should appear within 25 seconds');assert(starts[6]<30000,'Full host should follow before 30 seconds');console.log('Opening cue starts (seconds):',starts.map(t=>t/1000));
