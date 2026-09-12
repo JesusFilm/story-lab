@@ -113,7 +113,10 @@
         "prototypes/shepherd-adventure/assets/story/sharing.jpg",
         "prototypes/shepherd-adventure/assets/story/mary.jpg",
         "prototypes/shepherd-adventure/assets/story/return.jpg",
-        "prototypes/shepherd-adventure/assets/oil-jar-pixal3d.glb"
+        "prototypes/shepherd-adventure/assets/oil-jar-pixal3d.glb",
+        "prototypes/shepherd-adventure/assets/vegetable-market-stall-pixal3d.glb",
+        "prototypes/shepherd-adventure/assets/pottery-market-stall-pixal3d.glb",
+        "prototypes/shepherd-adventure/assets/tanner-market-stall-pixal3d.glb"
       ],
       "image_alt": "A shepherd carrying a glowing lantern faces the timber gate and lamplit stone walls of the sleeping market",
       "image_version": "8fa1d09eaa07",
@@ -278,6 +281,27 @@
       "model": "prototypes/shepherd-adventure/assets/oil-jar-pixal3d.glb",
       "prompt": "assets/objects/oil-jar/oil-jar-reference-prompt.txt",
       "reference": "assets/objects/oil-jar/oil-jar-reference.png"
+    },
+    {
+      "slug": "vegetable-market-stall",
+      "title": "Vegetable market stall",
+      "model": "prototypes/shepherd-adventure/assets/vegetable-market-stall-pixal3d.glb",
+      "prompt": "assets/structures/vegetable-market-stall/vegetable-market-stall-prompt.txt",
+      "reference": "assets/structures/vegetable-market-stall/vegetable-market-stall-reference.png"
+    },
+    {
+      "slug": "pottery-market-stall",
+      "title": "Pottery market stall",
+      "model": "prototypes/shepherd-adventure/assets/pottery-market-stall-pixal3d.glb",
+      "prompt": "assets/structures/pottery-market-stall/pottery-market-stall-prompt.txt",
+      "reference": "assets/structures/pottery-market-stall/pottery-market-stall-reference.png"
+    },
+    {
+      "slug": "tanner-market-stall",
+      "title": "Tanner market stall",
+      "model": "prototypes/shepherd-adventure/assets/tanner-market-stall-pixal3d.glb",
+      "prompt": "assets/structures/tanner-market-stall/tanner-market-stall-prompt.txt",
+      "reference": "assets/structures/tanner-market-stall/tanner-market-stall-reference.png"
     }
   ],
   "reviewed_files": {
@@ -306,7 +330,7 @@
     "prototypes/shepherd-adventure/src/journey-model.mjs": "7194068a39a8af3d20f1c85ffc17d20bf1df4efe08d76e50606973a56b8668ed",
     "prototypes/shepherd-adventure/src/journey-poi-models.mjs": "eeac6c0a98f3f60d7de8dfdc5b79dada08da9ff19b04751d9511e053324bf6e5",
     "prototypes/shepherd-adventure/src/journey-terrain.mjs": "36091c947e75d1fef49c06947190f85fb525aa7e0f8253bc5afd521bc3ae9df0",
-    "prototypes/shepherd-adventure/src/journey-world.mjs": "114227b5568bf520a81edcb65d73b63610e39c728d19fa1be17cccea25a96be0",
+    "prototypes/shepherd-adventure/src/journey-world.mjs": "78e7219140013b9606465935cceca35904ad0320baba15340694ffb7cf74891e",
     "prototypes/shepherd-adventure/src/journey.mjs": "848890d2dc207d9ea8d93755858e178d0e5e8137d8b0695fdbf89e72f4015091",
     "prototypes/shepherd-adventure/assets/animal-pen-tripo-v2.glb": "d46961854bb782496d3b01e4de9e3b9f6ae5cef168bbb9f69a3c31dd25e005f1",
     "prototypes/shepherd-adventure/assets/house-01-tripo-v2.glb": "7a05ffc1260fdca80cbefd2490f6e0e2ada0241e554a521d117e10705c464c05",
@@ -546,6 +570,15 @@
     "prototypes/shepherd-adventure/assets/story/return.jpg": "27e9936c009dc948dd61029f3ef6b235af9985748baa56e123b68b7a5aa06100",
     "prototypes/shepherd-adventure/assets/oil-jar-pixal3d.glb": "cf259c8361a982a2614cb1897a742c8fa201c187640d159dc9f3804dad207187",
     "assets/objects/oil-jar/oil-jar-reference.png": "466a7ea32a3ad3e06160982f6df67e549f784afc7341671ed82faa86434dde0a",
-    "assets/objects/oil-jar/oil-jar-reference-prompt.txt": "583c4834f9e442d9b4a91a2feeea78a760dab6df01964c980c0fd305b24c3116"
+    "assets/objects/oil-jar/oil-jar-reference-prompt.txt": "583c4834f9e442d9b4a91a2feeea78a760dab6df01964c980c0fd305b24c3116",
+    "prototypes/shepherd-adventure/assets/vegetable-market-stall-pixal3d.glb": "8d9bb84f1c9d13d063047c7d19b468850179328d908f8d134d46d76ea0e89d69",
+    "assets/structures/vegetable-market-stall/vegetable-market-stall-prompt.txt": "86826c0f7e6bb1763ef7d250f094021a5e503b0647076855fff58613bcc8f2fd",
+    "assets/structures/vegetable-market-stall/vegetable-market-stall-reference.png": "b46431f90b2eea3439e81def4e252dc925258cd84b6c3e4905024193cd4dccf3",
+    "prototypes/shepherd-adventure/assets/pottery-market-stall-pixal3d.glb": "259945257cbf884f4fe40a97e820f874ba7518b48ab9a6b696d7f6265d933705",
+    "assets/structures/pottery-market-stall/pottery-market-stall-prompt.txt": "80597d212d93438b485260d7ff7aa7c4d55c82cbec9b6d9d8b3072159e8145ee",
+    "assets/structures/pottery-market-stall/pottery-market-stall-reference.png": "3450f92c39ac7a9d18be711e8ce321f639d6ea01583e5fbe4391cd8b647b7700",
+    "prototypes/shepherd-adventure/assets/tanner-market-stall-pixal3d.glb": "621200ae8361e23544837a9550f0e89cb129b8669e3efc35a5068a04f3845ea8",
+    "assets/structures/tanner-market-stall/tanner-market-stall-prompt.txt": "9b4da90b71d5dafbb12816ed3d6db1f7b59619f9292db139ee3549038e2c867b",
+    "assets/structures/tanner-market-stall/tanner-market-stall-reference.png": "0f77b44eaf2000ab9d853c1b2740d60a1cd8bae58f8c3af6c601fab930c55019"
   }
 }

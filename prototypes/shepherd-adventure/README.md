@@ -100,6 +100,51 @@ Jaco's final model acceptance remains unrecorded.
 
 ## Settlement boundary and wilderness
 
+### Settlement map and market stalls
+
+[Open the labeled top-down settlement map](map/settlement-map.svg).
+The map uses actual placed model footprints, including roof overhangs, with the
+same scale on both axes. Houses have instance numbers; two older empty stalls
+remain explicitly labeled. [Layout data](map/settlement-layout.json) records the
+model positions, dimensions, rotations, routes and boundary segments.
+
+Five stalls occupy the marked outer-lane spaces: vegetables and pottery on the
+west side, and tanner, vegetables and pottery from north to south on the east side.
+They reuse three independent Pixal3D models, with no identical adjacent shops.
+Open counters follow the annotated directions: northeast on the west side,
+west-southwest for the tanner, nearly west for eastern vegetables, and
+west-northwest for eastern pottery. Each source model has a measured local front
+offset (vegetables −25°, pottery −28°, tanner −33°); placement compensates for it
+before applying the desired bearing. These offsets were checked using roofless
+top-down renders, rather than assuming the GLB +Z axis is its opening. Each has a 2.8 m height, original
+proportions, 2K textures and a conservative geometry reduction. They are scenery,
+with no new interaction. Sources and comparison renders are linked in
+`assets/sources.json`. Inferred backs and small texture seams remain prototype
+limitations; verification uses model renders and headless geometry checks.
+
+**Keep this map current whenever a settlement model is added, removed, replaced,
+rescaled, moved or rotated. Rotation is essential: the map must show the exact
+orientation used in the game, including each stall's actual open-front direction.**
+Use transformed model geometry for the footprints; do not substitute unrotated
+rectangles or infer the opening from the GLB axes. When changing a stall's bearing,
+account for its measured local front offset, visually verify the opening against
+the intended direction, and update the expected bearing in
+`checks/verify-settlement-stalls.mjs`. Keep the final map free of temporary
+annotation rings and arrows.
+
+Register each building or significant prop in
+`settlementFeatures` in `src/journey-world.mjs`, then run from this folder:
+
+```sh
+node checks/generate-settlement-map.mjs
+node checks/verify-settlement-stalls.mjs
+```
+
+The generator loads the actual local models and uses the game's placement logic.
+It needs the pinned Three.js runtime installed by `serve.py`; `WATCH_GAME_RUNTIME`
+can override its cache path. Commit the regenerated SVG and layout JSON with the
+model change. The consistency check rejects stale labels, bounds and rotations.
+
 The existing low-wall kit now closes the two gaps beside the market gate and wraps
 the settlement in a low perimeter, with a 12 m entrance. Buildings have generous
 clearance inside it. The shepherd starts farther into the field, outside the wall.

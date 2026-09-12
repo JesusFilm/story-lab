@@ -21,7 +21,7 @@ const fetched=[];
 async function loadAsync(url){const res=await fetch(origin+url);assert(res.ok,`${url}: HTTP ${res.status}`);const data=await res.arrayBuffer();fetched.push({url,bytes:data.byteLength});return loader.parseAsync(data,new URL('.',origin+url).href);}
 const sources={};for(const [id,spec] of Object.entries(JOURNEY_POI_MODELS)){sources[id]=(await loadAsync(spec.url)).scene;const original=new THREE.Box3().setFromObject(sources[id]);const fitted=fitJourneyPOI(sources[id],spec),bounds=new THREE.Box3().setFromObject(fitted),size=bounds.getSize(new THREE.Vector3());spec.size.forEach((n,i)=>assert(Math.abs(size.toArray()[i]-n)<1e-5));assert(Math.abs(bounds.min.y)<1e-6);assert.deepEqual(new THREE.Box3().setFromObject(sources[id]),original,'Source transform must remain unchanged');}
 const scene=new THREE.Scene(),world=createJourneyWorld(scene);await world.dress({loadAsync});
-assert.equal(world.modelCount,16,'14 scenery models plus exactly two POIs');
+assert.equal(world.modelCount,22,'19 scenery models, two POIs and the workbench oil jar');
 assert(world.wallSegments.length>80,'Settlement perimeter and gate wings must exist');
 assert(world.nature.placements.filter(p=>p.kind==='tree').length>30);
 assert(world.nature.placements.filter(p=>p.kind==='boulder'&&p.outside).length>20);

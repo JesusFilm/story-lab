@@ -1,5 +1,5 @@
 import {addVillageNature} from './journey-nature.mjs';
-import {addVillageWalls} from './journey-boundaries.mjs';
+import {addVillageWalls,VILLAGE_BOUNDS} from './journey-boundaries.mjs';
 import {LANTERN_URL,CARRIED_LANTERN_HEIGHT,SETTLEMENT_LANTERN_HEIGHT,fitLantern,setLanternLit} from './journey-lantern.mjs';
 import {terrainSurface,sampleRibbon} from './journey-presentation.mjs';
 import {obstructionTarget} from './journey-camera.mjs';
@@ -21,6 +21,8 @@ function dirtTexture(){
 }
 function glowTexture(){const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d'),g=x.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,'#fff6d5');g.addColorStop(.08,'#ffe5abdd');g.addColorStop(.23,'#efba6170');g.addColorStop(1,'#df9d3200');x.fillStyle=g;x.fillRect(0,0,128,128);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;}
 export function createJourneyWorld(scene){
+ const settlementFeatures=[];
+ function recordFeature(root,label,kind,asset=null){root.name=label;settlementFeatures.push({root,label,kind,asset});}
  const fading=[],occlusionBounds=[];
  function watchOcclusion(root,kind,moving=false){
   root.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(root);if(b.isEmpty())return;
@@ -83,6 +85,7 @@ export function createJourneyWorld(scene){
  for(const n of NODES){const m=new THREE.Mesh(new THREE.RingGeometry(n.fire?.7:.5,n.fire?.85:.61,40),new THREE.MeshBasicMaterial({color:n.fire?'#e5c07a':'#9bb9c8',transparent:true,opacity:.8,side:THREE.DoubleSide,depthWrite:false}));m.rotation.x=-Math.PI/2;m.position.set(n.x,height(n.x,n.z)+.10,n.z);scene.add(m);markers.push({node:n,mesh:m});}
  // Open shelter with a simple manger and swaddled stand-in.
  const shelter=new THREE.Group();shelter.position.set(3,height(3,NODE.goal.z-3),NODE.goal.z-3);scene.add(shelter);
+ recordFeature(shelter,'Nativity shelter','shelter');
  const timber=new THREE.MeshStandardMaterial({color:'#65503a',roughness:1}),straw=new THREE.MeshStandardMaterial({color:'#766248',roughness:1});
  function box(parent,w,h,d,x,y,z,mat){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m;}
  for(const x of [-3,3])for(const z of [-1.8,1.8])box(shelter,.24,3.4,.24,x,1.7,z,timber);
@@ -102,6 +105,7 @@ export function createJourneyWorld(scene){
  const mud=new THREE.MeshStandardMaterial({color:'#33281e',roughness:1});
  for(const id of ['well','square']){const n=NODE[id];for(let i=0;i<7;i++)for(const side of [-1,1]){const track=new THREE.Mesh(new THREE.SphereGeometry(.07,5,3),mud);track.scale.set(1,.12,1.3);track.position.set(n.x+.6+side*.11+i*.11,height(n.x+.6+side*.11+i*.11,n.z-i*.38)+.015,n.z-i*.38);scene.add(track);}target(id==='square'?'square':'well',n.x+1.1,.25,n.z-1);}
  const feed=new THREE.Group();feed.position.set(NODE.pen.x+1.8,height(NODE.pen.x+1.8,NODE.pen.z),NODE.pen.z);scene.add(feed);
+ recordFeature(feed,'Feeding trough','prop');
  box(feed,1.8,.5,.75,0,.65,0,timber);box(feed,1.65,.035,.6,0,.91,0,straw);target('pen',feed.position.x,.8,feed.position.z);
  // Low split wall makes the rear gap visible when the player investigates the fold.
  for(const x of [-1.7,2])box(feed,1.3,.85,.4,x,.42,-1.6,stone);
@@ -119,6 +123,7 @@ export function createJourneyWorld(scene){
   box(g,2.1,.15,1,0,.65,0,timber);for(const x of [-.85,.85])box(g,.12,.65,.12,x,.32,0,timber);
   box(g,.5,.08,.45,-.65,.77,0,new THREE.MeshStandardMaterial({color:'#b9ac8e',roughness:1}));
   workbenches.push(g);
+  recordFeature(g,'Lamp workbench','workbench');
   for(const x of [-1.1,1.1])box(g,.1,2.3,.1,x,1.15,-.35,timber);box(g,2.5,.08,1.7,0,2.3,0,straw);
   const empty=lampVisual(CARRIED_LANTERN_HEIGHT);empty.root.name='hearth-lantern';empty.root.position.y=.725+CARRIED_LANTERN_HEIGHT/2;empty.core.visible=false;empty.halo.visible=false;g.add(empty.root);
   target(id,g.position.x,.9,g.position.z);
@@ -135,10 +140,15 @@ export function createJourneyWorld(scene){
  let modelCount=0,wallSegments=[],nature=null;const fits=[],occluders=[];
  const samples=paths.flatMap(path=>path.points.slice(1).flatMap((b,i)=>Array.from({length:9},(_,k)=>({x:path.points[i].x+(b.x-path.points[i].x)*k/8,z:path.points[i].z+(b.z-path.points[i].z)*k/8}))));
  function clearance(rect){return Math.min(...samples.map(p=>Math.hypot(Math.max(rect[0]-p.x,0,p.x-rect[2]),Math.max(rect[1]-p.z,0,p.z-rect[3]))));}
- function placeSafely(outer,x,z){
+ function placeSafely(outer,x,z,stall=false){
   outer.updateMatrixWorld(true);const bounds=new THREE.Box3().setFromObject(outer),size=bounds.getSize(new THREE.Vector3());
   const candidates=[];for(let ix=-16;ix<=16;ix++)for(let iz=-16;iz<=16;iz++)candidates.push({x:x+ix*.5,z:z+iz*.5,d:ix*ix+iz*iz});candidates.sort((a,b)=>a.d-b.d);
   for(const c of candidates){const rect=[c.x-size.x/2,c.z-size.z/2,c.x+size.x/2,c.z+size.z/2];
+   if(stall){
+    const b=VILLAGE_BOUNDS;
+    if(rect[0]<b.minX+6||rect[2]>b.maxX-6||rect[1]<b.minZ+6||rect[3]>b.maxZ-6)continue;
+    if([well,feed,gate,shelter,...workbenches].some(root=>{const b=new THREE.Box3().setFromObject(root);return rect[0]<b.max.x+.6&&rect[2]>b.min.x-.6&&rect[1]<b.max.z+.6&&rect[3]>b.min.z-.6;}))continue;
+   }
    if(clearance(rect)<.85||fits.some(f=>rect[0]<f.rect[2]+.5&&rect[2]>f.rect[0]-.5&&rect[1]<f.rect[3]+.5&&rect[3]>f.rect[1]-.5))continue;
    outer.position.set(c.x,height(c.x,c.z)-.05,c.z);fits.push({rect,clearance:clearance(rect)});return c;
   }throw new Error('No clear scenery placement near '+x+','+z);
@@ -148,14 +158,21 @@ export function createJourneyWorld(scene){
   for(const bench of workbenches){const jar=jarSource.clone(true);jar.name='workbench-oil-jar';jar.position.set(.68,.725,0);jar.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});bench.add(jar);watchOcclusion(bench,'prop');modelCount++;}
   const lanternSource=(await loader.loadAsync(LANTERN_URL)).scene;
   const poi=await loadJourneyPOIModels(loader);well.add(poi.well);poi.gate.position.x=1.5;gateLeaf.add(poi.gate);
+  settlementFeatures.push({root:well,label:'Stone well',kind:'well'},{root:gate,label:'Timber gate',kind:'gate'});
   watchOcclusion(well,'prop');watchOcclusion(gateLeaf,'gate-leaf',true);modelCount+=2;
   const specs=[
-   {url:'/assets/house-01-tripo-v2.glb',height:4.3,items:[[-8,19,.3],[10,18,-.3],[-10,0,.2],[5,1,-.35],[22,8,-.1],[-25,-8,.3],[-9,-15,-.2],[10,-17,.4],[-18,-29,.1],[5,-30,-.3],[22,-35,.2]]},
-   {url:'/assets/market-stall-tripo-v2.glb',height:3.1,items:[[-21,-16,.1],[-1,-5,Math.PI]]},
-   {url:'/assets/animal-pen-tripo-v2.glb',height:2.1,items:[[25,-26,.1]]}
+   {label:'House',kind:'house',url:'/assets/house-01-tripo-v2.glb',height:4.3,items:[[-8,19,.3],[10,18,-.3],[-10,0,.2],[5,1,-.35],[22,8,-.1],[-25,-8,.3],[-9,-15,-.2],[10,-17,.4],[-18,-29,.1],[5,-30,-.3],[22,-35,.2]]},
+   {label:'Empty stall',kind:'empty-stall',url:'/assets/market-stall-tripo-v2.glb',height:3.1,items:[[-21,-16,.1],[-1,-5,Math.PI]]},
+   {label:'Animal pen',kind:'pen',url:'/assets/animal-pen-tripo-v2.glb',height:2.1,items:[[25,-26,.1]]},
+   // Stall item angles specify the open-front bearing; source geometry is off-axis.
+   // Local front offsets measured from roofless top-down runtime-model renders.
+   {label:'Vegetables',kind:'vegetable-stall',url:'/assets/vegetable-market-stall-pixal3d.glb',height:2.8,items:[[-29,1.5,106*Math.PI/180],[31,-9,-86*Math.PI/180]],frontYaw:-25*Math.PI/180,stall:true},
+   {label:'Pottery',kind:'pottery-stall',url:'/assets/pottery-market-stall-pixal3d.glb',height:2.8,items:[[-21.5,7.5,126*Math.PI/180],[31,-2.5,-101*Math.PI/180]],frontYaw:-28*Math.PI/180,stall:true},
+   {label:'Tanner',kind:'tanner-stall',url:'/assets/tanner-market-stall-pixal3d.glb',height:2.8,items:[[28,-16,-75*Math.PI/180]],frontYaw:-33*Math.PI/180,stall:true}
   ];
   for(const spec of specs){const gltf=await loader.loadAsync(spec.url);const source=gltf.scene;const b=new THREE.Box3().setFromObject(source),size=b.getSize(new THREE.Vector3()),center=b.getCenter(new THREE.Vector3());
-   for(const [x,z,rot] of spec.items){const outer=new THREE.Group(),m=source.clone(true),s=Math.min(spec.height/size.y,6/Math.max(size.x,size.z));m.scale.setScalar(s);m.position.set(-center.x*s,-b.min.y*s,-center.z*s);outer.add(m);outer.rotation.y=rot;outer.position.set(x,height(x,z),z);outer.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});const placed=placeSafely(outer,x,z);scene.add(outer);outer.updateMatrixWorld(true);const collisionBounds=new THREE.Box3().setFromObject(outer);occluders.push({min:{x:collisionBounds.min.x,y:collisionBounds.min.y,z:collisionBounds.min.z},max:{x:collisionBounds.max.x,y:collisionBounds.max.y,z:collisionBounds.max.z}});modelCount++;watchOcclusion(outer,'structure');
+   for(const [index,[x,z,rot]] of spec.items.entries()){const outer=new THREE.Group(),m=source.clone(true),s=Math.min(spec.height/size.y,6/Math.max(size.x,size.z));m.scale.setScalar(s);m.position.set(-center.x*s,-b.min.y*s,-center.z*s);outer.add(m);outer.rotation.y=rot-(spec.frontYaw||0);outer.position.set(x,height(x,z),z);outer.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});const placed=placeSafely(outer,x,z,spec.stall);scene.add(outer);outer.updateMatrixWorld(true);const collisionBounds=new THREE.Box3().setFromObject(outer);occluders.push({min:{x:collisionBounds.min.x,y:collisionBounds.min.y,z:collisionBounds.min.z},max:{x:collisionBounds.max.x,y:collisionBounds.max.y,z:collisionBounds.max.z}});modelCount++;watchOcclusion(outer,'structure');
+    recordFeature(outer,spec.label+(spec.items.length>1?' '+(index+1):''),spec.kind,spec.url);
     if(spec.url.includes('house'))lightAt(placed.x+.8,placed.z+2,1.6,22);
    }
   }
@@ -164,7 +181,7 @@ export function createJourneyWorld(scene){
   nature=await addVillageNature(loader,scene,fits,pathDistance,watchOcclusion);
   for(const {root,size} of lanternMounts){const body=fitLantern(lanternSource,size);root.add(body);setLanternLit(body,root.name!=='hearth-lantern'&&root.name!=='gate-lantern');}
  }
- return {dress,terrain,paths,markers,fits,occluders,get wallSegments(){return wallSegments;},get nature(){return nature;},occlusionBounds,updateOcclusion,clueTargets,get modelCount(){return modelCount;},get lanternCount(){return lanternMounts.length;},update(dt,time,journey,heading=Math.PI,reduced=false){
+ return {dress,terrain,paths,markers,fits,occluders,settlementFeatures,get wallSegments(){return wallSegments;},get nature(){return nature;},occlusionBounds,updateOcclusion,clueTargets,get modelCount(){return modelCount;},get lanternCount(){return lanternMounts.length;},update(dt,time,journey,heading=Math.PI,reduced=false){
   const p=journey.position,selected=journey.choice;gateLeaf.rotation.y+=((journey.gateOpen?-Math.PI*.48:0)-gateLeaf.rotation.y)*(1-Math.exp(-3*dt));gateLamp.source.enabled=journey.gateOpen;gateLamp.halo.visible=journey.gateOpen;gateLamp.core.visible=journey.gateOpen;setLanternLit(gateLamp.root,journey.gateOpen);
   lamps.forEach(source=>{source.light.intensity=source.enabled?source.intensity:0;});
   lantern.visible=journey.lantern;

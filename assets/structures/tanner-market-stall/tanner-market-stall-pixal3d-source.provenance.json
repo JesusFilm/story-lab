@@ -1,0 +1,13 @@
+{
+  "generator": "TencentARC/Pixal3D",
+  "source": "https://github.com/TencentARC/Pixal3D",
+  "upstream_revision": "f7cf38429b0bd264f1995f0f8743a88b1c728b94",
+  "low_vram": true,
+  "seed": 42,
+  "resolution": 1024,
+  "elapsed_seconds": 115.03,
+  "reference_sha256": "0f77b44eaf2000ab9d853c1b2740d60a1cd8bae58f8c3af6c601fab930c55019",
+  "model_sha256": "a40d3261253ed65f06073abf0d627495c051c6beae640432a3a59b6613fdc71d",
+  "model_bytes": 41142400,
+  "review": "Generated source; render and assess before runtime use."
+}

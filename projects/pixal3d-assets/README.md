@@ -73,3 +73,24 @@ with low-VRAM mode, SDPA and public BiRefNet segmentation. Server dependency
 and model revisions remain in private job metadata. Model/provider software
 licenses are distinct from the provenance of generated artwork; preserve any
 required third-party notices when adding outside assets.
+
+### Detailed market stalls
+
+`prepare-stall.py` is the conservative static-stall variant: it retains the source
+UV atlas and reduces textures to 2K after welding and decimation. The generic
+selected-to-active bake produced black patches across closely spaced cloth,
+shelves and stock, so those derivatives were rejected. Use 150,000 target
+triangles for these stalls and inspect both sides; the resulting count is recorded
+in each `mesh-review.json`. The current three sources use `--height 2.8 --rotate
+0 0 180`, placing their base at zero. Their counters remain off-axis: vegetables −25°,
+pottery −28°, tanner −33° from runtime +Z toward +X. World placement must
+subtract this local front offset from the desired open-front bearing.
+
+```sh
+blender --background --python projects/pixal3d-assets/prepare-stall.py -- \
+  assets/structures/vegetable-market-stall/vegetable-market-stall-pixal3d-source.glb \
+  assets/structures/vegetable-market-stall --height 2.8 --triangles 150000 \
+  --texture-size 2048 --rotate 0 0 180
+```
+
+Preserve originals and use a new output folder when re-preparing an existing model.
