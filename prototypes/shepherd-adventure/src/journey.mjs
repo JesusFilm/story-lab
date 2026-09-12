@@ -15,7 +15,7 @@ import {createJourneyWorld,height} from './journey-world.mjs';
 export async function createGame(story){
 const $=s=>document.querySelector(s),journey=new Journey();
 const workbench=createLampWorkbench(journey,()=>updateUI());
-let activated=false;
+let activated=false,debugController=null;
 const renderer=new THREE.WebGLRenderer({canvas:$('#world'),antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
 const scene=new THREE.Scene();scene.background=new THREE.Color('#020409');scene.fog=new THREE.Fog('#071020',28,100);
@@ -75,7 +75,7 @@ function focusMenu(){menuButtons.forEach((b,i)=>b.classList.toggle('selected',i=
 function recover(){journey.recover();document.activeElement?.blur();updateUI();updateCamera(1,true);}
 function input(key){
  if(!ready)return;
- if(story.active||!activated)return;
+ if(debugController||story.active||!activated)return;
  if(journey.phase==='craft')return;
  if(journey.notebook){if(['Enter',' ','Select','Escape'].includes(key)){journey.notebook=false;updateUI();}else if(key==='ArrowUp'||key==='ArrowDown')$('#notes').scrollBy({top:key==='ArrowDown'?120:-120,behavior:reduced?'auto':'smooth'});return;}
  if(journey.paused){if(key==='ArrowDown'||key==='ArrowUp'){do{menuIndex=(menuIndex+(key==='ArrowUp'?-1:1)+menuButtons.length)%menuButtons.length;}while(menuButtons[menuIndex].disabled);focusMenu();}else if(['Enter',' ','Select'].includes(key))menuButtons[menuIndex].click();else if(key==='Escape')showPause(false);return;}
@@ -95,9 +95,9 @@ function remember(){journey.paused=false;journey.notebook=true;document.activeEl
 function hearGoodNews(){if(!journey.beginOutro())return;if('speechSynthesis' in window)speechSynthesis.cancel();audioContext?.suspend();updateUI();story.open('ending');}
 $('#hear-good-news').onclick=hearGoodNews;
 $('#interact').onclick=()=>input('ArrowUp');$('#begin').onclick=begin;$('#prev').onclick=()=>input('ArrowLeft');$('#next').onclick=()=>input('ArrowRight');$('#commit').onclick=()=>input('Enter');$('#survey').onclick=()=>input('ArrowUp');$('#pause').onclick=()=>showPause(true);$('#resume').onclick=()=>showPause(false);$('#restart').onclick=reset;$('#again').onclick=reset;$('#inspect-close').onclick=()=>input('Enter');$('#notes-close').onclick=()=>input('Enter');
-addEventListener('keydown',e=>{if(!activated||story.active||journey.phase==='craft'||!$('#loading').hidden)return;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' ','Select','Escape','p','P'].includes(e.key)){e.preventDefault();if(e.repeat||held.has(e.key))return;held.add(e.key);input(e.key);}});addEventListener('keyup',e=>held.delete(e.key));
-function blur(){held.clear();if(['intro','choice','walking','gate-sequence','arrival'].includes(journey.phase)&&!journey.paused&&!journey.notebook)showPause(true);}addEventListener('blur',blur);document.addEventListener('visibilitychange',()=>{if(document.hidden)blur();});
-addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();updateCamera(1,true);});
+addEventListener('keydown',e=>{if(debugController||!activated||story.active||journey.phase==='craft'||!$('#loading').hidden)return;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' ','Select','Escape','p','P'].includes(e.key)){e.preventDefault();if(e.repeat||held.has(e.key))return;held.add(e.key);input(e.key);}});addEventListener('keyup',e=>held.delete(e.key));
+function blur(){held.clear();if(debugController)return;if(['intro','choice','walking','gate-sequence','arrival'].includes(journey.phase)&&!journey.paused&&!journey.notebook)showPause(true);}addEventListener('blur',blur);document.addEventListener('visibilitychange',()=>{if(document.hidden)blur();});
+addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();if(!debugController)updateCamera(1,true);});
 function drawNotebook(){
  const xy=n=>({x:28+(n.x+32)/60*264,y:20+(n.z-NODE.goal.z)/(NODE.field.z-NODE.goal.z)*228});
  const knownEdges=EDGES.filter(e=>journey.traversed.has(e.id)||(e.requires&&journey.discoveries.has(e.requires)));
@@ -183,6 +183,7 @@ function updateCamera(dt,instant=false){
 
 function animate(time){
  requestAnimationFrame(animate);const dt=Math.min((time-last)/1000||.016,.05);last=time;if(!ready||!activated||story.active)return;
+ if(debugController){debugController.update(dt);renderer.render(scene,camera);return;}
  const active=!document.hidden&&!story.active&&!journey.paused&&!journey.notebook,oldDistance=journey.distance;if(active){clock+=dt;if(!returnShot)journey.step(dt);}
  const p=journey.position,movement=journey.phase==='intro'?3.8:(journey.distance-oldDistance)/dt;
  if(p.heading!==undefined)desiredHeading=p.heading;
@@ -200,6 +201,6 @@ try{
  if(reviewStop){journey.start();journey.at=reviewStop;journey.inventory=new Set(['wick','oil','lantern']);journey.discoveries=new Set(['overlook','rear']);journey.visited.add(reviewStop);const banner=document.createElement('div');banner.textContent='CAMERA REVIEW SCENARIO · '+reviewStop+' · staged, not a normal playthrough';banner.style.cssText='position:fixed;top:0;left:0;right:0;text-align:center;font:11px monospace;color:#f5d596;background:#171d25;padding:5px;z-index:20';document.body.append(banner);}
  updateUI();updateCamera(1,true);window.lanternJourney={getState:()=>({...journey.snapshot(),models:world.modelCount,drawCalls:renderer.info.render.calls,camera:cameraRig.lastDiagnostics,view:{position:camera.position.toArray(),look:look.toArray(),avatarVisible:avatar.visible}}),command:input};
  requestAnimationFrame(animate);
- return {startOpeningCamera};
+ return {startOpeningCamera,startDebug(controller){activated=true;debugController=controller({camera,renderer,scene});}};
 }catch(e){throw e;}
 }
