@@ -16,6 +16,23 @@ locations use authored paths, with observations remembered in a notebook. This i
 not free movement or indoor exploration. The tracks, lamp tasks and gate are creative
 adaptations; the biblical frame draws on Luke 2:8–20.
 
+## Village route rebuild (feature branch)
+
+The ten-point winding route is available as a [walking rehearsal](rehearsal.html).
+Run the normal local server, then open `/rehearsal.html`. Move to next point walks
+the real corridor; Review tools offers jump, replay, capture and reduced motion.
+Dialogue, tracks, gate gestures, the House 9 reveal and companion reunion are still
+placeholders. The original `/` experience remains available.
+
+[Scene briefs and branch plan](docs/story-rebuild/README.md) ·
+[Actual rehearsal map](map/rehearsal-map.svg) ·
+[First-pass verification](review/2026-09-13-route-rehearsal/README.md)
+
+This work lives on `codex/shepherd-story-rebuild`; it has not been published.
+`node checks/verify-rehearsal.mjs` checks the new route and state.
+`node checks/generate-settlement-map.mjs --rehearsal` regenerates its separate map.
+The canonical settlement map and original navigation remain unchanged.
+
 ## Scene inspector
 
 For fast visual review, run the local server and open `/?debug`. WASD flies,

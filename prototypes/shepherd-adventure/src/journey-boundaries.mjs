@@ -9,7 +9,7 @@ export function boundaryRuns(gate){
   ...ANIMAL_AREA_WALLS,
   {kind:'shelter-screen',a:{x:9,z:-39},b:{x:29,z:-39},height:3.4},
   {kind:'shelter-screen',a:{x:9,z:-39},b:{x:9,z:-46},height:3.4},
-  {kind:'gate-wing',a:toWorld([1.48,0]),b:toWorld([7.6,0]),height:1.35},
+  {kind:'gate-wing',a:toWorld([1.48,0]),b:gate.stallJoin||toWorld([7.6,0]),height:1.35},
   {kind:'gate-wing',a:toWorld([-1.48,0]),b:toWorld([-5.3,0]),height:1.35},
   {kind:'gate-wing',a:toWorld([-5.3,0]),b:toWorld([-5.3,3.3]),height:1.35},
   ...[
