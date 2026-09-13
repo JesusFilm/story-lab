@@ -6,6 +6,7 @@ import {CharacterVariants} from './character-variants.mjs';
 import {routeLookahead} from './journey-camera.mjs';
 import {animalViewWeight} from './journey-animal-route.mjs';
 import {RouteRehearsal,STOPS,CORRIDORS,HOUSE_APPROACHES} from './rehearsal-route.mjs';
+import {createHouseSightingScene} from './house-sighting-scene.mjs';
 import {createHouseScene} from './house-scene.mjs';
 import {createLampScene} from './lamp-scene.mjs';
 
@@ -19,6 +20,7 @@ const {renderer,scene,camera,cameraRig}=createJourneyScene($('world'));
 const world=createJourneyWorld(scene,{routePaths:CORRIDORS,houseApproaches:HOUSE_APPROACHES}),avatar=new THREE.Group();scene.add(avatar);
 const character=new CharacterVariants(avatar),samples=[];
 const houseScene=createHouseScene(journey,scene,character);
+const sightingScene=createHouseSightingScene(journey,()=>{updateUI();resize();});
 const lampScene=createLampScene(journey,()=>{updateUI();resize();});
 const lampLook=new THREE.Vector3(),lampEye=new THREE.Vector3(),lampHand=new THREE.Vector3();let lampCamera=0;
 const choice=$('jump-point');
@@ -44,7 +46,7 @@ function updateUI(){
   $('travel-status').textContent=journey.paused?'Paused — continue when ready.':journey.lantern?'The first house is just ahead.':'Prepare a lamp before setting out.';
   $('advance').textContent=journey.lantern?'Set out — House 1':journey.lampAssembly.step?'Continue preparing':'Prepare your light';
  }
- lampScene.update();houseScene.update();
+ lampScene.update();houseScene.update();sightingScene.update();
 }
 function resize(){
  const panel=$('review-panel'),width=innerWidth,height=innerWidth<=600?Math.max(140,innerHeight-panel.getBoundingClientRect().height-28):innerHeight;
@@ -56,7 +58,7 @@ function pose(dt,instant=false){
  // directly in reduced motion rather than orbiting around the stopped shepherd.
  instant=instant||(reduced&&!journey.travel);
  const p=journey.position,stop=journey.stop;
- const face=journey.index===1&&!journey.travel?{x:-11.3,z:19.35}:stop?.target;
+ const face=journey.index===1&&!journey.travel?{x:-11.3,z:19.35}:journey.index===2&&!journey.travel?{x:-12.3,z:.85}:stop?.target;
  const targetHeading=!journey.travel&&face?Math.atan2(face.x-p.x,face.z-p.z):p.heading;
  const difference=Math.atan2(Math.sin(targetHeading-heading),Math.cos(targetHeading-heading));heading+=instant?difference:difference*(1-Math.exp(-5*dt));
  avatar.position.set(p.x,height(p.x,p.z)+.015,p.z);avatar.rotation.y=heading;
@@ -78,7 +80,7 @@ function pose(dt,instant=false){
  world.update(instant?10:dt,clock,journey,heading,reduced,carryPosition);world.updateOcclusion(camera,p,instant?10:dt);
 }
 function reposition(){cameraRig.reset();heading=journey.position.heading;clock=0;updateUI();resize();pose(0,true);renderer.render(scene,camera);last=performance.now();}
-function next(){if(!ready||journey.paused)return;if(journey.index===1&&!journey.travel&&!journey.houseRejection.complete){houseScene.begin();$('review-tools').open=false;return;}if(journey.index===0&&!journey.travel&&!journey.lantern){lampScene.begin();$('review-tools').open=false;return;}if(journey.next()){updateUI();$('review-tools').open=false;}}
+function next(){if(!ready||journey.paused)return;if([1,2].includes(journey.index)&&!journey.travel&&!(journey.index===1?journey.houseRejection:journey.houseSighting).complete){houseScene.begin();$('review-tools').open=false;return;}if(journey.index===0&&!journey.travel&&!journey.lantern){lampScene.begin();$('review-tools').open=false;return;}if(journey.next()){updateUI();$('review-tools').open=false;}}
 function pause(){if(!ready)return;journey.paused=!journey.paused;updateUI();}
 function timingSummary(){
  return STOPS.flatMap(stop=>{
@@ -134,12 +136,12 @@ function animate(now){
   const before=journey.distance;journey.step(dt);clock+=dt;lampScene.tick(dt);
   character.update(dt,{controller:{phase:journey.phase,gait:journey.gait},movement:dt?(journey.distance-before)/dt:0,gaitBlend:journey.gait==='run'?1:0,paused:false});pose(dt);
  }
- const key=[journey.index,journey.phase,journey.paused,journey.staged,journey.houseRejection.phase,houseScene.getState().audioFailed].join('|');if(key!==signature){signature=key;updateUI();}
+ const key=[journey.index,journey.phase,journey.paused,journey.staged,journey.houseRejection.phase,journey.houseSighting.phase,journey.houseSighting.page,houseScene.getState().audioFailed].join('|');if(key!==signature){signature=key;updateUI();}
  renderer.render(scene,camera);
  // Real frame intervals, kept per segment. Hidden/paused time is excluded.
  if(active&&moving&&raw>0&&samples.length<60000)samples.push({leg:leg+1,ms:+(raw*1000).toFixed(2),calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});
 }
-window.routeRehearsal={getState:()=>({...journey.snapshot(),ready,camera:cameraRig.lastDiagnostics,lamp:world.lampState(),house:houseScene.getState(),view:{position:camera.position.toArray(),look:cameraRig.look},buffer:[renderer.domElement.width,renderer.domElement.height],reduced}),getFrameSamples:()=>samples.slice(),getFeatures:()=>world.settlementFeatures.map(f=>({label:f.label,position:f.root.position.toArray(),yaw:f.root.rotation.y}))};
+window.routeRehearsal={getState:()=>({...journey.snapshot(),ready,camera:cameraRig.lastDiagnostics,lamp:world.lampState(),house:houseScene.getState(),sighting:sightingScene.getState(),view:{position:camera.position.toArray(),look:cameraRig.look},buffer:[renderer.domElement.width,renderer.domElement.height],reduced}),getFrameSamples:()=>samples.slice(),getFeatures:()=>world.settlementFeatures.map(f=>({label:f.label,position:f.root.position.toArray(),yaw:f.root.rotation.y}))};
 try{
  const manager=new THREE.LoadingManager();manager.onProgress=(_url,loaded,total)=>window.storyLoading.status(`Loading village resources: ${loaded} / ${total}`);
  const loader=new GLTFLoader(manager);window.storyLoading.status('Loading the shepherd and village…');

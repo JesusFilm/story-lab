@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdirSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
-const out=fileURLToPath(new URL('../review/2026-09-13-house-1/',import.meta.url));mkdirSync(out,{recursive:true});
+const out=process.env.HOUSE_REVIEW_OUTPUT||fileURLToPath(new URL('../review/2026-09-13-house-1/',import.meta.url));mkdirSync(out,{recursive:true});
 const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
 const origin=process.env.WATCH_GAME_TEST_ORIGIN||'http://127.0.0.1:8766';
 const state=p=>p.evaluate(()=>window.routeRehearsal.getState());
@@ -18,7 +18,8 @@ try{
  assert((await state(p)).house.light>0);assert((await state(p)).house.voiceReady);assert.equal((await state(p)).house.audioFailed,false);
  await p.locator('#pause').click();const held=(await state(p)).houseRejection.elapsed;await p.waitForTimeout(400);assert.equal((await state(p)).houseRejection.elapsed,held);assert(await p.locator('#advance').isDisabled());await p.locator('#pause').click();
  await p.waitForFunction(()=>window.routeRehearsal.getState().houseRejection.complete);await shot(p,'04-next-action');assert.equal((await state(p)).house.light,0);assert.deepEqual((await state(p)).house.played,[0,1,2,'voice']);
- await p.locator('#advance').click();await p.waitForFunction(()=>window.routeRehearsal.getState().index===2&&!window.routeRehearsal.getState().destination,null,{timeout:30000});await shot(p,'05-house-3');assert.match(await p.locator('#beat').textContent(),/Scene pending/);
+ await p.locator('#advance').click();await p.waitForFunction(()=>window.routeRehearsal.getState().index===2&&!window.routeRehearsal.getState().destination,null,{timeout:30000});await shot(p,'05-house-3');assert.equal(await p.locator('#advance').textContent(),'Knock on door');
+ await p.locator('#advance').click();await p.waitForFunction(()=>!document.getElementById('sighting-overlay').hidden&&!document.getElementById('sighting-next').disabled);for(let i=0;i<4;i++)await p.locator('#sighting-next').click();
  await p.locator('#advance').click();await p.waitForFunction(()=>window.routeRehearsal.getState().index===3&&!window.routeRehearsal.getState().destination,null,{timeout:30000});assert.equal((await state(p)).gateOpen,false);
  await jump(p,1);assert.equal((await state(p)).houseRejection.phase,'ready');await p.locator('#advance').click();await p.waitForTimeout(2800);await jump(p,4);assert.equal((await state(p)).house.light,0);
  await jump(p,1);assert.equal((await state(p)).house.light,0);

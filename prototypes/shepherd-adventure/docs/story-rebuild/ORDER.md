@@ -28,7 +28,7 @@ Use focused commits on this same branch as scenes are accepted. Bring main updat
 |---|---|---|---|
 | 01 | Lamp workbench | Prepare a light before setting out | Assembly actions, required effort, text, camera, and carrying handoff |
 | 02 | House 1 | Resident sends the shepherd away because it is late | Knock, temporary waking light, refusal and departure accepted in user play-test; dark before/after |
-| 03 | House 3 | Resident saw Mary and Joseph with a donkey heading toward the gate | Helpful exchange, exact wording, next-direction cue; house lit |
+| 03 | House 3 | Resident saw Mary and Joseph with a donkey heading toward the gate | Brief illustrated exchange and continuity revision accepted for checkpoint; house lit |
 | 04 | Barred timber gate | Cannot pass; seek help near the well | Barrier action, shepherd options and clear reason for the detour |
 | 05 | House 5 | Nobody answers; human and animal tracks lead away | Silence, inspection, readable tracks and next lead; house unlit |
 | 06 | Village animal pen | Closed pen; the tracks continue past it | Establish nobody entered; observation options and continuation cue |
@@ -91,3 +91,24 @@ The user completed a successful play-test and accepted this scene, authorizing
 a focused commit and feature-branch push after the audit update.
 [Audit entry](../navigation-direction-retrospective-2026-09-13.md#13-september-update--house-1-rejection-response-and-timing).
 No merge or deployment is authorized or performed.
+
+### Point 03 review draft — 13 September 2026
+
+House 3 now reuses the House 1 knock, then presents three consistent illustrations
+and a short player-paced exchange. The resident describes seeing the travellers
+and directs the shepherd up the lane to the gate. **Thank you** returns to the
+village; **Go to the gate** starts the existing route. House 1’s departure thought
+now suggests the neighbour’s light. Its refusal timing remains unchanged.
+[Shared knocking contract](house-knocking.md) ·
+[Scene brief](scenes/03-house-3.md) ·
+[Review and verification](../../review/2026-09-13-house-3/README.md).
+The user approved the gentle, brief direction; creative acceptance of this
+implementation remains pending. Points 04–10 remain placeholders. No merge or deployment.
+
+### Point 03 accepted checkpoint — 13 September 2026
+
+The user reviewed the corrected house imagery and more realistic resident, judged
+the revision much better, and authorized the feature audit update, commit and push.
+House 3 is accepted for this checkpoint. See the
+[audit entry](../navigation-direction-retrospective-2026-09-13.md#13-september-update--house-3-helpful-sighting-and-visual-continuity).
+Points 04–10 remain placeholders; no merge or deployment is authorized.

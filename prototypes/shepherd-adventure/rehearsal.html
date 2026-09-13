@@ -3,7 +3,7 @@
 <head>
  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
  <title>Village route rehearsal · Shepherd Adventure</title><link rel="icon" href="data:,">
- <link rel="stylesheet" href="rehearsal.css"><link rel="stylesheet" href="lamp-scene.css"><link rel="stylesheet" href="loading-theatre.css">
+ <link rel="stylesheet" href="vendor/story-diorama/story-diorama.css"><link rel="stylesheet" href="house-sighting.css"><link rel="stylesheet" href="rehearsal.css"><link rel="stylesheet" href="lamp-scene.css"><link rel="stylesheet" href="loading-theatre.css">
  <script type="importmap">{"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/"}}</script>
 </head>
 <body>
@@ -32,6 +32,7 @@
   </details>
  </section>
  <div id="lamp-reward" role="status" aria-live="polite" hidden><img src="./assets/lamp-assembly/lamp.png" alt=""><span><strong>+1 Lamp</strong><small>A light for the road</small></span></div>
+ <section id="sighting-overlay" role="dialog" aria-modal="true" aria-label="A helpful resident" hidden><p id="sighting-status" role="status"></p><button id="sighting-retry" hidden>Retry illustrations</button><div id="sighting-stage"></div><div class="sighting-actions"><span id="sighting-count"></span><button id="sighting-next" class="primary">Continue</button></div></section>
  <script type="module" src="src/rehearsal.mjs" onerror="window.storyLoading?.fail('The rehearsal could not start. Reload to try again.')"></script>
 </body>
 </html>

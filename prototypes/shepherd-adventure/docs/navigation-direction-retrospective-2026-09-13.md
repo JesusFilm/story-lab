@@ -144,3 +144,57 @@ and push to `codex/shepherd-story-rebuild`. **House 1 is accepted at this checkp
 See [the accepted scene brief](story-rebuild/scenes/02-house-1.md). This acceptance
 covers the reviewed scene, not the unfinished journey or a release. Merge into
 `main` and deployment remain unauthorized.
+
+## 13 September update — House 3 helpful sighting and visual continuity
+
+**Decision: retain point 03 as a gentle, brief illustrated exchange following the
+shared knock.** House 1's onward thought now suggests trying the neighbour's lit
+house. At House 3 the resident reports seeing a couple with a donkey seeking
+shelter and heading up the lane toward the gate. This remains authored connective
+fiction; the resident does not inexplicably know the travellers' names.
+
+Implemented in this checkpoint:
+
+- Reused House 1's free-left-hand gesture, three synchronized door-ring effects
+  and synthesized wooden knocks, fitting the approach and effect positions to
+  House 3. Documented the [shared knocking interaction](story-rebuild/house-knocking.md).
+  House 1's accepted refusal and temporary-light timing remain unchanged.
+- Added three consistent images and four player-paced reading beats: footsteps,
+  the shepherd's question, the resident's sighting and the gate direction. Speaker
+  labels and persistent text make the exchange understandable without sound.
+  House 3 remains lit and uses no new voice recording or 3D resident model.
+- **Thank you** returns to the village view; **Go to the gate** explicitly starts
+  the existing route to point 04. Pause, replay/reset and repeated-action guards
+  remain functional. Image failure or timeout preserves the full text and offers
+  retry without losing the reading position. Points 04–10 remain placeholders.
+- Reworked the first image set after user review exposed continuity errors:
+  added roof beams, a divided window, exposed-brick treatment, reversed handle,
+  extra decorative props and a cartoon-like resident. The selected replacements
+  use the actual knocking screenshot as the house reference and the original
+  shepherd T-pose plus Follow the Light guide for natural character proportions.
+- The revised illustrations preserve the plastered facade, undivided window and
+  its timber lintel, beam-free parapet and left-side handle/right-jamb door opening.
+  The resident is serious and attentive, with realistic proportions and plain
+  linen clothing. Pots, plants and baskets are deferred until matching 3D dressing
+  is deliberately added. First-pass art remains review evidence, not runtime input.
+
+**Verification and evidence:** [initial implementation checks](../review/2026-09-13-house-3/README.md)
+and [revised continuity captures](../review/2026-09-13-house-3/continuity/README.md)
+record the House 1 → House 3 → gate walkthrough, hand/door alignment, manual
+reading, explicit departure, pause/replay, silent portrait/reduced-motion play,
+image failure/retry and unchanged gate placeholder. House 1 browser regression,
+House 3 state checks, lamp assembly and ten-route geometry/camera checks passed.
+The existing browser walkthrough passed again against the revised image set.
+Selected local artwork and exact built-in ImageGen prompts are preserved in the
+[prototype asset folder](../assets/house-3/README.md).
+
+**Limits:** these are illustrated interpretations of the model, not animated
+renders of its door. Browser captures use desktop and emulated mobile viewports;
+physical-device validation and controlled performance comparison remain outstanding.
+The rehearsal has not been added to the publication allowlist.
+
+**Review outcome:** the user approved the gentle, brief exchange, requested the
+continuity corrections, then judged the revision much better and authorized this
+audit update, focused commit and branch push. **House 3 is accepted for this
+checkpoint.** The unfinished journey and release remain unaccepted. All work stays
+on `codex/shepherd-story-rebuild`; no merge to `main` or deployment is authorized.

@@ -74,3 +74,12 @@ expanding knock rings with fixed-size cues. Subtitles support play without audio
 - User keep/revise decision: **keep**; accepted for a focused commit and feature-branch push.
 - Accepted checkpoint: **Implement House 1 knock and rejection scene** on `codex/shepherd-story-rebuild`; commit and push authorized. No merge or deployment.
 - [Dated audit entry](../../navigation-direction-retrospective-2026-09-13.md#13-september-update--house-1-rejection-response-and-timing).
+
+## House 3 integration — 13 September 2026
+
+The new onward wording is **“Let’s try next door. There’s a light in the neighbour’s
+house.”** with **Try next door**. This supersedes the earlier departure copy above.
+The accepted knock/refusal/waking-light rhythm is unchanged and now shares its
+knock renderer with House 3. [Interaction contract](../house-knocking.md).
+House 3 has a playable illustrated exchange; its old placeholder references above
+describe the House 1 checkpoint. The revised transition awaits integrated user review.
