@@ -4,6 +4,7 @@ import {RouteRehearsal,STOPS,CORRIDORS,HOUSE_APPROACHES,lengthOf} from '../src/r
 import {loadSettlement,THREE} from './load-settlement.mjs';
 import {JourneyCamera,routeLookahead,blocked} from '../src/journey-camera.mjs';
 import {height} from '../src/journey-terrain.mjs';
+function prepareLamp(j){j.lampAssembly.begin();for(const id of ['body','wick','oil','flint','light'])assert(j.assembleLamp(id));assert(j.takeLamp());}
 
 const j=new RouteRehearsal();assert.equal(STOPS.length,10);assert.equal(new Set(STOPS.map(s=>s.id)).size,10);
 assert.equal(j.next(),true);assert.equal(j.next(),false,'Repeated next cannot skip a scene');
@@ -12,6 +13,7 @@ for(let index=0;index<10;index++){
  while(j.travel)j.step(1/60);
  assert.equal(j.index,index);assert.deepEqual({x:j.position.x,z:j.position.z},STOPS[index].anchor);
  assert.equal(j.lantern,index>=1);assert.equal(j.gateOpen,index>=8);
+ if(index===0)prepareLamp(j);
  if(index<9)assert(j.next());else assert.equal(j.next(),false);
 }
 const fullDistance=j.distance;
@@ -21,6 +23,7 @@ for(let leg=0;leg<10;leg++){
  while(urgency.travel){urgency.step(1/60);if(gaits.at(-1)!==urgency.gait)gaits.push(urgency.gait);peak=Math.max(peak,urgency.travel?.speed||0);}
  assert.deepEqual(gaits,['run','walk'],`Leg ${leg+1} should run, then walk without toggling back`);
  assert(peak>4,'Running should change traversal speed, not only the clip');
+ if(leg===0)prepareLamp(urgency);
  if(leg<9)urgency.next();
 }
 
@@ -105,7 +108,7 @@ for(const [index,corridor] of CORRIDORS.entries()){
  }
  legs.push({number:index+1,title:STOPS[index].title,metres:lengthOf(corridor.points),closest});
 }
-const folder=new URL('../review/2026-09-13-route-rehearsal/',import.meta.url);mkdirSync(folder,{recursive:true});
+const folder=new URL('../review/2026-09-13-lamp-workbench/',import.meta.url);mkdirSync(folder,{recursive:true});
 writeFileSync(new URL('geometry-and-state.json',folder),JSON.stringify({status:failures.length?'failed':'passed',fullDistance,unchangedCentres:world.settlementFeatures.length,orientedHouses:Object.keys(HOUSE_APPROACHES),legs,failures,limits:'Sampled path clearance against projected model hulls and wall centerlines, plus state transitions. Not a live camera or enjoyment test.'},null,2)+'\n');
 console.log(JSON.stringify({fullDistance,legs,failures:failures.slice(0,12),failureCount:failures.length},null,2));
 assert.equal(failures.length,0,'Rehearsal corridor needs at least 45 cm clearance from current structures and walls');
@@ -120,7 +123,7 @@ for(const portrait of [false,true]){
   const frame=rig.update({player:{...p,y:height(p.x,p.z)},heading,ahead:routeLookahead(model.travel)||stop?.target,boxes:world.occluders,dt,portrait});
   if(blocked({x:p.x,y:height(p.x,p.z)+1.15,z:p.z},frame.position,world.occluders,.1))hidden++;
   minArm=Math.min(minArm,frame.arm);frames++;
-  if(!model.travel){if(model.index===9)break;model.next();}
+  if(!model.travel){if(model.index===9)break;if(model.index===0)prepareLamp(model);assert(model.next(),'Camera walkthrough must progress');}
  }
  cameras.push({portrait,frames,hiddenPlayerSamples:hidden,minimumArm:minArm});
  assert.equal(hidden,0,'New corridor must preserve sampled player visibility');

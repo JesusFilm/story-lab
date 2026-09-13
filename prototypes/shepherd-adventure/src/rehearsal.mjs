@@ -6,16 +6,19 @@ import {CharacterVariants} from './character-variants.mjs';
 import {routeLookahead} from './journey-camera.mjs';
 import {animalViewWeight} from './journey-animal-route.mjs';
 import {RouteRehearsal,STOPS,CORRIDORS,HOUSE_APPROACHES} from './rehearsal-route.mjs';
+import {createLampScene} from './lamp-scene.mjs';
 
 const $=id=>document.getElementById(id),journey=new RouteRehearsal();
 let ready=false,clock=0,last=performance.now(),heading=Math.PI,signature='',renderWidth=0,renderHeight=0;
 let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let motionOverride=false;
 $('reduced-motion').checked=reduced;
-$('reduced-motion').onchange=()=>{motionOverride=true;reduced=$('reduced-motion').checked;};
+$('reduced-motion').onchange=()=>{motionOverride=true;reduced=$('reduced-motion').checked;updateUI();};
 const {renderer,scene,camera,cameraRig}=createJourneyScene($('world'));
 const world=createJourneyWorld(scene,{routePaths:CORRIDORS,houseApproaches:HOUSE_APPROACHES}),avatar=new THREE.Group();scene.add(avatar);
 const character=new CharacterVariants(avatar),samples=[];
+const lampScene=createLampScene(journey,()=>{updateUI();resize();});
+const lampLook=new THREE.Vector3(),lampEye=new THREE.Vector3(),lampHand=new THREE.Vector3();let lampCamera=0;
 const choice=$('jump-point');
 for(const stop of STOPS){const option=document.createElement('option');option.value=stop.number-1;option.textContent=`${String(stop.number).padStart(2,'0')} — ${stop.title}`;choice.append(option);}
 
@@ -32,6 +35,14 @@ function updateUI(){
  $('pause').textContent=journey.paused?'Continue':'Pause';$('pause').disabled=!ready;
  $('replay').disabled=!ready;$('jump').disabled=!ready;$('restart').disabled=!ready;$('capture').disabled=!ready;
  document.body.classList.toggle('walking',!!journey.travel);
+ document.body.classList.toggle('reduced-motion',reduced);
+ if(journey.index===0&&!journey.travel){
+  $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
+  $('beat').textContent=journey.lantern?'A steady light. Time to find the others.':'Everything for a small light is laid out here.';
+  $('travel-status').textContent=journey.paused?'Paused — continue when ready.':journey.lantern?'The first house is just ahead.':'Prepare a lamp before setting out.';
+  $('advance').textContent=journey.lantern?'Set out — House 1':journey.lampAssembly.step?'Continue preparing':'Prepare your light';
+ }
+ lampScene.update();
 }
 function resize(){
  const panel=$('review-panel'),width=innerWidth,height=innerWidth<=600?Math.max(140,innerHeight-panel.getBoundingClientRect().height-28):innerHeight;
@@ -50,10 +61,20 @@ function pose(dt,instant=false){
  const interest=journey.travel?.index===9?{x:-35,z:-53,y:height(-35,-53)+.7,weight:animalViewWeight(p)}:null;
  const frame=cameraRig.update({player:{...p,y:height(p.x,p.z)},heading,ahead,boxes:world.occluders,dt,instant,portrait:camera.aspect<1,interest});
  camera.position.set(frame.position.x,frame.position.y,frame.position.z);camera.lookAt(frame.look.x,frame.look.y,frame.look.z);
- world.update(instant?10:dt,clock,journey,heading,reduced);world.updateOcclusion(camera,p,instant?10:dt);
+ const inspecting=journey.index===0&&!journey.travel&&journey.lampAssembly.open;
+ const weight=inspecting?1:0;lampCamera=instant?weight:THREE.MathUtils.lerp(lampCamera,weight,1-Math.exp(-4*dt));
+ if(lampCamera>.001){
+  const portrait=camera.aspect<1;
+  lampEye.set(-6.9,height(-10.5,30)+2.35,32.3);
+  lampLook.set(-10.5,height(-10.5,30)+1.12,portrait?30:29.2);
+  camera.position.lerp(lampEye,lampCamera);const look=new THREE.Vector3(frame.look.x,frame.look.y,frame.look.z).lerp(lampLook,lampCamera);camera.lookAt(look);
+ }
+ const hand=character.tripo?.model.getObjectByName('R_Hand');
+ const carryPosition=hand?hand.getWorldPosition(lampHand):null;
+ world.update(instant?10:dt,clock,journey,heading,reduced,carryPosition);world.updateOcclusion(camera,p,instant?10:dt);
 }
 function reposition(){cameraRig.reset();heading=journey.position.heading;clock=0;updateUI();resize();pose(0,true);renderer.render(scene,camera);last=performance.now();}
-function next(){if(!ready)return;if(journey.next()){updateUI();$('review-tools').open=false;}}
+function next(){if(!ready||journey.paused)return;if(journey.index===0&&!journey.travel&&!journey.lantern){lampScene.begin();$('review-tools').open=false;return;}if(journey.next()){updateUI();$('review-tools').open=false;}}
 function pause(){if(!ready)return;journey.paused=!journey.paused;updateUI();}
 function timingSummary(){
  return STOPS.flatMap(stop=>{
@@ -106,7 +127,7 @@ function animate(now){
  if(!ready)return;
  const active=!journey.paused&&!document.hidden,dt=active?Math.min(raw,.1):0,moving=!!journey.travel,leg=journey.travel?.index;
  if(active){
-  const before=journey.distance;journey.step(dt);clock+=dt;
+  const before=journey.distance;journey.step(dt);clock+=dt;lampScene.tick(dt);
   character.update(dt,{controller:{phase:journey.phase,gait:journey.gait},movement:dt?(journey.distance-before)/dt:0,gaitBlend:journey.gait==='run'?1:0,paused:false});pose(dt);
  }
  const key=[journey.index,journey.phase,journey.paused,journey.staged].join('|');if(key!==signature){signature=key;updateUI();}
@@ -114,7 +135,7 @@ function animate(now){
  // Real frame intervals, kept per segment. Hidden/paused time is excluded.
  if(active&&moving&&raw>0&&samples.length<60000)samples.push({leg:leg+1,ms:+(raw*1000).toFixed(2),calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});
 }
-window.routeRehearsal={getState:()=>({...journey.snapshot(),ready,camera:cameraRig.lastDiagnostics,view:{position:camera.position.toArray(),look:cameraRig.look},buffer:[renderer.domElement.width,renderer.domElement.height],reduced}),getFrameSamples:()=>samples.slice(),getFeatures:()=>world.settlementFeatures.map(f=>({label:f.label,position:f.root.position.toArray(),yaw:f.root.rotation.y}))};
+window.routeRehearsal={getState:()=>({...journey.snapshot(),ready,camera:cameraRig.lastDiagnostics,lamp:world.lampState(),view:{position:camera.position.toArray(),look:cameraRig.look},buffer:[renderer.domElement.width,renderer.domElement.height],reduced}),getFrameSamples:()=>samples.slice(),getFeatures:()=>world.settlementFeatures.map(f=>({label:f.label,position:f.root.position.toArray(),yaw:f.root.rotation.y}))};
 try{
  const manager=new THREE.LoadingManager();manager.onProgress=(_url,loaded,total)=>window.storyLoading.status(`Loading village resources: ${loaded} / ${total}`);
  const loader=new GLTFLoader(manager);window.storyLoading.status('Loading the shepherd and village…');

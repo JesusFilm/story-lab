@@ -252,6 +252,28 @@ feature changes have not been deployed.
 
 ## Lamp workbench
 
+The feature-branch rehearsal now has a [guided lamp preparation draft](docs/story-rebuild/scenes/01-lamp.md).
+A new [Pixal3D lamp workbench](../../assets/structures/lamp-workbench/README.md)
+replaces the procedural timber boxes. It owns an independent runtime model with
+49,879 triangles and embedded 2K textures; the lantern and oil jar remain separate.
+The bench is oriented toward the existing point-01 approach and its maps are current.
+
+In the rehearsal, Prepare your light opens one item at a time: lamp body, wick, oil,
+flint and lighting. Large PNGs show each part, with lamp/jar rendered from the actual
+models. There are no incorrect combinations. Take lamp awards one +1 Lamp cue,
+removes the table lamp and attaches the light to the shepherd's right hand.
+Set out continues toward House 1. Back preserves progress; review jumps and restart
+reconstruct or clear it. The other nine scene placeholders remain unchanged.
+
+[Screenshots and targeted review](review/2026-09-13-lamp-workbench/README.md).
+Run `node checks/verify-lamp-assembly.mjs` and `node checks/verify-rehearsal.mjs`;
+`checks/verify-lamp-scene.mjs` uses an installed Playwright module for desktop,
+mobile/reduced-motion and loading-retry checks. Text, framing and feel are draft.
+The user authorized a branch checkpoint and audit update for this iteration;
+final scene acceptance remains pending. No merge or deployment is authorized.
+
+The following describes the earlier recipe in the original entry:
+
 The 3D workbench oil jar now uses an independent 28 cm Pixal3D model, replacing
 the stretched-sphere placeholder. It has 7,998 triangles and baked 1K textures,
 and loads through the normal foreground model-loading phase. Its reference,

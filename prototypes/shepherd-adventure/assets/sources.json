@@ -345,6 +345,36 @@
       "source": "assets/characters/nativity-family/nativity-family-pixal3d-runtime.glb",
       "sha256": "b2f4cb054b1ee19090de8594fd21f1eb642bc2af0a026cdaaeb67eab7b86bf7e",
       "note": "Static family tableau; original source, reference and render review retained in the library."
+    },
+    {
+      "file": "assets/lamp-workbench-pixal3d.glb",
+      "source": "assets/structures/lamp-workbench/lamp-workbench-pixal3d-runtime.glb",
+      "sha256": "d3343c723ca764a8b3c60d25748581983c349194f894aefa4662c8be117c7911",
+      "note": "Pixal3D from native ImageGen; 49,879 triangles, 2K source atlas, 2.2 m high; static workbench with separate runtime lamp and parts."
+    },
+    {
+      "file": "assets/lamp-assembly/wick.png",
+      "source": "assets/references/lamp-parts/wick.png",
+      "sha256": "743503f48cd33fa31f6ab00fa2f4549ab73343e2c13c78398271a234609a2312",
+      "note": "Native ImageGen illustration; 512 px prototype copy."
+    },
+    {
+      "file": "assets/lamp-assembly/flint.png",
+      "source": "assets/references/lamp-parts/flint.png",
+      "sha256": "3c7bef0a882ebb946a2fbbba5c2588899a2f940185ffe27dd06f6dde21b4221a",
+      "note": "Native ImageGen illustration; 512 px prototype copy."
+    },
+    {
+      "file": "assets/lamp-assembly/lamp.png",
+      "source": "assets/objects/structure-lamp/model-2.glb",
+      "sha256": "06217b8047e6e2bcbd11cba24441205d51bb00d0175d1f95396fb8d2a4283a75",
+      "note": "PNG rendered from this prototype\u2019s existing portable-lantern-tripo.glb by checks/render-lamp-items.py."
+    },
+    {
+      "file": "assets/lamp-assembly/oil.png",
+      "source": "assets/objects/oil-jar/oil-jar-pixal3d-runtime.glb",
+      "sha256": "829935ff4c26f4f679400dc99b2c2b174ec39c29a65fb5bbc35f0a313fff7b90",
+      "note": "PNG rendered from this prototype\u2019s oil-jar-pixal3d.glb by checks/render-lamp-items.py."
     }
   ]
 }

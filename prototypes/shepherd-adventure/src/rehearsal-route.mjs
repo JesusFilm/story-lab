@@ -1,5 +1,6 @@
 // The ten-point user-drawn village walk. Structures retain the accepted layout.
 // Each entry owns its incoming corridor; scene performance is deliberately pending.
+import {LampAssembly} from './lamp-assembly.mjs';
 export const ENTRY={x:0,z:50};
 const point=([x,z])=>({x,z});
 const definitions=[
@@ -43,11 +44,13 @@ export function positionOn(points,distance){
 
 export class RouteRehearsal{
  constructor(){this.reset();}
- reset(){this.index=-1;this.paused=false;this.travel=null;this.position={...ENTRY,heading:Math.PI};this.phase='choice';this.gait='walk';this.distance=0;this.lantern=false;this.gateOpen=false;this.staged=false;this.completed=new Set();}
+ reset(){this.lampAssembly=new LampAssembly();this.index=-1;this.paused=false;this.travel=null;this.position={...ENTRY,heading:Math.PI};this.phase='choice';this.gait='walk';this.distance=0;this.lantern=false;this.gateOpen=false;this.staged=false;this.completed=new Set();}
  get stop(){return STOPS[this.index]||null;}
  get at(){return this.stop?.id||'entry';}
  get options(){return [];}
- setPriorOutcomes(index){this.lantern=index>=1;this.gateOpen=index>=8;this.completed=new Set(STOPS.slice(0,index).map(s=>s.id));}
+ setPriorOutcomes(index){this.lampAssembly.reset();if(index>=1)this.lampAssembly.stageComplete();this.lantern=index>=1;this.gateOpen=index>=8;this.completed=new Set(STOPS.slice(0,index).map(s=>s.id));}
+ assembleLamp(action){if(this.index!==0||this.travel||this.paused)return false;return this.lampAssembly.act(action);}
+ takeLamp(){if(this.index!==0||this.travel||this.paused||!this.lampAssembly.take())return false;this.lantern=true;this.completed.add(this.at);return true;}
  beginLeg(index,progress=0){
   const points=CORRIDORS[index].points,length=lengthOf(points);
   this.travel={points,lengths:points.slice(1).map((p,i)=>Math.hypot(p.x-points[i].x,p.z-points[i].z)),length,progress,to:STOPS[index].id,index,speed:0};
@@ -55,8 +58,8 @@ export class RouteRehearsal{
  }
  next(){
   if(this.paused||this.travel||this.index===STOPS.length-1)return false;
+  if(this.index===0&&!this.lampAssembly.taken)return false;
   if(this.index>=0)this.completed.add(this.at);
-  if(this.index===0)this.lantern=true;
   if(this.index===7)this.gateOpen=true;
   this.beginLeg(this.index+1);return true;
  }
@@ -83,7 +86,7 @@ export class RouteRehearsal{
   t.speed=speed;const amount=Math.min(dt*speed,t.length-t.progress);t.progress+=amount;this.distance+=amount;this.position=positionOn(t.points,t.progress);
   if(t.progress>=t.length-1e-8){this.index=t.index;this.position={...this.position,...STOPS[t.index].anchor};this.travel=null;this.phase='choice';}
  }
- snapshot(){return {index:this.index,at:this.at,phase:this.phase,paused:this.paused,staged:this.staged,lantern:this.lantern,gateOpen:this.gateOpen,distance:this.distance,position:{...this.position},destination:this.travel?.index??null,completed:[...this.completed]};}
+ snapshot(){return {index:this.index,at:this.at,phase:this.phase,paused:this.paused,staged:this.staged,lantern:this.lantern,lampAssembly:this.lampAssembly.snapshot(),gateOpen:this.gateOpen,distance:this.distance,position:{...this.position},destination:this.travel?.index??null,completed:[...this.completed]};}
 }
 
 // Actual knocking approaches, keyed by settlement house number.

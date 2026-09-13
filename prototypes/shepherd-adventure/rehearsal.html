@@ -3,7 +3,7 @@
 <head>
  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
  <title>Village route rehearsal · Shepherd Adventure</title><link rel="icon" href="data:,">
- <link rel="stylesheet" href="rehearsal.css"><link rel="stylesheet" href="loading-theatre.css">
+ <link rel="stylesheet" href="rehearsal.css"><link rel="stylesheet" href="lamp-scene.css"><link rel="stylesheet" href="loading-theatre.css">
  <script type="importmap">{"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/"}}</script>
 </head>
 <body>
@@ -21,6 +21,7 @@
   <p id="beat">Review the walking route and camera. Dialogue, clues and scene actions are placeholders.</p>
   <p id="travel-status" role="status" aria-live="polite"></p>
   <button id="advance" type="button" class="primary">Walk to point 01 — Lamp workbench</button>
+  <section id="lamp-assembly" aria-labelledby="lamp-title" hidden></section>
   <details id="review-tools"><summary>Review tools</summary>
    <div class="tools"><label for="jump-point">Jump to point</label><select id="jump-point"></select><button id="jump" type="button">Jump</button><button id="replay" type="button">Replay approach</button><button id="restart" type="button">Restart route</button><button id="capture" type="button">Capture view</button></div>
    <p class="hint">Jumps stage the earlier outcomes. Replay walks the full incoming leg. Space pauses while walking; Escape pauses anywhere.</p>
@@ -30,6 +31,7 @@
    <a href="docs/story-rebuild/README.md">Scene briefs</a> · <a href="index.html">Original experience</a>
   </details>
  </section>
+ <div id="lamp-reward" role="status" aria-live="polite" hidden><img src="./assets/lamp-assembly/lamp.png" alt=""><span><strong>+1 Lamp</strong><small>A light for the road</small></span></div>
  <script type="module" src="src/rehearsal.mjs" onerror="window.storyLoading?.fail('The rehearsal could not start. Reload to try again.')"></script>
 </body>
 </html>

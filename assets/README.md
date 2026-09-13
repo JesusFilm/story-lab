@@ -1,5 +1,8 @@
 # Assets
 
+[Lamp workbench](structures/lamp-workbench/README.md): generated timber bench and
+linen canopy, with separate interactive items in Shepherd Adventure.
+
 Reference images, models and textures to browse and copy. Each prototype keeps
 independent local copies. Copy required textures and licenses with an asset.
 

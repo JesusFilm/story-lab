@@ -1,4 +1,5 @@
 import {NATIVITY,createNativityShelter,dressNativity} from './journey-nativity.mjs';
+import {WORKBENCH_URL,WORKBENCH_BEARING,addWorkbenchParts} from './lamp-workbench-model.mjs';
 import {addVillageNature} from './journey-nature.mjs';
 import {addVillageWalls,VILLAGE_BOUNDS} from './journey-boundaries.mjs';
 import {LANTERN_URL,CARRIED_LANTERN_HEIGHT,SETTLEMENT_LANTERN_HEIGHT,fitLantern,setLanternLit} from './journey-lantern.mjs';
@@ -76,7 +77,10 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   const light=new THREE.PointLight('#ffc170',intensity*2.2,18,2);light.position.copy(visual.root.position);if(enabled)scene.add(light);
   const source={x,z,y:visual.root.position.y,intensity:intensity*2.2,enabled,light};visual.core.visible=enabled;visual.halo.visible=enabled;visual.root.userData.unlit=!enabled;lamps.push(source);return {source,...visual};
  }
- for(const n of NODES.filter(n=>n.fire&&(!routePaths||n.id==='hearth'))){lightAt(n.x+1.5,n.z,1.25,25);const stand=new THREE.Mesh(new THREE.CylinderGeometry(.07,.1,1.3,6),bark);stand.position.set(n.x+1.5,height(n.x+1.5,n.z)+.6,n.z);scene.add(stand);}
+ for(const n of NODES.filter(n=>n.fire&&(!routePaths||n.id==='hearth'))){
+  if(n.id==='hearth'){lightAt(n.x+1.45,n.z+.82,1.85,3.2);continue;}
+  lightAt(n.x+1.5,n.z,1.25,25);const stand=new THREE.Mesh(new THREE.CylinderGeometry(.07,.1,1.3,6),bark);stand.position.set(n.x+1.5,height(n.x+1.5,n.z)+.6,n.z);scene.add(stand);
+ }
  const routeGroup=new THREE.Group();scene.add(routeGroup);const routes=[];
  for(const path of activePaths){
   const ribbon=sampleRibbon(path.points,.32,(x,z)=>terrainSurface(pos,x,z));
@@ -116,15 +120,14 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
  const gateLampX=gp.x+Math.cos(gate.rotation.y)*1.55,gateLampZ=gp.z-Math.sin(gate.rotation.y)*1.55;const gateLamp=lightAt(gateLampX,gateLampZ,2.25,18,!routePaths);gateLamp.root.name='gate-lantern';
  target('lookout',-2.5,1,-19);target('olive',-23,2,3);target('ridge',18,2,-25);target('gate',0,1.5,15);target('field',1.5,1.2,36);target('goal',NATIVITY.x+1,1,NATIVITY.z);
  // One sheltered workbench holds all three components.
- const workbenches=[];
+ const workbenches=[],benchItems=[];
  for(const id of ['hearth']){
   const n=NODE[id],g=new THREE.Group();g.position.set(n.x+1.5,height(n.x+1.5,n.z),n.z);scene.add(g);
-  box(g,2.1,.15,1,0,.65,0,timber);for(const x of [-.85,.85])box(g,.12,.65,.12,x,.32,0,timber);
-  box(g,.5,.08,.45,-.65,.77,0,new THREE.MeshStandardMaterial({color:'#b9ac8e',roughness:1}));
+  g.rotation.y=WORKBENCH_BEARING;
   workbenches.push(g);
-  recordFeature(g,'Lamp workbench','workbench');
-  for(const x of [-1.1,1.1])box(g,.1,2.3,.1,x,1.15,-.35,timber);box(g,2.5,.08,1.7,0,2.3,0,straw);
+  recordFeature(g,'Lamp workbench','workbench',WORKBENCH_URL);
   const empty=lampVisual(CARRIED_LANTERN_HEIGHT);empty.root.name='hearth-lantern';empty.root.position.y=.725+CARRIED_LANTERN_HEIGHT/2;empty.core.visible=false;empty.halo.visible=false;g.add(empty.root);
+  const light=new THREE.PointLight('#ffcd83',0,6,2);empty.root.add(light);g.userData.lampVisual=empty;g.userData.lampLight=light;
   target(id,g.position.x,.9,g.position.z);
  }
  watchOcclusion(feed,'prop');
@@ -151,7 +154,13 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
  async function dress(loader){
   await dressNativity(loader,scene,shelter,recordFeature,watchOcclusion);modelCount+=6;
   const jarSource=(await loader.loadAsync('/assets/oil-jar-pixal3d.glb')).scene;
-  for(const bench of workbenches){const jar=jarSource.clone(true);jar.name='workbench-oil-jar';jar.position.set(.68,.725,0);jar.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});bench.add(jar);watchOcclusion(bench,'prop');modelCount++;}
+  const benchSource=(await loader.loadAsync(WORKBENCH_URL)).scene;
+  for(const bench of workbenches){
+   const parts=addWorkbenchParts(bench,benchSource.clone(true));
+   const jar=jarSource.clone(true);jar.name='workbench-oil-jar';jar.position.set(.55,parts.topAt(.55,-.15),-.15);jar.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});bench.add(jar);
+   const visual=bench.userData.lampVisual;visual.root.position.set(0,parts.topAt(0,0)+CARRIED_LANTERN_HEIGHT/2,0);
+   benchItems.push({...parts,jar,visual,light:bench.userData.lampLight});watchOcclusion(bench,'prop');modelCount+=2;
+  }
   const lanternSource=(await loader.loadAsync(LANTERN_URL)).scene;
   const poi=await loadJourneyPOIModels(loader);well.add(poi.well);poi.gate.position.x=1.5;gateLeaf.add(poi.gate);
   settlementFeatures.push({root:well,label:'Stone well',kind:'well'},{root:gate,label:'Timber gate',kind:'gate'});
@@ -183,12 +192,18 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   nature=await addVillageNature(loader,scene,fits,walkDistance,watchOcclusion);
   for(const {root,size} of lanternMounts){const body=fitLantern(lanternSource,size);root.add(body);setLanternLit(body,!root.userData.unlit&&root.name!=='hearth-lantern'&&root.name!=='gate-lantern');}
  }
- return {dress,terrain,paths:activePaths,markers,fits,occluders,settlementFeatures,get wallSegments(){return wallSegments;},get nature(){return nature;},occlusionBounds,updateOcclusion,clueTargets,get modelCount(){return modelCount;},get lanternCount(){return lanternMounts.length;},update(dt,time,journey,heading=Math.PI,reduced=false){
+ return {dress,terrain,paths:activePaths,markers,fits,occluders,settlementFeatures,get wallSegments(){return wallSegments;},get nature(){return nature;},occlusionBounds,updateOcclusion,clueTargets,get modelCount(){return modelCount;},get lanternCount(){return lanternMounts.length;},lampState(){return {carriedVisible:lantern.visible,carriedPosition:lantern.position.toArray(),benches:benchItems.map(i=>({lampVisible:i.visual.root.visible,lit:i.visual.core.visible,wickVisible:i.wick.visible,flintVisible:i.flint.visible}))};},update(dt,time,journey,heading=Math.PI,reduced=false,carryPosition=null){
   const p=journey.position,selected=journey.choice;gateLeaf.rotation.y+=((journey.gateOpen?-Math.PI*.48:0)-gateLeaf.rotation.y)*(1-Math.exp(-3*dt));const gateLit=journey.gateOpen&&!routePaths;gateLamp.source.enabled=gateLit;gateLamp.halo.visible=gateLit;gateLamp.core.visible=gateLit;setLanternLit(gateLamp.root,gateLit);
   lamps.forEach(source=>{source.light.intensity=source.enabled?source.intensity:0;});
+  for(const item of benchItems){
+   const assembly=journey.lampAssembly,lit=!!assembly?.lit&&!assembly?.taken;
+   item.visual.root.visible=!journey.lantern;item.visual.core.visible=lit;item.visual.halo.visible=lit;setLanternLit(item.visual.root,lit);item.light.intensity=lit?2:0;
+   item.wick.visible=!assembly||assembly.step<2;item.flint.visible=!assembly||assembly.step<4;
+  }
   lantern.visible=journey.lantern;
   lantern.position.set(p.x+Math.sin(heading)*.95+Math.cos(heading)*.35,height(p.x,p.z)+(1.05+(journey.gateSequence?.stage==='light'?Math.sin(Math.PI*Math.min(3,journey.gateSequence.elapsed)/3)*.9:0))+(reduced?0:Math.sin(time*2.4)*.045),p.z+Math.cos(heading)*.95-Math.sin(heading)*.35);
-  lantern.rotation.y=heading;carried.intensity=journey.lantern?20:0;
+  if(carryPosition)lantern.position.copy(carryPosition).add(new THREE.Vector3(0,-CARRIED_LANTERN_HEIGHT/2,0));
+  lantern.rotation.y=heading;carried.intensity=journey.lantern?(routePaths?6:20):0;
   routes.forEach(({edge,line})=>{const active=!routePaths&&journey.phase==='choice'&&journey.options.some(option=>option.id===edge.id);const reveal=journey.phase==='inspect'&&((journey.at==='lookout'&&edge.requires==='overlook')||(journey.at==='pen'&&edge.requires==='rear'));line.visible=active||reveal;line.material.uniforms.emphasis.value=edge.id===selected?.id||reveal?1:.32;line.material.uniforms.time.value=time;line.material.uniforms.reverse.value=edge.b===journey.at;line.material.uniforms.still.value=reduced;});
   markers.forEach(({node,mesh})=>{mesh.visible=false;});
   flames.forEach(f=>f.material.opacity=.62);

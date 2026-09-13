@@ -2,7 +2,7 @@
 
 # Shepherd Adventure: village journey rebuild
 
-13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Detailed scenes remain placeholders.
+13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 now has a playable lamp draft awaiting review; points 02–10 remain placeholders.
 
 [Open the local rehearsal](../../rehearsal.html) · [Actual rehearsal map](../../map/rehearsal-map.svg) · [Implementation and checks](../../review/2026-09-13-route-rehearsal/README.md)
 
@@ -42,7 +42,8 @@ Each scene's feel, words, available actions (knock, call out, examine, open, fol
 
 The entry walk is a lead-in, not a new numbered scene. The gate/House 9 camera transition belongs to point 08; the companion conversation and follow handoff belong to point 09. They can be requested separately as **08 reveal**, **09 owner** and **09 reunion** without renumbering the ten points. The final sheep enclosure is not the village pen at point 06.
 
-All ten work items currently have **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
+Point 01 has a **first playable draft, user acceptance pending**, using the selected guided preparation sequence. [Review it](../../review/2026-09-13-lamp-workbench/README.md).
+Points 02–10 retain **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
 
 ## First implementation: a walking rehearsal
 
@@ -62,7 +63,7 @@ Include secondary review tools: **Replay approach**, **Jump to point** and **Res
 
 Use minimal stand-in outcomes so later points can be reviewed:
 
-- Leaving 01 equips a lit lantern, without running the existing recipe.
+- Initial scaffold behavior: leaving 01 equipped a lit lantern. The current scene draft replaces this bypass with the guided preparation and explicit Take lamp action; later staged jumps still reconstruct that outcome.
 - At 04 the gate stays closed and dark. The next leg detours toward the well; it must not cross the gate.
 - Leaving 08 applies gate-open state without claiming the physical interaction has been implemented. It must not trigger the old companion fly-by.
 - At 09, “Move to next point” can stand in for the reunion and follow choice until that scene is built. The placeholder says companions are not staged yet; it must not claim they appeared or spoke.

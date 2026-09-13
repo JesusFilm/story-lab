@@ -60,6 +60,17 @@ Current checks cover route state, running-to-walking sequence, correct fixed-lig
 
 ## Remaining cross-scene work
 
+### Point 01 checkpoint — 13 September 2026
+
+The lamp workbench now has a generated replacement model and a playable guided
+assembly/departure draft. The user selected one part at a time and subsequently
+requested that the work be recorded in the audit and committed to this branch.
+[Audit update](../navigation-direction-retrospective-2026-09-13.md#13-september-update--lamp-workbench-assembly-and-departure) ·
+[Scene direction and remaining decisions](scenes/01-lamp.md) ·
+[Screenshots and verification](../../review/2026-09-13-lamp-workbench/README.md).
+This checkpoint does not mark the scene creatively accepted. Other scene
+placeholders remain, and merge/deployment remain unauthorized.
+
 - Reconnect intro/diorama/cutscene, village entry and complete ending.
 - Integrate all clues, available actions and progression so the temporary next-point controls can be removed.
 - Address carried-lantern hand attachment and any movement/camera adjustments exposed by scene staging.
