@@ -34,12 +34,12 @@ try{
  assert.equal((await state(page)).lantern,true);assert.equal((await state(page)).lamp.benches[0].lampVisible,false);assert(await page.locator('#lamp-reward').isVisible());
  await page.locator('#advance').click();await page.waitForTimeout(1800);await capture(page,'08-departure');
  await page.waitForFunction(()=>window.routeRehearsal.getState().index===1&&!window.routeRehearsal.getState().destination,null,{timeout:45000});
- assert.match(await page.locator('#beat').textContent(),/Scene pending/);assert.equal((await state(page)).lantern,true);await capture(page,'09-house-1-placeholder');
+ assert.equal(await page.locator('#advance').textContent(),'Knock on door');assert.equal((await state(page)).lantern,true);await capture(page,'09-house-1-placeholder');
  await page.locator('#review-tools').evaluate(e=>e.open=true);await page.locator('#jump-point').selectOption('0');await page.locator('#jump').click();assert.equal((await state(page)).lantern,false);assert.equal((await state(page)).lampAssembly.step,0);
  await page.locator('#review-tools').evaluate(e=>e.open=true);await page.locator('#restart').click();assert.equal((await state(page)).lampAssembly.step,0);assert.equal((await state(page)).index,-1);
  await page.locator('#advance').click();await page.waitForFunction(()=>window.routeRehearsal.getState().index===0&&!window.routeRehearsal.getState().destination,null,{timeout:45000});await capture(page,'10-full-incoming-walk');
  assert.deepEqual(errors,[]);await page.close();
- console.log('PASS desktop: actual incoming walk, each item, back/resume, pause, flame before collection, one award, departure to unchanged House 1, jump/reset.');
+ console.log('PASS desktop: actual incoming walk, each item, back/resume, pause, flame before collection, one award, departure to House 1 knock action, jump/reset.');
  const mobile=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce',isMobile:true,hasTouch:true});
  await mobile.goto(origin+'/rehearsal.html?point=1');await ready(mobile);await mobile.locator('#advance').click();await capture(mobile,'11-mobile-body');
  for(let i=0;i<5;i++){await mobile.locator('#lamp-action').click();}

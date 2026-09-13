@@ -1,0 +1,69 @@
+import * as THREE from 'three';
+import {KNOCK_TIMES,HOUSE_TIMING} from './house-rejection.mjs';
+import {height} from './journey-world.mjs';
+
+export function createHouseScene(journey,scene,character){
+ const $=id=>document.getElementById(id);
+ const effects=new THREE.Group();effects.name='House 1 temporary response';scene.add(effects);
+ const light=new THREE.PointLight('#ffb34e',0,8,2);light.position.set(-11.5,height(-9,18.5)+1.95,17.15);effects.add(light);
+ const pane=new THREE.Mesh(new THREE.PlaneGeometry(.58,.72),new THREE.MeshBasicMaterial({color:'#ffb45c',transparent:true,opacity:0,side:THREE.DoubleSide,toneMapped:false}));
+ pane.rotation.y=-Math.PI/2;pane.position.set(-11.22,height(-9,18.5)+1.95,17.15);effects.add(pane);
+ const rings=KNOCK_TIMES.map(()=>{
+  const ring=new THREE.Mesh(new THREE.RingGeometry(.11,.135,40),new THREE.MeshBasicMaterial({color:'#ffe0a0',transparent:true,opacity:0,side:THREE.DoubleSide,depthWrite:false}));
+  ring.rotation.y=-Math.PI/2;ring.position.set(-11.37,height(-9,18.5)+1.35,19.35);effects.add(ring);return ring;
+ });
+ let context,voiceBuffer,previous=null,played=new Set(),nodes=[],audioFailed=false;
+ const voiceBytes=fetch(new URL('../assets/house-1/resident-refusal.mp3',import.meta.url)).then(r=>{if(!r.ok)throw Error('Voice unavailable');return r.arrayBuffer();}).catch(()=>null);
+ function stopAudio(){for(const node of nodes){try{node.stop();node.disconnect();}catch{}}nodes=[];played.clear();}
+ async function unlock(){
+  try{context??=new AudioContext();await context.resume();if(!voiceBuffer){const bytes=await voiceBytes;if(bytes)voiceBuffer=await context.decodeAudioData(bytes.slice(0));else audioFailed=true;}}
+  catch{audioFailed=true;}
+ }
+ function knockSound(){
+  if(!context||context.state!=='running')return;
+  // A short noise transient and two damped wood resonances; no external sound asset.
+  const buffer=context.createBuffer(1,context.sampleRate*.1,context.sampleRate),data=buffer.getChannelData(0);
+  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.009))*.32;
+  const source=context.createBufferSource();source.buffer=buffer;source.connect(context.destination);source.start();nodes.push(source);
+  for(const frequency of [155,310]){const oscillator=context.createOscillator(),gain=context.createGain(),now=context.currentTime;oscillator.frequency.setValueAtTime(frequency,now);gain.gain.setValueAtTime(.22,now);gain.gain.exponentialRampToValueAtTime(.001,now+.16);oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(now+.17);nodes.push(oscillator);}
+ }
+ function active(){return journey.index===1&&!journey.travel;}
+ function update(){
+  if(previous!==journey.houseRejection){stopAudio();previous=journey.houseRejection;}
+  if(!active()){effects.visible=false;light.intensity=0;pane.material.opacity=0;stopAudio();return;}
+  effects.visible=true;
+  if(context){if(journey.paused)context.suspend().catch(()=>{});else if(context.state==='suspended')context.resume().catch(()=>{});}
+  const h=journey.houseRejection,phase=h.phase;
+  $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
+  $('beat').textContent=({ready:'The house is dark. Perhaps someone inside can help.',knocking:'You knock on the wooden door.',waiting:'You wait at the closed door.',waking:'A light comes on inside the house.',refusal:'From inside: “Go away! It is late!”',dark:'The light goes out. The door stays closed.',complete:'There’s a light farther along. Perhaps someone there can help.'})[phase];
+  $('travel-status').textContent=journey.paused?'Paused — continue when ready.':phase==='ready'?'Ask at the door.':phase==='complete'?'Follow the lane to the lit house — House 3.':phase==='knocking'?'Knock. Knock. Knock.':audioFailed?'Sound unavailable — the response is shown above.':'Listen at the closed door…';
+  $('advance').textContent=phase==='ready'?'Knock on door':h.complete?'Try the lit house — House 3':phase==='knocking'?'Knocking…':'Waiting for a response…';
+  $('advance').disabled=journey.paused||(!h.complete&&h.started);
+ }
+ function tick(reduced){
+  if(!active())return;
+  const h=journey.houseRejection,t=h.elapsed;
+  light.intensity=h.lit?6:0;pane.material.opacity=h.lit?.85:0;
+  rings.forEach((ring,i)=>{const age=t-KNOCK_TIMES[i];ring.visible=h.started&&age>=0&&age<.3;ring.scale.setScalar(reduced?1:1+Math.max(0,age)*2.8);ring.material.opacity=reduced?.8:Math.max(0,.85-age*2.8);
+   if(h.started&&t>=KNOCK_TIMES[i]&&!played.has(i)){played.add(i);knockSound();}
+  });
+  if(h.started&&t>=HOUSE_TIMING.voice&&!played.has('voice')){
+   played.add('voice');if(context&&voiceBuffer){const voice=context.createBufferSource();voice.buffer=voiceBuffer;voice.connect(context.destination);voice.start();nodes.push(voice);}else audioFailed=true;
+  }
+  // Briefly raise the free hand. The carrying hand and authored walk stay untouched.
+  const model=character.tripo?.model,hand=model?.getObjectByName('L_Hand');
+  if(hand&&h.started&&t>=.55&&t<2){
+   const amount=Math.min(1,(t-.55)/.2,Math.max(0,(2-t)/.3));
+   const strike=KNOCK_TIMES.some(k=>t>=k-.09&&t<k+.06);
+   const target=new THREE.Vector3(-11.5+(strike?.13:0),height(-13,18.5)+1.35,19.35);
+   for(let iteration=0;iteration<3;iteration++)for(const name of ['L_Forearm','L_Upperarm']){
+    const joint=model.getObjectByName(name);model.updateMatrixWorld(true);
+    const current=joint.worldToLocal(hand.getWorldPosition(new THREE.Vector3())).normalize();
+    const desired=joint.worldToLocal(target.clone()).normalize();
+    const rotation=new THREE.Quaternion().setFromUnitVectors(current,desired);
+    joint.quaternion.multiply(new THREE.Quaternion().slerp(rotation,amount));
+   }
+  }
+ }
+ return {update,tick,begin(){if(!journey.knockOnHouse())return false;stopAudio();unlock();update();return true;},getState:()=>({light:light.intensity,voiceReady:!!voiceBuffer,audioFailed,played:[...played]})};
+}

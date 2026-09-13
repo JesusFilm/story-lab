@@ -92,3 +92,55 @@ Implemented in this checkpoint:
 - [Asset performance experiment and ongoing process](asset-performance-process-2026-09-13.md)
 - [Companion/cutscene direction](content-update-2026-09-12.md)
 - [Nativity direction and revisions](nativity-scene/request-and-progress.md)
+
+
+## 13 September update — House 1 rejection, response and timing
+
+**Decision: implement and retain point 02 as a brief, player-initiated rejection.**
+The user asked for an obvious knock action, visible and audible knocking, an
+irritated resident disturbed at night, a waking light, a refusal and an explicit
+choice to continue. The next mapped stop remains lit House 3, reached along the
+existing winding western lane. This is authored connective fiction, not a
+scriptural quotation or an asserted biblical conversation.
+
+Implemented in this checkpoint:
+
+- **Knock on door** replaces the House 1 placeholder action. The shepherd steps
+  toward the door and raises his free left hand while keeping the carried lamp
+  in his right hand. Three door cues coincide with three synthesized wooden taps.
+- A temporary warm window light appears at 2.5 seconds. At 3.3 seconds the unseen
+  resident responds, **“Go away! It is late!”**, with matching subtitles. The
+  window goes dark at 5.9 seconds and the shepherd steps back. This transient
+  waking light is the sole update to House 1's otherwise unlit state.
+- At 6.7 seconds the shepherd observes that another light is visible farther
+  along, and **Try the lit house — House 3** becomes available. Departure is
+  explicit; the existing corridor and House 3 interaction placeholder are retained.
+- Pause/backgrounding freezes the scene and sound. Repeated knocks and premature
+  departure are blocked. Replay, jump and restart reset or reconstruct the scene
+  and cancel interrupted audio. Subtitles preserve meaning if the voice fails to
+  load. Reduced motion uses fixed-size knock cues.
+- Scene state and presentation are separate small modules. No settlement models,
+  house transforms, corridor geometry, later scene placeholders, publication
+  allowlist or deployment configuration were changed for this scene.
+
+**Verification and evidence:** [House 1 walkthrough and screenshots](../review/2026-09-13-house-1/README.md)
+record the previous placeholder, knock, lit response, darkness, House 3 arrival,
+full incoming replay, portrait reduced motion and actual lamp assembly/departure.
+Model and browser checks passed for timing, action gating, pause, replay/reset,
+interrupted/missing audio, desktop/touch layout and adjacent-scene progression.
+The existing ten-route geometry/camera and lamp-assembly checks also passed.
+
+**Sound and implementation limits:** the roughly 1.6-second response is local
+speech synthesis using the installed macOS Daniel voice at 185 words/minute,
+filtered to 180–1800 Hz to suggest a closed door. It is not a recorded actor's
+performance. Knocks are generated with brief noise transients and damped wood
+resonances. The hand gesture is procedural. Controlled frame-rate comparison and
+physical-device verification remain outstanding; passing automated checks does
+not establish either. Voice type and emotional delivery can be refined separately.
+
+**Review outcome:** the user completed the play-test successfully, reported that
+the scene worked really well, and authorized the audit update, focused commit
+and push to `codex/shepherd-story-rebuild`. **House 1 is accepted at this checkpoint.**
+See [the accepted scene brief](story-rebuild/scenes/02-house-1.md). This acceptance
+covers the reviewed scene, not the unfinished journey or a release. Merge into
+`main` and deployment remain unauthorized.

@@ -2,7 +2,7 @@
 
 # Shepherd Adventure: village journey rebuild
 
-13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 now has a playable lamp draft awaiting review; points 02–10 remain placeholders.
+13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 has a playable draft awaiting review; point 02 passed the user play-test and is accepted; points 03–10 remain placeholders.
 
 [Open the local rehearsal](../../rehearsal.html) · [Actual rehearsal map](../../map/rehearsal-map.svg) · [Implementation and checks](../../review/2026-09-13-route-rehearsal/README.md)
 
@@ -43,7 +43,8 @@ Each scene's feel, words, available actions (knock, call out, examine, open, fol
 The entry walk is a lead-in, not a new numbered scene. The gate/House 9 camera transition belongs to point 08; the companion conversation and follow handoff belong to point 09. They can be requested separately as **08 reveal**, **09 owner** and **09 reunion** without renumbering the ten points. The final sheep enclosure is not the village pen at point 06.
 
 Point 01 has a **first playable draft, user acceptance pending**, using the selected guided preparation sequence. [Review it](../../review/2026-09-13-lamp-workbench/README.md).
-Points 02–10 retain **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
+Point 02 has an **accepted rejection scene following a successful user play-test**. [Review it](../../review/2026-09-13-house-1/README.md).
+Points 03–10 retain **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
 
 ## First implementation: a walking rehearsal
 

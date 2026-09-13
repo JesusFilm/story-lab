@@ -27,7 +27,7 @@ Use focused commits on this same branch as scenes are accepted. Bring main updat
 | Point | Place | Intended scene | Remaining decisions and implementation |
 |---|---|---|---|
 | 01 | Lamp workbench | Prepare a light before setting out | Assembly actions, required effort, text, camera, and carrying handoff |
-| 02 | House 1 | Resident sends the shepherd away because it is late | Knock or call, response, timing and reaction; house unlit |
+| 02 | House 1 | Resident sends the shepherd away because it is late | Knock, temporary waking light, refusal and departure accepted in user play-test; dark before/after |
 | 03 | House 3 | Resident saw Mary and Joseph with a donkey heading toward the gate | Helpful exchange, exact wording, next-direction cue; house lit |
 | 04 | Barred timber gate | Cannot pass; seek help near the well | Barrier action, shepherd options and clear reason for the detour |
 | 05 | House 5 | Nobody answers; human and animal tracks lead away | Silence, inspection, readable tracks and next lead; house unlit |
@@ -77,3 +77,17 @@ placeholders remain, and merge/deployment remain unauthorized.
 - Review text, sound, pacing, readability and camera transitions in the complete journey.
 - Validate restart, loading/failure handling, reduced motion, mobile/device behavior and performance with the finished content.
 - Complete publication review, hosted-path checks and explicit release review before any merge to main.
+
+### Point 02 accepted checkpoint — 13 September 2026
+
+House 1 now has a single knock action, a short free-hand gesture with three wooden
+knocks, a temporary warm window light, an unseen resident's voiced/subtitled
+refusal, and an explicit action to try lit House 3 after darkness returns.
+The transient waking light updates the earlier unlit-house direction for this
+scene only. The existing House 3 corridor and later placeholders are preserved.
+[Scene direction and timing](scenes/02-house-1.md) ·
+[Play-test captures and checks](../../review/2026-09-13-house-1/README.md).
+The user completed a successful play-test and accepted this scene, authorizing
+a focused commit and feature-branch push after the audit update.
+[Audit entry](../navigation-direction-retrospective-2026-09-13.md#13-september-update--house-1-rejection-response-and-timing).
+No merge or deployment is authorized or performed.
