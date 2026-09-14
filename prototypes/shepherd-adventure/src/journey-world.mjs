@@ -117,7 +117,7 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
  for(const x of [-1.55,1.55])box(gate,.18,2.1,.18,x,1.05,0,timber);
  const gateLeaf=new THREE.Group();gateLeaf.name='journey-gate-hinge';gateLeaf.position.x=-1.5;gate.add(gateLeaf);
  target('market',gp.x,1.2,gp.z);target('arch',gp.x,1.2,gp.z);
- const gateLampX=gp.x+Math.cos(gate.rotation.y)*1.55,gateLampZ=gp.z-Math.sin(gate.rotation.y)*1.55;const gateLamp=lightAt(gateLampX,gateLampZ,2.25,18,!routePaths);gateLamp.root.name='gate-lantern';
+ const gateLampX=gp.x+Math.cos(gate.rotation.y)*1.55,gateLampZ=gp.z-Math.sin(gate.rotation.y)*1.55;const gateLamp=lightAt(gateLampX,gateLampZ,2.25,routePaths?6:18,!routePaths);gateLamp.root.name='gate-lantern';
  target('lookout',-2.5,1,-19);target('olive',-23,2,3);target('ridge',18,2,-25);target('gate',0,1.5,15);target('field',1.5,1.2,36);target('goal',NATIVITY.x+1,1,NATIVITY.z);
  // One sheltered workbench holds all three components.
  const workbenches=[],benchItems=[];
@@ -193,7 +193,7 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   for(const {root,size} of lanternMounts){const body=fitLantern(lanternSource,size);root.add(body);setLanternLit(body,!root.userData.unlit&&root.name!=='hearth-lantern'&&root.name!=='gate-lantern');}
  }
  return {dress,terrain,paths:activePaths,markers,fits,occluders,settlementFeatures,get wallSegments(){return wallSegments;},get nature(){return nature;},occlusionBounds,updateOcclusion,clueTargets,get modelCount(){return modelCount;},get lanternCount(){return lanternMounts.length;},lampState(){return {carriedVisible:lantern.visible,carriedPosition:lantern.position.toArray(),benches:benchItems.map(i=>({lampVisible:i.visual.root.visible,lit:i.visual.core.visible,wickVisible:i.wick.visible,flintVisible:i.flint.visible}))};},update(dt,time,journey,heading=Math.PI,reduced=false,carryPosition=null){
-  const p=journey.position,selected=journey.choice;gateLeaf.rotation.y+=((journey.gateOpen?-Math.PI*.48:0)-gateLeaf.rotation.y)*(1-Math.exp(-3*dt));const gateLit=journey.gateOpen&&!routePaths;gateLamp.source.enabled=gateLit;gateLamp.halo.visible=gateLit;gateLamp.core.visible=gateLit;setLanternLit(gateLamp.root,gateLit);
+  const p=journey.position,selected=journey.choice;gateLeaf.rotation.y+=((journey.gateOpen?-Math.PI*.48:0)-gateLeaf.rotation.y)*(1-Math.exp(-3*dt));const gateLit=routePaths?!!journey.gateLit:journey.gateOpen;if(gateLit&&!gateLamp.source.light.parent)scene.add(gateLamp.source.light);gateLamp.source.enabled=gateLit;gateLamp.halo.visible=gateLit;gateLamp.core.visible=gateLit;setLanternLit(gateLamp.root,gateLit);
   lamps.forEach(source=>{source.light.intensity=source.enabled?source.intensity:0;});
   for(const item of benchItems){
    const assembly=journey.lampAssembly,lit=!!assembly?.lit&&!assembly?.taken;

@@ -1,3 +1,4 @@
+import {EmptyStall} from './empty-stall.mjs';
 import {HouseTracks,SEARCH_POINTS} from './house-tracks.mjs';
 // The ten-point user-drawn village walk. Structures retain the accepted layout.
 // Each entry owns its incoming corridor; scene performance is deliberately pending.
@@ -48,11 +49,12 @@ export function positionOn(points,distance){
 
 export class RouteRehearsal{
  constructor(){this.reset();}
- reset(){this.houseAdvice=new HouseSighting();this.houseTracks=new HouseTracks();this.barredGate=new BarredGate();this.houseSighting=new HouseSighting();this.houseRejection=new HouseRejection();this.lampAssembly=new LampAssembly();this.index=-1;this.paused=false;this.travel=null;this.position={...ENTRY,heading:Math.PI};this.phase='choice';this.gait='walk';this.distance=0;this.lantern=false;this.gateOpen=false;this.staged=false;this.completed=new Set();}
+ reset(){this.emptyStall=new EmptyStall();this.gateLit=false;this.houseAdvice=new HouseSighting();this.houseTracks=new HouseTracks();this.barredGate=new BarredGate();this.houseSighting=new HouseSighting();this.houseRejection=new HouseRejection();this.lampAssembly=new LampAssembly();this.index=-1;this.paused=false;this.travel=null;this.position={...ENTRY,heading:Math.PI};this.phase='choice';this.gait='walk';this.distance=0;this.lantern=false;this.gateOpen=false;this.staged=false;this.completed=new Set();}
  get stop(){return STOPS[this.index]||null;}
  get at(){return this.stop?.id||'entry';}
  get options(){return [];}
- setPriorOutcomes(index){this.houseAdvice=new HouseSighting();this.houseTracks=new HouseTracks();if(index>6){this.houseAdvice.knock();this.houseAdvice.tick(3);while(!this.houseAdvice.complete)this.houseAdvice.advance();}if(index>4){this.houseTracks.knock();this.houseTracks.tick(7.2);this.houseTracks.lookAround();this.houseTracks.spotted=true;}this.barredGate=new BarredGate();if(index>3){this.barredGate.begin();this.barredGate.tick(6);}this.houseSighting=new HouseSighting();this.houseRejection=new HouseRejection();if(index>2){this.houseSighting.knock();this.houseSighting.tick(3);while(!this.houseSighting.complete)this.houseSighting.advance();}if(index>1){this.houseRejection.knock();this.houseRejection.tick(7);}this.lampAssembly.reset();if(index>=1)this.lampAssembly.stageComplete();this.lantern=index>=1;this.gateOpen=index>=8;this.completed=new Set(STOPS.slice(0,index).map(s=>s.id));}
+ setPriorOutcomes(index){this.emptyStall=new EmptyStall();this.gateLit=index>=8;if(index>=8){this.emptyStall.phase="house";this.emptyStall.lit=true;this.emptyStall.open=true;}this.houseAdvice=new HouseSighting();this.houseTracks=new HouseTracks();if(index>6){this.houseAdvice.knock();this.houseAdvice.tick(3);while(!this.houseAdvice.complete)this.houseAdvice.advance();}if(index>4){this.houseTracks.knock();this.houseTracks.tick(7.2);this.houseTracks.lookAround();this.houseTracks.spotted=true;}this.barredGate=new BarredGate();if(index>3){this.barredGate.begin();this.barredGate.tick(6);}this.houseSighting=new HouseSighting();this.houseRejection=new HouseRejection();if(index>2){this.houseSighting.knock();this.houseSighting.tick(3);while(!this.houseSighting.complete)this.houseSighting.advance();}if(index>1){this.houseRejection.knock();this.houseRejection.tick(7);}this.lampAssembly.reset();if(index>=1)this.lampAssembly.stageComplete();this.lantern=index>=1;this.gateOpen=index>=8;this.completed=new Set(STOPS.slice(0,index).map(s=>s.id));}
+ actAtStall(){if(this.index!==7||this.travel||this.paused)return false;return this.emptyStall.act();}
  tryGate(){if(this.index!==3||this.travel||this.paused)return false;return this.barredGate.begin();}
  knockOnHouse(){if(![1,2,4,6].includes(this.index)||this.travel||this.paused)return false;return (this.index===6?this.houseAdvice:this.index===4?this.houseTracks:this.index===1?this.houseRejection:this.houseSighting).knock();}
  lookAround(){if(this.index!==4||this.travel||this.paused)return false;return this.houseTracks.lookAround();}
@@ -73,9 +75,9 @@ export class RouteRehearsal{
   if(this.index===6&&!this.houseAdvice.complete)return false;
   if(this.index===3&&!this.barredGate.complete)return false;
   if(this.index===4&&!this.houseTracks.complete)return false;
+  if(this.index===7&&!this.emptyStall.complete)return false;
   if(this.index>=0)this.completed.add(this.at);
-  if(this.index===7)this.gateOpen=true;
-  this.beginLeg(this.index+1);return true;
+  const fromStallReveal=this.index===7;this.beginLeg(this.index+1);this.travel.fromStallReveal=fromStallReveal;return true;
  }
  jump(index){
   if(!Number.isInteger(index)||index<0||index>=STOPS.length)return false;
@@ -89,6 +91,12 @@ export class RouteRehearsal{
   this.beginLeg(index);return true;
  }
  step(dt){
+  if(!this.paused&&!this.travel&&this.index===7&&Number.isFinite(dt)&&dt>0){
+   this.emptyStall.tick(dt);this.gateLit=this.emptyStall.lit;this.gateOpen=this.emptyStall.open;
+   const o=this.emptyStall.offset,a=STOPS[7].anchor,x=a.x+o.x,z=a.z+o.z;
+   this.distance+=Math.hypot(x-this.position.x,z-this.position.z);this.position={...this.position,x,z};
+   this.phase=["search","look"].includes(this.emptyStall.phase)?"inspect":"choice";
+  }
   if(!this.paused&&!this.travel&&this.index===4&&Number.isFinite(dt)&&dt>0){
    const h=this.houseTracks;h.tick(dt);const old=this.position;
    if(h.searchStarted){
@@ -119,7 +127,7 @@ export class RouteRehearsal{
   t.speed=speed;const amount=Math.min(dt*speed,t.length-t.progress);t.progress+=amount;this.distance+=amount;this.position=positionOn(t.points,t.progress);
   if(t.progress>=t.length-1e-8){this.index=t.index;this.position={...this.position,...STOPS[t.index].anchor};this.travel=null;this.phase='choice';}
  }
- snapshot(){return {index:this.index,at:this.at,phase:this.phase,paused:this.paused,staged:this.staged,lantern:this.lantern,lampAssembly:this.lampAssembly.snapshot(),houseRejection:this.houseRejection.snapshot(),houseSighting:this.houseSighting.snapshot(),houseAdvice:this.houseAdvice.snapshot(),barredGate:this.barredGate.snapshot(),houseTracks:this.houseTracks.snapshot(),gateOpen:this.gateOpen,distance:this.distance,position:{...this.position},destination:this.travel?.index??null,completed:[...this.completed]};}
+ snapshot(){return {index:this.index,at:this.at,phase:this.phase,paused:this.paused,staged:this.staged,lantern:this.lantern,lampAssembly:this.lampAssembly.snapshot(),houseRejection:this.houseRejection.snapshot(),houseSighting:this.houseSighting.snapshot(),houseAdvice:this.houseAdvice.snapshot(),barredGate:this.barredGate.snapshot(),houseTracks:this.houseTracks.snapshot(),gateLit:this.gateLit,emptyStall:this.emptyStall.snapshot(),gateOpen:this.gateOpen,distance:this.distance,position:{...this.position},destination:this.travel?.index??null,completed:[...this.completed]};}
 }
 
 // Actual knocking approaches, keyed by settlement house number.

@@ -6,20 +6,7 @@ export function createGateScene(journey,scene,character){
  const cue=new THREE.Mesh(new THREE.RingGeometry(.12,.15,32),new THREE.MeshBasicMaterial({color:'#ffe0a0',transparent:true,opacity:0,side:THREE.DoubleSide,depthWrite:false}));scene.add(cue);
  const active=()=>journey.index===3&&!journey.travel;
  function stop(){for(const n of nodes){try{n.stop();n.disconnect();}catch{}}nodes=[];played.clear();}
- function sound(){
-  if(context?.state!=='running')return;
-  const now=context.currentTime;
-  const buffer=context.createBuffer(1,Math.ceil(context.sampleRate*.2),context.sampleRate),data=buffer.getChannelData(0);
-  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.035))*.2;
-  const noise=context.createBufferSource(),filter=context.createBiquadFilter();noise.buffer=buffer;filter.type='lowpass';filter.frequency.value=700;noise.connect(filter).connect(context.destination);noise.start();nodes.push(noise);
-  // Strained timber creak followed by a short, low stop against the bar.
-  for(const [frequency,duration,volume] of [[95,.32,.1],[190,.24,.055],[65,.12,.18]]){
-   const oscillator=context.createOscillator(),gain=context.createGain();oscillator.type='triangle';
-   oscillator.frequency.setValueAtTime(frequency,now);oscillator.frequency.exponentialRampToValueAtTime(frequency*.65,now+duration);
-   gain.gain.setValueAtTime(volume,now);gain.gain.exponentialRampToValueAtTime(.001,now+duration);
-   oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(now+duration);nodes.push(oscillator);
-  }
- }
+
  function update(){
   const h=journey.barredGate;
   if(previous!==h){stop();previous=h;}
@@ -42,7 +29,7 @@ export function createGateScene(journey,scene,character){
   const target=gate.localToWorld(new THREE.Vector3(1.75,1.15,.13));
   cue.position.copy(target);cue.quaternion.copy(gate.getWorldQuaternion(new THREE.Quaternion()));
   cue.visible=h.started&&age<.3;cue.scale.setScalar(reduced?1:1+age*1.4);cue.material.opacity=Math.max(0,.65-age*2);
-  for(const k of TUG_TIMES)if(h.started&&t>=k&&!played.has(k)){played.add(k);sound();}
+  for(const k of TUG_TIMES)if(h.started&&t>=k&&!played.has(k)){played.add(k);playGateTimber(context,nodes);}
   const model=character.tripo?.model,hand=model?.getObjectByName('L_Hand');
   if(hand&&h.started&&t>.5&&t<2.65){
    const amount=Math.max(0,Math.min(1,(t-.5)/.25,(2.65-t)/.3));
@@ -57,3 +44,18 @@ export function createGateScene(journey,scene,character){
  }
  return {update,tick,begin(){if(!journey.tryGate())return false;stop();try{context??=new AudioContext();context.resume().catch(()=>{});}catch{}update();return true;}};
 }
+
+export function playGateTimber(context,nodes){
+  if(context?.state!=='running')return;
+  const now=context.currentTime;
+  const buffer=context.createBuffer(1,Math.ceil(context.sampleRate*.2),context.sampleRate),data=buffer.getChannelData(0);
+  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.035))*.2;
+  const noise=context.createBufferSource(),filter=context.createBiquadFilter();noise.buffer=buffer;filter.type='lowpass';filter.frequency.value=700;noise.connect(filter).connect(context.destination);noise.start();nodes.push(noise);
+  // Strained timber creak followed by a short, low stop against the bar.
+  for(const [frequency,duration,volume] of [[95,.32,.1],[190,.24,.055],[65,.12,.18]]){
+   const oscillator=context.createOscillator(),gain=context.createGain();oscillator.type='triangle';
+   oscillator.frequency.setValueAtTime(frequency,now);oscillator.frequency.exponentialRampToValueAtTime(frequency*.65,now+duration);
+   gain.gain.setValueAtTime(volume,now);gain.gain.exponentialRampToValueAtTime(.001,now+duration);
+   oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(now+duration);nodes.push(oscillator);
+  }
+ }

@@ -148,3 +148,25 @@ The user completed their play-test and authorized the feature documentation upda
 focused commit and remote feature-branch push. Point 07 is accepted at this checkpoint.
 [Audit entry](../navigation-direction-retrospective-2026-09-13.md#14-september-update--house-8-helpful-advice-and-doorway-continuity).
 Points 08–10 retain their placeholders. No merge or deployment is authorized.
+
+
+### Point 08 review draft — 14 September 2026
+
+Implemented the user-approved empty-stall search, **Light the lantern**, **Open the
+gate**, searching thought and lit House 9 reveal, followed by **Go to the house**.
+The user's new direction supersedes the earlier dark-gate rule: the gate lamp stays
+dark until the explicit lighting action, then remains lit. Point 04 stays dark.
+[Scene direction](scenes/08-empty-stall-and-gate.md) ·
+[Captures and verification](../../review/2026-09-14-empty-stall/README.md).
+Point 08 is ready for user review; points 09–10 retain placeholders. House 9's owner
+conversation is the next separately directed area after this review. No acceptance,
+merge or deployment is implied.
+
+
+### Point 08 accepted checkpoint — 14 September 2026
+
+The user completed their play-test and authorized the audit update, focused commit
+and remote feature-branch push. Point 08 is accepted at this checkpoint.
+[Audit entry](../navigation-direction-retrospective-2026-09-13.md#14-september-update--empty-stall-open-gate-and-house-9-reveal) ·
+[Scene and review](scenes/08-empty-stall-and-gate.md).
+Points 09–10 remain placeholders. No merge to main or deployment is authorized.

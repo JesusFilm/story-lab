@@ -2,7 +2,7 @@
 
 # Shepherd Adventure: village journey rebuild
 
-13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 has a playable draft awaiting review; point 02 passed the user play-test and is accepted; point 03 is accepted for checkpoint after its diorama continuity revision; point 04 is accepted after a successful user play-test; point 05 is ready for review; points 06 and 07 are accepted after user play-tests; points 08–10 remain placeholders.
+13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 has a playable draft awaiting review; point 02 passed the user play-test and is accepted; point 03 is accepted for checkpoint after its diorama continuity revision; point 04 is accepted after a successful user play-test; point 05 is ready for review; points 06 and 07 are accepted after user play-tests; point 08 is accepted after user play-testing; points 09–10 remain placeholders.
 
 [Open the local rehearsal](../../rehearsal.html) · [Actual rehearsal map](../../map/rehearsal-map.svg) · [Implementation and checks](../../review/2026-09-13-route-rehearsal/README.md)
 
@@ -12,6 +12,9 @@ Working branch: **`codex/shepherd-story-rebuild`** (dedicated long-running featu
 Starting revision: `188f0609f0f56672d89d35458c1c11a6e04b7d63`.
 
 ## Current direction
+
+**14 September update:** point 08 now includes the user-directed gate-lighting
+action. This supersedes earlier dark-gate notes below; see the point 08 scene brief.
 
 The player follows a winding search through the village, encountering dismissal, partial help, signs of earlier travellers and eventual hospitality. The purpose of the longer walk is to experience different village spaces through the shepherd's following camera. Do not shorten it into a direct conversation-to-destination chain merely to reduce stops. Treat the suggested earlier journey of Mary and Joseph, the donkey sighting and villagers' dialogue as authored connective fiction, distinct from scripture presentation.
 
@@ -48,7 +51,7 @@ Point 03 has an **accepted helpful exchange and revised diorama continuity**. [R
 Point 04 has a **barred-gate scene accepted after a successful user play-test**. [Review it](../../review/2026-09-14-barred-gate/README.md).
 Point 05 has a **no-answer and tracks scene ready for user review**. [Review it](../../review/2026-09-14-house-5/README.md).
 Points 06 and 07 are **accepted for checkpoint after user play-tests**: [animal pen](scenes/06-animal-pen.md) and [House 8](scenes/07-house-8.md).
-Points 08–10 retain **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
+Point 08 is **accepted at checkpoint after user play-testing**: [empty stall and gate](scenes/08-empty-stall-and-gate.md). Points 09–10 retain **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
 
 ## First implementation: a walking rehearsal
 
@@ -164,3 +167,25 @@ The user completed their play-test and authorized the feature documentation upda
 focused commit and remote feature-branch push. Point 07 is accepted at this checkpoint.
 [Audit entry](../navigation-direction-retrospective-2026-09-13.md#14-september-update--house-8-helpful-advice-and-doorway-continuity).
 Points 08–10 retain their placeholders. No merge or deployment is authorized.
+
+
+### Point 08 review draft — 14 September 2026
+
+Implemented the user-approved empty-stall search, **Light the lantern**, **Open the
+gate**, searching thought and lit House 9 reveal, followed by **Go to the house**.
+The user's new direction supersedes the earlier dark-gate rule: the gate lamp stays
+dark until the explicit lighting action, then remains lit. Point 04 stays dark.
+[Scene direction](scenes/08-empty-stall-and-gate.md) ·
+[Captures and verification](../../review/2026-09-14-empty-stall/README.md).
+Point 08 is ready for user review; points 09–10 retain placeholders. House 9's owner
+conversation is the next separately directed area after this review. No acceptance,
+merge or deployment is implied.
+
+
+### Point 08 accepted checkpoint — 14 September 2026
+
+The user completed their play-test and authorized the audit update, focused commit
+and remote feature-branch push. Point 08 is accepted at this checkpoint.
+[Audit entry](../navigation-direction-retrospective-2026-09-13.md#14-september-update--empty-stall-open-gate-and-house-9-reveal) ·
+[Scene and review](scenes/08-empty-stall-and-gate.md).
+Points 09–10 remain placeholders. No merge to main or deployment is authorized.

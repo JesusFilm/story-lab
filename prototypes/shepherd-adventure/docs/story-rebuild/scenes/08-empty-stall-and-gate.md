@@ -1,38 +1,55 @@
 # 08 — Empty stall, open gate and House 9 reveal
 
-Status: **route placeholder ready · detailed implementation pending · user acceptance pending**.
-[Rebuild plan and scene index](../README.md) · [User-drawn route](../reference-route.png)
+Status: **accepted at checkpoint after user play-test**.
+[Rebuild order](../ORDER.md) · [Scene index](../README.md) · [Captures and checks](../../../review/2026-09-14-empty-stall/README.md)
 
-## Place and approach
+## Direction agreed — 14 September 2026
 
-Empty stall 1 and rear face of the same timber gate visited at 04. House 9 lies farther up the settlement.
+The user approved an automatic brief search, followed by three sequential player
+actions. Short wording may be shaped to convey the intent. The empty stall has no
+people or footprints; discovering the rear of the gate is the useful outcome.
+The user explicitly restored lighting the gate lantern, superseding the earlier
+instruction to leave that fixture dark. It stays dark at point 04 and until the
+point 08 lighting gesture. Existing buildings, gate fixture height and route
+corridors retain their positions.
 
-## Intended beat
+## Playable draft
 
-No one is at the stall. Reaching the rear of the gate enables the shepherd to open it for others: that is progress. Afterwards a searching look settles on the lit House 9, suggesting someone is awake.
+1. An automatic 3.5-second search uses the existing look-around animation:
+   “No footprints. No one here.”
+2. Turn toward the gate: “The others may come this way. I’ll light the lantern
+   and open the gate.” **Light the lantern** starts the approach and right-hand
+   reach. The carried lamp remains attached to the hand; the fixture lights after
+   2.7 seconds. The arm returns to idle before the next action at 4.5 seconds.
+3. “That will light their way. Now for the gate.” **Open the gate** starts the
+   free-hand reach and shared timber sound. The shepherd steps back; the gate
+   begins opening at 2.4 seconds. It stays open.
+4. “What else can we try?” accompanies a three-second look around. A 2.5-second
+   camera move reveals the lit facade of House 9: “Perhaps they have an answer.”
+   **Go to the house** starts the existing walking route. Reduced motion cuts to
+   the equivalent view, retaining the same thoughts and explicit actions.
 
-## Route-rehearsal placeholder
-
-Leaving the placeholder applies gate-open state once, then walks toward House 9. Do not launch the old companion passage or imply the gesture/searching shot is implemented.
-
-## Direction to settle before scene implementation
-
-08 gate: action order, physical gesture and pause. 08 reveal: short thought, searching camera movement, House 9 lamp visibility and next action. The user suggested a look-around that settles on the house; no fixed full orbit is required.
-
-## Draft acceptance criteria
-
-The stall being empty is clear; opening/lighting feels useful. House 9 is visibly the subject of the thought and the camera holds a useful orientation. Reduced motion supplies an equivalent readable house view.
-
-[Stage this point](../../../rehearsal.html?point=8) · [Replay its incoming walk](../../../rehearsal.html?point=8&replay)
+Buttons are absent during automatic gestures. Pause freezes progress; jump,
+replay and restart reconstruct the appropriate dark/closed or lit/open outcomes.
+House 9's owner and reunion remain placeholders. No companions appear at point 08.
 
 ## User walkthrough
 
-Review the empty stall and gate action first, then 08 reveal separately. Without a map, identify the house the shepherd noticed and why it is worth trying. Verify the gate remains open on replay/state tests.
+[Stage point 08](../../../rehearsal.html?point=8) or
+[walk the full approach from House 8](../../../rehearsal.html?point=8&replay).
+
+Review whether the initial silence reads as a dead end; whether the lantern reach,
+return to idle, gate contact and step back feel convincing; and whether the House 9
+shot makes the next destination clear. Pause during a gesture, resume, and wait at
+each action before continuing. Try portrait and Review tools → Reduced motion.
+
+Captures are explicitly staged and paused using `stall-pose=search`, `contact`,
+`open` or `house`; these are review conveniences, not a completed playthrough.
 
 ## Review record
 
-- Agreed text/actions/shot: pending.
-- Before/after evidence and entry link: pending.
-- Functional checks and performance comparison: pending.
-- User keep/revise decision: pending.
-- Accepted commit: none.
+- Direction and action order: approved by user; concise wording delegated.
+- Implementation and functional checks: completed; see linked review evidence.
+- User keep/revise decision: play-testing completed; accepted for this checkpoint.
+- User authorized the audit update, focused commit and feature-branch push.
+  No merge or deployment is authorized.

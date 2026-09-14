@@ -365,3 +365,46 @@ feature docs, committing and pushing the feature branch. **Point 07 is accepted 
 this checkpoint.** This does not accept the other unfinished scenes or authorize
 release. All work remains on `codex/shepherd-story-rebuild`; no merge to main or
 deployment is authorized. The publication allowlist is unchanged.
+
+
+## 14 September update — Empty stall, open gate and House 9 reveal
+
+**Decision: a dead end still offers a way to help the others.** The user directed
+an empty stall with neither people nor footprints, followed by lighting the gate
+lantern and opening the gate for the other shepherds. This explicitly supersedes
+the earlier instruction to keep the gate fixture dark after opening. The gate
+remains dark and closed during the earlier point 04 encounter.
+
+Point 08 begins with a short automatic search: “No footprints. No one here.”
+The shepherd notices the gate and thinks of the others. **Light the lantern**
+approaches the fixture, raises the carried lamp using its hand attachment, lights
+the fixture, and returns to idle. **Open the gate** uses a free-hand reach and the
+shared timber sound; the shepherd steps back as the gate swings open. “What else
+can we try?” accompanies a look around, followed by a camera move toward lit
+House 9: “Perhaps they have an answer.” **Go to the house** starts the existing
+route. House 9's owner conversation and reunion remain separate unfinished work.
+
+The two gate actions cannot be skipped or repeated during their gestures. Pause
+freezes progress, while replay/jump/reset reconstruct dark/closed or lit/open
+outcomes. Reduced motion provides the same destination view without the camera
+sweep. The lamp's original height and existing settlement transforms are retained;
+the new light is softer in the rehearsal. No new assets or publication entries
+were added. The close approach was adjusted for wall clearance, and portrait
+framing was widened to include the gate and shepherd.
+
+**Verification:** [review notes and screenshots](../review/2026-09-14-empty-stall/README.md).
+Point 08 checks cover action order, duplicate input, delayed outcomes, pause,
+route locking, House 9 arrival, staged outcomes, replay and reset. Sampled action
+clearance from the wall is at least 0.468 m. Earlier barred-gate and House 8 checks
+pass, as do the full route state, geometry and following-camera checks. Browser
+review covered the incoming walk, both actions, reveal and House 9 arrival, plus
+portrait and reduced-motion behavior, with no recorded browser errors. These
+checks do not constitute physical-device performance certification or certify
+sound quality; the new authored reveal is assessed through browser/user review,
+not the generic following-camera samples.
+
+**Review outcome:** the user reported their play-testing complete and authorized
+this audit update, a focused feature-branch commit and remote push. **Point 08 is
+accepted at this checkpoint.** Points 09–10 remain placeholders. This does not
+accept other unfinished scenes or authorize release. All work remains on
+`codex/shepherd-story-rebuild`; no merge to main or deployment is authorized.
