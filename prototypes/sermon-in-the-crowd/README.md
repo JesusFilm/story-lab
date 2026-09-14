@@ -117,3 +117,14 @@ node scripts/prepare_free_animations.mjs
 ```
 
 The new runtime adapter is `lib/sermon/actors-v2.ts`. It uses independent cloned skeletons, AnimationMixer clips, facial morphs and ground contact adjustment. V2 does not reuse V1's rigid-part crowd instancing. Profile on a real headset before choosing a crowd budget for deployment.
+
+## Original-film comparison
+
+After entering the sermon, a floating **Original film** panel follows playback,
+seeking and excerpt changes. Its sound is muted to preserve the scene's spatial
+audio. **Hide original film** / **Show original film** toggles the comparison without
+changing playback or the selected character version. The film stream needs internet;
+if it cannot load, use **Retry** or its official source link. This panel is available
+on desktop/mobile screens, not inside immersive VR.
+
+See [before/after views and review notes](docs/film-comparison/README.md).

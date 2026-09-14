@@ -3,12 +3,14 @@ import { useEffect, useRef, useState } from 'react';
 import { Play, Pause, RotateCcw, Headphones, Compass, SkipBack, SkipForward, Captions, ArrowUpRight, X, Volume2, Footprints } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import { SermonFilm } from '@/components/sermon-film';
 import { Switch } from '@/components/ui/switch';
 import { SERMON, formatTime } from '@/lib/sermon/media';
 import { EDIT, segmentAt } from '@/lib/sermon/performance';
 import type { Experience } from '@/lib/sermon/experience';
 export default function Home() {
  const host=useRef<HTMLDivElement>(null), vr=useRef<HTMLDivElement>(null), engine=useRef<Experience|null>(null);
+ const [film,setFilm]=useState(true);
  const [version,setVersion]=useState<'v1'|'v2'>('v1'),[v2Ready,setV2Ready]=useState(false),[v2Failed,setV2Failed]=useState(false);
  const [ready,setReady]=useState(false), [playing,setPlaying]=useState(false), [time,setTime]=useState(0), [cue,setCue]=useState(''), [status,setStatus]=useState('Preparing the hillside…'), [captions,setCaptions]=useState(true), [info,setInfo]=useState(false), [entered,setEntered]=useState(false), [volume,setVolume]=useState(.85), [walk,setWalk]=useState(false);
  useEffect(()=>{let cancelled=false; let dispose:(()=>void)|undefined;
@@ -34,6 +36,9 @@ export default function Home() {
    <span>CHARACTERS</span>{([['v1','V1 · Blender'],['v2','V2 · Free models']] as const).map(([id,label])=><Button key={id} variant="ghost" aria-pressed={version===id} disabled={!ready||(id==='v2'&&!v2Ready)} onClick={()=>{engine.current?.version(id);setVersion(id);}}>{id==='v2'&&!v2Ready?(v2Failed?'V2 · Unavailable':'V2 · Loading…'):label}</Button>)}
    <Button variant="ghost" disabled={!ready} onClick={()=>engine.current?.closeView()}>Closer view</Button>
   </div>
+  {entered && <div className="film-comparison">
+   {film ? <SermonFilm time={time} playing={playing} onClose={()=>setFilm(false)}/> : <button className="show-film" onClick={()=>setFilm(true)}>Show original film</button>}
+  </div>}
   <section className={`invitation ${entered?'compact':''}`}>
    <p className="eyebrow">THE WORD, WITHIN REACH</p>
    <h1>Sit among<br/>the listeners.</h1>
