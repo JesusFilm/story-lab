@@ -27,13 +27,15 @@ export function createHouseScene(journey,scene,character){
   const source=context.createBufferSource();source.buffer=buffer;source.connect(context.destination);source.start();nodes.push(source);
   for(const frequency of [155,310]){const oscillator=context.createOscillator(),gain=context.createGain(),now=context.currentTime;oscillator.frequency.setValueAtTime(frequency,now);gain.gain.setValueAtTime(.22,now);gain.gain.exponentialRampToValueAtTime(.001,now+.16);oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(now+.17);nodes.push(oscillator);}
  }
- function active(){return [1,2,4,6].includes(journey.index)&&!journey.travel;}
- function current(){return journey.index===6?journey.houseAdvice:journey.index===4?journey.houseTracks:journey.index===2?journey.houseSighting:journey.houseRejection;}
+ function active(){return [1,2,4,6,8].includes(journey.index)&&!journey.travel;}
+ function current(){return journey.index===8?journey.houseOwner:journey.index===6?journey.houseAdvice:journey.index===4?journey.houseTracks:journey.index===2?journey.houseSighting:journey.houseRejection;}
  function update(){
   if(previous!==current()){stopAudio();previous=current();}
   if(!active()){effects.visible=false;light.intensity=0;pane.material.opacity=0;stopAudio();return;}
   effects.visible=true;
+  effects.rotation.y=journey.index===8?Math.PI:0;
   effects.position.set(journey.index===2?-1:0,journey.index===2?height(-10,0)-height(-9,18.5):0,journey.index===2?-18.5:0);
+  if(journey.index===8)effects.position.set(-27,height(-18,-29)-height(-9,18.5),-10.5);
   if(journey.index===6)effects.position.set(15,height(6,-20.5)-height(-9,18.5),-39);
   if(journey.index===4)effects.position.set(30.865,height(22,8.5)-height(-9,18.5),-10.6);
   if(context){if(journey.paused)context.suspend().catch(()=>{});else if(context.state==='suspended')context.resume().catch(()=>{});}
@@ -60,7 +62,7 @@ export function createHouseScene(journey,scene,character){
   if(hand&&h.started&&t>=.55&&t<2){
    const amount=Math.min(1,(t-.55)/.2,Math.max(0,(2-t)/.3));
    const strike=KNOCK_TIMES.some(k=>t>=k-.09&&t<k+.06);
-   const target=new THREE.Vector3(-11.5+(strike?.13:0),height(-13,18.5)+1.35,19.35).add(effects.position);
+   const target=effects.localToWorld(new THREE.Vector3(-11.5+(strike?.13:0),height(-13,18.5)+1.35,19.35));
    for(let iteration=0;iteration<3;iteration++)for(const name of ['L_Forearm','L_Upperarm']){
     const joint=model.getObjectByName(name);model.updateMatrixWorld(true);
     const current=joint.worldToLocal(hand.getWorldPosition(new THREE.Vector3())).normalize();

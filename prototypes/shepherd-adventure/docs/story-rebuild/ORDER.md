@@ -34,7 +34,7 @@ Use focused commits on this same branch as scenes are accepted. Bring main updat
 | 06 | Village animal pen | Closed pen; the tracks continue past it | Establish nobody entered; observation options and continuation cue |
 | 07 | House 8 | Helpful resident recommends the stall beside the gate | Knock, old man’s illustrated advice, closed-door farewell and explicit stall exploration accepted in user play-test; house lit |
 | 08 | Empty stall / gate rear | Nobody at the stall, but opening the gate is progress | Search, opening action and thought/camera reveal of lit House 9 |
-| 09a | House 9 owner | The owner offered the family the shelter; gives directions | Dialogue, options and clear destination; house lit |
+| 09a | House 9 owner | The owner offered the family the shelter; gives directions | Knock and illustrated owner exchange accepted in user play-test; house lit |
 | 09b | Companion reunion | Shepherds arrive through the opened gate, ask directions and run ahead | Arrival staging, exchange, animation, and explicit follow choice |
 | 10 | Nativity shelter | Follow past the sheep and arrive quietly | Quiet approach, recognition, final staging and ending handoff |
 
@@ -170,3 +170,23 @@ and remote feature-branch push. Point 08 is accepted at this checkpoint.
 [Audit entry](../navigation-direction-retrospective-2026-09-13.md#14-september-update--empty-stall-open-gate-and-house-9-reveal) ·
 [Scene and review](scenes/08-empty-stall-and-gate.md).
 Points 09–10 remain placeholders. No merge to main or deployment is authorized.
+
+### Point 09a review draft — 14 September 2026
+
+House 9 now offers **Knock on the door**, a player-paced illustrated exchange
+with a matter-of-fact animal owner, and **Go to the Nativity Scene** after
+**Thank you**. The owner describes the woman's impending birth and the stall
+he offered. Matched facade images show opening, explaining and pointing to his
+left toward the onward route. [Scene and dialogue](scenes/09-house-9.md) ·
+[Screenshots and verification](../../review/2026-09-14-house-9/README.md).
+Point 09a is ready for user review; 09b companion reunion/cutscene and point 10
+ending remain placeholders. No creative acceptance, merge or deployment is implied.
+
+### Point 09a accepted checkpoint — 14 September 2026
+
+The user reported play-testing good and authorized the audit update, focused
+commit and remote feature-branch push. Point 09a is accepted at this checkpoint.
+[Audit entry](../navigation-direction-retrospective-2026-09-13.md#14-september-update--house-9-shelter-owner-and-directions) ·
+[Scene and review](scenes/09-house-9.md).
+The companion reunion/cutscene at 09b and point 10 ending remain placeholders.
+No merge to main or deployment is authorized.

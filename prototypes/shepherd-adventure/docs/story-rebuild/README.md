@@ -2,7 +2,7 @@
 
 # Shepherd Adventure: village journey rebuild
 
-13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 has a playable draft awaiting review; point 02 passed the user play-test and is accepted; point 03 is accepted for checkpoint after its diorama continuity revision; point 04 is accepted after a successful user play-test; point 05 is ready for review; points 06 and 07 are accepted after user play-tests; point 08 is accepted after user play-testing; points 09–10 remain placeholders.
+13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 has a playable draft awaiting review; point 02 passed the user play-test and is accepted; point 03 is accepted for checkpoint after its diorama continuity revision; point 04 is accepted after a successful user play-test; point 05 is ready for review; points 06 and 07 are accepted after user play-tests; point 08 is accepted after user play-testing; point 09a's owner conversation is accepted after user play-testing; 09b and 10 remain placeholders.
 
 [Open the local rehearsal](../../rehearsal.html) · [Actual rehearsal map](../../map/rehearsal-map.svg) · [Implementation and checks](../../review/2026-09-13-route-rehearsal/README.md)
 
@@ -51,7 +51,7 @@ Point 03 has an **accepted helpful exchange and revised diorama continuity**. [R
 Point 04 has a **barred-gate scene accepted after a successful user play-test**. [Review it](../../review/2026-09-14-barred-gate/README.md).
 Point 05 has a **no-answer and tracks scene ready for user review**. [Review it](../../review/2026-09-14-house-5/README.md).
 Points 06 and 07 are **accepted for checkpoint after user play-tests**: [animal pen](scenes/06-animal-pen.md) and [House 8](scenes/07-house-8.md).
-Point 08 is **accepted at checkpoint after user play-testing**: [empty stall and gate](scenes/08-empty-stall-and-gate.md). Points 09–10 retain **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
+Point 08 is **accepted at checkpoint after user play-testing**: [empty stall and gate](scenes/08-empty-stall-and-gate.md). Point 09a has an **owner conversation accepted at checkpoint after user play-testing**: [House 9 review](../../review/2026-09-14-house-9/README.md). Point 09b's reunion and point 10 retain **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
 
 ## First implementation: a walking rehearsal
 

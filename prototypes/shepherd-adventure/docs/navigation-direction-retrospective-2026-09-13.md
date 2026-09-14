@@ -408,3 +408,44 @@ this audit update, a focused feature-branch commit and remote push. **Point 08 i
 accepted at this checkpoint.** Points 09–10 remain placeholders. This does not
 accept other unfinished scenes or authorize release. All work remains on
 `codex/shepherd-story-rebuild`; no merge to main or deployment is authorized.
+
+## 14 September update — House 9 shelter owner and directions
+
+**Decision: the owner gives a practical account of the shelter he offered.**
+The user directed a middle-aged, shorter, fuller man with a large beard,
+colorful robes and a coordinated headwrap. His tone is matter-of-fact; he
+explains that the woman was about to give birth when the couple came to him.
+
+Point 09a now offers **Knock on the door**, with the shared three knocks and
+free-left-hand gesture fitted to House 9's east-facing facade. Four player-paced
+dialogue cues ask about the couple and donkey, confirm the impending birth,
+establish his ownership of the large animal pen and explain that he offered
+the stall at its far end because his house had no room. **Thank you** returns
+to the village, where **Go to the Nativity Scene** remains an explicit temporary
+onward action. The companion reunion/cutscene and detailed ending remain unfinished.
+
+Built-in ImageGen produced the owner reference and three matching doorway
+illustrations: opening, explaining with an open hand, and pointing to his left.
+That is image-right in the frontal view and agrees with the existing onward
+route. The actual house screenshot anchors its plaster patches, stone corners,
+flat parapet, undivided windows, timber lintels and door placement. The ring
+stays on the door's free left edge and the illustrated door opens inward at
+the viewer-right jamb. Gestures use illustrated cuts; the 3D door remains
+static. The house stays lit, and no new voice recording was added.
+
+**Verification:** [House 9 walkthrough and screenshots](../review/2026-09-14-house-9/README.md).
+State checks cover repeated input, approach direction, pause, held reading,
+explicit departure, staged outcomes and replay/reset. House 8 and empty-stall
+regressions pass. Full route state, geometry, fixed lights and landscape/portrait
+follow-camera samples pass. Browser review covers the incoming walk, knock
+contact, all dialogue, pause, onward route, preserved Nativity placeholder,
+House 8 shared presentation, interruption/replay, silent portrait/reduced-motion
+play and image failure/retry retaining reading position, with no page errors.
+Syntax and diff checks pass. No new performance benchmark or physical-device
+certification is claimed.
+
+**Review outcome:** the user reported play-testing good and authorized the audit
+update, focused feature-branch commit and remote push. **Point 09a is accepted
+at this checkpoint.** Point 09b and point 10 remain placeholders. All work
+remains on `codex/shepherd-story-rebuild`; no merge to main or deployment is
+authorized. The publication allowlist is unchanged.

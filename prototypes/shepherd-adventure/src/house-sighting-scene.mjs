@@ -15,6 +15,14 @@ const adviceCues=[
  {title:'At the door',text:'He gives you a warm smile and closes the door.',image:adviceImage('closed-door'),alt:'The same wooden door is closed again. Warm light remains in the window.'}
 ];
 
+const ownerImage=name=>new URL(`../assets/house-9/${name}.png`,import.meta.url).href;
+const ownerCues=[
+ {title:'Shepherd',text:'“Have you seen a couple travelling with a donkey?”',image:ownerImage('opening-door'),alt:'The door opens inward on its right hinge. A shorter, full-bodied middle-aged man with a large beard, colorful robes and a wrapped headcloth stands in House 9’s doorway.'},
+ {title:'Pen owner',text:'“Yes. They came to me earlier. The woman was about to give birth.”',image:ownerImage('talking-owner'),alt:'The owner explains matter-of-factly, raising an open hand as he speaks.'},
+ {title:'Pen owner',text:'“I own the large animal pen. There was no room in my house, so I let them use the stall at its far end.”',image:ownerImage('talking-owner'),alt:'The owner gestures with his hands from the same warmly lit doorway.'},
+ {title:'Pen owner',text:'“It’s that way. Follow the pen to the far end. You’ll find them in the stall.”',image:ownerImage('pointing-left'),alt:'The owner points to his left, toward the onward route beside the pen, with the house and open door unchanged.'}
+];
+
 export function createHouseSightingScene(journey,onChange){
  const $=id=>document.getElementById(id),overlay=$('sighting-overlay'),stage=$('sighting-stage');
  let cues=sightingCues;
@@ -28,15 +36,20 @@ export function createHouseSightingScene(journey,onChange){
   }))).then(results=>{if(generation!==token)return;failed=results.some(v=>!v);prepared=true;loading=false;onChange();});
  }
  function update(){
-  const advice=journey.index===6,h=advice?journey.houseAdvice:journey.houseSighting,active=[2,6].includes(journey.index)&&!journey.travel;
+  const owner=journey.index===8,advice=journey.index===6,h=owner?journey.houseOwner:advice?journey.houseAdvice:journey.houseSighting,active=[2,6,8].includes(journey.index)&&!journey.travel;
   if(previous!==h||!active){if(player||loading||prepared||!overlay.hidden)close();previous=h;}
   if(!active)return;
-  cues=advice?adviceCues:sightingCues;
+  cues=owner?ownerCues:advice?adviceCues:sightingCues;
   $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
   $('beat').textContent=h.phase==='ready'?'A warm light shines inside. Perhaps someone here can help.':h.phase==='knocking'?'You knock on the wooden door.':h.complete?(advice?'An empty stall beside the gate. Perhaps they stopped there to rest.':'They went up the lane toward the gate. Perhaps someone there can help.'):'You wait at the lit door.';
   $('travel-status').textContent=journey.paused?'Paused — continue when ready.':h.complete?(advice?'Follow the lane around the houses to the empty stall.':'Follow the lane to the gate.'):h.phase==='ready'?'Ask at the door.':h.phase==='knocking'?'Knock. Knock. Knock.':'Someone is coming to the door…';
   $('advance').textContent=h.phase==='ready'?'Knock on door':h.complete?(advice?'Explore the empty stall':'Go to the gate'):'Waiting for a response…';
   $('advance').disabled=journey.paused||(h.started&&!h.complete);
+  if(owner){
+   $('review-state').textContent=journey.staged?'Staged · owner scene draft':'Owner scene draft';
+   if(h.complete){$('beat').textContent='The family is sheltering in the stall at the far end of the large pen.';$('travel-status').textContent=journey.paused?'Paused — continue when ready.':'Temporary onward route — companion cutscene pending.';}
+   $('advance').textContent=h.phase==='ready'?'Knock on the door':h.complete?'Go to the Nativity Scene':'Waiting for a response…';
+  }
   if(h.started&&!h.complete&&!prepared&&!loading)prepare();
   if(h.phase!=='conversation'){if(!overlay.hidden)close();return;}
   if(overlay.hidden){focus=document.activeElement;overlay.hidden=false;document.body.classList.add('sighting-open');$('review-panel').inert=true;$('sighting-next').focus({preventScroll:true});}
@@ -49,10 +62,10 @@ export function createHouseSightingScene(journey,onChange){
   if(player&&page!==h.page){player.seek(h.page);page=h.page;}
   player?.pause(journey.paused);
   $('sighting-next').disabled=!prepared||journey.paused;
-  $('sighting-next').textContent=advice?(h.page===3?'Return to the village':h.page===2?'Thank you':h.page===0?'Ask about the travellers':'Continue'):(h.page===3?'Thank you':h.page===0?'Ask about the travellers':'Continue');
+  $('sighting-next').textContent=owner?(h.page===3?'Thank you':'Continue'):advice?(h.page===3?'Return to the village':h.page===2?'Thank you':h.page===0?'Ask about the travellers':'Continue'):(h.page===3?'Thank you':h.page===0?'Ask about the travellers':'Continue');
   $('sighting-count').textContent=`${h.page+1} / ${cues.length}`;
  }
- $('sighting-next').onclick=()=>{if(!prepared||journey.paused)return;if(journey.index===6?journey.advanceAdvice():journey.advanceSighting())onChange();};
+ $('sighting-next').onclick=()=>{if(!prepared||journey.paused)return;if(journey.index===8?journey.advanceOwner():journey.index===6?journey.advanceAdvice():journey.advanceSighting())onChange();};
  $('sighting-retry').onclick=()=>{player?.destroy();player=null;prepared=false;failed=false;prepare();update();};
  overlay.addEventListener('keydown',e=>{
   if(e.key==='Tab'){

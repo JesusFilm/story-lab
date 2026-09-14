@@ -2,7 +2,7 @@
 
 13 September 2026 · Baseline: accepted House 1 interaction.
 
-Houses 3 and 8 reuse this interaction. The resident's response is a separate scene
+Houses 3, 8 and 9 reuse this interaction. The resident's response is a separate scene
 beat; it must not change the established knock rhythm.
 
 - Offer one **Knock on door** action at the house's standing point. Disable
@@ -52,3 +52,16 @@ The existing curved outgoing route and point 08 placeholder are preserved.
 
 [Scene and accepted play-test](scenes/07-house-8.md) ·
 [Verification and captures](../../review/2026-09-14-house-8/README.md).
+
+## House 9 reuse — 14 September 2026
+
+Point 09a uses the same timing with the approach and effects rotated for House 9's
+east-facing facade. Knock cues sit near world (-15.63, -29.85); the shepherd steps
+from (-13, -29) toward the door, then returns before the diorama begins. The
+lantern remains in the right hand. The shared hand target now respects the
+effects group's transform; earlier houses use its existing unrotated transform.
+The house stays lit. Separate `houseOwner` state controls the player-paced owner
+conversation and explicit temporary **Go to the Nativity Scene** action.
+
+[House 9 scene](scenes/09-house-9.md) ·
+[Verification and captures](../../review/2026-09-14-house-9/README.md).
