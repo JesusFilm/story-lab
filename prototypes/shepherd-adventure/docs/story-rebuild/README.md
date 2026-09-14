@@ -146,3 +146,7 @@ The empty-stall gate wing now joins its gate-side corner, clearing the interior.
 ### Lighting direction
 
 Only helpful houses 3, 8 and 9 have fixed household lights. Houses 1 and 5 and all other homes are unlit. The courtyard, well, rear-passage and gate lights are removed or unlit. The workbench and nativity lights remain. The carried lantern and general moon/sky illumination remain for navigation. This supersedes the earlier gate-lighting beat: opening the gate still supplies progress. User review pending.
+
+### Point 06 accepted checkpoint — 14 September 2026
+
+The animal pen now presents the approved quiet observation and **Follow the tracks** action. Marks continue outside the closed entrance and gradually fade toward the houses. The user completed their play-test and authorized the audit update, commit and feature-branch push. Point 06 is accepted at this checkpoint; points 07–10 retain their placeholders. [Scene and acceptance](scenes/06-animal-pen.md) · [Review evidence](../../review/2026-09-14-animal-pen/README.md). No merge or deployment.

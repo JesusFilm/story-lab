@@ -131,3 +131,7 @@ inspection and readable human/hoof trail with steady gold outlines. Follow the
 tracks reconnects to the market-side route; point 06 and later placeholders remain.
 [Scene brief](scenes/05-house-5.md) · [Review evidence](../../review/2026-09-14-house-5/README.md).
 Creative acceptance awaits the user's play-test. No merge or deployment.
+
+### Point 06 accepted checkpoint — 14 September 2026
+
+The animal pen now presents the approved quiet observation and **Follow the tracks** action. Marks continue outside the closed entrance and gradually fade toward the houses. The user completed their play-test and authorized the audit update, commit and feature-branch push. Point 06 is accepted at this checkpoint; points 07–10 retain their placeholders. [Scene and acceptance](scenes/06-animal-pen.md) · [Review evidence](../../review/2026-09-14-animal-pen/README.md). No merge or deployment.

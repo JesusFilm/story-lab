@@ -1,6 +1,6 @@
 # 06 — Village animal pen
 
-Status: **route placeholder ready · detailed implementation pending · user acceptance pending**.
+Status: **accepted checkpoint after user play-test — 14 September 2026**.
 [Rebuild plan and scene index](../README.md) · [User-drawn route](../reference-route.png)
 
 ## Place and approach
@@ -36,3 +36,15 @@ Follow the approach with the normal camera. Explain where the trail continues an
 - Functional checks and performance comparison: pending.
 - User keep/revise decision: pending.
 - Accepted commit: none.
+
+## 14 September implementation draft
+
+User approved automatic observation and this thought: “No one seems awake here. The tracks pass the pen and lead back toward the houses.” **Follow the tracks** starts the existing House 8 walk. No call, gate attempt or separate inspection action.
+
+Sandal/hoof marks continue outside the pen and gradually fade, including gold outlines, toward the residential path. The scene uses a gentle arrival reframe with a wider portrait view. The other placeholders remain unchanged.
+
+[Capture, checks and targeted walkthrough](../../../review/2026-09-14-animal-pen/README.md). Implementation ready for review; user acceptance and accepted commit remain pending.
+
+## Accepted checkpoint
+
+The user reported their play-test done and authorized the audit update, focused commit and feature-branch push. Point 06 is accepted for this checkpoint; release remains unauthorized.

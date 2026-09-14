@@ -294,3 +294,31 @@ implementation checkpoint; no explicit creative acceptance or successful user
 play-test was reported. House 5 remains ready for user review. The unfinished
 journey and release remain unaccepted. All work stays on
 `codex/shepherd-story-rebuild`; no merge to `main` or deployment is authorized.
+
+## 14 September update — Animal pen and continuing tracks
+
+**Decision: a quiet observation redirects the search toward the houses.**
+The user approved an automatic observation at the closed animal pen and the
+**Follow the tracks** action. The thought reads: “No one seems awake here. The
+tracks pass the pen and lead back toward the houses.” The entrance stays closed;
+the visible trail continues outside it without implying the gate proves nobody
+entered earlier.
+
+Existing sandal and donkey hoof marks extend along the established House 8
+corridor. Both the marks and their steady gold outlines gradually fade on the
+firmer residential path, ending before the doorway approach. A gentle arrival
+reframe includes the pen and returning trail; portrait framing pulls farther back
+after browser review exposed cropping. House 8 and later placeholders remain
+unchanged. No new assets, lights, route changes or publication entries were needed.
+
+**Verification:** [scene review and capture](../review/2026-09-14-animal-pen/README.md).
+House 5 state/regression and full route geometry/camera checks passed, as did
+syntax and diff checks. Browser review confirmed the observation, departure to
+House 8 with its placeholder preserved, a track-free doorway and adjusted
+390×844 portrait framing. The route camera samples do not certify the new
+observation camera; physical-device performance was not measured.
+
+**Review outcome:** the user reported their play-test done and authorized the
+feature audit update, commit and remote push. **Point 06 is accepted at this
+checkpoint.** This does not accept other unfinished scenes or authorize release.
+All work remains on `codex/shepherd-story-rebuild`; no merge to main or deployment.
