@@ -1,10 +1,12 @@
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
-import {RouteRehearsal,STOPS,CORRIDORS,HOUSE_APPROACHES,lengthOf} from '../src/rehearsal-route.mjs';
+import {RouteRehearsal,STOPS,CORRIDORS,HOUSE_APPROACHES,lengthOf,sampleCorridor} from '../src/rehearsal-route.mjs';
 import {loadSettlement,THREE} from './load-settlement.mjs';
+import {SEARCH_POINTS} from '../src/house-tracks.mjs';
 import {JourneyCamera,routeLookahead,blocked} from '../src/journey-camera.mjs';
 import {height} from '../src/journey-terrain.mjs';
 function sighting(j){j.knockOnHouse();j.step(3);for(let i=0;i<4;i++)assert(j.advanceSighting());}
+function tracks(j){j.knockOnHouse();j.step(7.2);j.lookAround();while(!j.houseTracks.spotted)j.step(.1);}
 function prepareLamp(j){j.lampAssembly.begin();for(const id of ['body','wick','oil','flint','light'])assert(j.assembleLamp(id));assert(j.takeLamp());}
 
 const j=new RouteRehearsal();assert.equal(STOPS.length,10);assert.equal(new Set(STOPS.map(s=>s.id)).size,10);
@@ -18,6 +20,7 @@ for(let index=0;index<10;index++){
  if(index===1){j.knockOnHouse();j.step(7);}
  if(index===2)sighting(j);
  if(index===3){j.tryGate();j.step(6);}
+ if(index===4)tracks(j);
  if(index<9)assert(j.next());else assert.equal(j.next(),false);
 }
 const fullDistance=j.distance;
@@ -31,6 +34,7 @@ for(let leg=0;leg<10;leg++){
  if(leg===1){urgency.knockOnHouse();urgency.step(7);}
  if(leg===2)sighting(urgency);
  if(leg===3){urgency.tryGate();urgency.step(6);}
+ if(leg===4)tracks(urgency);
  if(leg<9)urgency.next();
 }
 
@@ -99,7 +103,7 @@ world.settlementFeatures.find(f=>f.label==='Animal-area gate').root.traverse(obj
  for(let i=0;i<positions.count;i++){p.fromBufferAttribute(positions,i).applyMatrix4(object.matrixWorld);vertices.push([p.x,p.z]);}
  gateParts.push(hull(vertices));
 });
-for(const [index,corridor] of CORRIDORS.entries()){
+for(const [index,corridor] of [...CORRIDORS,{points:sampleCorridor(SEARCH_POINTS)},{points:sampleCorridor([SEARCH_POINTS.at(-1),...STOPS[5].controls.slice(1)])}].entries()){
  let closest={metres:Infinity,label:''};
  for(const p of corridor.points){
   for(const feature of map.features){
@@ -113,9 +117,9 @@ for(const [index,corridor] of CORRIDORS.entries()){
    if(d<.45)failures.push({leg:index+1,feature:wall.kind,clearance:d,point:p});
   }
  }
- legs.push({number:index+1,title:STOPS[index].title,metres:lengthOf(corridor.points),closest});
+ legs.push({number:index+1,title:STOPS[index]?.title||'House 5 inspection / departure',metres:lengthOf(corridor.points),closest});
 }
-const folder=new URL('../review/2026-09-13-lamp-workbench/',import.meta.url);mkdirSync(folder,{recursive:true});
+const folder=new URL('../review/2026-09-14-house-5/',import.meta.url);mkdirSync(folder,{recursive:true});
 writeFileSync(new URL('geometry-and-state.json',folder),JSON.stringify({status:failures.length?'failed':'passed',fullDistance,unchangedCentres:world.settlementFeatures.length,orientedHouses:Object.keys(HOUSE_APPROACHES),legs,failures,limits:'Sampled path clearance against projected model hulls and wall centerlines, plus state transitions. Not a live camera or enjoyment test.'},null,2)+'\n');
 console.log(JSON.stringify({fullDistance,legs,failures:failures.slice(0,12),failureCount:failures.length},null,2));
 assert.equal(failures.length,0,'Rehearsal corridor needs at least 45 cm clearance from current structures and walls');
@@ -130,7 +134,7 @@ for(const portrait of [false,true]){
   const frame=rig.update({player:{...p,y:height(p.x,p.z)},heading,ahead:routeLookahead(model.travel)||stop?.target,boxes:world.occluders,dt,portrait});
   if(blocked({x:p.x,y:height(p.x,p.z)+1.15,z:p.z},frame.position,world.occluders,.1))hidden++;
   minArm=Math.min(minArm,frame.arm);frames++;
-  if(!model.travel){if(model.index===9)break;if(model.index===0)prepareLamp(model);if(model.index===1){model.knockOnHouse();model.step(7);}if(model.index===2)sighting(model);if(model.index===3){model.tryGate();model.step(6);}assert(model.next(),'Camera walkthrough must progress');}
+  if(!model.travel){if(model.index===9)break;if(model.index===0)prepareLamp(model);if(model.index===1){model.knockOnHouse();model.step(7);}if(model.index===2)sighting(model);if(model.index===3){model.tryGate();model.step(6);}if(model.index===4)tracks(model);assert(model.next(),'Camera walkthrough must progress');}
  }
  cameras.push({portrait,frames,hiddenPlayerSamples:hidden,minimumArm:minArm});
  assert.equal(hidden,0,'New corridor must preserve sampled player visibility');

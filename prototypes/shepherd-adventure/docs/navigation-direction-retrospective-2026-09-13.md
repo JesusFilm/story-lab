@@ -244,3 +244,53 @@ audit entry, focused commit and push to the feature branch. **Point 04 is accept
 at this checkpoint.** Points 05–10 remain placeholders; this does not accept the
 unfinished journey or authorize release. All work remains on
 `codex/shepherd-story-rebuild`; no merge to `main` or deployment.
+
+## 14 September update — House 5 silence and readable tracks
+
+**Decision: shift the search from asking residents to observing the ground.**
+The user directed two attempts at the dark house, an unanswered thought, an
+explicit inspection near the well, and human/animal tracks leading past the
+market stalls. The user approved steady gold outlines and a gentle downward
+camera move for discovery.
+
+Implemented in this checkpoint:
+
+- **Knock on door** reuses the established free-hand gesture and wooden sound.
+  Three strikes are followed by a short silent wait and three more automatic
+  strikes. At 7.2 active seconds, **“No one is answering.”** and **Look around**
+  appear. The house stays dark, with no resident or reply.
+- The shepherd returns from the door and walks a short arc beside the well.
+  Human sandal soles and rounded donkey hoofprints are visible on the ground
+  before discovery. On spotting them, steady gold outlines reveal their route
+  past the market stalls toward the animal pen.
+- The discovery thought describes the marks and their direction without claiming
+  who made them. **Follow the tracks** explicitly starts a continuous departure
+  into the existing route. Point 06 and subsequent placeholders are preserved.
+- A browser pass exposed camera collision during the door approach. Holding the
+  arrival framing through the knock corrected the view. The inspection resumes
+  the following camera; discovery gently reframes the ground. Reduced motion
+  cuts to that view and retains fixed knock cues.
+- Scene state gates repeated actions and early departure. Pause freezes active
+  timing and inspection movement; replay/jump/reset reconstruct scene state.
+  No new assets, fixed lights or publication entries were required.
+
+**Verification and evidence:** [House 5 review and captures](../review/2026-09-14-house-5/README.md)
+include arrival, knocking, silence, the well inspection and desktop/portrait trail
+views. State tests cover action gating, pause, continuous departure, point 06,
+and replay/reset. Existing House 1 and gate state regressions passed. The full
+route check passed with unchanged settlement transforms and lights, sampled
+clearance for the new inspection/departure corridors, and landscape/portrait
+camera samples. Chrome walkthroughs at 1280×720 and 390×844 (reduced motion)
+verified six knock events, paused inspection, discovery and point-06 arrival,
+with zero page errors. Diff whitespace checks passed.
+
+**Limits:** these are staged browser walkthroughs and sampled geometry checks,
+not physical-device performance certification or an audio listening assessment.
+The rehearsal remains outside the publication allowlist.
+
+**Review outcome:** after delivery of the playable draft, the user authorized
+this audit update, focused commit and feature-branch push. This records an
+implementation checkpoint; no explicit creative acceptance or successful user
+play-test was reported. House 5 remains ready for user review. The unfinished
+journey and release remain unaccepted. All work stays on
+`codex/shepherd-story-rebuild`; no merge to `main` or deployment is authorized.

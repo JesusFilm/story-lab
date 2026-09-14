@@ -27,15 +27,16 @@ export function createHouseScene(journey,scene,character){
   const source=context.createBufferSource();source.buffer=buffer;source.connect(context.destination);source.start();nodes.push(source);
   for(const frequency of [155,310]){const oscillator=context.createOscillator(),gain=context.createGain(),now=context.currentTime;oscillator.frequency.setValueAtTime(frequency,now);gain.gain.setValueAtTime(.22,now);gain.gain.exponentialRampToValueAtTime(.001,now+.16);oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(now+.17);nodes.push(oscillator);}
  }
- function active(){return [1,2].includes(journey.index)&&!journey.travel;}
- function current(){return journey.index===2?journey.houseSighting:journey.houseRejection;}
+ function active(){return [1,2,4].includes(journey.index)&&!journey.travel;}
+ function current(){return journey.index===4?journey.houseTracks:journey.index===2?journey.houseSighting:journey.houseRejection;}
  function update(){
   if(previous!==current()){stopAudio();previous=current();}
   if(!active()){effects.visible=false;light.intensity=0;pane.material.opacity=0;stopAudio();return;}
   effects.visible=true;
   effects.position.set(journey.index===2?-1:0,journey.index===2?height(-10,0)-height(-9,18.5):0,journey.index===2?-18.5:0);
+  if(journey.index===4)effects.position.set(30.865,height(22,8.5)-height(-9,18.5),-10.6);
   if(context){if(journey.paused)context.suspend().catch(()=>{});else if(context.state==='suspended')context.resume().catch(()=>{});}
-  if(journey.index===2)return;
+  if(journey.index!==1)return;
   const h=journey.houseRejection,phase=h.phase;
   $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
   $('beat').textContent=({ready:'The house is dark. Perhaps someone inside can help.',knocking:'You knock on the wooden door.',waiting:'You wait at the closed door.',waking:'A light comes on inside the house.',refusal:'From inside: “Go away! It is late!”',dark:'The light goes out. The door stays closed.',complete:'Let’s try next door. There’s a light in the neighbour’s house.'})[phase];
@@ -45,10 +46,10 @@ export function createHouseScene(journey,scene,character){
  }
  function tick(reduced){
   if(!active())return;
-  const h=current(),t=h.elapsed;
+  const h=current(),t=journey.index===4?h.knockElapsed:h.elapsed,round=journey.index===4?h.knockRound:0;
   light.intensity=h.lit?6:0;pane.material.opacity=h.lit?.85:0;
   rings.forEach((ring,i)=>{const age=t-KNOCK_TIMES[i];ring.visible=h.started&&age>=0&&age<.3;ring.scale.setScalar(reduced?1:1+Math.max(0,age)*2.8);ring.material.opacity=reduced?.8:Math.max(0,.85-age*2.8);
-   if(h.started&&t>=KNOCK_TIMES[i]&&!played.has(i)){played.add(i);knockSound();}
+   if(h.started&&t>=KNOCK_TIMES[i]&&!played.has(round*3+i)){played.add(round*3+i);knockSound();}
   });
   if(journey.index===1&&h.started&&t>=HOUSE_TIMING.voice&&!played.has('voice')){
    played.add('voice');if(context&&voiceBuffer){const voice=context.createBufferSource();voice.buffer=voiceBuffer;voice.connect(context.destination);voice.start();nodes.push(voice);}else audioFailed=true;

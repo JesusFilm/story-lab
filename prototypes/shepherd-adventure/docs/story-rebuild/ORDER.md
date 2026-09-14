@@ -123,3 +123,11 @@ The user reported a successful play-test and authorized the feature audit update
 focused commit and branch push. Point 04 is accepted at this checkpoint.
 [Audit entry](../navigation-direction-retrospective-2026-09-13.md#14-september-update--barred-gate-discovery-and-well-detour).
 Points 05–10 remain placeholders. No merge to main or deployment is authorized.
+
+### Point 05 review draft — 14 September 2026
+
+Implemented the approved two-knock silence, unanswered thought, explicit well
+inspection and readable human/hoof trail with steady gold outlines. Follow the
+tracks reconnects to the market-side route; point 06 and later placeholders remain.
+[Scene brief](scenes/05-house-5.md) · [Review evidence](../../review/2026-09-14-house-5/README.md).
+Creative acceptance awaits the user's play-test. No merge or deployment.
