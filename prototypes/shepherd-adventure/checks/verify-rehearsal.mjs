@@ -17,6 +17,7 @@ for(let index=0;index<10;index++){
  if(index===0)prepareLamp(j);
  if(index===1){j.knockOnHouse();j.step(7);}
  if(index===2)sighting(j);
+ if(index===3){j.tryGate();j.step(6);}
  if(index<9)assert(j.next());else assert.equal(j.next(),false);
 }
 const fullDistance=j.distance;
@@ -29,6 +30,7 @@ for(let leg=0;leg<10;leg++){
  if(leg===0)prepareLamp(urgency);
  if(leg===1){urgency.knockOnHouse();urgency.step(7);}
  if(leg===2)sighting(urgency);
+ if(leg===3){urgency.tryGate();urgency.step(6);}
  if(leg<9)urgency.next();
 }
 
@@ -128,7 +130,7 @@ for(const portrait of [false,true]){
   const frame=rig.update({player:{...p,y:height(p.x,p.z)},heading,ahead:routeLookahead(model.travel)||stop?.target,boxes:world.occluders,dt,portrait});
   if(blocked({x:p.x,y:height(p.x,p.z)+1.15,z:p.z},frame.position,world.occluders,.1))hidden++;
   minArm=Math.min(minArm,frame.arm);frames++;
-  if(!model.travel){if(model.index===9)break;if(model.index===0)prepareLamp(model);if(model.index===1){model.knockOnHouse();model.step(7);}if(model.index===2)sighting(model);assert(model.next(),'Camera walkthrough must progress');}
+  if(!model.travel){if(model.index===9)break;if(model.index===0)prepareLamp(model);if(model.index===1){model.knockOnHouse();model.step(7);}if(model.index===2)sighting(model);if(model.index===3){model.tryGate();model.step(6);}assert(model.next(),'Camera walkthrough must progress');}
  }
  cameras.push({portrait,frames,hiddenPlayerSamples:hidden,minimumArm:minArm});
  assert.equal(hidden,0,'New corridor must preserve sampled player visibility');

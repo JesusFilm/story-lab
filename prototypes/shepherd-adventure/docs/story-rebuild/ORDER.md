@@ -112,3 +112,14 @@ the revision much better, and authorized the feature audit update, commit and pu
 House 3 is accepted for this checkpoint. See the
 [audit entry](../navigation-direction-retrospective-2026-09-13.md#13-september-update--house-3-helpful-sighting-and-visual-continuity).
 Points 04–10 remain placeholders; no merge or deployment is authorized.
+
+### Point 04 review draft — 14 September 2026
+
+Implemented the user-directed **Open the gate** attempt, two resisted tugs with timber sound and contact cues, obstruction thought and explicit choice to seek help near the well. A camera comparison favored the gentle push and following view because the well-facing shot obscured orientation behind another house. [Scene brief](scenes/04-barred-gate.md) · [Review evidence](../../review/2026-09-14-barred-gate/README.md). User creative acceptance is pending. Points 05–10 remain placeholders. No merge or deployment.
+
+### Point 04 accepted checkpoint — 14 September 2026
+
+The user reported a successful play-test and authorized the feature audit update,
+focused commit and branch push. Point 04 is accepted at this checkpoint.
+[Audit entry](../navigation-direction-retrospective-2026-09-13.md#14-september-update--barred-gate-discovery-and-well-detour).
+Points 05–10 remain placeholders. No merge to main or deployment is authorized.

@@ -198,3 +198,49 @@ continuity corrections, then judged the revision much better and authorized this
 audit update, focused commit and branch push. **House 3 is accepted for this
 checkpoint.** The unfinished journey and release remain unaccepted. All work stays
 on `codex/shepherd-story-rebuild`; no merge to `main` or deployment is authorized.
+
+## 14 September update — barred gate discovery and well detour
+
+**Decision: let the player discover the obstruction by trying the gate, then give
+the shepherd a clear reason to seek help near the well.** Point 04 initially says
+**Timber gate** and offers **Open the gate**, withholding the barred-state reveal
+until the attempt.
+
+Implemented in this checkpoint:
+
+- The shepherd steps closer with the lantern in his right hand and reaches with
+  his free left hand. Two resisted tugs at 1.10 and 1.85 seconds synchronize small
+  gate movements, warm contact cues and synthesized timber creak/stop sounds.
+- At 2.8 seconds the thought reads, **“It’s barred from the other side. I can’t get
+  through here.”** At 5.7 seconds it becomes **“I saw some houses near the well.
+  Perhaps someone there can help.”** The explicit **Try the houses near the well**
+  action starts the existing winding route to House 5. The gate stays closed and
+  unlit; subsequent scene placeholders remain intact.
+- Selected a gentle camera push during the attempt, returning to the following
+  view. A well-facing camera trial framed an intervening house and lost the
+  shepherd and obstacle, weakening orientation. The selected version lets the
+  player initiate the turn through the village with the departure action.
+- Separate gate state and presentation preserve the accepted house interactions.
+  Repeated attempts and early departures are blocked. Pause/backgrounding freezes
+  active time and suspends sound; replay/jump/reset reconstruct state and cancel
+  interrupted sounds. Reduced motion removes the push, gate shake and expanding
+  cue while preserving the reach and readable text. A paused gate-time review
+  entry supports matched gesture captures.
+
+**Verification and evidence:** [gate review and screenshots](../review/2026-09-14-barred-gate/README.md)
+include incoming arrival, the staged tug, the next thought, narrow layout,
+rejected camera trial and arrival at the preserved House 5 placeholder. Gate
+state checks, the ten-point route geometry/camera walkthrough and existing House
+1/House 3 state checks passed. Browser review covered the incoming leg, gate
+interaction, reduced-motion completion and outgoing detour. The reach was adjusted
+to keep the gate solid under the existing camera-occlusion treatment.
+
+**Limits:** gesture and sound are procedural. Narrow-screen evidence is a desktop
+browser viewport, not a physical-device or controlled performance certification.
+The rehearsal remains outside the publication allowlist.
+
+**Review outcome:** the user reported a successful play-test and authorized this
+audit entry, focused commit and push to the feature branch. **Point 04 is accepted
+at this checkpoint.** Points 05–10 remain placeholders; this does not accept the
+unfinished journey or authorize release. All work remains on
+`codex/shepherd-story-rebuild`; no merge to `main` or deployment.

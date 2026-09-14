@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {RouteRehearsal,STOPS} from '../src/rehearsal-route.mjs';
+const j=new RouteRehearsal();j.jump(3);
+assert.equal(j.next(),false);assert(j.tryGate());assert.equal(j.tryGate(),false);
+j.step(1.2);j.paused=true;const held=j.snapshot();j.step(10);assert.deepEqual(j.snapshot(),held);assert.equal(j.next(),false);
+j.paused=false;j.step(2);assert.equal(j.barredGate.phase,'barred');assert.equal(j.gateOpen,false);assert.equal(j.next(),false);
+j.step(3);assert(j.barredGate.complete);assert.deepEqual({x:j.position.x,z:j.position.z},STOPS[3].anchor);assert(j.next());assert.equal(j.travel.index,4);assert.equal(j.gateOpen,false);
+while(j.travel)j.step(.1);assert.equal(j.index,4);assert.equal(j.gateOpen,false);
+j.jump(3);assert.equal(j.barredGate.phase,'ready');j.tryGate();j.step(1);j.replay();while(j.travel)j.step(.1);assert.equal(j.barredGate.phase,'ready');
+j.jump(8);assert(j.gateOpen);j.reset();assert.equal(j.gateOpen,false);assert.equal(j.barredGate.phase,'ready');
+console.log('Gate progression, duplicate input, pause, detour, replay, jump and reset passed.');

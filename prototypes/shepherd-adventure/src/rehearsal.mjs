@@ -1,3 +1,4 @@
+import {createGateScene} from './gate-scene.mjs';
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {createJourneyScene} from './journey-scene.mjs';
@@ -19,6 +20,7 @@ $('reduced-motion').onchange=()=>{motionOverride=true;reduced=$('reduced-motion'
 const {renderer,scene,camera,cameraRig}=createJourneyScene($('world'));
 const world=createJourneyWorld(scene,{routePaths:CORRIDORS,houseApproaches:HOUSE_APPROACHES}),avatar=new THREE.Group();scene.add(avatar);
 const character=new CharacterVariants(avatar),samples=[];
+const gateScene=createGateScene(journey,scene,character);
 const houseScene=createHouseScene(journey,scene,character);
 const sightingScene=createHouseSightingScene(journey,()=>{updateUI();resize();});
 const lampScene=createLampScene(journey,()=>{updateUI();resize();});
@@ -46,7 +48,7 @@ function updateUI(){
   $('travel-status').textContent=journey.paused?'Paused — continue when ready.':journey.lantern?'The first house is just ahead.':'Prepare a lamp before setting out.';
   $('advance').textContent=journey.lantern?'Set out — House 1':journey.lampAssembly.step?'Continue preparing':'Prepare your light';
  }
- lampScene.update();houseScene.update();sightingScene.update();
+ lampScene.update();houseScene.update();sightingScene.update();gateScene.update();
 }
 function resize(){
  const panel=$('review-panel'),width=innerWidth,height=innerWidth<=600?Math.max(140,innerHeight-panel.getBoundingClientRect().height-28):innerHeight;
@@ -78,9 +80,10 @@ function pose(dt,instant=false){
  const hand=character.tripo?.model.getObjectByName('R_Hand');
  const carryPosition=hand?hand.getWorldPosition(lampHand):null;
  world.update(instant?10:dt,clock,journey,heading,reduced,carryPosition);world.updateOcclusion(camera,p,instant?10:dt);
+ gateScene.tick(reduced,camera,dt);
 }
 function reposition(){cameraRig.reset();heading=journey.position.heading;clock=0;updateUI();resize();pose(0,true);renderer.render(scene,camera);last=performance.now();}
-function next(){if(!ready||journey.paused)return;if([1,2].includes(journey.index)&&!journey.travel&&!(journey.index===1?journey.houseRejection:journey.houseSighting).complete){houseScene.begin();$('review-tools').open=false;return;}if(journey.index===0&&!journey.travel&&!journey.lantern){lampScene.begin();$('review-tools').open=false;return;}if(journey.next()){updateUI();$('review-tools').open=false;}}
+function next(){if(!ready||journey.paused)return;if(journey.index===3&&!journey.travel&&!journey.barredGate.complete){gateScene.begin();return;}if([1,2].includes(journey.index)&&!journey.travel&&!(journey.index===1?journey.houseRejection:journey.houseSighting).complete){houseScene.begin();$('review-tools').open=false;return;}if(journey.index===0&&!journey.travel&&!journey.lantern){lampScene.begin();$('review-tools').open=false;return;}if(journey.next()){updateUI();$('review-tools').open=false;}}
 function pause(){if(!ready)return;journey.paused=!journey.paused;updateUI();}
 function timingSummary(){
  return STOPS.flatMap(stop=>{
@@ -136,7 +139,7 @@ function animate(now){
   const before=journey.distance;journey.step(dt);clock+=dt;lampScene.tick(dt);
   character.update(dt,{controller:{phase:journey.phase,gait:journey.gait},movement:dt?(journey.distance-before)/dt:0,gaitBlend:journey.gait==='run'?1:0,paused:false});pose(dt);
  }
- const key=[journey.index,journey.phase,journey.paused,journey.staged,journey.houseRejection.phase,journey.houseSighting.phase,journey.houseSighting.page,houseScene.getState().audioFailed].join('|');if(key!==signature){signature=key;updateUI();}
+ const key=[journey.index,journey.phase,journey.paused,journey.staged,journey.barredGate.phase,journey.houseRejection.phase,journey.houseSighting.phase,journey.houseSighting.page,houseScene.getState().audioFailed].join('|');if(key!==signature){signature=key;updateUI();}
  renderer.render(scene,camera);
  // Real frame intervals, kept per segment. Hidden/paused time is excluded.
  if(active&&moving&&raw>0&&samples.length<60000)samples.push({leg:leg+1,ms:+(raw*1000).toFixed(2),calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});
@@ -149,5 +152,8 @@ try{
  ready=true;$('review-panel').inert=false;
  const query=new URLSearchParams(location.search),point=Number(query.get('point'));
  if(query.has('point')&&Number.isInteger(point)&&point>=1&&point<=10){journey.jump(point-1);choice.value=point-1;if(query.has('replay'))journey.replay();}
+ // Deterministic paused gate pose for matched review captures; never an arrival outcome.
+ const gateTime=Number(query.get('gate-time'));
+ if(query.has('gate-time')&&journey.index===3&&!journey.travel&&Number.isFinite(gateTime)&&gateTime>=0){journey.tryGate();journey.step(Math.min(5.7,gateTime));journey.paused=true;}
  reposition();window.storyLoading.ready();$('advance').focus({preventScroll:true});requestAnimationFrame(animate);
 }catch(error){console.error(error);window.storyLoading.fail('The route rehearsal could not load. Reload to try again.');}
