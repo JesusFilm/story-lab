@@ -49,9 +49,10 @@ export class CompanionReunion{
   this.actors.forEach((actor,i)=>{
    if(this.elapsed<stagger*i)return;
    const path=paths[i],length=lengthOf(path),remaining=length-actor.distance;
-   const pace=this.phase==='following'&&actor.z<-42?2:4.6;
+   // These rigs have idle/run only. Run ahead to the shelter, then settle.
+   const pace=4.6;
    let wanted=remaining<1.8?Math.max(.65,remaining*2.6):pace;
-   // Keep a visible gap when the leader slows inside the animal enclosure.
+   // Keep a visible gap when the leader eases into the final stop.
    if(this.phase==='following'&&i===1){
     const lead=this.actors[0],gap=Math.hypot(actor.x-lead.x,actor.z-lead.z);
     if(gap<3&&actor.z>lead.z)wanted=Math.min(wanted,Math.max(0,lead.speed+(gap-1.8)*2));

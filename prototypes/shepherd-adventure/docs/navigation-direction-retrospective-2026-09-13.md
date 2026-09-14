@@ -500,3 +500,36 @@ this audit update, a focused commit and remote feature-branch push. **Point 09b 
 accepted at this checkpoint.** This does not accept the unfinished point 10 scene
 or authorize release. All work remains on `codex/shepherd-story-rebuild`; no merge
 to main or deployment is authorized. The publication allowlist is unchanged.
+
+
+## 15 September update — Nativity approach pacing
+
+**Decision: run past the sheep, then approach the shelter quietly.** The user
+reported that the long final route felt slow: companions played running clips
+while travelling at walking speed, and the player walked most of the enclosure.
+All three now run along the long path at the existing 4.6 m/s target speed.
+The player settles into walking for only the final eight metres near the shelter.
+Both companion models have idle/run clips only, so the approved fallback lets
+them run ahead to their existing stopping positions and wait for the player.
+This supersedes the earlier sustained quiet walk through the sheep enclosure.
+
+The route, camera, dialogue, assets and other scenes remain unchanged. The rebuild
+still ends at its disabled **Route complete** placeholder. Recognition, an active
+Nativity interaction and the ending remain separate user-directed follow-up work.
+This movement change adds no character knowledge or scriptural claims.
+
+**Verification:** [approach walkthrough, screenshots and checks](../review/2026-09-15-nativity-approach/README.md).
+Companion regression checks cover running speeds past the sheep, the final walking
+transition, spacing, pause, action gating, replay/reset and the preserved ending
+placeholder. The leg completes in 13.2 simulated seconds with 50 ms steps; this is
+not a device performance benchmark. Full route/state/geometry checks and sampled
+landscape/portrait cameras pass. Browser review confirms the run and walk poses,
+companions waiting ahead, pause/resume and the unchanged arrival placeholder;
+no warning/error entries were observed. Screenshots are current captures from a
+walkthrough beginning at staged point 09, not a complete game playthrough.
+
+**Review outcome:** the user accepted this approach change and explicitly requested
+an audit update, focused commit and remote feature-branch push. **Point 10 approach
+pacing is accepted at this checkpoint; recognition and ending remain unfinished.**
+All work remains on `codex/shepherd-story-rebuild`. No merge to main or deployment
+is authorized. The publication allowlist remains unchanged.

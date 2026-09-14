@@ -103,8 +103,8 @@ export class RouteRehearsal{
   if(this.paused||!this.travel||!Number.isFinite(dt)||dt<=0)return;
   const t=this.travel,remaining=t.length-t.progress;
   // Run between discoveries; settle into a walk for the last three metres.
-  // The sheep enclosure is a deliberate, sustained quiet approach.
-  const quiet=t.index===9&&this.position.z<-42;
+  // Pass the sheep at a run; only the short shelter approach is quiet.
+  const quiet=t.index===9&&remaining<8;
   this.gait=quiet||remaining<3?'walk':'run';
   const desired=this.gait==='run'?4.6:Math.min(2,Math.max(.45,remaining*2.5));
   const speed=t.speed+(desired-t.speed)*(1-Math.exp(-6*dt));

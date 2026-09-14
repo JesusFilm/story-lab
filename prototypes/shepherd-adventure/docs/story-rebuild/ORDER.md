@@ -210,3 +210,14 @@ commit and remote feature-branch push. Point 09b is accepted at this checkpoint.
 [Audit entry](../navigation-direction-retrospective-2026-09-13.md#15-september-update--companion-reunion-and-biblical-continuity) ·
 [Scene and review](scenes/09-house-9.md).
 Point 10 remains unfinished. No merge to main or deployment is authorized.
+
+
+### Point 10 approach accepted checkpoint — 15 September 2026
+
+The user accepted running past the sheep with a short final walk near the shelter.
+Companions have idle/run clips only, so they run ahead and wait while the player
+walks the final eight metres. This supersedes the sustained enclosure walk.
+[Scene](scenes/10-nativity.md) · [Review](../../review/2026-09-15-nativity-approach/README.md) ·
+[Audit entry](../navigation-direction-retrospective-2026-09-13.md#15-september-update--nativity-approach-pacing).
+The user authorized the audit update, focused commit and remote feature-branch push.
+Recognition, active final interaction and ending remain pending. No merge or deployment.

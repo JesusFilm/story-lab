@@ -16,11 +16,24 @@ assert(j.advanceReunion());assert.equal(j.reunion.phase,'invitation');assert(!j.
 assert(j.advanceReunion());assert(!j.advanceReunion());until('waiting');
 const actors=structuredClone(j.reunion.actors);j.step(60);assert.deepEqual(j.reunion.actors,actors,'No disappearance or departure while the player waits');
 assert.equal(j.travel,null);assert(j.next());assert(!j.next());
+let walkingStart=null,approachSeconds=0;
 while(j.travel){
+ const remaining=j.travel.length-j.travel.progress;
  j.step(.05);const [a,b]=j.reunion.actors;
+ approachSeconds+=.05;
+ if(j.gait==='walk'&&!walkingStart)walkingStart={remaining,z:j.position.z};
+ if(j.position.z<-44&&j.position.z>-62){
+  assert.equal(j.gait,'run','Player runs through the long sheep-pen stretch');
+  assert(j.travel.speed>4,'Player travels at running speed past the sheep');
+ }
+ for(const actor of [a,b])if(actor.z<-44&&actor.z>-62)assert(actor.speed>4,'Companions must not run in slow motion past the sheep');
  assert(Math.hypot(a.x-b.x,a.z-b.z)>1.4,'Companions keep space when slowing');
  for(const a of j.reunion.actors)assert(Math.hypot(a.x-j.position.x,a.z-j.position.z)>1,'Player does not pass through a companion');
 }
+assert(walkingStart&&walkingStart.remaining>7.7&&walkingStart.remaining<=8);
+assert(walkingStart.z<-63,'Quiet walk begins beyond the sheep near the shelter');
+assert(approachSeconds<15,'The long approach should retain urgency');
+console.log('Nativity approach:',{walkingStart,approachSeconds});
 until('complete');assert.equal(j.index,9);
 assert.equal(j.phase,'choice','Ending remains an explicit placeholder');
 // Rapid follow input during departure cannot send the player through a waiting companion.
