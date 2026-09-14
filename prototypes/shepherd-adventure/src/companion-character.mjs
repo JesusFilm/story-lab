@@ -4,7 +4,7 @@ import * as THREE from 'three';
 export class CompanionCharacter {
  constructor(parent,variant){this.parent=parent;this.variant=variant;}
  async load(loader){
-  const {scene,animations}=await loader.loadAsync(`/assets/shepherd-companion-${this.variant}.glb`);
+  const {scene,animations}=await loader.loadAsync(new URL(`../assets/shepherd-companion-${this.variant}.glb`,import.meta.url).href);
   this.model=scene;this.parent.add(scene);this.mixer=new THREE.AnimationMixer(scene);
   this.actions={};
   for(const name of ['idle','run']){

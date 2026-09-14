@@ -1,6 +1,6 @@
 # 09 — Shelter owner and companion reunion
 
-Status: **09a owner accepted for checkpoint · 09b reunion remains a placeholder · 14 September 2026**.
+Status: **09a owner accepted for checkpoint · 09b reunion accepted for checkpoint · 15 September 2026**.
 [Rebuild plan and scene index](../README.md) · [User-drawn route](../reference-route.png)
 
 ## Place and approach
@@ -11,18 +11,18 @@ House 9, beside the start of the final animal-area approach. The companions arri
 
 The householder owns the distant animal shelter and allowed Mary and Joseph to stay there. He gives directions. The other shepherds then arrive, stop and ask where to go; the main shepherd directs them, they run ahead, and the player chooses to follow.
 
-## Route-rehearsal placeholder
+## Current rehearsal
 
-The owner conversation now gates the temporary **Go to the Nativity Scene** action.
-That action walks the existing final route; it bypasses the unimplemented reunion.
-Display the reunion as pending until it exists. Staged entry reconstructs an open,
-lit gate and equipped lantern, with a fresh owner conversation.
+The owner conversation hands off to the companion arrival after **Thank you**.
+The companions use the entrance-side lane through the opened, lit timber gate,
+stop at House 9, exchange directions, and run ahead. **Follow the others** starts
+the existing final route. Point 10's detailed scene and ending remain placeholders.
+Staged House 9 entry reconstructs an open, lit gate and equipped lantern, with a
+fresh owner conversation.
 
-## Direction to settle before scene implementation
-
-09 owner direction is implemented below. 09 reunion remains separate work: timing,
-where companions stop, the player action for giving directions and Follow the
-others. Companions reunite here, not at point 08.
+[Reunion only](../../../rehearsal.html?point=9&reunion) ·
+[Review evidence](../../../review/2026-09-15-companion-reunion/README.md) ·
+[Biblical and historical continuity](../biblical-and-historical-continuity.md).
 
 ## Draft acceptance criteria
 
@@ -57,8 +57,9 @@ and the player advances four instant-text cues:
    the stall.”
 
 **Continue** advances the first three cues. **Thank you** dismisses the diorama;
-the shepherd waits for **Go to the Nativity Scene**. No automatic departure occurs.
-The companion cutscene/reunion and point 10 ending remain placeholders.
+the shepherd stays at House 9. The accepted owner checkpoint originally offered
+**Go to the Nativity Scene**; the reunion draft below now replaces that temporary
+action. The player still chooses when to depart.
 
 The owner is a middle-aged, shorter, fuller man with a large dark beard, colorful
 burgundy/teal/ochre robes and a coordinated headwrap. Three matching illustrations
@@ -84,3 +85,69 @@ and offers retry without changing reading position. Pause, reduced motion, repla
 staged jumps and reset use the existing shared behavior. The user subsequently completed play-testing and accepted this checkpoint,
 authorizing the audit update, commit and feature-branch push. This acceptance
 covers the owner conversation only; the reunion and ending remain unfinished.
+
+
+## Companion reunion draft — 15 September 2026
+
+**User play-test complete; accepted for checkpoint.**
+The user chose a brief relieved gathering followed by renewed urgency, with an
+explicit follow choice. Their green map annotation establishes the entrance-side
+House 1 / House 3 approach; do not reuse the former west-side arrival.
+
+### Performance and actions
+
+1. After **Thank you**, the camera cuts back toward the timber gate. Two distinct
+   existing companions run up the House 3 lane, staggered, crossing the centre of
+   the actual opening beside the lamp. Soft synthetic footsteps accompany motion
+   if browser audio is available; text remains sufficient with sound unavailable.
+2. After both have passed the gate, the camera eases toward the House 9 group over
+   three seconds. They slow, stop in a loose triangle and pause briefly. Reduced
+   motion cuts between the two fixed views while preserving their actual journey.
+3. Companion: **“We saw your light! Have you found the way?”**
+   Player action: **Tell them what you learned**.
+4. Shepherd: **“Yes. This man gave the couple shelter. They’re in the stall at the
+   far end of the animal pen.”** He turns toward the onward route and gestures
+   with his free hand. Player action: **Continue**.
+5. Other companion: **“Then come—let’s see the child the angel told us about!”**
+   Player action: **Let’s go**.
+6. They run a short way ahead; the camera widens to retain the main shepherd and
+   onward route. **Follow the others** appears once both companions are ahead at their waiting
+   positions. Waiting leaves them visible near the animal-area entrance. Rapid
+   input during their short departure cannot send the player through them.
+7. Companions continue along the existing approach when the player follows.
+   They maintain a gap as they slow, and stop clear of the player’s walking path.
+   Detailed final grouping remains part of point 10’s future review. No ending starts;
+   point 10 remains a separately directed scene placeholder.
+
+### Textual continuity
+
+Luke 2:10–12 says the birth has already happened and supplies the sign of the
+wrapped baby in a manger. The angel's recorded message gives no parental names.
+This exchange therefore uses **the couple** and **the child**. The owner’s earlier
+“about to give birth” describes the past arrival, not a still-future birth.
+The encounter and dialogue are invented connective storytelling, not scripture.
+See the continuity guide for evidence and earlier-scene follow-ups, including
+unestablished donkey knowledge. Existing costumes are reused, not newly certified
+as historically accurate.
+
+### Implementation boundary and review
+
+The reunion owns its state, actor paths, presentation and camera in separate
+modules; shared path sampling was extracted without changing the player's routes.
+No settlement structure, light placement or other scene interaction was moved.
+Companion load failures retain the existing loader and reload retry. Replay/jump
+and reset reconstruct fresh scene state; a direct point 10 jump retains its old
+placeholder without staging the companions. Direct reunion review still runs the
+owner's completion transitions before beginning the cinematic.
+
+The user should judge gate geography, relief/urgency, reading rhythm, pointing,
+run-to-idle blending and the follow handoff. Passing technical checks is not
+creative acceptance. No commit, merge or deployment marks this draft accepted.
+
+
+### Reunion accepted checkpoint — 15 September 2026
+
+The user completed play-testing and authorized the feature audit update, focused
+commit and remote branch push. Point 09b is accepted at this checkpoint.
+[Audit entry](../../navigation-direction-retrospective-2026-09-13.md#15-september-update--companion-reunion-and-biblical-continuity).
+Point 10 remains unfinished. No merge to main or deployment is authorized.

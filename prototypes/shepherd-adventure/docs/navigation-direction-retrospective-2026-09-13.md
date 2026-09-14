@@ -449,3 +449,54 @@ update, focused feature-branch commit and remote push. **Point 09a is accepted
 at this checkpoint.** Point 09b and point 10 remain placeholders. All work
 remains on `codex/shepherd-story-rebuild`; no merge to main or deployment is
 authorized. The publication allowlist is unchanged.
+
+
+## 15 September update — Companion reunion and biblical continuity
+
+**Decision: the opened way brings the shepherds together.** The user chose a
+brief relieved gathering at House 9, followed by renewed urgency and an explicit
+follow choice. The supplied green route establishes the House 1 / House 3 side
+of the timber gate as the companions' approach, replacing the former west-side
+cinematic direction.
+
+After the owner's **Thank you**, the camera looks back toward the opened, lit
+gate. Both existing companion characters approach in the lane, cross the actual
+opening and gather beside the main shepherd at House 9. **Tell them what you
+learned** shares the owner's directions. The main shepherd turns and gestures
+toward the animal pen; a further invitation recalls the angel's message.
+**Let’s go** sends the companions ahead. Once both reach visible waiting
+positions, **Follow the others** lets the player depart. Waiting has no penalty;
+pause, replay, staged review and reset remain supported. The companions maintain
+spacing as they slow and stop clear of the player's final walking path. Point 10
+retains its unfinished scene/ending handoff.
+
+**Textual continuity:** the user asked whether the shepherds could know the names
+Mary and Joseph. Luke 2:10–12 records an already-born Savior and the sign of the
+wrapped baby in a manger, without giving parental names. The new dialogue uses
+**the couple** and **the child the angel told us about**. The owner's earlier
+past-tense report of impending birth remains unchanged. The prototype instructions
+now require biblical continuity and historical-plausibility checks for character
+knowledge, chronology, clothing, props and environment details. The linked
+[continuity guide](story-rebuild/biblical-and-historical-continuity.md) distinguishes
+scriptural evidence from invented connective storytelling and records the earlier
+unestablished donkey premise for a separate review. Existing assets were reused;
+this work does not certify their historical accuracy.
+
+**Verification:** [reunion review, captures and checks](../review/2026-09-15-companion-reunion/README.md).
+State checks cover arrival/action gating, held reading, pause, waiting, rapid input,
+replay/reset and the preserved ending placeholder. Both companion paths cross the
+measured timber-gate centre, with more than 1.34 m clearance from loaded open-gate
+mesh hulls. Onward samples maintain over 1 m from the player and over 1.4 m between
+companions. House 9 owner, empty-stall and House 8 state regressions pass. Full
+route checks preserve settlement placements, route clearance and sampled following
+camera visibility in landscape/portrait. Browser review covered the point 08
+lighting/opening actions through House 9 and reunion, plus portrait/reduced-motion
+reading and waiting, and the final follow handoff. Captures distinguish staged
+poses from the integrated walkthrough. Syntax and whitespace checks pass; no new
+performance benchmark or physical-device certification is claimed.
+
+**Review outcome:** the user completed play-testing and explicitly authorized
+this audit update, a focused commit and remote feature-branch push. **Point 09b is
+accepted at this checkpoint.** This does not accept the unfinished point 10 scene
+or authorize release. All work remains on `codex/shepherd-story-rebuild`; no merge
+to main or deployment is authorized. The publication allowlist is unchanged.

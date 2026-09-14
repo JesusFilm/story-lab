@@ -190,3 +190,23 @@ commit and remote feature-branch push. Point 09a is accepted at this checkpoint.
 [Scene and review](scenes/09-house-9.md).
 The companion reunion/cutscene at 09b and point 10 ending remain placeholders.
 No merge to main or deployment is authorized.
+
+
+### Point 09b review draft — 15 September 2026
+
+Implemented the approved brief reunion: entrance-side companions visibly cross
+the opened timber gate, stop at House 9, ask and receive directions, then run ahead
+and wait for an explicit follow action. The names Mary and Joseph are omitted from
+the shepherd's report because Luke does not establish that he knows them yet.
+[Scene](scenes/09-house-9.md) · [Review](../../review/2026-09-15-companion-reunion/README.md) ·
+[Standing continuity guidance](biblical-and-historical-continuity.md).
+User creative acceptance is pending. Point 10 remains a placeholder; no merge or deployment.
+
+
+### Point 09b accepted checkpoint — 15 September 2026
+
+The user completed play-testing and authorized the feature audit update, focused
+commit and remote feature-branch push. Point 09b is accepted at this checkpoint.
+[Audit entry](../navigation-direction-retrospective-2026-09-13.md#15-september-update--companion-reunion-and-biblical-continuity) ·
+[Scene and review](scenes/09-house-9.md).
+Point 10 remains unfinished. No merge to main or deployment is authorized.

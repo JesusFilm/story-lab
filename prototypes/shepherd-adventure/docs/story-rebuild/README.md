@@ -2,7 +2,7 @@
 
 # Shepherd Adventure: village journey rebuild
 
-13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 has a playable draft awaiting review; point 02 passed the user play-test and is accepted; point 03 is accepted for checkpoint after its diorama continuity revision; point 04 is accepted after a successful user play-test; point 05 is ready for review; points 06 and 07 are accepted after user play-tests; point 08 is accepted after user play-testing; point 09a's owner conversation is accepted after user play-testing; 09b and 10 remain placeholders.
+13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 has a playable draft awaiting review; point 02 passed the user play-test and is accepted; point 03 is accepted for checkpoint after its diorama continuity revision; point 04 is accepted after a successful user play-test; point 05 is ready for review; points 06 and 07 are accepted after user play-tests; point 08 is accepted after user play-testing; point 09a's owner conversation is accepted after user play-testing; 09b is accepted after user play-testing; point 10 remains a placeholder.
 
 [Open the local rehearsal](../../rehearsal.html) · [Actual rehearsal map](../../map/rehearsal-map.svg) · [Implementation and checks](../../review/2026-09-13-route-rehearsal/README.md)
 
@@ -51,7 +51,7 @@ Point 03 has an **accepted helpful exchange and revised diorama continuity**. [R
 Point 04 has a **barred-gate scene accepted after a successful user play-test**. [Review it](../../review/2026-09-14-barred-gate/README.md).
 Point 05 has a **no-answer and tracks scene ready for user review**. [Review it](../../review/2026-09-14-house-5/README.md).
 Points 06 and 07 are **accepted for checkpoint after user play-tests**: [animal pen](scenes/06-animal-pen.md) and [House 8](scenes/07-house-8.md).
-Point 08 is **accepted at checkpoint after user play-testing**: [empty stall and gate](scenes/08-empty-stall-and-gate.md). Point 09a has an **owner conversation accepted at checkpoint after user play-testing**: [House 9 review](../../review/2026-09-14-house-9/README.md). Point 09b's reunion and point 10 retain **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
+Point 08 is **accepted at checkpoint after user play-testing**: [empty stall and gate](scenes/08-empty-stall-and-gate.md). Point 09a has an **owner conversation accepted at checkpoint after user play-testing**: [House 9 review](../../review/2026-09-14-house-9/README.md). Point 09b's reunion is **accepted after user play-testing** ([scene](scenes/09-house-9.md), [evidence](../../review/2026-09-15-companion-reunion/README.md)); point 10 retains **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
 
 ## First implementation: a walking rehearsal
 
@@ -74,7 +74,7 @@ Use minimal stand-in outcomes so later points can be reviewed:
 - Initial scaffold behavior: leaving 01 equipped a lit lantern. The current scene draft replaces this bypass with the guided preparation and explicit Take lamp action; later staged jumps still reconstruct that outcome.
 - At 04 the gate stays closed and dark. The next leg detours toward the well; it must not cross the gate.
 - Leaving 08 applies gate-open state without claiming the physical interaction has been implemented. It must not trigger the old companion fly-by.
-- At 09, “Move to next point” can stand in for the reunion and follow choice until that scene is built. The placeholder says companions are not staged yet; it must not claim they appeared or spoke.
+- At 09, the reunion draft now replaces the original next-point placeholder. Companions arrive after the owner exchange; the player shares directions and explicitly chooses **Follow the others**.
 - Scene jumps reconstruct only earlier outcomes. Jumping to 04 gives a lantern and closed gate; jumping to 09 gives a lantern and open gate. Reset restores initial state. Outcomes apply once and reset deterministically.
 
 Detailed lighting cues, House 9's searching camera, dialogue and varied actions remain separate scene work. Basic arrival framing in the rehearsal should make the intended structure identifiable, but its polish is not final acceptance.
@@ -189,3 +189,25 @@ and remote feature-branch push. Point 08 is accepted at this checkpoint.
 [Audit entry](../navigation-direction-retrospective-2026-09-13.md#14-september-update--empty-stall-open-gate-and-house-9-reveal) ·
 [Scene and review](scenes/08-empty-stall-and-gate.md).
 Points 09–10 remain placeholders. No merge to main or deployment is authorized.
+
+
+### Point 09b review draft — 15 September 2026
+
+Companions visibly approach through the opened timber gate from the House 3 lane,
+gather at House 9, receive directions, run ahead and wait for **Follow the others**.
+The dialogue uses **the couple** and **the child**, reflecting the shepherds'
+established knowledge rather than the narrator's knowledge of Mary and Joseph.
+[Scene and wording](scenes/09-house-9.md) ·
+[Review and checks](../../review/2026-09-15-companion-reunion/README.md).
+The standing [biblical and historical continuity guide](biblical-and-historical-continuity.md)
+also records earlier-scene follow-ups. This is an implemented draft awaiting the
+user's play-test, not acceptance; point 10 remains unfinished. No merge or deployment.
+
+
+### Point 09b accepted checkpoint — 15 September 2026
+
+The user completed play-testing and authorized the feature audit update, focused
+commit and remote feature-branch push. Point 09b is accepted at this checkpoint.
+[Audit entry](../navigation-direction-retrospective-2026-09-13.md#15-september-update--companion-reunion-and-biblical-continuity) ·
+[Scene and review](scenes/09-house-9.md).
+Point 10 remains unfinished. No merge to main or deployment is authorized.

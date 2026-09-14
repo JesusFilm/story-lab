@@ -21,10 +21,12 @@ adaptations; the biblical frame draws on Luke 2:8–20.
 The ten-point winding route is available as a [walking rehearsal](rehearsal.html).
 Run the normal local server, then open `/rehearsal.html`. Move to next point walks
 the real corridor; Review tools offers jump, replay, capture and reduced motion.
-Scene actions now replace the temporary next-point button at points 01–07.
-House 8 (point 07) offers a knock, an illustrated old man’s advice and explicit
-exploration of the empty stall; its user play-test is accepted. Points 08–10,
-including the rear-gate action, House 9 reveal and reunion, remain placeholders.
+Scene actions now replace the temporary next-point button at points 01–09.
+House 8, the empty stall/gate and House 9 owner have accepted checkpoints.
+The companion reunion (09b) is accepted after user play-testing: the others cross the opened
+gate, gather for directions and run ahead, with an explicit follow action.
+[Reunion review](review/2026-09-15-companion-reunion/README.md).
+Point 10 remains a placeholder.
 The scene index records the other scenes’ individual review status. The original
 `/` experience remains available.
 

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdirSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
-const out=process.env.HOUSE_REVIEW_OUTPUT||fileURLToPath(new URL('../review/2026-09-14-house-9/',import.meta.url));mkdirSync(out,{recursive:true});
+const out=process.env.HOUSE_REVIEW_OUTPUT||fileURLToPath(new URL('../review/2026-09-15-companion-reunion/owner-regression/',import.meta.url));mkdirSync(out,{recursive:true});
 const origin=process.env.WATCH_GAME_TEST_ORIGIN||'http://127.0.0.1:8766';
 const browser=await chromium.launch({headless:true,executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 const errors=[],state=p=>p.evaluate(()=>window.routeRehearsal.getState());
@@ -22,7 +22,10 @@ try{
  await p.locator('#sighting-next').click();assert.match(await p.locator('.sd-text').textContent(),/no room in my house/);await shot(p,'05-owner-shelter');
  await p.locator('#pause').click();assert(await p.locator('#sighting-next').isDisabled());await p.waitForTimeout(300);assert.equal((await state(p)).houseOwner.page,2);await p.locator('#pause').click();
  await p.locator('#sighting-next').click();await shot(p,'06-pointing');assert.match(await p.locator('.sd-text').textContent(),/far end/);await p.waitForTimeout(400);assert.equal((await state(p)).houseOwner.page,3);
- await p.locator('#sighting-next').click();assert(await p.locator('#sighting-overlay').isHidden());assert.equal((await state(p)).destination,null);assert.equal(await p.locator('#advance').textContent(),'Go to the Nativity Scene');await shot(p,'07-onward');
+ await p.locator('#sighting-next').click();assert(await p.locator('#sighting-overlay').isHidden());assert.equal((await state(p)).destination,null);assert.equal((await state(p)).reunion.phase,'arriving');
+ await p.getByRole('button',{name:'Tell them what you learned'}).waitFor({state:'visible',timeout:30000});
+ await p.locator('#advance').click();await p.locator('#advance').click();await p.locator('#advance').click();
+ assert.equal(await p.locator('#advance').textContent(),'Follow the others');await shot(p,'07-onward');
  await p.locator('#advance').dblclick();await p.waitForFunction(()=>window.routeRehearsal.getState().index===9&&window.routeRehearsal.getState().destination===null,null,{timeout:60000});assert.match(await p.locator('#beat').textContent(),/Scene pending/);await shot(p,'08-nativity-placeholder');
  await jump(p,8);assert.equal((await state(p)).houseOwner.phase,'ready');await p.locator('#advance').click();await p.waitForTimeout(300);await jump(p,6);assert.equal((await state(p)).sighting.open,false);
  // Shared presenter and knock still select House 8's own response and imagery.
@@ -32,7 +35,7 @@ try{
  await m.addInitScript(()=>{window.AudioContext=class{constructor(){throw Error('Sound off test');}};});
  await m.goto(origin+'/rehearsal.html?point=9');await ready(m);await shot(m,'09-mobile-arrival');await m.locator('#advance').tap();await conversation(m);
  for(let i=0;i<3;i++){assert.equal(await m.locator('.sd-window').evaluate(e=>e.scrollHeight>e.clientHeight+1),false);await m.locator('#sighting-next').tap();}
- assert.equal(await m.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await shot(m,'10-mobile-pointing');await m.locator('#sighting-next').tap();assert.equal(await m.locator('#advance').textContent(),'Go to the Nativity Scene');await m.close();
+ assert.equal(await m.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await shot(m,'10-mobile-pointing');await m.locator('#sighting-next').tap();assert.equal((await state(m)).reunion.phase,'arriving');await m.close();
  const f=await browser.newPage({viewport:{width:1280,height:720}});f.on('pageerror',e=>errors.push(e.message));await f.route('**/assets/house-9/*.png',r=>r.abort());
  await f.goto(origin+'/rehearsal.html?point=9');await ready(f);await f.locator('#advance').click();await conversation(f);assert((await state(f)).sighting.failed);
  for(let i=0;i<3;i++)await f.locator('#sighting-next').click();assert.match(await f.locator('.sd-text').textContent(),/far end/);await shot(f,'11-image-fallback');

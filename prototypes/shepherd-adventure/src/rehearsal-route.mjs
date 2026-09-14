@@ -1,3 +1,6 @@
+import {CompanionReunion} from './companion-reunion.mjs';
+import {sampleCorridor,lengthOf,positionOn} from './route-geometry.mjs';
+export {sampleCorridor,lengthOf,positionOn} from './route-geometry.mjs';
 import {EmptyStall} from './empty-stall.mjs';
 import {HouseTracks,SEARCH_POINTS} from './house-tracks.mjs';
 // The ten-point user-drawn village walk. Structures retain the accepted layout.
@@ -21,44 +24,21 @@ const definitions=[
  ['nativity','Nativity shelter','Follow past the sheep and arrive quietly. The detailed ending is pending.','Nativity shelter',[-33,-73],[[-13.5,-33],[-16,-36],[-21,-39],[-25,-42],[-27.5,-48],[-28,-55],[-27.5,-62],[-27,-67],[-28,-72]]]
 ];
 
-// Hermite interpolation with restrained tangents; tested against loaded geometry.
-export function sampleCorridor(controls){
- const result=[];
- for(let j=0;j<controls.length-1;j++){
-  const a=controls[Math.max(0,j-1)],b=controls[j],c=controls[j+1],d=controls[Math.min(controls.length-1,j+2)];
-  const steps=Math.max(8,Math.ceil(Math.hypot(c.x-b.x,c.z-b.z)/.25));
-  for(let i=0;i<steps;i++){
-   const t=i/steps,t2=t*t,t3=t2*t;
-   const v=k=>(2*t3-3*t2+1)*b[k]+(t3-2*t2+t)*.35*(c[k]-a[k])+(-2*t3+3*t2)*c[k]+(t3-t2)*.35*(d[k]-b[k]);
-   result.push({x:v('x'),z:v('z')});
-  }
- }
- return [...result,{...controls.at(-1)}];
-}
 export const STOPS=definitions.map(([id,title,beat,feature,target,controls],index)=>({id:`s${String(index+1).padStart(2,'0')}-${id}`,number:index+1,title,beat,feature,target:point(target),anchor:point(controls.at(-1)),controls:controls.map(point)}));
 export const CORRIDORS=STOPS.map((stop,index)=>({edge:{id:`rehearsal-${index+1}`,a:index?STOPS[index-1].id:'entry',b:stop.id},points:sampleCorridor([index?STOPS[index-1].anchor:ENTRY,...stop.controls])}));
-export function lengthOf(points){return points.slice(1).reduce((sum,p,i)=>sum+Math.hypot(p.x-points[i].x,p.z-points[i].z),0);}
-export function positionOn(points,distance){
- for(let i=1;i<points.length;i++){
-  const a=points[i-1],b=points[i],length=Math.hypot(b.x-a.x,b.z-a.z);
-  if(distance<=length||i===points.length-1){const t=length?Math.min(1,Math.max(0,distance/length)):0;return {x:a.x+(b.x-a.x)*t,z:a.z+(b.z-a.z)*t,heading:Math.atan2(b.x-a.x,b.z-a.z)};}
-  distance-=length;
- }
- return {...points[0],heading:Math.PI};
-}
-
 export class RouteRehearsal{
  constructor(){this.reset();}
- reset(){this.houseOwner=new HouseSighting();this.emptyStall=new EmptyStall();this.gateLit=false;this.houseAdvice=new HouseSighting();this.houseTracks=new HouseTracks();this.barredGate=new BarredGate();this.houseSighting=new HouseSighting();this.houseRejection=new HouseRejection();this.lampAssembly=new LampAssembly();this.index=-1;this.paused=false;this.travel=null;this.position={...ENTRY,heading:Math.PI};this.phase='choice';this.gait='walk';this.distance=0;this.lantern=false;this.gateOpen=false;this.staged=false;this.completed=new Set();}
+ reset(){this.reunion=new CompanionReunion(CORRIDORS[9].points);this.houseOwner=new HouseSighting();this.emptyStall=new EmptyStall();this.gateLit=false;this.houseAdvice=new HouseSighting();this.houseTracks=new HouseTracks();this.barredGate=new BarredGate();this.houseSighting=new HouseSighting();this.houseRejection=new HouseRejection();this.lampAssembly=new LampAssembly();this.index=-1;this.paused=false;this.travel=null;this.position={...ENTRY,heading:Math.PI};this.phase='choice';this.gait='walk';this.distance=0;this.lantern=false;this.gateOpen=false;this.staged=false;this.completed=new Set();}
  get stop(){return STOPS[this.index]||null;}
  get at(){return this.stop?.id||'entry';}
  get options(){return [];}
- setPriorOutcomes(index){this.houseOwner=new HouseSighting();if(index>8){this.houseOwner.knock();this.houseOwner.tick(3);while(!this.houseOwner.complete)this.houseOwner.advance();}this.emptyStall=new EmptyStall();this.gateLit=index>=8;if(index>=8){this.emptyStall.phase="house";this.emptyStall.lit=true;this.emptyStall.open=true;}this.houseAdvice=new HouseSighting();this.houseTracks=new HouseTracks();if(index>6){this.houseAdvice.knock();this.houseAdvice.tick(3);while(!this.houseAdvice.complete)this.houseAdvice.advance();}if(index>4){this.houseTracks.knock();this.houseTracks.tick(7.2);this.houseTracks.lookAround();this.houseTracks.spotted=true;}this.barredGate=new BarredGate();if(index>3){this.barredGate.begin();this.barredGate.tick(6);}this.houseSighting=new HouseSighting();this.houseRejection=new HouseRejection();if(index>2){this.houseSighting.knock();this.houseSighting.tick(3);while(!this.houseSighting.complete)this.houseSighting.advance();}if(index>1){this.houseRejection.knock();this.houseRejection.tick(7);}this.lampAssembly.reset();if(index>=1)this.lampAssembly.stageComplete();this.lantern=index>=1;this.gateOpen=index>=8;this.completed=new Set(STOPS.slice(0,index).map(s=>s.id));}
+ setPriorOutcomes(index){this.reunion=new CompanionReunion(CORRIDORS[9].points);if(index>8)this.reunion.stageComplete();this.houseOwner=new HouseSighting();if(index>8){this.houseOwner.knock();this.houseOwner.tick(3);while(!this.houseOwner.complete)this.houseOwner.advance();}this.emptyStall=new EmptyStall();this.gateLit=index>=8;if(index>=8){this.emptyStall.phase="house";this.emptyStall.lit=true;this.emptyStall.open=true;}this.houseAdvice=new HouseSighting();this.houseTracks=new HouseTracks();if(index>6){this.houseAdvice.knock();this.houseAdvice.tick(3);while(!this.houseAdvice.complete)this.houseAdvice.advance();}if(index>4){this.houseTracks.knock();this.houseTracks.tick(7.2);this.houseTracks.lookAround();this.houseTracks.spotted=true;}this.barredGate=new BarredGate();if(index>3){this.barredGate.begin();this.barredGate.tick(6);}this.houseSighting=new HouseSighting();this.houseRejection=new HouseRejection();if(index>2){this.houseSighting.knock();this.houseSighting.tick(3);while(!this.houseSighting.complete)this.houseSighting.advance();}if(index>1){this.houseRejection.knock();this.houseRejection.tick(7);}this.lampAssembly.reset();if(index>=1)this.lampAssembly.stageComplete();this.lantern=index>=1;this.gateOpen=index>=8;this.completed=new Set(STOPS.slice(0,index).map(s=>s.id));}
  actAtStall(){if(this.index!==7||this.travel||this.paused)return false;return this.emptyStall.act();}
  tryGate(){if(this.index!==3||this.travel||this.paused)return false;return this.barredGate.begin();}
  knockOnHouse(){if(![1,2,4,6,8].includes(this.index)||this.travel||this.paused)return false;return (this.index===8?this.houseOwner:this.index===6?this.houseAdvice:this.index===4?this.houseTracks:this.index===1?this.houseRejection:this.houseSighting).knock();}
  lookAround(){if(this.index!==4||this.travel||this.paused)return false;return this.houseTracks.lookAround();}
- advanceOwner(){if(this.index!==8||this.travel||this.paused)return false;return this.houseOwner.advance();}
+ advanceOwner(){if(this.index!==8||this.travel||this.paused)return false;const changed=this.houseOwner.advance();if(changed&&this.houseOwner.complete)this.reunion.begin();return changed;}
+ advanceReunion(){if(this.index!==8||this.travel||this.paused)return false;return this.reunion.advance();}
  advanceAdvice(){if(this.index!==6||this.travel||this.paused)return false;return this.houseAdvice.advance();}
  advanceSighting(){if(this.index!==2||this.travel||this.paused)return false;return this.houseSighting.advance();}
  assembleLamp(action){if(this.index!==0||this.travel||this.paused)return false;return this.lampAssembly.act(action);}
@@ -74,11 +54,12 @@ export class RouteRehearsal{
   if(this.index===1&&!this.houseRejection.complete)return false;
   if(this.index===2&&!this.houseSighting.complete)return false;
   if(this.index===6&&!this.houseAdvice.complete)return false;
-  if(this.index===8&&!this.houseOwner.complete)return false;
+  if(this.index===8&&(!this.houseOwner.complete||!this.reunion.canFollow))return false;
   if(this.index===3&&!this.barredGate.complete)return false;
   if(this.index===4&&!this.houseTracks.complete)return false;
   if(this.index===7&&!this.emptyStall.complete)return false;
   if(this.index>=0)this.completed.add(this.at);
+  if(this.index===8)this.reunion.follow();
   const fromStallReveal=this.index===7;this.beginLeg(this.index+1);this.travel.fromStallReveal=fromStallReveal;return true;
  }
  jump(index){
@@ -93,6 +74,7 @@ export class RouteRehearsal{
   this.beginLeg(index);return true;
  }
  step(dt){
+  if(!this.paused&&Number.isFinite(dt)&&dt>0)this.reunion.tick(dt);
   if(!this.paused&&!this.travel&&this.index===7&&Number.isFinite(dt)&&dt>0){
    this.emptyStall.tick(dt);this.gateLit=this.emptyStall.lit;this.gateOpen=this.emptyStall.open;
    const o=this.emptyStall.offset,a=STOPS[7].anchor,x=a.x+o.x,z=a.z+o.z;
@@ -129,7 +111,7 @@ export class RouteRehearsal{
   t.speed=speed;const amount=Math.min(dt*speed,t.length-t.progress);t.progress+=amount;this.distance+=amount;this.position=positionOn(t.points,t.progress);
   if(t.progress>=t.length-1e-8){this.index=t.index;this.position={...this.position,...STOPS[t.index].anchor};this.travel=null;this.phase='choice';}
  }
- snapshot(){return {index:this.index,at:this.at,phase:this.phase,paused:this.paused,staged:this.staged,lantern:this.lantern,lampAssembly:this.lampAssembly.snapshot(),houseRejection:this.houseRejection.snapshot(),houseSighting:this.houseSighting.snapshot(),houseAdvice:this.houseAdvice.snapshot(),houseOwner:this.houseOwner.snapshot(),barredGate:this.barredGate.snapshot(),houseTracks:this.houseTracks.snapshot(),gateLit:this.gateLit,emptyStall:this.emptyStall.snapshot(),gateOpen:this.gateOpen,distance:this.distance,position:{...this.position},destination:this.travel?.index??null,completed:[...this.completed]};}
+ snapshot(){return {reunion:this.reunion.snapshot(),index:this.index,at:this.at,phase:this.phase,paused:this.paused,staged:this.staged,lantern:this.lantern,lampAssembly:this.lampAssembly.snapshot(),houseRejection:this.houseRejection.snapshot(),houseSighting:this.houseSighting.snapshot(),houseAdvice:this.houseAdvice.snapshot(),houseOwner:this.houseOwner.snapshot(),barredGate:this.barredGate.snapshot(),houseTracks:this.houseTracks.snapshot(),gateLit:this.gateLit,emptyStall:this.emptyStall.snapshot(),gateOpen:this.gateOpen,distance:this.distance,position:{...this.position},destination:this.travel?.index??null,completed:[...this.completed]};}
 }
 
 // Actual knocking approaches, keyed by settlement house number.
