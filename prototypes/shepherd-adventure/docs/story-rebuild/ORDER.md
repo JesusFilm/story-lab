@@ -32,7 +32,7 @@ Use focused commits on this same branch as scenes are accepted. Bring main updat
 | 04 | Barred timber gate | Cannot pass; seek help near the well | Barrier action, shepherd options and clear reason for the detour |
 | 05 | House 5 | Nobody answers; human and animal tracks lead away | Silence, inspection, readable tracks and next lead; house unlit |
 | 06 | Village animal pen | Closed pen; the tracks continue past it | Establish nobody entered; observation options and continuation cue |
-| 07 | House 8 | Helpful resident recommends the stall beside the gate | Varied interaction and credible partial advice; house lit |
+| 07 | House 8 | Helpful resident recommends the stall beside the gate | Knock, old man’s illustrated advice, closed-door farewell and explicit stall exploration accepted in user play-test; house lit |
 | 08 | Empty stall / gate rear | Nobody at the stall, but opening the gate is progress | Search, opening action and thought/camera reveal of lit House 9 |
 | 09a | House 9 owner | The owner offered the family the shelter; gives directions | Dialogue, options and clear destination; house lit |
 | 09b | Companion reunion | Shepherds arrive through the opened gate, ask directions and run ahead | Arrival staging, exchange, animation, and explicit follow choice |
@@ -135,3 +135,16 @@ Creative acceptance awaits the user's play-test. No merge or deployment.
 ### Point 06 accepted checkpoint — 14 September 2026
 
 The animal pen now presents the approved quiet observation and **Follow the tracks** action. Marks continue outside the closed entrance and gradually fade toward the houses. The user completed their play-test and authorized the audit update, commit and feature-branch push. Point 06 is accepted at this checkpoint; points 07–10 retain their placeholders. [Scene and acceptance](scenes/06-animal-pen.md) · [Review evidence](../../review/2026-09-14-animal-pen/README.md). No merge or deployment.
+
+
+### Point 07 accepted checkpoint — 14 September 2026
+
+House 8 now offers **Knock on door**, a player-paced illustrated exchange with a
+friendly grey-haired old man, a closed-door farewell, and **Explore the empty
+stall**. The illustrations use the actual House 8 facade and original shepherd
+style reference. [Scene brief](scenes/07-house-8.md) ·
+[Review evidence](../../review/2026-09-14-house-8/README.md).
+The user completed their play-test and authorized the feature documentation update,
+focused commit and remote feature-branch push. Point 07 is accepted at this checkpoint.
+[Audit entry](../navigation-direction-retrospective-2026-09-13.md#14-september-update--house-8-helpful-advice-and-doorway-continuity).
+Points 08–10 retain their placeholders. No merge or deployment is authorized.

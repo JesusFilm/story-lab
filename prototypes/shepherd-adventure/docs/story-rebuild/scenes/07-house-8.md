@@ -1,6 +1,6 @@
 # 07 — House 8
 
-Status: **route placeholder ready · detailed implementation pending · user acceptance pending**.
+Status: **accepted for checkpoint · 14 September 2026 · user play-test complete**.
 [Rebuild plan and scene index](../README.md) · [User-drawn route](../reference-route.png)
 
 ## Place and approach
@@ -11,11 +11,11 @@ House 8, reached by the curved route from the pen; onward route wraps around the
 
 The owner did not see the travellers but gives a credible suggestion to ask at the stall by the gate. The advice is helpful even though the stall later proves empty.
 
-## Route-rehearsal placeholder
+## Preserved outgoing route
 
-Move to next point walks to Empty stall 1 on the rear side of the gate. Preserve this approach instead of taking a straight line through House 7.
+Explore the empty stall walks to Empty stall 1 on the rear side of the gate. Preserve this approach instead of taking a straight line through House 7.
 
-## Direction to settle before scene implementation
+## Earlier direction questions (resolved by the implementation direction below)
 
 Exact reason the owner suggests that stall; knock versus call; tone, lighting cue and direction gesture. Introducing the stallholder as someone with animal accommodation is a candidate, not approved wording.
 
@@ -31,8 +31,39 @@ After hearing the advice, describe whom you are seeking and why. Walk to the sta
 
 ## Review record
 
-- Agreed text/actions/shot: pending.
-- Before/after evidence and entry link: pending.
-- Functional checks and performance comparison: pending.
-- User keep/revise decision: pending.
-- Accepted commit: none.
+- Agreed direction: user requested implementation of the proposed sequence; see below.
+- Screenshots and entry link: see the review evidence below.
+- Functional checks: state and route checks pass; browser walkthrough recorded. No new performance benchmark.
+- User keep/revise decision: keep; play-test complete, documentation update, commit and feature-branch push authorized.
+- Accepted checkpoint: **Implement House 8 advice and consistent doorway art** on `codex/shepherd-story-rebuild`.
+
+
+## Implemented direction — 14 September 2026
+
+The user directed implementation of the proposed knock, friendly elderly resident,
+brief illustrated advice, closed-door farewell and explicit stall exploration.
+The three shared knocks use House 8's own facade translation and local approach.
+The house stays lit. The existing curved route around House 7 is unchanged.
+
+1. **Knock on door** triggers the free-left-hand gesture and three wooden sounds.
+2. Closed-door frame: “You hear footsteps. Someone is coming to the door.”
+3. **Ask about the travellers** opens the illustrated door. Shepherd:
+   “Have you seen a couple travelling with a donkey?”
+4. **Continue** shows the old man's advice: “I haven’t seen them, friend. But
+   there’s an empty stall beside the gate. They might have stopped there to rest.”
+5. **Thank you** shows the same closed facade: “He gives you a warm smile and
+   closes the door.”
+6. **Return to the village** dismisses the illustration. **Explore the empty
+   stall** alone starts the walk to point 08; its gate/search placeholder remains.
+
+All text is instant and player-paced. Door opening/closing is shown by illustrated
+cuts, as in House 3; the 3D door remains static. No voice recording is added.
+Image timeout/failure retains the shared complete-text fallback and retry control.
+The old man has full-body and portrait references matched to the original shepherd.
+The current screenshot anchors the facade, plaster patches, window and ring side.
+
+[Artwork and prompts](../../../assets/house-8/README.md) ·
+[Walkthrough and screenshots](../../../review/2026-09-14-house-8/README.md).
+The user completed their play-test and accepted this checkpoint, authorizing the
+feature documentation update, commit and feature-branch push. Integrated release
+review remains outstanding. No merge to main or deployment is authorized.

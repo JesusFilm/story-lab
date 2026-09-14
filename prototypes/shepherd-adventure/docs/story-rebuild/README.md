@@ -2,7 +2,7 @@
 
 # Shepherd Adventure: village journey rebuild
 
-13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 has a playable draft awaiting review; point 02 passed the user play-test and is accepted; point 03 is accepted for checkpoint after its diorama continuity revision; point 04 is accepted after a successful user play-test; point 05 is ready for review; points 06–10 remain placeholders.
+13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 has a playable draft awaiting review; point 02 passed the user play-test and is accepted; point 03 is accepted for checkpoint after its diorama continuity revision; point 04 is accepted after a successful user play-test; point 05 is ready for review; points 06 and 07 are accepted after user play-tests; points 08–10 remain placeholders.
 
 [Open the local rehearsal](../../rehearsal.html) · [Actual rehearsal map](../../map/rehearsal-map.svg) · [Implementation and checks](../../review/2026-09-13-route-rehearsal/README.md)
 
@@ -47,7 +47,8 @@ Point 02 has an **accepted rejection scene following a successful user play-test
 Point 03 has an **accepted helpful exchange and revised diorama continuity**. [Review it](../../review/2026-09-13-house-3/README.md).
 Point 04 has a **barred-gate scene accepted after a successful user play-test**. [Review it](../../review/2026-09-14-barred-gate/README.md).
 Point 05 has a **no-answer and tracks scene ready for user review**. [Review it](../../review/2026-09-14-house-5/README.md).
-Points 06–10 retain **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
+Points 06 and 07 are **accepted for checkpoint after user play-tests**: [animal pen](scenes/06-animal-pen.md) and [House 8](scenes/07-house-8.md).
+Points 08–10 retain **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
 
 ## First implementation: a walking rehearsal
 
@@ -150,3 +151,16 @@ Only helpful houses 3, 8 and 9 have fixed household lights. Houses 1 and 5 and a
 ### Point 06 accepted checkpoint — 14 September 2026
 
 The animal pen now presents the approved quiet observation and **Follow the tracks** action. Marks continue outside the closed entrance and gradually fade toward the houses. The user completed their play-test and authorized the audit update, commit and feature-branch push. Point 06 is accepted at this checkpoint; points 07–10 retain their placeholders. [Scene and acceptance](scenes/06-animal-pen.md) · [Review evidence](../../review/2026-09-14-animal-pen/README.md). No merge or deployment.
+
+
+### Point 07 accepted checkpoint — 14 September 2026
+
+House 8 now offers **Knock on door**, a player-paced illustrated exchange with a
+friendly grey-haired old man, a closed-door farewell, and **Explore the empty
+stall**. The illustrations use the actual House 8 facade and original shepherd
+style reference. [Scene brief](scenes/07-house-8.md) ·
+[Review evidence](../../review/2026-09-14-house-8/README.md).
+The user completed their play-test and authorized the feature documentation update,
+focused commit and remote feature-branch push. Point 07 is accepted at this checkpoint.
+[Audit entry](../navigation-direction-retrospective-2026-09-13.md#14-september-update--house-8-helpful-advice-and-doorway-continuity).
+Points 08–10 retain their placeholders. No merge or deployment is authorized.

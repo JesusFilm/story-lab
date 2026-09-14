@@ -2,7 +2,7 @@
 
 13 September 2026 · Baseline: accepted House 1 interaction.
 
-House 3 must reuse this interaction. The resident's response is a separate scene
+Houses 3 and 8 reuse this interaction. The resident's response is a separate scene
 beat; it must not change the established knock rhythm.
 
 - Offer one **Knock on door** action at the house's standing point. Disable
@@ -38,3 +38,17 @@ Verification when reused: compare both doors in motion; verify three synchronize
 strikes, lantern hand preservation, sound-off comprehension, pause/resume,
 reduced motion, replay/reset and single explicit departure. Test House 1 →
 House 3 → gate without changing the gate placeholder or opening the gate.
+
+
+## House 8 reuse — 14 September 2026
+
+Point 07 reuses the three-strike gesture, rings and wooden sounds with a House 8
+facade translation and its own local step distance. Its fixed light remains on;
+House 1's waking light and refusal stay specific to that house. A separate
+`houseAdvice` state uses the shared player-paced conversation timing, while the
+presenter selects House 8's doorway images and advice. Thank you reveals the
+closed-door farewell; Return to the village exposes Explore the empty stall.
+The existing curved outgoing route and point 08 placeholder are preserved.
+
+[Scene and accepted play-test](scenes/07-house-8.md) ·
+[Verification and captures](../../review/2026-09-14-house-8/README.md).

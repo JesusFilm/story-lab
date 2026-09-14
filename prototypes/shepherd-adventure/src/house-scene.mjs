@@ -27,13 +27,14 @@ export function createHouseScene(journey,scene,character){
   const source=context.createBufferSource();source.buffer=buffer;source.connect(context.destination);source.start();nodes.push(source);
   for(const frequency of [155,310]){const oscillator=context.createOscillator(),gain=context.createGain(),now=context.currentTime;oscillator.frequency.setValueAtTime(frequency,now);gain.gain.setValueAtTime(.22,now);gain.gain.exponentialRampToValueAtTime(.001,now+.16);oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(now+.17);nodes.push(oscillator);}
  }
- function active(){return [1,2,4].includes(journey.index)&&!journey.travel;}
- function current(){return journey.index===4?journey.houseTracks:journey.index===2?journey.houseSighting:journey.houseRejection;}
+ function active(){return [1,2,4,6].includes(journey.index)&&!journey.travel;}
+ function current(){return journey.index===6?journey.houseAdvice:journey.index===4?journey.houseTracks:journey.index===2?journey.houseSighting:journey.houseRejection;}
  function update(){
   if(previous!==current()){stopAudio();previous=current();}
   if(!active()){effects.visible=false;light.intensity=0;pane.material.opacity=0;stopAudio();return;}
   effects.visible=true;
   effects.position.set(journey.index===2?-1:0,journey.index===2?height(-10,0)-height(-9,18.5):0,journey.index===2?-18.5:0);
+  if(journey.index===6)effects.position.set(15,height(6,-20.5)-height(-9,18.5),-39);
   if(journey.index===4)effects.position.set(30.865,height(22,8.5)-height(-9,18.5),-10.6);
   if(context){if(journey.paused)context.suspend().catch(()=>{});else if(context.state==='suspended')context.resume().catch(()=>{});}
   if(journey.index!==1)return;

@@ -322,3 +322,46 @@ observation camera; physical-device performance was not measured.
 feature audit update, commit and remote push. **Point 06 is accepted at this
 checkpoint.** This does not accept other unfinished scenes or authorize release.
 All work remains on `codex/shepherd-story-rebuild`; no merge to main or deployment.
+
+
+## 14 September update — House 8 helpful advice and doorway continuity
+
+**Decision: a friendly resident offers a plausible place to look.** The user
+requested the House 3 knock/diorama pattern at House 8, followed by a closed door
+and an explicit action to explore the nearby empty stall. They emphasized matching
+the actual facade before generating artwork and matching the original shepherd's
+character style. The new resident is an old man with grey hair and beard, layered
+robes, a wooden staff and a warm, restrained expression.
+
+Point 07 now offers **Knock on door**, using the shared free-left-hand gesture and
+three wooden strikes fitted to House 8. The illustration shows the door opening.
+The shepherd asks about a couple travelling with a donkey. The old man replies:
+“I haven’t seen them, friend. But there’s an empty stall beside the gate. They
+might have stopped there to rest.” **Thank you** shows the closed facade;
+**Return to the village** exposes **Explore the empty stall**. Departure follows
+the unchanged curved route around House 7. Point 08's search/gate scene and later
+placeholders remain unchanged; arriving at the stall does not open the gate.
+
+Built-in ImageGen produced full-body and portrait character references and two
+matching doorway images. The actual House 8 screenshot anchors plaster patches,
+stone corners, undivided left window, timber lintels and flat parapet. The left-side
+ring and right-side door pivot remain the intended continuity contract. Reusing the
+closed frame for farewell avoids facade drift. The diorama uses still-image cuts;
+no new animated 3D door or resident was introduced. Text is instant and player-paced,
+with no voice recording; the shared image fallback/retry behavior is retained.
+
+**Verification:** [House 8 review and screenshots](../review/2026-09-14-house-8/README.md).
+New state checks cover duplicate actions, pause, held reading, return to anchor,
+explicit departure, closed gate and deterministic replay/jump/reset. House 1 and
+House 3 state regressions pass. Full route geometry/camera checks pass, with zero
+hidden-player samples in landscape/portrait. Browser review verified the full
+incoming approach, knock contact, advice, farewell, explicit stall walk and phone-width
+text/buttons without overflow. House 3's original cue still loads through the shared
+presenter. Syntax and diff checks pass. Network-failure injection and a new
+performance benchmark were not run; phone-width emulation is not a physical-device test.
+
+**Review outcome:** the user completed their play-test and authorized updating the
+feature docs, committing and pushing the feature branch. **Point 07 is accepted at
+this checkpoint.** This does not accept the other unfinished scenes or authorize
+release. All work remains on `codex/shepherd-story-rebuild`; no merge to main or
+deployment is authorized. The publication allowlist is unchanged.

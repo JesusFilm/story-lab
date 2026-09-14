@@ -6,6 +6,7 @@ import {SEARCH_POINTS} from '../src/house-tracks.mjs';
 import {JourneyCamera,routeLookahead,blocked} from '../src/journey-camera.mjs';
 import {height} from '../src/journey-terrain.mjs';
 function sighting(j){j.knockOnHouse();j.step(3);for(let i=0;i<4;i++)assert(j.advanceSighting());}
+function advice(j){j.knockOnHouse();j.step(3);for(let i=0;i<4;i++)assert(j.advanceAdvice());}
 function tracks(j){j.knockOnHouse();j.step(7.2);j.lookAround();while(!j.houseTracks.spotted)j.step(.1);}
 function prepareLamp(j){j.lampAssembly.begin();for(const id of ['body','wick','oil','flint','light'])assert(j.assembleLamp(id));assert(j.takeLamp());}
 
@@ -19,6 +20,7 @@ for(let index=0;index<10;index++){
  if(index===0)prepareLamp(j);
  if(index===1){j.knockOnHouse();j.step(7);}
  if(index===2)sighting(j);
+ if(index===6)advice(j);
  if(index===3){j.tryGate();j.step(6);}
  if(index===4)tracks(j);
  if(index<9)assert(j.next());else assert.equal(j.next(),false);
@@ -33,6 +35,7 @@ for(let leg=0;leg<10;leg++){
  if(leg===0)prepareLamp(urgency);
  if(leg===1){urgency.knockOnHouse();urgency.step(7);}
  if(leg===2)sighting(urgency);
+ if(leg===6)advice(urgency);
  if(leg===3){urgency.tryGate();urgency.step(6);}
  if(leg===4)tracks(urgency);
  if(leg<9)urgency.next();
@@ -134,7 +137,7 @@ for(const portrait of [false,true]){
   const frame=rig.update({player:{...p,y:height(p.x,p.z)},heading,ahead:routeLookahead(model.travel)||stop?.target,boxes:world.occluders,dt,portrait});
   if(blocked({x:p.x,y:height(p.x,p.z)+1.15,z:p.z},frame.position,world.occluders,.1))hidden++;
   minArm=Math.min(minArm,frame.arm);frames++;
-  if(!model.travel){if(model.index===9)break;if(model.index===0)prepareLamp(model);if(model.index===1){model.knockOnHouse();model.step(7);}if(model.index===2)sighting(model);if(model.index===3){model.tryGate();model.step(6);}if(model.index===4)tracks(model);assert(model.next(),'Camera walkthrough must progress');}
+  if(!model.travel){if(model.index===9)break;if(model.index===0)prepareLamp(model);if(model.index===1){model.knockOnHouse();model.step(7);}if(model.index===2)sighting(model);if(model.index===6)advice(model);if(model.index===3){model.tryGate();model.step(6);}if(model.index===4)tracks(model);assert(model.next(),'Camera walkthrough must progress');}
  }
  cameras.push({portrait,frames,hiddenPlayerSamples:hidden,minimumArm:minArm});
  assert.equal(hidden,0,'New corridor must preserve sampled player visibility');

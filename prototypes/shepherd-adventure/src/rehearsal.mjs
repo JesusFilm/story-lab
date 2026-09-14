@@ -63,7 +63,7 @@ function pose(dt,instant=false){
  instant=instant||(reduced&&!journey.travel);
  const p=journey.position,stop=journey.stop;
  const inspectingTracks=journey.index===4&&!journey.travel&&journey.houseTracks.searchStarted;
- const face=inspectingTracks?null:journey.index===4&&!journey.travel?{x:22,z:8.5}:journey.index===1&&!journey.travel?{x:-11.3,z:19.35}:journey.index===2&&!journey.travel?{x:-12.3,z:.85}:stop?.target;
+ const face=journey.index===6&&!journey.travel?{x:3.7,z:-19.65}:inspectingTracks?null:journey.index===4&&!journey.travel?{x:22,z:8.5}:journey.index===1&&!journey.travel?{x:-11.3,z:19.35}:journey.index===2&&!journey.travel?{x:-12.3,z:.85}:stop?.target;
  const targetHeading=!journey.travel&&face?Math.atan2(face.x-p.x,face.z-p.z):p.heading;
  const difference=Math.atan2(Math.sin(targetHeading-heading),Math.cos(targetHeading-heading));heading+=instant?difference:difference*(1-Math.exp(-5*dt));
  avatar.position.set(p.x,height(p.x,p.z)+.015,p.z);avatar.rotation.y=heading;
@@ -88,7 +88,7 @@ function pose(dt,instant=false){
  gateScene.tick(reduced,camera,dt);tracksScene.tick(reduced,camera,instant?10:dt);
 }
 function reposition(){cameraRig.reset();heading=journey.position.heading;clock=0;updateUI();resize();pose(0,true);renderer.render(scene,camera);last=performance.now();}
-function next(){if(!ready||journey.paused)return;if(journey.index===4&&!journey.travel&&!journey.houseTracks.complete){if(journey.houseTracks.phase==='ready')houseScene.begin();else journey.lookAround();updateUI();$('review-tools').open=false;return;}if(journey.index===3&&!journey.travel&&!journey.barredGate.complete){gateScene.begin();return;}if([1,2].includes(journey.index)&&!journey.travel&&!(journey.index===1?journey.houseRejection:journey.houseSighting).complete){houseScene.begin();$('review-tools').open=false;return;}if(journey.index===0&&!journey.travel&&!journey.lantern){lampScene.begin();$('review-tools').open=false;return;}if(journey.next()){updateUI();$('review-tools').open=false;}}
+function next(){if(!ready||journey.paused)return;if(journey.index===4&&!journey.travel&&!journey.houseTracks.complete){if(journey.houseTracks.phase==='ready')houseScene.begin();else journey.lookAround();updateUI();$('review-tools').open=false;return;}if(journey.index===3&&!journey.travel&&!journey.barredGate.complete){gateScene.begin();return;}if([1,2,6].includes(journey.index)&&!journey.travel&&!(journey.index===6?journey.houseAdvice:journey.index===1?journey.houseRejection:journey.houseSighting).complete){houseScene.begin();$('review-tools').open=false;return;}if(journey.index===0&&!journey.travel&&!journey.lantern){lampScene.begin();$('review-tools').open=false;return;}if(journey.next()){updateUI();$('review-tools').open=false;}}
 function pause(){if(!ready)return;journey.paused=!journey.paused;updateUI();}
 function timingSummary(){
  return STOPS.flatMap(stop=>{
@@ -144,7 +144,7 @@ function animate(now){
   const before=journey.distance;journey.step(dt);clock+=dt;lampScene.tick(dt);
   character.update(dt,{controller:{phase:journey.phase,gait:journey.gait},movement:dt?(journey.distance-before)/dt:0,gaitBlend:journey.gait==='run'?1:0,paused:false});pose(dt);
  }
- const key=[journey.index,journey.phase,journey.paused,journey.staged,journey.houseTracks.phase,journey.barredGate.phase,journey.houseRejection.phase,journey.houseSighting.phase,journey.houseSighting.page,houseScene.getState().audioFailed].join('|');if(key!==signature){signature=key;updateUI();}
+ const key=[journey.index,journey.phase,journey.paused,journey.staged,journey.houseTracks.phase,journey.barredGate.phase,journey.houseRejection.phase,journey.houseSighting.phase,journey.houseSighting.page,journey.houseAdvice.phase,journey.houseAdvice.page,houseScene.getState().audioFailed].join('|');if(key!==signature){signature=key;updateUI();}
  renderer.render(scene,camera);
  // Real frame intervals, kept per segment. Hidden/paused time is excluded.
  if(active&&moving&&raw>0&&samples.length<60000)samples.push({leg:leg+1,ms:+(raw*1000).toFixed(2),calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});

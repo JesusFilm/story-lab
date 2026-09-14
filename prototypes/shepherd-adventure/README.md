@@ -21,8 +21,12 @@ adaptations; the biblical frame draws on Luke 2:8–20.
 The ten-point winding route is available as a [walking rehearsal](rehearsal.html).
 Run the normal local server, then open `/rehearsal.html`. Move to next point walks
 the real corridor; Review tools offers jump, replay, capture and reduced motion.
-Dialogue, tracks, gate gestures, the House 9 reveal and companion reunion are still
-placeholders. The original `/` experience remains available.
+Scene actions now replace the temporary next-point button at points 01–07.
+House 8 (point 07) offers a knock, an illustrated old man’s advice and explicit
+exploration of the empty stall; its user play-test is accepted. Points 08–10,
+including the rear-gate action, House 9 reveal and reunion, remain placeholders.
+The scene index records the other scenes’ individual review status. The original
+`/` experience remains available.
 
 [Scene briefs and branch plan](docs/story-rebuild/README.md) ·
 [Actual rehearsal map](map/rehearsal-map.svg) ·
