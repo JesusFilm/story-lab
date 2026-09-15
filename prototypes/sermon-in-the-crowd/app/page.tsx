@@ -36,7 +36,7 @@ export default function Home() {
    <span>CHARACTERS</span>{([['v1','V1 · Blender'],['v2','V2 · Free models']] as const).map(([id,label])=><Button key={id} variant="ghost" aria-pressed={version===id} disabled={!ready||(id==='v2'&&!v2Ready)} onClick={()=>{engine.current?.version(id);setVersion(id);}}>{id==='v2'&&!v2Ready?(v2Failed?'V2 · Unavailable':'V2 · Loading…'):label}</Button>)}
    <Button variant="ghost" disabled={!ready} onClick={()=>engine.current?.closeView()}>Closer view</Button>
   </div>
-  {entered && <div className="film-comparison">
+  {<div className="film-comparison">
    {film ? <SermonFilm time={time} playing={playing} onClose={()=>setFilm(false)}/> : <button className="show-film" onClick={()=>setFilm(true)}>Show original film</button>}
   </div>}
   <section className={`invitation ${entered?'compact':''}`}>

@@ -2,7 +2,7 @@
 
 ## Change
 
-The scene now shows a floating original-film panel after entering the sermon.
+The scene now shows a floating original-film panel on the welcome screen, before playback starts.
 It sits below the character selector, follows the existing transport, and works
 with either character version. Hide it to recover the original unobstructed view;
 Show original film restores it at the current sermon position.

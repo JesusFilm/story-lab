@@ -120,7 +120,7 @@ The new runtime adapter is `lib/sermon/actors-v2.ts`. It uses independent cloned
 
 ## Original-film comparison
 
-After entering the sermon, a floating **Original film** panel follows playback,
+A floating **Original film** panel is visible on the welcome screen and follows playback,
 seeking and excerpt changes. Its sound is muted to preserve the scene's spatial
 audio. **Hide original film** / **Show original film** toggles the comparison without
 changing playback or the selected character version. The film stream needs internet;

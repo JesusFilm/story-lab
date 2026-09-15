@@ -193,11 +193,11 @@
         "models-v2/teacher.glb": "bdbcbbc386e4fdbbd41f4faf0c3461dc640056c03f248c2611a5f640e4551689",
         "loading-theatre.js": "b372451244da6eb7e0ef1551f867e671c6c5a760017efe4f4d5c6eb63fb55f82",
         "loading-theatre.css": "210a1f4764c0a11dff62586d999b1a458a4b69c79c082cd1fd15d8ed52b411a9",
-        "index.html": "c4d9743b5e0551c6c80df9fba4c3261f037accf5b9581ecaa93443993cbd3846",
-        "assets/experience-CGat0auY.js": "a2f8a0b7bb890e417efc1aafe96b5771a0888de008754988232a56042d3ace85",
+        "index.html": "5f5ffc708481e8b79af638e98069b12da41caf619de0fb50fbf1d72b54cc98c1",
+        "assets/experience-CdyM7HH0.js": "a5733773571d611b15977604ce3690ad3289dd082b248146d2e63847c4c0f3cd",
         "assets/hls-n74Cnh8A.js": "88bfe59b01387ea40f2cda5bee9420a06829d30ebf40d3736071523f2f8ea43d",
         "assets/index-DF8iLdJJ.css": "fc15fd66f8e2eac699ac871e7908a9ef2448819a3689f2f440a4aeba4ff8d15c",
-        "assets/index-wgkVPR94.js": "3daf2b0d7f6e079043b62535b75ef1f141841f3a99dd76718e5d6ef310a8bd94"
+        "assets/index-DX_NCqJj.js": "376976b8cc8462eac22bd6497702a1cdef1a1337343444933ae9d3c4e739225d"
       },
       "image_version": "3939e4ad17ae"
     },
@@ -389,7 +389,7 @@
     "prototypes/sermon-in-the-crowd/static.tsx": "d20eed74fa30eada0b746cacd494a4c0432bca91adc1b22720d2c59b433088fd",
     "prototypes/sermon-in-the-crowd/tsconfig.json": "d786050f85f25104fda8973a02149df0d37fd0be0d7510aecbd82b386b5ad654",
     "prototypes/sermon-in-the-crowd/app/layout.tsx": "7e31ad76584e988dfe481865087bf11f922e0999fdceac5c1d68ea0ef5e90d2e",
-    "prototypes/sermon-in-the-crowd/app/page.tsx": "10b2e2d34a6a91d1f19d47e0b17a85fbeb7b4b8fa2afcaa902af6354c1534974",
+    "prototypes/sermon-in-the-crowd/app/page.tsx": "43343813bbec2defaf349dae98a560b24c22d748932e97193f3bb425cf875013",
     "prototypes/sermon-in-the-crowd/app/globals.css": "b0beb6a01d7ea4ffa34e32bfdb7a0581e8fc5282d359af62d2f4f58c1ee6db90",
     "prototypes/sermon-in-the-crowd/app/api/subtitles/route.ts": "9c66dc2bb5051b2a7142ec56f094e982e2aa469f0e0752fa33b4e308960522af",
     "prototypes/sermon-in-the-crowd/lib/utils.ts": "9304a861c8673bee09e0f12de31773abbde503b02e59dfd74763ddec2e37cf05",
