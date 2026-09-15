@@ -533,3 +533,39 @@ an audit update, focused commit and remote feature-branch push. **Point 10 appro
 pacing is accepted at this checkpoint; recognition and ending remain unfinished.**
 All work remains on `codex/shepherd-story-rebuild`. No merge to main or deployment
 is authorized. The publication allowlist remains unchanged.
+
+
+## 15 September update — full story integration and scenery checkpoint
+
+**Decision:** complete the playable story around the rebuilt village, then keep
+iterating on models and decoration before release. The user accepted this session's
+checkpoint and authorized a commit and push to `codex/shepherd-story-rebuild`.
+This supersedes the pending integration/ending status in earlier audit entries.
+
+- Restored compact player actions while preserving the separate scene rehearsal.
+- Reconnected the opening scripture diorama, running introduction and player
+  handoff; nativity arrival triggers the full ending and scripture sequence.
+  Completion can restart the experience from the opening.
+- Preserved the previously completed scene progression and lantern hand attachment.
+- Added a House 8 pullback showing the shepherd and empty stall together. It holds
+  for **Go to the stall**, then blends into the following camera on departure.
+- Corrected the workbench's baked tilt, then lowered it 47 cm after user feedback
+  identified floating feet. Tabletop items and hanging light follow the correction.
+- Removed the obsolete trough/block props at the village pen and both tall
+  shelter-screen walls. The footprint trail and pen remain.
+- Restored the debug inspector for the rebuilt runtime, including workbench side,
+  approach and village-pen presets for direct visual inspection.
+
+**Verification:** the real desktop playthrough completed the opening, all ten
+stops, ending scriptures and restart. Targeted scene/state checks passed; follow-up
+browser review covered House 8 framing, pause, departure and arrival, workbench
+side/approach views and the cleared pen surroundings. No browser warnings/errors
+were observed in the final inspector review. See the
+[full-flow verification record](../review/2026-09-15-full-flow/README.md).
+No new performance benchmark, physical-device certification or hosted release
+validation is claimed.
+
+**Next:** model and decorative work, directed individually by the user, continues
+on this same feature branch. Performance is deferred to a separate session.
+Publication validation and explicit release approval remain outstanding. Do not
+merge to main or deploy this checkpoint.

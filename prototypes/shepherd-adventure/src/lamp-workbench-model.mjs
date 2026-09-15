@@ -5,6 +5,14 @@ export const WORKBENCH_FRONT_CORRECTION=20.17*Math.PI/180;
 export const WORKBENCH_BEARING=Math.atan2(2.5,-.5);
 export function addWorkbenchParts(bench,model){
  model.name='generated-lamp-workbench';model.rotation.y=WORKBENCH_FRONT_CORRECTION;
+ // Correct the baked tabletop slope after aligning the open front: measured
+ // rise is -0.078 m/X and -0.24 m/Z across the central wooden surface.
+ model.quaternion.premultiply(new THREE.Quaternion().setFromUnitVectors(
+  new THREE.Vector3(.078,1,.24).normalize(),new THREE.Vector3(0,1,0)));
+ model.updateWorldMatrix(true,true);
+ // The generated feet have uneven lengths. Bury the lowest foot so all
+ // four supports intersect the soil while the tabletop stays level.
+ model.position.y-=new THREE.Box3().setFromObject(model).min.y+.47;
  model.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});bench.add(model);
  bench.updateWorldMatrix(true,true);
  const topAt=(x,z)=>{

@@ -71,12 +71,17 @@ requested that the work be recorded in the audit and committed to this branch.
 This checkpoint does not mark the scene creatively accepted. Other scene
 placeholders remain, and merge/deployment remain unauthorized.
 
-- Reconnect intro/diorama/cutscene, village entry and complete ending.
-- Integrate all clues, available actions and progression so the temporary next-point controls can be removed.
-- Address carried-lantern hand attachment and any movement/camera adjustments exposed by scene staging.
-- Review text, sound, pacing, readability and camera transitions in the complete journey.
-- Validate restart, loading/failure handling, reduced motion, mobile/device behavior and performance with the finished content.
-- Complete publication review, hosted-path checks and explicit release review before any merge to main.
+### Integration checklist — completed checkpoint, 15 September 2026
+
+- [x] Reconnect opening diorama, running introduction, village entry and full ending/scriptures.
+- [x] Replace temporary progression controls with compact scene actions in the player entry.
+- [x] Preserve completed lantern carrying and accepted movement; add House 8 destination framing.
+- [x] Review the complete journey and address this session's workbench/scenery feedback.
+- [x] Verify full restart, scene progression and targeted interaction checks.
+- [ ] Continue user-directed model and decorative improvements on this feature branch.
+- [ ] Run separate performance and physical-device/release validation with finished content.
+- [ ] Complete publication review, hosted-path checks and explicit release approval before merging.
+
 
 ### Point 02 accepted checkpoint — 13 September 2026
 
@@ -221,3 +226,29 @@ walks the final eight metres. This supersedes the sustained enclosure walk.
 [Audit entry](../navigation-direction-retrospective-2026-09-13.md#15-september-update--nativity-approach-pacing).
 The user authorized the audit update, focused commit and remote feature-branch push.
 Recognition, active final interaction and ending remain pending. No merge or deployment.
+
+### Full-flow integration — 15 September 2026
+
+The user reports the individual scene work complete and requests the smaller
+player-facing actions, restoration of the opening diorama and running introduction,
+and the full nativity outro/scripture sequence. Existing scene progression and the
+completed lantern-hand attachment are retained. Performance is explicitly out of
+scope for this session.
+
+The normal index now hosts the rebuilt scene runtime with compact action/subtitle
+presentation. The separate rehearsal entry retains review tools. Original opening
+and ending story manifests are reused unchanged. The ten-second running opening
+hands off at the new route entry; the nativity arrival camera automatically opens
+the ending story once, and completion offers replay. The user accepted the completed integration checkpoint after review and follow-up
+fixes. Commit and feature-branch push are authorized; merge and deployment are not.
+
+### Follow-up: ground contact and obsolete scenery — 15 September 2026
+
+User review found the leveled workbench floating. Lowered the corrected model
+47 cm, leaving its uneven feet embedded in the soil; tabletop parts follow the
+surface and the hanging lamp is lowered with it. Removed the unused procedural
+trough and two block props beside the village pen, plus both tall shelter-screen
+wall runs. The current footprint clue and pen remain. Restored `?debug` in the
+rebuilt runtime and added Lamp workbench, Lamp side and Village pen presets.
+Side/approach and pen inspector views reviewed; lamp assembly and tracks checks
+pass. The user accepted this checkpoint and authorized its commit and remote push.

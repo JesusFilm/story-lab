@@ -1,23 +1,45 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shepherd Adventure · Story Lab</title><link rel="icon" href="data:,"><link rel="stylesheet" href="journey.css"><link rel="stylesheet" href="workbench.css"><link rel="stylesheet" href="vendor/story-diorama/story-diorama.css"><link rel="stylesheet" href="story.css"><script type="importmap">{"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/"}}</script><link rel="stylesheet" href="./loading-theatre.css"></head>
-<body>
-<canvas id="world" aria-label="A shepherd travels from the dark fields into a small lamplit village"></canvas><div class="vignette"></div>
-<header><div class="brand"><span>✦</span><div><small>WATCH GAME · A PLAYABLE STUDY</small><h1>A lantern in the dark</h1></div></div><div class="head-actions"><button id="survey">↑ Investigate</button><button id="pause">OK Pause</button></div></header>
-<div id="chapter"><small id="chapter-number">01 / THE FIELDS</small><h2 id="place">Outside Bethlehem</h2></div>
-<aside id="equipment" aria-live="polite"></aside><aside id="fuel" hidden><small>REMEMBER THE SIGN</small><p class="sign">A baby, wrapped<br>and lying in a manger.</p><p>Look for evidence.<br>A bright doorway is not enough.</p></aside>
-<section id="intro"><button id="begin">Skip intro</button></section>
-<section id="decision" hidden aria-label="Choose a path"><div id="route-choices" aria-label="Paths"></div><p id="place-note"></p><div class="choice-row"><button id="prev" aria-label="Previous path">←</button><button id="commit"><small id="lane-name"></small><strong id="destination"></strong><span id="cost"></span></button><button id="next" aria-label="Next path">→</button></div><button id="interact" class="investigate-action">↑ Look closer</button><p id="choice-help">← → Preview · OK Walk · ↑ Investigate · ↓ Options</p><p id="message" role="status" aria-live="polite"></p></section>
-<div id="travel" hidden><span id="travel-name"></span><small>OK Pause · ↓ Options</small></div>
-<section id="inspection" hidden><div id="discovery" hidden role="status"><span class="discovery-mark">✧</span><div><strong id="reward-title"></strong><p id="reward-detail"></p></div></div><small id="inspect-tag">LOOK CLOSELY</small><h2 id="inspect-title"></h2><p id="inspect-copy"></p><button id="inspect-close">Keep exploring · OK</button><p class="small">OK Return to the path</p></section>
-<section id="notes" class="story notebook" role="dialog" aria-modal="true" aria-labelledby="notes-title" hidden><small>WHAT YOU REMEMBER</small><h2 id="notes-title">The way so far.</h2><svg id="memory-map" viewBox="0 0 320 280" role="img" aria-label="Only visited places and discovered routes"></svg><div id="observations"></div><p class="small">↑ ↓ Read · OK Return</p><button id="notes-close" class="primary">Return to the village · OK</button></section>
-<div id="labels" aria-hidden="true"></div>
-<section id="menu" class="story" role="dialog" aria-modal="true" aria-labelledby="menu-title" hidden><h2 id="menu-title">Paused</h2><div id="menu-buttons"><button id="resume" class="primary">Continue</button><button id="restart">Restart</button></div><p class="small">↑ ↓ Choose · OK Select</p></section>
-<section id="arrival-action" hidden aria-label="At the Nativity"><button id="hear-good-news" class="primary" type="button">heard the good news</button></section>
-<section id="ending" class="story ending" hidden><small>LUKE 2:8–20 · NARRATIVE PARAPHRASE</small><h2>Good news.<br>Great joy.</h2><p>The shepherds found Mary and Joseph, and the baby lying in the manger. They returned glorifying and praising God for all they had heard and seen.</p><p id="ending-detail" class="small"></p><button id="again" class="primary">Walk again <span>OK ↗</span></button></section>
-<footer><span id="footer-note">A story of arrival · Inspired by Luke 2:8–20</span></footer><div id="loading" class="loading-theatre" data-loading-option="2" aria-label="Loading prototype"><canvas aria-hidden="true"></canvas><h2 hidden>A small light. A long way home.</h2><p id="loading-text" role="status" aria-live="polite">Loading...</p><p class="loading-note" hidden></p><span class="loading-elapsed" aria-hidden="true">0s</span><div class="loading-actions"><button type="button" class="loading-pause">Pause animation</button><button type="button" class="loading-retry" hidden>Reload prototype</button></div></div><script src="./loading-theatre.js"></script>
-<section id="story-overlay" role="dialog" aria-modal="true" aria-label="Shepherds outside Bethlehem" hidden>
+<html lang="en">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Shepherd Adventure · Story Lab</title><link rel="icon" href="data:,">
+ <link rel="stylesheet" href="vendor/story-diorama/story-diorama.css"><link rel="stylesheet" href="house-sighting.css"><link rel="stylesheet" href="rehearsal.css"><link rel="stylesheet" href="player.css"><link rel="stylesheet" href="story.css"><link rel="stylesheet" href="lamp-scene.css"><link rel="stylesheet" href="loading-theatre.css">
+ <script type="importmap">{"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/"}}</script>
+</head>
+<body class="player-mode">
+ <canvas id="world" aria-label="A shepherd searches the village"></canvas>
+ <div id="loading" class="loading-theatre" data-loading-option="2" aria-label="Loading the village">
+  <canvas aria-hidden="true"></canvas><h2 hidden>A small light. A long way home.</h2>
+  <p id="loading-text" role="status" aria-live="polite">Preparing the village…</p><p class="loading-note" hidden></p><span class="loading-elapsed" aria-hidden="true">0s</span>
+  <div class="loading-actions"><button type="button" class="loading-pause">Pause animation</button><button type="button" class="loading-retry" hidden>Reload prototype</button></div>
+ </div>
+ <script src="./loading-theatre.js"></script>
+ <header id="review-header"><span>Shepherd Adventure <b>A lantern in the dark</b></span><button id="skip-opening" hidden>Skip intro</button><button id="pause" type="button" disabled>Pause</button></header>
+ <section id="review-panel" aria-label="Choose an action" inert>
+  <div class="point-line"><span id="point-label">Entry walk</span><span id="review-state">Scenes unfinished</span></div>
+  <h1 id="point-title">A winding walk through the village</h1>
+  <p id="beat" role="status" aria-live="polite">Review the walking route and camera. Dialogue, clues and scene actions are placeholders.</p>
+  <p id="travel-status" role="status" aria-live="polite"></p>
+  <button id="advance" type="button" class="primary">Walk to point 01 — Lamp workbench</button>
+  <section id="lamp-assembly" aria-labelledby="lamp-title" hidden></section>
+  <details id="review-tools"><summary>Review tools</summary>
+   <div class="tools"><label for="jump-point">Jump to point</label><select id="jump-point"></select><button id="jump" type="button">Jump</button><button id="replay" type="button">Replay approach</button><button id="restart" type="button">Restart route</button><button id="capture" type="button">Capture view</button></div>
+   <p class="hint">Jumps stage the earlier outcomes. Replay walks the full incoming leg. Space pauses while walking; Escape pauses anywhere.</p>
+   <label><input id="reduced-motion" type="checkbox"> Reduced motion</label>
+   <p id="capture-status" role="status"></p>
+   <details id="timing-details"><summary>Frame timing for this walk</summary><pre id="timing-summary">Walk a segment to collect a sample.</pre></details>
+   <a href="docs/story-rebuild/README.md">Scene briefs</a> · <a href="index.html">Original experience</a>
+  </details>
+ </section>
+ <div id="lamp-reward" role="status" aria-live="polite" hidden><img src="./assets/lamp-assembly/lamp.png" alt=""><span><strong>+1 Lamp</strong><small>A light for the road</small></span></div>
+ <section id="sighting-overlay" role="dialog" aria-modal="true" aria-label="A helpful resident" hidden><p id="sighting-status" role="status"></p><button id="sighting-retry" hidden>Retry illustrations</button><div id="sighting-stage"></div><div class="sighting-actions"><span id="sighting-count"></span><button id="sighting-next" class="primary">Continue</button></div></section>
+ <section id="story-overlay" role="dialog" aria-modal="true" aria-label="Shepherds outside Bethlehem" hidden>
 <div id="story-scene"></div><div id="angel-bubble" aria-hidden="true" hidden></div>
 <div class="story-toolbar"><button id="story-next">Start</button><button id="story-sound" aria-pressed="true">Sound on</button><button id="story-skip">Skip story</button></div>
 <div id="story-status" role="status"></div><button id="story-retry" hidden>Retry images</button><button id="story-audio-retry" hidden>Retry music</button>
 
-</section><script type="module" src="src/boot.mjs" onerror="window.storyLoading?.fail('The story could not start. Reload to try again.')"></script></body></html>
+</section><section id="player-options" role="dialog" aria-modal="true" aria-label="Paused" hidden><h2>Paused</h2><button id="player-resume">Continue</button><button id="player-restart">Start again</button><label><input id="player-reduced" type="checkbox"> Reduced motion</label></section>
+<section id="player-finish" hidden><h1>Good news. Great joy.</h1><button id="play-again">Experience the story again</button><a href="https://jesusfilm.github.io/story-lab/">Back to Story Lab</a></section>
+<script type="module" src="src/boot.mjs" onerror="window.storyLoading?.fail('The story could not start. Reload to try again.')"></script>
+</body>
+</html>

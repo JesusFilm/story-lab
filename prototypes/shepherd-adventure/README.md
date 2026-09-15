@@ -1,3 +1,15 @@
+## Full feature playthrough — 15 September 2026
+
+Run `python3 serve.py --port 8766` here and open `http://127.0.0.1:8766/`.
+The normal entry now uses the rebuilt village: opening scripture diorama → running
+camera introduction → compact scene actions → nativity camera arrival → full ending
+scripture diorama → replay. Pause offers continue, restart and reduced motion.
+
+`rehearsal.html` retains scene jump/replay tools. `legacy.html` preserves the old
+route and its diagnostic entry for comparison. All are local feature-branch work;
+publication allowlists/hashes have not been updated and no release is authorized.
+Performance assessment is explicitly deferred to a separate session.
+
 # Shepherd Adventure
 
 - Status: current investigation prototype; awaiting further playtesting

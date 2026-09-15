@@ -86,5 +86,8 @@ export function createCompanionReunionScene(journey,scene,character){
   const look=gateLook.lerp(groupLook,gather).lerp(departLook,departure);camera.lookAt(look);
   lastShot={eye:camera.position.clone(),look:look.clone()};
  }
- return {load:loader=>Promise.all(companions.map(c=>c.character.load(loader))),update,poseActors,poseHands,face,tick};
+ function poseOpening(actors,dt){
+  companions.forEach((c,i)=>{const a=actors[i];c.root.visible=true;c.root.position.set(a.x,height(a.x,a.z-2)+.015,a.z-2);c.root.rotation.y=a.heading;c.character.update(dt,{movement:3.8,paused:false});});
+ }
+ return {poseOpening,load:loader=>Promise.all(companions.map(c=>c.character.load(loader))),update,poseActors,poseHands,face,tick};
 }

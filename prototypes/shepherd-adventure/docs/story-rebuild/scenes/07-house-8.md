@@ -67,3 +67,16 @@ The current screenshot anchors the facade, plaster patches, window and ring side
 The user completed their play-test and accepted this checkpoint, authorizing the
 feature documentation update, commit and feature-branch push. Integrated release
 review remains outstanding. No merge to main or deployment is authorized.
+
+## 15 September follow-up — show the destination
+
+Explore the empty stall now pulls back for 2.4 seconds to show the shepherd,
+House 8 and the empty stall together. The shepherd stays at the door while the
+view holds. **Go to the stall** starts the existing curved route, with a two-second
+blend back to the following camera. Pause freezes the shot; reduced motion uses
+a direct wide view. Replaying or jumping clears the shot. This supersedes the
+immediate departure described above. Camera feel awaits user review.
+
+The user accepted the integration and follow-up fixes at the 15 September checkpoint,
+authorizing a commit and push to the feature branch. Further model/decorative work
+and release review remain separate.

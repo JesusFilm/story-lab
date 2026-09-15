@@ -59,3 +59,20 @@ grip. Physical-device performance and integrated opening/ending remain unverifie
 The other nine scenes remain placeholders. The user requested an audit update and
 branch commit for this draft checkpoint; final creative acceptance is still pending.
 No merge or deployment is authorized by this review.
+
+## 15 September follow-up — level the workbench
+
+Corrected the generated model’s baked forward and sideways tilt, then grounded
+the corrected model. The existing surface raycasts reseat the lamp, jar, wick
+and flint on the corrected tabletop. Nine central surface samples now span
+1.157–1.183 m rather than 0.820–1.086 m; remaining variation is the wooden mesh.
+The arrival and close-up were reviewed in the browser. User visual review pending.
+
+Follow-up user review found gaps below the uneven feet. The corrected model now
+sits 0.47 m lower than the initial leveling pass, with all four feet embedded in
+the soil. The hanging light also moves down; tabletop items follow surface rays.
+Verified in the restored debug inspector from side and approach presets.
+
+The user accepted the integration and follow-up fixes at the 15 September checkpoint,
+authorizing a commit and push to the feature branch. Further model/decorative work
+and release review remain separate.

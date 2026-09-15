@@ -78,7 +78,7 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   const source={x,z,y:visual.root.position.y,intensity:intensity*2.2,enabled,light};visual.core.visible=enabled;visual.halo.visible=enabled;visual.root.userData.unlit=!enabled;lamps.push(source);return {source,...visual};
  }
  for(const n of NODES.filter(n=>n.fire&&(!routePaths||n.id==='hearth'))){
-  if(n.id==='hearth'){lightAt(n.x+1.45,n.z+.82,1.85,3.2);continue;}
+  if(n.id==='hearth'){lightAt(n.x+1.45,n.z+.82,1.38,3.2);continue;}
   lightAt(n.x+1.5,n.z,1.25,25);const stand=new THREE.Mesh(new THREE.CylinderGeometry(.07,.1,1.3,6),bark);stand.position.set(n.x+1.5,height(n.x+1.5,n.z)+.6,n.z);scene.add(stand);
  }
  const routeGroup=new THREE.Group();scene.add(routeGroup);const routes=[];
@@ -107,11 +107,7 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
  target('well',well.position.x,.6,well.position.z);if(!routePaths)lightAt(well.position.x+1.28,well.position.z,1.5,16);
  const mud=new THREE.MeshStandardMaterial({color:'#33281e',roughness:1});
  for(const id of ['well','square']){const n=NODE[id];for(let i=0;i<7;i++)for(const side of [-1,1]){const track=new THREE.Mesh(new THREE.SphereGeometry(.07,5,3),mud);track.scale.set(1,.12,1.3);track.position.set(n.x+.6+side*.11+i*.11,height(n.x+.6+side*.11+i*.11,n.z-i*.38)+.015,n.z-i*.38);scene.add(track);}target(id==='square'?'square':'well',n.x+1.1,.25,n.z-1);}
- const feed=new THREE.Group();feed.position.set(NODE.pen.x+1.8,height(NODE.pen.x+1.8,NODE.pen.z),NODE.pen.z);scene.add(feed);
- recordFeature(feed,'Feeding trough','prop');
- box(feed,1.8,.5,.75,0,.65,0,timber);box(feed,1.65,.035,.6,0,.91,0,straw);target('pen',feed.position.x,.8,feed.position.z);
- // Low split wall makes the rear gap visible when the player investigates the fold.
- for(const x of [-1.7,2])box(feed,1.3,.85,.4,x,.42,-1.6,stone);
+ target('pen',NODE.pen.x+1.8,.8,NODE.pen.z);
  const gatePath=paths.find(p=>p.edge.requires==='gate').points;const gp=gatePath[6],gn=gatePath[7];
  const gate=new THREE.Group();gate.name='journey-gate';gate.position.set(gp.x,height(gp.x,gp.z),gp.z);gate.rotation.y=Math.atan2(gn.x-gp.x,gn.z-gp.z);scene.add(gate);
  for(const x of [-1.55,1.55])box(gate,.18,2.1,.18,x,1.05,0,timber);
@@ -130,7 +126,6 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   const light=new THREE.PointLight('#ffcd83',0,6,2);empty.root.add(light);g.userData.lampVisual=empty;g.userData.lampLight=light;
   target(id,g.position.x,.9,g.position.z);
  }
- watchOcclusion(feed,'prop');
 
  // Shared Tripo body, with the flame and real illumination controlled separately.
  const carriedVisual=lampVisual(CARRIED_LANTERN_HEIGHT),lantern=carriedVisual.root;lantern.name='carried-lantern';scene.add(lantern);
@@ -145,7 +140,7 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
    if(stall){
     const b=VILLAGE_BOUNDS;
     if(rect[0]<b.minX+6||rect[2]>b.maxX-6||rect[1]<b.minZ+6||rect[3]>b.maxZ-6)continue;
-    if([well,feed,gate,shelter,...workbenches].some(root=>{const b=new THREE.Box3().setFromObject(root);return rect[0]<b.max.x+.6&&rect[2]>b.min.x-.6&&rect[1]<b.max.z+.6&&rect[3]>b.min.z-.6;}))continue;
+    if([well,gate,shelter,...workbenches].some(root=>{const b=new THREE.Box3().setFromObject(root);return rect[0]<b.max.x+.6&&rect[2]>b.min.x-.6&&rect[1]<b.max.z+.6&&rect[3]>b.min.z-.6;}))continue;
    }
    if(clearance(rect)<.85||fits.some(f=>rect[0]<f.rect[2]+.5&&rect[2]>f.rect[0]-.5&&rect[1]<f.rect[3]+.5&&rect[3]>f.rect[1]-.5))continue;
    outer.position.set(c.x,height(c.x,c.z)-.05,c.z);fits.push({rect,clearance:clearance(rect)});return c;

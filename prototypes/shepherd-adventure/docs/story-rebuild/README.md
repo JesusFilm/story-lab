@@ -2,6 +2,18 @@
 
 # Shepherd Adventure: village journey rebuild
 
+## Current accepted checkpoint — 15 September 2026
+
+The user has completed and reviewed the individual village scenes through the
+nativity approach. The normal [play entry](../../index.html) now reconnects the
+opening diorama, running introduction and ending diorama around those scenes,
+using compact player actions. The [rehearsal](../../rehearsal.html) remains available
+for focused scene review. The user accepted this integration and scenery checkpoint
+and authorized a commit and push to the feature branch.
+Next: user-directed model and decorative work on this same feature branch.
+Performance work is deferred to its own session; release review remains outstanding. The notes below preserve earlier
+milestones and should not be read as the current implementation status.
+
 13 September 2026 · **Initial scaffold milestone reviewed and accepted for checkpoint.** Point 01 has a playable draft awaiting review; point 02 passed the user play-test and is accepted; point 03 is accepted for checkpoint after its diorama continuity revision; point 04 is accepted after a successful user play-test; point 05 is ready for review; points 06 and 07 are accepted after user play-tests; point 08 is accepted after user play-testing; point 09a's owner conversation is accepted after user play-testing; 09b is accepted after user play-testing; point 10 remains a placeholder.
 
 [Open the local rehearsal](../../rehearsal.html) · [Actual rehearsal map](../../map/rehearsal-map.svg) · [Implementation and checks](../../review/2026-09-13-route-rehearsal/README.md)
