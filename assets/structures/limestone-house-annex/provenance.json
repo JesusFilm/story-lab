@@ -1,0 +1,34 @@
+{
+  "reference_generator": "Native ImageGen",
+  "model_generator": "TencentARC/Pixal3D",
+  "seed": 42,
+  "resolution": 1024,
+  "preparation": "prepare-decoration.py --height 2.65 --triangles 160000 --texture-size 2048 --rotate 0 0 208.5 --level-normal .108254028 -.213022103 .971031745 --matte; validated mesh and source UV atlas",
+  "runtime_triangles": 159783,
+  "files": [
+    {
+      "file": "limestone-house-annex-reference.png",
+      "sha256": "0ba33871f0e83902eeaed1f0dee6c64c2a21aaf1e06fbc614d169203fd079425",
+      "bytes": 2220642
+    },
+    {
+      "file": "limestone-house-annex-prompt.txt",
+      "sha256": "84be2e70123e1b27c41e3d43c123e3539fc50d3373a43a058c8a27a4585ff2aa",
+      "bytes": 1069
+    },
+    {
+      "file": "limestone-house-annex-pixal3d-source.glb",
+      "sha256": "3dad417850a5896e5450bd1979a4130efdf0f6e4d801908c9acd734447087005",
+      "bytes": 38604120
+    },
+    {
+      "file": "runtime-level/limestone-house-annex-pixal3d-runtime.glb",
+      "sha256": "7da962813f4e39e58feb8dc31aace24ed42035a7185dc21482c9d31f5347d985",
+      "bytes": 8456260
+    }
+  ],
+  "base_tilt_degrees": {
+    "before": 13.82460748,
+    "after": 0.280025558
+  }
+}

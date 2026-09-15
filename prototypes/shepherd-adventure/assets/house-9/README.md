@@ -1,3 +1,14 @@
+# Current village-layout illustrations
+
+The active conversation uses [opening-door-v2.png](opening-door-v2.png), [talking-owner-v2.png](talking-owner-v2.png), [pointing-left-v2.png](pointing-left-v2.png).
+
+These native ImageGen edits use the current player-camera capture, preserving
+the existing resident identity while adding current decorations, walls and
+visible annexes. Exact prompts sit beside the images. See the
+[continuity review](../../review/2026-09-15-dialogue-continuity/README.md).
+
+## Earlier image set — retained reference
+
 # House 9 — animal-pen owner
 
 Generated with built-in ImageGen for the House 9 doorway conversation.

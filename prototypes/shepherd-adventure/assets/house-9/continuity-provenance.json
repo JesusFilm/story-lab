@@ -1,0 +1,31 @@
+{
+  "generator": "Native ImageGen",
+  "architecture_reference": "../../review/2026-09-15-dialogue-continuity/house-9-plate.png",
+  "camera_reference": "../../review/2026-09-15-dialogue-continuity/house-9-camera.json",
+  "files": [
+    {
+      "file": "opening-door-v2.png",
+      "sha256": "677740cdb128d13034ade1f519f9481e24d163cfd13e08d708749e29d49119f9"
+    },
+    {
+      "file": "opening-door-v2-prompt.txt",
+      "sha256": "d0c25799fbde5287839ea8eccab7aa5a95e294f07739c9829e24148fe1b763b5"
+    },
+    {
+      "file": "talking-owner-v2.png",
+      "sha256": "2b1cd08f5be00d7585babca98e958debfd08e471fca6623f62a4f28e8f345d44"
+    },
+    {
+      "file": "talking-owner-v2-prompt.txt",
+      "sha256": "cceb9ebb8591a745881fc82abaebb70d136ccebccfa9e1c2dd1e0dba2d0186b4"
+    },
+    {
+      "file": "pointing-left-v2.png",
+      "sha256": "a3a8300fc405af24fc7471a5580b80ca56cb38cf54452a765e7472f8021a5fe5"
+    },
+    {
+      "file": "pointing-left-v2-prompt.txt",
+      "sha256": "31f9e3c80dcbe33f6048479a10a089afea030b5f9fdbe2f509e9f77cfdd6461b"
+    }
+  ]
+}

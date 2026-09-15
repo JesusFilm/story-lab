@@ -1,3 +1,5 @@
+import {addHouseAnnexes} from './house-annexes.mjs';
+import {HOUSE_YAWS} from './village-layout.mjs';
 import {NATIVITY,createNativityShelter,dressNativity} from './journey-nativity.mjs';
 import {WORKBENCH_URL,WORKBENCH_BEARING,addWorkbenchParts} from './lamp-workbench-model.mjs';
 import {addVillageNature} from './journey-nature.mjs';
@@ -6,6 +8,7 @@ import {LANTERN_URL,CARRIED_LANTERN_HEIGHT,SETTLEMENT_LANTERN_HEIGHT,fitLantern,
 import {terrainSurface,sampleRibbon} from './journey-presentation.mjs';
 import {obstructionTarget} from './journey-camera.mjs';
 import {loadJourneyPOIModels} from './journey-poi-models.mjs';
+import {addHouseDecorations} from './house-decorations.mjs';
 import * as THREE from 'three';
 import {NODES,NODE,EDGES,lanePoints,openingPath} from './journey-model.mjs';
 
@@ -174,16 +177,24 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
    for(const [index,[x,z,rot]] of spec.items.entries()){const outer=new THREE.Group(),m=source.clone(true),s=Math.min(spec.height/size.y,6/Math.max(size.x,size.z));m.scale.setScalar(s);m.position.set(-center.x*s,-b.min.y*s,-center.z*s);outer.add(m);outer.rotation.y=rot-(spec.frontYaw||0);outer.position.set(x,height(x,z),z);outer.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});const placed=placeSafely(outer,x,z,spec.stall);// Keep the established centre; only turn the visited house toward its stop.
     // The house asset's door facade faces local +X (verified in arrival renders).
     const approach=spec.kind==='house'?houseApproaches[index+1]:null;
+    if(spec.kind==='house'&&HOUSE_YAWS[index+1]!==undefined)outer.rotation.y=HOUSE_YAWS[index+1];
     if(approach)outer.rotation.y=Math.atan2(-(approach.z-placed.z),approach.x-placed.x);
     scene.add(outer);outer.updateMatrixWorld(true);const collisionBounds=new THREE.Box3().setFromObject(outer);occluders.push({min:{x:collisionBounds.min.x,y:collisionBounds.min.y,z:collisionBounds.min.z},max:{x:collisionBounds.max.x,y:collisionBounds.max.y,z:collisionBounds.max.z}});modelCount++;watchOcclusion(outer,'structure');
     recordFeature(outer,spec.label+(spec.items.length>1?' '+(index+1):''),spec.kind,spec.url);
     if(spec.url.includes('house')&&(!routePaths||[3,8,9].includes(index+1)))lightAt(placed.x+.8,placed.z+2,1.6,22);
    }
   }
+  modelCount+=await addHouseAnnexes(loader,scene,settlementFeatures,(x,z)=>terrainSurface(pos,x,z),recordFeature,watchOcclusion,occluders);
+  modelCount+=await addHouseDecorations(loader,scene,settlementFeatures,(x,z)=>terrainSurface(pos,x,z),recordFeature,watchOcclusion);
+  // Existing procedural grass must not poke through the new pots and stonework.
+  const dressingBounds=settlementFeatures.filter(f=>f.root.userData.decoration||f.root.userData.annex).map(f=>new THREE.Box3().setFromObject(f.root).expandByScalar(.12));
+  const grassMatrix=new THREE.Matrix4(),grassPosition=new THREE.Vector3();
+  for(let i=0;i<tufts.count;i++){tufts.getMatrixAt(i,grassMatrix);grassPosition.setFromMatrixPosition(grassMatrix);if(dressingBounds.some(b=>grassPosition.x>=b.min.x&&grassPosition.x<=b.max.x&&grassPosition.z>=b.min.z&&grassPosition.z<=b.max.z)){grassMatrix.scale(new THREE.Vector3(0,0,0));tufts.setMatrixAt(i,grassMatrix);}}
+  tufts.instanceMatrix.needsUpdate=true;
   const wallSource=(await loader.loadAsync('/assets/low-wall-perimeter.glb')).scene;
   const stall=settlementFeatures.find(f=>f.label==='Empty stall 1')?.root;
   const stallJoin=routePaths&&stall?stall.localToWorld(new THREE.Vector3(2,0,2.4)):null;
-  wallSegments=addVillageWalls(wallSource,scene,{x:gp.x,z:gp.z,yaw:gate.rotation.y,stallJoin},watchOcclusion,occluders,(x,z)=>terrainSurface(pos,x,z));
+  wallSegments=addVillageWalls(wallSource,scene,{x:gp.x,z:gp.z,yaw:gate.rotation.y,stallJoin},watchOcclusion,occluders,(x,z)=>terrainSurface(pos,x,z),settlementFeatures);
   nature=await addVillageNature(loader,scene,fits,walkDistance,watchOcclusion);
   for(const {root,size} of lanternMounts){const body=fitLantern(lanternSource,size);root.add(body);setLanternLit(body,!root.userData.unlit&&root.name!=='hearth-lantern'&&root.name!=='gate-lantern');}
  }

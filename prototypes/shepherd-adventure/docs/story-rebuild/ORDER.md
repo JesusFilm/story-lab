@@ -2,6 +2,78 @@
 
 13 September 2026 · Initial route milestone accepted as sufficient to checkpoint; detailed scenes remain unfinished.
 
+## Current checkpoint — village dressing and dialogue continuity, 15 September 2026
+
+The user requested this work be documented, committed and pushed to
+`codex/shepherd-story-rebuild`. **Do not merge to main or deploy.** The earlier
+sections below preserve the original route order; the integrated opening and
+ending already exist as described in the [scene index](README.md).
+
+### Assets and placement
+
+- Recovered the original House 3 doorway illustrations as the reference for
+  terracotta pots, olive-like foliage, low limestone edging and wicker baskets.
+- Generated four reusable Pixal3D decoration assets: two wall/pot clusters and
+  two basket/pot clusters. Preserved references, exact ImageGen prompts, original
+  models, prepared derivatives, renders and provenance in the asset library;
+  the prototype owns independent runtime copies. Transparent reference repairs
+  recovered missing foliage on two variants.
+- Distributed twenty decorations across all eleven house fronts, one or two per
+  house with stable seeded variation. Mounts follow each host's rotation, sit
+  against its facade and keep its doorway clear.
+- Rotated houses 2, 6, 10 and 11 inward according to the annotated plan. Preserved
+  the established house centres, visited-house approaches and walking route.
+- Generated a lower limestone annex and attached it to houses 1, 2, 3, 5, 8 and 9.
+  Corrected both its top-down alignment and the 13.8° tilt baked into its mesh.
+  The prepared base now measures 0.28° from horizontal, roof 0.96°. The selected
+  derivative retains 159,783 triangles, a 2K base-color texture and matte material.
+  Its finish remains softer than the main Tripo house; a future Tripo replacement
+  can be considered separately. No Tripo generation was submitted.
+- Added eleven low-wall runs following the blue annotations. Replaced approximate
+  endpoint coordinates with named structure attachments, raycast at masonry
+  height and embedded into actual surfaces. Seventeen intended structure or
+  perimeter joins are checked geometrically.
+- Restored the original gate-side wall wings at the user's request, including
+  the stall-side connection and opposite return. These remain alongside the new
+  decorative runs; the village perimeter and animal enclosure remain intact.
+- Regenerated the settlement and rehearsal maps from actual model footprints,
+  with annexes, decorations, current wall runs and house-door direction markers.
+
+### Illustrated house conversations
+
+- Captured the actual settled player camera at Houses 3, 8 and 9 using the same
+  renderer/camera as normal play. Saved player views, matching architectural
+  plates and camera transforms; the plates hide only the shepherd and carried
+  lantern geometry while retaining scene lighting and viewpoint.
+- Generated and integrated eight replacement images: House 3 closed/open/speaking,
+  House 8 closed/open, and House 9 opening/speaking/pointing. References include
+  current decorations, visible annexes, connecting walls and neighboring scenery.
+- Preserved the existing three resident identities, clothing, door hinge/ring
+  sides and the owner's final pointing direction. Dialogue text and chronology
+  are unchanged. Original illustrations and exact replacement prompts are kept.
+- Audited House 1's live 3D voice refusal and House 5's unanswered visit; neither
+  has an illustrated owner conversation needing replacement.
+
+### Evidence and remaining limits
+
+- [Initial decoration review](../../review/2026-09-15-house-decorations/README.md).
+- [Annotated layout implementation](../../review/2026-09-15-village-layout/README.md).
+- [Annex leveling and wall connections](../../review/2026-09-15-village-connections/README.md).
+- [Restored gate and dialogue continuity](../../review/2026-09-15-dialogue-continuity/README.md).
+
+Validation covers mesh base/roof planes, six annex attachments, facade/doorway
+clearance, seventeen wall joins, current maps, stalls, full route/state checks,
+and 2,002 camera samples each in landscape and portrait with no hidden-player
+samples. Browser checks passed all twelve illustrated dialogue pages, replacement
+image loading, return to play and mobile reduced-motion layout without JavaScript
+errors. Generated texture details can vary between illustrations even where
+composition and scene dressing match the captured geometry.
+
+Performance optimization remains separate work. The portal's reviewed list/hashes
+include this work's changed runtime inputs, but the full local portal build still
+stops at a pre-existing review-hash mismatch beginning with `index.html`. Public
+release review, merge and deployment remain explicitly unauthorized.
+
 ## Why this work exists
 
 The village search needs a clearer narrative and more opportunity for the following camera to show the town. Polishing individual scenes before settling the journey could waste effort on scenes that will disappear. The earlier shortened route would skip too much atmosphere. The chosen direction is a winding search through the village, following plausible reports and traces of Mary and Joseph’s search for shelter.

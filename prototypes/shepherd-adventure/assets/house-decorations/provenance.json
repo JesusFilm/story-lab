@@ -1,0 +1,29 @@
+{
+  "generator": "TencentARC/Pixal3D",
+  "models": [
+    {
+      "file": "olive-basket-cluster-b.glb",
+      "sha256": "b37293433c6879ed000454fe52ed3f40d1a6c6710055c89961784c403eb1c0a1",
+      "bytes": 14975544,
+      "library": "../../../../assets/objects/olive-basket-cluster-b/README.md"
+    },
+    {
+      "file": "olive-basket-cluster-a.glb",
+      "sha256": "cf743c4fc76bbb3ea6674c51a5a3e98f972d2d7b7dae8dd5da740da754c8afe7",
+      "bytes": 10881308,
+      "library": "../../../../assets/objects/olive-basket-cluster-a/README.md"
+    },
+    {
+      "file": "olive-wall-cluster-b.glb",
+      "sha256": "2a4e77ebdf0c03bab28e49f641ed3ea1400a94cca6d63344d5edf22a97f1355c",
+      "bytes": 10071176,
+      "library": "../../../../assets/objects/olive-wall-cluster-b/README.md"
+    },
+    {
+      "file": "olive-wall-cluster-a.glb",
+      "sha256": "700b91641b3c651dfb95390c9227c12eaf48ea3b6682020e280c29215ec584cf",
+      "bytes": 9758060,
+      "library": "../../../../assets/objects/olive-wall-cluster-a/README.md"
+    }
+  ]
+}

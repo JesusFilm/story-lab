@@ -1,5 +1,11 @@
 # Assets
 
+House decorations (references, source models, prepared models and renders):
+[Olive wall A](objects/olive-wall-cluster-a/README.md),
+[Olive wall B](objects/olive-wall-cluster-b/README.md),
+[Olive basket A](objects/olive-basket-cluster-a/README.md),
+[Olive basket B](objects/olive-basket-cluster-b/README.md).
+
 [Lamp workbench](structures/lamp-workbench/README.md): generated timber bench and
 linen canopy, with separate interactive items in Shepherd Adventure.
 
@@ -30,3 +36,5 @@ and running animations matching the opening story artwork.
 
 [Nativity family](characters/nativity-family/README.md): Mary, Joseph and baby Jesus
 in a manger, with a static Pixal3D model and review renders.
+
+- [Limestone house annex](structures/limestone-house-annex/README.md) — low attached side room with a shutter and flat roof.

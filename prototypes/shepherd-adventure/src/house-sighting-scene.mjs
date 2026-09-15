@@ -1,26 +1,26 @@
 import {StoryDiorama} from '../vendor/story-diorama/story-diorama.mjs';
 const image=name=>new URL(`../assets/house-3/${name}.png`,import.meta.url).href;
 const sightingCues=[
- {title:'At the door',text:'You hear footsteps. Someone is coming to the door.',image:image('lit-door-v2'),alt:'Warm light shines through the window beside the closed wooden door.'},
- {title:'Shepherd',text:'“We’re looking for a couple travelling with a donkey. Have you seen them?”',image:image('opening-door-v2'),alt:'The door opens inward and a resident looks out from the warm interior.'},
- {title:'Resident',text:'“Yes, I saw them earlier. They were looking for somewhere to stay.”',image:image('helpful-resident-v2'),alt:'A serious, attentive resident in a plain brown linen tunic stands beside the open door.'},
- {title:'Resident',text:'“They went up the lane toward the gate. Try there—you may find someone who can help.”',image:image('helpful-resident-v2'),alt:'The resident speaks gently from his warmly lit doorway.'}
+ {title:'At the door',text:'You hear footsteps. Someone is coming to the door.',image:image('lit-door-v3'),alt:'Warm light shines through the window beside the closed wooden door.'},
+ {title:'Shepherd',text:'“We’re looking for a couple travelling with a donkey. Have you seen them?”',image:image('opening-door-v3'),alt:'The door opens inward and a resident looks out from the warm interior.'},
+ {title:'Resident',text:'“Yes, I saw them earlier. They were looking for somewhere to stay.”',image:image('helpful-resident-v3'),alt:'A serious, attentive resident in a plain brown linen tunic stands beside the open door.'},
+ {title:'Resident',text:'“They went up the lane toward the gate. Try there—you may find someone who can help.”',image:image('helpful-resident-v3'),alt:'The resident speaks gently from his warmly lit doorway.'}
 ];
 
 const adviceImage=name=>new URL(`../assets/house-8/${name}.png`,import.meta.url).href;
 const adviceCues=[
- {title:'At the door',text:'You hear footsteps. Someone is coming to the door.',image:adviceImage('closed-door'),alt:'House 8’s lit undivided window sits left of its closed plank door, with the ring on the left.'},
- {title:'Shepherd',text:'“Have you seen a couple travelling with a donkey?”',image:adviceImage('open-door'),alt:'The door opens inward on its right hinge. A friendly grey-haired man in layered robes greets you with a staff.'},
- {title:'Old man',text:'“I haven’t seen them, friend. But there’s an empty stall beside the gate. They might have stopped there to rest.”',image:adviceImage('open-door'),alt:'The old man offers a kind suggestion from the warmly lit doorway.'},
- {title:'At the door',text:'He gives you a warm smile and closes the door.',image:adviceImage('closed-door'),alt:'The same wooden door is closed again. Warm light remains in the window.'}
+ {title:'At the door',text:'You hear footsteps. Someone is coming to the door.',image:adviceImage('closed-door-v2'),alt:'House 8’s lit undivided window sits left of its closed plank door, with the ring on the left.'},
+ {title:'Shepherd',text:'“Have you seen a couple travelling with a donkey?”',image:adviceImage('open-door-v2'),alt:'The door opens inward on its right hinge. A friendly grey-haired man in layered robes greets you with a staff.'},
+ {title:'Old man',text:'“I haven’t seen them, friend. But there’s an empty stall beside the gate. They might have stopped there to rest.”',image:adviceImage('open-door-v2'),alt:'The old man offers a kind suggestion from the warmly lit doorway.'},
+ {title:'At the door',text:'He gives you a warm smile and closes the door.',image:adviceImage('closed-door-v2'),alt:'The same wooden door is closed again. Warm light remains in the window.'}
 ];
 
 const ownerImage=name=>new URL(`../assets/house-9/${name}.png`,import.meta.url).href;
 const ownerCues=[
- {title:'Shepherd',text:'“Have you seen a couple travelling with a donkey?”',image:ownerImage('opening-door'),alt:'The door opens inward on its right hinge. A shorter, full-bodied middle-aged man with a large beard, colorful robes and a wrapped headcloth stands in House 9’s doorway.'},
- {title:'Pen owner',text:'“Yes. They came to me earlier. The woman was about to give birth.”',image:ownerImage('talking-owner'),alt:'The owner explains matter-of-factly, raising an open hand as he speaks.'},
- {title:'Pen owner',text:'“I own the large animal pen. There was no room in my house, so I let them use the stall at its far end.”',image:ownerImage('talking-owner'),alt:'The owner gestures with his hands from the same warmly lit doorway.'},
- {title:'Pen owner',text:'“It’s that way. Follow the pen to the far end. You’ll find them in the stall.”',image:ownerImage('pointing-left'),alt:'The owner points to his left, toward the onward route beside the pen, with the house and open door unchanged.'}
+ {title:'Shepherd',text:'“Have you seen a couple travelling with a donkey?”',image:ownerImage('opening-door-v2'),alt:'The door opens inward on its right hinge. A shorter, full-bodied middle-aged man with a large beard, colorful robes and a wrapped headcloth stands in House 9’s doorway.'},
+ {title:'Pen owner',text:'“Yes. They came to me earlier. The woman was about to give birth.”',image:ownerImage('talking-owner-v2'),alt:'The owner explains matter-of-factly, raising an open hand as he speaks.'},
+ {title:'Pen owner',text:'“I own the large animal pen. There was no room in my house, so I let them use the stall at its far end.”',image:ownerImage('talking-owner-v2'),alt:'The owner gestures with his hands from the same warmly lit doorway.'},
+ {title:'Pen owner',text:'“It’s that way. Follow the pen to the far end. You’ll find them in the stall.”',image:ownerImage('pointing-left-v2'),alt:'The owner points to his left, toward the onward route beside the pen, with the house and open door unchanged.'}
 ];
 
 export function createHouseSightingScene(journey,onChange){

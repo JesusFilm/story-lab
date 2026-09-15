@@ -1,0 +1,271 @@
+{
+  "status": "passed",
+  "pages": [
+    {
+      "house": 3,
+      "page": 1,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 0
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-3/lit-door-v3.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-3/lit-door-v3.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    },
+    {
+      "house": 3,
+      "page": 2,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 1
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-3/lit-door-v3.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-3/opening-door-v3.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    },
+    {
+      "house": 3,
+      "page": 3,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 2
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-3/lit-door-v3.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-3/helpful-resident-v3.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    },
+    {
+      "house": 3,
+      "page": 4,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 3
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-3/lit-door-v3.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-3/helpful-resident-v3.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    },
+    {
+      "house": 8,
+      "page": 1,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 0
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-8/closed-door-v2.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-8/closed-door-v2.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    },
+    {
+      "house": 8,
+      "page": 2,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 1
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-8/closed-door-v2.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-8/open-door-v2.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    },
+    {
+      "house": 8,
+      "page": 3,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 2
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-8/closed-door-v2.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-8/open-door-v2.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    },
+    {
+      "house": 8,
+      "page": 4,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 3
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-8/closed-door-v2.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-8/closed-door-v2.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    },
+    {
+      "house": 9,
+      "page": 1,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 0
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-9/opening-door-v2.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-9/opening-door-v2.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    },
+    {
+      "house": 9,
+      "page": 2,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 1
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-9/opening-door-v2.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-9/talking-owner-v2.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    },
+    {
+      "house": 9,
+      "page": 3,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 2
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-9/opening-door-v2.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-9/talking-owner-v2.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    },
+    {
+      "house": 9,
+      "page": 4,
+      "sighting": {
+        "open": true,
+        "loading": false,
+        "failed": false,
+        "page": 3
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8776/assets/house-9/opening-door-v2.png",
+          "complete": true,
+          "width": 1536
+        },
+        {
+          "src": "http://127.0.0.1:8776/assets/house-9/pointing-left-v2.png",
+          "complete": true,
+          "width": 1536
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "mobile": "390x844; reduced motion; no horizontal overflow"
+}

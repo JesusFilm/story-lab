@@ -1,3 +1,14 @@
+# Current village-layout illustrations
+
+The active conversation uses [closed-door-v2.png](closed-door-v2.png), [open-door-v2.png](open-door-v2.png).
+
+These native ImageGen edits use the current player-camera capture, preserving
+the existing resident identity while adding current decorations, walls and
+visible annexes. Exact prompts sit beside the images. See the
+[continuity review](../../review/2026-09-15-dialogue-continuity/README.md).
+
+## Earlier image set — retained reference
+
 # House 8 — friendly old man and doorway
 
 Generated with built-in ImageGen for Shepherd Adventure's point 07. The user completed their play-test and accepted this scene checkpoint on

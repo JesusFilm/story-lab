@@ -68,13 +68,14 @@ for(const house of [3,8,9]){
 for(const feature of world.settlementFeatures){
  const saved=map.features.find(f=>f.label===feature.label);assert(saved,feature.label);
  const original=canonical.features.find(f=>f.label===feature.label);
- feature.root.position.toArray().forEach((v,i)=>assert(Math.abs(v-original.position[i])<.001,`${feature.label}: centre moved`));
+ // Decorations follow the host facade, which deliberately turns in rehearsal.
+ if(!(feature.root.userData.decoration||feature.root.userData.annex))feature.root.position.toArray().forEach((v,i)=>assert(Math.abs(v-original.position[i])<.001,`${feature.label}: centre moved`));
  const approach=HOUSE_APPROACHES[Number(feature.label.replace('House ',''))];
  if(feature.kind==='house'&&approach){
   const direction=new THREE.Vector3(1,0,0).applyQuaternion(feature.root.quaternion);
   const toStop=new THREE.Vector3(approach.x-feature.root.position.x,0,approach.z-feature.root.position.z).normalize();
   assert(direction.dot(toStop)>.9999,`${feature.label}: door facade must face knocking point`);
- }else assert.equal(feature.root.rotation.y,original.yaw,`${feature.label}: unexpected rotation`);
+ }else if(!(feature.root.userData.decoration||feature.root.userData.annex))assert.equal(feature.root.rotation.y,original.yaw,`${feature.label}: unexpected rotation`);
  const box=new THREE.Box3().setFromObject(feature.root);
  for(const side of ['min','max'])box[side].toArray().forEach((value,i)=>assert(Math.abs(value-saved.bounds[side][i])<.001,`${feature.label}: changed ${side} dimension ${i}`));
  assert(Math.abs(feature.root.rotation.y-saved.yaw)<1e-8,`${feature.label}: changed rotation`);
