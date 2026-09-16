@@ -1,17 +1,20 @@
-name: Deploy Story Lab Pages
+name: Shepherd Adventure smoke test
 on:
-  push:
-    branches: [main]
+  pull_request:
+    paths:
+      - prototypes/shepherd-adventure/**
+      - projects/portal/build.py
+      - projects/portal/publication.json
+      - projects/portal/shepherd-adventure-smoke.mjs
+      - projects/portal/package.json
+      - projects/portal/package-lock.json
+      - .github/workflows/shepherd-adventure-smoke.yml
+      - .github/workflows/portal-pages.yml
   workflow_dispatch:
 permissions:
   contents: read
-  pages: write
-  id-token: write
-concurrency:
-  group: story-lab-pages
-  cancel-in-progress: false
 jobs:
-  build:
+  smoke:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,29 +32,15 @@ jobs:
         working-directory: projects/portal
       - run: npm ci --ignore-scripts --no-audit --no-fund
         working-directory: prototypes/sermon-in-the-crowd
-      - run: npm run build && npm test
+      - run: npm run build
         working-directory: projects/portal
       - name: Smoke test Shepherd Adventure
         run: npm run test:shepherd-adventure
         working-directory: projects/portal
-      - name: Upload Shepherd Adventure smoke-test failure
+      - name: Upload failure screenshot
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: shepherd-adventure-smoke-failure
           path: projects/portal/test-results/
           if-no-files-found: ignore
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: projects/portal/dist
-  deploy:
-    if: github.ref == 'refs/heads/main'
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

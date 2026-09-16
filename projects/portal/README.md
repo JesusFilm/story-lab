@@ -17,6 +17,13 @@ before updating its hash. Include runtime dependencies and license files explici
 `build.py` builds the sermon client and writes `dist/`; `verify.py` checks its links,
 model dependencies and sensitive-content patterns under both root and project paths.
 
+`npm run test:shepherd-adventure` is the focused browser regression check. It serves
+the built artifact under the real `/story-lab/` deployment prefix, opens Shepherd
+Adventure, skips the opening story, and requires the 3D game and controls to become
+playable without a fatal script or loader error. The Pages deployment runs this as
+a release gate. Pull requests run the same check when Shepherd Adventure or its
+portal publication inputs change; a failed run uploads a diagnostic screenshot.
+
 The GitHub Actions workflow deploys the validated artifact to this repository's
 GitHub Pages site. The source repository and the Pages artifact are both intended
 for public sharing. The artifact contains the files needed to run the demos.
