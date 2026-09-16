@@ -1,0 +1,8 @@
+[project]
+name = "story-lab-kokoro-voice"
+version = "0.1.0"
+description = "Local Kokoro-82M voice synthesis prototype for Story Lab"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "kokoro-mlx[multilingual]>=0.1.2,<1",
+]

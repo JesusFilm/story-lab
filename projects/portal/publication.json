@@ -228,6 +228,21 @@
         "prototypes/story-diorama-lab/assets/childhood.mp3",
         "prototypes/story-diorama-lab/assets/hiraeth.mp3"
       ]
+    },
+    {
+      "slug": "kokoro-voice-lab",
+      "title": "Kokoro Voice Lab",
+      "description": "Turn text into expressive speech with Kokoro-82M. Explore 54 voices across nine languages and hear a locally generated John 3:16 sample.",
+      "image_alt": "Kokoro Voice Lab interface with the words Give words a voice and a ready status for 54 voices",
+      "plain_static": true,
+      "files": [
+        "prototypes/kokoro-voice-lab/index.html",
+        "prototypes/kokoro-voice-lab/styles.css",
+        "prototypes/kokoro-voice-lab/app.mjs",
+        "prototypes/kokoro-voice-lab/loading-theatre.css",
+        "prototypes/kokoro-voice-lab/loading-theatre.js",
+        "prototypes/kokoro-voice-lab/assets/john-3-16-heart.wav"
+      ]
     }
   ],
   "assets": [
@@ -627,6 +642,13 @@
     "prototypes/shepherd-adventure/src/journey-arrival.mjs": "cc5a3704e86e3a2715488dda1195dfeeeb05d329c760d63871412cd8f81521d8",
     "prototypes/shepherd-adventure/src/journey-debug.mjs": "1b87eff9b947bd79cd28df6f83af2f0466366592d5368cf63cca1eb3de6005cc",
     "prototypes/sermon-in-the-crowd/components/sermon-film.tsx": "f7ce0f85be21b64a96b0da721d5c05b60cad502955352993c76075fb7e04e52f",
-    "prototypes/sermon-in-the-crowd/lib/sermon/film-sync.ts": "6110749548779d6f9f4fd96ecc040414405452b9de357e9b72d19df11032e989"
+    "prototypes/sermon-in-the-crowd/lib/sermon/film-sync.ts": "6110749548779d6f9f4fd96ecc040414405452b9de357e9b72d19df11032e989",
+    "prototypes/kokoro-voice-lab/index.html": "9224b82f712d49c0db93d81d6cabcd37a318c270c4958ab84750a3d2c480057d",
+    "prototypes/kokoro-voice-lab/styles.css": "1a54c8b0049a06e754f66d7cc854018fcedd155ef41f9706810ff3b9f9efe286",
+    "prototypes/kokoro-voice-lab/app.mjs": "d591d779b9f1614c93be69a7863bd44dcc63f7777b9cc97352d03cb3b32c73c9",
+    "prototypes/kokoro-voice-lab/loading-theatre.css": "210a1f4764c0a11dff62586d999b1a458a4b69c79c082cd1fd15d8ed52b411a9",
+    "prototypes/kokoro-voice-lab/loading-theatre.js": "b372451244da6eb7e0ef1551f867e671c6c5a760017efe4f4d5c6eb63fb55f82",
+    "prototypes/kokoro-voice-lab/assets/john-3-16-heart.wav": "20b03f35002b0275e5ba02216fb2d13eab5fb5e0892a62bf8a257f8d4be9953f",
+    "projects/portal/public/kokoro-voice-lab.jpg": "2684badec6906cbf1d1680a5d60bbc8cc9ea37ca0dd5c54493b06703a36856b8"
   }
 }

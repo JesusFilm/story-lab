@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#151711" />
+    <title>Kokoro Voice Lab · Story Lab</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./loading-theatre.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="loading" class="loading-theatre" data-loading-option="2" aria-label="Loading Kokoro Voice Lab">
+      <canvas aria-hidden="true"></canvas>
+      <h2>Follow the lantern.</h2>
+      <p id="loading-text" role="status" aria-live="polite">Connecting to the local voice engine…</p>
+      <p class="loading-note">The first model load may take a few minutes.</p>
+      <span class="loading-elapsed" aria-hidden="true">0s</span>
+      <div class="loading-actions">
+        <button type="button" class="loading-pause">Pause animation</button>
+        <button type="button" class="loading-retry" hidden>Reload prototype</button>
+      </div>
+    </div>
+    <script src="./loading-theatre.js"></script>
+
+    <header>
+      <a class="brand" href="./"><span aria-hidden="true">◉</span> Kokoro Voice Lab</a>
+      <a href="https://jesusfilm.github.io/story-lab/">Back to Story Lab ↗</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Prototype 05 · On-device speech</p>
+        <h1>Give words<br /><em>a voice.</em></h1>
+        <p class="lede">Explore Kokoro-82M voices generated privately through MLX on Apple Silicon. Choose a language and voice locally, then hear your text spoken aloud.</p>
+        <div class="engine-state"><span class="state-dot" aria-hidden="true"></span><span id="engine-label">Checking voice engine…</span></div>
+      </section>
+
+      <section class="workspace" aria-labelledby="studio-title">
+        <div class="studio">
+          <div class="section-title">
+            <p class="eyebrow">Text to speech</p>
+            <h2 id="studio-title">Voice studio</h2>
+          </div>
+          <div class="selectors">
+            <label>Language or accent
+              <select id="language" disabled></select>
+            </label>
+            <label>Voice
+              <select id="voice" disabled></select>
+            </label>
+          </div>
+          <label class="text-label" for="script">Text to speak</label>
+          <textarea id="script" maxlength="5000" rows="8" disabled>For God so loved the world that He gave His one and only Son, that everyone who believes in Him shall not perish but have eternal life.</textarea>
+          <div class="under-text"><span id="character-count">101 / 5,000</span><span>Speech stays on this Mac</span></div>
+          <div class="speed-row">
+            <label for="speed">Speaking speed</label>
+            <input id="speed" type="range" min="0.7" max="1.4" value="1.05" step="0.05" disabled />
+            <output id="speed-value" for="speed">1.05×</output>
+          </div>
+          <button id="generate" class="generate" disabled><span aria-hidden="true">✦</span> Generate voice</button>
+          <p id="message" class="message" role="status" aria-live="polite">Waiting for the model…</p>
+        </div>
+
+        <aside class="playback" aria-labelledby="playback-title">
+          <div class="orb" aria-hidden="true"><i></i><i></i><i></i><i></i><span></span></div>
+          <p class="eyebrow">Generated audio</p>
+          <h2 id="playback-title">Listen back</h2>
+          <p id="result-description">Your generated voice will appear here as a WAV file.</p>
+          <button id="play" class="play" disabled aria-label="Play generated speech"><span aria-hidden="true">▶</span></button>
+          <div class="timeline"><span id="progress"></span></div>
+          <div class="times"><span id="current-time">0:00</span><span id="duration">0:00</span></div>
+          <a id="download" class="download" download="kokoro-voice.wav" hidden>Download WAV ↓</a>
+          <audio id="audio" preload="metadata"></audio>
+        </aside>
+      </section>
+
+      <section class="notes">
+        <article><span>01</span><h3>Small model</h3><p>82 million parameters, designed for expressive speech without a cloud-scale stack.</p></article>
+        <article><span>02</span><h3>Local inference</h3><p>MLX keeps synthesis on the host Apple Silicon Mac. Text is not sent to a remote speech service.</p></article>
+        <article><span>03</span><h3>Portable result</h3><p>Each generation produces a standard 24 kHz WAV that can be played or downloaded.</p></article>
+      </section>
+    </main>
+
+    <footer><span>STORY LAB / KOKORO-82M</span><span>Text · Voice · Playback</span></footer>
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>

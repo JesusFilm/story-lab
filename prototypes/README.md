@@ -10,6 +10,7 @@ your own folder, then change that copy as needed.
 | [Shepherd Adventure](shepherd-adventure/README.md) | Lantern preparation, clues and discovery on the journey to the Nativity. | [8766](http://127.0.0.1:8766/) |
 | [Among the Crowd](sermon-in-the-crowd/README.md) | Walk through a sermon with audio, captions and V1/V2 characters. | [8767](http://127.0.0.1:8767/) |
 | [Story Diorama Lab](story-diorama-lab/README.md) | Explore story playback, image transitions, scrolling text and soundtrack timing with Noah. | [8769](http://127.0.0.1:8769/) |
+| [Kokoro Voice Lab](kokoro-voice-lab/README.md) | Choose a language and voice, generate local Kokoro-82M speech, then play or download it. | [8770](http://127.0.0.1:8770/) |
 
 Among the Crowd runs independently with `npm run dev:static -- --port 8767` from
 its directory. See its README for installation and static export.
@@ -38,6 +39,7 @@ Append new prototypes to this registry; never renumber existing entries.
 | 2 | Shepherd Adventure | 2 · Follow the lantern |
 | 3 | Among the Crowd | 3 · A village unfolds |
 | 4 | Story Diorama Lab | 1 · Sheep theatre |
+| 5 | Kokoro Voice Lab | 2 · Follow the lantern |
 
-The next prototype is **5 → Follow the lantern**; **6 → A village unfolds**.
+The next prototype is **6 → A village unfolds**; **7 → Sheep theatre**.
 See [loader instructions](../assets/loading-indicators/README.md) for installation.
