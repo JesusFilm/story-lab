@@ -41,7 +41,9 @@ try{
  await page.locator('#story-overlay').waitFor({state:'visible',timeout:30000});
  assert.equal(await page.locator('#loading').isHidden(),true,'loader should hide while the opening story is playable');
  await page.locator('#story-skip').click();
- await page.waitForFunction(()=>window.routeRehearsal&&!document.querySelector('#pause').disabled&&document.body.dataset.storyPhase==='intro',null,{timeout:120000});
+ const transition=await page.waitForFunction(()=>window.routeRehearsal&&!document.querySelector('#pause').disabled&&document.body.dataset.storyPhase==='intro'?'ready':/could not|reload to try again/i.test(document.querySelector('#loading-text')?.textContent||'')?'failed':false,null,{timeout:120000});
+ const transitionState=await transition.jsonValue();await transition.dispose();
+ assert.equal(transitionState,'ready',`gameplay transition ended in state: ${transitionState}`);
  await page.locator('#loading').waitFor({state:'hidden'});
  assert(!/could not|reload to try again/i.test(await page.locator('#loading-text').innerText()),'loader reported a startup failure');
  assert.equal(failures.length,0,failures.join('\n'));
