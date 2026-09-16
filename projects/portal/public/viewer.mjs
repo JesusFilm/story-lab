@@ -4,7 +4,7 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 const host=document.querySelector('.viewer'),canvas=host.querySelector('canvas'),status=document.querySelector('#model-status');
 try {
  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;
- const scene=new THREE.Scene();scene.background=new THREE.Color('#172b39');
+ const scene=new THREE.Scene();scene.background=new THREE.Color('#eeece5');
  scene.add(new THREE.HemisphereLight(0xffffff,0x546172,3));
  const light=new THREE.DirectionalLight(0xffefd8,3);light.position.set(3,5,4);scene.add(light);
  const camera=new THREE.PerspectiveCamera(38,1,.01,1000);

@@ -2,14 +2,28 @@
 
 A static portal for the prototypes and model gallery, built from this repository.
 
+## Run locally
+
+From the repository root, install the dependencies and build the reviewed public site:
+
 ```sh
-npm ci --ignore-scripts
+cd prototypes/sermon-in-the-crowd && npm ci --ignore-scripts
+cd ../../projects/portal && npm ci --ignore-scripts
 npm run build
-npm test
+npm run preview
 ```
 
-Install the sermon prototype dependencies separately before the first build:
-`npm ci --ignore-scripts` in `prototypes/sermon-in-the-crowd`.
+Open **http://127.0.0.1:8768/story-lab/**. The preview stays running until you
+press Ctrl+C. To use another port, run `python3 serve.py --port 8879` instead of
+`npm run preview`. Re-run `npm run build` after changing portal source files, then
+refresh the browser. The server uses the same `/story-lab/` path as GitHub Pages.
+
+## Checks
+
+```sh
+npm test
+npm run test:unit
+```
 
 `publication.json` lists the files needed by each demo and gallery entry. Reviewed
 hashes prevent accidentally exporting changed content. Review the actual change

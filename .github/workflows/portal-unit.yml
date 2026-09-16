@@ -1,0 +1,41 @@
+name: Portal unit tests
+on:
+  pull_request:
+    paths:
+      - projects/portal/build.py
+      - projects/portal/publication_utils.py
+      - projects/portal/public/directory.js
+      - projects/portal/public/directory-filter.mjs
+      - projects/portal/public/portal.css
+      - projects/portal/public/viewer.mjs
+      - projects/portal/tests/**
+      - projects/portal/package.json
+      - .github/workflows/portal-unit.yml
+  push:
+    branches: [main]
+    paths:
+      - projects/portal/build.py
+      - projects/portal/publication_utils.py
+      - projects/portal/public/directory.js
+      - projects/portal/public/directory-filter.mjs
+      - projects/portal/public/portal.css
+      - projects/portal/public/viewer.mjs
+      - projects/portal/tests/**
+      - projects/portal/package.json
+      - .github/workflows/portal-unit.yml
+permissions:
+  contents: read
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test directory rendering and filtering
+        run: npm run test:unit
+        working-directory: projects/portal

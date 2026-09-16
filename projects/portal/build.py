@@ -1,7 +1,7 @@
 """Build only explicitly reviewed public files; never publish the checkout."""
 from pathlib import Path
 import hashlib, html, json, re, shutil, subprocess
-from publication_utils import prototype_card, public_png
+from publication_utils import asset_category, directory, page, prototype_card, public_png
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
@@ -44,9 +44,6 @@ def copy(src, name):
         path.write_bytes(public_png(src.read_bytes()))
     else:
         shutil.copyfile(src, path)
-
-def page(title, body, depth='', script=''):
-    return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} · Story Lab</title><meta name="description" content="Play biblical story prototypes and explore the art behind them."><link rel="icon" href="data:,"><link rel="stylesheet" href="{depth}portal.css"></head><body><header class="masthead"><a class="wordmark" href="{depth or './'}">✦ Story Lab</a><nav aria-label="Main"><a href="{depth}#prototypes">Play</a><a href="{depth}library/">Asset library</a></nav></header><main>{body}</main><footer class="site-footer">Biblical stories, explored through play. <span>Experimental prototypes · WebGL 2 required for 3D</span></footer>{script}</body></html>'''
 
 # Validate everything before clearing the previous successful output.
 for proto in MANIFEST['prototypes']:
@@ -129,7 +126,8 @@ for proto in MANIFEST['prototypes']:
         retrospective_link = f'<a class="retrospective-link" href="{base}retrospective.html" target="_blank" rel="noopener noreferrer">Read retrospective <span aria-hidden="true">↗</span></a>'
     cards.append(prototype_card(proto, retrospective_link))
 
-write('index.html', page('Play', f'''<section class="intro"><span class="eyebrow">A collection of experiments</span><h1>Step into a story.</h1><p>Small journeys through biblical worlds. Choose a prototype and start exploring.</p></section><section id="prototypes" class="prototype-grid" aria-label="Playable prototypes">{''.join(cards)}</section><a class="library-link" href="library/"><div><span class="eyebrow">Behind the scenes</span><h2>The pieces of the world</h2><p>Turn the models around and read the prompts that shaped their reference art.</p></div><span class="action">Explore {len(MANIFEST['assets'])} assets ↗</span></a>'''))
+write('index.html', page('Prototypes', directory('Browse the work', 'Games, 3D experiences and media experiments.', cards, [('All', 'All formats'), ('Game', 'Games'), ('3D experience', '3D experiences'), ('Media', 'Media')], 'prototype'), script='<script type="module" src="directory.js"></script>'))
+write('contribute.html', page('Share a prototype', '<section class="contribution"><h1>Share a prototype</h1><p class="standfirst">Bring something the team can try. Games, scenes, film treatments, audio experiments and new ways to tell a story are welcome.</p><h2>Give the work enough context</h2><ol><li><strong>Name the question.</strong> What are you exploring, and who is it for?</li><li><strong>Make it easy to try.</strong> Include a working demo, a representative image and short instructions.</li><li><strong>Ask for useful feedback.</strong> Explain what is working and what remains uncertain.</li><li><strong>Keep the learning.</strong> Add notes after people have tried it. A retrospective can grow over time.</li></ol><h2>Add it to the collection</h2><p>Contributions are made through the Story Lab repository. Add a self-contained prototype with a README and propose a portal entry through a pull request. Include required asset licenses and attribution. The portal uses an explicit reviewed file list before publishing.</p><p>If you do not work in the repository, prepare the details above for a teammate who can help.</p><a href="./">Back to prototypes</a></section>'))
 asset_cards = []
 for asset in MANIFEST['assets']:
     slug = asset['slug']
@@ -142,10 +140,14 @@ for asset in MANIFEST['assets']:
     if not (OUT/asset['model']).exists():
         copy(source(asset['model']), asset['model'])
     prompt = html.escape(source(asset['prompt']).read_text())
-    asset_cards.append(f'''<a class="asset-card" href="{slug}.html"><img src="{reference_image}" alt="Generated reference art for {html.escape(asset['title'])}" loading="lazy" width="480" height="480"><h2>{html.escape(asset['title'])}</h2><span>View in 3D ↗</span></a>''')
+    category = asset_category(asset['prompt'])
+    asset_cards.append(f'''<article class="directory-row asset-row" data-kind="{category}"><a href="{slug}.html" class="asset-preview" aria-label="View {html.escape(asset['title'])} in 3D"><img src="{reference_image}" alt="Generated reference art for {html.escape(asset['title'])}" loading="lazy" width="480" height="480"></a><div class="row-copy"><p class="meta">{category} / 3D model</p><h2><a href="{slug}.html">{html.escape(asset['title'])}</a></h2></div><div class="row-actions"><a class="primary" href="{slug}.html">View in 3D</a></div></article>''')
     body = f'''<a class="back" href="./">← All assets</a><h1>{html.escape(asset['title'])}</h1><div class="asset-detail"><section><div class="viewer" data-model="{model}"><canvas tabindex="0" aria-label="Rotatable {html.escape(asset['title'])} model. Arrow keys rotate, plus and minus zoom."></canvas><p id="model-status" role="status">Loading model…</p></div><div class="viewer-controls"><button id="rotate-left" aria-label="Rotate left">↶</button><button id="rotate-right" aria-label="Rotate right">↷</button><button id="zoom-in" aria-label="Zoom in">+</button><button id="zoom-out" aria-label="Zoom out">−</button><button id="reset">Reset view</button></div><p class="hint">Drag to rotate · Scroll or pinch to zoom · Arrow keys rotate</p></section><section class="reference"><img src="{reference_image}" alt="Generated reference art for {html.escape(asset['title'])}"><h2>Reference prompt</h2><p class="hint">Original image-generation prompt. The 3D model was developed from this reference; this is an artistic adaptation, not a historical reconstruction.</p><pre>{prompt}</pre></section></div>'''
     script = '<script type="importmap">{"imports":{"three":"../vendor/three/build/three.module.js","three/addons/":"../vendor/three/examples/jsm/"}}</script><script type="module" src="../viewer.mjs"></script>'
     write(f'library/{slug}.html', page(asset['title'], body, '../', script))
-write('library/index.html', page('Asset library', f'<section class="intro"><span class="eyebrow">Behind the scenes</span><h1>The pieces of the world.</h1><p>{len(asset_cards)} models from the prototypes, with their generated reference art and original prompts.</p></section><section class="asset-grid" aria-label="Asset library">'+''.join(asset_cards)+'</section>', '../'))
+asset_filters = [('All', 'All assets')] + [(label, label) for label in ['Animals', 'Characters', 'Structures', 'Objects', 'Nature', 'Terrain'] if any(f'data-kind="{label}"' in card for card in asset_cards)]
+if any('data-kind="Other"' in card for card in asset_cards):
+    asset_filters.append(('Other', 'Other'))
+write('library/index.html', page('Asset library', directory('Asset library', 'Models, reference art and prompts from the prototypes. Preview images are generated reference art.', asset_cards, asset_filters, 'asset'), '../', '<script type="module" src="../directory.js"></script>'))
 write('.nojekyll', '')
 print(f'Built {sum(p.is_file() for p in OUT.rglob("*"))} public files in {OUT}')
