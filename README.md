@@ -27,7 +27,8 @@ Adventure, Jerusalem Search and Little Light Library. Concepts can exist without
 
 ## Projects
 
-[Tools and utilities](projects/README.md): [Maze Foundry](projects/maze-foundry/README.md)
+[Tools and utilities](projects/README.md): [Maze Foundry](projects/maze-foundry/README.md),
+[Kokoro Voice Lab](projects/kokoro-voice-lab/README.md)
 Each has its own setup instructions.
 
 ## Prototypes

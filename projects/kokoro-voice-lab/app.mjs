@@ -31,19 +31,6 @@ function formatTime(seconds){
   if(!Number.isFinite(seconds)) return '0:00';
   return `${Math.floor(seconds/60)}:${String(Math.floor(seconds%60)).padStart(2,'0')}`;
 }
-function activateStaticDemo(){
-  setReady(false);
-  stateDot.classList.add('ready');
-  engineLabel.textContent='Static showcase · generated sample ready';
-  message.textContent='GitHub Pages cannot run MLX. Play the generated John 3:16 sample, or run the local server to create new speech.';
-  audio.src='./assets/john-3-16-heart.wav';
-  download.href='./assets/john-3-16-heart.wav';
-  download.download='john-3-16-af-heart.wav';
-  download.hidden=false;
-  play.disabled=false;
-  $('#result-description').textContent='Heart · American English · Female · John 3:16 BSB · 1.05×';
-  window.storyLoading?.ready();
-}
 async function waitForEngine(){
   try{
     const response=await fetch('./api/status');
@@ -61,7 +48,8 @@ async function waitForEngine(){
     if(status.state==='error') throw new Error(status.message);
     setTimeout(waitForEngine,1000);
   }catch(error){
-    activateStaticDemo();
+    engineLabel.textContent=error.message;stateDot.classList.add('error');
+    window.storyLoading?.fail('The local voice engine could not start. Check the terminal and retry.');
   }
 }
 
