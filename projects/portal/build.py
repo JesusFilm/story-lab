@@ -8,6 +8,20 @@ ROOT = HERE.parent.parent
 OUT = HERE / 'dist'
 MANIFEST = json.loads((HERE / 'publication.json').read_text())
 
+def validate_prototype_module_closure(proto):
+    """Keep reviewed prototypes from publishing modules with missing imports."""
+    files = set(proto['files'])
+    for name in files:
+        if not name.endswith('.mjs'):
+            continue
+        module = ROOT / name
+        text = module.read_text()
+        for dependency in re.findall(r'''(?:from\s*|import\s*\()\s*['"](\.[^'"]+)['"]''', text):
+            relative = (Path(name).parent / dependency).resolve().relative_to(ROOT.resolve())
+            dependency_name = relative.as_posix()
+            if dependency_name not in files:
+                raise ValueError(f'Prototype runtime dependency is not published: {name} -> {dependency_name}')
+
 def source(name):
     unresolved = ROOT / name
     path = unresolved.resolve()
@@ -35,6 +49,8 @@ def page(title, body, depth='', script=''):
     return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} · Story Lab</title><meta name="description" content="Play biblical story prototypes and explore the art behind them."><link rel="icon" href="data:,"><link rel="stylesheet" href="{depth}portal.css"></head><body><header class="masthead"><a class="wordmark" href="{depth or './'}">✦ Story Lab</a><nav aria-label="Main"><a href="{depth}#prototypes">Play</a><a href="{depth}library/">Asset library</a></nav></header><main>{body}</main><footer class="site-footer">Biblical stories, explored through play. <span>Experimental prototypes · WebGL 2 required for 3D</span></footer>{script}</body></html>'''
 
 # Validate everything before clearing the previous successful output.
+for proto in MANIFEST['prototypes']:
+    validate_prototype_module_closure(proto)
 for name in MANIFEST['reviewed_files']:
     source(name)
 # Build the explicitly reviewed client-only prototype after validating its inputs.
