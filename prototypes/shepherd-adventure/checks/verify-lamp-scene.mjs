@@ -23,7 +23,7 @@ try{
  await page.locator('#advance').click();await page.waitForTimeout(1200);await capture(page,'01-lamp-body');
  assert.equal((await state(page)).lantern,false);
  await page.locator('#lamp-action').click();await page.locator('#lamp-title').filter({hasText:'Linen wick'}).waitFor();await capture(page,'02-wick');
- await page.locator('#lamp-back').click();assert.equal((await state(page)).lampAssembly.step,1);await page.locator('#advance').click();
+ assert.equal(await page.locator('#lamp-back').count(),0,'Preparation has no back action');assert.equal(await page.locator('#lamp-progress,#lamp-description').count(),0);assert.equal(await page.locator('#lamp-feedback').textContent(),'');
  await page.locator('#pause').click();assert(await page.locator('#lamp-action').isDisabled());await page.locator('#pause').click();
  await page.locator('#lamp-action').click();await capture(page,'03-oil');assert.equal((await state(page)).lamp.benches[0].wickVisible,false);
  await page.locator('#lamp-action').click();await capture(page,'04-flint');
@@ -39,7 +39,7 @@ try{
  await page.locator('#review-tools').evaluate(e=>e.open=true);await page.locator('#restart').click();assert.equal((await state(page)).lampAssembly.step,0);assert.equal((await state(page)).index,-1);
  await page.locator('#advance').click();await page.waitForFunction(()=>window.routeRehearsal.getState().index===0&&!window.routeRehearsal.getState().destination,null,{timeout:45000});await capture(page,'10-full-incoming-walk');
  assert.deepEqual(errors,[]);await page.close();
- console.log('PASS desktop: actual incoming walk, each item, back/resume, pause, flame before collection, one award, departure to House 1 knock action, jump/reset.');
+ console.log('PASS desktop: actual incoming walk, each item, forward-only preparation, pause, flame before collection, one award, departure to House 1 knock action, jump/reset.');
  const mobile=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce',isMobile:true,hasTouch:true});
  await mobile.goto(origin+'/rehearsal.html?point=1');await ready(mobile);await mobile.locator('#advance').click();await capture(mobile,'11-mobile-body');
  for(let i=0;i<5;i++){await mobile.locator('#lamp-action').click();}

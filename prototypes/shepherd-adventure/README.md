@@ -14,6 +14,8 @@ Performance assessment is explicitly deferred to a separate session.
 
 - Status: current investigation prototype; awaiting further playtesting
 - Concept: [Shepherd Adventure](../../game-concepts/shepherd-adventure/concept.md)
+- Current improvement planning: [playtest roadmap, decisions and completion log](docs/playtest-roadmap/README.md)
+- Repeating the exercise: [feedback → evidence → plan → incremental implementation](docs/playtest-roadmap/WORKFLOW.md)
 
 ## Hypothesis and experience
 

@@ -1,0 +1,824 @@
+# Shepherd Adventure — playtest roadmap
+
+Created 17 September 2026 · **Working roadmap; feedback direction clarified, multilingual milestone added.**
+
+This is the living roadmap for turning playtest feedback into bounded improvements.
+Start here for the next iteration. Preserve earlier scene briefs as historical
+decisions, and link any superseding decision from this roadmap. No gameplay fix is
+implemented or accepted by the creation of this document.
+
+[Annotated evidence](evidence/2026-09-17/annotations.html) ·
+[House 2 map annotation](evidence/2026-09-17/companion-search.html) ·
+[Baseline and capture limits](evidence/2026-09-17/README.md) ·
+[Repeatable feedback workflow](WORKFLOW.md) ·
+[Visual roadmap](throwaway/roadmap-visual.html) ·
+[Original scene plan](../story-rebuild/README.md) ·
+[Standing visual guide](../../../../styles/follow-the-light/README.md)
+
+## Current direction at a glance
+
+- Keep opening/ending scripture unchanged and text-focused; show exact verse
+  addresses and allow previous/next review.
+- House 8 is the confirmed awkward example; review every house interaction for
+  coherent storytelling. Keep illustrations, match their scale/perspective to the
+  3D doorway and compare a retained shepherd overlay with a deliberate first-person
+  handoff. Make thoughts/dialogue brief and forward-only.
+- Stage companions searching House 2 in the background, with later glimpses and
+  a credible route to the existing reunion. No extra required clicks.
+- Fade peaceful diorama music into an audible 3D world, including through any
+  loading interval. Add footsteps and atmospheric night sound; repair House 1's
+  missing voice. Exploration music is optional, not a substitute for ambience.
+- Rework the plain 2D loader's art and abrupt entry/exit. Investigate whether one
+  initial load plus quiet preparation can avoid repeated loading interruptions;
+  retain graceful, story-matched waits when genuinely necessary.
+- Investigate freezes as an independent engine/camera issue: reported on both M1
+  and M4 Macs. Start with traces and code, not browser-version explanations.
+- Optimize first for lower-powered devices and broad audiences, including people
+  with limited resources. Stronger devices should run comfortably; maximum visual
+  quality is not the product goal.
+- After this feedback programme, deliver **M5: multilingual text and voices**, with
+  a language picker on the starting screen and generated voice assets for readable
+  content. Keep future content ready for localization.
+
+**Ready to pick up:** T06 verse references; I01 audible opening handoff and missing
+voice diagnosis; I04 engine/camera investigation; I03 House 8 exemplar plus all-house
+audit; I08 loader/loading strategy. I09 defines the following multilingual milestone.
+These are ready planning/diagnostic directions, not a record of implemented fixes.
+
+## Intended outcome
+
+Keep the player immersed in a coherent night journey: reading should support the
+scene, conversations should feel connected to the village, sound should carry
+across transitions, and movement should remain responsive. This organizing principle summarizes the feedback; specific design choices are
+recorded below.
+
+The scope of this session is investigation, clarification, evidence and planning.
+The next implementation session should select one item below. All task priorities,
+size estimates and acceptance criteria below are proposals until the relevant
+direction is settled. They are not promises of completion dates.
+
+## Baseline and authority
+
+- Feedback supplied on 17 September 2026 from one participant's playtest, as typed
+  notes. No audio/video recording was attached or reviewed. Do not infer timing
+  measurements or exact quotations beyond those notes.
+- Inspected local source: `c42b500be64f66fd6ca99bae4e7bbeedb7f162a7`, branch `main`,
+  clean working tree before these documentation additions. The
+  public site was played on an **M1 MacBook Air using Chrome and built-in speakers**. Browser version,
+  deployed revision, viewport and cache state remain unknown. Local captures have
+  not yet been matched to that deployed revision. The user also reports random
+  freezes on an M4 development Mac. Browser version is useful capture metadata,
+  not a prerequisite or the leading explanation for this investigation.
+- Current source and historical README prose disagree in places. Use the current
+  runtime and dated evidence for this baseline. For example, the current normal
+  entry automatically opens the ending after its arrival sequence; older text
+  describes an explicit ending button. Neither is a new decision in this roadmap.
+- The rebuild order records a 16 September merge authorization. Older feature
+  branch restrictions describe that rebuild. This documentation pass changes no
+  scenes. Before implementation, resolve current branch guidance against the
+  completed merge; do not blindly revive a stale feature branch or deploy main.
+- Follow the Light AA v003 remains the selected style. “AI quality” feedback does
+  not by itself request a new style or authorize replacing all assets.
+- The user's new loader direction authorizes reworking Shepherd Adventure's
+  loading presentation to match the narrative. This supersedes treating the
+  existing option-2 artwork as fixed. Preserve the useful root loader guarantees:
+  immediate initial HTML, independence from heavy game imports, truthful status,
+  retry, reduced motion, pause and stopping hidden animation. Record the scoped
+  prototype exception when implementing; do not alter every prototype's loader.
+- Participant identity and relationship are intentionally omitted from reusable
+  repository records. Source and evidence must remain suitable for public sharing.
+
+## Feedback register
+
+Reported = participant experience, not independently reproduced. Confirmed =
+current source or browser evidence establishes the described behavior. Hypothesis
+= possible explanation requiring a test. All items remain **open**.
+
+| ID | Feedback, preserved in substance | Current evidence and uncertainty | Work item |
+| --- | --- | --- | --- |
+| F01 | Music stops abruptly when leaving the diorama | Peaceful music reportedly stops instantly around a louder cue; the running intro then has no sound. Fade/bridge must also cover any intervening load. Source confirms immediate teardown; listening still required. | I01 / I08 |
+| F02 | Gameplay lacks ambient sound | User requests an audible world: running footsteps and night atmosphere, with soft wind/crickets and possible distant animal sounds as candidates. Music alone is insufficient. Exact palette remains a design task. | I01 |
+| F03 | Too much text; use blurbs | Clarified: player thoughts and dialogue only. Comic-book-like blurbs are a proposed presentation. Opening/ending scripture was described as perfect and must be preserved. | T01 / I02 |
+| F04 | Bottom text placement draws focus from the experience | Clarified: scripture should focus on text; thoughts/dialogue should be brief and situated. E03 is the primary redesign evidence; preserve scripture treatment. | I02 |
+| F05 | House slides feel mistimed; abrupt door close then “thank you” | House 8 confirmed as the example. The current button order does not invalidate the confusing timing: picture meaning can precede reading comprehension. Review Houses 1, 3, 5, 8 and 9 for coherent interactions. | T03 / I03 |
+| F06 | Player disappears and the house shrinks during the conversation handoff | User confirms both disappearance and a much smaller illustrated house against the still-visible larger 3D house. Match crop/scale/perspective; compare composited shepherd-back versus deliberate first person. | I03 |
+| F07 | House 1 sound did not play | Reported. A voice-readiness race is plausible; failure not reproduced or diagnosed here. Clarified: Chrome; knock was clear, only the refusal voice was missing. | I01 |
+| F08 | Camera freezes at random points, then recovers | Reported on M1 Air and M4 Mac. Investigate engine/resource management and camera logic with traces before attributing it to browsers. Repeatability still unmeasured. | I04 |
+| F09 | Loaders break the narrative visually and halt the experience with abrupt swaps | Plain/simple 2D loader art feels like another children's game; instant entry and exit amplify the break. Rework atmosphere and transitions; test fewer staged loaders against memory/startup limits. | I08 / I04 / I01 |
+| F10 | Diorama slide/text timing makes it hard to attend to both | Clarified: scripture remains text-focused and player-paced; houses need image/text meaning aligned before the player finishes reading. Do not generalize the house complaint into scripture redesign. | I02 |
+| F11 | Want to go back to previous slides/text and forward | Confirmed direction: add previous/next to scripture; no backward navigation in houses, whose exchanges should be simple enough not to need it. | I02 |
+| F12 | Match in-game effect volumes | Scene audio contexts/gains are separate; direct-to-output voice/knock sources exist. Perceived levels not listened to or measured in this review. | T04 / I01 |
+| F13 | Arrow buttons could replace “next” in house scenes | Forward arrows remain a candidate for neutral house continuation. No house back control. Preserve semantic actions and solve beat timing first. | T02 / I02 |
+| F14 | One shepherd is far ahead of the group; make grouping work better | Clarified: narrative continuity, not spacing. All three begin near each other, yet companions disappear through lantern preparation and the village search, then arrive only at House 9. Proposed visible search starts at House 2. | T05 / I05 |
+| F15 | Overall style feels somewhat like “AI quality” | Clarified: diorama art is pretty but typically AI-looking; 3D models look low quality; occasional clunky movement. Movement examples now tracked separately in F17/F18. | I06 |
+| F17 | Clunky movement and camera: looking around the well, tight camera turns | User examples; not recorded/reproduced yet. Separate authored motion from actual rendering freezes. | I07 |
+| F18 | Opening the gate sends the player flying backward instead of a small step | User example; opening-gate scene likely point 08, exact beat still to confirm. Source has authored positional offsets; root cause unproven. | I07 |
+| F16 | Show exact verse addresses in the opening/ending | Added in clarification; preserve scripture wording and show cue-specific references. | T06 |
+
+The following are **product requirements added during planning**, rather than
+observations from the initial playtest. They use separate IDs to preserve that distinction.
+
+| ID | Added requirement | Consequence | Work item |
+| --- | --- | --- | --- |
+| R01 | Prioritize lower-powered devices for broad audiences, including lower-income communities | Set a modest device/network/memory baseline and optimize there first. M1/M4 are diagnostic devices, not the performance floor. | I04; applies to all initiatives |
+| R02 | Next milestone: multilingual content and voices, selectable on the starting screen | Externalized text, language/voice assets, locale-aware layout and narration; use existing AI voice mechanisms after content/quality review. | I09 / M5 |
+
+## Clarification queue
+
+Ask in short rounds using actual scenes. Record answers in the decision log; do not
+silently turn unanswered questions or offered options into preferences.
+
+### Round 1 — partly answered
+
+- **Q01 — Reproduction:** Which URL/build, device, browser and speakers/headphones?
+  Did freezing affect the whole scene/UI or only the camera? During travel or
+  entering scenes? Was the tab continuously focused? Was a second run better?
+  **Answered in part:** public site, M1 MacBook Air, built-in speakers; freezes
+  around camera movement/house approach turns, recovering before the turn. Chrome
+  confirmed. **Updated:** also observed on an M4 Mac; investigate implementation
+  and performance first. Browser versions are not a blocking question. Capture
+  revision and reproducible routes during investigation.
+- **Q02 — Text boundaries:** Does “blurbs” apply to house/gameplay text, scripture,
+  or both? **Answered:** opening/ending scripture was perfect; exact verse addresses
+  were requested. Excess text means player thoughts/dialogue. Comic-book-like
+  blurbs are a candidate, not yet an accepted layout. Preserve scripture wording.
+- **Q03 — Quality:** Which one or two moments most felt artificial: images versus
+  3D, faces, motion, writing, sound, transitions? What would “good” look/feel like
+  in those moments? **Answered:** pretty but typically AI-looking diorama art,
+  low-quality-looking 3D models, occasional clunky character motion. Examples:
+  looking around the well, tight camera turns, and flying backward when opening
+  the gate instead of a small step. Desired art quality/reference remains open.
+
+### Round 2 — partly answered
+
+- **Q04 — House continuity:** Keep illustrations with a deliberate camera handoff,
+  keep the shepherd visible within illustrations, or explore live 3D dialogue?
+  **Answered:** keep illustrations; their house appears too small and changes
+  perspective, while the shepherd disappears. Compare a tighter matching crop
+  with a retained shepherd-back overlay against a first-person transition.
+  These alternatives need an in-context experiment, not another abstract choice.
+- **Q05 — Shepherd grouping:** Opening run, House 9 arrival, run to the Nativity,
+  or final standing formation? Should they travel as one group, or can companions
+  lead and wait? **Answered:** the companions inexplicably fail to catch up while
+  the player prepares the lamp and searches the village. Proposed alternative:
+  companions visibly enter and search an unused entrance-right house. Current
+  layout confirms **House 2** at X=11, Z=19; see E05. Background searching with later
+  glimpses is selected in D012; this is a narrative continuity initiative.
+- **Q06 — Reading control:** Player-paced beats with previous/next, automatic
+  pacing with pause/replay, or different rules for scripture and houses? Should
+  back/forward work only while a scene remains open, or also after leaving?
+  **Answered:** scripture is text-focused with previous/next; houses are simple
+  and forward-only. Their key problem is an immediate image change whose meaning
+  only becomes clear after reading the new text. This supersedes the proposal to
+  add back/forward to house dialogue.
+
+### Follow-up round — partly asked; remaining details queued
+
+- **Q07 — Door timing:** Identify the house and click sequence. Did the thank-you
+  appear as a button, spoken/text response, or after returning to 3D? Should the
+  sequence be advice → thanks while door open → farewell/close → return?
+  **Resolved:** House 8 is the example. Audit all house interactions, not only this
+  scene. Diagnose reading/image sequencing even where button order is correct.
+- **Q08 — Audio:** Did House 1 lose knocks, voice, or both? Was opening music audible
+  and sound enabled? Was any volume changed mid-play? Which effect was too loud
+  or quiet? **Partly answered:** Chrome; clear knocks, missing resident voice.
+  **Updated:** peaceful opening music cuts to silent running. Bridge that handoff,
+  including loading, and add footsteps/night ambience. Exact bed and optional
+  exploration score can be chosen through listening prototypes.
+- **Q09 — Loading:** Was there an actual loader, blank illustration, model pop-in,
+  or simply a different-looking picture? Would more preparation during the intro
+  be acceptable if it reduced later interruptions? Which transition is worst?
+  **Resolved:** the plain 2D loader's style and immediate swap in/out are the
+  reported issue. Investigate initial-only loading versus staged preparation;
+  do not assume all assets should become resident at startup.
+- **Q11 — Companion search staging (asked):** House 2 confirmed. Background
+  search with later glimpses, one split-up moment, or an explicit group decision?
+  Should it add any player clicks? **Answered:** background search with later
+  glimpses. No extra required player clicks.
+- **Q12 — Different paging rules (asked):** Proposed scripture previous/next plus
+  exact references; houses use brief bubbles, page arrows and named story actions.
+  **Resolved:** scripture previous/next; houses forward-only, brief, and semantically
+  synchronized with images. The proposed house back/forward controls were rejected.
+- **Q13 — Which open-door house (asked):** House 3, resident giving gate directions,
+  or House 8, old man suggesting the empty stall? **Resolved: House 8.**
+- **Q14 — Gameplay sound (asked):** quiet night/village ambience and effects, or
+  ambience plus gentle exploration music? **Direction resolved:** gradual music
+  handoff and an audible world, including footsteps and night ambience. A continuous
+  exploration score is not required by this answer; audition it only if useful.
+- **Q10 — Product priorities:** Intended audience, primary device and typical
+  session length? Which two problems most deserve the next focused pass? What
+  currently works well enough to preserve? Any named reference and the specific
+  quality to borrow? **Audience/device priority resolved:** wide audiences and
+  lower-powered devices first. Duration and specific art references can be refined
+  within their own work items; they do not block starting the feedback programme.
+
+### Decisions to make during the work — no immediate questionnaire
+
+- I03: compare two real House 8 handoffs (shepherd overlay versus first person),
+  then select one using matched scale/framing and a normal-speed review.
+- I04/I08: measure cold startup, memory and interruption costs before choosing
+  initial-only versus selective staged loading; pick a representative lower-end
+  physical test device as part of the investigation.
+- I01: audition the night-sound palette and mix through the loading interval.
+- M5: choose the first languages, translation/scripture sources, voice tools and
+  per-character/narrator voices before generating the first localized content.
+
+## Simple tweaks
+
+A tweak is a localized adjustment to an existing, understood behavior, with no new
+system, asset pipeline or unsettled experience contract. These are **candidates**;
+promote one into its parent initiative if discovery reveals broader work. Size S
+means one focused change/review cycle, not an elapsed-time estimate.
+
+| ID | Proposed change and boundary | Dependencies | Acceptance and verification | State |
+| --- | --- | --- | --- | --- |
+| T01 | Trim player thoughts/dialogue and repeated non-scriptural instructions; one idea per blurb. Inventory before/after copy and preserve next-action meaning. No wholesale story rewrite. | Q02 scope settled; I02's chosen presentation | Review copy in its actual scene, at desktop and narrow sizes. Player can state the lead/action without rereading; no character gains unsupported knowledge. | Basic instructions/UI accepted (D023); house copy remains open · S |
+| T02 | Use accessible arrow controls for existing page advancement where approved. Keep meaningful labels for actions such as Thank you/Leave. House back controls are explicitly excluded; scripture backward state belongs to I02. | D011; chosen forward cue | Keyboard and touch navigation, visible focus, accessible names, disabled/end states; minimum proposed 44 px touch target; no accidental exit. | Awaiting direction · S |
+| T03 | Correct a localized House 8 beat after reviewing its image/text timing. All-house coherence and handoff changes remain I03. | D014; I03 | Player understands the visible action without retrospective explanation; rapid input, pause and return work. Verify the actual mismatch rather than assuming a button reorder fixes it. | Needs timing review · S |
+| T04 | Adjust an isolated effect's gain after comparing it with reference voice/music. Avoid an unmeasured global volume change. | Q08; I01 mix baseline | Same device/output/settings before/after; voice intelligible, no startling peak, muted play still works. Record the chosen gains and listening verdict. | Needs audio evidence · S |
+| T05 | Initial spacing-tweak hypothesis withdrawn: clarification identifies missing companion search continuity. | D009; I05 | Do not implement a gap adjustment as the answer to F14. Retain this ID to explain the reclassification. | Superseded by I05 |
+| T06 | Restore exact verse address on each opening/ending cue. Source manifests already carry references; inspect presentation code that blanks/hides them. Preserve text, sequence and art. | D006; retain authored verse ranges | Every cue displays its exact manifest reference, including verse ranges; wording unchanged; desktop/narrow text stays legible. | Accepted (D023) · S |
+
+## Standalone initiatives
+
+Each initiative owns its parent outcomes. A completed tweak only closes its own
+acceptance criteria; it does not automatically close the parent initiative.
+
+### I01 — Audio continuity, reliability and mix
+
+**Proposed priority:** high. **Size:** M–L. **Status:** discovery.
+**Covers:** F01, F02, F07, F12 and audio portions of F09.
+
+1. Reproduce House 1 on a fresh visit and replay; separate fetch failure, decode
+   readiness, suspended context, global sound state, missed cue and low audibility.
+   Capture timestamps for action, media-ready, context state and voice cue.
+2. Define sound ownership and one user sound preference across stories and gameplay.
+   Current story mute is local to `journey-story.mjs`; several scenes create their
+   own AudioContext. Inventory voices, knocks, gate, lamp and reunion effects.
+3. Keep music alive for an agreed fade/handoff before destroying the story and
+   releasing media URLs. Define finish, skip, restart, failure, background-tab and
+   reduced-motion behavior; visual reduced motion must not imply an audio cut.
+   The bridge spans **diorama → any real preparation wait → running intro**. Keep
+   a lightweight audio owner alive while the heavy renderer is paused/unloaded.
+   Fade the peaceful score gradually; introduce the next ambience before it becomes
+   perceptually silent. Do not couple audio lifetime to overlay removal or add
+   artificial loading delays to accommodate a fade. Rebalance the reported louder cue.
+4. Make House 1's spoken cue deterministic after readiness. Current `begin()` starts
+   simulation while `unlock()` awaits voice decode; the 3.3 s cue is marked played
+   even without a buffer. Test the hypothesis before choosing a fix. Decide how a
+   delayed or failed voice affects timing; keep the subtitle/recovery path useful.
+5. Add the agreed village ambience and transition it through conversations and the
+   ending. Use owned/licensed audio, record attribution and independent runtime
+   copies. Begin with soft wind and insects as candidate layers; audition possible
+   distant animal calls only where plausible and tonally appropriate. The user's
+   mention of jackals is an example, not an approved loop or historical claim.
+   Add audible footfalls tied to running/walking, including the opening trio;
+   silence during a visible action must be deliberate. Decide whether dialogue
+   ducks ambience/music. Additional exploration music is optional. No paid assets assumed.
+6. Establish music/ambience/voice/effect gains with a listened reference mix. Use
+   T04 for isolated corrections; use shared gain routing when coherence requires it.
+
+**Implementation surfaces:** `src/journey-story.mjs`, `src/boot.mjs`,
+`vendor/story-diorama/story-diorama.mjs`, `src/house-scene.mjs`,
+`src/gate-scene.mjs`, `src/empty-stall-scene.mjs`,
+`src/companion-reunion-scene.mjs`, media credits and loading lifecycle.
+
+**Done when:** normal finish and skip have the agreed audible handoff; one sound
+setting consistently governs the active experience; House 1's cue is delivered
+once or gives a clear silent fallback; delayed/failed media, pause/resume and
+restart cannot leak or duplicate sounds; gameplay has the agreed ambient bed;
+voice/effects are comfortable on the target output. Attach isolated-event and
+mixed-play recordings with volume/output settings plus human listening results.
+Review a fast-ready entry and a deliberately delayed entry so the bridge works
+with and without a loader; include ordinary laptop/phone speakers. Keep text
+usable with sound off. Preserve a narration channel for M5 without producing
+multilingual voices during this first feedback programme.
+Screenshots and silent browser checks cannot accept this initiative.
+
+### I02 — Scripture navigation and brief gameplay dialogue
+
+**Proposed priority:** high. **Size:** M. **Status:** core contract settled (D006/D011); exemplar layout/timing to review.
+**Covers:** F03, F04, F10, F11, F13; T01/T02 may deliver small parts. F16 is T06.
+**Settled boundary:** opening/ending scripture content is good; preserve its wording
+and add exact verse addresses. Rework player thoughts/dialogue presentation.
+
+1. Treat scripture and interactive scenes as different reading experiences. Keep
+   the opening/ending text prominent and unchanged; show exact verse addresses
+   (T06), and add previous/next controls without losing the associated illustration.
+   Scope is traversal within the active scripture sequence; a cross-scene history
+   feature has not been requested.
+2. Inventory player thoughts and house/companion dialogue. Shorten unnecessary
+   explanation; one idea per beat. Mock up comic-style thought/speech blurbs in
+   the action area using House 8, preserving speaker identity and legibility.
+   Compare against a compact nearby caption; do not move scripture into bubbles.
+3. Keep houses forward-only. Do not add a back button as compensation for confusing
+   text or imagery. Distinguish a neutral forward arrow from explicit actions such
+   as asking, thanking or leaving; arrow-only house controls remain a proposal.
+4. Author each house beat as image state + speaker + short line + next action.
+   A visible action should not look inexplicable until the player finishes reading
+   its explanation. Coordinate transition and reading behavior with I03's exemplar
+   below, instead of applying a global fade or shorter copy alone.
+5. Implement reversible scripture presentation without repeating world actions,
+   unexpectedly restarting music or ending the story from a previous control.
+   Going back from the last verse must keep the story active; exit stays explicit.
+   House forward progression must remain exactly-once under rapid input.
+6. Review one scripture sequence and one house, then apply their distinct accepted
+   patterns across the other scenes. Validate keyboard, touch, pause and narrow
+   layouts; preserve complete text and meaningful speaker cues.
+
+**Implementation surfaces:** `src/journey-story.mjs`, scripture manifests,
+`src/house-sighting-scene.mjs`, house state modules and `src/rehearsal-route.mjs`,
+`story.css`, `house-sighting.css`, `player.css`, HTML controls and vendor player
+seek behavior. Do not add unnecessary house history/state reversal.
+
+**Done when:** scripture is unchanged, correctly referenced and reviewable backward
+and forward with matching imagery; house thoughts/dialogue are brief, forward-only,
+and understandable with the currently visible image; no line overflows/occludes
+its subject at target sizes; controls work by keyboard and touch; world side
+effects occur once. Human review checks comprehension and image/text timing, not
+merely whether text fits. The bottom position of scripture is not itself a defect.
+
+### I03 — House conversations as part of the same journey
+
+**Proposed priority:** high. **Size:** M; keep existing illustrated approach.
+**Status:** House 8 confirmed; all-house review and two handoff experiments directed (D014).
+**Covers:** F05, F06, visual portions of F09.
+
+1. Inventory **Houses 1, 3, 5, 8 and 9** from approach through departure. For each,
+   record what the player expects, sees, reads, hears and does. House 8 is the first
+   exemplar, not the only scene in scope. Preserve the distinct refusal, helpful
+   sighting, unanswered door, advice and shelter-direction story functions.
+2. Keep illustrations (D008). Compare two bounded House 8 prototypes using the
+   same original camera and beat sequence:
+   - **A — Third-person continuity:** crop/zoom to match the 3D doorway's screen
+     size and vanishing lines; composite a captured shepherd-back/lantern layer
+     at matching scale, lighting and occlusion. Check alpha edges, duplicated
+     shadows/lighting, alignment through transitions and mobile composition.
+   - **B — First-person continuity:** visibly move from behind the shepherd to
+     his viewpoint before handing off to tightly matched art; return coherently
+     afterward. Removing the avatar must read as viewpoint change, not disappearance.
+   Both should avoid showing a miniature duplicate house floating over a larger
+   3D house. Review panel size, crop and background treatment together. Do not
+   generate replacement art until framing tests show the existing image cannot work.
+3. Preserve doorway geometry, direction, scale, light, resident identity, carried
+   lantern and player location through the chosen handoff. Author a return shot
+   that explains where the player stands and what happens next.
+4. Separate visual transition time from reading time. Prepare imagery before the
+   conversation needs it in coordination with I04. Keep the world or last valid
+   frame visible during an actual wait; use the required loader/status if blocked.
+5. Agree farewell sequencing, then apply T03 where sufficient. Review quiet beats
+   and rapid input; disable or serialize transitions without dropping content.
+   Use the timing storyboard below before changing transition durations.
+6. Apply the accepted illustrated handoff to Houses 3 and 9, and complete a flow
+   audit/fix pass for House 1's refusal and House 5's unanswered visit. Those do
+   not need an illustrated resident, but their pacing, thoughts, gesture, sound
+   and departure must tell a coherent story too. Record a per-house verdict.
+
+**Implementation surfaces:** `src/house-sighting-scene.mjs`, house state machines,
+`src/village-game.mjs`, camera/presenter CSS, `assets/house-3/`, `house-8/`,
+`house-9/`, relevant scene briefs. Use the create-asset workflow only if new 3D
+assets are chosen; do not generate replacements before resolving staging.
+
+**Done when:** a player can identify the same house, shepherd position and onward
+lead across the handoff; thanks/farewell order matches the chosen emotional beat;
+illustrated house scale and perspective feel continuous; no unexplained avatar
+disappearance; pause, retry and return retain state. All five houses have a recorded
+flow review. Attach matched stills for framing and a normal-speed recording/playtest
+for timing. Existing scene acceptance reopens only where this change affects it.
+
+#### Proposed house beat contract — House 8 first, then all interactions
+
+The user’s concern is semantic timing: the new picture arrives instantly, but its
+meaning becomes clear only after reading. A dissolve alone will not solve that.
+This is a proposed exemplar for review, not an approved script or timing value.
+
+| Beat | Image held while reading | Short text/action relationship | Progression |
+| --- | --- | --- | --- |
+| Someone approaches | Closed doorway in matching camera | Brief anticipation such as footsteps; no claim that an unseen person already greeted the player | Only introduce the open-door image once its reveal is understandable |
+| Question and response | Open doorway, resident present | Short dialogue tied to the visible speaker; do not change action/state mid-line | Player moves forward when ready; reuse image when no action changes |
+| Thanks | Resident still present with door open | Thank-you is the player's action/line before the farewell consequence | On that action, stage farewell, then close; do not show the consequence before the user knows why |
+| Return | Settled closed door or matching 3D return | If a caption is needed, describe the current settled state; avoid retrospective text that explains a surprising cut | Explicit onward action; no required rereading/backtracking |
+
+During a transition, define when old text leaves and new text appears so neither
+is paired with a contradictory image. Try a short anticipation beat versus simply
+rewriting a line to match the image's current state. Test at natural reading speed
+and with immediate clicks. Do not add arbitrary forced waits to every line. Keep
+House 1's refusal and House 5's silence separate from this illustrated-house rule.
+
+### I04 — Engine/camera investigation and lower-end performance
+
+**Proposed priority:** high diagnostic work; fixes follow measured cause.
+**Size:** unknown until trace. **Status:** independent investigation authorized by direction;
+no root cause established. **Covers:** F08, R01 and resource costs underlying F09.
+**Reproduction leads:** both M1 Air and M4 Mac show freezes. Start with engine/render
+resource handling and camera state/turn logic. Browser versions are incidental
+metadata unless a trace later implicates them. **Optimization target:** lower-powered
+devices first; choose a representative modest phone/tablet or other relevant device
+for physical validation. Stronger machines should run the same coherent experience
+comfortably; do not spend the gains on an unnecessary ultra-quality tier.
+
+1. Reproduce on available M1/M4 hardware without waiting for exact browser versions.
+   Record cold and warm full-entry runs and
+   specific walking legs; label focus changes. Measure raw frame intervals, long
+   tasks, resource requests/decode, first-use GPU work and memory where available.
+   Determine whether the world/UI freezes too or only the camera stops following.
+   Pair world/actor/camera transforms and phase changes with frame timing: a stalled
+   camera target with responsive rendering calls for a different fix from a blocked
+   main thread or GPU. Capture a short trace around a visible freeze before optimizing.
+2. Use existing per-leg samples in `src/village-game.mjs` for leads, not proof.
+   They exclude pauses/hidden time and cover walking only. Add targeted timing for
+   opening, stationary scenes, conversation preparation and ending; retain raw
+   intervals even though simulation `dt` is capped at 0.1 s.
+3. Correlate each visible interruption with a trace. Inspect draw calls, geometry,
+   texture residency, camera computation and decode/upload only where implicated.
+   Recent detailed nativity assets are a budget concern, not an established cause.
+4. Define a modest device budget for peak memory, texture resolution/residency,
+   visible geometry/draw calls, startup time, data transfer and frame pacing. Check
+   fixed-light/shadow costs and native pixel ratio where traces justify it. Network
+   constraints should be measured alongside compute/memory for the intended audience.
+   Supply the measurements needed for I08's loading strategy; initial-only versus
+   selective preparation must be evaluated against the same device budget.
+5. Apply measured fixes, such as image preparation/compression, shader warmup,
+   model/texture budgets, selective LOD or camera-cost reduction. Preserve source
+   assets, appearance, independent copies and accurate provenance.
+6. Verify cold/warm behavior, throttled/failed resources, retry, background/resume,
+   physical lower-end hardware and hosted `/story-lab/` paths. Compare M1/M4 traces
+   as regression checks, not evidence that the lower-end target is satisfied.
+
+**Done when:** the reported freeze has a reproduction and fix, or is explicitly
+left unreproduced with bounded evidence; comparable traces show improvement at
+the same settings; normal route has no unexplained multi-frame stalls or blank
+scene changes; unavoidable waits have truthful status and retry without losing
+progress. Proposed measurement goals for discussion: a stable 30 fps experience on
+the selected lower-end baseline and no unexplained stalls over 100 ms in a repeated
+route. Confirm budgets after baseline; do not report device-wide success from a
+desktop screenshot or relaxed thresholds chosen after implementation.
+
+**Implementation surfaces:** `src/boot.mjs`, `src/village-game.mjs`,
+`src/house-sighting-scene.mjs`, `src/story-media.mjs`, renderer/world/camera modules,
+runtime models/images and staged-loading checks. I08 owns the player-facing wait
+and transition design; I04 owns the diagnosis and measured resource/frame budgets.
+
+### I05 — Companion search continuity from entry to reunion
+
+**Proposed priority:** high for narrative coherence. **Size:** M.
+**Status:** problem and candidate house confirmed; background search with later glimpses agreed (D012).
+**Covers:** F14. **Supersedes:** T05's spacing-only hypothesis (D009).
+
+The complaint is not the initial gap. All three shepherds are close enough at the
+opening that the others should catch up while the player assembles the lantern,
+visits houses and searches the whole village. Their much later arrival currently
+makes them seem lost. The proposed direction is visible parallel searching.
+
+**Location confirmed:** House 2, world X=11/Z=19, is the first house to the right
+when entering toward −Z. It is not one of the active player conversation stops.
+See [entrance map E05](evidence/2026-09-17/05-entrance-map.jpg) and the canonical
+[rehearsal layout](../../map/rehearsal-layout.json). House **2** is distinct from
+route point **02**, which is House 1. Its existing inward-facing door must be
+approached on the actual doorway side, not at its centre or through its annex.
+
+1. Storyboard the opening→lamp handoff: main shepherd heads to the workbench;
+   companions continue into the village and visibly branch right to House 2.
+   Decide whether a glance/gesture is enough or a short split-up line is needed.
+   Keep dialogue within established character knowledge; a new searching exchange
+   is invented connective storytelling, not scriptural detail.
+2. Stage a convincing knock/search at House 2 using existing companions. It is
+   background activity with no extra required clicks (D012). The player should
+   notice it from the lamp approach without mandatory waiting. Confirm visibility
+   on narrow screens.
+3. Include a small number of later glimpses of searching (D012). Choose visible
+   route intersections and inspect actual camera sightlines before authoring paths.
+   Avoid companions visibly looping at one doorway for the entire playthrough or
+   teleporting between houses when the player looks back. Later search locations
+   remain to be designed; House 2 alone is not the complete initiative.
+4. Define durable companion phases (proposed): enter → branch → knock/search →
+   onward search → approach opened gate → reunion → follow to shelter. Use gameplay
+   milestones plus local animation time so fast/slow readers, long lamp assembly,
+   pause, restart and repeated navigation all remain plausible. Actor ownership
+   must transfer from the opening to search to reunion without vanishing/resetting.
+5. Reconcile their House 9 approach with the route they actually searched. Current
+   reunion paths enter from the House 1/3 lane; a House 2 start cannot silently
+   imply that same history. Plan a traversable connection, preserve the gate's
+   locked/open state, and review whether “We saw your light!” still fits.
+6. Verify short and long player dwell at lamp and houses; ensure no duplicate
+   companions, obstructed paths or missing knock gesture. Preserve separate
+   companion identities and existing assets unless a specific animation is needed.
+   Update route/map evidence if paths or placements change.
+
+**Implementation surfaces:** `src/journey-model.mjs` opening actors,
+`src/village-game.mjs` opening→play transition, `src/companion-reunion-scene.mjs`
+actor visibility/ownership, `src/companion-reunion.mjs` paths/dialogue,
+route state/pause/restart, existing House 2 transform and collision footprint.
+Current `poseOpening()` shows actors during the intro, while reunion actors begin
+hidden in a pending phase; this handoff is a source-inspection lead.
+
+**Done when:** a first-time player understands that the companions are also
+searching; their absence during conversations and later return have a credible
+spatial/time explanation; House 2 activity is visible without derailing lamp
+preparation; both fast and slow play retain continuity; existing reunion and final
+arrival work. Attach entry/search/reunion motion evidence and obtain a human
+continuity verdict. Mere offset changes cannot close this item.
+
+### I06 — Visual and editorial consistency
+
+**Proposed priority:** medium; concrete defects may move earlier.
+**Size:** M audit, later replacements individually sized. **Status:** symptoms
+identified (D007); exact visual references and desired quality still needed.
+**Covers:** F15 and remaining art mismatch from F09.
+
+1. Use the clarified split: generated-looking diorama art and low-quality-looking
+   3D models. Movement complaints are owned by I07. Ask which model/image most
+   needs attention and what quality should replace it. Build a small comparison
+   board spanning opening illustration, gameplay, one house and ending. Label
+   which judgments are user feedback and which are the reviewer's hypotheses.
+2. Audit against Follow the Light AA v003: natural proportions, tactile materials,
+   readable silhouettes, cool night/warm local light. Also examine identity,
+   architecture, painted versus 3D detail, animation, UI materials and wording.
+3. Select the two most disruptive mismatches, with explicit keep/change references.
+   First assess lighting, framing and material adjustments using existing assets.
+   Separate generated-image artifacts from low-resolution meshes, awkward motion
+   or uneven staging; each needs a different intervention.
+4. If replacement assets are necessary, create individual briefs through the
+   project asset workflow and I04's budgets. Keep useful source/provenance and copy
+   assets into the prototype; avoid a wholesale art regeneration initiative.
+5. Review a matched in-game result before repeating the approach elsewhere. Record
+   unresolved tradeoffs rather than treating “less AI” as a measurable technical score.
+
+**Done when:** the named mismatches are visibly resolved in matched context and the
+user accepts the selected examples as coherent. Automated geometry checks cannot
+approve style, historical plausibility or emotional quality.
+
+### I07 — Natural local movement and camera choreography
+
+**Proposed priority:** high for the reported gate/well examples. **Size:** M until
+reproduction; isolated parameter fixes may be S. **Status:** discovery (D007).
+**Covers:** F17/F18. Coordinate with I04, but do not conflate ugly motion with
+rendering stalls; I05 owns group relationships, I07 owns local bodily/camera motion.
+
+1. Reproduce the well look-around, tight house-approach turn, and gate-opening step.
+   Capture real-time motion, then inspect keyframes with avatar feet, world position,
+   animation, camera eye and camera target at matching timestamps.
+2. Determine whether apparent flying comes from root translation, a discontinuous
+   phase/pose handoff, missing/incorrect gait, a camera jump, or several together.
+   `src/empty-stall.mjs` authors an opening offset that returns to the route anchor;
+   that is a lead to inspect, not a proven explanation of the reported effect.
+3. Agree short, grounded action beats: step to operate the gate, clear its swing
+   with a small believable step, settle, then look onward. Keep foot travel and
+   translation consistent; avoid sliding or instantly resetting position. If a
+   backward-step animation is missing, size authored animation work explicitly.
+4. Tune look-around and tight turns using a stable focal target, sufficient turning
+   radius and controlled angular acceleration. Preserve route clearance and reveal
+   intent. Evaluate camera motion separately from character turning before changing
+   both; do not use heavy smoothing to hide a frame stall.
+5. Review these three scenes at normal speed, reduced motion, pause/resume and
+   neighboring route transitions, then identify any shared fix worth applying.
+
+**Implementation surfaces:** `src/empty-stall.mjs`, `src/empty-stall-scene.mjs`,
+`src/gate-scene.mjs`, `src/village-game.mjs`, `src/journey-camera.mjs`,
+route/character animation modules. Identify the exact well scene before editing.
+
+**Done when:** the gate clearance reads as a small grounded step rather than flight;
+feet and translation agree; looking around the well and house turns feel deliberate
+and comfortable; no new clipping or camera snap; a human reviews full-speed motion.
+Attach keyframes for diagnosis and a motion recording for acceptance. A screenshot
+alone cannot close this initiative.
+
+### I08 — Story-matched loading and continuous transitions
+
+**Proposed priority:** high. **Size:** M, with strategy dependent on I04 measurements.
+**Status:** experience direction settled (D015); loading architecture to compare.
+**Covers:** F09 and the visual/audio boundary in F01. No loader removal is assumed.
+
+The existing plain 2D graphics feel detached from Bethlehem, and immediate swaps
+in and out stop the narrative. Loading strategy and its visible treatment are
+separate decisions: even a necessary wait should retain the game's atmosphere.
+
+1. Map each current foreground wait: initial story, story→3D, house art and ending.
+   Record what is loading, whether it blocks input, time to readiness, retained
+   memory, and what the player sees/hears before, during and after it. Identify
+   redundant waits separately from unavoidable cold/failed requests.
+2. Compare the following approaches using I04's lower-end device budgets. Prefer
+   fewer interruptions when feasible, but never claim that more eager loading
+   improves performance without checking startup, transfer, decode and peak memory.
+
+   | Option | Player experience | Evidence required |
+   | --- | --- | --- |
+   | One initial foreground load | Play runs without repeated full-screen loading | Acceptable cold-start/data cost and memory throughout the route; what happens if a resource still fails |
+   | Initial load + selective preparation | Upcoming scene media prepare during reading/travel, with bounded residency | Preparation does not stall frames; typical entry is instant; slow/failure cases remain coherent |
+   | Selective preparation + contextual wait | Retain current scene or a lightweight matching still if a dependency is late | No heavy background rendering merely to decorate a loader; status/retry visible; audio/visual continuity preserved |
+
+3. Create a lightweight loading presentation using matching night lighting,
+   tactile materials and Bethlehem/lantern imagery. Start with existing approved
+   imagery where possible. Use motion restrained enough to fit the narrative;
+   do not make a high-cost 3D loading scene that waits on the assets it must mask.
+   User direction permits changing the option-2 artwork for this prototype.
+4. Define one transition lifecycle with I01: retain last meaningful frame → enter
+   preparation treatment if needed → ready → blend into next scene. Audio continues
+   under a separate owner. Keep the previous frame while incoming media becomes
+   usable; avoid shrinking a house behind a new panel or flashing a blank screen.
+5. Handle immediate readiness without a loader flash. Handle a long wait with
+   truthful status and useful retry. Never invent a percentage or hold the loader
+   for a minimum duration. Decorative motion/fades honor reduced motion; audio
+   continuity still applies. Pause/background/restart cancel obsolete transitions
+   and requests without leaking resources or repeating a scene outcome.
+6. Test story→3D with warm/cold/slow/failed preparation and the house/ending boundaries
+   at normal speed. Check the initial loader is visible before heavy module downloads
+   and that copied runtime files remain independently runnable and publishable.
+
+**Implementation surfaces:** `src/boot.mjs`, `src/story-media.mjs`,
+`src/journey-story.mjs`, `src/house-sighting-scene.mjs`, initial HTML,
+`loading-theatre.css/js`, scene overlays and audio ownership. Preserve the existing
+loader's immediate startup, truthful status/retry and accessibility contracts;
+implement this as a scoped Shepherd Adventure revision.
+
+**Done when:** chosen loading strategy meets the lower-end budget; loader art feels
+part of the same night journey; expected play avoids unnecessary foreground waits;
+necessary waits have coherent entry/exit and continuous audio; cold/error/retry paths
+remain usable. Attach measured strategy comparison and normal-speed recordings.
+
+### I09 — Multilingual text and generated voices
+
+**Milestone:** M5, **after the initial feedback programme (M0–M4)**.
+**Size:** L, delivered as a small language pilot before expansion.
+**Status:** milestone requested; languages and voice/content choices to be specified
+when this milestone begins. **Covers:** R02. No translation or voice generation is
+included in the current planning pass.
+
+1. **Language entry and scope.** Add a language choice on the starting screen before
+   the opening story, with recognizable language names and an explicit start action.
+   Establish the first language set, default/fallback and whether selection persists.
+   Do not assume English-only UI can explain the picker. Plan a safe way to change
+   language; if supported mid-session, preserve progress and stop the previous voice.
+2. **Content foundation.** Inventory scripture, character dialogue/thoughts, narrative,
+   instructions, loading/error/status text, controls, captions and accessibility
+   labels. Use stable scene/line IDs and locale catalogs with separate text, speaker,
+   reference and audio asset metadata. Future story additions use the same structure.
+   Keep scripture references exact and select appropriate reviewed translations;
+   do not automatically paraphrase scripture through general machine translation.
+3. **Translations and layout.** Start with a complete second-language vertical slice
+   spanning entry→opening→one house→ending, then cover the entire route. Review
+   meaning, biblical/character knowledge and cultural clarity with competent language
+   reviewers. Support text expansion, required fonts/glyphs and directionality for
+   the selected languages. Review brief blurbs in each language rather than enforcing
+   English character counts. Record translation/attribution requirements per source.
+4. **Voice pipeline.** Inspect the existing AI voice mechanisms available to the
+   project, choose suitable language/voice coverage and define character/narrator
+   identities. Produce reviewed audio assets ahead of delivery, retaining text/locale/
+   voice/version mapping and pronunciation notes. Keep provider credentials and paid
+   job recovery outside public runtime files. Generate a small pilot before batches;
+   a voice existing for a language does not establish natural delivery or accuracy.
+5. **Narration behavior.** Add voices to agreed readable story, thought and dialogue
+   beats while preserving visible text and sound-off access. Use I01's shared mix,
+   duck ambience if helpful and avoid overlapping speakers. Respect differing line
+   lengths: player advance/replay/pause must stop or replace the correct voice, not
+   skip content because a fixed English duration elapsed. Scripture back/forward
+   selects the corresponding narration; house flow remains simple and forward-only.
+6. **Resource delivery.** Load the selected language's text/voice assets, not all
+   languages upfront. Reuse I08's preparation strategy, bounded cache and recovery
+   behavior; account for added data/memory on the lower-end target. Missing voice
+   falls back to readable text in the chosen language with an understandable status;
+   avoid surprising mixed-language audio. Version text and audio together.
+7. **Acceptance and expansion.** Verify complete locale coverage, selection/restart,
+   playback/paging, failure/offline-resource behavior and readable layouts. Have a
+   competent speaker review each language's text, pronunciation, identity and pacing.
+   Accept the first complete language pilot, then add locales incrementally with
+   the same checklist and a distinct completion log entry per locale.
+
+**Decisions at M5 kickoff:** first languages; scripture/translation sources and
+reviewers; narrator/character voice choices and provider; which reading beats get
+voice first; locale persistence/change behavior and acceptable delivery sizes.
+These are future milestone inputs, not unresolved questions blocking M0–M4.
+
+**Implementation surfaces:** starting screen/boot, scripture manifests, scene copy
+and controls, a locale/content catalog, audio asset manifests, existing voice tools,
+I01's shared audio layer and I08's media loading. During feedback work, avoid baking
+new copy into artwork or tying animation completion to text length; full localization
+architecture belongs to M5.
+
+**Done when:** language can be selected before play; every in-scope player-facing
+string and chosen narrated beat uses the selected locale; scripture addresses and
+meaning remain correct; reviewed voices play with matching text and coherent timing;
+silent/missing-audio paths work; target-device memory/data/frame budgets still hold.
+
+## Milestones and execution order
+
+**Programme 1 — Initial playtest feedback:** M0–M4 are delivery stages within this
+programme. **Programme 2 — Multilingual experience:** M5 follows it. Stable milestone
+IDs are retained; no earlier milestone is renamed or silently considered complete.
+
+| Milestone | Deliverable | Dependencies / exit |
+| --- | --- | --- |
+| M0 — Evidence and direction | Feedback register and baseline; House 8, loader/audio direction and audience priority resolved | Core direction recorded. Gather missing motion/audio/trace evidence during the relevant initiative; browser-version collection is not a gate. |
+| M1 — Reliability diagnosis and focused repairs | Independent engine/camera freeze investigation, lower-end budgets, House 1 voice reproduction and I08 loading-strategy comparison | I01/I04 diagnosis can begin now. Measure before choosing resource fixes or eliminating staged loading. Each repair needs evidence. |
+| M2 — House 8 exemplar and scripture controls | T01 basic prompts/UI and T06 references accepted (D023); house work and scripture back navigation remain open. Two handoff experiments, matched house scale, coherent forward-only beats; scripture references/back/forward | I02/I03 direction settled. Human review chooses overlay versus first person before rollout. |
+| M3 — Integrated journey | Audit all five houses; roll accepted handoff to illustrated houses; audio through loading, matching loader art, companion search and grounded motion | I01–I05/I07/I08 integrated. Include fast/slow preparation and normal-speed start→ending playtests. |
+| M4 — Quality and feedback-programme acceptance | Selected I06 corrections, physical lower-end playtest, higher-end regression, outstanding issues triaged, public build checks | Human acceptance distinct from technical checks. Initial feedback programme accepted or explicitly deferred items recorded. Deployment still requires separate authorization. |
+| **M5 — Multilingual text and voices** | **Starting-screen language picker, localized content, generated narration/dialogue, reviewed language pilot then full-route coverage** | **After M0–M4 feedback programme. I09 depends on stable content, I01 audio and I08 loading. Choose languages/voices at kickoff; verify readable, audible and lower-end-device experience per locale.** |
+
+Within a milestone, select one bounded item for each implementation session. Prefer
+early diagnostics for freezes/audio and one representative conversation before
+editing every house or commissioning new art. Do not batch every “simple tweak”
+while its decisions are unsettled. Work can stop at any accepted checkpoint.
+
+## Validation map
+
+Existing checks are starting points to inspect and update, not a claim that they
+pass now. Some older browser checks expect historical placeholder states.
+
+| Area | Relevant existing checks | Required human evidence |
+| --- | --- | --- |
+| Audio and opening/ending lifecycle | `checks/verify-story-loading.mjs`, `verify-story-sequence.mjs`, `verify-house-scene.mjs`, `verify-house-rejection.mjs` | Audible normal/skip transitions, House 1 on target output, mix comparison |
+| House state, navigation and timing | `verify-house-sighting.mjs`, `verify-house-sighting-scene.mjs`, `verify-house-advice.mjs`, `verify-house-owner.mjs`, `verify-house-owner-browser.mjs`, `verify-rehearsal.mjs` | Door sequence, reading flow, no loss of place, desktop/touch |
+| Frames/loading | Existing frame samples, `verify-story-loading.mjs`; new trace for actual failure | Same-device cold/warm full route and slow/failure recovery |
+| Loader experience | Initial-HTML/status/retry checks plus I08 cold/warm/slow/failed resource scenarios | Matching atmosphere and coherent entry/exit; audio heard throughout legitimate waits |
+| Lower-end baseline | I04 frame/resource measurements on selected physical device; M1/M4 regression | Usable full route under modest compute/memory/network limits; higher-end quality not the baseline |
+| Group/camera | `verify-companion-reunion.mjs`, `verify-companion-scenes.mjs`, `verify-companion-models.mjs`, `verify-journey-camera.mjs`, `verify-nativity-arrival.mjs` | Identified group beat at normal speed and final composition |
+| Local movement/camera | `verify-empty-stall.mjs`, `verify-journey-camera.mjs`, `verify-animation-transitions.mjs`; add a focused regression only after reproduction | Well look-around, tight turns, gate small step at normal speed |
+| Release | Portal publication review, build/path/dependency checks | Live portal tile→play→ending after authorized deployment |
+| Multilingual M5 | New locale coverage, selected-language loading, picker/restart, narration/paging/fallback checks | Competent-speaker review, text expansion/directionality, pronunciation and full-route timing on target devices |
+
+## Decisions and deviations
+
+Append dated entries. A proposal is not accepted direction; a later decision must
+name the prior decision/item it supersedes and explain the impact.
+
+| Date | ID | Record | Authority / impact |
+| --- | --- | --- | --- |
+| 2026-09-17 | D001 | Capture feedback as a living prototype roadmap; separate tweaks and standalone initiatives; log completion and deviations; document the repeatable exercise. | Explicit user request. |
+| 2026-09-17 | D002 | Planning and evidence only in this pass. | Scope interpretation of the request for a detailed implementation plan. No gameplay changes made. |
+| 2026-09-17 | D003 | Keep standing Follow the Light AA v003 and existing scripture pending specific changes. | Existing project direction; no new preference inferred from broad feedback. |
+| 2026-09-17 | D004 | Q01–Q06 asked; initially unanswered. Q01/Q02 subsequently clarified below. | Keep remaining questions open. Proposed options are not selections. |
+| 2026-09-17 | D005 | Public site tested on M1 MacBook Air with built-in speakers; freezes around house-approach turns, location repeatability unknown. | User clarification; prioritize this setup in I04. Chrome subsequently confirmed in D013; version/build still needed. |
+| 2026-09-17 | D006 | Opening/ending scripture was perfect; add exact verse addresses. Excess text concerns player thoughts/dialogue; comic-style blurbs suggested. | User direction; supersedes broad text-shortening scope. T06 added; no scripture rewrite. |
+| 2026-09-17 | D007 | Quality feedback separates attractive but AI-looking diorama art, poor-looking 3D models and clunky motion. Specific well/tight-turn/gate examples recorded as F17/F18. | User clarification; added I07, kept art and performance causes distinct. |
+| 2026-09-17 | D008 | Keep illustrated house conversations; improve the handoff. | User decision; excludes live 3D conversation conversion from I03. |
+| 2026-09-17 | D009 | Companions need a credible search during the player’s village journey. Candidate: visibly go to an unused entrance-right house. Layout/browser map confirm House 2 (X=11, Z=19). | User problem/proposal; location verified locally. Replaced spacing-only T05 with I05 continuity work. Background/glimpses subsequently selected in D012; exact routes still to design. |
+| 2026-09-17 | D010 | Stories and houses should have different navigation/pacing behavior. | User direction; exact split subsequently resolved in D011, which rejects house back/forward. |
+| 2026-09-17 | D011 | Scripture should focus on text with previous/next. Houses should be simple and forward-only; image/text must make sense together without needing to reread. | User direction; supersedes Q12 proposal for house back/forward. I02/I03 updated with semantic timing contract. |
+| 2026-09-17 | D012 | Companions search in the background, with later glimpses during the journey. | User selection; no new required player clicks. I05 updated. |
+| 2026-09-17 | D013 | Browser was Chrome. House 1 knock was clear; only resident voice missing. Awkward exchange was the second house where someone opens. | User clarification; audio reproduction narrowed. House identity subsequently resolved as House 8 in D014. |
+| 2026-09-17 | V001 | Current House 8 shows Thank you before closing, unlike the reported example. | Preserve F05; identify the actual house/build instead of declaring it fixed. |
+| 2026-09-17 | D014 | House 8 confirmed as example; review all house interactions. Image shrinks versus the 3D house and shepherd disappears. Compare matching crop/scale plus shepherd-back overlay against first person. | User clarification; resolves Q07/Q13 and refines D008. Button order in V001 does not dismiss the timing complaint. |
+| 2026-09-17 | D015 | Plain/simple 2D loader breaks the Bethlehem atmosphere; instant swaps require coherent transitions. Investigate whether one initial loader can replace repeated staged interruptions. | User direction; resolves Q09, adds I08. Authorizes a scoped loader-art revision; does not decide eager loading before measuring lower-end memory/startup costs. |
+| 2026-09-17 | D016 | Fade peaceful story music into an audible running/world experience, through loading if present. Add footsteps and night ambience; wind/insects/possible animal sounds are examples. | User direction; resolves Q14 experience requirement. Continuous gameplay score remains optional; audio palette to audition. |
+| 2026-09-17 | D017 | Freezes also occur on M4 Mac. Investigate engine/resource and camera behavior as a standalone effort before browser-specific theories. | User direction; supersedes browser-version emphasis in D005/D013. No root cause assumed. |
+| 2026-09-17 | D018 | Broad audience with lower-powered devices, including lower-income communities, is the first optimization target. Higher-powered devices need a comfortable experience, not maximal graphics. | User product priority; R01 governs I04 and every new media/visual feature. |
+| 2026-09-17 | D019 | Add multilingual support after initial feedback: language picker at start, localized reading content and AI-generated voices using available voice tools. | Explicit user request; R02/I09/M5 added. Languages, reviewed sources and voice choices are kickoff inputs, not assumed selections. |
+
+| 2026-09-17 | D020 | Apply initial T01 review feedback: centered action-only basic prompts, compact forward-only lamp cards, title before first scripture, no book heading, exact verse addresses. Extend only to entry/gate/empty-stall instruction repetition. House interactions and companion dialogue await later feedback. | Explicit user request; new `codex/t01-player-instructions` branch. T01 partial, T06 implemented, both awaiting playtest. I02 presentation partly delivered; scripture back navigation and I03 house work remain open. [Scope and evidence](evidence/2026-09-17-t01/README.md). |
+
+| 2026-09-17 | D021 | Replace head-overlapping bare actions with a padded upper-middle exploration panel. Move all house approach prompts to a shared upper zone; central semantic variants own placement, shared buttons own border/focus treatment. | User playtest correction supersedes D020 placement. [UI contract](GAME-UI.md). House content/sequence remain deferred; new layout awaits playtest. |
+
+| 2026-09-17 | D022 | Remove gameplay header branding, replace Pause text with an accessible hamburger retaining the pause menu, lower shared exploration/house/spoken panels by half their height. | User screenshot feedback; refines D021. Preparation remains centered. Awaiting playtest. |
+
+| 2026-09-17 | D023 | User accepted the addressed instruction/UI changes, including panel/text positioning. Accepted scope: concise basic prompts; forward-only lamp cards and preserved reward; shared panel/button design; quieter hamburger menu; title-first scripture and exact addresses. | Explicit playtest acceptance. T01 remains partial: house dialogue/sequence and companion work not accepted. T06 accepted. M2 remains partial: scripture back navigation and house handoffs remain open. Next review is the complete House 1 encounter, split into intro, response and outro. |
+
+## Implementation and acceptance log
+
+Do not mark a feedback item complete just because code landed. Use
+**open → needs evidence/direction → ready → in progress → verified → awaiting
+playtest → accepted**, with **deferred**, **reopened** and **superseded** as explicit
+alternatives. Link deferred items to their revisit trigger. “Verified” is technical;
+“accepted” requires a recorded human review of the player-facing outcome.
+
+| Date | Item | Change/result | Validation/evidence | Human verdict | Revision / next step |
+| --- | --- | --- | --- | --- | --- |
+| 2026-09-17 | Planning baseline | Created roadmap/workflow; inspected active source; captured opening and House 8 before any product change. | E01–E05, browser-reviewed annotation boards, source references. Documentation links and whitespace checked. No audio/motion/performance verdict. | No gameplay item accepted. | Baseline `c42b500`; initial Q09/Q13/Q14 follow-ups subsequently resolved in D014–D019. |
+| 2026-09-17 | Roadmap clarification and next milestone | Resolved house/loading/audio questions; expanded all-house and lower-end investigation scope; added I08 loader transitions and I09/M5 multilingual voices. Updated throwaway visual roadmap. | D014–D019; 34 relative links checked, inline script syntax valid, browser filters/images and desktop fit verified. Existing game captures remain baseline evidence; multilingual preview is a roadmap screenshot only. | Direction recorded from user; no gameplay acceptance implied. | Q09/Q13/Q14 resolved. Select a feedback-programme slice; choose language/voice details at M5 kickoff. |
+
+| 2026-09-17 | T01 partial / T06 / I02 slice | Implemented initial 10 feedback comments and analogous non-house instruction simplifications. | [Before/after, checks and deferred work](evidence/2026-09-17-t01/README.md). | Awaiting user playtest; no item accepted. | `codex/t01-player-instructions`, baseline `c42b500`; house review deferred until user feedback. |
+
+| 2026-09-17 | T01 / I02 placement revision | D021 shared panel variants, padded action surface and continuous button borders; house approach layout moved as requested. | Normal-route browser review at desktop/portrait; lamp, House 1 and rehearsal route checks passed. [Evidence](evidence/2026-09-17-t01/README.md). | Awaiting playtest. | Same feature branch; house dialogue/sequence remains deferred. |
+
+| 2026-09-17 | D022 / I02 UI refinement | Quiet hamburger menu, removed gameplay branding, lowered shared prompts. | Syntax/whitespace passed; menu open/resume and exploration placement verified in browser. | Awaiting playtest. | Same feature branch; house content remains deferred. |
+
+| 2026-09-17 | T01 partial / T06 / I02 UI slice | D020–D022 delivered and user accepted addressed parts and instruction positioning. | Prior checks and user playtest; [accepted scope and next review](evidence/2026-09-17-t01/README.md). | Accepted within this bounded scope (D023). | Commit on `codex/t01-player-instructions`; next: House 1 complete interaction. No deployment authorized. |
+
+For every future completed part, add its item IDs, actual scope, before/after
+evidence, checks/results, limitations, user verdict, commit/PR if any and remaining
+work. Record new decisions/deviations in the table above in the same change as the
+implementation, then update feedback and milestone status. See the workflow for
+templates and the next-session entry checklist.
+
+## Next bounded review — H01: House 1, the closed-door refusal
+
+Review one entire encounter at a time, divided into three subsections. These IDs
+are review IDs, not new roadmap initiatives. Do not change house behavior until
+this review provides direction. Existing voice reliability concern F07/I01 remains
+open; subtitle visibility does not prove the voice played.
+
+| ID | Subsection | Current experience |
+| --- | --- | --- |
+| H01-A | Intro / approach | Walk from the lamp workbench; face the dark house. “The house is dark. Perhaps someone inside can help.” → **Knock on door**. |
+| H01-B1 | Knock | Click once. “You knock on the wooden door.” Three knocks at 0.85, 1.2 and 1.55 seconds. No additional action button. |
+| H01-B2 | Wait | At 1.9 seconds: “You wait at the closed door.” |
+| H01-B3 | Wake | At 2.5 seconds: light on; “A light comes on inside the house.” |
+| H01-B4 | Refusal | At 3.3 seconds: intended voice plus subtitle `From inside: “Go away! It is late!”`. Door stays shut. |
+| H01-C1 | Close | At 5.9 seconds: light off; “The light goes out. The door stays closed.” |
+| H01-C2 | Next lead | At 6.7 seconds: “Let’s try next door. There’s a light in the neighbour’s house.” → **Try next door**. Waits for a click, then walks to House 3. |
+
+Times are active seconds after Knock; pausing stops the sequence. No back button
+or automatic departure. Review prompts: which narration can the visible action
+replace, whether the refusal is clearly heard/read, whether the brief transitions
+feel rushed, and whether the onward lead/action is clear. Keep the accepted shared
+UI as the baseline. Current copy above is not a proposed rewrite.

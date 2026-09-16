@@ -1,5 +1,7 @@
 # 01 — Lamp workbench
 
+> 17 September 2026: [T01/D020 player-instruction slice](../../playtest-roadmap/evidence/2026-09-17-t01/README.md) updates copy/placement. D023 accepts this bounded instruction/UI revision; other pending initiative work remains open.
+
 Status: **first playable draft · guided sequence selected · final user review pending**.
 [Rebuild order](../ORDER.md) · [Scene index](../README.md)
 

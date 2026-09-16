@@ -1,5 +1,7 @@
 # 04 — Barred timber gate
 
+> 17 September 2026: [T01/D020 player-instruction slice](../../playtest-roadmap/evidence/2026-09-17-t01/README.md) updates copy/placement. D023 accepts this bounded instruction/UI revision; other pending initiative work remains open.
+
 Status: **accepted checkpoint · successful user play-test on 14 September 2026**.
 [Rebuild plan and scene index](../README.md) · [User-drawn route](../reference-route.png)
 

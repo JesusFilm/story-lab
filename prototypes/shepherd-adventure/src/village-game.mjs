@@ -52,7 +52,8 @@ function updateUI(){
  const next=STOPS[journey.index+1];
  $('advance').textContent=destination?'Moving…':journey.index===9?'Route complete':`${journey.index<0?'Move to':'Move to next point —'} ${journey.index<0?'point 01 — ':''}${next.title}`;
  $('advance').disabled=!ready||journey.paused||!!journey.travel||journey.index===9;
- $('pause').textContent=journey.paused?'Continue':'Pause';$('pause').disabled=!ready;
+ $('pause').textContent=review?(journey.paused?'Continue':'Pause'):'';$('pause').disabled=!ready;
+ if(!review){$('pause').setAttribute('aria-label',journey.paused?'Close menu':'Open menu');$('pause').setAttribute('aria-expanded',String(journey.paused));$('pause').setAttribute('aria-controls','player-options');$('pause').setAttribute('aria-haspopup','dialog');}
  $('replay').disabled=!ready;$('jump').disabled=!ready;$('restart').disabled=!ready;$('capture').disabled=!ready;
  document.body.classList.toggle('walking',!!journey.travel);
  document.body.classList.toggle('reduced-motion',reduced);
@@ -79,11 +80,19 @@ function updateUI(){
   $('player-finish').hidden=mode!=='complete';
   $('travel-status').hidden=!/unavailable|could not/i.test($('travel-status').textContent)&&!(journey.index===8&&['question','directions','invitation'].includes(journey.reunion.phase));
   if(journey.index<0){$('beat').textContent='A lamp will light the way.';$('advance').textContent='Go to the lamp workbench';}
-  if(journey.index===0&&journey.lantern)$('advance').textContent='Try the first house';
+  if(journey.index===0)$('advance').textContent=journey.lantern?'Try the first house':'Get a lamp!';
+  // Apply the reviewed action-only pattern only outside deferred house scenes.
+  const houseApproach=[1,2,4,6,8].includes(journey.index);
+  // Scene state selects a component; shared CSS owns placement and appearance.
+  document.body.dataset.uiPanel=journey.lampAssembly.open?'preparation':journey.index===8&&journey.houseOwner.complete?'conversation':houseApproach?'house':'exploration';
+  const actionOnly=journey.index<0||journey.index===0||(journey.index===3&&journey.barredGate.phase==='ready')||(journey.index===7&&journey.emptyStall.phase==='gate');
+  document.body.classList.toggle('action-only',actionOnly);
+  if(journey.index<0)$('advance').textContent='Find a lamp';
+
  }
 }
 function resize(){
- const panel=$('review-panel'),width=innerWidth,height=innerWidth<=600?Math.max(140,innerHeight-panel.getBoundingClientRect().height-28):innerHeight;
+ const panel=$('review-panel'),width=innerWidth,height=innerWidth<=600&&review?Math.max(140,innerHeight-panel.getBoundingClientRect().height-28):innerHeight;
  if(width===renderWidth&&height===renderHeight)return;
  renderWidth=width;renderHeight=height;renderer.setSize(width,height);$('world').style.height=height+'px';camera.aspect=width/height;camera.updateProjectionMatrix();
 }

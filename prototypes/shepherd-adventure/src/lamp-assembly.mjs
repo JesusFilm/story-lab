@@ -1,7 +1,7 @@
 // Scene 01: deliberate preparation, with no recipe failures or timing challenge.
 export const LAMP_STEPS=Object.freeze([
- {id:'body',title:'Lamp body',description:'A small lamp to carry through the village.',action:'Use this lamp',image:'lamp.png',alt:'The bronze lantern used in the village',done:'Lamp selected.'},
- {id:'wick',title:'Linen wick',description:'Fit the wick into the little oil cup.',action:'Fit wick',image:'wick.png',alt:'A short braided linen wick with frayed ends',done:'Wick fitted.'},
+ {id:'body',title:'Lamp',description:'A small lamp to carry through the village.',action:'Take Lamp',image:'lamp.png',alt:'The bronze lantern used in the village',done:'Lamp selected.'},
+ {id:'wick',title:'Linen wick',description:'Fit the wick into the little oil cup.',action:'Add wick',image:'wick.png',alt:'A short braided linen wick with frayed ends',done:'Wick fitted.'},
  {id:'oil',title:'Oil',description:'Pour a little oil into the lamp.',action:'Add oil',image:'oil.png',alt:'The clay oil jar on the workbench',done:'Oil added.'},
  {id:'flint',title:'Flint & tinder',description:'Take what you need to kindle a flame.',action:'Take flint',image:'flint.png',alt:'Flint, a striking stone and a small bundle of tinder',done:'Flint and tinder ready.'},
  {id:'light',title:'A light for the road',description:'Everything is ready. Bring the little flame to life.',action:'Light lamp',image:'lamp.png',alt:'The prepared bronze lantern',done:'A steady little flame.'}
