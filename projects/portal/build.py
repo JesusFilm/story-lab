@@ -17,7 +17,7 @@ def validate_prototype_module_closure(proto):
         module = ROOT / name
         text = module.read_text()
         for dependency in re.findall(r'''(?:from\s*|import\s*\()\s*['"](\.[^'"]+)['"]''', text):
-            relative = (Path(name).parent / dependency).resolve().relative_to(ROOT.resolve())
+            relative = (ROOT / Path(name).parent / dependency).resolve().relative_to(ROOT.resolve())
             dependency_name = relative.as_posix()
             if dependency_name not in files:
                 raise ValueError(f'Prototype runtime dependency is not published: {name} -> {dependency_name}')
