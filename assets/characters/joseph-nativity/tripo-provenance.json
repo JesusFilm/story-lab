@@ -1,0 +1,19 @@
+{
+  "generator": "Tripo",
+  "model_version": "v3.1-20260211",
+  "face_limit": 40000,
+  "texture_quality": "standard",
+  "pbr": true,
+  "orientation": "align_image",
+  "rig_version": "v2.0-20250506",
+  "files": [
+    {
+      "file": "joseph-tripo-rigged.glb",
+      "sha256": "0878c320083df023680ce896582480927c8c38b3bdb70478162d1b413a6f871a"
+    },
+    {
+      "file": "joseph-tripo-source.glb",
+      "sha256": "aabdc17bc943b9656e93947c433655d579e044c159046014cd0ff47337e02fad"
+    }
+  ]
+}

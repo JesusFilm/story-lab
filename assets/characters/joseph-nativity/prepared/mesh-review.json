@@ -1,0 +1,34 @@
+{
+  "source": {
+    "triangles": 951898,
+    "meshes": 1,
+    "uv_layers": [
+      1
+    ],
+    "textures": [
+      {
+        "name": "Image_0",
+        "size": [
+          4096,
+          4096
+        ]
+      },
+      {
+        "name": "Image_1",
+        "size": [
+          4096,
+          4096
+        ]
+      }
+    ]
+  },
+  "height_metres": 1.35,
+  "decimation_ratio": 0.12606392701739053,
+  "texture_limit": 2048,
+  "orientation_xyz_degrees": [
+    0.0,
+    0.0,
+    180.0
+  ],
+  "note": "Weld and conservatively decimate; preserve original UVs and source material atlas, reduce textures. Static prop; not rigged."
+}

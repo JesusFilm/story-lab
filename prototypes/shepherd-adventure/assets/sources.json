@@ -375,6 +375,46 @@
       "source": "assets/objects/oil-jar/oil-jar-pixal3d-runtime.glb",
       "sha256": "829935ff4c26f4f679400dc99b2c2b174ec39c29a65fb5bbc35f0a313fff7b90",
       "note": "PNG rendered from this prototype\u2019s oil-jar-pixal3d.glb by checks/render-lamp-items.py."
+    },
+    {
+      "file": "assets/mary-seated-idle.glb",
+      "source": "assets/characters/mary-nativity/mary-seated-tripo-idle.glb",
+      "sha256": "977d069c2f6a5cd9ab97f48ea1b0c0e990425feacfb288be0895c782c1539fcd"
+    },
+    {
+      "file": "assets/joseph-seated-idle.glb",
+      "source": "assets/characters/joseph-nativity/joseph-seated-tripo-idle.glb",
+      "sha256": "448b6f74eb80e32cb62c4f9d44af853b41033c2a1568184ac6d810f2b9b2300c"
+    },
+    {
+      "file": "assets/jesus-manger-tripo.glb",
+      "source": "assets/characters/jesus-manger/tripo-prepared/jesus-manger-tripo-detailed-runtime.glb",
+      "sha256": "e87323cb2790bcd1aecbfb672003e91de4e146eef3838aa871532ae711126789"
+    },
+    {
+      "file": "assets/nativity-stone-stall.glb",
+      "source": "assets/structures/nativity-stone-stall/prepared/nativity-stone-stall-pixal3d-runtime.glb",
+      "sha256": "9db053dff32a4e8bb73aacffe310a0ab202250d9900746d48981edf0554a3daf"
+    },
+    {
+      "file": "assets/nativity-donkey-idle.glb",
+      "source": "assets/animals/nativity-donkey/nativity-donkey-idle.glb",
+      "sha256": "7000d32a35551bfa8d71190358c25ef861ff024640c00ecd0e281e98b3cbe46c"
+    },
+    {
+      "file": "assets/story/nativity-manger-aligned.png",
+      "source": "prototypes/shepherd-adventure/review/2026-09-16-nativity-continuity/diorama-manger-edit.png",
+      "sha256": "c77455d5ee7b12c0d39d89eeccaee3958cbb506005ad1e4406402def21a786b1"
+    },
+    {
+      "file": "assets/square-nativity-stall.glb",
+      "source": "assets/structures/square-nativity-stall/square-nativity-stall-aligned.glb",
+      "sha256": "ea261056a4a6b4346a474ffdf5dadfb6cfe458773ef062bf3e5ff3c571006d17"
+    },
+    {
+      "file": "assets/straight-feeding-trough.glb",
+      "source": "assets/objects/straight-feeding-trough/straight-feeding-trough-aligned.glb",
+      "sha256": "473c3de797f74c29d1ee04a07d7eee37d1bb79818650d93e14f1ef60781aed92"
     }
   ]
 }

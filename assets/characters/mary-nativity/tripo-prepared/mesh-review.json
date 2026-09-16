@@ -1,0 +1,33 @@
+{
+  "source": "mary-seated-tripo-source.glb",
+  "runtime": "mary-seated-tripo-runtime.glb",
+  "height_metres": 1.25,
+  "orientation_z_degrees": -90.0,
+  "dimensions_metres": [
+    0.832987904548645,
+    0.9345799088478088,
+    1.25
+  ],
+  "triangles": 57320,
+  "textures": [
+    {
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "size": [
+        4096,
+        4096
+      ]
+    }
+  ],
+  "preparation": "Uniform scale and grounded centered pivot; preserve source topology, UVs and normals. Matte nonmetallic cloth, skin, straw and wood."
+}

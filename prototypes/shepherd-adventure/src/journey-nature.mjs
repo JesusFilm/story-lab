@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {ANIMAL_AREA_TREES} from './journey-nativity.mjs';
+import {ANIMAL_AREA_TREES,NATIVITY} from './journey-nativity.mjs';
 import {height} from './journey-terrain.mjs';
 import {VILLAGE_BOUNDS} from './journey-boundaries.mjs';
 export const NATURE_MODELS=['CommonTree_2','TwistedTree_1','TwistedTree_3','DeadTree_2','Rock_Medium_1','Rock_Medium_2','Rock_Medium_3','Pebble_Round_2'];
@@ -13,7 +13,7 @@ function normalized(source){
 export async function addVillageNature(loader,scene,fits,pathDistance,watchOcclusion){
  const loaded=await Promise.all(NATURE_MODELS.map(async name=>[name,normalized((await loader.loadAsync('/assets/nature/'+name+'.gltf')).scene)])),sources=Object.fromEntries(loaded),rng=seeded(),placements=[];
  const occupied=[];
- function buildingDistance(x,z){return Math.min(...fits.map(({rect:[a,b,c,d]})=>Math.hypot(Math.max(a-x,0,x-c),Math.max(b-z,0,z-d))));}
+ function buildingDistance(x,z){const shelterDistance=Math.hypot(Math.max(Math.abs(x-NATIVITY.x)-NATIVITY.depth/2,0),Math.max(Math.abs(z-NATIVITY.z)-NATIVITY.width/2,0));return Math.min(shelterDistance,...fits.map(({rect:[a,b,c,d]})=>Math.hypot(Math.max(a-x,0,x-c),Math.max(b-z,0,z-d))));}
  function put(name,x,z,h,kind,outside=false){
   if(z>45&&Math.abs(x)<(kind==='tree'?10:5))return;
   const root=new THREE.Group(),model=sources[name].clone(true);root.add(model);root.name=kind+'-'+name;root.userData.source='quaternius-cc0';root.position.set(x,height(x,z)-(kind==='boulder'?.1:.07),z);root.rotation.y=rng()*Math.PI*2;

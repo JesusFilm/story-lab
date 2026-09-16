@@ -1,0 +1,30 @@
+{
+  "model": "mary-seated-tripo-idle.glb",
+  "motion_samples": [
+    {
+      "frame": 61,
+      "lower_body_max_metres": 0.0,
+      "head_max_metres": 0.009940702748936691,
+      "all_max_metres": 0.009940702748936691
+    },
+    {
+      "frame": 121,
+      "lower_body_max_metres": 0.0,
+      "head_max_metres": 0.0,
+      "all_max_metres": 0.0
+    },
+    {
+      "frame": 181,
+      "lower_body_max_metres": 0.0,
+      "head_max_metres": 0.009962028250019335,
+      "all_max_metres": 0.009962028250019335
+    },
+    {
+      "frame": 241,
+      "lower_body_max_metres": 0.0,
+      "head_max_metres": 0.0,
+      "all_max_metres": 0.0
+    }
+  ],
+  "checks": "Fixed lower body, visible upper-body motion, closed eight-second loop"
+}

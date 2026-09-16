@@ -1,0 +1,17 @@
+{
+  "provider": "Tripo",
+  "reference": "joseph-seated-reference.png",
+  "reference_sha256": "836d68bb8dd190a9402b3a1c31e34a5cc97a2e6b892ecae4daad33cd331cf7fa",
+  "settings": {
+    "model_version": "v3.1-20260211",
+    "face_limit": 60000,
+    "pbr": true,
+    "texture": true,
+    "texture_quality": "detailed",
+    "orientation": "align_image"
+  },
+  "files": {
+    "joseph-seated-tripo-source.glb": "fd3e97d0f66fa66465cd6394530fc1d96d9788e9cd44009fa88d656673cfc3fa",
+    "joseph-seated-tripo-preview.webp": "45c75d08e7f989078d1a27ad1f1c76c36e5b2885f10e45cc614fe0f0d3e6e9c0"
+  }
+}

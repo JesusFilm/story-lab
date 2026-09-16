@@ -111,3 +111,7 @@ base plane is tilted within the mesh. Supply its measured Blender-space normal
 **after** `--rotate`; the correction rotates that normal to +Z before scaling.
 For the annex, `checks/verify-annex-level.py` fits base and roof planes from the
 exported GLB and catches pitch/roll regressions that yaw-only placement tests miss.
+
+### Already posed Tripo characters
+
+`prepare-posed-character.py` normalizes a posed GLB with a supplied height and Blender Z yaw, retaining topology, UVs and detailed normal maps. It exports matte nonmetallic materials and a geometry report. Use `animate-seated-character.py` afterward for a restrained seated idle; this does not convert a standing pose or provide locomotion. Verify the exported motion with `prototypes/shepherd-adventure/checks/verify-seated-idle.py` and Blender's `--python-exit-code 1`.

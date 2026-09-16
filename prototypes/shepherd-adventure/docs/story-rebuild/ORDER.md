@@ -2,6 +2,68 @@
 
 13 September 2026 · Initial route milestone accepted as sufficient to checkpoint; detailed scenes remain unfinished.
 
+## Current checkpoint — nativity rework and merge authorization, 16 September 2026
+
+The user requested that this session be recorded, committed and pushed on
+`codex/shepherd-story-rebuild`, then merged into `main`. This explicit instruction
+supersedes earlier no-merge restrictions below. Pushing main invokes the existing
+Pages workflow; publication inputs and checks are reviewed as part of this merge.
+Historical checkpoint restrictions below describe their original authorization.
+
+### Session work
+
+- Replaced the static combined family with separate Mary, Joseph and baby/manger
+  assets. Iterated seated Pixal3D references/models, then generated detailed Tripo
+  family models. Retained source models, references, exact prompts, prepared
+  derivatives and editable adult idle rigs in the asset library; runtime copies
+  remain independent in the prototype.
+- Brought Mary and Joseph inward around the baby and adjusted their facing.
+  Preserved the user-directed successive manger reductions: final scale 81.225%
+  of the prepared baby/manger model. Adults have subtle upper-body/head idles;
+  their lower bodies stay fixed.
+- Reused existing sheep animation for all five sheep, including the three in the
+  pen. Added a Pixal3D donkey with a locally authored eight-second head/breathing
+  idle and fixed hooves. Added loose straw and restrained lamplit dust motion;
+  pause and reduced-motion settings hold the idles. Debug mode previews ambience.
+- Tried an enclosed stone stall against the outro image, then replaced the
+  rejected skewed/cramped candidate with a regenerated empty square shell.
+  Measured and corrected source floor tilt and wall yaw, fitted a 6 × 6 m interior,
+  retained a closed right wall and left interior door, and removed an inferred
+  exterior awning. The selected shell retains about 400k triangles for close-ups.
+- Generated a separate straight feeding trough (about 150k triangles), corrected
+  its source axes, and placed four copies parallel to the wall axes. The front
+  trough is shorter to leave the entrance clear. Moved the donkey clear of the
+  family and troughs, and both entrance sheep in front of the right wall.
+- Mounted the existing lantern on a bracket attached to the actual inner wall,
+  excluded ground stones from the enlarged footprint, and reframed the wide debug
+  camera. Regenerated settlement and rehearsal maps from the final scene.
+- Edited the first outro illustration's wooden manger orientation while keeping
+  the baby's pose and surrounding composition. Retained the original illustration;
+  no extra Tripo baby generation was needed for that correction.
+- Added library/gallery entries, prototype source hashes, preparation/animation
+  tools, geometry and deformation checks, and close/wide review evidence.
+
+### Review evidence and validation
+
+[Initial staging](../../review/2026-09-15-nativity-rework/README.md) ·
+[Detailed family](../../review/2026-09-16-tripo-nativity/README.md) ·
+[First continuity pass](../../review/2026-09-16-nativity-continuity/README.md) ·
+[Square stall correction](../../review/2026-09-16-square-stall/README.md).
+
+Targeted checks cover actual wall geometry and closure, level floor, aligned
+troughs, family/animal clearance, lantern attachment, idle motion, pause/reduced
+motion, arrival and ending state. Blender deformation checks verify fixed lower
+bodies/hooves and clean idle loops. Local close/wide views were captured without
+browser console errors. The four stale publication hashes for the rebuilt entry,
+boot, companions and workbench were reviewed during merge preparation.
+
+Generated right-wall timber details still differ from the illustration, and
+surface detail is softer than the Tripo family. Separate performance and physical
+device work remains outstanding. Geometry tests establish layout and clearance,
+not exact reconstruction or historical proof. No dialogue/scriptural changes were
+introduced by this scene dressing. Unrelated Kokoro workspace changes are excluded
+from this session's focused commit.
+
 ## Current checkpoint — village dressing and dialogue continuity, 15 September 2026
 
 The user requested this work be documented, committed and pushed to

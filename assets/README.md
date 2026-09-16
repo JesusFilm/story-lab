@@ -38,3 +38,11 @@ and running animations matching the opening story artwork.
 in a manger, with a static Pixal3D model and review renders.
 
 - [Limestone house annex](structures/limestone-house-annex/README.md) — low attached side room with a shutter and flat roof.
+
+Separate Nativity assets: [Mary](characters/mary-nativity/README.md), [Joseph](characters/joseph-nativity/README.md), and [Jesus in the manger](characters/jesus-manger/README.md).
+
+- [Stone nativity stall](structures/nativity-stone-stall/README.md) — enclosed walls, left door and feeding troughs.
+- [Resting nativity donkey](animals/nativity-donkey/README.md) — grounded head/breathing idle.
+
+- [Square nativity stall](structures/square-nativity-stall/README.md) — measured square interior and closed side walls.
+- [Straight feeding trough](objects/straight-feeding-trough/README.md) — independent wall-aligned hay container.

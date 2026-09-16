@@ -185,7 +185,7 @@ $('capture').onclick=async()=>{
 function animate(now){
  requestAnimationFrame(animate);const raw=(now-last)/1000;last=now;
  if(!ready)return;
- if(debugController){debugController.update(document.hidden?0:Math.min(raw,.1));renderer.render(scene,camera);return;}
+ if(debugController){const debugDt=document.hidden?0:Math.min(raw,.1);debugController.update(debugDt);if(debugController.animateAmbience)world.updateNativity(debugDt,reduced);renderer.render(scene,camera);return;}
  const active=!journey.paused&&!document.hidden&&!story?.active&&['playing','intro','arrival'].includes(mode),dt=active?Math.min(raw,.1):0,moving=!!journey.travel,leg=journey.travel?.index;
  if(active){
   const before=journey.distance;

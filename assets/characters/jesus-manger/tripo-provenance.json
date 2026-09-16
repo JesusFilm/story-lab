@@ -1,0 +1,19 @@
+{
+  "generator": "Tripo",
+  "model_version": "v3.1-20260211",
+  "face_limit": 40000,
+  "texture_quality": "standard",
+  "pbr": true,
+  "orientation": "align_image",
+  "rig_version": null,
+  "files": [
+    {
+      "file": "jesus-manger-tripo-runtime.glb",
+      "sha256": "f659a1428a9387b0e008155c778ff1caa84a38b99c151b1db42d61975b980e57"
+    },
+    {
+      "file": "jesus-manger-tripo-source.glb",
+      "sha256": "cc9c0f527ebeed19d2c37ac33d0aa68d26a9a9965522f9931408f4eef34cce29"
+    }
+  ]
+}

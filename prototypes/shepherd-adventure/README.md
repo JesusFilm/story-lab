@@ -109,8 +109,9 @@ animation blending. They do not establish enjoyment or finished visual quality.
 
 The night atmosphere and investigation direction reflect Jaco's feedback. The specific
 preparation/discovery loop remains experimental. No general collision solver, save
-system or production integration is implemented. The Nativity cast is a static
-Pixal3D tableau intended for frontal viewing. Physical-device behavior requires playtesting.
+system or production integration is implemented. The Nativity uses separate seated Tripo characters with subtle upper-body idles,
+a static Tripo baby/manger, the existing generated stall and animated sheep.
+The detailed Tripo family is ready for close-up user review. Physical-device behavior requires playtesting.
 
 [Restored maze comparison](../shepherd-maze/README.md) · migration record
 
@@ -412,3 +413,28 @@ Eight current-layout images now serve the illustrated conversations at Houses
 identities. Current decorations, visible annexes and walls match those captures.
 House 1 remains a live 3D voice exchange. See the
 [dialogue continuity review](review/2026-09-15-dialogue-continuity/README.md).
+
+## Nativity staging pass — 15 September 2026
+
+The final shelter reuses the generated empty stall at 3.1 m high (about 5.5 × 4.4 m),
+with a corrected open-front orientation, loose straw bedding, a warm front-side lamp
+and restrained dust motes. Mary and Joseph sit beside a separate Tripo baby/manger.
+Their authored eight-second breathing/head idles keep the stool and feet fixed.
+All five sheep reuse their existing head-idle clip with staggered timing.
+
+Debug's Nativity preset now opens at standing eye level. Nativity wide retains the
+area view. Preview idle motion runs only ambient animation; Freeze & annotate,
+reduced motion and hidden-tab behavior stop it. The journey stays frozen in debug.
+
+The seated adults and baby/manger now use detailed Tripo models generated directly
+in their intended poses. Adults retain local upper-body idle rigs; earlier staging
+assets remain in the library. Current spacing and the 81.225% baby/manger scene
+scale are preserved. [Tripo review](review/2026-09-16-tripo-nativity/README.md).
+
+### Nativity visual continuity
+
+The shelter now uses a Pixal3D stone stall with a left door and wall troughs. Two idle sheep gather at the front right, with an idle donkey inside behind them. The ending illustration has an edited manger orientation while retaining the baby’s pose. [Review and limitations](review/2026-09-16-nativity-continuity/README.md).
+
+### Square stall revision
+
+The nativity shelter has a measured 6 × 6 m interior, closed side walls and four separate wall-aligned feeding troughs. The donkey clears the family and troughs; sheep stand at the front-right entrance. The lantern hangs from a bracket mounted on the actual right wall. [Geometry and scene review](review/2026-09-16-square-stall/README.md).

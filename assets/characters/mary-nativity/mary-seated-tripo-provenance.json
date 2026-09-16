@@ -1,0 +1,17 @@
+{
+  "provider": "Tripo",
+  "reference": "mary-seated-reference.png",
+  "reference_sha256": "157079e77070ccf800327ab7eaa34e9a3f1c3dab7a618b80ec1833883a2b5d0c",
+  "settings": {
+    "model_version": "v3.1-20260211",
+    "face_limit": 60000,
+    "pbr": true,
+    "texture": true,
+    "texture_quality": "detailed",
+    "orientation": "align_image"
+  },
+  "files": {
+    "mary-seated-tripo-source.glb": "d1e6128d04eb87678a86c3b78ef05b7d31fe56bc38fcf8e214e6ec6e4ab6b7a4",
+    "mary-seated-tripo-preview.webp": "5154d7177cef91d097058bf88c84e953261735644eb69085f652b4790677a84b"
+  }
+}

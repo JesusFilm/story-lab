@@ -1,0 +1,17 @@
+{
+  "provider": "Tripo",
+  "reference": "jesus-reference.png",
+  "reference_sha256": "b9e87590e08a7049eb0e537281be4a904ee949a4bc81e6457d5088e4aff7a5c3",
+  "settings": {
+    "model_version": "v3.1-20260211",
+    "face_limit": 60000,
+    "pbr": true,
+    "texture": true,
+    "texture_quality": "detailed",
+    "orientation": "align_image"
+  },
+  "files": {
+    "jesus-manger-tripo-detailed-source.glb": "ff3c10868b140f51906d4f6f2d2a7226abd3dac3a035b523b7b292d2d5673ef8",
+    "jesus-manger-tripo-detailed-preview.webp": "39d380620fabadd4f630b46b65fccd128576a6cb57146f06ee3c2846fef3f7ff"
+  }
+}

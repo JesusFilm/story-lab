@@ -1,3 +1,4 @@
+import {mountNativityLantern} from './nativity-lantern-mount.mjs';
 import {addHouseAnnexes} from './house-annexes.mjs';
 import {HOUSE_YAWS} from './village-layout.mjs';
 import {NATIVITY,createNativityShelter,dressNativity} from './journey-nativity.mjs';
@@ -95,10 +96,11 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
  }
  const markers=[];
  for(const n of NODES){const m=new THREE.Mesh(new THREE.RingGeometry(n.fire?.7:.5,n.fire?.85:.61,40),new THREE.MeshBasicMaterial({color:n.fire?'#e5c07a':'#9bb9c8',transparent:true,opacity:.8,side:THREE.DoubleSide,depthWrite:false}));m.rotation.x=-Math.PI/2;m.position.set(n.x,height(n.x,n.z)+.10,n.z);scene.add(m);markers.push({node:n,mesh:m});}
+ let nativityLife=null;
  const shelter=createNativityShelter(scene,recordFeature);
  const timber=new THREE.MeshStandardMaterial({color:'#65503a',roughness:1}),straw=new THREE.MeshStandardMaterial({color:'#766248',roughness:1});
  function box(parent,w,h,d,x,y,z,mat){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m;}
- lightAt(NATIVITY.x+2,NATIVITY.z+2,2.5,32);
+ const nativityLamp=lightAt(NATIVITY.x,NATIVITY.z,2.3,14);
  // Environmental clues are represented in the scene, not solely in a text reward.
  const clueTargets={};
  function target(id,x,y,z){clueTargets[id]={x,y:height(x,z)+y,z};}
@@ -150,7 +152,7 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   }throw new Error('No clear scenery placement near '+x+','+z);
  }
  async function dress(loader){
-  await dressNativity(loader,scene,shelter,recordFeature,watchOcclusion);modelCount+=6;
+  nativityLife=await dressNativity(loader,scene,shelter,recordFeature,watchOcclusion);modelCount+=14;mountNativityLantern(shelter,nativityLamp,SETTLEMENT_LANTERN_HEIGHT);
   const jarSource=(await loader.loadAsync('/assets/oil-jar-pixal3d.glb')).scene;
   const benchSource=(await loader.loadAsync(WORKBENCH_URL)).scene;
   for(const bench of workbenches){
@@ -198,7 +200,8 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   nature=await addVillageNature(loader,scene,fits,walkDistance,watchOcclusion);
   for(const {root,size} of lanternMounts){const body=fitLantern(lanternSource,size);root.add(body);setLanternLit(body,!root.userData.unlit&&root.name!=='hearth-lantern'&&root.name!=='gate-lantern');}
  }
- return {dress,terrain,paths:activePaths,markers,fits,occluders,settlementFeatures,get wallSegments(){return wallSegments;},get nature(){return nature;},occlusionBounds,updateOcclusion,clueTargets,get modelCount(){return modelCount;},get lanternCount(){return lanternMounts.length;},lampState(){return {carriedVisible:lantern.visible,carriedPosition:lantern.position.toArray(),benches:benchItems.map(i=>({lampVisible:i.visual.root.visible,lit:i.visual.core.visible,wickVisible:i.wick.visible,flintVisible:i.flint.visible}))};},update(dt,time,journey,heading=Math.PI,reduced=false,carryPosition=null){
+ return {dress,terrain,updateNativity(dt,reduced=false){nativityLife?.update(dt,reduced);},paths:activePaths,markers,fits,occluders,settlementFeatures,get wallSegments(){return wallSegments;},get nature(){return nature;},occlusionBounds,updateOcclusion,clueTargets,get modelCount(){return modelCount;},get lanternCount(){return lanternMounts.length;},lampState(){return {carriedVisible:lantern.visible,carriedPosition:lantern.position.toArray(),benches:benchItems.map(i=>({lampVisible:i.visual.root.visible,lit:i.visual.core.visible,wickVisible:i.wick.visible,flintVisible:i.flint.visible}))};},update(dt,time,journey,heading=Math.PI,reduced=false,carryPosition=null){
+  nativityLife?.update(dt,reduced);
   const p=journey.position,selected=journey.choice;gateLeaf.rotation.y+=((journey.gateOpen?-Math.PI*.48:0)-gateLeaf.rotation.y)*(1-Math.exp(-3*dt));const gateLit=routePaths?!!journey.gateLit:journey.gateOpen;if(gateLit&&!gateLamp.source.light.parent)scene.add(gateLamp.source.light);gateLamp.source.enabled=gateLit;gateLamp.halo.visible=gateLit;gateLamp.core.visible=gateLit;setLanternLit(gateLamp.root,gateLit);
   lamps.forEach(source=>{source.light.intensity=source.enabled?source.intensity:0;});
   for(const item of benchItems){

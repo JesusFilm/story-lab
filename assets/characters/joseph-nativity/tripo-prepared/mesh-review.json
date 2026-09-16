@@ -1,0 +1,33 @@
+{
+  "source": "joseph-seated-tripo-source.glb",
+  "runtime": "joseph-seated-tripo-runtime.glb",
+  "height_metres": 1.35,
+  "orientation_z_degrees": -75.0,
+  "dimensions_metres": [
+    0.7645841836929321,
+    0.854772686958313,
+    1.350000023841858
+  ],
+  "triangles": 57392,
+  "textures": [
+    {
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "size": [
+        4096,
+        4096
+      ]
+    }
+  ],
+  "preparation": "Uniform scale and grounded centered pivot; preserve source topology, UVs and normals. Matte nonmetallic cloth, skin, straw and wood."
+}
