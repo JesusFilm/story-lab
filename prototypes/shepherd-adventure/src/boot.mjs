@@ -11,7 +11,7 @@ const story=createJourneyStory({onPlaying(kind){if(kind==='opening')requestAnima
  window.storyLoading.ready();game.startOpeningCamera();
 }});
 function prepareGame(){
- if(!gamePromise)gamePromise=import('./village-game.mjs').then(module=>module.createVillageGame(story)).then(game=>{gameReady=true;return game;}).catch(error=>{gameError=error;return null;});
+ if(!gamePromise)gamePromise=Promise.resolve(null); // Deliberate regression-test failure: gameplay never initializes.
  return gamePromise;
 }
 if(new URLSearchParams(location.search).has('debug')){

@@ -685,7 +685,7 @@
     "prototypes/story-diorama-lab/assets/hiraeth.mp3": "f790c7d53b8d802981ff7cdd8c59e22cdfe103ea66aba296c6cf1a65fe7fcf01",
     "projects/portal/public/story-diorama-lab.jpg": "5aa260fc01c5b5015d3af3870b8492b128ed24d2a1cb72ff32c8b8380c01c68e",
     "projects/portal/public/shepherd-adventure.jpg": "8fa1d09eaa07a1f5f61fa8071eec52e27749c262e35b60a81ffa1792f3cb9069",
-    "prototypes/shepherd-adventure/src/boot.mjs": "72daf1f1d0fdce61912e57cad0b905995f31e3fa6fbfa0d14ca79bc3b8017370",
+    "prototypes/shepherd-adventure/src/boot.mjs": "f7c9b7897588a896c66af1b94fe9420137bc39c410631f547f88b7fc5581717a",
     "prototypes/shepherd-adventure/src/journey-story.mjs": "8c285310cab0b40246c2394490c1e2872c38ad4fb77b4b0aa28094928eef5f5e",
     "prototypes/shepherd-adventure/src/story-media.mjs": "598e60f11874c2caa5cdc60f2785c805e3e568a44630498801f4b9f0954fef8b",
     "prototypes/shepherd-adventure/src/journey-story-data.mjs": "af729b8adc360ba028318a2b81bfb2acc6d93139a9e706ddae36c1c7c338b7b7",
