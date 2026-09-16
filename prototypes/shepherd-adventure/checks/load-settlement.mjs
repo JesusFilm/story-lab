@@ -9,10 +9,10 @@ globalThis.ProgressEvent??=class ProgressEvent{constructor(type,init={}){this.ty
 const {GLTFLoader}=await import(pathToFileURL(runtime+'/node_modules/three/examples/jsm/loaders/GLTFLoader.js'));
 const {createJourneyWorld}=await import('../src/journey-world.mjs');
 globalThis.document={createElement:()=>({width:0,height:0,getContext:()=>({createImageData:(w,h)=>({data:new Uint8ClampedArray(w*h*4)}),putImageData(){},beginPath(){},ellipse(){},fill(){},fillRect(){},createRadialGradient:()=>({addColorStop(){}})})})};
-export async function loadSettlement(){
+export async function loadSettlement(options){
  const loader=new GLTFLoader();
  loader.register(()=>({name:'HEADLESS_TEXTURE_PLACEHOLDER',loadTexture:()=>Promise.resolve(new THREE.Texture())}));
- const scene=new THREE.Scene(),world=createJourneyWorld(scene);
+ const scene=new THREE.Scene(),world=createJourneyWorld(scene,options);
  await world.dress({async loadAsync(url){
   const file=new URL('..'+url,import.meta.url),data=await readFile(file);
   if(url.endsWith('.gltf')){

@@ -1,0 +1,23 @@
+{
+  "generator": "Native ImageGen",
+  "architecture_reference": "../../review/2026-09-15-dialogue-continuity/house-8-plate.png",
+  "camera_reference": "../../review/2026-09-15-dialogue-continuity/house-8-camera.json",
+  "files": [
+    {
+      "file": "closed-door-v2.png",
+      "sha256": "922e3bfc655fc0345d6b1a842668a015f135ef38296060d519f97b25cb527398"
+    },
+    {
+      "file": "closed-door-v2-prompt.txt",
+      "sha256": "5c341ba2fa559cd3f7bb5d4bee4f5111f7fdedb948a4021bfe525aea17ec3cd8"
+    },
+    {
+      "file": "open-door-v2.png",
+      "sha256": "65a8f61094649166fa8047fefc352f9e1d1f729dbac380531dcafb9793a6f197"
+    },
+    {
+      "file": "open-door-v2-prompt.txt",
+      "sha256": "359b80fc3c3ee70643ac33a6abaf5af2a2ced59cb7ba548049ba57873491cf58"
+    }
+  ]
+}

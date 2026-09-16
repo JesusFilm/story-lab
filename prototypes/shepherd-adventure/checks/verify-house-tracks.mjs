@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {RouteRehearsal} from '../src/rehearsal-route.mjs';
+const j=new RouteRehearsal();j.jump(4);
+assert(!j.next());assert(j.knockOnHouse());assert(!j.knockOnHouse());
+j.step(2);assert.equal(j.houseTracks.phase,'waiting');
+j.paused=true;const held=j.snapshot();j.step(10);assert.deepEqual(j.snapshot(),held);assert(!j.lookAround());
+j.paused=false;j.step(2.9);assert.equal(j.houseTracks.phase,'knocking-again');assert(!j.next());
+j.step(3);assert.equal(j.houseTracks.phase,'unanswered');assert(j.lookAround());assert(!j.lookAround());
+while(!j.houseTracks.spotted)j.step(.1);
+const end={...j.position};assert(j.next());assert.equal(j.position.x,end.x);assert.equal(j.position.z,end.z);assert(!j.next());
+while(j.travel)j.step(.1);assert.equal(j.index,5);assert(!j.gateOpen);assert(j.next());
+j.jump(4);assert.equal(j.houseTracks.phase,'ready');j.knockOnHouse();j.step(5);j.replay();while(j.travel)j.step(.1);assert.equal(j.houseTracks.phase,'ready');
+j.reset();assert.equal(j.houseTracks.phase,'ready');console.log('House 5 phases, duplicate actions, pause, continuous departure, next placeholder, replay and reset passed.');

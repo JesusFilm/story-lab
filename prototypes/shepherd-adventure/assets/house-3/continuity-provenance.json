@@ -1,0 +1,31 @@
+{
+  "generator": "Native ImageGen",
+  "architecture_reference": "../../review/2026-09-15-dialogue-continuity/house-3-plate.png",
+  "camera_reference": "../../review/2026-09-15-dialogue-continuity/house-3-camera.json",
+  "files": [
+    {
+      "file": "lit-door-v3.png",
+      "sha256": "34b62b1dcd35da7fa2c60a60386d3fbe3508e0f3561190e35313398705ce5d52"
+    },
+    {
+      "file": "lit-door-v3-prompt.txt",
+      "sha256": "a0cf08ad11e907668a2ba2ce03702d806b0dec354c26345265b1beb458736f1e"
+    },
+    {
+      "file": "opening-door-v3.png",
+      "sha256": "09c049e8eff855eb6da6d66a267259e1be431039dfcd9fe935bbf237d40fbb5b"
+    },
+    {
+      "file": "opening-door-v3-prompt.txt",
+      "sha256": "30e5972130fa676525c87522ee4cbc9694bba76535a430a7726baf15e2d5925f"
+    },
+    {
+      "file": "helpful-resident-v3.png",
+      "sha256": "eed2bbfd973a7618b0d7e2ed0cc2cbdf746ccf473592ae4a60b5b315dc841258"
+    },
+    {
+      "file": "helpful-resident-v3-prompt.txt",
+      "sha256": "2da8668713639657639aae9e84356b7afef4dead019638099876f77eb4254234"
+    }
+  ]
+}

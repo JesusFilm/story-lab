@@ -1,0 +1,62 @@
+[
+  {
+    "point": 1,
+    "image": "01-arrival.png",
+    "source": "captures/20260913T005254Z-70dc7ab9.png",
+    "mode": "Normal-speed uninterrupted route order, with manual stops and captures; no jump/replay used."
+  },
+  {
+    "point": 2,
+    "image": "02-arrival.png",
+    "source": "captures/20260913T005333Z-9c34843a.png",
+    "mode": "Normal-speed uninterrupted route order, with manual stops and captures; no jump/replay used."
+  },
+  {
+    "point": 3,
+    "image": "03-arrival.png",
+    "source": "captures/20260913T005425Z-80495317.png",
+    "mode": "Normal-speed uninterrupted route order, with manual stops and captures; no jump/replay used."
+  },
+  {
+    "point": 4,
+    "image": "04-arrival.png",
+    "source": "captures/20260913T005507Z-3f101b6c.png",
+    "mode": "Normal-speed uninterrupted route order, with manual stops and captures; no jump/replay used."
+  },
+  {
+    "point": 5,
+    "image": "05-arrival.png",
+    "source": "captures/20260913T005607Z-bad6e4a0.png",
+    "mode": "Normal-speed uninterrupted route order, with manual stops and captures; no jump/replay used."
+  },
+  {
+    "point": 6,
+    "image": "06-arrival.png",
+    "source": "captures/20260913T005701Z-cba8fcb4.png",
+    "mode": "Normal-speed uninterrupted route order, with manual stops and captures; no jump/replay used."
+  },
+  {
+    "point": 7,
+    "image": "07-arrival.png",
+    "source": "captures/20260913T005816Z-8ab38785.png",
+    "mode": "Normal-speed uninterrupted route order, with manual stops and captures; no jump/replay used."
+  },
+  {
+    "point": 8,
+    "image": "08-arrival.png",
+    "source": "captures/20260913T005934Z-183ff5cc.png",
+    "mode": "Normal-speed uninterrupted route order, with manual stops and captures; no jump/replay used."
+  },
+  {
+    "point": 9,
+    "image": "09-arrival.png",
+    "source": "captures/20260913T010030Z-53392782.png",
+    "mode": "Normal-speed uninterrupted route order, with manual stops and captures; no jump/replay used."
+  },
+  {
+    "point": 10,
+    "image": "10-arrival.png",
+    "source": "captures/20260913T010123Z-7be3c77e.png",
+    "mode": "Normal-speed uninterrupted route order, with manual stops and captures; no jump/replay used."
+  }
+]

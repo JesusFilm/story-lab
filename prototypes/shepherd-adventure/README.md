@@ -1,3 +1,15 @@
+## Full feature playthrough — 15 September 2026
+
+Run `python3 serve.py --port 8766` here and open `http://127.0.0.1:8766/`.
+The normal entry now uses the rebuilt village: opening scripture diorama → running
+camera introduction → compact scene actions → nativity camera arrival → full ending
+scripture diorama → replay. Pause offers continue, restart and reduced motion.
+
+`rehearsal.html` retains scene jump/replay tools. `legacy.html` preserves the old
+route and its diagnostic entry for comparison. All are local feature-branch work;
+publication allowlists/hashes have not been updated and no release is authorized.
+Performance assessment is explicitly deferred to a separate session.
+
 # Shepherd Adventure
 
 - Status: current investigation prototype; awaiting further playtesting
@@ -15,6 +27,29 @@ There is no maze generation, fuel arithmetic, timer or loss of lives. The fourte
 locations use authored paths, with observations remembered in a notebook. This is
 not free movement or indoor exploration. The tracks, lamp tasks and gate are creative
 adaptations; the biblical frame draws on Luke 2:8–20.
+
+## Village route rebuild (feature branch)
+
+The ten-point winding route is available as a [walking rehearsal](rehearsal.html).
+Run the normal local server, then open `/rehearsal.html`. Move to next point walks
+the real corridor; Review tools offers jump, replay, capture and reduced motion.
+Scene actions now replace the temporary next-point button at points 01–09.
+House 8, the empty stall/gate and House 9 owner have accepted checkpoints.
+The companion reunion (09b) is accepted after user play-testing: the others cross the opened
+gate, gather for directions and run ahead, with an explicit follow action.
+[Reunion review](review/2026-09-15-companion-reunion/README.md).
+Point 10 remains a placeholder.
+The scene index records the other scenes’ individual review status. The original
+`/` experience remains available.
+
+[Scene briefs and branch plan](docs/story-rebuild/README.md) ·
+[Actual rehearsal map](map/rehearsal-map.svg) ·
+[First-pass verification](review/2026-09-13-route-rehearsal/README.md)
+
+This work lives on `codex/shepherd-story-rebuild`; it has not been published.
+`node checks/verify-rehearsal.mjs` checks the new route and state.
+`node checks/generate-settlement-map.mjs --rehearsal` regenerates its separate map.
+The canonical settlement map and original navigation remain unchanged.
 
 ## Scene inspector
 
@@ -74,8 +109,9 @@ animation blending. They do not establish enjoyment or finished visual quality.
 
 The night atmosphere and investigation direction reflect Jaco's feedback. The specific
 preparation/discovery loop remains experimental. No general collision solver, save
-system or production integration is implemented. The Nativity cast is a static
-Pixal3D tableau intended for frontal viewing. Physical-device behavior requires playtesting.
+system or production integration is implemented. The Nativity uses separate seated Tripo characters with subtle upper-body idles,
+a static Tripo baby/manger, the existing generated stall and animated sheep.
+The detailed Tripo family is ready for close-up user review. Physical-device behavior requires playtesting.
 
 [Restored maze comparison](../shepherd-maze/README.md) · migration record
 
@@ -233,7 +269,36 @@ generic eager Three.js wrapper. New story runtime files are explicitly listed.
 The full portal rebuild succeeds with the expanded explicit image list. These
 feature changes have not been deployed.
 
+## House decorations
+
+Four reusable olive-and-pot clusters dress all eleven houses, with one or two
+front-mounted instances per house. The prototype owns its model copies in
+`assets/house-decorations/`; foliage grows behind the pots and stonework.
+[Placement screenshots and checks](review/2026-09-15-house-decorations/README.md).
+
 ## Lamp workbench
+
+The feature-branch rehearsal now has a [guided lamp preparation draft](docs/story-rebuild/scenes/01-lamp.md).
+A new [Pixal3D lamp workbench](../../assets/structures/lamp-workbench/README.md)
+replaces the procedural timber boxes. It owns an independent runtime model with
+49,879 triangles and embedded 2K textures; the lantern and oil jar remain separate.
+The bench is oriented toward the existing point-01 approach and its maps are current.
+
+In the rehearsal, Prepare your light opens one item at a time: lamp body, wick, oil,
+flint and lighting. Large PNGs show each part, with lamp/jar rendered from the actual
+models. There are no incorrect combinations. Take lamp awards one +1 Lamp cue,
+removes the table lamp and attaches the light to the shepherd's right hand.
+Set out continues toward House 1. Back preserves progress; review jumps and restart
+reconstruct or clear it. The other nine scene placeholders remain unchanged.
+
+[Screenshots and targeted review](review/2026-09-13-lamp-workbench/README.md).
+Run `node checks/verify-lamp-assembly.mjs` and `node checks/verify-rehearsal.mjs`;
+`checks/verify-lamp-scene.mjs` uses an installed Playwright module for desktop,
+mobile/reduced-motion and loading-retry checks. Text, framing and feel are draft.
+The user authorized a branch checkpoint and audit update for this iteration;
+final scene acceptance remains pending. No merge or deployment is authorized.
+
+The following describes the earlier recipe in the original entry:
 
 The 3D workbench oil jar now uses an independent 28 cm Pixal3D model, replacing
 the stretched-sphere placeholder. It has 7,998 triangles and baked 1K textures,
@@ -320,3 +385,56 @@ Checks: `verify-nativity-arrival.mjs` covers geometry, spacing and state;
 pause/resume, explicit outro, restart and reduced motion. Browser screenshots:
 [landscape](docs/nativity-scene/arrival-landscape.png),
 [portrait](docs/nativity-scene/arrival-portrait.png).
+
+### Village layout additions
+
+Houses 2, 6, 10 and 11 now face inward. Six copies of the newly generated
+[limestone annex](../../assets/structures/limestone-house-annex/README.md) attach
+to houses 1, 2, 3, 5, 8 and 9. Eleven low-wall runs follow the annotated plan. The gate-side wings remain
+restored alongside these new connections. Every house has one or two front-mounted
+decoration clusters (20 total), with seeded variation and clear doorways.
+
+Layout definitions live in `src/village-layout.mjs`; the prototype owns the annex
+GLB and its provenance alongside the existing independent decoration copies.
+See the [layout review](review/2026-09-15-village-layout/README.md) and
+[updated map](map/rehearsal-map.svg).
+
+
+The [connection and leveling revision](review/2026-09-15-village-connections/README.md)
+corrects the generated annex's 13.8° base tilt and attaches wall endpoints to
+actual host meshes. All 17 planned wall joins are checked at masonry height.
+The leveled annex retains 159,783 triangles with a 2K base-color texture.
+
+
+### Updated house conversation artwork
+
+Eight current-layout images now serve the illustrated conversations at Houses
+3, 8 and 9, using actual settled player-camera captures and the existing resident
+identities. Current decorations, visible annexes and walls match those captures.
+House 1 remains a live 3D voice exchange. See the
+[dialogue continuity review](review/2026-09-15-dialogue-continuity/README.md).
+
+## Nativity staging pass — 15 September 2026
+
+The final shelter reuses the generated empty stall at 3.1 m high (about 5.5 × 4.4 m),
+with a corrected open-front orientation, loose straw bedding, a warm front-side lamp
+and restrained dust motes. Mary and Joseph sit beside a separate Tripo baby/manger.
+Their authored eight-second breathing/head idles keep the stool and feet fixed.
+All five sheep reuse their existing head-idle clip with staggered timing.
+
+Debug's Nativity preset now opens at standing eye level. Nativity wide retains the
+area view. Preview idle motion runs only ambient animation; Freeze & annotate,
+reduced motion and hidden-tab behavior stop it. The journey stays frozen in debug.
+
+The seated adults and baby/manger now use detailed Tripo models generated directly
+in their intended poses. Adults retain local upper-body idle rigs; earlier staging
+assets remain in the library. Current spacing and the 81.225% baby/manger scene
+scale are preserved. [Tripo review](review/2026-09-16-tripo-nativity/README.md).
+
+### Nativity visual continuity
+
+The shelter now uses a Pixal3D stone stall with a left door and wall troughs. Two idle sheep gather at the front right, with an idle donkey inside behind them. The ending illustration has an edited manger orientation while retaining the baby’s pose. [Review and limitations](review/2026-09-16-nativity-continuity/README.md).
+
+### Square stall revision
+
+The nativity shelter has a measured 6 × 6 m interior, closed side walls and four separate wall-aligned feeding troughs. The donkey clears the family and troughs; sheep stand at the front-right entrance. The lantern hangs from a bracket mounted on the actual right wall. [Geometry and scene review](review/2026-09-16-square-stall/README.md).

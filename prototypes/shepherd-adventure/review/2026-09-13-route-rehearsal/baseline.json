@@ -1,0 +1,8 @@
+{
+  "branch": "codex/shepherd-story-rebuild",
+  "baseRevision": "188f0609f0f56672d89d35458c1c11a6e04b7d63",
+  "baseline": "Canonical settlement-layout.json and user-drawn route in docs/story-rebuild/reference-route.png",
+  "initialDirtyState": "Existing untracked critique, direction documents and route proposals; no tracked edits at start.",
+  "scope": "Walking rehearsal only; scene actions pending.",
+  "comparison": "All current feature bounds/rotations are checked against the original canonical layout; no pre-existing version of this new walking route exists."
+}

@@ -1,0 +1,13 @@
+:root{color-scheme:dark;font-family:system-ui,sans-serif;color:#eee6d4;background:#03060a;font-size:15px}
+*{box-sizing:border-box}body{margin:0}#world{position:fixed;inset:0;width:100%;height:100%;display:block}
+button,select{font:inherit;color:inherit;background:#302f2b;border:1px solid #716959;border-radius:5px;padding:9px 13px;min-height:42px;cursor:pointer}button:disabled{opacity:.55;cursor:default}button:hover:not(:disabled){background:#494238}button:focus-visible,select:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid #e9bf71;outline-offset:3px}a{color:#ecd1a2}
+#review-header{position:fixed;inset:14px 18px auto;display:flex;justify-content:space-between;align-items:center;gap:12px;text-shadow:0 2px 5px #000;font-size:13px}#review-header b{display:block;font-weight:500;color:#d3b887;letter-spacing:.04em}#pause{min-width:100px;background:#202321e8}
+#review-panel{position:fixed;left:18px;bottom:16px;width:min(470px,calc(100% - 36px));max-height:calc(100dvh - 100px);overflow:auto;padding:16px 18px;background:#171d21f2;border:1px solid #625a48;border-radius:8px;box-shadow:0 5px 25px #0006}
+.point-line{display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:space-between;font-size:12px;color:#cfbb94}#review-state{color:#c7cdc9}h1{font-family:Georgia,serif;font-size:23px;font-weight:400;margin:8px 0}p{line-height:1.45;margin:7px 0}#beat{font-size:14px;color:#d3d7d4}#travel-status{font-size:13px;color:#e7c892;min-height:19px}.primary{display:block;width:100%;margin-top:12px;background:#71552b;color:#fff1d9;border-color:#b29664}.primary:hover:not(:disabled){background:#876835}
+details{margin-top:12px;font-size:13px}summary{cursor:pointer;min-height:32px;padding:5px 0}.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}.tools label{flex-basis:100%}.tools select{flex:1;min-width:0;max-width:100%}.hint,#capture-status{font-size:12px;color:#c1c9c7}#capture-status:empty{display:none}
+#timing-summary{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.5}
+body.walking #beat{display:none}body.walking #review-panel{width:min(390px,calc(100% - 36px))}
+@media(max-width:600px){#review-header{inset:10px 12px auto}#review-panel{left:10px;bottom:10px;width:calc(100% - 20px);padding:12px 14px;max-height:calc(100dvh - 85px)}body.walking #review-panel{width:calc(100% - 20px)}h1{font-size:20px}button,select{font-size:16px;min-height:44px}#beat{font-size:13px}.point-line{font-size:11px}}
+
+body.reunion #beat{font-size:17px;line-height:1.5}
+@media(max-width:600px){body.reunion #beat{font-size:16px}}

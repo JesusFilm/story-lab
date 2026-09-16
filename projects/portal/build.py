@@ -86,6 +86,8 @@ for proto in MANIFEST['prototypes']:
             text = text.replace('http://127.0.0.1:8766/', '../shepherd-adventure/')
             text = text.replace('Check the local server and model files.', 'Please reload and try again.')
             text = text.replace('Check the local server and assets.', 'Please reload and try again.')
+            # Local scene briefs are outside the reviewed public runtime.
+            text = text.replace('<a href="docs/story-rebuild/README.md">Scene briefs</a> · ', '')
             if p.suffix == '.html' and not proto.get('plain_static'):
                 # Story-first prototypes own their startup. The generic wrapper
                 # imports Three.js eagerly and would delay their small intro.

@@ -1,0 +1,19 @@
+{
+  "generator": "Tripo",
+  "model_version": "v3.1-20260211",
+  "face_limit": 40000,
+  "texture_quality": "standard",
+  "pbr": true,
+  "orientation": "align_image",
+  "rig_version": "v2.0-20250506",
+  "files": [
+    {
+      "file": "mary-tripo-source.glb",
+      "sha256": "9fa4c0374b319f353f8cbd92c441afc9cf92758e0d2eafa493114994e724c24a"
+    },
+    {
+      "file": "mary-tripo-rigged.glb",
+      "sha256": "426a2098b90cc28f17a87e8388505f454b9b6ff0b8c05a7becf2c6204b3f6a8c"
+    }
+  ]
+}

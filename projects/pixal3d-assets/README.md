@@ -76,6 +76,13 @@ required third-party notices when adding outside assets.
 
 ### Detailed market stalls
 
+For thin-leaved decoration clusters, `prepare-decoration.py` retains the source
+atlas, validates welded geometry before decimation and frames the full model
+width for review. Use 150,000 target triangles initially; retain more where
+pottery or leaf surfaces degrade. Inspect the exported front and rear renders.
+Transparent reference inputs are supported by Pixal3D and preserve the supplied
+foreground mask when automatic background removal discards the foliage.
+
 `prepare-stall.py` is the conservative static-stall variant: it retains the source
 UV atlas and reduces textures to 2K after welding and decimation. The generic
 selected-to-active bake produced black patches across closely spaced cloth,
@@ -94,3 +101,17 @@ blender --background --python projects/pixal3d-assets/prepare-stall.py -- \
 ```
 
 Preserve originals and use a new output folder when re-preparing an existing model.
+
+For limestone annexes, the atlas-preserving preparer also accepts `--matte` to
+remove inferred metallic response and use rough nonmetallic surfaces. Determine
+wall alignment from the model footprint before fitting an attached structure.
+
+Use `--level-normal NX NY NZ` on the atlas-preserving preparer when a building's
+base plane is tilted within the mesh. Supply its measured Blender-space normal
+**after** `--rotate`; the correction rotates that normal to +Z before scaling.
+For the annex, `checks/verify-annex-level.py` fits base and roof planes from the
+exported GLB and catches pitch/roll regressions that yaw-only placement tests miss.
+
+### Already posed Tripo characters
+
+`prepare-posed-character.py` normalizes a posed GLB with a supplied height and Blender Z yaw, retaining topology, UVs and detailed normal maps. It exports matte nonmetallic materials and a geometry report. Use `animate-seated-character.py` afterward for a restrained seated idle; this does not convert a standing pose or provide locomotion. Verify the exported motion with `prototypes/shepherd-adventure/checks/verify-seated-idle.py` and Blender's `--python-exit-code 1`.

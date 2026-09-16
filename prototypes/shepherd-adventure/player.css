@@ -1,0 +1,18 @@
+/* Compact player actions; scene modules retain ownership of their actions/copy. */
+.player-mode .point-line,.player-mode #point-title,.player-mode #review-tools{display:none}
+.player-mode #review-panel{left:50%;transform:translateX(-50%);bottom:28px;width:min(440px,calc(100% - 32px));padding:14px 18px;background:linear-gradient(135deg,#111a1bea,#1c211eea);border:1px solid #aa947557;border-radius:14px;box-shadow:0 8px 30px #0008}
+.player-mode #beat{font:17px/1.45 Georgia,serif;color:#f1e8d5;text-align:center;margin:0 0 10px}
+.player-mode #advance{font-size:16px;min-height:48px;border-radius:9px;margin-top:6px;background:#6b522e}
+.player-mode #advance:disabled{display:none}
+.player-mode #review-header{z-index:5}.player-mode #review-header span{margin-right:auto}
+.player-mode #review-panel[hidden],#player-options[hidden],#player-finish[hidden]{display:none}
+#player-options,#player-finish{position:fixed;z-index:25;left:50%;top:50%;transform:translate(-50%,-50%);width:min(380px,calc(100% - 32px));padding:28px;background:#151e20f5;border:1px solid #796a50;border-radius:14px;text-align:center}
+#player-options button,#player-options label,#player-finish button,#player-finish a{display:block;width:100%;margin-top:14px}
+.player-mode.story-playing #review-header,.player-mode.story-playing #review-panel{visibility:hidden}
+@media(max-width:600px){.player-mode #review-panel{left:50%;bottom:12px;width:calc(100% - 24px);padding:12px 14px;max-height:48dvh}.player-mode #beat{font-size:16px}.player-mode #review-header b{display:none}}
+
+:root{--linen:#e7ddc7;--ink:#352c22;--hide:#59422b}
+body.player-mode.lamp-scene #review-panel{transform:none}
+@media(max-width:600px){body.player-mode.lamp-scene #review-panel{transform:none;left:10px}}
+
+.player-mode #travel-status{text-align:center;font-size:12px;letter-spacing:.04em}

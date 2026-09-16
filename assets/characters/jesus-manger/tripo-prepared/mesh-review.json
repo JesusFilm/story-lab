@@ -1,0 +1,33 @@
+{
+  "source": "jesus-manger-tripo-detailed-source.glb",
+  "runtime": "jesus-manger-tripo-detailed-runtime.glb",
+  "height_metres": 0.72,
+  "dimensions_metres": [
+    1.2887613773345947,
+    1.3269518613815308,
+    0.7199999690055847
+  ],
+  "triangles": 56736,
+  "textures": [
+    {
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "size": [
+        4096,
+        4096
+      ]
+    }
+  ],
+  "preparation": "Uniform scale and grounded centered pivot; preserve source topology, UVs and normals. Matte nonmetallic cloth, skin, straw and wood.",
+  "orientation_z_degrees": 0
+}

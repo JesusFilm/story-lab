@@ -1,0 +1,10 @@
+{
+  "viewport": [1280, 720],
+  "buffer": [1280, 720],
+  "dpr": 1,
+  "browser": "Codex in-app Chromium 152 on macOS",
+  "staged": true,
+  "entry": "rehearsal.html?point=5&replay",
+  "segments": [{"point":5,"frames":960,"median":16.7,"p95":18.2,"p99":18.6,"worst":482.8,"over50":1,"over100":1,"wallSeconds":16.52,"maxCalls":163,"maxTriangles":1529659}],
+  "limits": "One observed replay, not a controlled benchmark or baseline comparison. Frame intervals include browser overhead. The cause of the 482.8 ms interval was not traced. Paused and hidden time excluded. Renderer submission counters are not source mesh totals or GPU timings."
+}

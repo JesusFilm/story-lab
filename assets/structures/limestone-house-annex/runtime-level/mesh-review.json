@@ -1,0 +1,63 @@
+{
+  "source": {
+    "triangles": 996241,
+    "meshes": 1,
+    "uv_layers": [
+      1
+    ],
+    "textures": [
+      {
+        "name": "Image_0",
+        "size": [
+          4096,
+          4096
+        ]
+      },
+      {
+        "name": "Image_1",
+        "size": [
+          4096,
+          4096
+        ]
+      }
+    ]
+  },
+  "runtime": {
+    "triangles": 159783,
+    "meshes": 1,
+    "uv_layers": [
+      1
+    ],
+    "textures": [
+      {
+        "name": "Image_0",
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      {
+        "name": "Image_1",
+        "size": [
+          2048,
+          2048
+        ]
+      }
+    ]
+  },
+  "height_metres": 2.65,
+  "decimation_ratio": 0.1606037093434219,
+  "texture_limit": 2048,
+  "orientation_xyz_degrees": [
+    0.0,
+    0.0,
+    208.5
+  ],
+  "note": "Weld and conservatively decimate; preserve original UVs and source material atlas, reduce textures. Static prop; not rigged.",
+  "level_normal_after_rotation": [
+    0.108254028,
+    -0.213022103,
+    0.971031745
+  ],
+  "matte": true
+}

@@ -1,0 +1,14 @@
+{
+  "generator": "TencentARC/Pixal3D",
+  "source": "https://github.com/TencentARC/Pixal3D",
+  "seed": 42,
+  "resolution": 1024,
+  "low_vram": true,
+  "reference": "olive-basket-cluster-a-reference.png",
+  "reference_sha256": "dbdfb54ae6123b1bf6324feaec33d8fcf8db250ec359a1b3be611276b878a1dc",
+  "source_model": "olive-basket-cluster-a-pixal3d-source.glb",
+  "source_sha256": "60da2e8132dce05b8fa21d1598f22debb77844d25bf456b8432e6ce6bc1832ee",
+  "preparation": "../../../projects/pixal3d-assets/prepare-decoration.py",
+  "texture_size": 2048,
+  "target_triangles": 150000
+}

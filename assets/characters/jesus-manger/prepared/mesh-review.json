@@ -1,0 +1,41 @@
+{
+  "source": {
+    "triangles": 37699,
+    "meshes": 1,
+    "uv_layers": [
+      1
+    ],
+    "textures": [
+      {
+        "name": "Color_e1d50e3f-1988-400e-b5bb-b1f5f9d4e2dd",
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      {
+        "name": "NormalGL_e1d50e3f-1988-400e-b5bb-b1f5f9d4e2dd",
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      {
+        "name": "ORM_e1d50e3f-1988-400e-b5bb-b1f5f9d4e2dd",
+        "size": [
+          2048,
+          2048
+        ]
+      }
+    ]
+  },
+  "height_metres": 0.72,
+  "decimation_ratio": 1,
+  "texture_limit": 2048,
+  "orientation_xyz_degrees": [
+    0,
+    0,
+    0
+  ],
+  "note": "Weld and conservatively decimate; preserve original UVs and source material atlas, reduce textures. Static prop; not rigged."
+}

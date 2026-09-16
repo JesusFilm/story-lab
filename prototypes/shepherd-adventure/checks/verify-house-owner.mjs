@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import {RouteRehearsal,STOPS} from '../src/rehearsal-route.mjs';
+const j=new RouteRehearsal();j.jump(8);
+assert(j.gateOpen&&j.gateLit&&j.lantern);
+assert.equal(j.next(),false);assert(j.knockOnHouse());assert.equal(j.knockOnHouse(),false);
+j.step(.9);assert.equal(j.houseOwner.phase,'knocking');
+assert(j.position.x<STOPS[8].anchor.x&&j.position.z<STOPS[8].anchor.z,'Approach this east-facing facade toward its actual door');
+j.paused=true;const held=j.snapshot();j.step(4);assert.deepEqual(j.snapshot(),held);assert.equal(j.advanceOwner(),false);
+j.paused=false;j.step(2.1);assert.equal(j.houseOwner.phase,'conversation');
+assert.deepEqual({x:j.position.x,z:j.position.z},STOPS[8].anchor);
+j.step(100);assert.equal(j.houseOwner.page,0,'Reading waits for the player');
+for(let i=0;i<3;i++){assert(j.advanceOwner());assert.equal(j.next(),false);}
+assert(j.advanceOwner());assert(j.houseOwner.complete);assert.equal(j.advanceOwner(),false);
+assert.equal(j.travel,null,'Thank you does not auto-depart');assert.equal(j.next(),false,'Reunion must finish its exchange before following');
+while(j.reunion.phase==='arriving')j.step(.05);for(let i=0;i<3;i++)assert(j.advanceReunion());while(!j.reunion.canFollow)j.step(.05);assert(j.next());assert.equal(j.next(),false);
+while(j.travel)j.step(.1);assert.equal(j.index,9);assert.equal(j.next(),false);
+j.jump(8);assert.equal(j.houseOwner.phase,'ready');j.knockOnHouse();j.step(3);j.advanceOwner();j.replay();
+assert.equal(j.houseOwner.phase,'ready');while(j.travel)j.step(.1);assert.equal(j.index,8);assert.equal(j.houseOwner.page,0);
+j.jump(9);assert(j.houseOwner.complete);j.jump(7);assert.equal(j.houseOwner.phase,'ready');assert.equal(j.gateOpen,false);
+j.reset();assert.equal(j.houseOwner.phase,'ready');assert.equal(j.gateLit,false);
+console.log('PASS House 9: one knock, correct approach, pause, player-paced dialogue, explicit onward route, staged outcomes and replay/reset.');

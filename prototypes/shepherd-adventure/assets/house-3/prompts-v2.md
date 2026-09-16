@@ -1,0 +1,24 @@
+# ImageGen continuity prompts
+
+Built-in ImageGen, image-edit mode. The final selected outputs are the three `-v2.png`
+files alongside this document. No external image service is needed at runtime.
+
+## Closed door
+
+Edit target: the prototype's `review/2026-09-13-house-3/03-knock.png`.
+
+Use case: precise-object-edit. This actual game screenshot is the authoritative house geometry, materials and lighting reference. Make a clean landscape 3:2 diorama story frame of THIS EXACT house facade. Remove all game UI, text, the foreground shepherd and lantern, and the white knock ring, reconstruct the occluded door. Reframe closer so the full facade fills most of the image; preserve the slightly elevated front view and all geometry/proportions. Critical invariants: mostly smooth irregular cream plaster wall with sparse exposed stone at corners and base, NOT fully brick faced; one simple undivided rectangular open window on LEFT with warm amber interior and a prominent dark horizontal timber lintel directly ABOVE window; NO crossbars, no four-pane divisions; tall closed vertical-plank wooden door RIGHT with dark horizontal lintel above; black iron ring handle on the LEFT side of the door as viewed from outside; low uneven flat parapet with NO protruding round roof beams. Preserve existing window and door surrounds, stone shapes, dusty earth ground, sparse background village silhouette. Remove character but keep plausible warm illumination and night atmosphere. Semi-realistic AA game rendering with matte tactile plaster and rough wood, no cartoon stylization. Do not beautify with new objects: NO pots, baskets, plants, decorative props, moon, new buildings, new architectural details. No text, borders or UI. Goal is visual continuity with screenshot, not a redesigned house.
+
+## Door opening
+
+Image 1: corrected closed-door frame. Image 2: root asset library's
+`assets/characters/shepherd/reference.png`.
+
+Use case: precise-object-edit. Image 1 is the EDIT TARGET: preserve the exact house, camera, composition, window, plaster patches, stonework, timber lintels, roofline, background and ground. Image 2 is STYLE REFERENCE ONLY for the new resident's realistic AA-game anatomy, head-to-body ratio, natural facial proportions, tactile woven cloth, believable skin and restrained expression; do NOT use its T-pose or copy the shepherd identity/vest.
+Change only the doorway of image 1: the wooden door is now partly open INWARD on its RIGHT-hand hinge (as viewed from outside). This is crucial: the ring handle was on the LEFT of the closed door, so the slab pivots at the RIGHT jamb and recedes into the interior on the RIGHT; NEVER flip the door or move the hinges to the left. Opening is visible on the LEFT. A different middle-aged male resident is partially visible through the opening, standing inside, one hand naturally holding the free door edge. Normal adult height relative to doorway, head modestly below lintel. Olive weathered skin, short dark hair with subtle grey at temples, short beard, angular natural face and normal-sized brown eyes, plain muted earth-brown knee-length linen tunic, simple belt and leather sandals. Calm, serious, attentive and willing to help; relaxed neutral mouth, no wide smile, no raised eyebrows, no exaggerated head tilt. Semi-realistic AA 3D game character closely matching image 2's level of realism, NOT cartoon, animation-movie, clay doll or caricature. Warm interior illumination on him. No pots, plants, baskets, extra windows, crossbars, roof beams or other new scenery. No text or UI. Landscape 3:2.
+
+## Resident speaking
+
+Edit target: corrected opening-door frame.
+
+Use case: precise-object-edit. This image is the edit target for the final frame of the same conversation. Preserve the EXACT camera, entire house facade, undivided window and lintel, stone and plaster outlines, ground, background, night lighting, and the SAME realistically proportioned resident identity, face, hair, beard, brown linen tunic, belt and sandals. Only advance the doorway interaction: the door has swung a little farther INWARD around its RIGHT jamb hinge, the slab remains on the RIGHT and its original ring handle remains near the free LEFT edge of that slab. The SAME resident stands clearly visible in the opening, still inside the threshold, one hand resting lightly on the door edge and his other hand making a SMALL low conversational gesture near waist height as he gives helpful directions. Calm and serious but kind, understated neutral attentive face with lips just slightly parted, NO smile, NO raised eyebrows, NO tilted head, no exaggerated gestures. Preserve semi-realistic AA game style and natural adult head/body proportions. Do not change architecture, add decoration, props, roof beams, window bars, people, UI or text. Landscape 3:2, matching previous framing exactly.

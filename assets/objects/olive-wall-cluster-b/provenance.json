@@ -1,0 +1,14 @@
+{
+  "generator": "TencentARC/Pixal3D",
+  "source": "https://github.com/TencentARC/Pixal3D",
+  "seed": 42,
+  "resolution": 1024,
+  "low_vram": true,
+  "reference": "olive-wall-cluster-b-reference.png",
+  "reference_sha256": "0e5918840f05d0b0b31a59f2a5ba5a1e9e5f067250a2105700ac292cc1260d17",
+  "source_model": "olive-wall-cluster-b-pixal3d-source.glb",
+  "source_sha256": "c9cbb837be4b80f0c5bda795387e29e9b92cded3a38c741a2edaaa20b8e046b9",
+  "preparation": "../../../projects/pixal3d-assets/prepare-decoration.py",
+  "texture_size": 2048,
+  "target_triangles": 150000
+}
