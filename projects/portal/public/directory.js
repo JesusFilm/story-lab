@@ -1,17 +1,18 @@
+import {matchesRow, resultLabel} from './directory-filter.mjs';
+
 const directory = document.querySelector('.directory');
 const search = directory.querySelector('#search');
 const buttons = [...directory.querySelectorAll('[data-filter]')];
 const rows = [...directory.querySelectorAll('[data-kind]')];
 let category = 'All';
 function filter() {
-  const query = search.value.trim().toLocaleLowerCase();
   let count = 0;
   for (const row of rows) {
-    const matches = (category === 'All' || row.dataset.kind === category) && row.textContent.toLocaleLowerCase().includes(query);
+    const matches = matchesRow(row.dataset.kind, row.textContent, category, search.value);
     row.hidden = !matches;
     count += Number(matches);
   }
-  directory.querySelector('.result-count').textContent = `${count} ${directory.dataset.noun}${count === 1 ? '' : 's'}`;
+  directory.querySelector('.result-count').textContent = resultLabel(count, directory.dataset.noun);
   directory.querySelector('#empty').hidden = count > 0;
   for (const button of buttons) button.setAttribute('aria-pressed', String(button.dataset.filter === category));
 }

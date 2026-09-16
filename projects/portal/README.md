@@ -6,6 +6,7 @@ A static portal for the prototypes and model gallery, built from this repository
 npm ci --ignore-scripts
 npm run build
 npm test
+npm run test:unit
 ```
 
 Install the sermon prototype dependencies separately before the first build:
