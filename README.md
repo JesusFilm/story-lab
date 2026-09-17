@@ -52,3 +52,12 @@ python3 prototypes/serve.py
 Open [Maze](http://127.0.0.1:8765/) or [Adventure](http://127.0.0.1:8766/).
 First use downloads pinned Three.js into a temporary cache. Playing needs no
 Blender installation or Tripo token. Individual launch instructions are in each README.
+
+To enable the repository's publication pre-commit check after cloning, run:
+
+```sh
+./scripts/setup-git-hooks.sh
+```
+
+Git keeps hooks local to each checkout, so this one-time setup is required for
+each contributor. The hook checks staged portal publication hashes before a commit.

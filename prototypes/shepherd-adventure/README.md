@@ -107,6 +107,23 @@ Run POI before camera checks so camera inputs reflect the current model geometry
 These check reachable outcomes, lane clearance, gate behavior, visibility bounds and
 animation blending. They do not establish enjoyment or finished visual quality.
 
+## Repository publication hook
+
+The GitHub Pages portal publishes only files listed in its reviewed manifest.
+Changes to a published prototype file must update its SHA-256 review entry before
+they can be committed. After cloning, enable the repository hook once from the
+repository root:
+
+```sh
+./scripts/setup-git-hooks.sh
+```
+
+This sets the local Git `core.hooksPath` to `.githooks`. Git does not install
+hooks automatically when someone clones a repository, so each contributor must
+run this setup command on their own checkout. The pre-commit check validates
+staged publication hashes, required prototype files and published module imports.
+It does not publish anything or replace the portal build and smoke test.
+
 ## Limitations and outcome
 
 The night atmosphere and investigation direction reflect Jaco's feedback. The specific
