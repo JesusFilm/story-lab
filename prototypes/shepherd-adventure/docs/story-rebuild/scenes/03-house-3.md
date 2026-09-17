@@ -106,3 +106,6 @@ added and reviewed. This is a possible later dressing improvement, not part of
 this scene pass. Dialogue, knocking, route and all other placeholders are unchanged.
 [Revision screenshots and walkthrough](../../../review/2026-09-13-house-3/continuity/README.md).
 The user judged the revised images much better and authorized the audit update, commit and branch push. This scene is accepted for checkpoint; integrated release review remains outstanding.
+
+17 September 2026: D025 supersedes the four-page copy with the approved three-page
+sighting and a new right-pointing direction frame. [Scope and checks](../../playtest-roadmap/evidence/2026-09-17-t01/README.md). Awaiting playtest.

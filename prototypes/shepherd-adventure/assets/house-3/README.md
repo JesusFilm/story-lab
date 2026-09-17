@@ -38,3 +38,11 @@ The diorama remains an illustrated interpretation; the 3D door stays closed.
 The resident and sighting are authored village fiction, not scripture quotations.
 No voice track accompanies this exchange. [Prompts](prompts-v2.md) ·
 [Continuity review](../../review/2026-09-13-house-3/continuity/README.md).
+
+## Gate-direction frame
+
+`pointing-right-v1.png` is a built-in ImageGen edit of `helpful-resident-v3.png`.
+The resident points to his own right (screen-left) when mentioning the gate.
+[Exact prompt](pointing-right-prompt.md). The active three-page exchange uses
+opening-door-v3, helpful-resident-v3 and pointing-right-v1; the former closed-door
+narration page is retained only as a reference asset.

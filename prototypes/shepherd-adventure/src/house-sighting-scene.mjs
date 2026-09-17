@@ -1,10 +1,9 @@
 import {StoryDiorama} from '../vendor/story-diorama/story-diorama.mjs';
 const image=name=>new URL(`../assets/house-3/${name}.png`,import.meta.url).href;
 const sightingCues=[
- {title:'At the door',text:'You hear footsteps. Someone is coming to the door.',image:image('lit-door-v3'),alt:'Warm light shines through the window beside the closed wooden door.'},
- {title:'Shepherd',text:'“We’re looking for a couple travelling with a donkey. Have you seen them?”',image:image('opening-door-v3'),alt:'The door opens inward and a resident looks out from the warm interior.'},
- {title:'Resident',text:'“Yes, I saw them earlier. They were looking for somewhere to stay.”',image:image('helpful-resident-v3'),alt:'A serious, attentive resident in a plain brown linen tunic stands beside the open door.'},
- {title:'Resident',text:'“They went up the lane toward the gate. Try there—you may find someone who can help.”',image:image('helpful-resident-v3'),alt:'The resident speaks gently from his warmly lit doorway.'}
+ {title:'Shepherd',text:'“Have you seen a couple with a donkey?”',image:image('opening-door-v3'),alt:'The door opens inward and a resident looks out from the warm interior.'},
+ {title:'Resident',text:'“Yes. They were looking for somewhere to stay.”',image:image('helpful-resident-v3'),alt:'The resident speaks from his warmly lit doorway.'},
+ {title:'Resident',text:'“They went toward the gate. Try there.”',image:image('pointing-right-v1'),alt:'The resident points to his own right, toward the left side of the image, giving directions to the gate.'}
 ];
 
 const adviceImage=name=>new URL(`../assets/house-8/${name}.png`,import.meta.url).href;
@@ -45,6 +44,7 @@ export function createHouseSightingScene(journey,onChange){
   $('travel-status').textContent=journey.paused?'Paused — continue when ready.':h.complete?(advice?'Follow the lane around the houses to the empty stall.':'Follow the lane to the gate.'):h.phase==='ready'?'Ask at the door.':h.phase==='knocking'?'Knock. Knock. Knock.':'Someone is coming to the door…';
   $('advance').textContent=h.phase==='ready'?'Knock on door':h.complete?(advice?'Explore the empty stall':'Go to the gate'):'Waiting for a response…';
   $('advance').disabled=journey.paused||(h.started&&!h.complete);
+  if(!owner&&!advice){$('beat').textContent='';$('travel-status').textContent='';}
   if(owner){
    $('review-state').textContent=journey.staged?'Staged · owner scene draft':'Owner scene draft';
    if(h.complete){$('beat').textContent='The family is sheltering in the stall at the far end of the large pen.';$('travel-status').textContent=journey.paused?'Paused — continue when ready.':'Temporary onward route — companion cutscene pending.';}
@@ -62,7 +62,7 @@ export function createHouseSightingScene(journey,onChange){
   if(player&&page!==h.page){player.seek(h.page);page=h.page;}
   player?.pause(journey.paused);
   $('sighting-next').disabled=!prepared||journey.paused;
-  $('sighting-next').textContent=owner?(h.page===3?'Thank you':'Continue'):advice?(h.page===3?'Return to the village':h.page===2?'Thank you':h.page===0?'Ask about the travellers':'Continue'):(h.page===3?'Thank you':h.page===0?'Ask about the travellers':'Continue');
+  $('sighting-next').textContent=owner?(h.page===3?'Thank you':'Continue'):advice?(h.page===3?'Return to the village':h.page===2?'Thank you':h.page===0?'Ask about the travellers':'Continue'):(h.page===cues.length-1?'Thank you':'Continue');
   $('sighting-count').textContent=`${h.page+1} / ${cues.length}`;
  }
  $('sighting-next').onclick=()=>{if(!prepared||journey.paused)return;if(journey.index===8?journey.advanceOwner():journey.index===6?journey.advanceAdvice():journey.advanceSighting())onChange();};

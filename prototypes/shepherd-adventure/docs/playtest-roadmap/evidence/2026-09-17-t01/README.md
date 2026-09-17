@@ -137,3 +137,25 @@ voice loading reliability is not claimed repaired. Other house copy unchanged.
 
 D024 acceptance: user approved the House 1 change and requested its branch commit
 on 17 September 2026. Next review is House 3. Voice reliability remains open.
+
+## D025 — House 3 sighting (implemented, awaiting playtest)
+
+Approved sequence: Knock on door alone → knock/wait with no narrative caption →
+Shepherd: “Have you seen a couple with a donkey?” / Continue → Resident: “Yes.
+They were looking for somewhere to stay.” / Continue → Resident: “They went
+ toward the gate. Try there.” / Thank you → Go to the gate, without recap.
+
+Added the matching resident-right-pointing frame for the final direction line.
+The new frame is derived from the existing resident image; asset and exact prompt
+live in assets/house-3. This is authored connective dialogue, not scripture.
+No new knowledge is introduced. Existing House 3 has no voice track; none added.
+
+House 3 now configures three pages; shared House 8/9 state retains four. House 3,
+8 and 9 state checks passed, including pause, departure gating, replay and reset.
+Syntax and whitespace checks passed. No commit or deployment in this slice;
+portal asset allowlist review remains a release task. Human playtest pending.
+
+Browser verification: staged House 3 displayed 1/3 question, 2/3 sighting, and
+3/3 gate directions with the new pointing frame. Thank you closed the overlay
+and left Go to the gate with no recap. Visual review confirmed anatomical right
+points screen-left. Normal-player full-route and human acceptance remain pending.

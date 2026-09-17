@@ -775,6 +775,8 @@ name the prior decision/item it supersedes and explain the impact.
 
 | 2026-09-17 | D024 | House 1: arrival has Knock on door only; remove narration of knocking, waiting and light changes. Keep the resident refusal subtitle visible through the outro, with Let’s try the next house when the timed response completes. | Explicit user direction for H01. Implemented, awaiting playtest; existing sound asset/timing retained. Voice reliability repair remains I01, not claimed fixed. Other houses unchanged. |
 
+| 2026-09-17 | D025 | Implement approved House 3 three-page sighting: action-only arrival, silent visual knock/wait, short question/sighting/directions, Thank you then Go to the gate without recap. Add resident-right-pointing frame on directions. | Explicit user approval and image generation request. Implemented awaiting playtest. Houses 8/9 retain four pages; no new voice track. |
+
 ## Implementation and acceptance log
 
 Do not mark a feedback item complete just because code landed. Use
