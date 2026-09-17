@@ -44,18 +44,23 @@ assert.equal(audio.getState().running,true);
 
 const context=FakeAudioContext.instances[0];
 const beforeSteps=context.sources;
-audio.update(2,{movement:4.6,active:true});
+audio.update(2,{movement:4.6,active:true,position:{x:25,z:-26}});
 assert(context.sources>beforeSteps,'Running movement should schedule footsteps');
 const beforeCue=context.sources;
 audio.cue();
 assert(context.sources>beforeCue,'A decision should schedule one cue');
+audio.update(5,{movement:0,active:true,position:{x:25,z:-26}});
+assert(audio.getState().events.crickets>=1,'A quiet night bed should schedule crickets');
+assert(audio.getState().events.sheep>=1,'A nearby animal source should schedule a sheep sound');
+audio.update(5,{movement:0,active:true,position:{x:5.8,z:-20.1}});
+assert(audio.getState().events.voices>=1,'A nearby lit house should schedule muffled voices');
 
 audio.setMuted(true);
 await Promise.resolve();
 assert.equal(audio.getState().muted,true);
 assert.equal(audio.getState().contextState,'suspended');
 const mutedSources=context.sources;
-audio.update(2,{movement:4.6,active:true});
+audio.update(2,{movement:4.6,active:true,position:{x:25,z:-26}});
 assert.equal(context.sources,mutedSources,'Muted gameplay should schedule no new sound');
 
 audio.setMuted(false);

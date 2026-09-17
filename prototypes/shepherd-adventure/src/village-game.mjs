@@ -175,6 +175,12 @@ $('timing-details').addEventListener('toggle',()=>{
  $('timing-summary').dataset.report=JSON.stringify(report);
 });
 $('advance').onclick=next;$('pause').onclick=pause;
+// Rehearsal has no opening story gesture, so start the same gameplay owner on
+// the first pointer or keyboard interaction. The browser still blocks any
+// audio before that interaction, while a standing player can hear the bed and
+// nearby sources without needing to click a scene action.
+document.addEventListener('pointerdown',()=>{if(!story?.active)gameplayAudio.begin();},{capture:true,passive:true});
+document.addEventListener('keydown',()=>{if(!story?.active)gameplayAudio.begin();},true);
 // A single restrained cue gives meaningful buttons a tactile response. Capture
 // before the scene handlers so the first rehearsal action can also unlock audio.
 document.addEventListener('click',event=>{
@@ -250,7 +256,7 @@ function animate(now){
    if(arrivalTime>=ARRIVAL_DURATION){mode='ending';updateUI();story.open('ending');}
   }
  }
- gameplayAudio.update(Math.max(raw,0),{movement,active:audioActive});
+ gameplayAudio.update(Math.max(raw,0),{movement,active:audioActive,position:journey.position});
  const key=[journey.index,journey.phase,journey.paused,journey.staged,journey.emptyStall.phase,journey.houseTracks.phase,journey.barredGate.phase,journey.houseRejection.phase,journey.houseSighting.phase,journey.houseSighting.page,journey.houseAdvice.phase,journey.houseAdvice.page,journey.houseOwner.phase,journey.houseOwner.page,journey.reunion.phase,journey.reunion.canFollow,houseScene.getState().audioFailed].join('|');if(key!==signature){signature=key;updateUI();}
  renderer.render(scene,camera);
  // Real frame intervals, kept per segment. Hidden/paused time is excluded.
