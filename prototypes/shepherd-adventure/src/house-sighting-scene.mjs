@@ -9,8 +9,7 @@ const sightingCues=[
 const adviceImage=name=>new URL(`../assets/house-8/${name}.png`,import.meta.url).href;
 const adviceCues=[
  {title:'Shepherd',text:'“Have you seen a couple with a donkey?”',image:adviceImage('open-door-v2'),alt:'The old man stands in his warmly lit doorway with his staff.'},
- {title:'Old man',text:'“I haven’t seen them.”',image:adviceImage('open-door-v2'),alt:'The old man speaks from the open doorway.'},
- {title:'Old man',text:'“Try the empty stall by the gate. They may be resting there.”',image:adviceImage('open-door-v2'),alt:'The old man suggests a place to look, keeping the door open.'}
+ {title:'Old man',text:'“I haven’t seen them. Try the empty stall by the gate. They may be resting there.”',image:adviceImage('open-door-v2'),alt:'The old man gives directions from the open doorway.'}
 ];
 
 const ownerImage=name=>new URL(`../assets/house-9/${name}.png`,import.meta.url).href;
@@ -21,11 +20,12 @@ const ownerCues=[
  {title:'Pen owner',text:'“Follow the pen to the far end. They’re in the stall.”',image:ownerImage('pointing-left-v2'),alt:'The owner points to his left, toward the onward route beside the pen, with the house and open door unchanged.'}
 ];
 
-export function createHouseSightingScene(journey,onChange){
+export function createHouseSightingScene(journey,onChange,onComplete=()=>{}){
  const $=id=>document.getElementById(id),overlay=$('sighting-overlay'),stage=$('sighting-stage');
  let cues=sightingCues;
- let player=null,previous=null,page=-1,loading=false,failed=false,prepared=false,token=0,focus=null;
- function close(){token++;player?.destroy();player=null;stage.replaceChildren();overlay.hidden=true;document.body.classList.remove('sighting-open');$('review-panel').inert=false;page=-1;loading=false;prepared=false;failed=false;if(focus){focus.focus({preventScroll:true});focus=null;}}
+ let player=null,previous=null,page=-1,loading=false,failed=false,prepared=false,token=0,focus=null,transitionTimer=null,transitioning=false;
+ function close(){if(transitionTimer){clearTimeout(transitionTimer);transitionTimer=null;}transitioning=false;token++;player?.destroy();player=null;stage.replaceChildren();overlay.hidden=true;overlay.classList.remove('sighting-closing');document.body.classList.remove('sighting-open');$('review-panel').inert=false;page=-1;loading=false;prepared=false;failed=false;if(focus){focus.focus({preventScroll:true});focus=null;}}
+ function closeWithTransition(){if(overlay.hidden||transitioning)return;transitioning=true;overlay.classList.add('sighting-closing');$('sighting-next').disabled=true;transitionTimer=setTimeout(()=>{transitionTimer=null;close();},220);}
  function prepare(){
   if(loading||prepared)return;loading=true;const generation=++token;
   Promise.all([...new Set(cues.map(c=>c.image))].map(src=>new Promise(resolve=>{
@@ -41,10 +41,10 @@ export function createHouseSightingScene(journey,onChange){
   $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
   $('beat').textContent='';
   $('travel-status').textContent='';
-  $('advance').textContent=h.phase==='ready'?'Knock on door':h.complete?(advice?'Find the empty stall':owner?'Follow the others':'Go to the gate'):'';
+  $('advance').textContent=h.phase==='ready'?'Knock on door':h.complete?(advice?'':owner?'Follow the others':'Go to the gate'):'';
   $('advance').disabled=journey.paused||(h.started&&!h.complete);
   if(h.started&&!h.complete&&!prepared&&!loading)prepare();
-  if(h.phase!=='conversation'){if(!overlay.hidden)close();return;}
+  if(h.phase!=='conversation'){if(!overlay.hidden&&!transitioning)close();return;}
   if(overlay.hidden){focus=document.activeElement;overlay.hidden=false;document.body.classList.add('sighting-open');$('review-panel').inert=true;$('sighting-next').focus({preventScroll:true});}
   $('sighting-status').textContent=!prepared?'Preparing the illustrated scene…':failed?'Illustrations unavailable. The full conversation is shown below.':'';
   $('sighting-retry').hidden=!failed;
@@ -54,11 +54,11 @@ export function createHouseSightingScene(journey,onChange){
   }
   if(player&&page!==h.page){player.seek(h.page);page=h.page;}
   player?.pause(journey.paused);
-  $('sighting-next').disabled=!prepared||journey.paused;
+  $('sighting-next').disabled=!prepared||journey.paused||transitioning;
   $('sighting-next').textContent=h.page===cues.length-1?'Thank you':'Continue';
   $('sighting-count').textContent=`${h.page+1} / ${cues.length}`;
  }
- $('sighting-next').onclick=()=>{if(!prepared||journey.paused)return;if(journey.index===8?journey.advanceOwner():journey.index===6?journey.advanceAdvice():journey.advanceSighting())onChange();};
+ $('sighting-next').onclick=()=>{if(!prepared||journey.paused||transitioning)return;const changed=journey.index===8?journey.advanceOwner():journey.index===6?journey.advanceAdvice():journey.advanceSighting();if(!changed)return;if((journey.index===8?journey.houseOwner:journey.index===6?journey.houseAdvice:journey.houseSighting).complete){closeWithTransition();onComplete();}onChange();};
  $('sighting-retry').onclick=()=>{player?.destroy();player=null;prepared=false;failed=false;prepare();update();};
  overlay.addEventListener('keydown',e=>{
   if(e.key==='Tab'){

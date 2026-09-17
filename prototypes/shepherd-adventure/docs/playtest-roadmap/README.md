@@ -49,6 +49,14 @@ engine/camera investigation; I03 House 8 exemplar plus all-house
 audit; I08 loader/loading strategy. I09 defines the following multilingual milestone.
 These are ready planning/diagnostic directions, not a record of implemented fixes.
 
+**Latest house review — 17 September:** [Normal-player walkthrough and proposed second pass](evidence/2026-09-17-house-handoffs/README.md).
+All five house encounters were reviewed from arrival through departure. F06's
+scale/viewpoint break is visually verified in Houses 3, 8 and 9. House 8's old
+close-before-thanks order no longer reproduces after D026/D027, but the immediate
+return to a closed 3D door remains abrupt. The proposal starts with House 8's
+framing and farewell; alternatives are not yet built or accepted. Live sound and
+continuous-motion quality were not assessed by the available tools.
+
 ## Intended outcome
 
 Keep the player immersed in a coherent night journey: reading should support the
@@ -96,7 +104,9 @@ direction is settled. They are not promises of completion dates.
 
 Reported = participant experience, not independently reproduced. Confirmed =
 current source or browser evidence establishes the described behavior. Hypothesis
-= possible explanation requiring a test. All items remain **open**.
+= possible explanation requiring a test. This register preserves the original
+concerns; accepted bounded fixes and broader open work are tracked separately
+below. D023–D027 close only their recorded copy/UI/reference scope.
 
 | ID | Feedback, preserved in substance | Current evidence and uncertainty | Work item |
 | --- | --- | --- | --- |
@@ -104,8 +114,8 @@ current source or browser evidence establishes the described behavior. Hypothesi
 | F02 | Gameplay lacks ambient sound | User requests an audible world: running footsteps and night atmosphere, with soft wind/crickets and possible distant animal sounds as candidates. Music alone is insufficient. Exact palette remains a design task. | I01 |
 | F03 | Too much text; use blurbs | Clarified: player thoughts and dialogue only. Comic-book-like blurbs are a proposed presentation. Opening/ending scripture was described as perfect and must be preserved. | T01 / I02 |
 | F04 | Bottom text placement draws focus from the experience | Clarified: scripture should focus on text; thoughts/dialogue should be brief and situated. E03 is the primary redesign evidence; preserve scripture treatment. | I02 |
-| F05 | House slides feel mistimed; abrupt door close then “thank you” | House 8 confirmed as the example. The current button order does not invalidate the confusing timing: picture meaning can precede reading comprehension. Review Houses 1, 3, 5, 8 and 9 for coherent interactions. | T03 / I03 |
-| F06 | Player disappears and the house shrinks during the conversation handoff | User confirms both disappearance and a much smaller illustrated house against the still-visible larger 3D house. Match crop/scale/perspective; compare composited shepherd-back versus deliberate first person. | I03 |
+| F05 | House slides feel mistimed; abrupt door close then “thank you” | House 8 is the reported example. The baseline review did not reproduce close-before-thanks after D026/D027, but the return still cut directly to the closed 3D doorway. The first implementation now fades the card and starts the stall reveal from Thank you; player-facing timing remains awaiting playtest. [Evidence and implementation note](evidence/2026-09-17-house-handoffs/README.md). | T03 / I03 |
+| F06 | Player disappears and the house shrinks during the conversation handoff | Baseline was visually verified in Houses 3, 8 and 9. The first implementation enlarges and crops the existing doorway art; the card still covers the avatar, so composited shepherd-back versus deliberate first person remains open pending playtest. [Baseline and implementation note](evidence/2026-09-17-house-handoffs/README.md). | I03 |
 | F07 | House 1 sound did not play | Reported. A voice-readiness race is plausible; failure not reproduced or diagnosed here. Clarified: Chrome; knock was clear, only the refusal voice was missing. | I01 |
 | F08 | Camera freezes at random points, then recovers | Reported on M1 Air and M4 Mac. Investigate engine/resource management and camera logic with traces before attributing it to browsers. Repeatability still unmeasured. | I04 |
 | F09 | Loaders break the narrative visually and halt the experience with abrupt swaps | Plain/simple 2D loader art feels like another children's game; instant entry and exit amplify the break. Rework atmosphere and transitions; test fewer staged loaders against memory/startup limits. | I08 / I04 / I01 |
@@ -238,7 +248,7 @@ means one focused change/review cycle, not an elapsed-time estimate.
 | --- | --- | --- | --- | --- |
 | T01 | Trim player thoughts/dialogue and repeated non-scriptural instructions; one idea per blurb. Inventory before/after copy and preserve next-action meaning. No wholesale story rewrite. | Q02 scope settled; I02's chosen presentation | Review copy in its actual scene, at desktop and narrow sizes. Player can state the lead/action without rereading; no character gains unsupported knowledge. | Accepted copy/UI scope (D023–D027); broader presentation and handoff work remains open · S |
 | T02 | Use accessible arrow controls for existing page advancement where approved. Keep meaningful labels for actions such as Thank you/Leave. House back controls are explicitly excluded; scripture backward state belongs to I02. | D011; chosen forward cue | Keyboard and touch navigation, visible focus, accessible names, disabled/end states; minimum proposed 44 px touch target; no accidental exit. | Awaiting direction · S |
-| T03 | Correct a localized House 8 beat after reviewing its image/text timing. All-house coherence and handoff changes remain I03. | D014; I03 | Player understands the visible action without retrospective explanation; rapid input, pause and return work. Verify the actual mismatch rather than assuming a button reorder fixes it. | Needs timing review · S |
+| T03 | Correct a localized House 8 beat after reviewing its image/text timing. All-house coherence and handoff changes remain I03. | D014; I03 | Player understands the visible action without retrospective explanation; rapid input, pause and return work. Verify the actual mismatch rather than assuming a button reorder fixes it. | Two-page advice and automatic stall reveal implemented; awaiting playtest. Continuous-motion review still needed · S |
 | T04 | Adjust an isolated effect's gain after comparing it with reference voice/music. Avoid an unmeasured global volume change. | Q08; I01 mix baseline | Same device/output/settings before/after; voice intelligible, no startling peak, muted play still works. Record the chosen gains and listening verdict. | Needs audio evidence · S |
 | T05 | Initial spacing-tweak hypothesis withdrawn: clarification identifies missing companion search continuity. | D009; I05 | Do not implement a gap adjustment as the answer to F14. Retain this ID to explain the reclassification. | Superseded by I05 |
 | T06 | Restore exact verse address on each opening/ending cue. Source manifests already carry references; inspect presentation code that blanks/hides them. Preserve text, sequence and art. | D006; retain authored verse ranges | Every cue displays its exact manifest reference, including verse ranges; wording unchanged; desktop/narrow text stays legible. | Accepted (D023) · S |
@@ -345,7 +355,7 @@ merely whether text fits. The bottom position of scripture is not itself a defec
 ### I03 — House conversations as part of the same journey
 
 **Proposed priority:** high. **Size:** M; keep existing illustrated approach.
-**Status:** House 8 confirmed; all-house review and two handoff experiments directed (D014).
+**Status:** all five houses reviewed in the current normal player; the first doorway crop/scale and farewell experiment is implemented for Houses 3, 8 and 9 and awaits playtest. The composited shepherd and deliberate first-person alternatives directed in D014 have not been built or selected. Live sound and continuous-motion quality remain unassessed.
 **Covers:** F05, F06, visual portions of F09.
 
 1. Inventory **Houses 1, 3, 5, 8 and 9** from approach through departure. For each,
@@ -714,7 +724,7 @@ IDs are retained; no earlier milestone is renamed or silently considered complet
 | --- | --- | --- |
 | M0 — Evidence and direction | Feedback register and baseline; House 8, loader/audio direction and audience priority resolved | Core direction recorded. Gather missing motion/audio/trace evidence during the relevant initiative; browser-version collection is not a gate. |
 | M1 — Reliability diagnosis and focused repairs | Independent engine/camera freeze investigation, lower-end budgets, House 1 voice reproduction and I08 loading-strategy comparison | I01/I04 diagnosis can begin now. Measure before choosing resource fixes or eliminating staged loading. Each repair needs evidence. |
-| M2 — House 8 exemplar and scripture controls | T01 basic prompts/UI and T06 references accepted (D023); house work and scripture back navigation remain open. Two handoff experiments, matched house scale, coherent forward-only beats; scripture references/back/forward | I02/I03 direction settled. Human review chooses overlay versus first person before rollout. |
+| M2 — House 8 exemplar and scripture controls | T01 copy/UI and T06 references accepted (D023–D027). Current house baseline review complete; framing/farewell proposal available. Two handoff experiments and scripture back navigation remain open. | I02/I03 direction settled. Human review chooses overlay versus first person before rollout; no new implementation acceptance from the baseline review. |
 | M3 — Integrated journey | Audit all five houses; roll accepted handoff to illustrated houses; audio through loading, matching loader art, companion search and grounded motion | I01–I05/I07/I08 integrated. Include fast/slow preparation and normal-speed start→ending playtests. |
 | M4 — Quality and feedback-programme acceptance | Selected I06 corrections, physical lower-end playtest, higher-end regression, outstanding issues triaged, public build checks | Human acceptance distinct from technical checks. Initial feedback programme accepted or explicitly deferred items recorded. Deployment still requires separate authorization. |
 | **M5 — Multilingual text and voices** | **Starting-screen language picker, localized content, generated narration/dialogue, reviewed language pilot then full-route coverage** | **After M0–M4 feedback programme. I09 depends on stable content, I01 audio and I08 loading. Choose languages/voices at kickoff; verify readable, audible and lower-end-device experience per locale.** |
@@ -784,6 +794,11 @@ name the prior decision/item it supersedes and explain the impact.
 | 2026-09-17 | D026 | User accepted House 3 and requested its commit; authorized a full concise-copy pass through gate, House 5/well/pen, House 8, empty stall/lantern/gate, House 9 and reunion. | House 3 committed as `a1dbe4c`. Remaining pass implemented and subsequently accepted in D027; supersedes per-house deferral for copy only. [Full text/action inventory](evidence/2026-09-17-t01/remaining-interactions.md). Other initiatives remain open. |
 | 2026-09-17 | D027 | User accepted the remaining interaction copy pass and requested a commit. | T01 copy/UI scope accepted. State checks and staged House 8 browser check passed; no full-route test result is inferred from approval. Audio, handoff, camera and performance initiatives remain open. |
 | 2026-09-17 | D028 | Retire the throwaway visual roadmap. | The canonical README, dated evidence and WORKFLOW provide the complete handoff; the HTML and preview image duplicated planning content and were not runtime dependencies. |
+| 2026-09-17 | D029 | Review the house encounters from arrival through departure and write proposed improvements on `codex/shepherd-feedback-house-handoffs`. | Explicit user request for a playthrough, assessment and write-up. [Review](evidence/2026-09-17-house-handoffs/README.md). No gameplay edits or acceptance of proposed behavior in this checkpoint. |
+| 2026-09-17 | V002 | Current normal-player walkthrough verifies the small illustrated house and unexplained avatar occlusion in Houses 3, 8 and 9. House 8 portrait exposes the shepherd's lower legs beneath the card. | [Baseline captures and layout measurement](evidence/2026-09-17-house-handoffs/README.md). Agent visual observation; supports F06. |
+| 2026-09-17 | V003 | House 8's old close-before-thanks ordering does not reproduce after D026/D027. Thank you follows three open-door pages, then immediately reveals the closed 3D door. | Refines current F05 evidence while preserving the original report. The proposed farewell and simpler departure have not been implemented. Live audio and continuous-motion quality remain unassessed. |
+| 2026-09-18 | D030 | Implement the first bounded house handoff experiment: doorway-forward crop/scale in the shared illustrated presenter; a brief close transition; House 8's combined reply/advice page; and an automatic stall reveal followed by one explicit departure action. Keep existing assets, route conditions and House 3/9 page counts. | User authorized implementation after the D029 proposal. The crop/scale experiment is chosen for this pass; composited shepherd-back and first-person alternatives remain open. |
+| 2026-09-18 | V004 | Browser spot-check confirms the enlarged doorway treatment on Houses 3, 8 and 9, House 8's 2-page exchange, fade to the closed 3D house, automatic “Looking toward the stall…” reveal, and explicit “Go to the stall” departure. | CUA desktop rehearsal on the local server; browser warning/error log empty. State checks and full route/camera checks passed. Reduced-motion portrait composition, live audio and continuous-motion comfort remain unassessed. |
 
 
 ## Implementation and acceptance log
@@ -810,6 +825,8 @@ alternatives. Link deferred items to their revisit trigger. “Verified” is te
 | 2026-09-17 | D024 / House 1 | Concise closed-door encounter accepted; commit requested. | House state checks and syntax/whitespace checks passed. | User accepted. Voice reliability not declared fixed. | Next review: House 3 sighting; no changes to that house yet. |
 
 | 2026-09-17 | T01 remaining copy / I02 slice | Full concise-copy pass implemented; three-page House 8, four-page House 9, silent visual beats and explicit next actions. | [Inventory and checks](evidence/2026-09-17-t01/remaining-interactions.md); all relevant state checks passed. | User accepted the pass and requested commit (D027). | Committed on `codex/t01-player-instructions`; no push/deployment requested. |
+| 2026-09-17 | F05/F06 / I03 / T03 review | Played all five house encounters in the normal player through departure; documented observations and proposed House 8 framing/farewell changes. Gameplay unchanged. | [40 baseline screenshots, portrait spot-check, pause/resume, source audio audit and limits](evidence/2026-09-17-house-handoffs/README.md). Retrieved warning/error log empty. Live sound, motion recording and physical-device tests unavailable/not performed. | Agent review only; proposals awaiting user direction. | Baseline `385e199`; `codex/shepherd-feedback-house-handoffs`. Next: review the proposal, then compare the two House 8 handoffs. |
+| 2026-09-18 | D030 / F05/F06 / I03 / T03 implementation slice | Shared presenter now uses a doorway-forward cover crop and scale-up; final scene clicks use a short fade; House 8 combines response/advice and starts its existing stall reveal directly. Houses 3 and 9 receive the same visual treatment without route-state changes. | [Implementation follow-up and limits](evidence/2026-09-17-house-handoffs/README.md). `node --check` changed modules; House 8/3/9 state checks; full `verify-rehearsal`; browser spot-check with empty warning/error log; `git diff --check`. | Awaiting user playtest; agent confirms the intended technical state flow. F06 is not declared solved because the avatar remains behind the opaque card. | Continue with user playtest. If the avatar/viewpoint still feels discontinuous, build and compare the composited shepherd-back and first-person variants; sound remains I01. |
 
 For every future completed part, add its item IDs, actual scope, before/after
 evidence, checks/results, limitations, user verdict, commit/PR if any and remaining

@@ -1,0 +1,25 @@
+{
+  "art": {
+    "height": 402,
+    "width": 918,
+    "x": 181,
+    "y": 71
+  },
+  "fit": "contain",
+  "imageElement": {
+    "height": 402,
+    "width": 918,
+    "x": 181,
+    "y": 71
+  },
+  "imageNatural": [
+    1536,
+    1024
+  ],
+  "overlay": {
+    "height": 634,
+    "width": 920,
+    "x": 180,
+    "y": 70
+  }
+}

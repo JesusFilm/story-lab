@@ -34,7 +34,7 @@ const stallScene=createEmptyStallScene(journey,scene,character);
 const gateScene=createGateScene(journey,scene,character);
 const tracksScene=createHouseTracksScene(journey,scene);
 const houseScene=createHouseScene(journey,scene,character);
-const sightingScene=createHouseSightingScene(journey,()=>{updateUI();resize();});
+const sightingScene=createHouseSightingScene(journey,()=>{updateUI();resize();},()=>{if(journey.index===6)beginStallReveal();});
 const reunionScene=createCompanionReunionScene(journey,scene,character);
 const lampScene=createLampScene(journey,()=>{updateUI();resize();});
 const lampLook=new THREE.Vector3(),lampEye=new THREE.Vector3(),lampHand=new THREE.Vector3();let lampCamera=0;
@@ -93,6 +93,12 @@ function updateUI(){
 
  }
 }
+function beginStallReveal(){
+ if(journey.index!==6||journey.travel||!journey.houseAdvice.complete||stallOrientation)return false;
+ stallOrientation={phase:'revealing',time:0,from:{position:{...camera.position},look:{...cameraRig.look}}};
+ updateUI();
+ return true;
+}
 function resize(){
  const panel=$('review-panel'),width=innerWidth,height=innerWidth<=600&&review?Math.max(140,innerHeight-panel.getBoundingClientRect().height-28):innerHeight;
  if(width===renderWidth&&height===renderHeight)return;
@@ -140,7 +146,7 @@ function pose(dt,instant=false){
 }
 function reposition(){stallOrientation=null;cameraRig.reset();heading=journey.position.heading;clock=0;updateUI();resize();pose(0,true);renderer.render(scene,camera);last=performance.now();}
 function next(){if(!ready||journey.paused||mode!=='playing'||story?.active)return;if(journey.index===6&&!journey.travel&&journey.houseAdvice.complete){
- if(!stallOrientation){stallOrientation={phase:'revealing',time:0,from:{position:{...camera.position},look:{...cameraRig.look}}};updateUI();return;}
+ if(!stallOrientation){beginStallReveal();return;}
  if(stallOrientation.phase!=='holding')return;
  if(journey.next()){stallOrientation.phase='departing';stallOrientation.time=0;updateUI();}return;
  }if(journey.index===8&&!journey.travel&&journey.houseOwner.complete&&!journey.reunion.canFollow){if(journey.advanceReunion()){updateUI();$("review-tools").open=false;}return;}if(journey.index===7&&!journey.travel&&!journey.emptyStall.complete){stallScene.begin();updateUI();$("review-tools").open=false;return;}if(journey.index===4&&!journey.travel&&!journey.houseTracks.complete){if(journey.houseTracks.phase==='ready')houseScene.begin();else journey.lookAround();updateUI();$('review-tools').open=false;return;}if(journey.index===3&&!journey.travel&&!journey.barredGate.complete){gateScene.begin();return;}if([1,2,6,8].includes(journey.index)&&!journey.travel&&!(journey.index===8?journey.houseOwner:journey.index===6?journey.houseAdvice:journey.index===1?journey.houseRejection:journey.houseSighting).complete){houseScene.begin();$('review-tools').open=false;return;}if(journey.index===0&&!journey.travel&&!journey.lantern){lampScene.begin();$('review-tools').open=false;return;}if(journey.next()){updateUI();$('review-tools').open=false;}}
