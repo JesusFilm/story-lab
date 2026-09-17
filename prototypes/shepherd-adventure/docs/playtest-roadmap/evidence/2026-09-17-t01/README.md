@@ -1,9 +1,10 @@
-# T01 first feedback slice — awaiting playtest
+# T01 first feedback slice — historical baseline and accepted follow-ups
 
 17 September 2026 · Branch `codex/t01-player-instructions` · baseline `c42b500`.
 Source: 10 user comments from `T01-copy-review-v1-c42b500`, followed by explicit
 permission to apply the same pattern to other basic player instructions.
-No blank review field is treated as approval. No merge, push or deployment performed.
+No blank review field is treated as approval. Later D023–D027 entries record the
+accepted scope and supersede the initial pending labels below.
 
 Existing checkout changes before this work: prototype AGENTS.md and README.md
 modified; playtest-roadmap directory untracked. Those changes were preserved.
@@ -76,8 +77,8 @@ first gate and empty-stall prompts later in the route. Houses intentionally reta
 their previous behavior. Review ending scripture via the complete route or the
 clearly isolated `story-preview.html?story=ending` preview.
 
-Human verdict: pending. Record keep/revise after the user's playtest; revisit
-house content only when that feedback arrives.
+Human verdict for this original slice: superseded by the later D023–D027
+acceptance entries below. Revisit only the explicitly open items.
 
 ## Follow-up D021 — shared panel placement
 
@@ -127,7 +128,7 @@ House 1 voice repair, scripture back navigation or companion continuity is accep
 Next: review H01-A through H01-C2, the complete House 1 encounter, in the roadmap.
 User authorized a branch commit; no push/merge/deployment requested.
 
-## D024 — House 1 concise encounter (awaiting playtest)
+## D024 — House 1 concise encounter (accepted; historical label retained)
 
 Knock on door alone on arrival; no text/panel during knock, wait or light-on.
 Resident subtitle “Go away! It is late!” appears at the existing voice cue and
@@ -138,7 +139,7 @@ voice loading reliability is not claimed repaired. Other house copy unchanged.
 D024 acceptance: user approved the House 1 change and requested its branch commit
 on 17 September 2026. Next review is House 3. Voice reliability remains open.
 
-## D025 — House 3 sighting (implemented, awaiting playtest)
+## D025 — House 3 sighting (accepted; historical label retained)
 
 Approved sequence: Knock on door alone → knock/wait with no narrative caption →
 Shepherd: “Have you seen a couple with a donkey?” / Continue → Resident: “Yes.

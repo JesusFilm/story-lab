@@ -11,9 +11,13 @@ implemented or accepted by the creation of this document.
 [House 2 map annotation](evidence/2026-09-17/companion-search.html) ·
 [Baseline and capture limits](evidence/2026-09-17/README.md) ·
 [Repeatable feedback workflow](WORKFLOW.md) ·
-[Visual roadmap](throwaway/roadmap-visual.html) ·
 [Original scene plan](../story-rebuild/README.md) ·
 [Standing visual guide](../../../../styles/follow-the-light/README.md)
+
+This README is the canonical roadmap and handoff. The dated evidence folders hold
+the source captures and detailed before/after records; `WORKFLOW.md` explains how
+an agent resumes a feedback session. The former visual companion was retired in
+D028 because it duplicated this record and was not used by the prototype.
 
 ## Current direction at a glance
 
@@ -40,8 +44,8 @@ implemented or accepted by the creation of this document.
   a language picker on the starting screen and generated voice assets for readable
   content. Keep future content ready for localization.
 
-**Ready to pick up:** T06 verse references; I01 audible opening handoff and missing
-voice diagnosis; I04 engine/camera investigation; I03 House 8 exemplar plus all-house
+**Ready to pick up:** I01 audible opening handoff and missing voice diagnosis; I04
+engine/camera investigation; I03 House 8 exemplar plus all-house
 audit; I08 loader/loading strategy. I09 defines the following multilingual milestone.
 These are ready planning/diagnostic directions, not a record of implemented fixes.
 
@@ -773,12 +777,13 @@ name the prior decision/item it supersedes and explain the impact.
 
 | 2026-09-17 | D023 | User accepted the addressed instruction/UI changes, including panel/text positioning. Accepted scope: concise basic prompts; forward-only lamp cards and preserved reward; shared panel/button design; quieter hamburger menu; title-first scripture and exact addresses. | Explicit playtest acceptance. T01 remains partial: house dialogue/sequence and companion work not accepted. T06 accepted. M2 remains partial: scripture back navigation and house handoffs remain open. Next review is the complete House 1 encounter, split into intro, response and outro. |
 
-| 2026-09-17 | D024 | House 1: arrival has Knock on door only; remove narration of knocking, waiting and light changes. Keep the resident refusal subtitle visible through the outro, with Let’s try the next house when the timed response completes. | Explicit user direction for H01. Implemented, awaiting playtest; existing sound asset/timing retained. Voice reliability repair remains I01, not claimed fixed. Other houses unchanged. |
+| 2026-09-17 | D024 | House 1: arrival has Knock on door only; remove narration of knocking, waiting and light changes. Keep the resident refusal subtitle visible through the outro, with Let’s try the next house when the timed response completes. | Explicit user direction for H01. Implemented and accepted; existing sound asset/timing retained. Voice reliability repair remains I01, not claimed fixed. Other houses unchanged. |
 
-| 2026-09-17 | D025 | Implement approved House 3 three-page sighting: action-only arrival, silent visual knock/wait, short question/sighting/directions, Thank you then Go to the gate without recap. Add resident-right-pointing frame on directions. | Explicit user approval and image generation request. Implemented awaiting playtest. Houses 8/9 retain four pages; no new voice track. |
+| 2026-09-17 | D025 | Implement approved House 3 three-page sighting: action-only arrival, silent visual knock/wait, short question/sighting/directions, Thank you then Go to the gate without recap. Add resident-right-pointing frame on directions. | Explicit user approval and image generation request. Implemented and accepted. Houses 8/9 retain four pages; no new voice track. |
 
 | 2026-09-17 | D026 | User accepted House 3 and requested its commit; authorized a full concise-copy pass through gate, House 5/well/pen, House 8, empty stall/lantern/gate, House 9 and reunion. | House 3 committed as `a1dbe4c`. Remaining pass implemented and subsequently accepted in D027; supersedes per-house deferral for copy only. [Full text/action inventory](evidence/2026-09-17-t01/remaining-interactions.md). Other initiatives remain open. |
 | 2026-09-17 | D027 | User accepted the remaining interaction copy pass and requested a commit. | T01 copy/UI scope accepted. State checks and staged House 8 browser check passed; no full-route test result is inferred from approval. Audio, handoff, camera and performance initiatives remain open. |
+| 2026-09-17 | D028 | Retire the throwaway visual roadmap. | The canonical README, dated evidence and WORKFLOW provide the complete handoff; the HTML and preview image duplicated planning content and were not runtime dependencies. |
 
 
 ## Implementation and acceptance log
@@ -792,7 +797,7 @@ alternatives. Link deferred items to their revisit trigger. “Verified” is te
 | Date | Item | Change/result | Validation/evidence | Human verdict | Revision / next step |
 | --- | --- | --- | --- | --- | --- |
 | 2026-09-17 | Planning baseline | Created roadmap/workflow; inspected active source; captured opening and House 8 before any product change. | E01–E05, browser-reviewed annotation boards, source references. Documentation links and whitespace checked. No audio/motion/performance verdict. | No gameplay item accepted. | Baseline `c42b500`; initial Q09/Q13/Q14 follow-ups subsequently resolved in D014–D019. |
-| 2026-09-17 | Roadmap clarification and next milestone | Resolved house/loading/audio questions; expanded all-house and lower-end investigation scope; added I08 loader transitions and I09/M5 multilingual voices. Updated throwaway visual roadmap. | D014–D019; 34 relative links checked, inline script syntax valid, browser filters/images and desktop fit verified. Existing game captures remain baseline evidence; multilingual preview is a roadmap screenshot only. | Direction recorded from user; no gameplay acceptance implied. | Q09/Q13/Q14 resolved. Select a feedback-programme slice; choose language/voice details at M5 kickoff. |
+| 2026-09-17 | Roadmap clarification and next milestone | Resolved house/loading/audio questions; expanded all-house and lower-end investigation scope; added I08 loader transitions and I09/M5 multilingual voices. Updated the visual companion (retired in D028). | D014–D019; 34 relative links checked, inline script syntax valid, browser filters/images and desktop fit verified. Existing game captures remain baseline evidence; multilingual preview was a roadmap screenshot only. | Direction recorded from user; no gameplay acceptance implied. | Q09/Q13/Q14 resolved. Select a feedback-programme slice; choose language/voice details at M5 kickoff. |
 
 | 2026-09-17 | T01 partial / T06 / I02 slice | Implemented initial 10 feedback comments and analogous non-house instruction simplifications. | [Before/after, checks and deferred work](evidence/2026-09-17-t01/README.md). | Awaiting user playtest; no item accepted. | `codex/t01-player-instructions`, baseline `c42b500`; house review deferred until user feedback. |
 

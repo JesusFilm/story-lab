@@ -137,13 +137,13 @@ Select the next ready item, reuse settled answers, and gather only missing evide
 A later playtest repeats this loop by adding feedback and reopening affected items,
 not by replacing the roadmap with another disconnected plan.
 
-## Keep the visual companion current
+## Keep the roadmap current
 
-When roadmap direction or milestones change, update the
-[throwaway visual roadmap](throwaway/roadmap-visual.html) in the same session.
-Distinguish resolved user questions from experiments that require evidence and
-from choices intentionally deferred to a later milestone. Count active tweaks
-separately from superseded ones; never imply that planned work is complete.
-Preserve the main sequence: initial feedback programme M0–M4, then multilingual
-text and voices in M5. Refresh affected annotation captions without altering raw
-captures, and label old exported screenshots as historical if not regenerated.
+When roadmap direction or milestones change, update this README and the relevant
+dated evidence in the same session. Distinguish resolved user questions from
+experiments that require evidence and from choices intentionally deferred to a
+later milestone. Count active tweaks separately from superseded ones; never imply
+that planned work is complete. Preserve the main sequence: initial feedback
+programme M0–M4, then multilingual text and voices in M5. Refresh affected
+annotation captions without altering raw captures, and label old exported
+screenshots as historical if not regenerated.
