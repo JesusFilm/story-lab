@@ -29,7 +29,8 @@ npm run test:unit
 hashes prevent accidentally exporting changed content. Review the actual change
 before updating its hash. Include runtime dependencies and license files explicitly.
 Run `npm run check:publication` to validate the manifest without rebuilding the
-portal; the repository pre-commit hook runs this same check against staged files.
+portal; the repository pre-commit hook runs this same check against the staged
+commit.
 `build.py` builds the sermon client and writes `dist/`; `verify.py` checks its links,
 model dependencies and sensitive-content patterns under both root and project paths.
 

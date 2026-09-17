@@ -26,12 +26,16 @@ def index_bytes(name: str) -> bytes | None:
     return result.stdout if result.returncode == 0 else None
 
 
+def head_bytes(name: str) -> bytes | None:
+    result = subprocess.run(["git", "show", f"HEAD:{name}"], cwd=ROOT, capture_output=True)
+    return result.stdout if result.returncode == 0 else None
+
+
 def file_bytes(name: str) -> bytes | None:
     staged = index_bytes(name)
     if staged is not None:
         return staged
-    path = ROOT / name
-    return path.read_bytes() if path.is_file() else None
+    return head_bytes(name)
 
 
 def staged_names() -> set[str]:
