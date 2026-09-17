@@ -62,7 +62,7 @@ Point 02 has an **accepted rejection scene following a successful user play-test
 Point 03 has an **accepted helpful exchange and revised diorama continuity**. [Review it](../../review/2026-09-13-house-3/README.md).
 Point 04 has a **barred-gate scene accepted after a successful user play-test**. [Review it](../../review/2026-09-14-barred-gate/README.md).
 Point 05 has a **no-answer and tracks scene ready for user review**. [Review it](../../review/2026-09-14-house-5/README.md).
-Points 06 and 07 are **accepted for checkpoint after user play-tests**: [animal pen](scenes/06-animal-pen.md) and [House 8](scenes/07-house-8.md).
+Points 06 and 07 are **accepted for checkpoint after user play-tests**: [animal pen](scenes/06-animal-pen.md) and [House 8](scenes/07-house-8.md). Point 07's latest handoff slice is recorded in the playtest roadmap as D030–D031; deeper avatar/viewpoint alternatives remain optional.
 Point 08 is **accepted at checkpoint after user play-testing**: [empty stall and gate](scenes/08-empty-stall-and-gate.md). Point 09a has an **owner conversation accepted at checkpoint after user play-testing**: [House 9 review](../../review/2026-09-14-house-9/README.md). Point 09b's reunion is **accepted after user play-testing** ([scene](scenes/09-house-9.md), [evidence](../../review/2026-09-15-companion-reunion/README.md)); point 10 retains **route placeholder ready, detailed scene implementation pending, user acceptance pending**. A placeholder working correctly must never mark a scene complete.
 
 ## First implementation: a walking rehearsal
