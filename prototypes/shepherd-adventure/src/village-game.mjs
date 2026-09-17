@@ -85,8 +85,10 @@ function updateUI(){
   const houseApproach=[1,2,4,6,8].includes(journey.index);
   // Scene state selects a component; shared CSS owns placement and appearance.
   document.body.dataset.uiPanel=journey.lampAssembly.open?'preparation':journey.index===8&&journey.houseOwner.complete?'conversation':houseApproach?'house':'exploration';
-  const actionOnly=journey.index<0||journey.index===0||(journey.index===3&&journey.barredGate.phase==='ready')||(journey.index===7&&journey.emptyStall.phase==='gate');
+  const actionOnly=journey.index<0||journey.index===0||(journey.index===1&&journey.houseRejection.phase==='ready')||(journey.index===3&&journey.barredGate.phase==='ready')||(journey.index===7&&journey.emptyStall.phase==='gate');
   document.body.classList.toggle('action-only',actionOnly);
+  // Visible action carries the silent knock/wait/light beats; no empty dialog.
+  if(journey.index===1&&['knocking','waiting','waking'].includes(journey.houseRejection.phase))$('review-panel').hidden=true;
   if(journey.index<0)$('advance').textContent='Find a lamp';
 
  }

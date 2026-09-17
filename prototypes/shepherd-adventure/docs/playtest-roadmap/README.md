@@ -773,6 +773,8 @@ name the prior decision/item it supersedes and explain the impact.
 
 | 2026-09-17 | D023 | User accepted the addressed instruction/UI changes, including panel/text positioning. Accepted scope: concise basic prompts; forward-only lamp cards and preserved reward; shared panel/button design; quieter hamburger menu; title-first scripture and exact addresses. | Explicit playtest acceptance. T01 remains partial: house dialogue/sequence and companion work not accepted. T06 accepted. M2 remains partial: scripture back navigation and house handoffs remain open. Next review is the complete House 1 encounter, split into intro, response and outro. |
 
+| 2026-09-17 | D024 | House 1: arrival has Knock on door only; remove narration of knocking, waiting and light changes. Keep the resident refusal subtitle visible through the outro, with Let’s try the next house when the timed response completes. | Explicit user direction for H01. Implemented, awaiting playtest; existing sound asset/timing retained. Voice reliability repair remains I01, not claimed fixed. Other houses unchanged. |
+
 ## Implementation and acceptance log
 
 Do not mark a feedback item complete just because code landed. Use
@@ -793,6 +795,8 @@ alternatives. Link deferred items to their revisit trigger. “Verified” is te
 | 2026-09-17 | D022 / I02 UI refinement | Quiet hamburger menu, removed gameplay branding, lowered shared prompts. | Syntax/whitespace passed; menu open/resume and exploration placement verified in browser. | Awaiting playtest. | Same feature branch; house content remains deferred. |
 
 | 2026-09-17 | T01 partial / T06 / I02 UI slice | D020–D022 delivered and user accepted addressed parts and instruction positioning. | Prior checks and user playtest; [accepted scope and next review](evidence/2026-09-17-t01/README.md). | Accepted within this bounded scope (D023). | Commit on `codex/t01-player-instructions`; next: House 1 complete interaction. No deployment authorized. |
+
+| 2026-09-17 | D024 / House 1 | Concise closed-door encounter accepted; commit requested. | House state checks and syntax/whitespace checks passed. | User accepted. Voice reliability not declared fixed. | Next review: House 3 sighting; no changes to that house yet. |
 
 For every future completed part, add its item IDs, actual scope, before/after
 evidence, checks/results, limitations, user verdict, commit/PR if any and remaining
@@ -822,3 +826,9 @@ or automatic departure. Review prompts: which narration can the visible action
 replace, whether the refusal is clearly heard/read, whether the brief transitions
 feel rushed, and whether the onward lead/action is clear. Keep the accepted shared
 UI as the baseline. Current copy above is not a proposed rewrite.
+
+H01 update (D024): the table above preserves the reviewed before-state. Current
+flow is Knock on door → visible knock/light action without a caption →
+“Go away! It is late!” → same subtitle plus **Let’s try the next house**.
+The action unlocks at the existing 6.7s; the subtitle persists until departure.
+House 1 copy/flow accepted by the user on 17 September 2026; branch commit requested. Voice reliability remains open.

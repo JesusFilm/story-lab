@@ -42,9 +42,10 @@ export function createHouseScene(journey,scene,character){
   if(journey.index!==1)return;
   const h=journey.houseRejection,phase=h.phase;
   $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
-  $('beat').textContent=({ready:'The house is dark. Perhaps someone inside can help.',knocking:'You knock on the wooden door.',waiting:'You wait at the closed door.',waking:'A light comes on inside the house.',refusal:'From inside: “Go away! It is late!”',dark:'The light goes out. The door stays closed.',complete:'Let’s try next door. There’s a light in the neighbour’s house.'})[phase];
-  $('travel-status').textContent=journey.paused?'Paused — continue when ready.':phase==='ready'?'Ask at the door.':phase==='complete'?'Follow the lane to the lit house — House 3.':phase==='knocking'?'Knock. Knock. Knock.':audioFailed?'Sound unavailable — the response is shown above.':'Listen at the closed door…';
-  $('advance').textContent=phase==='ready'?'Knock on door':h.complete?'Try next door':phase==='knocking'?'Knocking…':'Waiting for a response…';
+  const responseVisible=['refusal','dark','complete'].includes(phase);
+  $('beat').textContent=responseVisible?'“Go away! It is late!”':'';
+  $('travel-status').textContent=audioFailed&&responseVisible?'Sound unavailable — the response is shown above.':'';
+  $('advance').textContent=phase==='ready'?'Knock on door':h.complete?'Let’s try the next house':'';
   $('advance').disabled=journey.paused||(!h.complete&&h.started);
  }
  function tick(reduced){

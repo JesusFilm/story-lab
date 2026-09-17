@@ -126,3 +126,14 @@ historical. T01 remains partial and M2 incomplete. No house dialogue/sequence,
 House 1 voice repair, scripture back navigation or companion continuity is accepted.
 Next: review H01-A through H01-C2, the complete House 1 encounter, in the roadmap.
 User authorized a branch commit; no push/merge/deployment requested.
+
+## D024 — House 1 concise encounter (awaiting playtest)
+
+Knock on door alone on arrival; no text/panel during knock, wait or light-on.
+Resident subtitle “Go away! It is late!” appears at the existing voice cue and
+remains through light-off and completion. At 6.7s, Let’s try the next house appears
+beneath it. Existing knock/voice audio, light timing and route gating retained;
+voice loading reliability is not claimed repaired. Other house copy unchanged.
+
+D024 acceptance: user approved the House 1 change and requested its branch commit
+on 17 September 2026. Next review is House 3. Voice reliability remains open.
