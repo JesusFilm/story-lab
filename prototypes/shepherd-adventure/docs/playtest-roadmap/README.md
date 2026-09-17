@@ -46,11 +46,12 @@ D028 because it duplicated this record and was not used by the prototype.
   a language picker on the starting screen and generated voice assets for readable
   content. Keep future content ready for localization.
 
-**Ready to pick up:** I01 gameplay ambience/effects design and mix; I04
-engine/camera investigation; I03 House 8 exemplar plus all-house audit. I08's
-loader strategy and intro-diorama handoff are explicitly deferred pending a
-separate resource-lifecycle investigation. I09 defines the following multilingual
-milestone.
+**Ready to pick up:** I01's first gameplay ambience/effects slice is implemented
+and awaiting playtest; the next I01 step is the listened mix and contextual source
+pass. I04 engine/camera investigation and I03's remaining all-house audit remain
+open. I08's loader strategy and intro-diorama handoff are explicitly deferred
+pending a separate resource-lifecycle investigation. I09 defines the following
+multilingual milestone.
 These are ready planning/diagnostic directions, not a record of implemented fixes.
 
 **Latest house review — 17 September:** [Normal-player walkthrough and proposed second pass](evidence/2026-09-17-house-handoffs/README.md).
@@ -115,7 +116,7 @@ below. D023–D027 close only their recorded copy/UI/reference scope.
 | ID | Feedback, preserved in substance | Current evidence and uncertainty | Work item |
 | --- | --- | --- | --- |
 | F01 | Music stops abruptly when leaving the diorama | Peaceful music reportedly stops instantly around a louder cue; the running intro then has no sound. The user clarified that this is the intro-diorama → 3D handoff and should wait for a loading/resource-lifecycle rethink. Do not assume an audio-only fix. | I08 (deferred by D032) |
-| F02 | Gameplay lacks ambient sound | User wants an audible world throughout the playthrough: soft night ambience, footsteps while walking/running, gentle decision cues, and contextual animal/occupied-house sounds. Nearby sources should become louder smoothly. Exact palette, assets and mix remain a design task. | I01 |
+| F02 | Gameplay lacks ambient sound | User wants an audible world throughout the playthrough: soft night ambience, footsteps while walking/running, gentle decision cues, and contextual animal/occupied-house sounds. Nearby sources should become louder smoothly. The first bed/footstep/decision slice is implemented; contextual sources and the listened mix remain open. [Evidence](evidence/2026-09-18-gameplay-audio/README.md). | I01 |
 | F03 | Too much text; use blurbs | Clarified: player thoughts and dialogue only. Comic-book-like blurbs are a proposed presentation. Opening/ending scripture was described as perfect and must be preserved. | T01 / I02 |
 | F04 | Bottom text placement draws focus from the experience | Clarified: scripture should focus on text; thoughts/dialogue should be brief and situated. E03 is the primary redesign evidence; preserve scripture treatment. | I02 |
 | F05 | House slides feel mistimed; abrupt door close then “thank you” | House 8 is the reported example. The baseline review did not reproduce close-before-thanks after D026/D027, but the return still cut directly to the closed 3D doorway. The first implementation now fades the card and starts the stall reveal from Thank you; the user playtested and accepted this bounded handoff. [Evidence and implementation note](evidence/2026-09-17-house-handoffs/README.md). | T03 / I03 |
@@ -265,8 +266,8 @@ acceptance criteria; it does not automatically close the parent initiative.
 
 ### I01 — Gameplay ambience, effects and mix
 
-**Proposed priority:** high. **Size:** M. **Status:** discovery; gameplay scope
-clarified by D032.
+**Proposed priority:** high. **Size:** M. **Status:** first bounded slice
+implemented; awaiting playtest.
 **Covers:** F02, F07 and F12. F01 and the loading-related part of F09 belong to
 I08 and are deferred.
 
@@ -847,7 +848,8 @@ alternatives. Link deferred items to their revisit trigger. “Verified” is te
 | 2026-09-17 | T01 remaining copy / I02 slice | Full concise-copy pass implemented; three-page House 8, four-page House 9, silent visual beats and explicit next actions. | [Inventory and checks](evidence/2026-09-17-t01/remaining-interactions.md); all relevant state checks passed. | User accepted the pass and requested commit (D027). | Committed on `codex/t01-player-instructions`; no push/deployment requested. |
 | 2026-09-17 | F05/F06 / I03 / T03 review | Played all five house encounters in the normal player through departure; documented observations and proposed House 8 framing/farewell changes. Gameplay unchanged. | [40 baseline screenshots, portrait spot-check, pause/resume, source audio audit and limits](evidence/2026-09-17-house-handoffs/README.md). Retrieved warning/error log empty. Live sound, motion recording and physical-device tests unavailable/not performed. | Agent review only; proposals awaiting user direction. | Baseline `385e199`; `codex/shepherd-feedback-house-handoffs`. Next: review the proposal, then compare the two House 8 handoffs. |
 | 2026-09-18 | D030 / F05/F06 / I03 / T03 implementation slice | Shared presenter now uses a doorway-forward cover crop and scale-up; final scene clicks use a short fade; House 8 combines response/advice and starts its existing stall reveal directly. Houses 3 and 9 receive the same visual treatment without route-state changes. | [Implementation follow-up and limits](evidence/2026-09-17-house-handoffs/README.md). `node --check` changed modules; House 8/3/9 state checks; full `verify-rehearsal`; browser spot-check with empty warning/error log; `git diff --check`. | User playtested and approved this bounded slice. F06 is not declared fully solved because the avatar remains behind the opaque card. | Keep this slice. Consider composited shepherd-back or first-person work only if a later playtest reopens the viewpoint concern; sound remains I01. |
-| 2026-09-18 | D032 / I01-I08 scope clarification | Split the next audio pass into gameplay ambience/effects and a later loading/transition investigation. Gameplay scope includes the night bed, movement and decision cues, contextual sources and distance attenuation; the intro-diorama handoff and resource unloading are deferred. | User direction recorded in D032; no gameplay code changed. Current source audit found a synthesized gameplay bed, separate scene contexts and reunion-only footsteps. | Direction accepted; exact sound palette and mix await an implementation prototype and listening review. | Next: implement the first I01 slice (bed + player footsteps + one decision cue). Revisit I08 after resource-lifecycle mapping. |
+| 2026-09-18 | D032 / I01-I08 scope clarification | Split the next audio pass into gameplay ambience/effects and a later loading/transition investigation. Gameplay scope includes the night bed, movement and decision cues, contextual sources and distance attenuation; the intro-diorama handoff and resource unloading are deferred. | User direction recorded in D032; source audit found a synthesized gameplay bed, separate scene contexts and reunion-only footsteps. | Direction accepted; exact sound palette and mix await an implementation prototype and listening review. | Implement the first I01 slice, then revisit I08 after resource-lifecycle mapping. |
+| 2026-09-18 | D032 / I01 gameplay audio slice | Added a shared gameplay audio owner, synthesized night bed, movement-distance footsteps, quiet decision cue, sound control and shared mute behavior for existing scene effects. | [First-slice evidence and limits](evidence/2026-09-18-gameplay-audio/README.md). `node --check` changed modules; `verify-journey-audio`, House 8/9 state checks, full rehearsal/camera checks, CUA normal/rehearsal checks and `git diff --check` passed. | Awaiting user playtest; technical checks do not establish sound quality. | Listen to the full route. Keep or revise the bed/steps/cue, then consider one sheep source and one muffled lit-house source. Intro handoff/loading remain deferred. |
 
 For every future completed part, add its item IDs, actual scope, before/after
 evidence, checks/results, limitations, user verdict, commit/PR if any and remaining

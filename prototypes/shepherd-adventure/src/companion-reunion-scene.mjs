@@ -4,7 +4,7 @@ import {height} from './journey-world.mjs';
 import {REUNION_LINES} from './companion-reunion.mjs';
 import {smooth} from './empty-stall.mjs';
 
-export function createCompanionReunionScene(journey,scene,character){
+export function createCompanionReunionScene(journey,scene,character,{isMuted=()=>false}={}){
  const $=id=>document.getElementById(id);
  const companions=['tall','stocky'].map(variant=>{
   const root=new THREE.Group();root.name=`reunion-${variant}`;root.visible=false;scene.add(root);
@@ -12,11 +12,11 @@ export function createCompanionReunionScene(journey,scene,character){
  });
  let previous,context,lastShot,stepBeat=-1;
  const active=()=>journey.index===8&&!journey.travel&&journey.houseOwner.complete;
- function unlock(){try{context??=new AudioContext();context.resume().catch(()=>{});}catch{}}
+ function unlock(){if(isMuted())return;try{context??=new AudioContext();context.resume().catch(()=>{});}catch{}}
  $('sighting-next').addEventListener('click',()=>{if(journey.index===8)unlock();});
  function update(){
   if(previous!==journey.reunion){previous=journey.reunion;stepBeat=-1;lastShot=null;}
-  if(journey.paused)context?.suspend().catch(()=>{});
+  if(journey.paused||isMuted())context?.suspend().catch(()=>{});
   else if(context?.state==='suspended')context.resume().catch(()=>{});
   document.body.classList.toggle('reunion',active());
   if(!active())return;
@@ -29,7 +29,7 @@ export function createCompanionReunionScene(journey,scene,character){
   $('advance').hidden=['arriving','departing'].includes(p);$('advance').disabled=journey.paused||p==='arriving'||(p==='departing'&&!r.canFollow);
  }
  function footstep(){
-  if(context?.state!=='running')return;
+  if(isMuted()||context?.state!=='running')return;
   const duration=.08,buffer=context.createBuffer(1,Math.ceil(context.sampleRate*duration),context.sampleRate),data=buffer.getChannelData(0);
   for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.015));
   const source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();

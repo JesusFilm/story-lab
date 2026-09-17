@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {TUG_TIMES} from './barred-gate.mjs';
-export function createGateScene(journey,scene,character){
+export function createGateScene(journey,scene,character,{isMuted=()=>false}={}){
  const $=id=>document.getElementById(id);
  let previous,context,nodes=[],played=new Set();
  const cue=new THREE.Mesh(new THREE.RingGeometry(.12,.15,32),new THREE.MeshBasicMaterial({color:'#ffe0a0',transparent:true,opacity:0,side:THREE.DoubleSide,depthWrite:false}));scene.add(cue);
@@ -11,7 +11,7 @@ export function createGateScene(journey,scene,character){
   const h=journey.barredGate;
   if(previous!==h){stop();previous=h;}
   if(!active()){cue.visible=false;stop();return;}
-  if(journey.paused)context?.suspend().catch(()=>{});else if(context?.state==='suspended')context.resume().catch(()=>{});
+  if(journey.paused||isMuted())context?.suspend().catch(()=>{});else if(context?.state==='suspended')context.resume().catch(()=>{});
   $('point-title').textContent=['barred','complete'].includes(h.phase)?'Barred gate':'Timber gate';
   $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
   $('beat').textContent=['barred','complete'].includes(h.phase)?'“Barred from the other side.”':'';
@@ -29,7 +29,7 @@ export function createGateScene(journey,scene,character){
   const target=gate.localToWorld(new THREE.Vector3(1.75,1.15,.13));
   cue.position.copy(target);cue.quaternion.copy(gate.getWorldQuaternion(new THREE.Quaternion()));
   cue.visible=h.started&&age<.3;cue.scale.setScalar(reduced?1:1+age*1.4);cue.material.opacity=Math.max(0,.65-age*2);
-  for(const k of TUG_TIMES)if(h.started&&t>=k&&!played.has(k)){played.add(k);playGateTimber(context,nodes);}
+  for(const k of TUG_TIMES)if(h.started&&t>=k&&!played.has(k)){played.add(k);playGateTimber(context,nodes,isMuted);}
   const model=character.tripo?.model,hand=model?.getObjectByName('L_Hand');
   if(hand&&h.started&&t>.5&&t<2.65){
    const amount=Math.max(0,Math.min(1,(t-.5)/.25,(2.65-t)/.3));
@@ -45,8 +45,8 @@ export function createGateScene(journey,scene,character){
  return {update,tick,begin(){if(!journey.tryGate())return false;stop();try{context??=new AudioContext();context.resume().catch(()=>{});}catch{}update();return true;}};
 }
 
-export function playGateTimber(context,nodes){
-  if(context?.state!=='running')return;
+export function playGateTimber(context,nodes,isMuted=()=>false){
+  if(isMuted()||context?.state!=='running')return;
   const now=context.currentTime;
   const buffer=context.createBuffer(1,Math.ceil(context.sampleRate*.2),context.sampleRate),data=buffer.getChannelData(0);
   for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.035))*.2;
