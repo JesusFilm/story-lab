@@ -824,6 +824,8 @@ name the prior decision/item it supersedes and explain the impact.
 | 2026-09-18 | D032 | Reframe the next audio work around gameplay ambience and effects: a restrained night bed, movement cues, gentle decision sounds, contextual animal/occupied-house sources and smooth distance attenuation. Defer intro-diorama → 3D audio continuity and loading/resource unloading until the loading strategy is rethought; do not infer that the abrupt stop is purely an audio bug. | Explicit user clarification in this task. F02/I01 become the next design and implementation scope; F01 and the loading-related part of F09 remain deferred under I08 with a resource-lifecycle revisit trigger. Exact palette, assets, source radii and mix still need audition and playtest. |
 | 2026-09-18 | D033 | Revise the gameplay audio slice after listening: replace the robotic cricket chime with still night silence and filtered chirps, lower the breeze rustle, and replace the digital button tone with low-volume wood/stone-like taps, including a softer repeated lantern-assembly tap. Keep footsteps and contextual sheep/house sources audible but restrained. Rehearsal is not a separate audio implementation; its first gesture must unlock the same owner. Keep intro-diorama continuity and loading/resource unloading deferred. | Explicit user playtest feedback in this task. D033 supersedes D032's open palette/mix details while preserving its scope boundary; F02/F12 are reopened for a listened mix check. |
 
+| 2026-09-18 | D034 | Preserve the accepted tactile button character, raise it modestly, replace sharp repetitive steps with varied sandy scuffs, and lower knocks more than gate tugs. Remove the synthetic three-tone house murmur, the likely source of the reported negative-sounding effect; real indistinct indoor ambience remains open. | User listening feedback; supersedes D033 house-voice placeholder and effect mix. Cause is inferred from source, not confirmed by an audio recording. |
+
 
 ## Implementation and acceptance log
 
@@ -889,3 +891,9 @@ flow is Knock on door → visible knock/light action without a caption →
 “Go away! It is late!” → same subtitle plus **Let’s try the next house**.
 The action unlocks at the existing 6.7s; the subtitle persists until departure.
 House 1 copy/flow accepted by the user on 17 September 2026; branch commit requested. Voice reliability remains open.
+
+### D034 / I01 listening revision — 18 September 2026
+
+Button tap amplitude increased about 3 dB; footsteps now select among six longer noise textures with a softer onset and broader sandy rustle. Knock amplitude reduced 30% and gate timber amplitude 15%. Removed the recurring three-tone simulated indoor voices. There is no dedicated house-completion cue in the current flow; source inspection identifies the proximity murmur as the likely reported sound. Indoor voices require a suitable recorded replacement before reinstatement.
+
+Syntax, audio scheduling/regression and whitespace checks passed. Audio character and perceived balance remain awaiting listening; no audible recording was captured. Existing ambient claims above describe earlier checkpoints and are superseded by D034 for house voices.

@@ -6,16 +6,13 @@
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const proximitySources=[
- {kind:'sheep',x:25,z:-26,radius:16,cooldown:1.8,minInterval:7,maxInterval:13},
- {kind:'voices',x:-11.5,z:19.2,radius:8,cooldown:2.4,minInterval:8,maxInterval:15},
- {kind:'voices',x:-13.2,z:.6,radius:8,cooldown:4.2,minInterval:8,maxInterval:15},
- {kind:'voices',x:5.8,z:-20.1,radius:9,cooldown:2.8,minInterval:7,maxInterval:13},
- {kind:'voices',x:-17.7,z:-29.2,radius:9,cooldown:3.5,minInterval:8,maxInterval:15}
+ {kind:'sheep',x:25,z:-26,radius:16,cooldown:1.8,minInterval:7,maxInterval:13}
+
 ];
 
 export function createGameplayAudio({onChange=()=>{}}={}){
  let context=null,master=null,ambience=null,effects=null;
- let breezeBuffer=null,footstepBuffer=null,cricketBuffer=null,tapBuffer=null;
+ let breezeBuffer=null,footstepBuffers=null,cricketBuffer=null,tapBuffer=null;
  let started=false,muted=false,desiredActive=false,contextActive=false;
  let stepDistance=0,insectTime=1.6,breezeTime=7;
  const sources=proximitySources.map(source=>({...source}));
@@ -28,6 +25,8 @@ export function createGameplayAudio({onChange=()=>{}}={}){
    const t=i/length;
    const envelope=shape==='breeze'
     ?Math.pow(1-t,1.7)*(.55+.45*Math.sin(t*Math.PI*5))
+    :shape==='sand'
+     ?Math.sin(Math.PI*t)**1.3*(.65+.2*Math.sin(t*31)+.15*Math.sin(t*73))
     :shape==='cricket'
      ?Math.exp(-t*30)*(.7+.3*Math.sin(t*Math.PI*8))
      :Math.exp(-t*18)*(1-.15*Math.sin(t*Math.PI));
@@ -48,7 +47,7 @@ export function createGameplayAudio({onChange=()=>{}}={}){
   breezeBuffer=noiseBuffer(.9,'breeze');
   cricketBuffer=noiseBuffer(.075,'cricket');
   tapBuffer=noiseBuffer(.07,'tap');
-  footstepBuffer=noiseBuffer(.105,'footstep');
+  footstepBuffers=Array.from({length:6},()=>noiseBuffer(.22+Math.random()*.07,'sand'));
  }
 
  function notify(){onChange({muted,started,running:context?.state==='running'});}
@@ -94,12 +93,12 @@ export function createGameplayAudio({onChange=()=>{}}={}){
  }
 
  function playFootstep(movement){
-  if(!context||context.state!=='running'||!footstepBuffer)return;
+  if(!context||context.state!=='running'||!footstepBuffers)return;
   const now=context.currentTime,source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();
-  source.buffer=footstepBuffer;filter.type='bandpass';filter.frequency.value=150+Math.random()*100;filter.Q.value=.55;
-  const speedGain=movement>3.6?.14:.11,variation=.84+Math.random()*.26;
-  gain.gain.setValueAtTime(.001,now);gain.gain.linearRampToValueAtTime(speedGain*variation,now+.008);gain.gain.exponentialRampToValueAtTime(.001,now+.095);
-  source.connect(filter).connect(gain).connect(effects);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};source.start(now);source.stop(now+.11);events.footsteps++;
+  source.buffer=footstepBuffers[Math.floor(Math.random()*footstepBuffers.length)];filter.type='lowpass';filter.frequency.value=1600+Math.random()*700;filter.Q.value=.35;
+  const speedGain=movement>3.6?.055:.042,variation=.84+Math.random()*.26;
+  gain.gain.setValueAtTime(.001,now);gain.gain.linearRampToValueAtTime(speedGain*variation,now+.045);gain.gain.exponentialRampToValueAtTime(.001,now+.24);
+  source.connect(filter).connect(gain).connect(effects);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};source.start(now);source.stop(now+.29);events.footsteps++;
  }
 
  function playCricket(){
@@ -132,25 +131,13 @@ export function createGameplayAudio({onChange=()=>{}}={}){
   oscillator.connect(filter).connect(gain).connect(ambience);oscillator.start(now);oscillator.stop(now+.72);oscillator.onended=()=>{oscillator.disconnect();filter.disconnect();gain.disconnect();};events.sheep++;
  }
 
- function playMuffledVoices(amount){
-  if(!context||context.state!=='running')return;
-  const now=context.currentTime,output=context.createGain(),filter=context.createBiquadFilter();
-  output.gain.value=amount;filter.type='lowpass';filter.frequency.value=620;filter.Q.value=.5;output.connect(filter).connect(ambience);
-  for(const [frequency,offset] of [[170,0],[235,.12],[198,.29]]){
-   const oscillator=context.createOscillator(),gain=context.createGain();oscillator.type='triangle';oscillator.frequency.value=frequency*(.97+Math.random()*.06);
-   gain.gain.setValueAtTime(.001,now+offset);gain.gain.exponentialRampToValueAtTime(.035,now+offset+.08);gain.gain.exponentialRampToValueAtTime(.001,now+offset+.58);
-   oscillator.connect(gain).connect(output);oscillator.start(now+offset);oscillator.stop(now+offset+.64);
-  }
-  setTimeout(()=>{try{output.disconnect();filter.disconnect();}catch{}},900);events.voices++;
- }
-
  function updateProximity(dt,position){
   if(!position||!Number.isFinite(position.x)||!Number.isFinite(position.z))return;
   for(const source of sources){
    const distance=Math.hypot(position.x-source.x,position.z-source.z),amount=clamp(1-distance/source.radius,0,1);
    source.cooldown-=dt;
    if(amount<=0||source.cooldown>0)continue;
-   if(source.kind==='sheep')playSheep(amount);else playMuffledVoices(amount);
+   playSheep(amount);
    source.cooldown=source.minInterval+Math.random()*(source.maxInterval-source.minInterval);
   }
  }
@@ -162,7 +149,7 @@ export function createGameplayAudio({onChange=()=>{}}={}){
    if(!context||context.state!=='running'||!tapBuffer)return;
    const now=context.currentTime,source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();
    source.buffer=tapBuffer;filter.type='bandpass';filter.frequency.value=(kind==='assembly'?190:280)+Math.random()*110;filter.Q.value=.85;
-   const level=kind==='assembly'?.035:.045;
+   const level=kind==='assembly'?.05:.064;
    gain.gain.setValueAtTime(.001,now);gain.gain.exponentialRampToValueAtTime(level,now+.004);gain.gain.exponentialRampToValueAtTime(.001,now+.075);
    source.connect(filter).connect(gain).connect(effects);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};source.start(now);source.stop(now+.085);events.decisions++;
   };
@@ -190,7 +177,7 @@ export function createGameplayAudio({onChange=()=>{}}={}){
  function stop(){
   desiredActive=false;started=false;stepDistance=0;insectTime=1.6;breezeTime=7;
   if(context)context.close().catch(()=>{});
-  context=null;master=ambience=effects=breezeBuffer=cricketBuffer=tapBuffer=footstepBuffer=null;contextActive=false;notify();
+  context=null;master=ambience=effects=breezeBuffer=cricketBuffer=tapBuffer=footstepBuffers=null;contextActive=false;notify();
  }
 
  return {begin,setActive,setMuted,toggle,cue,update,stop,getState:()=>({started,muted,running:context?.state==='running',contextState:context?.state||'closed',stepDistance,insectTime,breezeTime,events:{...events}})};

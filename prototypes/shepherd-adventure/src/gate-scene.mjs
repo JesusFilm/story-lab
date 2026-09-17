@@ -49,13 +49,13 @@ export function playGateTimber(context,nodes,isMuted=()=>false){
   if(isMuted()||context?.state!=='running')return;
   const now=context.currentTime;
   const buffer=context.createBuffer(1,Math.ceil(context.sampleRate*.2),context.sampleRate),data=buffer.getChannelData(0);
-  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.035))*.2;
+  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.035))*.17;
   const noise=context.createBufferSource(),filter=context.createBiquadFilter();noise.buffer=buffer;filter.type='lowpass';filter.frequency.value=700;noise.connect(filter).connect(context.destination);noise.start();nodes.push(noise);
   // Strained timber creak followed by a short, low stop against the bar.
   for(const [frequency,duration,volume] of [[95,.32,.1],[190,.24,.055],[65,.12,.18]]){
    const oscillator=context.createOscillator(),gain=context.createGain();oscillator.type='triangle';
    oscillator.frequency.setValueAtTime(frequency,now);oscillator.frequency.exponentialRampToValueAtTime(frequency*.65,now+duration);
-   gain.gain.setValueAtTime(volume,now);gain.gain.exponentialRampToValueAtTime(.001,now+duration);
+   gain.gain.setValueAtTime(volume*.85,now);gain.gain.exponentialRampToValueAtTime(.001,now+duration);
    oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(now+duration);nodes.push(oscillator);
   }
  }

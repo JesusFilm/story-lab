@@ -24,9 +24,9 @@ export function createHouseScene(journey,scene,character,{isMuted=()=>false}={})
   if(isMuted()||!context||context.state!=='running')return;
   // A short noise transient and two damped wood resonances; no external sound asset.
   const buffer=context.createBuffer(1,context.sampleRate*.1,context.sampleRate),data=buffer.getChannelData(0);
-  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.009))*.32;
+  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.009))*.224;
   const source=context.createBufferSource();source.buffer=buffer;source.connect(context.destination);source.start();nodes.push(source);
-  for(const frequency of [155,310]){const oscillator=context.createOscillator(),gain=context.createGain(),now=context.currentTime;oscillator.frequency.setValueAtTime(frequency,now);gain.gain.setValueAtTime(.22,now);gain.gain.exponentialRampToValueAtTime(.001,now+.16);oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(now+.17);nodes.push(oscillator);}
+  for(const frequency of [155,310]){const oscillator=context.createOscillator(),gain=context.createGain(),now=context.currentTime;oscillator.frequency.setValueAtTime(frequency,now);gain.gain.setValueAtTime(.154,now);gain.gain.exponentialRampToValueAtTime(.001,now+.16);oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(now+.17);nodes.push(oscillator);}
  }
  function active(){return [1,2,4,6,8].includes(journey.index)&&!journey.travel;}
  function current(){return journey.index===8?journey.houseOwner:journey.index===6?journey.houseAdvice:journey.index===4?journey.houseTracks:journey.index===2?journey.houseSighting:journey.houseRejection;}

@@ -54,7 +54,7 @@ assert(context.sources>beforeCue,'A decision should schedule one cue');
 audio.update(5,{movement:0,active:true,position:{x:25,z:-26}});
 assert(audio.getState().events.sheep>=1,'A nearby animal source should schedule a sheep sound');
 audio.update(5,{movement:0,active:true,position:{x:5.8,z:-20.1}});
-assert(audio.getState().events.voices>=1,'A nearby lit house should schedule muffled voices');
+assert.equal(audio.getState().events.voices,0,'House proximity must not play the rejected three-tone voice placeholder');
 
 audio.setMuted(true);
 await Promise.resolve();

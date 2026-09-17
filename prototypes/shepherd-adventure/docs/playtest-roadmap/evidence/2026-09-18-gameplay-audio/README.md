@@ -74,3 +74,9 @@ During a normal full-route playtest, does the revised bed feel still and alive
 without becoming music? Can footsteps and button cues be heard at a comfortable
 level, and do sheep/voices grow and fade naturally as you approach and leave? If
 the mix fits, add regional fire or animal detail only where it earns its place.
+
+## D034 follow-up: sandy steps and house tones
+
+User accepted the button texture but found it quiet. Raised taps about 3 dB. Replaced the single short foot impact with six longer, softly enveloped sand-noise buffers. Lowered both noise and tonal components of knocks by 30% and gate timber by 15%. Removed the three low oscillators previously described as muffled indoor voices: they are the likely source of the reported house-associated “doo-doo-doo”. No separate completion cue was found. This attribution is a source-based hypothesis, not a matched listening reproduction. Real indoor murmurs remain open.
+
+Audio-owner regression, syntax and whitespace checks passed. No browser listening or recording was available for this revision; perceived naturalness remains unassessed.
