@@ -228,6 +228,7 @@ function animate(now){
  if(debugController){const debugDt=document.hidden?0:Math.min(raw,.1);debugController.update(debugDt);if(debugController.animateAmbience)world.updateNativity(debugDt,reduced);renderer.render(scene,camera);return;}
  const active=!journey.paused&&!document.hidden&&!story?.active&&['playing','intro','arrival'].includes(mode),audioActive=active&&['playing','intro'].includes(mode),dt=active?Math.min(raw,.1):0,moving=!!journey.travel,leg=journey.travel?.index;
  let movement=0;
+ const companionMovement=mode==='intro'?[3.8,3.8]:journey.reunion.actors.map(a=>a.visible&&a.moving?a.speed:0);
  if(active){
   const before=journey.distance;
   if(mode==='intro'){
@@ -256,7 +257,8 @@ function animate(now){
    if(arrivalTime>=ARRIVAL_DURATION){mode='ending';updateUI();story.open('ending');}
   }
  }
- gameplayAudio.update(Math.max(raw,0),{movement,active:audioActive,position:journey.position});
+ gameplayAudio.update(dt,{movement,active:audioActive,position:journey.position,companions:companionMovement});
+ if(!audioActive)gameplayAudio.setActive(false);
  const key=[journey.index,journey.phase,journey.paused,journey.staged,journey.emptyStall.phase,journey.houseTracks.phase,journey.barredGate.phase,journey.houseRejection.phase,journey.houseSighting.phase,journey.houseSighting.page,journey.houseAdvice.phase,journey.houseAdvice.page,journey.houseOwner.phase,journey.houseOwner.page,journey.reunion.phase,journey.reunion.canFollow,houseScene.getState().audioFailed].join('|');if(key!==signature){signature=key;updateUI();}
  renderer.render(scene,camera);
  // Real frame intervals, kept per segment. Hidden/paused time is excluded.

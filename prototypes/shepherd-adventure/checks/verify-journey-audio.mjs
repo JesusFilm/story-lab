@@ -75,3 +75,22 @@ audio.stop();
 assert.equal(audio.getState().contextState,'closed');
 assert(changes.length>=4,'Audio state changes should be observable by the UI control');
 console.log('PASS gameplay audio owner: start, footsteps, decision cue, mute, pause and stop.');
+
+const group=createGameplayAudio();group.begin();await Promise.resolve();await Promise.resolve();
+const strikes=[[],[],[]];let prior=[0,0,0];
+for(let frame=0;frame<120;frame++){
+ group.update(1/60,{movement:3.8,companions:[3.8,3.8]});
+ const counts=group.getState().walkers.map(w=>w.steps);
+ counts.forEach((count,i)=>{if(count>prior[i])strikes[i].push(frame);});prior=counts;
+}
+assert(strikes.every(frames=>frames.length>=4),'All three runners need independent footsteps');
+assert.equal(new Set(strikes.map(frames=>frames[0])).size,3,'Initial footfalls must be staggered');
+const stopped=group.getState().walkers.map(w=>w.steps);
+group.update(.1,{movement:0,companions:[4.6,4.6]});
+assert.equal(group.getState().walkers[0].steps,stopped[0],'Stationary player must not sound while companions run');
+group.setMuted(true);group.update(1,{movement:4.6,companions:[4.6,4.6]});
+const muted=group.getState().walkers.map(w=>w.steps);
+group.update(1,{movement:4.6,companions:[4.6,4.6]});
+assert.deepEqual(group.getState().walkers.map(w=>w.steps),muted);
+group.stop();
+console.log('PASS three independent staggered runners, stationary player and group mute.');

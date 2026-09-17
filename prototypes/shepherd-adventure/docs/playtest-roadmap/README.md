@@ -826,6 +826,8 @@ name the prior decision/item it supersedes and explain the impact.
 
 | 2026-09-18 | D034 | Preserve the accepted tactile button character, raise it modestly, replace sharp repetitive steps with varied sandy scuffs, and lower knocks more than gate tugs. Remove the synthetic three-tone house murmur, the likely source of the reported negative-sounding effect; real indistinct indoor ambience remains open. | User listening feedback; supersedes D033 house-voice placeholder and effect mix. Cause is inferred from source, not confirmed by an audio recording. |
 
+| 2026-09-18 | D035 | Give each moving shepherd independent staggered footsteps in the intro, reunion arrival/departure and onward run; raise accepted tactile button taps by 12 dB after continued inaudibility. | User playtest direction; preserves D034 textures. Two moving companions produce two rhythms; the moving player adds the third. |
+
 
 ## Implementation and acceptance log
 
@@ -897,3 +899,7 @@ House 1 copy/flow accepted by the user on 17 September 2026; branch commit reque
 Button tap amplitude increased about 3 dB; footsteps now select among six longer noise textures with a softer onset and broader sandy rustle. Knock amplitude reduced 30% and gate timber amplitude 15%. Removed the recurring three-tone simulated indoor voices. There is no dedicated house-completion cue in the current flow; source inspection identifies the proximity murmur as the likely reported sound. Indoor voices require a suitable recorded replacement before reinstatement.
 
 Syntax, audio scheduling/regression and whitespace checks passed. Audio character and perceived balance remain awaiting listening; no audible recording was captured. Existing ambient claims above describe earlier checkpoints and are superseded by D034 for house voices.
+
+### D035 / I01 — group footsteps and audible buttons
+
+Implemented three independent movement-driven footstep lanes with different starting phases and small stride differences, sharing the sandy textures and mute/pause owner. Removed the old reunion-only audio loop. Intro supplies all three runners; reunion supplies only visible moving companions, including the onward journey. Button amplitudes raised fourfold (about 12 dB). Syntax, audio regression and stagger/group-mute checks pass. Listening and perceived group clarity remain awaiting user playtest; no audible recording captured.

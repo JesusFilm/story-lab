@@ -80,3 +80,7 @@ the mix fits, add regional fire or animal detail only where it earns its place.
 User accepted the button texture but found it quiet. Raised taps about 3 dB. Replaced the single short foot impact with six longer, softly enveloped sand-noise buffers. Lowered both noise and tonal components of knocks by 30% and gate timber by 15%. Removed the three low oscillators previously described as muffled indoor voices: they are the likely source of the reported house-associated “doo-doo-doo”. No separate completion cue was found. This attribution is a source-based hypothesis, not a matched listening reproduction. Real indoor murmurs remain open.
 
 Audio-owner regression, syntax and whitespace checks passed. No browser listening or recording was available for this revision; perceived naturalness remains unassessed.
+
+## D035: separate runner rhythms
+
+Player and two companions now have independent stride accumulators, staggered initial phases and slightly different strides. Visible movement controls each companion lane for arrival, departure and onward travel; the opening supplies three moving runners. Old reunion noise generator removed to avoid duplicate impacts. Button taps raised about 12 dB after the user reported continued inaudibility. Tests establish three distinct first-strike frames, sustained events on all lanes, silent stationary player and group mute. Syntax and whitespace checks pass; listening remains unassessed.
