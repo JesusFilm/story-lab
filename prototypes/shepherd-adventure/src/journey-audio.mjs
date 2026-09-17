@@ -97,7 +97,7 @@ export function createGameplayAudio({onChange=()=>{}}={}){
   if(!context||context.state!=='running'||!footstepBuffers)return;
   const now=context.currentTime,source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();
   source.buffer=footstepBuffers[Math.floor(Math.random()*footstepBuffers.length)];filter.type='lowpass';filter.frequency.value=1600+Math.random()*700;filter.Q.value=.35;
-  const speedGain=movement>3.6?.055:.042,variation=.84+Math.random()*.26;
+  const speedGain=movement>3.6?.055:.034,variation=.84+Math.random()*.26;
   gain.gain.setValueAtTime(.001,now);gain.gain.linearRampToValueAtTime(speedGain*variation*(walker? .8:1),now+.045);gain.gain.exponentialRampToValueAtTime(.001,now+.24);
   source.connect(filter).connect(gain).connect(effects);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};source.start(now);source.stop(now+.29);events.footsteps++;
  }
@@ -150,7 +150,7 @@ export function createGameplayAudio({onChange=()=>{}}={}){
    if(!context||context.state!=='running'||!tapBuffer)return;
    const now=context.currentTime,source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();
    source.buffer=tapBuffer;filter.type='bandpass';filter.frequency.value=(kind==='assembly'?190:280)+Math.random()*110;filter.Q.value=.85;
-   const level=kind==='assembly'?.20:.256;
+   const level=kind==='assembly'?.32:.41;
    gain.gain.setValueAtTime(.001,now);gain.gain.exponentialRampToValueAtTime(level,now+.004);gain.gain.exponentialRampToValueAtTime(.001,now+.075);
    source.connect(filter).connect(gain).connect(effects);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};source.start(now);source.stop(now+.085);events.decisions++;
   };

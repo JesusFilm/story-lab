@@ -828,6 +828,8 @@ name the prior decision/item it supersedes and explain the impact.
 
 | 2026-09-18 | D035 | Give each moving shepherd independent staggered footsteps in the intro, reunion arrival/departure and onward run; raise accepted tactile button taps by 12 dB after continued inaudibility. | User playtest direction; preserves D034 textures. Two moving companions produce two rhythms; the moving player adds the third. |
 
+| 2026-09-18 | D036 | Increase button taps another 4 dB and reduce walking step amplitude about 19%; retain running levels. | User listening feedback: taps now audible but still too soft, walking slightly too loud. |
+
 
 ## Implementation and acceptance log
 
@@ -903,3 +905,7 @@ Syntax, audio scheduling/regression and whitespace checks passed. Audio characte
 ### D035 / I01 — group footsteps and audible buttons
 
 Implemented three independent movement-driven footstep lanes with different starting phases and small stride differences, sharing the sandy textures and mute/pause owner. Removed the old reunion-only audio loop. Intro supplies all three runners; reunion supplies only visible moving companions, including the onward journey. Button amplitudes raised fourfold (about 12 dB). Syntax, audio regression and stagger/group-mute checks pass. Listening and perceived group clarity remain awaiting user playtest; no audible recording captured.
+
+### D036 / I01 — small listening adjustment
+
+Raised assembly/other tap gains from 0.20/0.256 to 0.32/0.41 (about +4 dB). Walking footstep gain reduced from 0.042 to 0.034 (about -1.8 dB); running remains 0.055. Syntax, existing audio regression and whitespace checks passed. Awaiting listening acceptance.

@@ -826,7 +826,7 @@
     "assets/characters/jesus-manger/jesus-reference.prompt.txt": "5989cef049a8f0b82ee6de4c530ebb64e6665756eeb628c0ef2561bd649d3d13",
     "assets/characters/jesus-manger/jesus-reference.png": "b9e87590e08a7049eb0e537281be4a904ee949a4bc81e6457d5088e4aff7a5c3",
     "prototypes/shepherd-adventure/src/village-game.mjs": "6076bb5ebd6ecd55d79502ff2274fbe2d3bcda6eb4d9d02d37350a24d45fe5c2",
-    "prototypes/shepherd-adventure/src/journey-audio.mjs": "3d400fc443b8c55067f434a145158f51c3c5340267f807b4dcbea959e6117300",
+    "prototypes/shepherd-adventure/src/journey-audio.mjs": "d6d2c1f0a06702803897a584cb80f1cdaa637048516a438b962636791e10ce27",
     "prototypes/shepherd-adventure/src/barred-gate.mjs": "9ba581734d791d74da9a9c82510ee4892f85d545b8c9a77c5ca4b5a394d18fa9",
     "prototypes/shepherd-adventure/src/companion-reunion-scene.mjs": "7327d157427112f4f7b27c39c2633a96a6bec39d77b314e63e2fe01513df8e56",
     "prototypes/shepherd-adventure/src/companion-reunion.mjs": "d705ebf630252d9f1c2f4c456db98e0d63140801b4bdfad94a3e2ba1c757ebbe",
