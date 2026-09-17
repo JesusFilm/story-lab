@@ -15,7 +15,7 @@ const proximitySources=[
 
 export function createGameplayAudio({onChange=()=>{}}={}){
  let context=null,master=null,ambience=null,effects=null;
- let breezeBuffer=null,footstepBuffer=null;
+ let breezeBuffer=null,footstepBuffer=null,cricketBuffer=null,tapBuffer=null;
  let started=false,muted=false,desiredActive=false,contextActive=false;
  let stepDistance=0,insectTime=1.6,breezeTime=7;
  const sources=proximitySources.map(source=>({...source}));
@@ -28,7 +28,9 @@ export function createGameplayAudio({onChange=()=>{}}={}){
    const t=i/length;
    const envelope=shape==='breeze'
     ?Math.pow(1-t,1.7)*(.55+.45*Math.sin(t*Math.PI*5))
-    :Math.exp(-t*18)*(1-.15*Math.sin(t*Math.PI));
+    :shape==='cricket'
+     ?Math.exp(-t*30)*(.7+.3*Math.sin(t*Math.PI*8))
+     :Math.exp(-t*18)*(1-.15*Math.sin(t*Math.PI));
    data[i]=(Math.random()*2-1)*envelope;
   }
   return buffer;
@@ -44,6 +46,8 @@ export function createGameplayAudio({onChange=()=>{}}={}){
   ambience=context.createGain();ambience.gain.value=.55;ambience.connect(master);
   effects=context.createGain();effects.gain.value=.9;effects.connect(master);
   breezeBuffer=noiseBuffer(.9,'breeze');
+  cricketBuffer=noiseBuffer(.075,'cricket');
+  tapBuffer=noiseBuffer(.07,'tap');
   footstepBuffer=noiseBuffer(.105,'footstep');
  }
 
@@ -99,13 +103,14 @@ export function createGameplayAudio({onChange=()=>{}}={}){
  }
 
  function playCricket(){
-  if(!context||context.state!=='running')return;
-  const now=context.currentTime,root=context.createGain();root.gain.value=.8;root.connect(ambience);
-  const length=.09+Math.random()*.08;
-  for(const [frequency,offset] of [[2900,0],[3900,.045]]){
-   const oscillator=context.createOscillator(),gain=context.createGain();oscillator.type='triangle';oscillator.frequency.value=frequency*(.96+Math.random()*.08);
-   gain.gain.setValueAtTime(.001,now+offset);gain.gain.exponentialRampToValueAtTime(.05,now+offset+.008);gain.gain.exponentialRampToValueAtTime(.001,now+offset+length);
-   oscillator.connect(gain).connect(root);oscillator.start(now+offset);oscillator.stop(now+offset+length+.01);
+  if(!context||context.state!=='running'||!cricketBuffer)return;
+  const now=context.currentTime,root=context.createGain();root.gain.value=.65;root.connect(ambience);
+  const length=.065+Math.random()*.045;
+  for(const offset of [0,.048]){
+   const source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();
+   source.buffer=cricketBuffer;filter.type='bandpass';filter.frequency.value=2300+Math.random()*1900;filter.Q.value=2.4;
+   gain.gain.setValueAtTime(.001,now+offset);gain.gain.exponentialRampToValueAtTime(.052,now+offset+.006);gain.gain.exponentialRampToValueAtTime(.001,now+offset+length);
+   source.connect(filter).connect(gain).connect(root);source.start(now+offset);source.stop(now+offset+length+.01);
   }
   setTimeout(()=>{try{root.disconnect();}catch{}},Math.ceil((length+.15)*1000));events.crickets++;
  }
@@ -114,7 +119,7 @@ export function createGameplayAudio({onChange=()=>{}}={}){
   if(!context||context.state!=='running'||!breezeBuffer)return;
   const now=context.currentTime,source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();
   source.buffer=breezeBuffer;filter.type='bandpass';filter.frequency.value=950;filter.Q.value=.45;
-  gain.gain.setValueAtTime(.001,now);gain.gain.linearRampToValueAtTime(.045,now+.22);gain.gain.exponentialRampToValueAtTime(.001,now+.88);
+  gain.gain.setValueAtTime(.001,now);gain.gain.linearRampToValueAtTime(.025,now+.22);gain.gain.exponentialRampToValueAtTime(.001,now+.88);
   source.connect(filter).connect(gain).connect(ambience);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};source.start(now);source.stop(now+.9);events.breezes++;
  }
 
@@ -154,12 +159,12 @@ export function createGameplayAudio({onChange=()=>{}}={}){
   if(muted)return false;
   if(!started)begin();
   const play=()=>{
-   if(!context||context.state!=='running')return;
-   const now=context.currentTime,oscillator=context.createOscillator(),gain=context.createGain();
-   const frequency=kind==='confirm'?440:356;
-   oscillator.type='sine';oscillator.frequency.setValueAtTime(frequency,now);oscillator.frequency.exponentialRampToValueAtTime(frequency*1.18,now+.12);
-   gain.gain.setValueAtTime(.001,now);gain.gain.exponentialRampToValueAtTime(.09,now+.018);gain.gain.exponentialRampToValueAtTime(.001,now+.24);
-   oscillator.connect(gain).connect(effects);oscillator.start(now);oscillator.stop(now+.26);events.decisions++;
+   if(!context||context.state!=='running'||!tapBuffer)return;
+   const now=context.currentTime,source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();
+   source.buffer=tapBuffer;filter.type='bandpass';filter.frequency.value=(kind==='assembly'?190:280)+Math.random()*110;filter.Q.value=.85;
+   const level=kind==='assembly'?.035:.045;
+   gain.gain.setValueAtTime(.001,now);gain.gain.exponentialRampToValueAtTime(level,now+.004);gain.gain.exponentialRampToValueAtTime(.001,now+.075);
+   source.connect(filter).connect(gain).connect(effects);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};source.start(now);source.stop(now+.085);events.decisions++;
   };
   if(context?.state==='running')play();else resume().then(play);
   return true;
@@ -185,7 +190,7 @@ export function createGameplayAudio({onChange=()=>{}}={}){
  function stop(){
   desiredActive=false;started=false;stepDistance=0;insectTime=1.6;breezeTime=7;
   if(context)context.close().catch(()=>{});
-  context=null;master=ambience=effects=breezeBuffer=footstepBuffer=null;contextActive=false;notify();
+  context=null;master=ambience=effects=breezeBuffer=cricketBuffer=tapBuffer=footstepBuffer=null;contextActive=false;notify();
  }
 
  return {begin,setActive,setMuted,toggle,cue,update,stop,getState:()=>({started,muted,running:context?.state==='running',contextState:context?.state||'closed',stepDistance,insectTime,breezeTime,events:{...events}})};

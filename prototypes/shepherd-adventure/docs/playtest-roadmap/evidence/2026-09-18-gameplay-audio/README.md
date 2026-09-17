@@ -4,11 +4,12 @@ This checkpoint revises the first bounded part of D032/I01 under D033 on
 `codex/shepherd-feedback-house-handoffs`:
 
 - a shared gameplay audio owner in `src/journey-audio.mjs`;
-- a still night bed led by sparse crickets and occasional breeze rustle, with no
-  continuous wind layer;
+- a still night bed led by sparse filtered-noise cricket chirps and occasional
+  quiet breeze rustle, with no continuous wind layer;
 - player footsteps driven by actual walking/running distance, including the
   running introduction;
-- one audible but gentle decision cue for meaningful buttons;
+- one low-volume wood/stone-like tap for meaningful buttons, with an even softer
+  assembly variant for repeated lantern actions;
 - distance-attenuated sheep near the animal pen and muffled low voices near lit
   houses; and
 - a gameplay sound control that mutes the shared bed and existing house, gate,
@@ -25,13 +26,18 @@ audio context. The legacy route contained a separate synthesized bed, but it was
 not the owner for the rebuilt village.
 
 The first slice's continuous wind was too busy, and its effect gains and cricket
-root gain made footsteps, cues and insects difficult to hear. After this revision,
+root gain made footsteps, cues and insects difficult to hear. Its clean oscillator
+pair also read as an electronic chime. After this revision,
 the rebuilt village starts the same owner on a user gesture in both the normal
 player and rehearsal route, suspends it on pause, visibility loss or mute, and
 resumes it without rebuilding or duplicating the graph. Footsteps are scheduled
 from movement distance rather than a render-frame timer. Existing scene effects
-consult the same mute state. Contextual sheep and house voices now schedule only
-when the player is inside their radius, with a smooth distance falloff.
+consult the same mute state. Cricket chirps use short filtered noise bursts rather
+than clean pitched oscillators; breeze rustle is quieter. Button feedback uses a
+short filtered transient rather than a rising digital tone, with a softer variant
+for repeated lantern assembly clicks. Contextual sheep and house voices now
+schedule only when the player is inside their radius, with a smooth distance
+falloff.
 
 ## Verification
 

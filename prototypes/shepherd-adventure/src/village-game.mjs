@@ -186,7 +186,7 @@ document.addEventListener('keydown',()=>{if(!story?.active)gameplayAudio.begin()
 document.addEventListener('click',event=>{
  const button=event.target.closest('button');
  if(!button||button.disabled||button===soundToggle||button.id==='pause'||button.closest('#story-overlay')||button.closest('#review-tools'))return;
- gameplayAudio.cue('decision');
+ gameplayAudio.cue(button.id==='lamp-action'?'assembly':'decision');
 },true);
 $('jump').onclick=()=>{if(!ready)return;journey.jump(Number(choice.value));$('review-tools').open=false;reposition();};
 $('replay').onclick=()=>{if(!ready)return;journey.replay();$('review-tools').open=false;reposition();};

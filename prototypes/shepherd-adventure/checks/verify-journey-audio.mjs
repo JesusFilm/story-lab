@@ -18,10 +18,10 @@ class OscillatorNode extends Node{constructor(){super();this.frequency=new Param
 class BufferSourceNode extends Node{constructor(){super();this.onended=null;}}
 class FakeAudioContext{
  static instances=[];
- constructor(){this.sampleRate=1000;this.currentTime=0;this.state='suspended';this.destination=new Node();this.sources=0;FakeAudioContext.instances.push(this);}
+ constructor(){this.sampleRate=1000;this.currentTime=0;this.state='suspended';this.destination=new Node();this.sources=0;this.oscillators=0;FakeAudioContext.instances.push(this);}
  createGain(){return new GainNode();}
  createBiquadFilter(){return new FilterNode();}
- createOscillator(){this.sources++;return new OscillatorNode();}
+ createOscillator(){this.sources++;this.oscillators++;return new OscillatorNode();}
  createBufferSource(){this.sources++;return new BufferSourceNode();}
  createBuffer(_channels,length){return {getChannelData:()=>new Float32Array(length)};}
  resume(){this.state='running';return Promise.resolve();}
@@ -44,13 +44,14 @@ assert.equal(audio.getState().running,true);
 
 const context=FakeAudioContext.instances[0];
 const beforeSteps=context.sources;
-audio.update(2,{movement:4.6,active:true,position:{x:25,z:-26}});
+audio.update(2,{movement:4.6,active:true,position:{x:0,z:50}});
 assert(context.sources>beforeSteps,'Running movement should schedule footsteps');
+assert(audio.getState().events.crickets>=1,'A quiet night bed should schedule crickets');
+assert.equal(context.oscillators,0,'Crickets should use filtered noise rather than a clean electronic oscillator');
 const beforeCue=context.sources;
 audio.cue();
 assert(context.sources>beforeCue,'A decision should schedule one cue');
 audio.update(5,{movement:0,active:true,position:{x:25,z:-26}});
-assert(audio.getState().events.crickets>=1,'A quiet night bed should schedule crickets');
 assert(audio.getState().events.sheep>=1,'A nearby animal source should schedule a sheep sound');
 audio.update(5,{movement:0,active:true,position:{x:5.8,z:-20.1}});
 assert(audio.getState().events.voices>=1,'A nearby lit house should schedule muffled voices');
