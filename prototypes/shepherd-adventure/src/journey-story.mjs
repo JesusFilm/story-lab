@@ -2,9 +2,10 @@ import {StoryDiorama} from '../vendor/story-diorama/story-diorama.mjs';
 import {createStoryMedia} from './story-media.mjs';
 export function createJourneyStory({onClose,onPlaying=()=>{}}){
  const $=s=>document.querySelector(s),overlay=$('#story-overlay'),stage=$('#story-scene'),next=$('#story-next'),status=$('#story-status'),bubble=$('#angel-bubble'),media=createStoryMedia();
+ const titleCard=document.createElement('h1');titleCard.id='story-title-card';titleCard.hidden=true;overlay.append(titleCard);
  let player=null,kind=null,muted=false,generation=0,previousFocus;
  function syncSound(){ $('#story-sound').textContent=muted?'Sound off':'Sound on';$('#story-sound').setAttribute('aria-pressed',String(!muted));}
- const close=()=>{generation++;const completed=kind;kind=null;player?.destroy();player=null;stage.replaceChildren();bubble.textContent='';overlay.hidden=true;document.body.classList.remove('story-playing');if(completed)media.release(completed);previousFocus?.focus?.({preventScroll:true});};
+ const close=()=>{generation++;const completed=kind;kind=null;player?.destroy();player=null;stage.replaceChildren();bubble.textContent='';overlay.hidden=true;titleCard.hidden=true;overlay.classList.remove('story-awaiting-start');document.body.classList.remove('story-playing');if(completed)media.release(completed);previousFocus?.focus?.({preventScroll:true});};
  const finish=()=>{const completed=kind;if(!completed)return;close();onClose(completed);};
  function advance(){if(!player)return;const s=player.getState();if(s.phase==='idle')player.start();else if(s.paused)player.pause(false);else player.next();}
  function sound(){muted=!muted;syncSound();player?.setMuted(muted);if(!muted)player?.retryAudio();else{$('#story-audio-retry').hidden=true;status.textContent='';}}
@@ -13,12 +14,13 @@ export function createJourneyStory({onClose,onPlaying=()=>{}}){
   overlay.setAttribute('aria-label',which==='opening'?'The angel and the shepherds':'The shepherds find Jesus');bubble.hidden=true;$('#story-audio-retry').hidden=true;$('#story-retry').hidden=true;syncSound();
   try{
    const data=await media.prepare(which);if(token!==generation)return;
-   // Keep the first verse in preview until a user gesture starts audio.
-   const cues=data.cues.map(cue=>({...cue,title:'Luke',reference:'',version:'',bubble:false,options:{...cue.options,mode:'manual',reveal:'instant'}}));
-   player=new StoryDiorama(stage,{...data,cues},{mode:'manual',reveal:'instant',appearance:{fontFamily:'Georgia, serif',number:{visible:false},text:{fontSize:'clamp(20px, 2.1vw, 29px)',lineHeight:'1.45',maxHeight:'240px'},image:{fit:'contain',position:'center top'},mobile:{text:{fontSize:'20px',maxHeight:'260px'}}}});
+   // Keep scripture out of the idle preview; Start reveals the first cue and starts audio.
+   const cues=data.cues.map(cue=>({...cue,title:'',version:'',bubble:false,options:{...cue.options,mode:'manual',reveal:'instant'}}));
+   titleCard.textContent=which==='opening'?'Shepherd Adventure':'Good news. Great joy.';titleCard.hidden=false;overlay.classList.add('story-awaiting-start');
+   player=new StoryDiorama(stage,{...data,cues},{mode:'manual',reveal:'instant',appearance:{fontFamily:'Georgia, serif',number:{visible:false},title:{visible:false},reference:{visible:true},version:{visible:false},text:{fontSize:'clamp(20px, 2.1vw, 29px)',lineHeight:'1.45',maxHeight:'240px'},image:{fit:'contain',position:'center top'},mobile:{text:{fontSize:'20px',maxHeight:'260px'}}}});
    player.setMuted(muted);
    player.addEventListener('cue',e=>{bubble.hidden=!e.detail.cue.bubble;bubble.textContent=e.detail.cue.bubble?e.detail.cue.text:'';});
-   player.addEventListener('state',e=>{const s=e.detail;next.textContent=s.phase==='idle'?'Start':s.paused?'Continue':s.index===s.total-1?(kind==='opening'?'Start adventure':'Finish story'):'Next verse';});
+   player.addEventListener('state',e=>{const s=e.detail;const idle=s.phase==='idle';overlay.classList.toggle('story-awaiting-start',idle);titleCard.hidden=!idle;next.textContent=s.phase==='idle'?'Start':s.paused?'Continue':s.index===s.total-1?(kind==='opening'?'Start adventure':'Finish story'):'Next verse';});
    player.addEventListener('audioerror',()=>{if(muted)return;status.textContent='Sound could not start.';$('#story-audio-retry').textContent='Retry sound';$('#story-audio-retry').hidden=false;});
    player.addEventListener('complete',finish);
    await player.preload();if(token!==generation)return;

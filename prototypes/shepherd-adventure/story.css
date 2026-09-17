@@ -3,7 +3,7 @@
 #story-scene{height:100%;aspect-ratio:auto;--sd-min-height:0px;--sd-mobile-min-height:0px;--sd-aspect-ratio:auto;--sd-mobile-aspect-ratio:auto;--sd-caption-width:850px;--sd-bottom:135px;--sd-text-height:240px}
 #story-scene .sd-art{height:78%}#story-scene .sd-shade{background:linear-gradient(transparent 35%,#080e1444 50%,#080e14 80%)}
 #story-scene .sd-stack{left:50%;right:auto;transform:translateX(-50%);width:min(850px,86%);max-width:none;bottom:135px;gap:10px;padding:20px 28px 24px;background:var(--linen);color:var(--ink);border-top:5px solid #59422b;border-bottom:2px solid #9a8057;box-shadow:0 12px 45px #0005}
-#story-scene .sd-chapter{font:small-caps 15px Georgia,serif;letter-spacing:.16em;color:#665134}#story-scene .sd-meta{display:none}#story-scene .sd-text{font-weight:400;text-shadow:none}#story-scene .sd-window{max-height:min(240px,32vh)}
+#story-scene .sd-chapter{font:small-caps 15px Georgia,serif;letter-spacing:.16em;color:#665134}#story-scene .sd-meta{display:flex;justify-content:center}#story-scene .sd-reference{font:14px/1.4 Georgia,serif;color:#665134;letter-spacing:.03em}#story-scene .sd-text{font-weight:400;text-shadow:none}#story-scene .sd-window{max-height:min(240px,32vh)}
 .story-toolbar{position:absolute;inset:auto 0 0;height:116px;display:flex;align-items:flex-start;justify-content:center;padding:0 20px}
 #story-next{min-width:200px;font-size:18px;padding:13px 28px;background:var(--hide);color:#f3e0b7;border:1px solid #a58a5f}
 #story-sound,#story-skip{position:absolute;bottom:15px;left:20px}#story-skip{left:120px}
@@ -15,3 +15,7 @@
 @media(max-width:650px){#story-scene .sd-art{height:65%}#story-scene .sd-art img{object-fit:cover!important;object-position:center top!important}#story-scene .sd-shade{background:linear-gradient(transparent 30%,#080e1466 52%,#080e14 68%)}}
 
 @media(orientation:portrait){#story-scene .sd-art img{object-fit:cover!important;object-position:center top!important}}
+
+/* Start is a title screen; even assistive reading waits for the user's gesture. */
+.story-awaiting-start #story-scene .sd-stack,.story-awaiting-start #story-scene .sd-sr{display:none}
+#story-title-card{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(650px,88%);margin:0;padding:24px;text-align:center;font:clamp(30px,6vw,58px)/1.15 Georgia,serif;color:var(--linen);text-shadow:0 2px 16px #000;background:#080e14b8;border-radius:12px}

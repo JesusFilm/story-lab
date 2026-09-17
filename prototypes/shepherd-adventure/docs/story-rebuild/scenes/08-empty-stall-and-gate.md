@@ -1,5 +1,7 @@
 # 08 — Empty stall, open gate and House 9 reveal
 
+> 17 September 2026: [T01/D020 player-instruction slice](../../playtest-roadmap/evidence/2026-09-17-t01/README.md) updates copy/placement. D023 accepts this bounded instruction/UI revision; other pending initiative work remains open.
+
 Status: **accepted at checkpoint after user play-test**.
 [Rebuild order](../ORDER.md) · [Scene index](../README.md) · [Captures and checks](../../../review/2026-09-14-empty-stall/README.md)
 
@@ -53,3 +55,5 @@ Captures are explicitly staged and paused using `stall-pose=search`, `contact`,
 - User keep/revise decision: play-testing completed; accepted for this checkpoint.
 - User authorized the audit update, focused commit and feature-branch push.
   No merge or deployment is authorized.
+
+17 September 2026: D026 updates the text/actions in this scene. [Current inventory](../../playtest-roadmap/evidence/2026-09-17-t01/remaining-interactions.md). Copy pass accepted by the user (D027); broader interaction issues remain open.

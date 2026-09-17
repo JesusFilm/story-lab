@@ -151,3 +151,5 @@ The user completed play-testing and authorized the feature audit update, focused
 commit and remote branch push. Point 09b is accepted at this checkpoint.
 [Audit entry](../../navigation-direction-retrospective-2026-09-13.md#15-september-update--companion-reunion-and-biblical-continuity).
 Point 10 remains unfinished. No merge to main or deployment is authorized.
+
+17 September 2026: D026 updates the text/actions in this scene. [Current inventory](../../playtest-roadmap/evidence/2026-09-17-t01/remaining-interactions.md). Copy pass accepted by the user (D027); broader interaction issues remain open.

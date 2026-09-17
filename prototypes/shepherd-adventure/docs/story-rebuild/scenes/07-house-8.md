@@ -80,3 +80,5 @@ immediate departure described above. Camera feel awaits user review.
 The user accepted the integration and follow-up fixes at the 15 September checkpoint,
 authorizing a commit and push to the feature branch. Further model/decorative work
 and release review remain separate.
+
+17 September 2026: D026 updates the text/actions in this scene. [Current inventory](../../playtest-roadmap/evidence/2026-09-17-t01/remaining-interactions.md). Copy pass accepted by the user (D027); broader interaction issues remain open.

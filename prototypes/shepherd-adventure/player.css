@@ -4,7 +4,7 @@
 .player-mode #beat{font:17px/1.45 Georgia,serif;color:#f1e8d5;text-align:center;margin:0 0 10px}
 .player-mode #advance{font-size:16px;min-height:48px;border-radius:9px;margin-top:6px;background:#6b522e}
 .player-mode #advance:disabled{display:none}
-.player-mode #review-header{z-index:5}.player-mode #review-header span{margin-right:auto}
+.player-mode #review-header{z-index:5}.player-mode #review-header>span{display:none}.player-mode #review-header{justify-content:flex-end}
 .player-mode #review-panel[hidden],#player-options[hidden],#player-finish[hidden]{display:none}
 #player-options,#player-finish{position:fixed;z-index:25;left:50%;top:50%;transform:translate(-50%,-50%);width:min(380px,calc(100% - 32px));padding:28px;background:#151e20f5;border:1px solid #796a50;border-radius:14px;text-align:center}
 #player-options button,#player-options label,#player-finish button,#player-finish a{display:block;width:100%;margin-top:14px}
@@ -12,7 +12,47 @@
 @media(max-width:600px){.player-mode #review-panel{left:50%;bottom:12px;width:calc(100% - 24px);padding:12px 14px;max-height:48dvh}.player-mode #beat{font-size:16px}.player-mode #review-header b{display:none}}
 
 :root{--linen:#e7ddc7;--ink:#352c22;--hide:#59422b}
-body.player-mode.lamp-scene #review-panel{transform:none}
-@media(max-width:600px){body.player-mode.lamp-scene #review-panel{transform:none;left:10px}}
 
 .player-mode #travel-status{text-align:center;font-size:12px;letter-spacing:.04em}
+
+/* Shared gameplay components. Scene modules provide content, never coordinates. */
+body.player-mode[data-ui-panel] #review-panel{
+ left:50%;right:auto;top:32%;bottom:auto;transform:translateX(-50%);
+ width:min(440px,calc(100% - 32px));max-height:calc(100dvh - 160px);
+ padding:16px;overflow:auto;border:1px solid #aa947580;border-radius:14px;
+ background:#17201ef2;box-shadow:0 8px 30px #0006;color:#f1e8d5;
+}
+/* House approach and spoken exchange share the upper reading zone. */
+body.player-mode[data-ui-panel="house"] #review-panel,
+body.player-mode[data-ui-panel="conversation"] #review-panel{
+ top:max(78px,8dvh);transform:translate(-50%,50%);
+}
+body.player-mode[data-ui-panel="preparation"] #review-panel{
+ top:50%;transform:translate(-50%,-50%);width:min(350px,calc(100% - 32px));
+ background:#e6dcc6;color:#382c20;border-color:#b29b70;
+}
+body.player-mode.action-only:not(.lamp-open) #review-panel{
+ width:min(300px,calc(100% - 32px));padding:12px;
+}
+body.player-mode.action-only #beat{display:none}
+/* The panel padding keeps its overflow boundary away from rounded button edges. */
+body.player-mode #review-panel .primary,
+body.player-mode #sighting-overlay .primary{
+ min-height:48px;border:1px solid #c2a571;border-radius:9px;
+ background:#71552b;background-clip:padding-box;box-shadow:none;
+ color:#fff1d9;padding:12px 18px;
+}
+body.player-mode #review-panel .primary:hover:not(:disabled),
+body.player-mode #sighting-overlay .primary:hover:not(:disabled){background:#876835}
+body.player-mode.action-only #advance{margin:0}
+@media(max-height:550px){
+ body.player-mode[data-ui-panel] #review-panel{max-height:calc(100dvh - 100px)}
+ body.player-mode[data-ui-panel="exploration"] #review-panel{top:35%}
+ body.player-mode[data-ui-panel="house"] #review-panel,
+ body.player-mode[data-ui-panel="conversation"] #review-panel{top:68px}
+}
+
+/* Quiet menu affordance; the native button retains keyboard and touch semantics. */
+body.player-mode #pause{min-width:44px;width:44px;height:44px;padding:10px;display:grid;place-items:center;border-color:transparent;background:#17201e99;border-radius:8px}
+body.player-mode #pause::before{content:"";display:block;width:20px;height:2px;background:#eee6d4;box-shadow:0 -6px #eee6d4,0 6px #eee6d4;border-radius:1px}
+body.player-mode #pause:hover{background:#26342fe8;border-color:#aa947580}

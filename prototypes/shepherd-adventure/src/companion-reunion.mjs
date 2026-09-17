@@ -2,9 +2,9 @@ import {sampleCorridor,lengthOf,positionOn} from './route-geometry.mjs';
 
 const points=values=>values.map(([x,z])=>({x,z}));
 export const REUNION_LINES={
- question:'“We saw your light! Have you found the way?”',
- directions:'“Yes. This man gave the couple shelter. They’re in the stall at the far end of the animal pen.”',
- invitation:'“Then come—let’s see the child the angel told us about!”'
+ question:'“We saw your light! Did you find them?”',
+ directions:'“Yes—in the stall at the far end of the pen.”',
+ invitation:'“Let’s see the child the angel told us about!”'
 };
 export const GATHER=points([[-11.7,-27],[-10.8,-29.1]]);
 export const WAIT=points([[-16,-36],[-14.4,-34.3]]);

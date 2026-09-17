@@ -48,3 +48,5 @@ Sandal/hoof marks continue outside the pen and gradually fade, including gold ou
 ## Accepted checkpoint
 
 The user reported their play-test done and authorized the audit update, focused commit and feature-branch push. Point 06 is accepted for this checkpoint; release remains unauthorized.
+
+17 September 2026: D026 updates the text/actions in this scene. [Current inventory](../../playtest-roadmap/evidence/2026-09-17-t01/remaining-interactions.md). Copy pass accepted by the user (D027); broader interaction issues remain open.
