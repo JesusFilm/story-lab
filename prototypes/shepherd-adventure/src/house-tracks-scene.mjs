@@ -35,7 +35,7 @@ export function createHouseTracksScene(journey,scene){
  function update(){
   if(journey.index===5&&!journey.travel){
    $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
-   $('beat').textContent='“No one seems awake here. The tracks pass the pen and lead back toward the houses.”';
+   $('beat').textContent='“The tracks lead back toward the houses.”';
    $('travel-status').textContent=journey.paused?'Paused — continue when ready.':'The entrance is closed. The trail continues outside it.';
    $('advance').textContent='Follow the tracks';
    $('advance').disabled=journey.paused;
@@ -44,9 +44,9 @@ export function createHouseTracksScene(journey,scene){
   if(journey.index!==4||journey.travel)return;
   const h=journey.houseTracks;
   $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
-  $('beat').textContent=({ready:'The house is dark. Perhaps someone is inside.',knocking:'You knock on the wooden door.',waiting:'You wait. There is no answer.','knocking-again':'You knock once more.','waiting-again':'The house stays silent.',unanswered:'“No one is answering.”',searching:'You look around the well.',spotted:'“Footprints… and hoofprints. They lead past the market stalls toward the animal pen.”'})[h.phase];
-  $('travel-status').textContent=journey.paused?'Paused — continue when ready.':h.spotted?'The tracks catch your eye.':h.phase==='unanswered'?'Perhaps there is a sign nearby.':h.phase==='searching'?'Looking at the ground nearby…':h.started?'Listen at the closed door…':'Ask at the door.';
-  $('advance').textContent=h.phase==='ready'?'Knock on door':h.phase==='unanswered'?'Look around':h.spotted?'Follow the tracks':h.phase==='searching'?'Looking around…':h.phase.includes('knocking')?'Knocking…':'Waiting for a response…';
+  $('beat').textContent=({unanswered:'“No answer.”',spotted:'“Footprints and hoofprints—toward the animal pen.”'})[h.phase]||'';
+  $('travel-status').textContent='';
+  $('advance').textContent=({ready:'Knock on door',unanswered:'Search by the well',spotted:'Follow the tracks'})[h.phase]||'';
   $('advance').disabled=journey.paused||!['ready','unanswered','spotted'].includes(h.phase);
  }
  function tick(reduced,camera,dt){

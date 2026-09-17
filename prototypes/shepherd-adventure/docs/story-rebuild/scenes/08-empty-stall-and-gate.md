@@ -55,3 +55,5 @@ Captures are explicitly staged and paused using `stall-pose=search`, `contact`,
 - User keep/revise decision: play-testing completed; accepted for this checkpoint.
 - User authorized the audit update, focused commit and feature-branch push.
   No merge or deployment is authorized.
+
+17 September 2026: D026 updates the text/actions in this scene. [Current inventory](../../playtest-roadmap/evidence/2026-09-17-t01/remaining-interactions.md). Copy pass accepted by the user (D027); broader interaction issues remain open.

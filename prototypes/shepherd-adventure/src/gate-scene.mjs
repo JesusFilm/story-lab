@@ -14,9 +14,9 @@ export function createGateScene(journey,scene,character){
   if(journey.paused)context?.suspend().catch(()=>{});else if(context?.state==='suspended')context.resume().catch(()=>{});
   $('point-title').textContent=['barred','complete'].includes(h.phase)?'Barred gate':'Timber gate';
   $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
-  $('beat').textContent=({ready:'The lane leads to a timber gate.',trying:'You pull on the gate. The timber strains, but holds firm.',barred:'“It’s barred from the other side. I can’t get through here.”',complete:'“I saw some houses near the well. Perhaps someone there can help.”'})[h.phase];
-  $('travel-status').textContent=journey.paused?'Paused — continue when ready.':h.phase==='ready'?'Try the way ahead.':h.complete?'Ask at the houses near the well.':'The gate stays closed.';
-  $('advance').textContent=h.phase==='ready'?'Open the gate':h.complete?'Go to the well':h.phase==='barred'?'The way is barred':'Trying the gate…';
+  $('beat').textContent=['barred','complete'].includes(h.phase)?'“Barred from the other side.”':'';
+  $('travel-status').textContent='';
+  $('advance').textContent=h.phase==='ready'?'Open gate':h.complete?'Try the houses by the well':'';
   $('advance').disabled=journey.paused||(h.started&&!h.complete);
  }
  function tick(reduced,camera){

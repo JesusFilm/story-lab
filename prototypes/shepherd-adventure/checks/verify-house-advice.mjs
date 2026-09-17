@@ -4,7 +4,7 @@ const j=new RouteRehearsal();j.jump(6);assert.equal(j.next(),false);assert(j.kno
 j.step(.9);assert.equal(j.houseAdvice.phase,'knocking');j.paused=true;const held=j.snapshot();j.step(4);assert.deepEqual(j.snapshot(),held);assert.equal(j.advanceAdvice(),false);
 j.paused=false;j.step(2.1);assert.equal(j.houseAdvice.phase,'conversation');assert.deepEqual({x:j.position.x,z:j.position.z},STOPS[6].anchor);
 j.step(100);assert.equal(j.houseAdvice.page,0,'Reading is player-paced');assert.equal(j.next(),false);
-for(let i=0;i<3;i++){assert(j.advanceAdvice());assert.equal(j.next(),false);}
+for(let i=0;i<2;i++){assert(j.advanceAdvice());assert.equal(j.next(),false);}
 assert(j.advanceAdvice());assert(j.houseAdvice.complete);assert.equal(j.advanceAdvice(),false);assert.equal(j.travel,null);assert(j.next());assert.equal(j.next(),false);while(j.travel)j.step(.1);assert.equal(j.index,7);assert.equal(j.gateOpen,false);
 j.jump(6);assert.equal(j.houseAdvice.phase,'ready');j.knockOnHouse();j.step(3);j.advanceAdvice();j.replay();assert.equal(j.houseAdvice.phase,'ready');while(j.travel)j.step(.1);assert.equal(j.index,6);assert.equal(j.houseAdvice.page,0);
 j.jump(7);assert(j.houseAdvice.complete);assert.equal(j.gateOpen,false);j.reset();assert.equal(j.houseAdvice.phase,'ready');

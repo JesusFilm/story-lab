@@ -23,9 +23,9 @@ export function createCompanionReunionScene(journey,scene,character){
   const r=journey.reunion,p=r.phase;
   $('point-title').textContent=p==='arriving'?'The way is open':'Together again';
   $('review-state').textContent=journey.staged?'Staged · reunion draft':'Reunion draft';
-  $('beat').textContent=REUNION_LINES[p]||({arriving:'Footsteps from the gate. The others are catching up.',departing:'The others hurry toward the animal pen.',waiting:'They wait just ahead, beside the way into the animal pen.'})[p]||'';
-  $('travel-status').textContent=journey.paused?'Paused — continue when ready.':({arriving:'They come through the gate you opened.',question:'Companion',directions:'Shepherd',invitation:'Other companion',departing:'They hurry toward the entrance.',waiting:'Follow when you are ready.'})[p]||'';
-  $('advance').textContent=({question:'Tell them what you learned',directions:'Continue',invitation:'Let’s go',departing:'Follow the others',waiting:'Follow the others'})[p]||'The others are coming…';
+  $('beat').textContent=REUNION_LINES[p]||'';
+  $('travel-status').textContent=({question:'Companion',directions:'Shepherd',invitation:'Other companion'})[p]||'';
+  $('advance').textContent=({question:'Answer',directions:'Continue',invitation:'Let’s go',waiting:'Follow the others'})[p]||'';
   $('advance').hidden=['arriving','departing'].includes(p);$('advance').disabled=journey.paused||p==='arriving'||(p==='departing'&&!r.canFollow);
  }
  function footstep(){

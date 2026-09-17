@@ -232,7 +232,7 @@ means one focused change/review cycle, not an elapsed-time estimate.
 
 | ID | Proposed change and boundary | Dependencies | Acceptance and verification | State |
 | --- | --- | --- | --- | --- |
-| T01 | Trim player thoughts/dialogue and repeated non-scriptural instructions; one idea per blurb. Inventory before/after copy and preserve next-action meaning. No wholesale story rewrite. | Q02 scope settled; I02's chosen presentation | Review copy in its actual scene, at desktop and narrow sizes. Player can state the lead/action without rereading; no character gains unsupported knowledge. | Basic instructions/UI accepted (D023); house copy remains open · S |
+| T01 | Trim player thoughts/dialogue and repeated non-scriptural instructions; one idea per blurb. Inventory before/after copy and preserve next-action meaning. No wholesale story rewrite. | Q02 scope settled; I02's chosen presentation | Review copy in its actual scene, at desktop and narrow sizes. Player can state the lead/action without rereading; no character gains unsupported knowledge. | Accepted copy/UI scope (D023–D027); broader presentation and handoff work remains open · S |
 | T02 | Use accessible arrow controls for existing page advancement where approved. Keep meaningful labels for actions such as Thank you/Leave. House back controls are explicitly excluded; scripture backward state belongs to I02. | D011; chosen forward cue | Keyboard and touch navigation, visible focus, accessible names, disabled/end states; minimum proposed 44 px touch target; no accidental exit. | Awaiting direction · S |
 | T03 | Correct a localized House 8 beat after reviewing its image/text timing. All-house coherence and handoff changes remain I03. | D014; I03 | Player understands the visible action without retrospective explanation; rapid input, pause and return work. Verify the actual mismatch rather than assuming a button reorder fixes it. | Needs timing review · S |
 | T04 | Adjust an isolated effect's gain after comparing it with reference voice/music. Avoid an unmeasured global volume change. | Q08; I01 mix baseline | Same device/output/settings before/after; voice intelligible, no startling peak, muted play still works. Record the chosen gains and listening verdict. | Needs audio evidence · S |
@@ -777,6 +777,10 @@ name the prior decision/item it supersedes and explain the impact.
 
 | 2026-09-17 | D025 | Implement approved House 3 three-page sighting: action-only arrival, silent visual knock/wait, short question/sighting/directions, Thank you then Go to the gate without recap. Add resident-right-pointing frame on directions. | Explicit user approval and image generation request. Implemented awaiting playtest. Houses 8/9 retain four pages; no new voice track. |
 
+| 2026-09-17 | D026 | User accepted House 3 and requested its commit; authorized a full concise-copy pass through gate, House 5/well/pen, House 8, empty stall/lantern/gate, House 9 and reunion. | House 3 committed as `a1dbe4c`. Remaining pass implemented and subsequently accepted in D027; supersedes per-house deferral for copy only. [Full text/action inventory](evidence/2026-09-17-t01/remaining-interactions.md). Other initiatives remain open. |
+| 2026-09-17 | D027 | User accepted the remaining interaction copy pass and requested a commit. | T01 copy/UI scope accepted. State checks and staged House 8 browser check passed; no full-route test result is inferred from approval. Audio, handoff, camera and performance initiatives remain open. |
+
+
 ## Implementation and acceptance log
 
 Do not mark a feedback item complete just because code landed. Use
@@ -799,6 +803,8 @@ alternatives. Link deferred items to their revisit trigger. “Verified” is te
 | 2026-09-17 | T01 partial / T06 / I02 UI slice | D020–D022 delivered and user accepted addressed parts and instruction positioning. | Prior checks and user playtest; [accepted scope and next review](evidence/2026-09-17-t01/README.md). | Accepted within this bounded scope (D023). | Commit on `codex/t01-player-instructions`; next: House 1 complete interaction. No deployment authorized. |
 
 | 2026-09-17 | D024 / House 1 | Concise closed-door encounter accepted; commit requested. | House state checks and syntax/whitespace checks passed. | User accepted. Voice reliability not declared fixed. | Next review: House 3 sighting; no changes to that house yet. |
+
+| 2026-09-17 | T01 remaining copy / I02 slice | Full concise-copy pass implemented; three-page House 8, four-page House 9, silent visual beats and explicit next actions. | [Inventory and checks](evidence/2026-09-17-t01/remaining-interactions.md); all relevant state checks passed. | User accepted the pass and requested commit (D027). | Committed on `codex/t01-player-instructions`; no push/deployment requested. |
 
 For every future completed part, add its item IDs, actual scope, before/after
 evidence, checks/results, limitations, user verdict, commit/PR if any and remaining

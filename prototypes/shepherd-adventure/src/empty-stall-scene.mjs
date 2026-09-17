@@ -16,9 +16,9 @@ export function createEmptyStallScene(journey,scene,character){
   if(journey.paused)context?.suspend().catch(()=>{});else if(context?.state==='suspended')context.resume().catch(()=>{});
   $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
   $('point-title').textContent=['reveal','house'].includes(h.phase)?'A light in the village':'The empty stall';
-  $('beat').textContent=({search:'“No footprints. No one here.”',light:'“A light for the others.”',lighting:'You raise your lamp to the gate lantern.',gate:'“That will light their way. Now for the gate.”',opening:'The timber creaks. This time, the gate gives way.',look:'“What else can we try?”',reveal:'“Perhaps they have an answer.”',house:'“Perhaps they have an answer.”'})[h.phase];
-  $('travel-status').textContent=journey.paused?'Paused — continue when ready.':({search:'The stall is silent. There is no trail to follow.',light:'The gate is within reach from this side.',lighting:'Lighting the way…',gate:'The lantern is lit.',opening:'You step back as the gate swings open.',look:'You look across the quiet village.',reveal:'A house still has its light on.',house:'A house still has its light on.'})[h.phase];
-  $('advance').textContent=({light:'Light the lantern',gate:'Open the gate',house:'Go to the house'})[h.phase]||'…';
+  $('beat').textContent=({search:'“No one here.”',light:'“A light for the others.”'})[h.phase]||'';
+  $('travel-status').textContent='';
+  $('advance').textContent=({light:'Light lantern',gate:'Open gate',house:'Try the lit house'})[h.phase]||'';
   $('advance').hidden=!['light','gate','house'].includes(h.phase);
   $('advance').disabled=journey.paused||!['light','gate','house'].includes(h.phase);
  }

@@ -46,3 +46,5 @@ The user approved the two-tug gate check and proposed thoughts, authorizing the 
 Selected the modest camera push and return to following view. The well-facing trial framed an intervening house and lost the shepherd, weakening orientation. The gate remains closed and unlit; later placeholders are preserved.
 
 [Captures, verification and walkthrough](../../../review/2026-09-14-barred-gate/README.md). The user completed a successful play-test and authorized the audit update, commit and feature-branch push. [Audit entry](../../navigation-direction-retrospective-2026-09-13.md#14-september-update--barred-gate-discovery-and-well-detour). No merge or deployment is authorized.
+
+17 September 2026: D026 updates the text/actions in this scene. [Current inventory](../../playtest-roadmap/evidence/2026-09-17-t01/remaining-interactions.md). Copy pass accepted by the user (D027); broader interaction issues remain open.
