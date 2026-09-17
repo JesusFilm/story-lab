@@ -24,6 +24,6 @@ body.sighting-open #review-panel{visibility:hidden}
  #sighting-stage.story-diorama{height:auto}
  #sighting-stage .sd-art{flex:none;aspect-ratio:3/2;min-height:0}
  #sighting-stage .sd-caption{min-height:0;padding-bottom:20px}
- #sighting-stage .sd-art img{transform:scale(1.1)}
+ #sighting-stage .sd-art img{transform:scale(1.28)}
 }
 @media(prefers-reduced-motion:reduce){#sighting-overlay{transition:none}#sighting-overlay.sighting-closing{transform:none}}
