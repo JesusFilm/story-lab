@@ -1,9 +1,9 @@
 // Recorded ambience. Playback follows gameplay time, not wall-clock timers.
 const clamp=v=>Math.max(0,Math.min(1,v));
 export const near=(p,q,r)=>p&&q?clamp(1-Math.hypot(p.x-q.x,p.z-q.z)/r):0;
-const FILES={crickets:'crickets',sheep:'sheep',frog:'frog',jackal:'jackal',wolf:'wolf',voices:'house-murmur',women:'house-women',family:'house-family'};
-const HOUSE_VOICES={3:'voices',8:'women',9:'family'};
-const LOOP_KEYS=new Set(['crickets','voices','women','family']);
+const FILES={crickets:'crickets',sheep:'sheep',frog:'frog',jackal:'jackal',wolf:'wolf',voices:'house-murmur',woman:'house-woman'};
+const HOUSE_VOICES={3:'voices',8:'woman',9:'voices'};
+const LOOP_KEYS=new Set(['crickets','voices','woman']);
 // Bake an equal-power overlap into decoded PCM, avoiding MP3 edge silence and
 // timer-driven restarts. The wrap rejoins adjacent samples of the original head.
 export function crossfadeLoop(context,buffer,seconds=2){

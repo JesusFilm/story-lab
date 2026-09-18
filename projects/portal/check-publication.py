@@ -26,21 +26,15 @@ def index_bytes(name: str) -> bytes | None:
     return result.stdout if result.returncode == 0 else None
 
 
-def head_bytes(name: str) -> bytes | None:
-    result = subprocess.run(["git", "show", f"HEAD:{name}"], cwd=ROOT, capture_output=True)
-    return result.stdout if result.returncode == 0 else None
-
-
 def file_bytes(name: str) -> bytes | None:
-    staged = index_bytes(name)
-    if staged is not None:
-        return staged
-    return head_bytes(name)
+    # The index contains unchanged files too. Falling back to HEAD would revive
+    # a staged deletion and allow a stale manifest to publish a missing asset.
+    return index_bytes(name)
 
 
 def staged_names() -> set[str]:
     result = subprocess.run(
-        ["git", "diff", "--cached", "--name-only", "-z"],
+        ["git", "diff", "--cached", "--name-only", "--diff-filter=d", "-z"],
         cwd=ROOT, check=True, capture_output=True,
     )
     return {name for name in result.stdout.decode().split("\0") if name}

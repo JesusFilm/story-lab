@@ -1,5 +1,7 @@
 # Gameplay audio revision — 18 September 2026
 
+**Current verdict:** user accepted the final D039 mix in D040 on 18 September 2026. Earlier sections below document intermediate, superseded experiments; see the final handoff at the end.
+
 This checkpoint revises the first bounded part of D032/I01 under D033 on
 `codex/shepherd-feedback-house-handoffs`:
 
@@ -84,3 +86,12 @@ Audio-owner regression, syntax and whitespace checks passed. No browser listenin
 ## D035: separate runner rhythms
 
 Player and two companions now have independent stride accumulators, staggered initial phases and slightly different strides. Visible movement controls each companion lane for arrival, departure and onward travel; the opening supplies three moving runners. Old reunion noise generator removed to avoid duplicate impacts. Button taps raised about 12 dB after the user reported continued inaudibility. Tests establish three distinct first-strike frames, sustained events on all lanes, silent stationary player and group mute. Syntax and whitespace checks pass; listening remains unassessed.
+
+
+## Final accepted handoff — D036–D040
+
+The current player has recorded, crossfaded crickets; occasional breeze; sandy gait-sensitive steps with staggered companions; audible tactile buttons; softer door/gate sounds; and ignition at both lantern scenes. Wildlife is limited to five distant sheep bleats, one jackal phrase and one quieter wolf event per route, with frogs near the well. Lit-house voices fade with distance and stop while doors are open. Final household sources are the original male murmur at Houses 3/9 and a single muffled female speaker at House 8, mixed below the original. Both rejected crowd assets are removed. Runtime credits identify source licenses and the generated wolf effect.
+
+User approved the other additions, then explicitly accepted the final household revision. This closes listening review for this bounded branch slice. No output-device or volume metadata was supplied, and no audible capture was made by the agent; broader device coverage and the distinct House 1 refusal-voice reliability issue remain open. Loading/intro continuity stays deferred.
+
+Passed checks: gameplay owner/scheduling; single-event budgets and restart; staggered footsteps; house assignment/proximity/door behavior; decoded PCM loop joins and clipping; browser decoding of all seven assets, both ignition events and live house suppression/resumption; publication hashes/module closure and deletion regression cases. The staged-source checker now handles deleted assets without reviving HEAD content. See the roadmap D040 for the final acceptance and PR scope.

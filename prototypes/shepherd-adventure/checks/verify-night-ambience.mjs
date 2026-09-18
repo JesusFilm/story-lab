@@ -24,7 +24,7 @@ house.open=false;run(3,{position:{x:1,z:0},houses:[house]});assert(audio.getStat
 run(120,{position:{x:0,z:0},well:{x:0,z:0}});assert.equal(audio.getState().counts.frog,3);
 context.state='suspended';const before=audio.getState();run(100,{point:0});assert.deepEqual(audio.getState(),before);
 context.state='running';audio.reset();assert.equal(audio.getState().counts.sheep,0);run(3,{point:0});assert.equal(audio.getState().counts.sheep,1);run(3,{position:{x:0,z:0},houses:[3,8,9].map(id=>({id,x:0,z:0,open:false}))});
-assert.deepEqual(audio.getState().houseTracks,{'house-3':'voices','house-8':'women','house-9':'family'});
+assert.deepEqual(audio.getState().houseTracks,{'house-3':'voices','house-8':'woman','house-9':'voices'});
 audio.stop();
 console.log('PASS recorded ambience: five bleats, one jackal and one wolf, light falloff, house door/proximity, frog cadence, pause and reset.');
 const warn=console.warn;console.warn=()=>{};

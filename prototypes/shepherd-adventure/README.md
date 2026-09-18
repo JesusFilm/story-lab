@@ -7,10 +7,15 @@ scripture diorama → replay. Pause offers continue, restart and reduced motion.
 
 `rehearsal.html` retains scene jump/replay tools. `legacy.html` preserves the old
 route and its diagnostic entry for comparison. All are local feature-branch work;
-publication allowlists/hashes have not been updated and no release is authorized.
+publication allowlists/hashes reflect the reviewed runtime. Merge and deployment remain separate from PR review.
 Performance assessment is explicitly deferred to a separate session.
 
 # Shepherd Adventure
+
+## Accepted playtest update — 18 September 2026
+
+The house handoff and gameplay audio pass is accepted for PR review: doorway framing and simpler House 8 departure, a quiet recorded night bed, contextual wildlife/house voices, sandy staggered footsteps, tactile buttons and lantern ignition. The final house voices are male / single female / male, with distance falloff and silence while doors are open. See the [current roadmap](docs/playtest-roadmap/README.md) and [audio credits](assets/audio/credits.html). House 1 refusal-voice reliability and intro/loading continuity remain separate follow-ups.
+
 
 - Status: current investigation prototype; awaiting further playtesting
 - Concept: [Shepherd Adventure](../../game-concepts/shepherd-adventure/concept.md)
