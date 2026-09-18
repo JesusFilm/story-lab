@@ -4,6 +4,11 @@
 Approved House 3 checkpoint: `a1dbe4c`. User authorized this broader simplification;
 this supersedes deferring the remaining house copy until separate reviews.
 
+**Historical inventory note:** the House 8 rows below describe the three-page D026–D027
+copy pass. D030–D031 supersede that House 8 action sequence with two pages, an automatic
+stall reveal after **Thank you**, and one explicit **Go to the stall** action. The other
+rows remain the inventory for that earlier copy pass.
+
 The common rule is action-only arrival; no narration of visible movement/light
 changes; keep dialogue and discoveries that carry new information; explicit onward
 actions. Empty panels disappear while actions play out. Scripture and the accepted

@@ -1,10 +1,12 @@
 #sighting-overlay[hidden]{display:none}
-#sighting-overlay{position:fixed;inset:70px 16px 16px;z-index:10;display:flex;flex-direction:column;width:min(920px,calc(100% - 32px));margin:auto;background:#141c23;border:1px solid #897557;border-radius:12px;overflow:auto;box-shadow:0 20px 100px #000d}
+#sighting-overlay{position:fixed;inset:70px 16px 16px;z-index:10;display:flex;flex-direction:column;width:min(920px,calc(100% - 32px));margin:auto;background:#141c23;border:1px solid #897557;border-radius:12px;overflow:auto;box-shadow:0 20px 100px #000d;opacity:1;transform:translateY(0);transition:opacity 180ms ease,transform 180ms ease}
+#sighting-overlay.sighting-closing{opacity:0;transform:translateY(10px);pointer-events:none}
 #review-header{z-index:11}
 #sighting-stage{flex:1;min-height:0}
-#sighting-stage.story-diorama{height:100%;min-height:0;aspect-ratio:auto;display:flex;flex-direction:column;overflow:visible;background:transparent}
+#sighting-stage.story-diorama{height:100%;min-height:0;aspect-ratio:auto;display:flex;flex-direction:column;overflow:hidden;background:transparent}
 #sighting-stage .sd-art{position:relative;inset:auto;flex:1;min-height:160px;width:100%}
-#sighting-stage .sd-art img{object-fit:contain!important}
+#sighting-stage .sd-art{overflow:hidden}
+#sighting-stage .sd-art img{object-fit:cover!important;object-position:center 48%!important;transform:scale(1.16);transform-origin:center}
 #sighting-stage .sd-caption{position:relative;inset:auto;flex:none;padding:20px 30px 8px;min-height:150px}
 #sighting-stage .sd-stack{position:static;max-width:none;gap:10px}
 #sighting-stage .sd-window{max-height:none!important;overflow:visible!important}
@@ -22,4 +24,6 @@ body.sighting-open #review-panel{visibility:hidden}
  #sighting-stage.story-diorama{height:auto}
  #sighting-stage .sd-art{flex:none;aspect-ratio:3/2;min-height:0}
  #sighting-stage .sd-caption{min-height:0;padding-bottom:20px}
+ #sighting-stage .sd-art img{transform:scale(1.28)}
 }
+@media(prefers-reduced-motion:reduce){#sighting-overlay{transition:none}#sighting-overlay.sighting-closing{transform:none}}

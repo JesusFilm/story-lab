@@ -17,6 +17,7 @@ import {createLampScene} from './lamp-scene.mjs';
 import {openingActors,INTRO_DURATION} from './journey-model.mjs';
 import {blendFrame} from './journey-presentation.mjs';
 import {arrivalFrame,ARRIVAL_DURATION} from './journey-arrival.mjs';
+import {createGameplayAudio} from './journey-audio.mjs';
 
 export async function createVillageGame(story=null,{review=false}={}){
 const $=id=>document.getElementById(id),journey=new RouteRehearsal();
@@ -30,13 +31,21 @@ $('reduced-motion').onchange=()=>{motionOverride=true;reduced=$('reduced-motion'
 const {renderer,scene,camera,cameraRig}=createJourneyScene($('world'));
 const world=createJourneyWorld(scene,{routePaths:CORRIDORS,houseApproaches:HOUSE_APPROACHES}),avatar=new THREE.Group();scene.add(avatar);
 const character=new CharacterVariants(avatar),samples=[];
-const stallScene=createEmptyStallScene(journey,scene,character);
-const gateScene=createGateScene(journey,scene,character);
+const gameplayAudio=createGameplayAudio({onChange:state=>{
+ const button=$('sound-toggle');if(!button)return;
+ button.textContent=state.muted?'Sound off':'Sound on';
+ button.setAttribute('aria-pressed',String(!state.muted));
+}});
+const soundToggle=$('sound-toggle');
+soundToggle.onclick=()=>gameplayAudio.toggle();
+const isMuted=()=>gameplayAudio.getState().muted;
+const stallScene=createEmptyStallScene(journey,scene,character,{isMuted});
+const gateScene=createGateScene(journey,scene,character,{isMuted});
 const tracksScene=createHouseTracksScene(journey,scene);
-const houseScene=createHouseScene(journey,scene,character);
-const sightingScene=createHouseSightingScene(journey,()=>{updateUI();resize();});
-const reunionScene=createCompanionReunionScene(journey,scene,character);
-const lampScene=createLampScene(journey,()=>{updateUI();resize();});
+const houseScene=createHouseScene(journey,scene,character,{isMuted});
+const sightingScene=createHouseSightingScene(journey,()=>{updateUI();resize();},()=>{if(journey.index===6)beginStallReveal();});
+const reunionScene=createCompanionReunionScene(journey,scene,character,{isMuted});
+const lampScene=createLampScene(journey,()=>{updateUI();resize();},()=>gameplayAudio.ignite());
 const lampLook=new THREE.Vector3(),lampEye=new THREE.Vector3(),lampHand=new THREE.Vector3();let lampCamera=0;
 const choice=$('jump-point');
 for(const stop of STOPS){const option=document.createElement('option');option.value=stop.number-1;option.textContent=`${String(stop.number).padStart(2,'0')} — ${stop.title}`;choice.append(option);}
@@ -93,6 +102,12 @@ function updateUI(){
 
  }
 }
+function beginStallReveal(){
+ if(journey.index!==6||journey.travel||!journey.houseAdvice.complete||stallOrientation)return false;
+ stallOrientation={phase:'revealing',time:0,from:{position:{...camera.position},look:{...cameraRig.look}}};
+ updateUI();
+ return true;
+}
 function resize(){
  const panel=$('review-panel'),width=innerWidth,height=innerWidth<=600&&review?Math.max(140,innerHeight-panel.getBoundingClientRect().height-28):innerHeight;
  if(width===renderWidth&&height===renderHeight)return;
@@ -140,7 +155,7 @@ function pose(dt,instant=false){
 }
 function reposition(){stallOrientation=null;cameraRig.reset();heading=journey.position.heading;clock=0;updateUI();resize();pose(0,true);renderer.render(scene,camera);last=performance.now();}
 function next(){if(!ready||journey.paused||mode!=='playing'||story?.active)return;if(journey.index===6&&!journey.travel&&journey.houseAdvice.complete){
- if(!stallOrientation){stallOrientation={phase:'revealing',time:0,from:{position:{...camera.position},look:{...cameraRig.look}}};updateUI();return;}
+ if(!stallOrientation){beginStallReveal();return;}
  if(stallOrientation.phase!=='holding')return;
  if(journey.next()){stallOrientation.phase='departing';stallOrientation.time=0;updateUI();}return;
  }if(journey.index===8&&!journey.travel&&journey.houseOwner.complete&&!journey.reunion.canFollow){if(journey.advanceReunion()){updateUI();$("review-tools").open=false;}return;}if(journey.index===7&&!journey.travel&&!journey.emptyStall.complete){stallScene.begin();updateUI();$("review-tools").open=false;return;}if(journey.index===4&&!journey.travel&&!journey.houseTracks.complete){if(journey.houseTracks.phase==='ready')houseScene.begin();else journey.lookAround();updateUI();$('review-tools').open=false;return;}if(journey.index===3&&!journey.travel&&!journey.barredGate.complete){gateScene.begin();return;}if([1,2,6,8].includes(journey.index)&&!journey.travel&&!(journey.index===8?journey.houseOwner:journey.index===6?journey.houseAdvice:journey.index===1?journey.houseRejection:journey.houseSighting).complete){houseScene.begin();$('review-tools').open=false;return;}if(journey.index===0&&!journey.travel&&!journey.lantern){lampScene.begin();$('review-tools').open=false;return;}if(journey.next()){updateUI();$('review-tools').open=false;}}
@@ -160,9 +175,23 @@ $('timing-details').addEventListener('toggle',()=>{
  $('timing-summary').dataset.report=JSON.stringify(report);
 });
 $('advance').onclick=next;$('pause').onclick=pause;
+// Rehearsal has no opening story gesture, so start the same gameplay owner on
+// the first pointer or keyboard interaction. The browser still blocks any
+// audio before that interaction, while a standing player can hear the bed and
+// nearby sources without needing to click a scene action.
+document.addEventListener('pointerdown',()=>{if(!story?.active)gameplayAudio.begin();},{capture:true,passive:true});
+document.addEventListener('keydown',()=>{if(!story?.active)gameplayAudio.begin();},true);
+// A single restrained cue gives meaningful buttons a tactile response. Capture
+// before the scene handlers so the first rehearsal action can also unlock audio.
+document.addEventListener('click',event=>{
+ const button=event.target.closest('button');
+ if(!button||button.disabled||button===soundToggle||button.id==='pause'||button.closest('#story-overlay')||button.closest('#review-tools'))return;
+ if(button.id==='lamp-action'&&button.dataset.action==='light')return;
+ gameplayAudio.cue(button.id==='lamp-action'?'assembly':'decision');
+},true);
 $('jump').onclick=()=>{if(!ready)return;journey.jump(Number(choice.value));$('review-tools').open=false;reposition();};
 $('replay').onclick=()=>{if(!ready)return;journey.replay();$('review-tools').open=false;reposition();};
-$('restart').onclick=()=>{if(!ready)return;journey.reset();samples.length=0;$('review-tools').open=false;reposition();};
+$('restart').onclick=()=>{if(!ready)return;journey.reset();gameplayAudio.resetAmbience();samples.length=0;$('review-tools').open=false;reposition();};
 addEventListener('keydown',event=>{
  if(!ready||event.repeat)return;
  if(event.key==='Escape'){event.preventDefault();pause();return;}
@@ -172,6 +201,7 @@ addEventListener('keydown',event=>{
 });
 function pauseOnLeave(){if(ready&&!journey.paused&&!story?.active&&['playing','intro','arrival'].includes(mode)){journey.paused=true;updateUI();}}
 addEventListener('blur',pauseOnLeave);document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseOnLeave();});
+addEventListener('pagehide',()=>gameplayAudio.stop());
 addEventListener('resize',resize);new ResizeObserver(resize).observe($('review-panel'));
 matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{if(!motionOverride){reduced=event.matches;$('reduced-motion').checked=reduced;}});
 
@@ -197,16 +227,19 @@ function animate(now){
  requestAnimationFrame(animate);const raw=(now-last)/1000;last=now;
  if(!ready)return;
  if(debugController){const debugDt=document.hidden?0:Math.min(raw,.1);debugController.update(debugDt);if(debugController.animateAmbience)world.updateNativity(debugDt,reduced);renderer.render(scene,camera);return;}
- const active=!journey.paused&&!document.hidden&&!story?.active&&['playing','intro','arrival'].includes(mode),dt=active?Math.min(raw,.1):0,moving=!!journey.travel,leg=journey.travel?.index;
+ const active=!journey.paused&&!document.hidden&&!story?.active&&['playing','intro','arrival'].includes(mode),audioActive=active&&['playing','intro'].includes(mode),dt=active?Math.min(raw,.1):0,moving=!!journey.travel,leg=journey.travel?.index;
+ let movement=0;
+ const companionMovement=mode==='intro'?[3.8,3.8]:journey.reunion.actors.map(a=>a.visible&&a.moving?a.speed:0);
  if(active){
   const before=journey.distance;
   if(mode==='intro'){
    introTime=Math.min(INTRO_DURATION,introTime+dt);const actors=openingActors(introTime);
    journey.position={...actors.player,z:actors.player.z-2};journey.gait='run';
-  }else if(mode==='playing')journey.step(dt);
+  }else if(mode==='playing'){const wasLit=journey.emptyStall.lit;journey.step(dt);if(!wasLit&&journey.emptyStall.lit&&journey.index===7)gameplayAudio.ignite();}
   clock+=dt;lampScene.tick(dt);
   if(journey.index===7&&!journey.travel&&journey.phase!=='inspect'&&character.tripo){character.tripo.idleSeconds=0;if(journey.distance===before)character.playTripo('idle');}
-  character.update(dt,{controller:{phase:journey.phase,gait:journey.gait},movement:mode==='intro'?3.8:dt?(journey.distance-before)/dt:0,gaitBlend:journey.gait==='run'?1:0,paused:false});pose(dt);
+  movement=mode==='intro'?3.8:dt?(journey.distance-before)/dt:0;
+  character.update(dt,{controller:{phase:journey.phase,gait:journey.gait},movement,gaitBlend:journey.gait==='run'?1:0,paused:false});pose(dt);
   if(mode==='intro'){
    reunionScene.poseOpening(openingActors(introTime).followers,dt);
    const end={position:{...camera.position},look:{...cameraRig.look}};
@@ -225,12 +258,17 @@ function animate(now){
    if(arrivalTime>=ARRIVAL_DURATION){mode='ending';updateUI();story.open('ending');}
   }
  }
+ const environment=world.audioEnvironment();
+ environment.point=journey.travel?.index??journey.index;
+ for(const house of environment.houses)house.open=({3:2,8:6,9:8}[house.id]===journey.index)&&sightingScene.getState().open;
+ gameplayAudio.update(dt,{movement,active:audioActive,position:journey.position,companions:companionMovement,environment});
+ if(!audioActive)gameplayAudio.setActive(false);
  const key=[journey.index,journey.phase,journey.paused,journey.staged,journey.emptyStall.phase,journey.houseTracks.phase,journey.barredGate.phase,journey.houseRejection.phase,journey.houseSighting.phase,journey.houseSighting.page,journey.houseAdvice.phase,journey.houseAdvice.page,journey.houseOwner.phase,journey.houseOwner.page,journey.reunion.phase,journey.reunion.canFollow,houseScene.getState().audioFailed].join('|');if(key!==signature){signature=key;updateUI();}
  renderer.render(scene,camera);
  // Real frame intervals, kept per segment. Hidden/paused time is excluded.
  if(active&&moving&&raw>0&&samples.length<60000)samples.push({leg:leg+1,ms:+(raw*1000).toFixed(2),calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});
 }
-window.routeRehearsal={getState:()=>({...journey.snapshot(),ready,stall:stallScene.getState(),camera:cameraRig.lastDiagnostics,lamp:world.lampState(),house:houseScene.getState(),sighting:sightingScene.getState(),view:{position:camera.position.toArray(),look:cameraRig.look},buffer:[renderer.domElement.width,renderer.domElement.height],reduced}),getFrameSamples:()=>samples.slice(),getFeatures:()=>world.settlementFeatures.map(f=>({label:f.label,position:f.root.position.toArray(),yaw:f.root.rotation.y}))};
+window.routeRehearsal={getState:()=>({...journey.snapshot(),ready,audio:gameplayAudio.getState(),stall:stallScene.getState(),camera:cameraRig.lastDiagnostics,lamp:world.lampState(),house:houseScene.getState(),sighting:sightingScene.getState(),view:{position:camera.position.toArray(),look:cameraRig.look},buffer:[renderer.domElement.width,renderer.domElement.height],reduced}),getFrameSamples:()=>samples.slice(),getFeatures:()=>world.settlementFeatures.map(f=>({label:f.label,position:f.root.position.toArray(),yaw:f.root.rotation.y}))};
 try{
  const manager=new THREE.LoadingManager();manager.onProgress=(_url,loaded,total)=>window.storyLoading.status(`Loading village resources: ${loaded} / ${total}`);
  const loader=new GLTFLoader(manager);window.storyLoading.status('Loading the shepherd and village…');
@@ -263,7 +301,7 @@ try{
  reposition();if(review){window.storyLoading.ready();$('advance').focus({preventScroll:true});}requestAnimationFrame(animate);
 }catch(error){if(!review)throw error;console.error(error);window.storyLoading.fail('The route rehearsal could not load. Reload to try again.');}
 function finishOpening(){mode='playing';journey.position={x:0,z:50,heading:Math.PI};cameraRig.reset();reposition();$('advance').focus({preventScroll:true});}
-function startOpeningCamera(){journey.reset();avatar.visible=true;mode='intro';introTime=0;last=performance.now();updateUI();}
+function startOpeningCamera(){journey.reset();gameplayAudio.resetAmbience();avatar.visible=true;mode='intro';introTime=0;last=performance.now();gameplayAudio.begin();updateUI();}
 function finishStory(){mode='complete';updateUI();$('play-again').focus({preventScroll:true});}
 if(!review){
  $('player-options').addEventListener('keydown',event=>{
@@ -272,7 +310,7 @@ if(!review){
  });
  $('skip-opening').onclick=finishOpening;
  $('player-resume').onclick=pause;
- $('player-restart').onclick=$('play-again').onclick=()=>{journey.reset();avatar.visible=true;mode='waiting';updateUI();story.open('opening');};
+ $('player-restart').onclick=$('play-again').onclick=()=>{journey.reset();gameplayAudio.resetAmbience();avatar.visible=true;mode='waiting';updateUI();story.open('opening');};
  $('player-reduced').checked=reduced;$('player-reduced').onchange=()=>{motionOverride=true;reduced=$('player-reduced').checked;$('reduced-motion').checked=reduced;updateUI();};
 }
 return {startOpeningCamera,finishStory,startDebug(controller){mode='debug';avatar.visible=false;updateUI();debugController=controller({camera,renderer,scene});}};

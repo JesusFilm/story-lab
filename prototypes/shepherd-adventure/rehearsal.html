@@ -14,7 +14,7 @@
   <div class="loading-actions"><button type="button" class="loading-pause">Pause animation</button><button type="button" class="loading-retry" hidden>Reload prototype</button></div>
  </div>
  <script src="./loading-theatre.js"></script>
- <header id="review-header"><span>Shepherd Adventure <b>Route rehearsal</b></span><button id="pause" type="button" disabled>Pause</button></header>
+ <header id="review-header"><span>Shepherd Adventure <b>Route rehearsal</b></span><button id="sound-toggle" type="button" aria-pressed="true">Sound on</button><button id="pause" type="button" disabled>Pause</button></header>
  <section id="review-panel" aria-label="Route rehearsal controls" inert>
   <div class="point-line"><span id="point-label">Entry walk</span><span id="review-state">Scenes unfinished</span></div>
   <h1 id="point-title">A winding walk through the village</h1>
@@ -34,5 +34,6 @@
  <div id="lamp-reward" role="status" aria-live="polite" hidden><img src="./assets/lamp-assembly/lamp.png" alt=""><span><strong>+1 Lamp</strong><small>A light for the road</small></span></div>
  <section id="sighting-overlay" role="dialog" aria-modal="true" aria-label="A helpful resident" hidden><p id="sighting-status" role="status"></p><button id="sighting-retry" hidden>Retry illustrations</button><div id="sighting-stage"></div><div class="sighting-actions"><span id="sighting-count"></span><button id="sighting-next" class="primary">Continue</button></div></section>
  <script type="module" src="src/rehearsal.mjs" onerror="window.storyLoading?.fail('The rehearsal could not start. Reload to try again.')"></script>
+<a href="assets/audio/credits.html" target="_blank" rel="noopener" style="position:fixed;bottom:4px;left:8px;font:10px system-ui;color:#b8afa0;z-index:2">Audio credits</a>
 </body>
 </html>

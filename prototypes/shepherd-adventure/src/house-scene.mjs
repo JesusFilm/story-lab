@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import {KNOCK_TIMES,HOUSE_TIMING} from './house-rejection.mjs';
 import {height} from './journey-world.mjs';
 
-export function createHouseScene(journey,scene,character){
+export function createHouseScene(journey,scene,character,{isMuted=()=>false}={}){
  const $=id=>document.getElementById(id);
  const effects=new THREE.Group();effects.name='Shared house knock and House 1 response';scene.add(effects);
  const light=new THREE.PointLight('#ffb34e',0,8,2);light.position.set(-11.5,height(-9,18.5)+1.95,17.15);effects.add(light);
@@ -12,20 +12,21 @@ export function createHouseScene(journey,scene,character){
   const ring=new THREE.Mesh(new THREE.RingGeometry(.11,.135,40),new THREE.MeshBasicMaterial({color:'#ffe0a0',transparent:true,opacity:0,side:THREE.DoubleSide,depthWrite:false}));
   ring.rotation.y=-Math.PI/2;ring.position.set(-11.37,height(-9,18.5)+1.35,19.35);effects.add(ring);return ring;
  });
- let context,voiceBuffer,previous=null,played=new Set(),nodes=[],audioFailed=false;
+ let context,voiceBuffer,previous=null,played=new Set(),nodes=[],audioFailed=false,unlockPending=false;
  const voiceBytes=fetch(new URL('../assets/house-1/resident-refusal.mp3',import.meta.url)).then(r=>{if(!r.ok)throw Error('Voice unavailable');return r.arrayBuffer();}).catch(()=>null);
  function stopAudio(){for(const node of nodes){try{node.stop();node.disconnect();}catch{}}nodes=[];played.clear();}
  async function unlock(){
+  if(isMuted())return;
   try{context??=new AudioContext();await context.resume();if(!voiceBuffer){const bytes=await voiceBytes;if(bytes)voiceBuffer=await context.decodeAudioData(bytes.slice(0));else audioFailed=true;}}
   catch{audioFailed=true;}
  }
  function knockSound(){
-  if(!context||context.state!=='running')return;
+  if(isMuted()||!context||context.state!=='running')return;
   // A short noise transient and two damped wood resonances; no external sound asset.
   const buffer=context.createBuffer(1,context.sampleRate*.1,context.sampleRate),data=buffer.getChannelData(0);
-  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.009))*.32;
+  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.009))*.112;
   const source=context.createBufferSource();source.buffer=buffer;source.connect(context.destination);source.start();nodes.push(source);
-  for(const frequency of [155,310]){const oscillator=context.createOscillator(),gain=context.createGain(),now=context.currentTime;oscillator.frequency.setValueAtTime(frequency,now);gain.gain.setValueAtTime(.22,now);gain.gain.exponentialRampToValueAtTime(.001,now+.16);oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(now+.17);nodes.push(oscillator);}
+  for(const frequency of [155,310]){const oscillator=context.createOscillator(),gain=context.createGain(),now=context.currentTime;oscillator.frequency.setValueAtTime(frequency,now);gain.gain.setValueAtTime(.077,now);gain.gain.exponentialRampToValueAtTime(.001,now+.16);oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(now+.17);nodes.push(oscillator);}
  }
  function active(){return [1,2,4,6,8].includes(journey.index)&&!journey.travel;}
  function current(){return journey.index===8?journey.houseOwner:journey.index===6?journey.houseAdvice:journey.index===4?journey.houseTracks:journey.index===2?journey.houseSighting:journey.houseRejection;}
@@ -38,7 +39,8 @@ export function createHouseScene(journey,scene,character){
   if(journey.index===8)effects.position.set(-27,height(-18,-29)-height(-9,18.5),-10.5);
   if(journey.index===6)effects.position.set(15,height(6,-20.5)-height(-9,18.5),-39);
   if(journey.index===4)effects.position.set(30.865,height(22,8.5)-height(-9,18.5),-10.6);
-  if(context){if(journey.paused)context.suspend().catch(()=>{});else if(context.state==='suspended')context.resume().catch(()=>{});}
+ if(context){if(journey.paused||isMuted())context.suspend().catch(()=>{});else if(context.state==='suspended')context.resume().catch(()=>{});}
+  if(journey.index===1&&journey.houseRejection.started&&!isMuted()&&!context&&!unlockPending){unlockPending=true;unlock().finally(()=>{unlockPending=false;});}
   if(journey.index!==1)return;
   const h=journey.houseRejection,phase=h.phase;
   $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
@@ -56,7 +58,7 @@ export function createHouseScene(journey,scene,character){
    if(h.started&&t>=KNOCK_TIMES[i]&&!played.has(round*3+i)){played.add(round*3+i);knockSound();}
   });
   if(journey.index===1&&h.started&&t>=HOUSE_TIMING.voice&&!played.has('voice')){
-   played.add('voice');if(context&&voiceBuffer){const voice=context.createBufferSource();voice.buffer=voiceBuffer;voice.connect(context.destination);voice.start();nodes.push(voice);}else audioFailed=true;
+   played.add('voice');if(!isMuted()&&context&&voiceBuffer){const voice=context.createBufferSource();voice.buffer=voiceBuffer;voice.connect(context.destination);voice.start();nodes.push(voice);}else if(!isMuted())audioFailed=true;
   }
   // Briefly raise the free hand. The carrying hand and authored walk stay untouched.
   const model=character.tripo?.model,hand=model?.getObjectByName('L_Hand');

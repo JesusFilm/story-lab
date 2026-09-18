@@ -3,7 +3,7 @@ import {height} from './journey-world.mjs';
 import {smooth} from './empty-stall.mjs';
 import {playGateTimber} from './gate-scene.mjs';
 
-export function createEmptyStallScene(journey,scene,character){
+export function createEmptyStallScene(journey,scene,character,{isMuted=()=>false}={}){
  const $=id=>document.getElementById(id);
  let context,previous,nodes=[],played=false;
  const active=()=>journey.index===7&&!journey.travel;
@@ -13,7 +13,7 @@ export function createEmptyStallScene(journey,scene,character){
   const h=journey.emptyStall;
   if(previous!==h){stop();previous=h;}
   if(!active()){stop();return;}
-  if(journey.paused)context?.suspend().catch(()=>{});else if(context?.state==='suspended')context.resume().catch(()=>{});
+  if(journey.paused||isMuted())context?.suspend().catch(()=>{});else if(context?.state==='suspended')context.resume().catch(()=>{});
   $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
   $('point-title').textContent=['reveal','house'].includes(h.phase)?'A light in the village':'The empty stall';
   $('beat').textContent=({search:'“No one here.”',light:'“A light for the others.”'})[h.phase]||'';
@@ -50,7 +50,7 @@ export function createEmptyStallScene(journey,scene,character){
    return;
   }
   const h=journey.emptyStall,t=h.elapsed;
-  if(h.phase==='opening'&&t>=1.2&&!played){played=true;playGateTimber(context,nodes);}
+  if(h.phase==='opening'&&t>=1.2&&!played){played=true;playGateTimber(context,nodes,isMuted);}
   const floor=height(-16,-16),portrait=camera.aspect<1;
   const eye=new THREE.Vector3(portrait?-7.2:-10.2,floor+(portrait?7.2:4.1),portrait?-24.4:-21.4),look=new THREE.Vector3(-16.3,floor+1.05,-14.7);
   if(h.phase==='search'){

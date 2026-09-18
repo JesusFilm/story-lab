@@ -6,9 +6,9 @@ import {SEARCH_POINTS} from '../src/house-tracks.mjs';
 import {JourneyCamera,routeLookahead,blocked} from '../src/journey-camera.mjs';
 import {height} from '../src/journey-terrain.mjs';
 function stall(j){j.step(3.6);assert(j.actAtStall());j.step(4.6);assert(j.actAtStall());j.step(4.9);j.step(3.1);j.step(2.6);}
-function sighting(j){j.knockOnHouse();j.step(3);for(let i=0;i<4;i++)assert(j.advanceSighting());}
+function sighting(j){j.knockOnHouse();j.step(3);for(let i=0;i<3;i++)assert(j.advanceSighting());}
 function owner(j){j.knockOnHouse();j.step(3);for(let i=0;i<4;i++)assert(j.advanceOwner());while(j.reunion.phase==='arriving')j.step(.05);for(let i=0;i<3;i++)assert(j.advanceReunion());while(!j.reunion.canFollow)j.step(.05);}
-function advice(j){j.knockOnHouse();j.step(3);for(let i=0;i<4;i++)assert(j.advanceAdvice());}
+function advice(j){j.knockOnHouse();j.step(3);for(let i=0;i<2;i++)assert(j.advanceAdvice());}
 function tracks(j){j.knockOnHouse();j.step(7.2);j.lookAround();while(!j.houseTracks.spotted)j.step(.1);}
 function prepareLamp(j){j.lampAssembly.begin();for(const id of ['body','wick','oil','flint','light'])assert(j.assembleLamp(id));assert(j.takeLamp());}
 

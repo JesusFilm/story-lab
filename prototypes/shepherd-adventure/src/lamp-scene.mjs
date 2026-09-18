@@ -1,5 +1,5 @@
 
-export function createLampScene(journey,onChange){
+export function createLampScene(journey,onChange,onIgnite=()=>{}){
  const $=id=>document.getElementById(id),region=$('lamp-assembly');
  region.innerHTML=`<div class="lamp-item"><img id="lamp-image" width="512" height="512" alt=""><span class="lamp-item-glow" aria-hidden="true"></span></div><h2 id="lamp-title"></h2><p id="lamp-feedback" role="status" aria-live="polite"></p><button id="lamp-action" class="primary" type="button"></button>`;
  let signature='',imageName='',imageFailed=false,toastRemaining=0;
@@ -8,7 +8,7 @@ export function createLampScene(journey,onChange){
   if(event.detail>1||journey.paused)return;
   const a=journey.lampAssembly;
   if(a.lit){if(journey.takeLamp()){toastRemaining=4;$('lamp-reward').hidden=false;}}
-  else journey.assembleLamp($('lamp-action').dataset.action);
+  else {const action=$('lamp-action').dataset.action;if(journey.assembleLamp(action)&&action==='light')onIgnite();}
   update();onChange();(a.open?$('lamp-action'):$('advance')).focus({preventScroll:true});
  };
  function update(){

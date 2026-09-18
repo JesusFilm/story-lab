@@ -1,11 +1,11 @@
 # Shepherd Adventure — playtest roadmap
 
-Created 17 September 2026 · **Working roadmap; feedback direction clarified, multilingual milestone added.**
+Created 17 September 2026 · **Working roadmap; feedback direction clarified and bounded slices recorded.**
 
 This is the living roadmap for turning playtest feedback into bounded improvements.
 Start here for the next iteration. Preserve earlier scene briefs as historical
-decisions, and link any superseding decision from this roadmap. No gameplay fix is
-implemented or accepted by the creation of this document.
+decisions, and link any superseding decision from this roadmap. Code landing is
+technical progress; user playtest is required before a feedback item is accepted.
 
 [Annotated evidence](evidence/2026-09-17/annotations.html) ·
 [House 2 map annotation](evidence/2026-09-17/companion-search.html) ·
@@ -29,9 +29,11 @@ D028 because it duplicated this record and was not used by the prototype.
   handoff. Make thoughts/dialogue brief and forward-only.
 - Stage companions searching House 2 in the background, with later glimpses and
   a credible route to the existing reunion. No extra required clicks.
-- Fade peaceful diorama music into an audible 3D world, including through any
-  loading interval. Add footsteps and atmospheric night sound; repair House 1's
-  missing voice. Exploration music is optional, not a substitute for ambience.
+- Give gameplay its own audible world: a quiet night bed, movement cues, tactile
+  decision sounds and contextual sounds near animals and occupied houses. Use
+  distance to let nearby sources grow naturally louder. The intro-diorama → 3D
+  handoff and audio behavior during loading are deferred until the loading and
+  resource-lifetime design is rethought.
 - Rework the plain 2D loader's art and abrupt entry/exit. Investigate whether one
   initial load plus quiet preparation can avoid repeated loading interruptions;
   retain graceful, story-matched waits when genuinely necessary.
@@ -44,22 +46,34 @@ D028 because it duplicated this record and was not used by the prototype.
   a language picker on the starting screen and generated voice assets for readable
   content. Keep future content ready for localization.
 
-**Ready to pick up:** I01 audible opening handoff and missing voice diagnosis; I04
-engine/camera investigation; I03 House 8 exemplar plus all-house
-audit; I08 loader/loading strategy. I09 defines the following multilingual milestone.
+**Accepted for this PR:** the house handoff and gameplay ambience/effects slices,
+including the final quiet female house voice, are approved by user playtest (D040).
+I01's separate House 1 refusal-voice reliability check remains open. I04 engine/camera
+investigation and I03's remaining all-house audit remain open. I08's loader
+strategy and intro-diorama handoff are explicitly deferred pending a separate
+resource-lifecycle investigation. I09 defines the following multilingual
+milestone.
 These are ready planning/diagnostic directions, not a record of implemented fixes.
+
+**Latest house review — 17 September:** [Normal-player walkthrough and proposed second pass](evidence/2026-09-17-house-handoffs/README.md).
+All five house encounters were reviewed from arrival through departure. F06's
+scale/viewpoint break is visually verified in Houses 3, 8 and 9. House 8's old
+close-before-thanks order no longer reproduces after D026/D027, but the immediate
+return to a closed 3D door remains abrupt. The proposal starts with House 8's
+framing and farewell; alternatives are not yet built or accepted. Live sound and
+continuous-motion quality were not assessed by the available tools.
 
 ## Intended outcome
 
 Keep the player immersed in a coherent night journey: reading should support the
-scene, conversations should feel connected to the village, sound should carry
-across transitions, and movement should remain responsive. This organizing principle summarizes the feedback; specific design choices are
+scene, conversations should feel connected to the village, the village should
+sound alive, and movement should remain responsive. This organizing principle summarizes the feedback; specific design choices are
 recorded below.
 
-The scope of this session is investigation, clarification, evidence and planning.
-The next implementation session should select one item below. All task priorities,
-size estimates and acceptance criteria below are proposals until the relevant
-direction is settled. They are not promises of completion dates.
+The roadmap covers investigation, clarification, evidence, planning and bounded
+implementation slices. All task priorities, size estimates and acceptance criteria
+below are proposals until the relevant direction is settled. They are not promises
+of completion dates.
 
 ## Baseline and authority
 
@@ -96,22 +110,24 @@ direction is settled. They are not promises of completion dates.
 
 Reported = participant experience, not independently reproduced. Confirmed =
 current source or browser evidence establishes the described behavior. Hypothesis
-= possible explanation requiring a test. All items remain **open**.
+= possible explanation requiring a test. This register preserves the original
+concerns; accepted bounded fixes and broader open work are tracked separately
+below. D023–D027 close only their recorded copy/UI/reference scope.
 
 | ID | Feedback, preserved in substance | Current evidence and uncertainty | Work item |
 | --- | --- | --- | --- |
-| F01 | Music stops abruptly when leaving the diorama | Peaceful music reportedly stops instantly around a louder cue; the running intro then has no sound. Fade/bridge must also cover any intervening load. Source confirms immediate teardown; listening still required. | I01 / I08 |
-| F02 | Gameplay lacks ambient sound | User requests an audible world: running footsteps and night atmosphere, with soft wind/crickets and possible distant animal sounds as candidates. Music alone is insufficient. Exact palette remains a design task. | I01 |
+| F01 | Music stops abruptly when leaving the diorama | Peaceful music reportedly stops instantly around a louder cue; the running intro then has no sound. The user clarified that this is the intro-diorama → 3D handoff and should wait for a loading/resource-lifecycle rethink. Do not assume an audio-only fix. | I08 (deferred by D032) |
+| F02 | Gameplay lacks ambient sound | User wants an audible world throughout the playthrough: soft night ambience, footsteps while walking/running, gentle decision cues, and contextual animal/occupied-house sounds. Nearby sources should become louder smoothly. The accepted slice supplies crossfaded recorded crickets, occasional breeze, sandy steps, tactile cues, ignition effects, five sheep bleats, one jackal and one wolf event, plus quiet distance-sensitive house voices. User approved the final mix in D040. [Evidence](evidence/2026-09-18-gameplay-audio/README.md). | I01 |
 | F03 | Too much text; use blurbs | Clarified: player thoughts and dialogue only. Comic-book-like blurbs are a proposed presentation. Opening/ending scripture was described as perfect and must be preserved. | T01 / I02 |
 | F04 | Bottom text placement draws focus from the experience | Clarified: scripture should focus on text; thoughts/dialogue should be brief and situated. E03 is the primary redesign evidence; preserve scripture treatment. | I02 |
-| F05 | House slides feel mistimed; abrupt door close then “thank you” | House 8 confirmed as the example. The current button order does not invalidate the confusing timing: picture meaning can precede reading comprehension. Review Houses 1, 3, 5, 8 and 9 for coherent interactions. | T03 / I03 |
-| F06 | Player disappears and the house shrinks during the conversation handoff | User confirms both disappearance and a much smaller illustrated house against the still-visible larger 3D house. Match crop/scale/perspective; compare composited shepherd-back versus deliberate first person. | I03 |
-| F07 | House 1 sound did not play | Reported. A voice-readiness race is plausible; failure not reproduced or diagnosed here. Clarified: Chrome; knock was clear, only the refusal voice was missing. | I01 |
+| F05 | House slides feel mistimed; abrupt door close then “thank you” | House 8 is the reported example. The baseline review did not reproduce close-before-thanks after D026/D027, but the return still cut directly to the closed 3D doorway. The first implementation now fades the card and starts the stall reveal from Thank you; the user playtested and accepted this bounded handoff. [Evidence and implementation note](evidence/2026-09-17-house-handoffs/README.md). | T03 / I03 |
+| F06 | Player disappears and the house shrinks during the conversation handoff | Baseline was visually verified in Houses 3, 8 and 9. The user accepted the first implementation's enlarged doorway crop for this slice; the card still covers the avatar, so composited shepherd-back versus deliberate first person remains an optional deeper follow-up. [Baseline and implementation note](evidence/2026-09-17-house-handoffs/README.md). | I03 |
+| F07 | House 1 sound did not play | Reported. The scene now retries voice unlock after an initially muted start, but the refusal asset and its level still need a listened check. Clarified: Chrome; knock was clear, only the refusal voice was missing. | I01 |
 | F08 | Camera freezes at random points, then recovers | Reported on M1 Air and M4 Mac. Investigate engine/resource management and camera logic with traces before attributing it to browsers. Repeatability still unmeasured. | I04 |
-| F09 | Loaders break the narrative visually and halt the experience with abrupt swaps | Plain/simple 2D loader art feels like another children's game; instant entry and exit amplify the break. Rework atmosphere and transitions; test fewer staged loaders against memory/startup limits. | I08 / I04 / I01 |
+| F09 | Loaders break the narrative visually and halt the experience with abrupt swaps | Plain/simple 2D loader art feels like another children's game; instant entry and exit amplify the break. Loading strategy and resource unloading need their own investigation before visual or audio continuity work resumes. | I08 (deferred by D032) / I04 |
 | F10 | Diorama slide/text timing makes it hard to attend to both | Clarified: scripture remains text-focused and player-paced; houses need image/text meaning aligned before the player finishes reading. Do not generalize the house complaint into scripture redesign. | I02 |
 | F11 | Want to go back to previous slides/text and forward | Confirmed direction: add previous/next to scripture; no backward navigation in houses, whose exchanges should be simple enough not to need it. | I02 |
-| F12 | Match in-game effect volumes | Scene audio contexts/gains are separate; direct-to-output voice/knock sources exist. Perceived levels not listened to or measured in this review. | T04 / I01 |
+| F12 | Match in-game effect volumes | Button, gait, knock/gate and ambient levels were revised through user listening and accepted in D040. Separate House 1 refusal reliability (F07) and broader device coverage remain open. | T04 / I01 |
 | F13 | Arrow buttons could replace “next” in house scenes | Forward arrows remain a candidate for neutral house continuation. No house back control. Preserve semantic actions and solve beat timing first. | T02 / I02 |
 | F14 | One shepherd is far ahead of the group; make grouping work better | Clarified: narrative continuity, not spacing. All three begin near each other, yet companions disappear through lantern preparation and the village search, then arrive only at House 9. Proposed visible search starts at House 2. | T05 / I05 |
 | F15 | Overall style feels somewhat like “AI quality” | Clarified: diorama art is pretty but typically AI-looking; 3D models look low quality; occasional clunky movement. Movement examples now tracked separately in F17/F18. | I06 |
@@ -186,9 +202,9 @@ silently turn unanswered questions or offered options into preferences.
 - **Q08 — Audio:** Did House 1 lose knocks, voice, or both? Was opening music audible
   and sound enabled? Was any volume changed mid-play? Which effect was too loud
   or quiet? **Partly answered:** Chrome; clear knocks, missing resident voice.
-  **Updated:** peaceful opening music cuts to silent running. Bridge that handoff,
-  including loading, and add footsteps/night ambience. Exact bed and optional
-  exploration score can be chosen through listening prototypes.
+  **Updated by D032:** gameplay ambience/effects are the next audio design pass.
+  The intro-diorama → 3D handoff and loading-interval continuity are deferred
+  until the resource-lifecycle design is rethought.
 - **Q09 — Loading:** Was there an actual loader, blank illustration, model pop-in,
   or simply a different-looking picture? Would more preparation during the intro
   be acceptable if it reduced later interruptions? Which transition is worst?
@@ -206,9 +222,10 @@ silently turn unanswered questions or offered options into preferences.
 - **Q13 — Which open-door house (asked):** House 3, resident giving gate directions,
   or House 8, old man suggesting the empty stall? **Resolved: House 8.**
 - **Q14 — Gameplay sound (asked):** quiet night/village ambience and effects, or
-  ambience plus gentle exploration music? **Direction resolved:** gradual music
-  handoff and an audible world, including footsteps and night ambience. A continuous
-  exploration score is not required by this answer; audition it only if useful.
+  ambience plus gentle exploration music? **Direction resolved by D032:** create an
+  audible gameplay world with a restrained night bed, movement and decision cues,
+  contextual animal/occupied-house sounds and smooth distance attenuation. A
+  continuous exploration score is optional; the diorama handoff is deferred.
 - **Q10 — Product priorities:** Intended audience, primary device and typical
   session length? Which two problems most deserve the next focused pass? What
   currently works well enough to preserve? Any named reference and the specific
@@ -223,7 +240,7 @@ silently turn unanswered questions or offered options into preferences.
 - I04/I08: measure cold startup, memory and interruption costs before choosing
   initial-only versus selective staged loading; pick a representative lower-end
   physical test device as part of the investigation.
-- I01: audition the night-sound palette and mix through the loading interval.
+- I01: audition the gameplay night-sound palette and mix; loading-interval continuity is deferred with I08.
 - M5: choose the first languages, translation/scripture sources, voice tools and
   per-character/narrator voices before generating the first localized content.
 
@@ -238,7 +255,7 @@ means one focused change/review cycle, not an elapsed-time estimate.
 | --- | --- | --- | --- | --- |
 | T01 | Trim player thoughts/dialogue and repeated non-scriptural instructions; one idea per blurb. Inventory before/after copy and preserve next-action meaning. No wholesale story rewrite. | Q02 scope settled; I02's chosen presentation | Review copy in its actual scene, at desktop and narrow sizes. Player can state the lead/action without rereading; no character gains unsupported knowledge. | Accepted copy/UI scope (D023–D027); broader presentation and handoff work remains open · S |
 | T02 | Use accessible arrow controls for existing page advancement where approved. Keep meaningful labels for actions such as Thank you/Leave. House back controls are explicitly excluded; scripture backward state belongs to I02. | D011; chosen forward cue | Keyboard and touch navigation, visible focus, accessible names, disabled/end states; minimum proposed 44 px touch target; no accidental exit. | Awaiting direction · S |
-| T03 | Correct a localized House 8 beat after reviewing its image/text timing. All-house coherence and handoff changes remain I03. | D014; I03 | Player understands the visible action without retrospective explanation; rapid input, pause and return work. Verify the actual mismatch rather than assuming a button reorder fixes it. | Needs timing review · S |
+| T03 | Correct a localized House 8 beat after reviewing its image/text timing. All-house coherence and handoff changes remain I03. | D014; I03 | Player understands the visible action without retrospective explanation; rapid input, pause and return work. Verify the actual mismatch rather than assuming a button reorder fixes it. | Two-page advice and automatic stall reveal implemented and accepted in the user's playtest. Continuous-motion review still needed · S |
 | T04 | Adjust an isolated effect's gain after comparing it with reference voice/music. Avoid an unmeasured global volume change. | Q08; I01 mix baseline | Same device/output/settings before/after; voice intelligible, no startling peak, muted play still works. Record the chosen gains and listening verdict. | Needs audio evidence · S |
 | T05 | Initial spacing-tweak hypothesis withdrawn: clarification identifies missing companion search continuity. | D009; I05 | Do not implement a gap adjustment as the answer to F14. Retain this ID to explain the reclassification. | Superseded by I05 |
 | T06 | Restore exact verse address on each opening/ending cue. Source manifests already carry references; inspect presentation code that blanks/hides them. Preserve text, sequence and art. | D006; retain authored verse ranges | Every cue displays its exact manifest reference, including verse ranges; wording unchanged; desktop/narrow text stays legible. | Accepted (D023) · S |
@@ -248,56 +265,23 @@ means one focused change/review cycle, not an elapsed-time estimate.
 Each initiative owns its parent outcomes. A completed tweak only closes its own
 acceptance criteria; it does not automatically close the parent initiative.
 
-### I01 — Audio continuity, reliability and mix
+### I01 — Gameplay ambience, effects and mix
 
-**Proposed priority:** high. **Size:** M–L. **Status:** discovery.
-**Covers:** F01, F02, F07, F12 and audio portions of F09.
+**Priority:** high. **Size:** M. **Status:** gameplay ambience/effects slice implemented and accepted by user listening on 18 September 2026 (D040); initiative remains partial for F07 and broader device evidence.
+**Covers:** F02, F07 and F12. F01 and loading-related F09 remain deferred under I08.
 
-1. Reproduce House 1 on a fresh visit and replay; separate fetch failure, decode
-   readiness, suspended context, global sound state, missed cue and low audibility.
-   Capture timestamps for action, media-ready, context state and voice cue.
-2. Define sound ownership and one user sound preference across stories and gameplay.
-   Current story mute is local to `journey-story.mjs`; several scenes create their
-   own AudioContext. Inventory voices, knocks, gate, lamp and reunion effects.
-3. Keep music alive for an agreed fade/handoff before destroying the story and
-   releasing media URLs. Define finish, skip, restart, failure, background-tab and
-   reduced-motion behavior; visual reduced motion must not imply an audio cut.
-   The bridge spans **diorama → any real preparation wait → running intro**. Keep
-   a lightweight audio owner alive while the heavy renderer is paused/unloaded.
-   Fade the peaceful score gradually; introduce the next ambience before it becomes
-   perceptually silent. Do not couple audio lifetime to overlay removal or add
-   artificial loading delays to accommodate a fade. Rebalance the reported louder cue.
-4. Make House 1's spoken cue deterministic after readiness. Current `begin()` starts
-   simulation while `unlock()` awaits voice decode; the 3.3 s cue is marked played
-   even without a buffer. Test the hypothesis before choosing a fix. Decide how a
-   delayed or failed voice affects timing; keep the subtitle/recovery path useful.
-5. Add the agreed village ambience and transition it through conversations and the
-   ending. Use owned/licensed audio, record attribution and independent runtime
-   copies. Begin with soft wind and insects as candidate layers; audition possible
-   distant animal calls only where plausible and tonally appropriate. The user's
-   mention of jackals is an example, not an approved loop or historical claim.
-   Add audible footfalls tied to running/walking, including the opening trio;
-   silence during a visible action must be deliberate. Decide whether dialogue
-   ducks ambience/music. Additional exploration music is optional. No paid assets assumed.
-6. Establish music/ambience/voice/effect gains with a listened reference mix. Use
-   T04 for isolated corrections; use shared gain routing when coherence requires it.
+Accepted behavior:
 
-**Implementation surfaces:** `src/journey-story.mjs`, `src/boot.mjs`,
-`vendor/story-diorama/story-diorama.mjs`, `src/house-scene.mjs`,
-`src/gate-scene.mjs`, `src/empty-stall-scene.mjs`,
-`src/companion-reunion-scene.mjs`, media credits and loading lifecycle.
+- Shared gameplay audio owner and sound preference, with pause/mute/restart behavior.
+- Soft continuous recorded crickets with two-second loop crossfades, reduced near stationary lights; occasional breeze, no continuous wind bed.
+- Sandy walking/running steps, with three staggered lanes when all shepherds run; restrained tactile buttons and workshop/gate ignition cues.
+- Five distant sheep bleats, one short jackal event and one quieter wolf event per full route; occasional frogs near the well.
+- Quiet male / single female / male murmurs at Houses 3 / 8 / 9, smooth distance falloff, silenced while the doorway is open and restored afterward. Rejected crowd recordings removed.
+- Knock and gate gains tuned through listening. Sources and adaptations are listed in the runtime audio credits, including the generated wolf effect.
 
-**Done when:** normal finish and skip have the agreed audible handoff; one sound
-setting consistently governs the active experience; House 1's cue is delivered
-once or gives a clear silent fallback; delayed/failed media, pause/resume and
-restart cannot leak or duplicate sounds; gameplay has the agreed ambient bed;
-voice/effects are comfortable on the target output. Attach isolated-event and
-mixed-play recordings with volume/output settings plus human listening results.
-Review a fast-ready entry and a deliberately delayed entry so the bridge works
-with and without a loader; include ordinary laptop/phone speakers. Keep text
-usable with sound off. Preserve a narration channel for M5 without producing
-multilingual voices during this first feedback programme.
-Screenshots and silent browser checks cannot accept this initiative.
+Evidence and iteration history: [gameplay audio review](evidence/2026-09-18-gameplay-audio/README.md), D032–D040 below. Browser decoding/interaction, scheduling, waveform seam and publication checks passed. User acceptance is a listening verdict; output hardware/volume settings and a captured mix were not supplied, so this is not a cross-device certification.
+
+Remaining follow-ups: separately establish House 1 refusal-voice reliability (F07), and gather ordinary laptop/phone listening coverage where needed. No further audio work is required for this accepted branch slice. Intro-diorama continuity, loader strategy and resource unloading remain explicitly deferred pending I08. No general dialogue ducking or multilingual voice implementation is claimed.
 
 ### I02 — Scripture navigation and brief gameplay dialogue
 
@@ -345,7 +329,7 @@ merely whether text fits. The bottom position of scripture is not itself a defec
 ### I03 — House conversations as part of the same journey
 
 **Proposed priority:** high. **Size:** M; keep existing illustrated approach.
-**Status:** House 8 confirmed; all-house review and two handoff experiments directed (D014).
+**Status:** all five houses reviewed in the current normal player; the first doorway crop/scale and farewell experiment for Houses 3, 8 and 9 was accepted in the user's playtest. The composited shepherd and deliberate first-person alternatives directed in D014 have not been built or selected. Live sound and continuous-motion quality remain unassessed.
 **Covers:** F05, F06, visual portions of F09.
 
 1. Inventory **Houses 1, 3, 5, 8 and 9** from approach through departure. For each,
@@ -590,12 +574,18 @@ alone cannot close this initiative.
 ### I08 — Story-matched loading and continuous transitions
 
 **Proposed priority:** high. **Size:** M, with strategy dependent on I04 measurements.
-**Status:** experience direction settled (D015); loading architecture to compare.
+**Status:** experience direction settled (D015); loading architecture to compare;
+implementation deferred by D032 pending resource-lifecycle rethinking.
 **Covers:** F09 and the visual/audio boundary in F01. No loader removal is assumed.
 
 The existing plain 2D graphics feel detached from Bethlehem, and immediate swaps
 in and out stop the narrative. Loading strategy and its visible treatment are
 separate decisions: even a necessary wait should retain the game's atmosphere.
+
+D032 adds an explicit revisit trigger: return here after the loading/resource
+ownership investigation has mapped what is fetched, retained and unloaded at the
+intro-diorama → 3D boundary. Do not use I01 gameplay ambience work to mask or
+explain the current abrupt stop.
 
 1. Map each current foreground wait: initial story, story→3D, house art and ending.
    Record what is loading, whether it blocks input, time to readiness, retained
@@ -714,7 +704,7 @@ IDs are retained; no earlier milestone is renamed or silently considered complet
 | --- | --- | --- |
 | M0 — Evidence and direction | Feedback register and baseline; House 8, loader/audio direction and audience priority resolved | Core direction recorded. Gather missing motion/audio/trace evidence during the relevant initiative; browser-version collection is not a gate. |
 | M1 — Reliability diagnosis and focused repairs | Independent engine/camera freeze investigation, lower-end budgets, House 1 voice reproduction and I08 loading-strategy comparison | I01/I04 diagnosis can begin now. Measure before choosing resource fixes or eliminating staged loading. Each repair needs evidence. |
-| M2 — House 8 exemplar and scripture controls | T01 basic prompts/UI and T06 references accepted (D023); house work and scripture back navigation remain open. Two handoff experiments, matched house scale, coherent forward-only beats; scripture references/back/forward | I02/I03 direction settled. Human review chooses overlay versus first person before rollout. |
+| M2 — House 8 exemplar and scripture controls | T01 copy/UI and T06 references accepted (D023–D027). The first House 8 framing/farewell slice is accepted after playtest (D031); scripture back navigation and deeper viewpoint alternatives remain open. | I02/I03 direction settled for the current slice. A later human review may still choose composited shepherd versus first person if F06 is reopened. |
 | M3 — Integrated journey | Audit all five houses; roll accepted handoff to illustrated houses; audio through loading, matching loader art, companion search and grounded motion | I01–I05/I07/I08 integrated. Include fast/slow preparation and normal-speed start→ending playtests. |
 | M4 — Quality and feedback-programme acceptance | Selected I06 corrections, physical lower-end playtest, higher-end regression, outstanding issues triaged, public build checks | Human acceptance distinct from technical checks. Initial feedback programme accepted or explicitly deferred items recorded. Deployment still requires separate authorization. |
 | **M5 — Multilingual text and voices** | **Starting-screen language picker, localized content, generated narration/dialogue, reviewed language pilot then full-route coverage** | **After M0–M4 feedback programme. I09 depends on stable content, I01 audio and I08 loading. Choose languages/voices at kickoff; verify readable, audible and lower-end-device experience per locale.** |
@@ -784,6 +774,20 @@ name the prior decision/item it supersedes and explain the impact.
 | 2026-09-17 | D026 | User accepted House 3 and requested its commit; authorized a full concise-copy pass through gate, House 5/well/pen, House 8, empty stall/lantern/gate, House 9 and reunion. | House 3 committed as `a1dbe4c`. Remaining pass implemented and subsequently accepted in D027; supersedes per-house deferral for copy only. [Full text/action inventory](evidence/2026-09-17-t01/remaining-interactions.md). Other initiatives remain open. |
 | 2026-09-17 | D027 | User accepted the remaining interaction copy pass and requested a commit. | T01 copy/UI scope accepted. State checks and staged House 8 browser check passed; no full-route test result is inferred from approval. Audio, handoff, camera and performance initiatives remain open. |
 | 2026-09-17 | D028 | Retire the throwaway visual roadmap. | The canonical README, dated evidence and WORKFLOW provide the complete handoff; the HTML and preview image duplicated planning content and were not runtime dependencies. |
+| 2026-09-17 | D029 | Review the house encounters from arrival through departure and write proposed improvements on `codex/shepherd-feedback-house-handoffs`. | Explicit user request for a playthrough, assessment and write-up. [Review](evidence/2026-09-17-house-handoffs/README.md). No gameplay edits or acceptance of proposed behavior in this checkpoint. |
+| 2026-09-17 | V002 | Current normal-player walkthrough verifies the small illustrated house and unexplained avatar occlusion in Houses 3, 8 and 9. House 8 portrait exposes the shepherd's lower legs beneath the card. | [Baseline captures and layout measurement](evidence/2026-09-17-house-handoffs/README.md). Agent visual observation; supports F06. |
+| 2026-09-17 | V003 | House 8's old close-before-thanks ordering does not reproduce after D026/D027. Thank you follows three open-door pages, then immediately reveals the closed 3D door. | Refines current F05 evidence while preserving the original report. The proposed farewell and simpler departure have not been implemented. Live audio and continuous-motion quality remain unassessed. |
+| 2026-09-18 | D030 | Implement the first bounded house handoff experiment: doorway-forward crop/scale in the shared illustrated presenter; a brief close transition; House 8's combined reply/advice page; and an automatic stall reveal followed by one explicit departure action. Keep existing assets, route conditions and House 3/9 page counts. | User authorized implementation after the D029 proposal. The crop/scale experiment is chosen for this pass; composited shepherd-back and first-person alternatives remain open. |
+| 2026-09-18 | V004 | Browser spot-check confirms the enlarged doorway treatment on Houses 3, 8 and 9, House 8's 2-page exchange, fade to the closed 3D house, automatic “Looking toward the stall…” reveal, and explicit “Go to the stall” departure. | CUA desktop rehearsal on the local server; browser warning/error log empty. State checks and full route/camera checks passed. Reduced-motion portrait composition, live audio and continuous-motion comfort remain unassessed. |
+| 2026-09-18 | D031 | User playtested the D030 house handoff slice and approved it as good work. Keep the accepted crop/scale, fade, combined House 8 advice and single stall departure; retain deeper avatar/viewpoint work as optional follow-up rather than reopening this accepted slice. | Explicit user playtest feedback in this task. F06 remains a documented open question for a future composited shepherd or first-person experiment. |
+| 2026-09-18 | D032 | Reframe the next audio work around gameplay ambience and effects: a restrained night bed, movement cues, gentle decision sounds, contextual animal/occupied-house sources and smooth distance attenuation. Defer intro-diorama → 3D audio continuity and loading/resource unloading until the loading strategy is rethought; do not infer that the abrupt stop is purely an audio bug. | Explicit user clarification in this task. F02/I01 become the next design and implementation scope; F01 and the loading-related part of F09 remain deferred under I08 with a resource-lifecycle revisit trigger. Exact palette, assets, source radii and mix still need audition and playtest. |
+| 2026-09-18 | D033 | Revise the gameplay audio slice after listening: replace the robotic cricket chime with still night silence and filtered chirps, lower the breeze rustle, and replace the digital button tone with low-volume wood/stone-like taps, including a softer repeated lantern-assembly tap. Keep footsteps and contextual sheep/house sources audible but restrained. Rehearsal is not a separate audio implementation; its first gesture must unlock the same owner. Keep intro-diorama continuity and loading/resource unloading deferred. | Explicit user playtest feedback in this task. D033 supersedes D032's open palette/mix details while preserving its scope boundary; F02/F12 are reopened for a listened mix check. |
+
+| 2026-09-18 | D034 | Preserve the accepted tactile button character, raise it modestly, replace sharp repetitive steps with varied sandy scuffs, and lower knocks more than gate tugs. Remove the synthetic three-tone house murmur, the likely source of the reported negative-sounding effect; real indistinct indoor ambience remains open. | User listening feedback; supersedes D033 house-voice placeholder and effect mix. Cause is inferred from source, not confirmed by an audio recording. |
+
+| 2026-09-18 | D035 | Give each moving shepherd independent staggered footsteps in the intro, reunion arrival/departure and onward run; raise accepted tactile button taps by 12 dB after continued inaudibility. | User playtest direction; preserves D034 textures. Two moving companions produce two rhythms; the moving player adds the third. |
+
+| 2026-09-18 | D036 | Increase button taps another 4 dB and reduce walking step amplitude about 19%; retain running levels. | User listening feedback: taps now audible but still too soft, walking slightly too loud. |
 
 
 ## Implementation and acceptance log
@@ -810,6 +814,11 @@ alternatives. Link deferred items to their revisit trigger. “Verified” is te
 | 2026-09-17 | D024 / House 1 | Concise closed-door encounter accepted; commit requested. | House state checks and syntax/whitespace checks passed. | User accepted. Voice reliability not declared fixed. | Next review: House 3 sighting; no changes to that house yet. |
 
 | 2026-09-17 | T01 remaining copy / I02 slice | Full concise-copy pass implemented; three-page House 8, four-page House 9, silent visual beats and explicit next actions. | [Inventory and checks](evidence/2026-09-17-t01/remaining-interactions.md); all relevant state checks passed. | User accepted the pass and requested commit (D027). | Committed on `codex/t01-player-instructions`; no push/deployment requested. |
+| 2026-09-17 | F05/F06 / I03 / T03 review | Played all five house encounters in the normal player through departure; documented observations and proposed House 8 framing/farewell changes. Gameplay unchanged. | [40 baseline screenshots, portrait spot-check, pause/resume, source audio audit and limits](evidence/2026-09-17-house-handoffs/README.md). Retrieved warning/error log empty. Live sound, motion recording and physical-device tests unavailable/not performed. | Agent review only; proposals awaiting user direction. | Baseline `385e199`; `codex/shepherd-feedback-house-handoffs`. Next: review the proposal, then compare the two House 8 handoffs. |
+| 2026-09-18 | D030 / F05/F06 / I03 / T03 implementation slice | Shared presenter now uses a doorway-forward cover crop and scale-up; final scene clicks use a short fade; House 8 combines response/advice and starts its existing stall reveal directly. Houses 3 and 9 receive the same visual treatment without route-state changes. | [Implementation follow-up and limits](evidence/2026-09-17-house-handoffs/README.md). `node --check` changed modules; House 8/3/9 state checks; full `verify-rehearsal`; browser spot-check with empty warning/error log; `git diff --check`. | User playtested and approved this bounded slice. F06 is not declared fully solved because the avatar remains behind the opaque card. | Keep this slice. Consider composited shepherd-back or first-person work only if a later playtest reopens the viewpoint concern; sound remains I01. |
+| 2026-09-18 | D032 / I01-I08 scope clarification | Split the next audio pass into gameplay ambience/effects and a later loading/transition investigation. Gameplay scope includes the night bed, movement and decision cues, contextual sources and distance attenuation; the intro-diorama handoff and resource unloading are deferred. | User direction recorded in D032; source audit found a synthesized gameplay bed, separate scene contexts and reunion-only footsteps. | Direction accepted; exact sound palette and mix await an implementation prototype and listening review. | Implement the first I01 slice, then revisit I08 after resource-lifecycle mapping. |
+| 2026-09-18 | D032 / I01 gameplay audio slice | Added a shared gameplay audio owner, synthesized night bed, movement-distance footsteps, quiet decision cue, sound control and shared mute behavior for existing scene effects. | [First-slice evidence and limits](evidence/2026-09-18-gameplay-audio/README.md). `node --check` changed modules; `verify-journey-audio`, House 8/9 state checks, full rehearsal/camera checks, CUA normal/rehearsal checks and `git diff --check` passed. | Awaiting user playtest; technical checks do not establish sound quality. | Listen to the full route. Keep or revise the bed/steps/cue, then consider one sheep source and one muffled lit-house source. Intro handoff/loading remain deferred. |
+| 2026-09-18 | D033 / I01 gameplay audio revision | Removed the continuous wind buffer; replaced the robotic oscillator cricket chime with filtered noise chirps; lowered the occasional breeze rustle; replaced the digital button tone with low-volume wood/stone-like taps and a softer assembly variant; retained distance-attenuated sheep near the animal pen and muffled low voices near lit houses. Rehearsal starts the same owner on its first pointer/keyboard gesture. | [Revised audio evidence and limits](evidence/2026-09-18-gameplay-audio/README.md). `node --check`, `verify-journey-audio` including filtered-cricket/proximity assertions, scene checks, full rehearsal/camera checks, CUA reload/toggle/House 8 flow and `git diff --check` passed. | Awaiting user playtest; source scheduling is verified but the mix still needs listening. | Listen for calmness, audibility and distance falloff. Adjust levels/radii if needed; add more regional animal/fire detail only after this pass. Intro handoff/loading remain deferred. |
 
 For every future completed part, add its item IDs, actual scope, before/after
 evidence, checks/results, limitations, user verdict, commit/PR if any and remaining
@@ -845,3 +854,61 @@ flow is Knock on door → visible knock/light action without a caption →
 “Go away! It is late!” → same subtitle plus **Let’s try the next house**.
 The action unlocks at the existing 6.7s; the subtitle persists until departure.
 House 1 copy/flow accepted by the user on 17 September 2026; branch commit requested. Voice reliability remains open.
+
+### D034 / I01 listening revision — 18 September 2026
+
+Button tap amplitude increased about 3 dB; footsteps now select among six longer noise textures with a softer onset and broader sandy rustle. Knock amplitude reduced 30% and gate timber amplitude 15%. Removed the recurring three-tone simulated indoor voices. There is no dedicated house-completion cue in the current flow; source inspection identifies the proximity murmur as the likely reported sound. Indoor voices require a suitable recorded replacement before reinstatement.
+
+Syntax, audio scheduling/regression and whitespace checks passed. Audio character and perceived balance remain awaiting listening; no audible recording was captured. Existing ambient claims above describe earlier checkpoints and are superseded by D034 for house voices.
+
+### D035 / I01 — group footsteps and audible buttons
+
+Implemented three independent movement-driven footstep lanes with different starting phases and small stride differences, sharing the sandy textures and mute/pause owner. Removed the old reunion-only audio loop. Intro supplies all three runners; reunion supplies only visible moving companions, including the onward journey. Button amplitudes raised fourfold (about 12 dB). Syntax, audio regression and stagger/group-mute checks pass. Listening and perceived group clarity remain awaiting user playtest; no audible recording captured.
+
+### D036 / I01 — small listening adjustment
+
+Raised assembly/other tap gains from 0.20/0.256 to 0.32/0.41 (about +4 dB). Walking footstep gain reduced from 0.042 to 0.034 (about -1.8 dB); running remains 0.055. Syntax, existing audio regression and whitespace checks passed. Awaiting listening acceptance.
+
+
+### D037 / I01 — recorded night ambience and ignition
+
+18 September 2026. User reports absent animals/house murmurs and requests reliable contextual night sound, half-volume knocks and lantern ignition cues. Supersedes D033's synthesized wildlife and D034's temporary removal of house murmurs. I01 remains partial, awaiting listening review.
+
+Implemented five distant sheep bleats and two jackal calls at route milestones, quiet continuous recorded crickets attenuated near stationary lights, recorded frogs near the well (first call after 8–20 seconds there, then every 30–60 seconds), and looping recorded house murmurs at lit Houses 3/8/9 with distance falloff. Murmurs fade out while the doorway presenter is open and resume when closed. Recorded sounds respect gameplay pause/mute and reset on restart. Individual failed recordings do not block subsequent route calls. Knock amplitude halved; workshop and gate ignition use an unpitched tinder/flame cue synchronized to lighting. Existing buttons and stride mix retained.
+
+Verification: `verify-journey-audio.mjs` and `verify-night-ambience.mjs` cover playback scheduling, five/two call budgets, proximity/light/door attenuation, frog cadence, pause/reset, ignition and staggered runners. Licensed source/adaptation details are in [audio credits](../../assets/audio/credits.html). The palette is an atmospheric interpretation; species/locality and ancient speech authenticity are not established. Technical verification does not establish audibility or naturalness: full-route listening remains unassessed and requires the next user playtest. Intro/loading continuity remains deferred under D032.
+
+Browser verification: five MP3 assets fetched and decoded without failures; workshop and gate each produced one ignition event; House 3 proximity murmur was present before knocking, faded below 0.001 during the open-door conversation, and resumed after closure. No page errors. The saved `checks/verify-night-audio-browser.mjs` reproduces this targeted check. Full rehearsal route/camera and empty-stall state checks passed, as did syntax, whitespace and publication hash/module checks. An initial browser harness attempted one extra click during the closing fade; correcting the harness to await closure passed. No audible capture was made.
+
+
+### D038 / I01 — soften repeat seams and vary households
+
+18 September 2026. Listening feedback approves the cricket character and muffled indoor voices, but identifies a break at cricket repeats, identical male voices at three houses, and a repetitive jackal chorus with a cutoff. User requests one jackal event and one wolf event per run, with different household voices. I01 remains partial pending listening acceptance.
+
+Source review: jackal playback was not a native loop; the same 13.8-second file was triggered at two route points, and that source itself contains repeated material/overlapping calls. Replaced it with a 4.3-second excerpt from a different CC0 source, centered on two successive dominant calls with a soft tail. The spectrum supports a dominant harmonic contour in this excerpt; listening is still needed to judge whether it conveys one animal convincingly. One jackal event now occurs at the barred gate approach and one quieter wolf event at the House 9 approach. Returning to points does not retrigger either; restarting the run resets both.
+
+Crickets retain the approved recording and level. The decoded waveform now overlaps its last and first two seconds with equal-power fades, wrapping between adjacent original samples rather than abruptly restarting an MP3. The same treatment applies to all indoor beds. House 3 retains the approved male murmur; House 8 uses a separate women’s conversation; House 9 uses adults and children. New tracks are strongly low-pass filtered, normalized to the existing bed level, and keep the existing distance and door-open attenuation.
+
+Wolves are a plausible atmospheric choice, supported by period shepherd imagery in [John 10:12](https://www.biblegateway.com/passage/?search=John%2010%3A12&version=NIV) and the [Israel Nature and Parks Authority’s account of local wolves/jackals and dusk/night activity](https://www.parks.org.il/article/כלביים-זאב-תן-ומיני-השועלים/). This supports plausibility, not an assertion that a wolf was present at the Nativity. The licensed lone-wolf effect is AI-generated according to its author; it is not represented as a regional wildlife recording. No new dialogue or biblical facts were added. See [audio credits](../../assets/audio/credits.html).
+
+Verification: audio owner and ambience checks pass for one jackal/one wolf per run, five sheep bleats, no repeats on revisits, reset, mute/pause, distance/door falloff, distinct house-track assignment and a two-second stereo waveform overlap without a discontinuous wrap. Technical checks cannot establish perceived naturalness, voice intelligibility, single-animal character or seamlessness by ear. Those remain for the next listening playtest; intro/loading continuity remains deferred.
+
+Browser results: all eight sound assets decoded with no failures or page errors; workshop/gate ignition and live House 3 door attenuation passed. `verify-ambience-seams-browser.mjs` measured the actual decoded beds: cricket RMS immediately before/after wrap was 0.0498/0.0332 against 0.0408 overall, with no silent boundary. All four beds had finite, unclipped samples and boundary steps below the waveform test threshold. An initial silence assertion on speech detected a natural pause in the approved male recording; silence detection is now scoped to the continuous cricket bed, while speech still receives boundary and clipping checks. No audible playback assessment was performed. Next listening pass: wait through a cricket repeat away from lights, compare Houses 3/8/9, and hear each distant canid once across a full run.
+
+
+### D039 / I01 — quiet household replacement and listening acceptance
+
+18 September 2026. User accepts the other D038 audio additions, including the revised wildlife and softened cricket repeats. Both new household crowd tracks are rejected: too many simultaneous speakers overwhelm the tranquil night. The original male murmur remains accepted. Preserve the other audio work; this revision is limited to household sources.
+
+Replaced House 8's crowd with UnrealQW's CC0 “Muffled talking (female),” described by its creator as single female speech behind a wall. Filtered to 480 Hz and normalized to -25 LUFS / -6 dBTP (3 dB below the original house bed's target). House 9 returns to the original accepted male murmur, as explicitly permitted by the user. Both rejected crowd assets and their publication entries are removed. The three houses now use male / female / male; no children/crowd layer is retained. Crossfades, distance falloff and door suppression remain unchanged. Source attribution updated in audio credits.
+
+Status: other D038 additions accepted by user listening; the House 8 alternative awaits listening review. Asset description and technical checks do not establish calmness or unintelligibility by ear. If this candidate also feels intrusive, reuse the accepted original at all three houses. The prior audio work is already committed in d51188d; this candidate and documentation are prepared for review before the next commit. I01 remains partial; intro/loading continuity stays deferred.
+
+Checks: audio scheduling and actual decoded-waveform tests passed; browser loaded all seven assets with no audio failures/page errors and preserved gate/workshop ignition plus door suppression/resumption. No audible assessment of the new female candidate was performed. Publication preparation exposed deletion handling in `check-publication.py`: deleted files were required to remain listed, and HEAD fallback could conceal a stale deleted entry. The checker now validates index contents, ignores deletions when requiring newly changed files, and still rejects deleted assets left in the manifest; focused regression checks cover those cases.
+
+
+### D040 — final listening acceptance and PR handoff
+
+18 September 2026. User confirms they are happy with the current result, including D039's single female House 8 voice and restored original House 9 murmur, and requests updated documentation, a commit and a pull request. The bounded house-handoff/gameplay-audio work is accepted and ready for review; prior “awaiting listening” entries above are historical checkpoints superseded by this verdict. This does not close F07, broader device evidence, remaining house-viewpoint alternatives, or the deferred loading/intro-continuity investigation. It authorizes the commit and PR, not merge or deployment.
+
+Final household candidate passed scheduling, PCM seam/clipping, browser asset decoding, ignition and door attenuation checks. Publication deletion handling has focused regression coverage. Runtime credits and allowlists reflect the final seven sound assets. The unrelated local publication-inventory edit is excluded from this handoff.

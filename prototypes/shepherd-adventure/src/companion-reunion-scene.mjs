@@ -4,20 +4,16 @@ import {height} from './journey-world.mjs';
 import {REUNION_LINES} from './companion-reunion.mjs';
 import {smooth} from './empty-stall.mjs';
 
-export function createCompanionReunionScene(journey,scene,character){
+export function createCompanionReunionScene(journey,scene,character,{isMuted=()=>false}={}){
  const $=id=>document.getElementById(id);
  const companions=['tall','stocky'].map(variant=>{
   const root=new THREE.Group();root.name=`reunion-${variant}`;root.visible=false;scene.add(root);
   return {root,character:new CompanionCharacter(root,variant)};
  });
- let previous,context,lastShot,stepBeat=-1;
+ let previous,lastShot;
  const active=()=>journey.index===8&&!journey.travel&&journey.houseOwner.complete;
- function unlock(){try{context??=new AudioContext();context.resume().catch(()=>{});}catch{}}
- $('sighting-next').addEventListener('click',()=>{if(journey.index===8)unlock();});
  function update(){
-  if(previous!==journey.reunion){previous=journey.reunion;stepBeat=-1;lastShot=null;}
-  if(journey.paused)context?.suspend().catch(()=>{});
-  else if(context?.state==='suspended')context.resume().catch(()=>{});
+  if(previous!==journey.reunion){previous=journey.reunion;lastShot=null;}
   document.body.classList.toggle('reunion',active());
   if(!active())return;
   const r=journey.reunion,p=r.phase;
@@ -28,14 +24,6 @@ export function createCompanionReunionScene(journey,scene,character){
   $('advance').textContent=({question:'Answer',directions:'Continue',invitation:'Let’s go',waiting:'Follow the others'})[p]||'';
   $('advance').hidden=['arriving','departing'].includes(p);$('advance').disabled=journey.paused||p==='arriving'||(p==='departing'&&!r.canFollow);
  }
- function footstep(){
-  if(context?.state!=='running')return;
-  const duration=.08,buffer=context.createBuffer(1,Math.ceil(context.sampleRate*duration),context.sampleRate),data=buffer.getChannelData(0);
-  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(context.sampleRate*.015));
-  const source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();
-  source.buffer=buffer;filter.type='lowpass';filter.frequency.value=320;gain.gain.value=.045;
-  source.connect(filter).connect(gain).connect(context.destination);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};source.start();
- }
  function poseActors(dt,instant){
   const r=journey.reunion;
   companions.forEach((c,i)=>{
@@ -45,8 +33,7 @@ export function createCompanionReunionScene(journey,scene,character){
    c.root.rotation.y+=instant?delta:delta*(1-Math.exp(-9*dt));
    c.character.update(dt,{movement:a.moving?a.speed:0,paused:journey.paused});
   });
-  const beat=Math.floor(r.elapsed*5);
-  if(active()&&['arriving','departing'].includes(r.phase)&&r.actors.some(a=>a.moving)&&beat!==stepBeat){stepBeat=beat;footstep();}
+
  }
  function face(){
   if(!active())return null;

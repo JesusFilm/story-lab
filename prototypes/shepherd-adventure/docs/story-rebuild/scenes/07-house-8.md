@@ -1,6 +1,6 @@
 # 07 — House 8
 
-Status: **accepted for checkpoint · 14 September 2026 · user play-test complete**.
+Status: **accepted for checkpoint · 18 September 2026 handoff follow-up · user play-test complete**.
 [Rebuild plan and scene index](../README.md) · [User-drawn route](../reference-route.png)
 
 ## Place and approach
@@ -82,3 +82,11 @@ authorizing a commit and push to the feature branch. Further model/decorative wo
 and release review remain separate.
 
 17 September 2026: D026 updates the text/actions in this scene. [Current inventory](../../playtest-roadmap/evidence/2026-09-17-t01/remaining-interactions.md). Copy pass accepted by the user (D027); broader interaction issues remain open.
+
+## 18 September follow-up — accepted handoff slice
+
+The shared illustrated presenter now uses a doorway-forward crop and scale for Houses 3, 8 and 9. House 8 keeps the question on the first page and combines the old man's reply with the stall direction on the second page. Selecting **Thank you** disables the button, briefly fades the illustrated card and starts the existing stall orientation. After the view settles, **Go to the stall** is the only departure action. There is no separate **Find the empty stall** or **Explore the empty stall** confirmation.
+
+The user playtested this branch and approved the bounded change. The existing curved route, house lighting and state gates are unchanged. The avatar remains behind the opaque illustrated card; a composited shepherd or first-person variant is optional follow-up work if a later playtest reopens that viewpoint concern. Audio continuity and performance remain separate initiatives.
+
+[House handoff evidence and roadmap log](../../playtest-roadmap/evidence/2026-09-17-house-handoffs/README.md) · [Stage this point](../../../rehearsal.html?point=7)
