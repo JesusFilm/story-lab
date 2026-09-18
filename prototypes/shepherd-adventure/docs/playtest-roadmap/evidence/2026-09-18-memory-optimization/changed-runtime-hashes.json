@@ -1,0 +1,54 @@
+{
+  "src/night-ambience.mjs": {
+    "before": "3768a722385057747b30cf114a20f9acff21df8af106b021bd1757de8c87f507",
+    "after": "6eebdbf01418daa25924ec8eaba0030abb1345f3fc88d6607980d56f5498ffb0"
+  },
+  "src/journey-audio.mjs": {
+    "before": "395a7f42ab78d7b2572271fa287db48de934320e8ccaf0a096ad27ff12213e46",
+    "after": "86603849cf88b959053d0c021fdfdb4db07e8ab3c42cbd98c293849fd34657ec"
+  },
+  "src/journey-nativity.mjs": {
+    "before": "a243358c2173308a6408f2d2d242fdd0995a5e8dc40327060552a82fb3316029",
+    "after": "7584aaee40b3339e2d12f304cc8bda5fef7ba7d530c84679a740fcd5f165d0dc"
+  },
+  "src/house-sighting-scene.mjs": {
+    "before": "e022e8f09f95dcea0b84bb81caa980b8b40f01b022fcd17df59b0bcc39d2e575",
+    "after": "4a889d569b3acd1452f28624e3041182d178ed91734bd0990d9193da03880405"
+  },
+  "src/journey-camera.mjs": {
+    "before": "e283fca9ef0d54c6419008370426ce81744ade98cd39d3c6c4b1e9bc77278441",
+    "after": "8a563df9cc87e30f2274433bc2f334ee7706df51dd5982381bf4132e0c3c9e79"
+  },
+  "src/empty-stall-scene.mjs": {
+    "before": "44c63bb368998d64262e0655271c06ec9afd3909c54ad8d42f09e9bc8eb8b48d",
+    "after": "9975ea00a7b5671edd552216158fd7e1781549a2eac7d8e32360260c64c4372b"
+  },
+  "src/journey-world.mjs": {
+    "before": "c2412b0c2c58aaea9e2713c47f9edfc35301d30e98278102380070213b7b9e54",
+    "after": "c0a4c6aab5cfe0f5ff014abeaa3eb407ab406390cc7e531fb2bb7062d8fbe732"
+  },
+  "src/house-decorations.mjs": {
+    "before": "c103cc9675aa3ceb78c0524169349237ce4285fb6a03fb454bbe4dc0466752af",
+    "after": "437de74add33b67b76e66ed70d210242dce2d808d5bbcf0bb8291cf9d0beed03"
+  },
+  "src/house-scene.mjs": {
+    "before": "690ba4cb09bc02274defb8cebff7a4b17d2a6973042753067feed12340c97c2a",
+    "after": "25638cb4c551a23f10b396cdb2aedb98d22ac90c5aa3f66c704912f3e401e0b9"
+  },
+  "src/memory-profile.js": {
+    "before": "4dab6408589df2ee639d5f3614d1a319eeae3e0ccab28d5da9d2c510b7066f83",
+    "after": "d95597ef6327aa99c03b67160900cf9567425fd2cbd5b6b9f64f781955c990d8"
+  },
+  "src/gate-scene.mjs": {
+    "before": "b2ccc343778ba07fbf23d838e02482090b30f71e6e1366e29201e92a0faee5b0",
+    "after": "26bc912d0398ce2f461fe3119fdb7f17c7c86671cf0975e62ca5027e9892f950"
+  },
+  "src/village-game.mjs": {
+    "before": "e422ea89621d96224e7c346a133a10aa619a25c1d42411c7537bdacb47025b78",
+    "after": "5b7c21f20e4fa8540e7bff55cb1a1e702590b6c01296bd1a635848a3dee166e7"
+  },
+  "src/house-annexes.mjs": {
+    "before": "dbd4eee0801cef3872543d1a21ab99f041051f66a764da2095e534c19dadb65e",
+    "after": "16bf0bdcd6d1d2927725474170ff8c2f3b62c81aed5995160f48a0f91bf97d6f"
+  }
+}

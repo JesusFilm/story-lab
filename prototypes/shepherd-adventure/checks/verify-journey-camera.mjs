@@ -33,3 +33,11 @@ assert(maxSettledMotion<.005,`stationary jitter ${maxSettledMotion} metres/frame
 assert(occlusionBounds.filter(b=>b.kind==='tree').length>30);assert(foliageFadeFrames>0,'tree fading must be exercised on real routes');
 const report={foliageFadeFrames,treeBounds:occlusionBounds.filter(b=>b.kind==='tree').length,stationaryCases,maxSettledMotionMetres:maxSettledMotion,status:hidden?'failed':'passed',directedLaneConfigurations:EDGES.length*16,frames,hiddenPlayerChestFrames:hidden,aheadOcclusionFrames:aheadHidden,minimumArmMetres:minimumArm,maxYawStepRadians:yawChanges,failures,limits:'Sampled character-chest visibility against loaded structure bounds. Does not prove full-body visibility, tree/prop occlusion, inspection-camera composition, or subjective motion quality.'};
 writeFileSync(new URL('./journey-camera-verification.json',import.meta.url),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));assert.equal(hidden,0);
+
+// Borrowed runtime frames reuse storage; default diagnostic frames remain snapshots.
+const pooled=new JourneyCamera(),input={player:{x:0,y:0,z:0},heading:0};
+const retained=pooled.update(input),saved=structuredClone(retained);
+const borrowed=pooled.update({...input,reuseOutput:true});
+for(let i=0;i<100;i++)assert.strictEqual(pooled.update({...input,player:{x:i,y:0,z:0},reuseOutput:true}),borrowed);
+assert.deepEqual(retained,saved,'Saved camera frames must not change when the rig updates');
+console.log('PASS borrowed runtime camera output and independent diagnostic snapshots.');

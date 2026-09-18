@@ -1,0 +1,496 @@
+{
+  "metadata": {
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "viewport": [
+      1280,
+      720
+    ],
+    "dpr": 1,
+    "hardwareConcurrency": 12,
+    "deviceMemoryGiB": 32,
+    "crossOriginIsolated": false,
+    "heapAvailable": true,
+    "reducedMotion": false
+  },
+  "durationSeconds": 733.7,
+  "groups": [
+    {
+      "phase": "boot",
+      "firstSeconds": 0.03,
+      "lastSeconds": 0.04,
+      "samples": 2,
+      "heapMinMiB": 203.71,
+      "heapMaxMiB": 203.71,
+      "heapLastMiB": 203.71,
+      "geometryMiB": 0.0,
+      "textureEstimateMiB": 0.0,
+      "audioPCMMiB": 0.0,
+      "renderer": null,
+      "leases": []
+    },
+    {
+      "phase": "opening",
+      "firstSeconds": 0.04,
+      "lastSeconds": 32.03,
+      "samples": 18,
+      "heapMinMiB": 80.24,
+      "heapMaxMiB": 212.85,
+      "heapLastMiB": 155.27,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 0.0,
+      "renderer": {
+        "geometries": 165,
+        "textures": 93,
+        "programs": 30,
+        "calls": 444,
+        "triangles": 8604709
+      },
+      "leases": [
+        {
+          "kind": "opening",
+          "ready": true,
+          "blobBytes": 5611831,
+          "objectURLs": 7
+        }
+      ]
+    },
+    {
+      "phase": "waiting",
+      "firstSeconds": 32.57,
+      "lastSeconds": 32.57,
+      "samples": 1,
+      "heapMinMiB": 155.3,
+      "heapMaxMiB": 155.3,
+      "heapLastMiB": 155.3,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 0.0,
+      "renderer": {
+        "geometries": 165,
+        "textures": 93,
+        "programs": 30,
+        "calls": 444,
+        "triangles": 8604709
+      },
+      "leases": []
+    },
+    {
+      "phase": "intro",
+      "firstSeconds": 34.03,
+      "lastSeconds": 42.03,
+      "samples": 5,
+      "heapMinMiB": 179.23,
+      "heapMaxMiB": 180.63,
+      "heapLastMiB": 180.63,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.63,
+      "renderer": {
+        "geometries": 167,
+        "textures": 103,
+        "programs": 30,
+        "calls": 454,
+        "triangles": 8667633
+      },
+      "leases": []
+    },
+    {
+      "phase": "playing",
+      "firstSeconds": 44.03,
+      "lastSeconds": 52.03,
+      "samples": 5,
+      "heapMinMiB": 168.64,
+      "heapMaxMiB": 181.94,
+      "heapLastMiB": 168.64,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.63,
+      "renderer": {
+        "geometries": 167,
+        "textures": 103,
+        "programs": 34,
+        "calls": 401,
+        "triangles": 8409607
+      },
+      "leases": []
+    },
+    {
+      "phase": "point-1",
+      "firstSeconds": 54.03,
+      "lastSeconds": 96.03,
+      "samples": 22,
+      "heapMinMiB": 168.96,
+      "heapMaxMiB": 172.23,
+      "heapLastMiB": 172.23,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.63,
+      "renderer": {
+        "geometries": 169,
+        "textures": 103,
+        "programs": 37,
+        "calls": 342,
+        "triangles": 6533035
+      },
+      "leases": []
+    },
+    {
+      "phase": "point-2",
+      "firstSeconds": 98.03,
+      "lastSeconds": 136.03,
+      "samples": 20,
+      "heapMinMiB": 169.63,
+      "heapMaxMiB": 182.47,
+      "heapLastMiB": 182.47,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.92,
+      "renderer": {
+        "geometries": 173,
+        "textures": 103,
+        "programs": 61,
+        "calls": 318,
+        "triangles": 5803568
+      },
+      "leases": []
+    },
+    {
+      "phase": "point-3",
+      "firstSeconds": 138.03,
+      "lastSeconds": 208.03,
+      "samples": 36,
+      "heapMinMiB": 170.21,
+      "heapMaxMiB": 184.3,
+      "heapLastMiB": 174.8,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.92,
+      "renderer": {
+        "geometries": 173,
+        "textures": 103,
+        "programs": 65,
+        "calls": 195,
+        "triangles": 3474761
+      },
+      "leases": []
+    },
+    {
+      "phase": "point-4",
+      "firstSeconds": 210.03,
+      "lastSeconds": 244.03,
+      "samples": 19,
+      "heapMinMiB": 174.26,
+      "heapMaxMiB": 186.83,
+      "heapLastMiB": 180.43,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.92,
+      "renderer": {
+        "geometries": 174,
+        "textures": 103,
+        "programs": 67,
+        "calls": 87,
+        "triangles": 1558951
+      },
+      "leases": []
+    },
+    {
+      "phase": "point-5",
+      "firstSeconds": 246.03,
+      "lastSeconds": 318.03,
+      "samples": 37,
+      "heapMinMiB": 169.42,
+      "heapMaxMiB": 187.37,
+      "heapLastMiB": 171.99,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.92,
+      "renderer": {
+        "geometries": 534,
+        "textures": 103,
+        "programs": 71,
+        "calls": 202,
+        "triangles": 1424415
+      },
+      "leases": []
+    },
+    {
+      "phase": "point-6",
+      "firstSeconds": 320.03,
+      "lastSeconds": 338.03,
+      "samples": 10,
+      "heapMinMiB": 169.51,
+      "heapMaxMiB": 193.51,
+      "heapLastMiB": 192.46,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.92,
+      "renderer": {
+        "geometries": 534,
+        "textures": 103,
+        "programs": 71,
+        "calls": 220,
+        "triangles": 3863557
+      },
+      "leases": []
+    },
+    {
+      "phase": "point-7",
+      "firstSeconds": 340.03,
+      "lastSeconds": 406.03,
+      "samples": 34,
+      "heapMinMiB": 170.78,
+      "heapMaxMiB": 194.27,
+      "heapLastMiB": 182.92,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.92,
+      "renderer": {
+        "geometries": 534,
+        "textures": 103,
+        "programs": 71,
+        "calls": 111,
+        "triangles": 2502723
+      },
+      "leases": []
+    },
+    {
+      "phase": "point-8",
+      "firstSeconds": 408.03,
+      "lastSeconds": 484.03,
+      "samples": 39,
+      "heapMinMiB": 172.51,
+      "heapMaxMiB": 199.18,
+      "heapLastMiB": 197.63,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.92,
+      "renderer": {
+        "geometries": 535,
+        "textures": 103,
+        "programs": 73,
+        "calls": 193,
+        "triangles": 2716690
+      },
+      "leases": []
+    },
+    {
+      "phase": "point-9",
+      "firstSeconds": 486.03,
+      "lastSeconds": 614.03,
+      "samples": 65,
+      "heapMinMiB": 172.4,
+      "heapMaxMiB": 195.28,
+      "heapLastMiB": 178.05,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.92,
+      "renderer": {
+        "geometries": 535,
+        "textures": 103,
+        "programs": 98,
+        "calls": 69,
+        "triangles": 1878118
+      },
+      "leases": []
+    },
+    {
+      "phase": "arrival",
+      "firstSeconds": 616.03,
+      "lastSeconds": 620.03,
+      "samples": 3,
+      "heapMinMiB": 181.84,
+      "heapMaxMiB": 196.68,
+      "heapLastMiB": 181.84,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.92,
+      "renderer": {
+        "geometries": 535,
+        "textures": 103,
+        "programs": 98,
+        "calls": 46,
+        "triangles": 1769332
+      },
+      "leases": []
+    },
+    {
+      "phase": "ending",
+      "firstSeconds": 621.14,
+      "lastSeconds": 689.73,
+      "samples": 37,
+      "heapMinMiB": 173.41,
+      "heapMaxMiB": 196.98,
+      "heapLastMiB": 192.67,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.92,
+      "renderer": {
+        "geometries": 535,
+        "textures": 103,
+        "programs": 98,
+        "calls": 41,
+        "triangles": 1697770
+      },
+      "leases": []
+    },
+    {
+      "phase": "complete",
+      "firstSeconds": 690.03,
+      "lastSeconds": 733.7,
+      "samples": 23,
+      "heapMinMiB": 175.11,
+      "heapMaxMiB": 197.23,
+      "heapLastMiB": 196.44,
+      "geometryMiB": 127.83,
+      "textureEstimateMiB": 1996.17,
+      "audioPCMMiB": 13.92,
+      "renderer": {
+        "geometries": 535,
+        "textures": 103,
+        "programs": 98,
+        "calls": 41,
+        "triangles": 1697770
+      },
+      "leases": []
+    }
+  ],
+  "marks": [
+    {
+      "ms": 30,
+      "type": "mark",
+      "name": "profiler-start"
+    },
+    {
+      "ms": 41,
+      "type": "mark",
+      "name": "opening-requested"
+    },
+    {
+      "ms": 43,
+      "type": "mark",
+      "name": "dom-ready"
+    },
+    {
+      "ms": 87,
+      "type": "mark",
+      "name": "opening-visible"
+    },
+    {
+      "ms": 1223,
+      "type": "mark",
+      "name": "world-load-start"
+    },
+    {
+      "ms": 8873,
+      "type": "mark",
+      "name": "world-assets-ready"
+    },
+    {
+      "ms": 10370,
+      "type": "mark",
+      "name": "world-first-render"
+    },
+    {
+      "ms": 32574,
+      "type": "mark",
+      "name": "opening-closed"
+    },
+    {
+      "ms": 621142,
+      "type": "mark",
+      "name": "ending-requested"
+    },
+    {
+      "ms": 621202,
+      "type": "mark",
+      "name": "ending-visible"
+    },
+    {
+      "ms": 689729,
+      "type": "mark",
+      "name": "ending-closed"
+    }
+  ],
+  "modelLoads": 40,
+  "repeatedModels": {
+    "/assets/sheep-tripo-v2.glb": 5
+  },
+  "largestModelsByTexture": [
+    {
+      "path": "/assets/mary-seated-idle.glb",
+      "ms": 8135,
+      "durationMs": 44,
+      "meshes": 1,
+      "geometries": 1,
+      "materials": 1,
+      "textureObjects": 2,
+      "imageSources": 2,
+      "geometryArrayBufferBytes": 2138804,
+      "textureRGBAEstimatedBytes": 178956971,
+      "decodedImageRGBAEstimatedBytes": 134217728,
+      "placedTriangles": 57320
+    },
+    {
+      "path": "/assets/joseph-seated-idle.glb",
+      "ms": 8178,
+      "durationMs": 42,
+      "meshes": 1,
+      "geometries": 1,
+      "materials": 1,
+      "textureObjects": 2,
+      "imageSources": 2,
+      "geometryArrayBufferBytes": 2178132,
+      "textureRGBAEstimatedBytes": 178956971,
+      "decodedImageRGBAEstimatedBytes": 134217728,
+      "placedTriangles": 57392
+    },
+    {
+      "path": "/assets/jesus-manger-tripo.glb",
+      "ms": 8221,
+      "durationMs": 43,
+      "meshes": 1,
+      "geometries": 1,
+      "materials": 1,
+      "textureObjects": 2,
+      "imageSources": 2,
+      "geometryArrayBufferBytes": 1833632,
+      "textureRGBAEstimatedBytes": 178956971,
+      "decodedImageRGBAEstimatedBytes": 134217728,
+      "placedTriangles": 56736
+    },
+    {
+      "path": "/assets/shepherd-tripo-v2.glb",
+      "ms": 1291,
+      "durationMs": 67,
+      "meshes": 1,
+      "geometries": 1,
+      "materials": 1,
+      "textureObjects": 3,
+      "imageSources": 3,
+      "geometryArrayBufferBytes": 1053720,
+      "textureRGBAEstimatedBytes": 67108864,
+      "decodedImageRGBAEstimatedBytes": 50331648,
+      "placedTriangles": 28824
+    },
+    {
+      "path": "/assets/shepherd-companion-tall.glb",
+      "ms": 1299,
+      "durationMs": 75,
+      "meshes": 1,
+      "geometries": 1,
+      "materials": 1,
+      "textureObjects": 3,
+      "imageSources": 3,
+      "geometryArrayBufferBytes": 752640,
+      "textureRGBAEstimatedBytes": 67108864,
+      "decodedImageRGBAEstimatedBytes": 50331648,
+      "placedTriangles": 19204
+    }
+  ],
+  "sampleCostMaxMs": 4.5,
+  "sampleCostMeanMs": 2.23,
+  "errors": [],
+  "dropped": 0
+}

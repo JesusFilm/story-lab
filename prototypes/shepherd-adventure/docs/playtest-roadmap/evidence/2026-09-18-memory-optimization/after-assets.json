@@ -1,0 +1,869 @@
+{
+  "assets": [
+    {
+      "path": "/assets/animal-pen-tripo-v2.glb",
+      "fileBytes": 1789052,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 422564,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 149724,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 225219,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/audio/crickets.mp3",
+      "fileBytes": 125420
+    },
+    {
+      "path": "/assets/audio/frog.mp3",
+      "fileBytes": 24620
+    },
+    {
+      "path": "/assets/audio/house-murmur.mp3",
+      "fileBytes": 150956
+    },
+    {
+      "path": "/assets/audio/house-woman.mp3",
+      "fileBytes": 226604
+    },
+    {
+      "path": "/assets/audio/jackal.mp3",
+      "fileBytes": 35180
+    },
+    {
+      "path": "/assets/audio/sheep.mp3",
+      "fileBytes": 8355
+    },
+    {
+      "path": "/assets/audio/wolf.mp3",
+      "fileBytes": 57068
+    },
+    {
+      "path": "/assets/house-01-tripo-v2.glb",
+      "fileBytes": 1497544,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 282728,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 158961,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 192104,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/house-1/resident-refusal.mp3",
+      "fileBytes": 6913
+    },
+    {
+      "path": "/assets/house-3/helpful-resident-v3.png",
+      "fileBytes": 2515417,
+      "width": 1536,
+      "height": 1024,
+      "rgbaBytes": 6291456
+    },
+    {
+      "path": "/assets/house-3/opening-door-v3.png",
+      "fileBytes": 2740938,
+      "width": 1536,
+      "height": 1024,
+      "rgbaBytes": 6291456
+    },
+    {
+      "path": "/assets/house-3/pointing-right-v1.png",
+      "fileBytes": 2436448,
+      "width": 1536,
+      "height": 1024,
+      "rgbaBytes": 6291456
+    },
+    {
+      "path": "/assets/house-8/open-door-v2.png",
+      "fileBytes": 2681381,
+      "width": 1536,
+      "height": 1024,
+      "rgbaBytes": 6291456
+    },
+    {
+      "path": "/assets/house-9/opening-door-v2.png",
+      "fileBytes": 2222781,
+      "width": 1536,
+      "height": 1024,
+      "rgbaBytes": 6291456
+    },
+    {
+      "path": "/assets/house-9/pointing-left-v2.png",
+      "fileBytes": 2052019,
+      "width": 1536,
+      "height": 1024,
+      "rgbaBytes": 6291456
+    },
+    {
+      "path": "/assets/house-9/talking-owner-v2.png",
+      "fileBytes": 2110563,
+      "width": 1536,
+      "height": 1024,
+      "rgbaBytes": 6291456
+    },
+    {
+      "path": "/assets/lamp-assembly/flint.png",
+      "fileBytes": 384398,
+      "width": 512,
+      "height": 512,
+      "rgbaBytes": 1048576
+    },
+    {
+      "path": "/assets/lamp-assembly/lamp.png",
+      "fileBytes": 175106,
+      "width": 512,
+      "height": 512,
+      "rgbaBytes": 1048576
+    },
+    {
+      "path": "/assets/lamp-assembly/oil.png",
+      "fileBytes": 222495,
+      "width": 512,
+      "height": 512,
+      "rgbaBytes": 1048576
+    },
+    {
+      "path": "/assets/lamp-assembly/wick.png",
+      "fileBytes": 318809,
+      "width": 512,
+      "height": 512,
+      "rgbaBytes": 1048576
+    },
+    {
+      "path": "/assets/lamp-workbench-pixal3d.glb",
+      "fileBytes": 3415736,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 980607,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 105195,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/low-wall-perimeter.glb",
+      "fileBytes": 1203940,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 535680,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 332854,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 166584,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/market-stall-tripo-v2.glb",
+      "fileBytes": 1918476,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 591734,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 163442,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 263266,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/nativity-donkey-idle.glb",
+      "fileBytes": 6150768,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 1174724,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/nature/Bark_DeadTree.png",
+      "fileBytes": 1301290,
+      "width": 1024,
+      "height": 1024,
+      "rgbaBytes": 4194304
+    },
+    {
+      "path": "/assets/nature/Bark_DeadTree_Normal.png",
+      "fileBytes": 1721722,
+      "width": 1024,
+      "height": 1024,
+      "rgbaBytes": 4194304
+    },
+    {
+      "path": "/assets/nature/Bark_NormalTree.png",
+      "fileBytes": 1228354,
+      "width": 1024,
+      "height": 1024,
+      "rgbaBytes": 4194304
+    },
+    {
+      "path": "/assets/nature/Bark_NormalTree_Normal.png",
+      "fileBytes": 1365444,
+      "width": 1024,
+      "height": 1024,
+      "rgbaBytes": 4194304
+    },
+    {
+      "path": "/assets/nature/Bark_TwistedTree.png",
+      "fileBytes": 1375419,
+      "width": 1024,
+      "height": 1024,
+      "rgbaBytes": 4194304
+    },
+    {
+      "path": "/assets/nature/Bark_TwistedTree_Normal.png",
+      "fileBytes": 1721722,
+      "width": 1024,
+      "height": 1024,
+      "rgbaBytes": 4194304
+    },
+    {
+      "path": "/assets/nature/CommonTree_2.bin",
+      "fileBytes": 423024
+    },
+    {
+      "path": "/assets/nature/CommonTree_2.gltf",
+      "fileBytes": 2861
+    },
+    {
+      "path": "/assets/nature/DeadTree_2.bin",
+      "fileBytes": 453824
+    },
+    {
+      "path": "/assets/nature/DeadTree_2.gltf",
+      "fileBytes": 1629
+    },
+    {
+      "path": "/assets/nature/Leaves_NormalTree.png",
+      "fileBytes": 158772,
+      "width": 1024,
+      "height": 1024,
+      "rgbaBytes": 4194304
+    },
+    {
+      "path": "/assets/nature/Leaves_TwistedTree.png",
+      "fileBytes": 69611,
+      "width": 1024,
+      "height": 1024,
+      "rgbaBytes": 4194304
+    },
+    {
+      "path": "/assets/nature/PathRocks_Diffuse.png",
+      "fileBytes": 811711,
+      "width": 1024,
+      "height": 1024,
+      "rgbaBytes": 4194304
+    },
+    {
+      "path": "/assets/nature/Pebble_Round_2.bin",
+      "fileBytes": 7468
+    },
+    {
+      "path": "/assets/nature/Pebble_Round_2.gltf",
+      "fileBytes": 1360
+    },
+    {
+      "path": "/assets/nature/Rock_Medium_1.bin",
+      "fileBytes": 13284
+    },
+    {
+      "path": "/assets/nature/Rock_Medium_1.gltf",
+      "fileBytes": 1343
+    },
+    {
+      "path": "/assets/nature/Rock_Medium_2.bin",
+      "fileBytes": 9432
+    },
+    {
+      "path": "/assets/nature/Rock_Medium_2.gltf",
+      "fileBytes": 1337
+    },
+    {
+      "path": "/assets/nature/Rock_Medium_3.bin",
+      "fileBytes": 20124
+    },
+    {
+      "path": "/assets/nature/Rock_Medium_3.gltf",
+      "fileBytes": 1344
+    },
+    {
+      "path": "/assets/nature/Rocks_Diffuse.png",
+      "fileBytes": 1141957,
+      "width": 1024,
+      "height": 1024,
+      "rgbaBytes": 4194304
+    },
+    {
+      "path": "/assets/nature/TwistedTree_1.bin",
+      "fileBytes": 732456
+    },
+    {
+      "path": "/assets/nature/TwistedTree_1.gltf",
+      "fileBytes": 2822
+    },
+    {
+      "path": "/assets/nature/TwistedTree_3.bin",
+      "fileBytes": 771176
+    },
+    {
+      "path": "/assets/nature/TwistedTree_3.gltf",
+      "fileBytes": 2820
+    },
+    {
+      "path": "/assets/oil-jar-pixal3d.glb",
+      "fileBytes": 2050744,
+      "images": [
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 648709,
+          "rgbaBytes": 4194304
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 936994,
+          "rgbaBytes": 4194304
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 198313,
+          "rgbaBytes": 4194304
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/jesus-manger-tripo.glb",
+      "fileBytes": 2763632,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 131847,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 796427,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/joseph-seated-idle.glb",
+      "fileBytes": 2994808,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 160375,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 643130,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/limestone-house-annex.glb",
+      "fileBytes": 4673504,
+      "images": [
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 185258,
+          "rgbaBytes": 4194304
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/mary-seated-idle.glb",
+      "fileBytes": 2962156,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 158073,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 652120,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/olive-basket-cluster-a.glb",
+      "fileBytes": 8743844,
+      "images": [
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 307453,
+          "rgbaBytes": 4194304
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 112371,
+          "rgbaBytes": 4194304
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/olive-basket-cluster-b.glb",
+      "fileBytes": 13093328,
+      "images": [
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 279955,
+          "rgbaBytes": 4194304
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 7277,
+          "rgbaBytes": 4194304
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/olive-wall-cluster-a.glb",
+      "fileBytes": 7192348,
+      "images": [
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 240109,
+          "rgbaBytes": 4194304
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 7318,
+          "rgbaBytes": 4194304
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/olive-wall-cluster-b.glb",
+      "fileBytes": 7705196,
+      "images": [
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 265763,
+          "rgbaBytes": 4194304
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 8384,
+          "rgbaBytes": 4194304
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/pottery-market-stall-pixal3d.glb",
+      "fileBytes": 3333336,
+      "images": [
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 206313,
+          "rgbaBytes": 4194304
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 11654,
+          "rgbaBytes": 4194304
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/square-nativity-stall.glb",
+      "fileBytes": 11510188,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 802999,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/straight-feeding-trough.glb",
+      "fileBytes": 7755952,
+      "images": [
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 300086,
+          "rgbaBytes": 4194304
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/tanner-market-stall-pixal3d.glb",
+      "fileBytes": 6983832,
+      "images": [
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 241351,
+          "rgbaBytes": 4194304
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 34529,
+          "rgbaBytes": 4194304
+        }
+      ]
+    },
+    {
+      "path": "/assets/optimized/vegetable-market-stall-pixal3d.glb",
+      "fileBytes": 7112780,
+      "images": [
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 272416,
+          "rgbaBytes": 4194304
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 257822,
+          "rgbaBytes": 4194304
+        }
+      ]
+    },
+    {
+      "path": "/assets/portable-lantern-tripo.glb",
+      "fileBytes": 1113992,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 357255,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 210991,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 174825,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/sheep-tripo-v2.glb",
+      "fileBytes": 2335756,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 323444,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 427806,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 260725,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/shepherd-companion-stocky.glb",
+      "fileBytes": 2372596,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 280366,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 412328,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 211182,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/shepherd-companion-tall.glb",
+      "fileBytes": 2538820,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 257354,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 454347,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 333535,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/shepherd-prototype.glb",
+      "fileBytes": 585180,
+      "images": []
+    },
+    {
+      "path": "/assets/shepherd-tripo-v2.glb",
+      "fileBytes": 4146228,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 186406,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 369300,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 202523,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/stone-well-tripo.glb",
+      "fileBytes": 2086868,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 443045,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 223279,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 536242,
+          "rgbaBytes": 16777216
+        }
+      ]
+    },
+    {
+      "path": "/assets/story/announcement.jpg",
+      "fileBytes": 596512,
+      "width": 1672,
+      "height": 941,
+      "rgbaBytes": 6293408
+    },
+    {
+      "path": "/assets/story/departure.jpg",
+      "fileBytes": 674680,
+      "width": 1672,
+      "height": 941,
+      "rgbaBytes": 6293408
+    },
+    {
+      "path": "/assets/story/ending.json",
+      "fileBytes": 2280
+    },
+    {
+      "path": "/assets/story/gathering.jpg",
+      "fileBytes": 656903,
+      "width": 1672,
+      "height": 941,
+      "rgbaBytes": 6293408
+    },
+    {
+      "path": "/assets/story/host.jpg",
+      "fileBytes": 693390,
+      "width": 1672,
+      "height": 941,
+      "rgbaBytes": 6293408
+    },
+    {
+      "path": "/assets/story/mary.jpg",
+      "fileBytes": 591600,
+      "width": 1672,
+      "height": 941,
+      "rgbaBytes": 6293408
+    },
+    {
+      "path": "/assets/story/nativity-manger-aligned.png",
+      "fileBytes": 2201221,
+      "width": 1666,
+      "height": 944,
+      "rgbaBytes": 6290816
+    },
+    {
+      "path": "/assets/story/opening.json",
+      "fileBytes": 4417
+    },
+    {
+      "path": "/assets/story/reassurance.jpg",
+      "fileBytes": 567096,
+      "width": 1672,
+      "height": 941,
+      "rgbaBytes": 6293408
+    },
+    {
+      "path": "/assets/story/return.jpg",
+      "fileBytes": 636762,
+      "width": 1672,
+      "height": 941,
+      "rgbaBytes": 6293408
+    },
+    {
+      "path": "/assets/story/sharing.jpg",
+      "fileBytes": 656778,
+      "width": 1672,
+      "height": 941,
+      "rgbaBytes": 6293408
+    },
+    {
+      "path": "/assets/story/silent-night-96k.mp3",
+      "fileBytes": 1825142
+    },
+    {
+      "path": "/assets/story/watch.jpg",
+      "fileBytes": 598108,
+      "width": 1672,
+      "height": 941,
+      "rgbaBytes": 6293408
+    },
+    {
+      "path": "/assets/timber-gate-tripo.glb",
+      "fileBytes": 1802148,
+      "images": [
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 448083,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 140347,
+          "rgbaBytes": 16777216
+        },
+        {
+          "width": 2048,
+          "height": 2048,
+          "encodedBytes": 343542,
+          "rgbaBytes": 16777216
+        }
+      ]
+    }
+  ],
+  "uniqueFileBytes": 163375418
+}

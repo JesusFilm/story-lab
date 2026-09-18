@@ -1,0 +1,16 @@
+{
+  "foliageFadeFrames": 317,
+  "treeBounds": 61,
+  "stationaryCases": 112,
+  "maxSettledMotionMetres": 0,
+  "status": "passed",
+  "directedLaneConfigurations": 304,
+  "frames": 61816,
+  "hiddenPlayerChestFrames": 0,
+  "aheadOcclusionFrames": 11,
+  "minimumArmMetres": 2.299185204276953,
+  "maxYawStepRadians": 0.05333333333333368,
+  "failures": [],
+  "limits": "Sampled character-chest visibility against loaded structure bounds. Does not prove full-body visibility, tree/prop occlusion, inspection-camera composition, or subjective motion quality."
+}
+PASS borrowed runtime camera output and independent diagnostic snapshots.

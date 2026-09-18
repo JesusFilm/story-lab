@@ -67,5 +67,5 @@ export function createHouseSightingScene(journey,onChange,onComplete=()=>{}){
   }
   if(e.key===' '&&e.target===overlay){e.preventDefault();$('sighting-next').click();}
  });
- return {update,getState:()=>({open:!overlay.hidden,loading,failed,page})};
+ return {get active(){return !overlay.hidden;},update,getState:()=>({open:!overlay.hidden,loading,failed,page})};
 }

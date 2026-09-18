@@ -1,0 +1,690 @@
+{
+  "tools": {
+    "gltfTransform": "4.2.1",
+    "meshoptimizer": "0.22.0",
+    "sharp": "0.33.5"
+  },
+  "description": "Independent runtime derivatives of prototype-owned assets. Original files and attribution remain unchanged; all animations retained.",
+  "assets": [
+    {
+      "source": "assets/mary-seated-idle.glb",
+      "output": "assets/optimized/mary-seated-idle.glb",
+      "sourceSHA256": "977d069c2f6a5cd9ab97f48ea1b0c0e990425feacfb288be0895c782c1539fcd",
+      "outputSHA256": "777bce70b63db6c8236bbbbe931aac92733338debaec5560caa10cfe47b6bcaf",
+      "sourceBytes": 4627992,
+      "outputBytes": 2962156,
+      "settings": {
+        "maxTextureSize": 2048,
+        "geometryUnchanged": true
+      },
+      "before": {
+        "triangles": 57320,
+        "accessorBytes": 2147808,
+        "textures": [
+          {
+            "size": [
+              4096,
+              4096
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              4096,
+              4096
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 1
+      },
+      "after": {
+        "triangles": 57320,
+        "accessorBytes": 2147808,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 1
+      }
+    },
+    {
+      "source": "assets/joseph-seated-idle.glb",
+      "output": "assets/optimized/joseph-seated-idle.glb",
+      "sourceSHA256": "448b6f74eb80e32cb62c4f9d44af853b41033c2a1568184ac6d810f2b9b2300c",
+      "outputSHA256": "b23a83e41b804c797f5bed4f238c06b72a9180270e92bc73feff4e3c82088123",
+      "sourceBytes": 4495372,
+      "outputBytes": 2994808,
+      "settings": {
+        "maxTextureSize": 2048,
+        "geometryUnchanged": true
+      },
+      "before": {
+        "triangles": 57392,
+        "accessorBytes": 2187136,
+        "textures": [
+          {
+            "size": [
+              4096,
+              4096
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              4096,
+              4096
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 1
+      },
+      "after": {
+        "triangles": 57392,
+        "accessorBytes": 2187136,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 1
+      }
+    },
+    {
+      "source": "assets/jesus-manger-tripo.glb",
+      "output": "assets/optimized/jesus-manger-tripo.glb",
+      "sourceSHA256": "e87323cb2790bcd1aecbfb672003e91de4e146eef3838aa871532ae711126789",
+      "outputSHA256": "93a6d42621ddd90212f4a72672856b532a8424b2197611b95d5bc38548fed8bc",
+      "sourceBytes": 4308668,
+      "outputBytes": 2763632,
+      "settings": {
+        "maxTextureSize": 2048,
+        "geometryUnchanged": true
+      },
+      "before": {
+        "triangles": 56736,
+        "accessorBytes": 1833632,
+        "textures": [
+          {
+            "size": [
+              4096,
+              4096
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              4096,
+              4096
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      },
+      "after": {
+        "triangles": 56736,
+        "accessorBytes": 1833632,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      }
+    },
+    {
+      "source": "assets/house-decorations/olive-wall-cluster-a.glb",
+      "output": "assets/optimized/olive-wall-cluster-a.glb",
+      "sourceSHA256": "700b91641b3c651dfb95390c9227c12eaf48ea3b6682020e280c29215ec584cf",
+      "outputSHA256": "5ce6d963d53fe3dd0c1d2be197aa0a96b07ecb08ce529dc8295e991fc7a725d1",
+      "sourceBytes": 9758060,
+      "outputBytes": 7192348,
+      "settings": {
+        "maxTextureSize": 1024,
+        "simplifyRatio": 0.3,
+        "error": 0.005,
+        "lockBorder": false
+      },
+      "before": {
+        "triangles": 149257,
+        "accessorBytes": 8591852,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      },
+      "after": {
+        "triangles": 112796,
+        "accessorBytes": 6943408,
+        "textures": [
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      }
+    },
+    {
+      "source": "assets/house-decorations/olive-wall-cluster-b.glb",
+      "output": "assets/optimized/olive-wall-cluster-b.glb",
+      "sourceSHA256": "2a4e77ebdf0c03bab28e49f641ed3ea1400a94cca6d63344d5edf22a97f1355c",
+      "outputSHA256": "b048f95a71241c530d4136c9ce7e4953121847e28cc68d40b72190af69e35a7a",
+      "sourceBytes": 10071176,
+      "outputBytes": 7705196,
+      "settings": {
+        "maxTextureSize": 1024,
+        "simplifyRatio": 0.3,
+        "error": 0.005,
+        "lockBorder": false
+      },
+      "before": {
+        "triangles": 148878,
+        "accessorBytes": 8798184,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      },
+      "after": {
+        "triangles": 119131,
+        "accessorBytes": 7429540,
+        "textures": [
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      }
+    },
+    {
+      "source": "assets/house-decorations/olive-basket-cluster-a.glb",
+      "output": "assets/optimized/olive-basket-cluster-a.glb",
+      "sourceSHA256": "cf743c4fc76bbb3ea6674c51a5a3e98f972d2d7b7dae8dd5da740da754c8afe7",
+      "outputSHA256": "14ff8369ade2b613bf35c73d381c8628d295541d6d8de03941759b00d2f75554",
+      "sourceBytes": 10881308,
+      "outputBytes": 8743844,
+      "settings": {
+        "maxTextureSize": 1024,
+        "simplifyRatio": 0.3,
+        "error": 0.005,
+        "lockBorder": false
+      },
+      "before": {
+        "triangles": 148341,
+        "accessorBytes": 8949788,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      },
+      "after": {
+        "triangles": 135619,
+        "accessorBytes": 8322500,
+        "textures": [
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      }
+    },
+    {
+      "source": "assets/house-decorations/olive-basket-cluster-b.glb",
+      "output": "assets/optimized/olive-basket-cluster-b.glb",
+      "sourceSHA256": "b37293433c6879ed000454fe52ed3f40d1a6c6710055c89961784c403eb1c0a1",
+      "outputSHA256": "29a4a6b84e762244240266d0a56e4748222b02ee933a27b58e58fc9ff22a4de7",
+      "sourceBytes": 14975544,
+      "outputBytes": 13093328,
+      "settings": {
+        "maxTextureSize": 1024,
+        "simplifyRatio": 0.3,
+        "error": 0.005,
+        "lockBorder": false
+      },
+      "before": {
+        "triangles": 215966,
+        "accessorBytes": 13629352,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      },
+      "after": {
+        "triangles": 200835,
+        "accessorBytes": 12804580,
+        "textures": [
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      }
+    },
+    {
+      "source": "assets/vegetable-market-stall-pixal3d.glb",
+      "output": "assets/optimized/vegetable-market-stall-pixal3d.glb",
+      "sourceSHA256": "8d9bb84f1c9d13d063047c7d19b468850179328d908f8d134d46d76ea0e89d69",
+      "outputSHA256": "e5d8ea5879bab4c56dcc6e6a450a97b200f14d0f590202d35c04a278b612af9c",
+      "sourceBytes": 10533872,
+      "outputBytes": 7112780,
+      "settings": {
+        "maxTextureSize": 1024,
+        "simplifyRatio": 0.3,
+        "error": 0.005,
+        "lockBorder": false
+      },
+      "before": {
+        "triangles": 149493,
+        "accessorBytes": 8209340,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      },
+      "after": {
+        "triangles": 111270,
+        "accessorBytes": 6581032,
+        "textures": [
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      }
+    },
+    {
+      "source": "assets/pottery-market-stall-pixal3d.glb",
+      "output": "assets/optimized/pottery-market-stall-pixal3d.glb",
+      "sourceSHA256": "259945257cbf884f4fe40a97e820f874ba7518b48ab9a6b696d7f6265d933705",
+      "outputSHA256": "3b49d0c959f4a0782b24aabbd11d9899220ee29d3477b06a0e8b5404396719a5",
+      "sourceBytes": 7845856,
+      "outputBytes": 3333336,
+      "settings": {
+        "maxTextureSize": 1024,
+        "simplifyRatio": 0.3,
+        "error": 0.005,
+        "lockBorder": false
+      },
+      "before": {
+        "triangles": 149894,
+        "accessorBytes": 6759880,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      },
+      "after": {
+        "triangles": 56528,
+        "accessorBytes": 3113856,
+        "textures": [
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      }
+    },
+    {
+      "source": "assets/tanner-market-stall-pixal3d.glb",
+      "output": "assets/optimized/tanner-market-stall-pixal3d.glb",
+      "sourceSHA256": "621200ae8361e23544837a9550f0e89cb129b8669e3efc35a5068a04f3845ea8",
+      "outputSHA256": "c5e9eff9919482eca85fc55f022ddba035be571c1d4334cd5f41e75e35274b8e",
+      "sourceBytes": 9337752,
+      "outputBytes": 6983832,
+      "settings": {
+        "maxTextureSize": 1024,
+        "simplifyRatio": 0.3,
+        "error": 0.005,
+        "lockBorder": false
+      },
+      "before": {
+        "triangles": 149067,
+        "accessorBytes": 7981860,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      },
+      "after": {
+        "triangles": 119747,
+        "accessorBytes": 6706436,
+        "textures": [
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          },
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      }
+    },
+    {
+      "source": "assets/limestone-house-annex.glb",
+      "output": "assets/optimized/limestone-house-annex.glb",
+      "sourceSHA256": "7da962813f4e39e58feb8dc31aace24ed42035a7185dc21482c9d31f5347d985",
+      "outputSHA256": "2e1f13d1f151e9084788a63f5e9f286cd22cb27a70cdbe0ca3af95fc5f2214fc",
+      "sourceBytes": 8456260,
+      "outputBytes": 4673504,
+      "settings": {
+        "maxTextureSize": 1024,
+        "simplifyRatio": 0.3,
+        "error": 0.005,
+        "lockBorder": false
+      },
+      "before": {
+        "triangles": 159783,
+        "accessorBytes": 7499924,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      },
+      "after": {
+        "triangles": 82097,
+        "accessorBytes": 4486860,
+        "textures": [
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      }
+    },
+    {
+      "source": "assets/straight-feeding-trough.glb",
+      "output": "assets/optimized/straight-feeding-trough.glb",
+      "sourceSHA256": "473c3de797f74c29d1ee04a07d7eee37d1bb79818650d93e14f1ef60781aed92",
+      "outputSHA256": "8ea704ae05a01765dc044cf90529d006f296e71be47b85aeca2b00ffdce73470",
+      "sourceBytes": 10225228,
+      "outputBytes": 7755952,
+      "settings": {
+        "maxTextureSize": 1024,
+        "simplifyRatio": 0.3,
+        "error": 0.005,
+        "lockBorder": false
+      },
+      "before": {
+        "triangles": 149451,
+        "accessorBytes": 8919268,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      },
+      "after": {
+        "triangles": 117203,
+        "accessorBytes": 7454468,
+        "textures": [
+          {
+            "size": [
+              1024,
+              1024
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      }
+    },
+    {
+      "source": "assets/square-nativity-stall.glb",
+      "output": "assets/optimized/square-nativity-stall.glb",
+      "sourceSHA256": "ea261056a4a6b4346a474ffdf5dadfb6cfe458773ef062bf3e5ff3c571006d17",
+      "outputSHA256": "54407e8fcb18aa243e79881335cc3fb76d75eb618bd348c39136687fc815b34f",
+      "sourceBytes": 20516084,
+      "outputBytes": 11510188,
+      "settings": {
+        "maxTextureSize": 2048,
+        "simplifyRatio": 0.4,
+        "error": 0.005,
+        "lockBorder": false
+      },
+      "before": {
+        "triangles": 394461,
+        "accessorBytes": 19411516,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      },
+      "after": {
+        "triangles": 178283,
+        "accessorBytes": 10705796,
+        "textures": [
+          {
+            "size": [
+              2048,
+              2048
+            ],
+            "mime": "image/jpeg"
+          }
+        ],
+        "animations": 0
+      }
+    }
+  ]
+}

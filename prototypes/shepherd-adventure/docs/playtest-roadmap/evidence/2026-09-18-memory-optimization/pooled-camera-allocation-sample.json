@@ -1,0 +1,122 @@
+[
+  {
+    "bytes": 2429567040,
+    "name": "blocked",
+    "url": "src/journey-camera.mjs",
+    "line": 15
+  },
+  {
+    "bytes": 201250688,
+    "name": "updateOcclusion",
+    "url": "src/journey-world.mjs",
+    "line": 43
+  },
+  {
+    "bytes": 62831600,
+    "name": "segmentBox",
+    "url": "src/journey-camera.mjs",
+    "line": 9
+  },
+  {
+    "bytes": 21697728,
+    "name": "segmentBox",
+    "url": "src/journey-camera.mjs",
+    "line": 9
+  },
+  {
+    "bytes": 21107760,
+    "name": "update",
+    "url": "src/journey-camera.mjs",
+    "line": 30
+  },
+  {
+    "bytes": 15701456,
+    "name": "segmentBox",
+    "url": "src/journey-camera.mjs",
+    "line": 9
+  },
+  {
+    "bytes": 8033080,
+    "name": "next",
+    "url": "",
+    "line": 0
+  },
+  {
+    "bytes": 6948512,
+    "name": "evaluate",
+    "url": "three/build/three.module.js",
+    "line": 42663
+  },
+  {
+    "bytes": 5409048,
+    "name": "",
+    "url": "src/nativity-straw.mjs",
+    "line": 29
+  },
+  {
+    "bytes": 3408760,
+    "name": "segmentBox",
+    "url": "src/journey-camera.mjs",
+    "line": 9
+  },
+  {
+    "bytes": 3376064,
+    "name": "obstructionTarget",
+    "url": "src/journey-camera.mjs",
+    "line": 17
+  },
+  {
+    "bytes": 3278800,
+    "name": "next",
+    "url": "",
+    "line": 0
+  },
+  {
+    "bytes": 3018224,
+    "name": "",
+    "url": "src/journey-world.mjs",
+    "line": 221
+  },
+  {
+    "bytes": 2591016,
+    "name": "next",
+    "url": "",
+    "line": 0
+  },
+  {
+    "bytes": 1278272,
+    "name": "max",
+    "url": "",
+    "line": 0
+  },
+  {
+    "bytes": 1246720,
+    "name": "min",
+    "url": "",
+    "line": 0
+  },
+  {
+    "bytes": 1081616,
+    "name": "setFromPoints",
+    "url": "three/build/three.module.js",
+    "line": 4703
+  },
+  {
+    "bytes": 1048832,
+    "name": "evaluate",
+    "url": "three/build/three.module.js",
+    "line": 42663
+  },
+  {
+    "bytes": 1016424,
+    "name": "next",
+    "url": "",
+    "line": 0
+  },
+  {
+    "bytes": 918128,
+    "name": "update",
+    "url": "src/journey-world.mjs",
+    "line": 208
+  }
+]

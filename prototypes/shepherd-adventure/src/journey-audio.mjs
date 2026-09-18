@@ -8,6 +8,7 @@ import {createNightAmbience} from './night-ambience.mjs';
 
 export function createGameplayAudio({onChange=()=>{},loadRecording}={}){
  let night=null;
+ const nightInput={position:null,point:-1,lights:[],houses:[],well:null};
  let context=null,master=null,ambience=null,effects=null;
  let breezeBuffer=null,footstepBuffers=null,tapBuffer=null;
  let started=false,muted=false,desiredActive=false,contextActive=false;
@@ -142,18 +143,19 @@ export function createGameplayAudio({onChange=()=>{},loadRecording}={}){
   if(!Number.isFinite(dt)||dt<=0)return;
   setActive(active);
   if(!started||muted||!contextActive)return;
-  [movement,...[0,1].map(i=>companions[i]||0)].forEach((speed,i)=>{
+  for(let i=0;i<walkers.length;i++){
+   const speed=i===0?movement:companions[i-1]||0;
    const walker=walkers[i],moving=Number.isFinite(speed)&&speed>.35;
-   if(!moving){walker.distance=0;walker.moving=false;return;}
+   if(!moving){walker.distance=0;walker.moving=false;continue;}
    const stride=(speed>3.6?1.45:1.1)*(1+i*.025);
    if(!walker.moving){walker.distance=walker.phase*stride;walker.moving=true;}
    walker.distance+=speed*dt;
    while(walker.distance>=stride){walker.distance-=stride;playFootstep(speed,i);walker.steps++;}
-  });
+  }
   stepDistance=walkers[0].distance;
   breezeTime-=dt;
   if(breezeTime<=0){playBreeze();breezeTime=9+Math.random()*12;}
-  night?.update(dt,{...environment,position});
+  if(night){nightInput.position=position;nightInput.point=environment.point??-1;nightInput.lights=environment.lights||[];nightInput.houses=environment.houses||[];nightInput.well=environment.well||null;night.update(dt,nightInput);}
  }
 
  function stop(){
@@ -163,5 +165,5 @@ export function createGameplayAudio({onChange=()=>{},loadRecording}={}){
   context=null;master=ambience=effects=breezeBuffer=tapBuffer=footstepBuffers=null;contextActive=false;notify();
  }
 
- return {resetAmbience:()=>night?.reset(),ignite,begin,setActive,setMuted,toggle,cue,update,stop,getState:()=>({started,muted,running:context?.state==='running',contextState:context?.state||'closed',stepDistance,breezeTime,night:night?.getState(),walkers:walkers.map(w=>({steps:w.steps,moving:w.moving})),events:{...events}})};
+ return {getMemory:()=>({context:context?.state||'closed',recordings:night?.getMemory()||[],proceduralBytes:[breezeBuffer,tapBuffer,...(footstepBuffers||[])].reduce((n,b)=>n+(b?b.length*b.numberOfChannels*4:0),0)}),resetAmbience:()=>night?.reset(),ignite,begin,setActive,setMuted,toggle,cue,update,stop,getState:()=>({started,muted,running:context?.state==='running',contextState:context?.state||'closed',stepDistance,breezeTime,night:night?.getState(),walkers:walkers.map(w=>({steps:w.steps,moving:w.moving})),events:{...events}})};
 }

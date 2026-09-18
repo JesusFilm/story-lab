@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {clone as cloneSkeleton} from 'three/addons/utils/SkeletonUtils.js';
 import {addNativityStraw,addNativityMotes} from './nativity-straw.mjs';
 import {height} from './journey-terrain.mjs';
 
@@ -14,18 +15,18 @@ export function createNativityShelter(scene,recordFeature){
 }
 
 export async function dressNativity(loader,scene,shelter,recordFeature,watchOcclusion){
- const structure=(await loader.loadAsync('/assets/square-nativity-stall.glb')).scene;
+ const structure=(await loader.loadAsync('/assets/optimized/square-nativity-stall.glb')).scene;
  structure.name='generated-nativity-stall';shelter.add(structure);
  // The asset is grounded and aligned from measured wall planes; do not refit its AABB.
  structure.traverse(o=>{if(o.isMesh)o.castShadow=o.receiveShadow=true;});
- recordFeature(shelter,'Nativity shelter','shelter','/assets/square-nativity-stall.glb');
+ recordFeature(shelter,'Nativity shelter','shelter','/assets/optimized/square-nativity-stall.glb');
  // Bed loose straw on the generated uneven earth floor, not beneath it.
  shelter.updateMatrixWorld(true);
  const floorRay=new THREE.Raycaster(),down=new THREE.Vector3(0,-1,0);
  const floorSamples=new Map();
  const floorAt=(x,z)=>{x=Math.round(x/.3)*.3;z=Math.round(z/.3)*.3;const key=x+','+z;if(floorSamples.has(key))return floorSamples.get(key);const origin=shelter.localToWorld(new THREE.Vector3(x,.35,z));floorRay.set(origin,down);const hit=floorRay.intersectObject(structure,true)[0];const y=hit?Math.max(0,shelter.worldToLocal(hit.point).y):0;floorSamples.set(key,y);return y;};
  addNativityStraw(shelter,floorAt,{width:5.8,depth:6.2});
- const troughSource=(await loader.loadAsync('/assets/straight-feeding-trough.glb')).scene;
+ const troughSource=(await loader.loadAsync('/assets/optimized/straight-feeding-trough.glb')).scene;
  const troughs=[];
  for(const [wall,x,z,yaw,length] of [['back',0,-2.65,0,1],['left',-2.65,-.7,Math.PI/2,1],['right',2.65,.9,Math.PI/2,1],['front',-2.2,2.6,0,.72]]){
   const trough=troughSource.clone(true);trough.name='nativity-trough-'+wall;trough.position.set(x,floorAt(x,z),z);trough.rotation.y=yaw;trough.scale.x=length;
@@ -36,9 +37,9 @@ export async function dressNativity(loader,scene,shelter,recordFeature,watchOccl
  const updateMotes=addNativityMotes(shelter);
  const mixers=[],family=new THREE.Group();family.name='nativity-family';family.position.y=.06;shelter.add(family);
  for(const [name,url,x,z,yaw,scale=1] of [
-  ['Mary','/assets/mary-seated-idle.glb',-.5,-.45,.33],
-  ['Joseph','/assets/joseph-seated-idle.glb',.5,-.55,-.3+Math.PI/12],
-  ['Jesus in the manger','/assets/jesus-manger-tripo.glb',0,.55,-.7,.81225]
+  ['Mary','/assets/optimized/mary-seated-idle.glb',-.5,-.45,.33],
+  ['Joseph','/assets/optimized/joseph-seated-idle.glb',.5,-.55,-.3+Math.PI/12],
+  ['Jesus in the manger','/assets/optimized/jesus-manger-tripo.glb',0,.55,-.7,.81225]
  ]){
   const gltf=await loader.loadAsync(url),model=gltf.scene;model.name=name;model.position.set(x,0,z);model.rotation.y=yaw;model.scale.setScalar(scale);family.add(model);
   const idle=gltf.animations.find(c=>/idle/i.test(c.name));if(idle){const mixer=new THREE.AnimationMixer(model);mixer.clipAction(idle).play();mixer.update(name==='Mary'?.1:2.7);mixers.push(mixer);}
@@ -69,9 +70,9 @@ export async function dressNativity(loader,scene,shelter,recordFeature,watchOccl
  }
  pen.traverse(o=>{if(o.isMesh)o.castShadow=o.receiveShadow=true;});recordFeature(pen,'Quiet animal pen','pen');watchOcclusion(pen,'prop');
  // Independent skeletons and staggered head idles keep the flock calm and grounded.
- const sheep=[];
+ const sheep=[],sheepAsset=await loader.loadAsync('/assets/sheep-tripo-v2.glb');
  for(const [x,z,yaw] of [[-36,-54,.7],[-34,-51,-.4],[-35.5,-51.8,1.8],[-29.6,-74.8,-1.05],[-29.1,-75.8,-1.2]]){
-  const gltf=await loader.loadAsync('/assets/sheep-tripo-v2.glb'),model=gltf.scene;
+  const gltf=sheepAsset,model=cloneSkeleton(gltf.scene);
   const idle=gltf.animations.find(c=>/idle/i.test(c.name));if(idle){const mixer=new THREE.AnimationMixer(model);mixer.clipAction(idle).play();mixer.update(.1+sheep.length*.73);mixer.timeScale=.7+sheep.length*.06;mixers.push(mixer);}
   model.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(model),size=b.getSize(new THREE.Vector3()),center=b.getCenter(new THREE.Vector3()),s=.85/size.y;
   const root=new THREE.Group();root.add(model);model.scale.setScalar(s);model.position.set(-center.x*s,-b.min.y*s,-center.z*s);root.position.set(x,height(x,z)+.04,z);root.rotation.y=yaw;

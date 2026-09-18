@@ -1,0 +1,12 @@
+{
+  "src/memory-profile.js": "4dab6408589df2ee639d5f3614d1a319eeae3e0ccab28d5da9d2c510b7066f83",
+  "src/boot.mjs": "72daf1f1d0fdce61912e57cad0b905995f31e3fa6fbfa0d14ca79bc3b8017370",
+  "src/village-game.mjs": "e422ea89621d96224e7c346a133a10aa619a25c1d42411c7537bdacb47025b78",
+  "src/story-media.mjs": "7303fe55fa0690737935914ad1cf3df0e208b7ac2125a099ab68b657d2f13163",
+  "src/journey-story.mjs": "fd30ffd5425016ca6d96cb26d7b735e8209a32c3fa40fc5d11c1106b7061fc26",
+  "src/house-scene.mjs": "690ba4cb09bc02274defb8cebff7a4b17d2a6973042753067feed12340c97c2a",
+  "src/journey-audio.mjs": "395a7f42ab78d7b2572271fa287db48de934320e8ccaf0a096ad27ff12213e46",
+  "src/night-ambience.mjs": "3768a722385057747b30cf114a20f9acff21df8af106b021bd1757de8c87f507",
+  "index.html": "4a489bfa8197a760bccbf99d4b7fdc3aac9fd51d63fd008fc73458b09ed1dce4",
+  "serve.py": "e1e2bf6cfd1db65952e0bca91687eb224a7d8e371c34f3d6f2a12a3a40b5de5b"
+}

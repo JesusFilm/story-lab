@@ -3,6 +3,7 @@ const clamp=v=>Math.max(0,Math.min(1,v));
 export const near=(p,q,r)=>p&&q?clamp(1-Math.hypot(p.x-q.x,p.z-q.z)/r):0;
 const FILES={crickets:'crickets',sheep:'sheep',frog:'frog',jackal:'jackal',wolf:'wolf',voices:'house-murmur',woman:'house-woman'};
 const HOUSE_VOICES={3:'voices',8:'woman',9:'voices'};
+const CALLS=[['sheep',[0,2,5,6,9],.36],['jackal',[3],.16],['wolf',[8],.13]];
 const LOOP_KEYS=new Set(['crickets','voices','woman']);
 // Bake an equal-power overlap into decoded PCM, avoiding MP3 edge silence and
 // timer-driven restarts. The wrap rejoins adjacent samples of the original head.
@@ -27,7 +28,7 @@ export async function loadNightRecording(context,name){
 }
 
 export function createNightAmbience(context,bus,{load=loadNightRecording,random=Math.random}={}){
- const buffers={},loops=new Map(),shots=new Set(),seen=new Set(),pending=[];
+ const buffers={},loops=new Map(),shots=new Set(),seen=new Set(),pending=[],activeHouses=new Set();
  const counts={sheep:0,jackal:0,wolf:0,frog:0},failures=[];
  let disposed=false,clock=0,nextCall=0,frogWait=8+random()*12;
  const ready=Promise.all(Object.keys(FILES).map(async key=>{
@@ -59,9 +60,9 @@ export function createNightAmbience(context,bus,{load=loadNightRecording,random=
  function update(dt,{position,point=-1,lights=[],houses=[],well=null}={}){
   if(disposed||context.state!=='running'||!Number.isFinite(dt)||dt<=0)return;
   clock+=dt;
-  const light=Math.max(0,...lights.map(l=>near(position,l,9)));
+  let light=0;for(const l of lights)light=Math.max(light,near(position,l,9));
   loop('crickets','crickets',.12*(1-light)**2,dt);
-  const activeHouses=new Set();
+  activeHouses.clear();
   for(const house of houses){
    const id=`house-${house.id}`;activeHouses.add(id);
    const distance=near(position,house,11);
@@ -70,7 +71,7 @@ export function createNightAmbience(context,bus,{load=loadNightRecording,random=
   }
   for(const id of loops.keys())if(id.startsWith('house-')&&!activeHouses.has(id))loop(id,'voices',0,dt);
   // Five spaced bleats across a full route, including the pen and shelter approach.
-  for(const [key,points,volume] of [['sheep',[0,2,5,6,9],.36],['jackal',[3],.16],['wolf',[8],.13]]){
+  for(const [key,points,volume] of CALLS){
    const id=`${key}-${point}`;
    if(points.includes(point)&&!seen.has(id)){seen.add(id);pending.push({key,volume,at:clock+1.5});}
   }
@@ -85,5 +86,5 @@ export function createNightAmbience(context,bus,{load=loadNightRecording,random=
    if(frogWait<=0&&buffers.frog){shot('frog',.4*frogLevel);frogWait=30+random()*30;}
   }
  }
- return {ready,update,reset,stop(){disposed=true;reset();},getState:()=>({loaded:Object.keys(buffers),failures:[...failures],counts:{...counts},pending:pending.length,frogWait,houseTracks:Object.fromEntries([...loops].filter(([id])=>id.startsWith('house-')).map(([id,item])=>[id,item.key])),levels:Object.fromEntries([...loops].map(([id,item])=>[id,item.level]))})};
+ return {getMemory:()=>Object.entries(buffers).map(([name,b])=>({name,bytes:b.length*b.numberOfChannels*4,seconds:b.duration,channels:b.numberOfChannels,sampleRate:b.sampleRate})),ready,update,reset,stop(){disposed=true;reset();},getState:()=>({loaded:Object.keys(buffers),failures:[...failures],counts:{...counts},pending:pending.length,frogWait,houseTracks:Object.fromEntries([...loops].filter(([id])=>id.startsWith('house-')).map(([id,item])=>[id,item.key])),levels:Object.fromEntries([...loops].map(([id,item])=>[id,item.level]))})};
 }

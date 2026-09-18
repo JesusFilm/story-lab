@@ -47,6 +47,13 @@ for(const p of path){for(const wall of ANIMAL_AREA_WALLS)assert(distance(p,wall.
 for(const route of [followPlayerRoute(),followerRoute()])assert.deepEqual(route.at(-1),path.at(-1));
 assert(NODES.filter(n=>n.id!=='goal'&&n.z<-35).length===0);
 const animals=world.settlementFeatures.filter(f=>f.kind==='animal').map(f=>f.root);
+// Sharing may retain geometry/materials, but each animated sheep must own its bones.
+const sheepMeshes=animals.filter(r=>r.name!=='Resting donkey').map(root=>{let mesh;root.traverse(o=>{if(o.isSkinnedMesh)mesh=o;});return mesh;});
+assert.equal(sheepMeshes.length,5);
+assert.equal(new Set(sheepMeshes.map(m=>m.geometry)).size,1,'Sheep share geometry');
+assert.equal(new Set(sheepMeshes.map(m=>m.material)).size,1,'Sheep share material and textures');
+assert.equal(new Set(sheepMeshes.map(m=>m.skeleton)).size,5,'Sheep retain independent skeletons');
+assert.equal(new Set(sheepMeshes.map(m=>m.skeleton.bones[0])).size,5,'Sheep bones are not shared');
 const before=animals.map(r=>r.matrixWorld.toArray());
 const journey={position:NODE.goal,at:'goal',lantern:true,phase:'arrival',options:[],gateOpen:true};world.update(10,10,journey);
 scene.updateMatrixWorld(true);assert.deepEqual(animals.map(r=>r.matrixWorld.toArray()),before,'Animals remain still');

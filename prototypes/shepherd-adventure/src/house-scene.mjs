@@ -75,5 +75,5 @@ export function createHouseScene(journey,scene,character,{isMuted=()=>false}={})
    }
   }
  }
- return {update,tick,begin(){if(!journey.knockOnHouse())return false;stopAudio();unlock();update();return true;},getState:()=>({light:light.intensity,voiceReady:!!voiceBuffer,audioFailed,played:[...played]})};
+ return {setActive(value){if(!context)return;value=value&&active()&&!isMuted();if(!value&&context.state==='running')context.suspend().catch(()=>{});else if(value&&context.state==='suspended'&&active()&&!isMuted())context.resume().catch(()=>{});},get audioFailed(){return audioFailed;},getMemory:()=>({context:context?.state||'closed',voiceBytes:voiceBuffer?voiceBuffer.length*voiceBuffer.numberOfChannels*4:0,nodes:nodes.length}),update,tick,begin(){if(!journey.knockOnHouse())return false;stopAudio();unlock();update();return true;},getState:()=>({light:light.intensity,voiceReady:!!voiceBuffer,audioFailed,played:[...played]})};
 }

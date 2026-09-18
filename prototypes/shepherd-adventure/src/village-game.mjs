@@ -22,8 +22,10 @@ import {createGameplayAudio} from './journey-audio.mjs';
 export async function createVillageGame(story=null,{review=false}={}){
 const $=id=>document.getElementById(id),journey=new RouteRehearsal();
 let mode=review?'playing':'waiting',introTime=0,arrivalTime=0,arrivalShot=null;
-let ready=false,clock=0,last=performance.now(),heading=Math.PI,signature='',renderWidth=0,renderHeight=0;
-let stallOrientation=null,debugController=null;
+let ready=false,clock=0,last=performance.now(),heading=Math.PI,renderWidth=0,renderHeight=0;
+let stallOrientation=null,debugController=null,needsRender=true;
+const companionSpeeds=[0,0],cameraPlayerPosition={x:0,y:0,z:0},cameraLook=new THREE.Vector3(),uiState=[],previousUI=[];
+const audioInput={movement:0,active:false,position:null,companions:companionSpeeds,environment:null};
 let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let motionOverride=false;
 $('reduced-motion').checked=reduced;
@@ -111,7 +113,7 @@ function beginStallReveal(){
 function resize(){
  const panel=$('review-panel'),width=innerWidth,height=innerWidth<=600&&review?Math.max(140,innerHeight-panel.getBoundingClientRect().height-28):innerHeight;
  if(width===renderWidth&&height===renderHeight)return;
- renderWidth=width;renderHeight=height;renderer.setSize(width,height);$('world').style.height=height+'px';camera.aspect=width/height;camera.updateProjectionMatrix();
+ renderWidth=width;renderHeight=height;needsRender=true;renderer.setSize(width,height);$('world').style.height=height+'px';camera.aspect=width/height;camera.updateProjectionMatrix();
 }
 function pose(dt,instant=false){
  // Essential walking still follows smoothly; stationary arrival reframing cuts
@@ -127,7 +129,8 @@ function pose(dt,instant=false){
  const interest=journey.travel?.index===9?{x:-35,z:-53,y:height(-35,-53)+.7,weight:animalViewWeight(p)}:null;
  const doorFive=journey.index===4&&!journey.travel&&!journey.houseTracks.searchStarted;
  const cameraPlayer=doorFive?STOPS[4].anchor:p;
- const frame=cameraRig.update({player:{...cameraPlayer,y:height(cameraPlayer.x,cameraPlayer.z)},heading:doorFive?Math.atan2(4,1):heading,ahead,boxes:world.occluders,dt,instant,portrait:camera.aspect<1,interest});
+ cameraPlayerPosition.x=cameraPlayer.x;cameraPlayerPosition.y=height(cameraPlayer.x,cameraPlayer.z);cameraPlayerPosition.z=cameraPlayer.z;
+ const frame=cameraRig.update({reuseOutput:true,player:cameraPlayerPosition,heading:doorFive?Math.atan2(4,1):heading,ahead,boxes:world.occluders,dt,instant,portrait:camera.aspect<1,interest});
  camera.position.set(frame.position.x,frame.position.y,frame.position.z);camera.lookAt(frame.look.x,frame.look.y,frame.look.z);
  const inspecting=journey.index===0&&!journey.travel&&journey.lampAssembly.open;
  const weight=inspecting?1:0;lampCamera=instant?weight:THREE.MathUtils.lerp(lampCamera,weight,1-Math.exp(-4*dt));
@@ -135,7 +138,7 @@ function pose(dt,instant=false){
   const portrait=camera.aspect<1;
   lampEye.set(-6.9,height(-10.5,30)+2.35,32.3);
   lampLook.set(-10.5,height(-10.5,30)+1.12,portrait?30:29.2);
-  camera.position.lerp(lampEye,lampCamera);const look=new THREE.Vector3(frame.look.x,frame.look.y,frame.look.z).lerp(lampLook,lampCamera);camera.lookAt(look);
+  camera.position.lerp(lampEye,lampCamera);const look=cameraLook.set(frame.look.x,frame.look.y,frame.look.z).lerp(lampLook,lampCamera);camera.lookAt(look);
  }
  houseScene.tick(reduced);stallScene.poseHands();reunionScene.poseHands();reunionScene.poseActors(dt,instant);
  const hand=character.tripo?.model.getObjectByName('R_Hand');
@@ -179,13 +182,13 @@ $('advance').onclick=next;$('pause').onclick=pause;
 // the first pointer or keyboard interaction. The browser still blocks any
 // audio before that interaction, while a standing player can hear the bed and
 // nearby sources without needing to click a scene action.
-document.addEventListener('pointerdown',()=>{if(!story?.active)gameplayAudio.begin();},{capture:true,passive:true});
-document.addEventListener('keydown',()=>{if(!story?.active)gameplayAudio.begin();},true);
+document.addEventListener('pointerdown',event=>{if(!story?.active&&!event.target.closest('#memory-profile'))gameplayAudio.begin();},{capture:true,passive:true});
+document.addEventListener('keydown',event=>{if(!story?.active&&!event.target.closest('#memory-profile'))gameplayAudio.begin();},true);
 // A single restrained cue gives meaningful buttons a tactile response. Capture
 // before the scene handlers so the first rehearsal action can also unlock audio.
 document.addEventListener('click',event=>{
  const button=event.target.closest('button');
- if(!button||button.disabled||button===soundToggle||button.id==='pause'||button.closest('#story-overlay')||button.closest('#review-tools'))return;
+ if(!button||button.disabled||button===soundToggle||button.id==='pause'||button.closest('#story-overlay')||button.closest('#review-tools')||button.closest('#memory-profile'))return;
  if(button.id==='lamp-action'&&button.dataset.action==='light')return;
  gameplayAudio.cue(button.id==='lamp-action'?'assembly':'decision');
 },true);
@@ -228,8 +231,14 @@ function animate(now){
  if(!ready)return;
  if(debugController){const debugDt=document.hidden?0:Math.min(raw,.1);debugController.update(debugDt);if(debugController.animateAmbience)world.updateNativity(debugDt,reduced);renderer.render(scene,camera);return;}
  const active=!journey.paused&&!document.hidden&&!story?.active&&['playing','intro','arrival'].includes(mode),audioActive=active&&['playing','intro'].includes(mode),dt=active?Math.min(raw,.1):0,moving=!!journey.travel,leg=journey.travel?.index;
+ houseScene.setActive(audioActive);gateScene.setActive(audioActive);stallScene.setActive(audioActive);
+ if(!active){
+  gameplayAudio.setActive(false);
+  if(needsRender&&!document.hidden&&!story?.active&&mode!=='waiting'){renderer.render(scene,camera);needsRender=false;}
+  return;
+ }
  let movement=0;
- const companionMovement=mode==='intro'?[3.8,3.8]:journey.reunion.actors.map(a=>a.visible&&a.moving?a.speed:0);
+ for(let i=0;i<2;i++){const actor=journey.reunion.actors[i];companionSpeeds[i]=mode==='intro'?3.8:actor?.visible&&actor.moving?actor.speed:0;}
  if(active){
   const before=journey.distance;
   if(mode==='intro'){
@@ -260,19 +269,39 @@ function animate(now){
  }
  const environment=world.audioEnvironment();
  environment.point=journey.travel?.index??journey.index;
- for(const house of environment.houses)house.open=({3:2,8:6,9:8}[house.id]===journey.index)&&sightingScene.getState().open;
- gameplayAudio.update(dt,{movement,active:audioActive,position:journey.position,companions:companionMovement,environment});
+ for(const house of environment.houses)house.open=((house.id===3?2:house.id===8?6:8)===journey.index)&&sightingScene.active;
+ audioInput.movement=movement;audioInput.active=audioActive;audioInput.position=journey.position;audioInput.environment=environment;gameplayAudio.update(dt,audioInput);
  if(!audioActive)gameplayAudio.setActive(false);
- const key=[journey.index,journey.phase,journey.paused,journey.staged,journey.emptyStall.phase,journey.houseTracks.phase,journey.barredGate.phase,journey.houseRejection.phase,journey.houseSighting.phase,journey.houseSighting.page,journey.houseAdvice.phase,journey.houseAdvice.page,journey.houseOwner.phase,journey.houseOwner.page,journey.reunion.phase,journey.reunion.canFollow,houseScene.getState().audioFailed].join('|');if(key!==signature){signature=key;updateUI();}
- renderer.render(scene,camera);
+ uiState[0]=journey.index;
+ uiState[1]=journey.phase;
+ uiState[2]=journey.paused;
+ uiState[3]=journey.staged;
+ uiState[4]=journey.emptyStall.phase;
+ uiState[5]=journey.houseTracks.phase;
+ uiState[6]=journey.barredGate.phase;
+ uiState[7]=journey.houseRejection.phase;
+ uiState[8]=journey.houseSighting.phase;
+ uiState[9]=journey.houseSighting.page;
+ uiState[10]=journey.houseAdvice.phase;
+ uiState[11]=journey.houseAdvice.page;
+ uiState[12]=journey.houseOwner.phase;
+ uiState[13]=journey.houseOwner.page;
+ uiState[14]=journey.reunion.phase;
+ uiState[15]=journey.reunion.canFollow;
+ uiState[16]=houseScene.audioFailed;
+ let uiChanged=false;for(let i=0;i<uiState.length;i++){if(previousUI[i]!==uiState[i])uiChanged=true;previousUI[i]=uiState[i];}if(uiChanged)updateUI();
+ renderer.render(scene,camera);needsRender=false;
  // Real frame intervals, kept per segment. Hidden/paused time is excluded.
  if(active&&moving&&raw>0&&samples.length<60000)samples.push({leg:leg+1,ms:+(raw*1000).toFixed(2),calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});
 }
 window.routeRehearsal={getState:()=>({...journey.snapshot(),ready,audio:gameplayAudio.getState(),stall:stallScene.getState(),camera:cameraRig.lastDiagnostics,lamp:world.lampState(),house:houseScene.getState(),sighting:sightingScene.getState(),view:{position:camera.position.toArray(),look:cameraRig.look},buffer:[renderer.domElement.width,renderer.domElement.height],reduced}),getFrameSamples:()=>samples.slice(),getFeatures:()=>world.settlementFeatures.map(f=>({label:f.label,position:f.root.position.toArray(),yaw:f.root.rotation.y}))};
+window.shepherdMemory?.register('world',()=>({mode,point:journey.index+1,travel:journey.travel?.index+1||null,paused:journey.paused,graphics:window.shepherdMemory.inventory(scene),renderer:{...renderer.info.memory,programs:renderer.info.programs?.length,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles},audio:gameplayAudio.getMemory(),houseAudio:houseScene.getMemory(),night:gameplayAudio.getState().night}));
 try{
+ window.shepherdMemory?.mark('world-load-start');
  const manager=new THREE.LoadingManager();manager.onProgress=(_url,loaded,total)=>window.storyLoading.status(`Loading village resources: ${loaded} / ${total}`);
- const loader=new GLTFLoader(manager);window.storyLoading.status('Loading the shepherd and village…');
+ const loader=new GLTFLoader(manager);window.shepherdMemory?.observeLoader(loader);window.storyLoading.status('Loading the shepherd and village…');
  await Promise.all([character.load(loader),reunionScene.load(loader),world.dress(loader)]);
+ window.shepherdMemory?.mark('world-assets-ready');
  ready=true;$('review-panel').inert=false;
  const query=new URLSearchParams(location.search),point=Number(query.get('point'));
  if(review&&query.has('point')&&Number.isInteger(point)&&point>=1&&point<=10){journey.jump(point-1);choice.value=point-1;if(query.has('replay'))journey.replay();}
@@ -298,7 +327,7 @@ try{
   if(['open','house'].includes(stallPose)){journey.actAtStall();advanceFor(stallPose==='open'?4:10.6);}
   character.update(.01,{controller:{phase:'choice'},movement:0,gaitBlend:0,paused:false});journey.paused=true;
  }
- reposition();if(review){window.storyLoading.ready();$('advance').focus({preventScroll:true});}requestAnimationFrame(animate);
+ reposition();window.shepherdMemory?.mark('world-first-render');if(review){window.storyLoading.ready();$('advance').focus({preventScroll:true});}requestAnimationFrame(animate);
 }catch(error){if(!review)throw error;console.error(error);window.storyLoading.fail('The route rehearsal could not load. Reload to try again.');}
 function finishOpening(){mode='playing';journey.position={x:0,z:50,heading:Math.PI};cameraRig.reset();reposition();$('advance').focus({preventScroll:true});}
 function startOpeningCamera(){journey.reset();gameplayAudio.resetAmbience();avatar.visible=true;mode='intro';introTime=0;last=performance.now();gameplayAudio.begin();updateUI();}

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {HOUSE_ANNEXES} from './village-layout.mjs';
-export const ANNEX_URL='/assets/limestone-house-annex.glb';
+export const ANNEX_URL='/assets/optimized/limestone-house-annex.glb';
 
 export async function addHouseAnnexes(loader,scene,features,ground,recordFeature,watchOcclusion,occluders){
  const source=(await loader.loadAsync(ANNEX_URL)).scene;

@@ -49,9 +49,9 @@ D028 because it duplicated this record and was not used by the prototype.
 **Accepted for this PR:** the house handoff and gameplay ambience/effects slices,
 including the final quiet female house voice, are approved by user playtest (D040).
 I01's separate House 1 refusal-voice reliability check remains open. I04 engine/camera
-investigation and I03's remaining all-house audit remain open. I08's loader
-strategy and intro-diorama handoff are explicitly deferred pending a separate
-resource-lifecycle investigation. I09 defines the following multilingual
+investigation and I03's remaining all-house audit remain open. I08's initial resource-lifecycle investigation is now recorded in D041 and the
+[memory report](evidence/2026-09-18-memory/README.md). Asset optimization and a
+measured loading-strategy comparison remain next; transition implementation is open. I09 defines the following multilingual
 milestone.
 These are ready planning/diagnostic directions, not a record of implemented fixes.
 
@@ -397,7 +397,10 @@ House 1's refusal and House 5's silence separate from this illustrated-house rul
 
 **Proposed priority:** high diagnostic work; fixes follow measured cause.
 **Size:** unknown until trace. **Status:** independent investigation authorized by direction;
-no root cause established. **Covers:** F08, R01 and resource costs underlying F09.
+initial memory baseline captured (D041) and optimization proof of concept implemented
+(D042), but no in-route freeze root cause established.
+[Full-route evidence](evidence/2026-09-18-memory/README.md).
+**Covers:** F08, R01 and resource costs underlying F09.
 **Reproduction leads:** both M1 Air and M4 Mac show freezes. Start with engine/render
 resource handling and camera state/turn logic. Browser versions are incidental
 metadata unless a trace later implicates them. **Optimization target:** lower-powered
@@ -574,8 +577,9 @@ alone cannot close this initiative.
 ### I08 — Story-matched loading and continuous transitions
 
 **Proposed priority:** high. **Size:** M, with strategy dependent on I04 measurements.
-**Status:** experience direction settled (D015); loading architecture to compare;
-implementation deferred by D032 pending resource-lifecycle rethinking.
+**Status:** initial full-route memory baseline complete (D041); loading architecture
+comparison and transition implementation remain open. See the
+[memory report and recommended sequence](evidence/2026-09-18-memory/README.md).
 **Covers:** F09 and the visual/audio boundary in F01. No loader removal is assumed.
 
 The existing plain 2D graphics feel detached from Bethlehem, and immediate swaps
@@ -912,3 +916,94 @@ Checks: audio scheduling and actual decoded-waveform tests passed; browser loade
 18 September 2026. User confirms they are happy with the current result, including D039's single female House 8 voice and restored original House 9 murmur, and requests updated documentation, a commit and a pull request. The bounded house-handoff/gameplay-audio work is accepted and ready for review; prior “awaiting listening” entries above are historical checkpoints superseded by this verdict. This does not close F07, broader device evidence, remaining house-viewpoint alternatives, or the deferred loading/intro-continuity investigation. It authorizes the commit and PR, not merge or deployment.
 
 Final household candidate passed scheduling, PCM seam/clipping, browser asset decoding, ignition and door attenuation checks. Publication deletion handling has focused regression coverage. Runtime credits and allowlists reflect the final seven sound assets. The unrelated local publication-inventory edit is excluded from this handoff.
+
+
+### D041 / I04 / I08 — full-route memory baseline and loading direction
+
+18 September 2026. User requests measurement before choosing staged versus all-upfront
+loading: create a local branch, instrument startup/audio/all scenes through replay,
+play the complete normal experience using computer controls, and report memory,
+cleanup and asset-quality priorities. Created `codex/shepherd-memory-profile` from
+`a9518851ecabd6d41f9030923f46a27266956608`. This supersedes D032's investigation deferral;
+it does not select an unmeasured loading architecture or approve a visual redesign.
+
+Implemented opt-in lifecycle/heap/resource/graphics/audio profiling and local JSON
+export. Completed the full normal route with all opening/ending verses and sound
+enabled, plus replay-entry and fresh-origin startup checks.
+[Report, raw evidence, limitations and recommended sequence](evidence/2026-09-18-memory/README.md).
+The world remains allocated through both dioramas and replay; about 1,996 MiB of
+logical RGBA/mipmap textures, 128 MiB geometry backing stores and 14 MiB retained
+audio PCM are separate counters, not a summed RAM measurement. Repeated sheep
+loads and 4K Nativity textures are priority experiments. Initial world preparation
+blocks the main thread for multiple seconds even under the opening. No in-route
+freeze cause, total GPU residency or low-end-device safety is established.
+
+Recommendation (not an accepted implementation): optimize retained assets, establish
+resource ownership/idle rendering, then compare bounded background preparation with
+all-upfront loading on a physical modest device. Keep transition music independent
+of diorama destruction. I04/I08 and M1 remain partial; the diagnostic checkpoint is
+complete, while loading/visual changes and human acceptance remain open.
+
+Checks: profiler accounting/opt-in tests, gameplay audio/ambience, route/camera,
+syntax/whitespace, local export validation and full CUA playthrough passed.
+Human verdict: not yet reviewed. Local edits only; no publication manifest changes,
+commit, PR or deployment. Existing unrelated portal inventory edits were preserved.
+
+
+### D042 / I04 / I08 — isolated memory optimization experiment
+
+18 September 2026. User requests implementing the proposed improvements in a
+separate worktree, then a before/after comparison emphasizing the JavaScript heap,
+allocation churn and reduced average memory. Current scope is primarily desktop;
+retain mobile compatibility and consider weaker devices without claiming that
+mobile is the intended primary experience. This refines D016/R01's mobile emphasis
+for this experiment; it does not establish a safe device memory budget.
+
+Created `codex/shepherd-memory-optimization` from the same a951885 baseline and
+copied the local D041 instrumentation/evidence, excluding unrelated portal changes.
+Implemented shared sheep geometry/textures with independent skeletons, smaller
+family/scenery textures, conservatively simplified static scenery, reusable camera
+and audio working state, and suspension of covered/paused/inactive world work.
+Original models remain available. No dialogue, route or loading architecture change.
+
+[Experiment report and paired traces](evidence/2026-09-18-memory-optimization/README.md).
+I04/I08 remain partial. Human visual acceptance, physical modest-device evidence,
+music continuity and an explicit loading-policy comparison remain open. This is a
+local proof of concept, without publication, merge or release authorization.
+
+D042 verification completed: final normal CUA route and replay, plus paired focused
+idle probes, camera parity, geometry/animation, route and audio checks. Gameplay
+heap mean fell 178.9 → 152.8 MiB (descriptive routes; added probe excluded), fixed-idle
+mean 216.5 → 142.2 MiB, and the fixed-window middle-90% span 65.4 → 6.0 MiB.
+Sampled upward heap movement fell about 72%; frame timing was essentially unchanged.
+Geometry backing stores fell 127.8 → 100.3 MiB and texture estimates 1,996.2 →
+1,100.2 MiB. These counters are not additive total RAM. A first pass that did not
+reduce churn was retained in the evidence; direct-coordinate camera intersections
+provided the subsequent improvement. Later-route sawteeth remain. Human acceptance
+and physical-device budgets remain unestablished; no release action was taken.
+
+
+### D043 / I04 / I08 — memory initiative accepted and release authorized
+
+18 September 2026. The user accepted the reported memory proof of concept and
+requested documentation, before/after memory captures, completed feedback tasks,
+a commit and PR, review/CI, merge if clear, and cleanup to local main only. This
+supersedes D042's earlier local-only release status.
+
+Completed bounded work under I04 / R01 and the diagnostic portion of I08:
+
+- [x] Capture startup, audio loading, every scene and replay invitation with an opt-in profiler.
+- [x] Preserve baseline and final full-route exports and before/after heap charts.
+- [x] Reduce avoidable camera/frame allocations with reusable state and equivalent camera results.
+- [x] Reduce selected texture/geometry footprints and share sheep model resources.
+- [x] Suspend inactive world rendering and scene audio work.
+- [x] Verify the normal route, replay and focused regressions; present measured results for user acceptance.
+
+[Initiative, captures, measurements and limitations](evidence/2026-09-18-memory-optimization/README.md).
+Full-route gameplay mean fell 178.9 → 152.8 MiB; fixed-idle middle-90% heap span
+fell 65.4 → 6.0 MiB. These are desktop measurements, not a mobile memory budget.
+I04/M1 remain partial: F08's reported freeze has not been reproduced/root-caused,
+physical modest-device validation and later-route allocation work remain open.
+I08/F01/F09 remain open for loading architecture and music/visual continuity.
+User acceptance covers this measured initiative; no additional human sensory
+playtest is inferred. Release follows a clean PR review and passing CI.
