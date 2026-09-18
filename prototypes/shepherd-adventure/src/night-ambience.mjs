@@ -21,10 +21,14 @@ export function crossfadeLoop(context,buffer,seconds=2){
  }
  return result;
 }
-export async function loadNightRecording(context,name){
- const response=await fetch(new URL(`../assets/audio/${FILES[name]}.mp3`,import.meta.url));
- if(!response.ok)throw Error(`Cannot load ${name}: ${response.status}`);
+export async function loadAudioRecording(context,url){
+ const response=await fetch(url);
+ if(!response.ok)throw Error(`Cannot load recording: ${response.status}`);
  return context.decodeAudioData(await response.arrayBuffer());
+}
+
+export function loadNightRecording(context,name){
+ return loadAudioRecording(context,new URL(`../assets/audio/${FILES[name]}.mp3`,import.meta.url));
 }
 
 export function createNightAmbience(context,bus,{load=loadNightRecording,random=Math.random}={}){

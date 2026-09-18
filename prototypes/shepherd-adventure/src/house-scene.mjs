@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {KNOCK_TIMES,HOUSE_TIMING} from './house-rejection.mjs';
 import {height} from './journey-world.mjs';
+import {loadAudioRecording} from './night-ambience.mjs';
 
 export function createHouseScene(journey,scene,character,{isMuted=()=>false}={}){
  const $=id=>document.getElementById(id);
@@ -12,12 +13,19 @@ export function createHouseScene(journey,scene,character,{isMuted=()=>false}={})
   const ring=new THREE.Mesh(new THREE.RingGeometry(.11,.135,40),new THREE.MeshBasicMaterial({color:'#ffe0a0',transparent:true,opacity:0,side:THREE.DoubleSide,depthWrite:false}));
   ring.rotation.y=-Math.PI/2;ring.position.set(-11.37,height(-9,18.5)+1.35,19.35);effects.add(ring);return ring;
  });
- let context,voiceBuffer,previous=null,played=new Set(),nodes=[],audioFailed=false,unlockPending=false;
- const voiceBytes=fetch(new URL('../assets/house-1/resident-refusal.mp3',import.meta.url)).then(r=>{if(!r.ok)throw Error('Voice unavailable');return r.arrayBuffer();}).catch(()=>null);
+ let context,voiceBuffer,voicePromise,previous=null,played=new Set(),nodes=[],audioFailed=false,unlockPending=false;
+ const voiceURL=new URL('../assets/house-1/resident-refusal.wav',import.meta.url);
+ function preloadVoice(){
+  try{
+   context??=new AudioContext();
+   voicePromise=loadAudioRecording(context,voiceURL).then(buffer=>{voiceBuffer=buffer;return buffer;}).catch(()=>{audioFailed=true;return null;});
+  }catch{audioFailed=true;voicePromise=Promise.resolve(null);}
+ }
+ preloadVoice();
  function stopAudio(){for(const node of nodes){try{node.stop();node.disconnect();}catch{}}nodes=[];played.clear();}
  async function unlock(){
-  if(isMuted())return;
-  try{context??=new AudioContext();await context.resume();if(!voiceBuffer){const bytes=await voiceBytes;if(bytes)voiceBuffer=await context.decodeAudioData(bytes.slice(0));else audioFailed=true;}}
+ if(isMuted())return;
+  try{context??=new AudioContext();await context.resume();await voicePromise;}
   catch{audioFailed=true;}
  }
  function knockSound(){
@@ -40,7 +48,7 @@ export function createHouseScene(journey,scene,character,{isMuted=()=>false}={})
   if(journey.index===6)effects.position.set(15,height(6,-20.5)-height(-9,18.5),-39);
   if(journey.index===4)effects.position.set(30.865,height(22,8.5)-height(-9,18.5),-10.6);
  if(context){if(journey.paused||isMuted())context.suspend().catch(()=>{});else if(context.state==='suspended')context.resume().catch(()=>{});}
-  if(journey.index===1&&journey.houseRejection.started&&!isMuted()&&!context&&!unlockPending){unlockPending=true;unlock().finally(()=>{unlockPending=false;});}
+  if(journey.index===1&&journey.houseRejection.started&&!isMuted()&&context?.state!=='running'&&!unlockPending){unlockPending=true;unlock().finally(()=>{unlockPending=false;});}
   if(journey.index!==1)return;
   const h=journey.houseRejection,phase=h.phase;
   $('review-state').textContent=journey.staged?'Staged · scene draft':'Scene draft';
@@ -58,7 +66,9 @@ export function createHouseScene(journey,scene,character,{isMuted=()=>false}={})
    if(h.started&&t>=KNOCK_TIMES[i]&&!played.has(round*3+i)){played.add(round*3+i);knockSound();}
   });
   if(journey.index===1&&h.started&&t>=HOUSE_TIMING.voice&&!played.has('voice')){
-   played.add('voice');if(!isMuted()&&context&&voiceBuffer){const voice=context.createBufferSource();voice.buffer=voiceBuffer;voice.connect(context.destination);voice.start();nodes.push(voice);}else if(!isMuted())audioFailed=true;
+   if(!isMuted()&&context?.state==='running'&&voiceBuffer){
+    played.add('voice');const voice=context.createBufferSource();voice.buffer=voiceBuffer;voice.connect(context.destination);voice.start();nodes.push(voice);
+   }else if(!isMuted()&&audioFailed)played.add('voice');
   }
   // Briefly raise the free hand. The carrying hand and authored walk stay untouched.
   const model=character.tripo?.model,hand=model?.getObjectByName('L_Hand');
