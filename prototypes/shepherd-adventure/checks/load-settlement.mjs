@@ -3,7 +3,7 @@ import {readFile} from 'node:fs/promises';
 import {register} from 'node:module';
 import {pathToFileURL} from 'node:url';
 const runtime=process.env.WATCH_GAME_RUNTIME||'/tmp/watch-game-blender-runtime';
-register('data:text/javascript,'+encodeURIComponent(`import {pathToFileURL} from 'node:url';export async function resolve(s,c,next){if(s==='three')return next(pathToFileURL(${JSON.stringify(runtime)}+'/node_modules/three/build/three.module.js').href,c);return next(s,c);}`));
+register('data:text/javascript,'+encodeURIComponent(`import {pathToFileURL} from 'node:url';export async function resolve(s,c,next){if(s.startsWith('three/addons/'))return next(pathToFileURL(${JSON.stringify(runtime)}+'/node_modules/three/examples/jsm/'+s.slice(13)).href,c);if(s==='three')return next(pathToFileURL(${JSON.stringify(runtime)}+'/node_modules/three/build/three.module.js').href,c);return next(s,c);}`));
 export const THREE=await import('three');
 globalThis.ProgressEvent??=class ProgressEvent{constructor(type,init={}){this.type=type;Object.assign(this,init);}};
 const {GLTFLoader}=await import(pathToFileURL(runtime+'/node_modules/three/examples/jsm/loaders/GLTFLoader.js'));

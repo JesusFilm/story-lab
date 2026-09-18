@@ -42,7 +42,7 @@ export function createGateScene(journey,scene,character,{isMuted=()=>false}={}){
   // A modest push keeps the obstacle and shepherd together, without losing orientation.
   if(h.started&&!reduced){const w=Math.max(0,Math.min(1,t/.7,(3.5-t)/.7));const look=camera.position.clone().add(camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(camera.position.distanceTo(target)));camera.position.lerp(target,.12*w);camera.lookAt(look.lerp(target,w*.45));}
  }
- return {update,tick,begin(){if(!journey.tryGate())return false;stop();try{context??=new AudioContext();context.resume().catch(()=>{});}catch{}update();return true;}};
+ return {setActive(value){if(!context)return;value=value&&active()&&!isMuted();if(!value&&context.state==='running')context.suspend().catch(()=>{});else if(value&&context.state==='suspended'&&active()&&!isMuted())context.resume().catch(()=>{});},update,tick,begin(){if(!journey.tryGate())return false;stop();try{context??=new AudioContext();context.resume().catch(()=>{});}catch{}update();return true;}};
 }
 
 export function playGateTimber(context,nodes,isMuted=()=>false){

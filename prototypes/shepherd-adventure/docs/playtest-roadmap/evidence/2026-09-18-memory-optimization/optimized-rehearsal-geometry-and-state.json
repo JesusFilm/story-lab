@@ -1,0 +1,172 @@
+{
+  "status": "passed",
+  "fullDistance": 266.28636089180134,
+  "unchangedCentres": 57,
+  "orientedHouses": [
+    "1",
+    "3",
+    "5",
+    "8",
+    "9"
+  ],
+  "legs": [
+    {
+      "number": 1,
+      "title": "Lamp workbench",
+      "metres": 22.69711430574163,
+      "closest": {
+        "metres": 1.644968981663527,
+        "label": "decoration-wall",
+        "point": {
+          "x": -5.233600000000001,
+          "z": 37.06400000000001
+        }
+      }
+    },
+    {
+      "number": 2,
+      "title": "House 1",
+      "metres": 12.604168309822985,
+      "closest": {
+        "metres": 1.259690720687723,
+        "label": "House 1 decoration 2",
+        "point": {
+          "x": -13.073469387755102,
+          "z": 21.55204081632653
+        }
+      }
+    },
+    {
+      "number": 3,
+      "title": "House 3",
+      "metres": 20.87748976833254,
+      "closest": {
+        "metres": 1.4240936126375914,
+        "label": "House 1 decoration 1",
+        "point": {
+          "x": -13,
+          "z": 18.5
+        }
+      }
+    },
+    {
+      "number": 4,
+      "title": "Barred gate",
+      "metres": 11.930840244209007,
+      "closest": {
+        "metres": 1.8564994261838577,
+        "label": "House 3 decoration 4",
+        "point": {
+          "x": -14.5,
+          "z": 0
+        }
+      }
+    },
+    {
+      "number": 5,
+      "title": "House 5",
+      "metres": 45.16336274078637,
+      "closest": {
+        "metres": 0.9855908647654931,
+        "label": "Empty stall 2",
+        "point": {
+          "x": -4.649305555555556,
+          "z": -2.165509259259259
+        }
+      }
+    },
+    {
+      "number": 6,
+      "title": "Village animal pen",
+      "metres": 30.472323266792593,
+      "closest": {
+        "metres": 1.3753806185091981,
+        "label": "House 5 decoration 7",
+        "point": {
+          "x": 18.13201632891092,
+          "z": 6.673749817757691
+        }
+      }
+    },
+    {
+      "number": 7,
+      "title": "House 8",
+      "metres": 29.69553336806462,
+      "closest": {
+        "metres": 1.78547434857529,
+        "label": "House 8 decoration 14",
+        "point": {
+          "x": 2.9592626308602634,
+          "z": -15.567137005006828
+        }
+      }
+    },
+    {
+      "number": 8,
+      "title": "Empty stall and rear gate",
+      "metres": 20.72088437244147,
+      "closest": {
+        "metres": 1.8564994261838563,
+        "label": "House 8 decoration 13",
+        "point": {
+          "x": 1.5,
+          "z": -20.5
+        }
+      }
+    },
+    {
+      "number": 9,
+      "title": "House 9",
+      "metres": 13.584429395522514,
+      "closest": {
+        "metres": 2.2772752436756303,
+        "label": "House 9 decoration 15",
+        "point": {
+          "x": -12.918309037900874,
+          "z": -28.398963394881765
+        }
+      }
+    },
+    {
+      "number": 10,
+      "title": "Nativity shelter",
+      "metres": 49.52611318230949,
+      "closest": {
+        "metres": 1.0716262705973054,
+        "label": "Animal-area gate",
+        "point": {
+          "x": -24.570690625,
+          "z": -41.51653125
+        }
+      }
+    },
+    {
+      "number": 11,
+      "title": "House 5 inspection / departure",
+      "metres": 9.161127359999524,
+      "closest": {
+        "metres": 0.7546980951251889,
+        "label": "Stone well",
+        "point": {
+          "x": 16.26772872098316,
+          "z": 4.110514337733273
+        }
+      }
+    },
+    {
+      "number": 12,
+      "title": "House 5 inspection / departure",
+      "metres": 25.844675950160685,
+      "closest": {
+        "metres": 1.2751122730499158,
+        "label": "House 5 annex",
+        "point": {
+          "x": 20.332726445152485,
+          "z": 1.4456076467910788
+        }
+      }
+    }
+  ],
+  "failures": [],
+  "limits": "Sampled path clearance against projected model hulls and wall centerlines, plus state transitions. Not a live camera or enjoyment test."
+}

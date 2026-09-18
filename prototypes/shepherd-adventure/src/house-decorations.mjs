@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 export const DECORATION_ASSETS=['olive-wall-cluster-a','olive-wall-cluster-b','olive-basket-cluster-a','olive-basket-cluster-b'];
-export const decorationURL=id=>`/assets/house-decorations/${id}.glb`;
+export const decorationURL=id=>`/assets/optimized/${id}.glb`;
 // House-local +X is the facade; +Z is the window side. The door stays clear.
 // Seeded variation is stable across reloads and map generation.
 let seed=915;

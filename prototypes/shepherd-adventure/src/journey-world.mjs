@@ -33,7 +33,7 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
  function walkDistance(x,z){if(!routePaths)return pathDistance(x,z);let d=1e4;for(const path of activePaths)for(let i=1;i<path.points.length;i++)d=Math.min(d,distanceToSegment(x,z,path.points[i-1],path.points[i]));return d;}
  const settlementFeatures=[];
  function recordFeature(root,label,kind,asset=null){root.name=label;settlementFeatures.push({root,label,kind,asset});}
- const fading=[],occlusionBounds=[];
+ const fading=[],occlusionBounds=[],occlusionBox=new THREE.Box3(),occlusionPlayer={x:0,y:0,z:0};
  function watchOcclusion(root,kind,moving=false){
   root.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(root);if(b.isEmpty())return;
   const bounds={min:{x:b.min.x,y:b.min.y,z:b.min.z},max:{x:b.max.x,y:b.max.y,z:b.max.z},kind};
@@ -41,10 +41,10 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   fading.push({root,bounds,meshes,opacity:1,moving});occlusionBounds.push(bounds);
  }
  function updateOcclusion(camera,player,dt,inspecting=false){
-  const eye=camera.position,ground=height(player.x,player.z);let faded=0;
+  const eye=camera.position,ground=height(player.x,player.z);let faded=0;occlusionPlayer.x=player.x;occlusionPlayer.y=ground;occlusionPlayer.z=player.z;
   for(const item of fading){
-   if(item.moving){item.root.updateWorldMatrix(true,true);const b=new THREE.Box3().setFromObject(item.root);Object.assign(item.bounds.min,b.min);Object.assign(item.bounds.max,b.max);}
-   const target=obstructionTarget(eye,{x:player.x,y:ground,z:player.z},item.bounds,inspecting);item.opacity+=(target-item.opacity)*(1-Math.exp(-(target<item.opacity?14:3)*dt));
+   if(item.moving){item.root.updateWorldMatrix(true,true);const b=occlusionBox.setFromObject(item.root);Object.assign(item.bounds.min,b.min);Object.assign(item.bounds.max,b.max);}
+   const target=obstructionTarget(eye,occlusionPlayer,item.bounds,inspecting);item.opacity+=(target-item.opacity)*(1-Math.exp(-(target<item.opacity?14:3)*dt));
    if(item.opacity<.98)faded++;
    for(const {mesh,casts,materials} of item.meshes){mesh.castShadow=casts&&item.opacity>.85;for(const {m,opacity,transparent,depthWrite} of materials){const translucent=item.opacity<.995;if(m.transparent!==(transparent||translucent)){m.transparent=transparent||translucent;m.needsUpdate=true;}m.opacity=opacity*item.opacity;m.depthWrite=depthWrite&&!translucent;}}
   }return faded;
@@ -171,9 +171,9 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
    {label:'Animal pen',kind:'pen',url:'/assets/animal-pen-tripo-v2.glb',height:2.1,items:[[25,-26,.1]]},
    // Stall item angles specify the open-front bearing; source geometry is off-axis.
    // Local front offsets measured from roofless top-down runtime-model renders.
-   {label:'Vegetables',kind:'vegetable-stall',url:'/assets/vegetable-market-stall-pixal3d.glb',height:2.8,items:[[-29,1.5,106*Math.PI/180],[31,-9,-86*Math.PI/180]],frontYaw:-25*Math.PI/180,stall:true},
-   {label:'Pottery',kind:'pottery-stall',url:'/assets/pottery-market-stall-pixal3d.glb',height:2.8,items:[[-21.5,7.5,126*Math.PI/180],[31,-2.5,-101*Math.PI/180]],frontYaw:-28*Math.PI/180,stall:true},
-   {label:'Tanner',kind:'tanner-stall',url:'/assets/tanner-market-stall-pixal3d.glb',height:2.8,items:[[28,-16,-75*Math.PI/180]],frontYaw:-33*Math.PI/180,stall:true}
+   {label:'Vegetables',kind:'vegetable-stall',url:'/assets/optimized/vegetable-market-stall-pixal3d.glb',height:2.8,items:[[-29,1.5,106*Math.PI/180],[31,-9,-86*Math.PI/180]],frontYaw:-25*Math.PI/180,stall:true},
+   {label:'Pottery',kind:'pottery-stall',url:'/assets/optimized/pottery-market-stall-pixal3d.glb',height:2.8,items:[[-21.5,7.5,126*Math.PI/180],[31,-2.5,-101*Math.PI/180]],frontYaw:-28*Math.PI/180,stall:true},
+   {label:'Tanner',kind:'tanner-stall',url:'/assets/optimized/tanner-market-stall-pixal3d.glb',height:2.8,items:[[28,-16,-75*Math.PI/180]],frontYaw:-33*Math.PI/180,stall:true}
   ];
   for(const spec of specs){const gltf=await loader.loadAsync(spec.url);const source=gltf.scene;const b=new THREE.Box3().setFromObject(source),size=b.getSize(new THREE.Vector3()),center=b.getCenter(new THREE.Vector3());
    for(const [index,[x,z,rot]] of spec.items.entries()){const outer=new THREE.Group(),m=source.clone(true),s=Math.min(spec.height/size.y,6/Math.max(size.x,size.z));m.scale.setScalar(s);m.position.set(-center.x*s,-b.min.y*s,-center.z*s);outer.add(m);outer.rotation.y=rot-(spec.frontYaw||0);outer.position.set(x,height(x,z),z);outer.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});const placed=placeSafely(outer,x,z,spec.stall);// Keep the established centre; only turn the visited house toward its stop.
@@ -200,7 +200,12 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   nature=await addVillageNature(loader,scene,fits,walkDistance,watchOcclusion);
   for(const {root,size} of lanternMounts){const body=fitLantern(lanternSource,size);root.add(body);setLanternLit(body,!root.userData.unlit&&root.name!=='hearth-lantern'&&root.name!=='gate-lantern');}
  }
- return {dress,terrain,audioEnvironment(){return {lights:lamps.filter(l=>l.enabled),well:well.position,houses:settlementFeatures.filter(f=>/^House (3|8|9)$/.test(f.label)).map(f=>({id:Number(f.label.split(' ')[1]),x:f.root.position.x,z:f.root.position.z}))};},updateNativity(dt,reduced=false){nativityLife?.update(dt,reduced);},paths:activePaths,markers,fits,occluders,settlementFeatures,get wallSegments(){return wallSegments;},get nature(){return nature;},occlusionBounds,updateOcclusion,clueTargets,get modelCount(){return modelCount;},get lanternCount(){return lanternMounts.length;},lampState(){return {carriedVisible:lantern.visible,carriedPosition:lantern.position.toArray(),benches:benchItems.map(i=>({lampVisible:i.visual.root.visible,lit:i.visual.core.visible,wickVisible:i.wick.visible,flintVisible:i.flint.visible}))};},update(dt,time,journey,heading=Math.PI,reduced=false,carryPosition=null){
+ const environment={lights:[],well:well.position,houses:[]};let audioFeatureCount=-1;
+ return {dress,terrain,audioEnvironment(){
+  environment.lights.length=0;for(const lamp of lamps)if(lamp.enabled)environment.lights.push(lamp);
+  if(audioFeatureCount!==settlementFeatures.length){audioFeatureCount=settlementFeatures.length;environment.houses.length=0;for(const f of settlementFeatures)if(/^House (3|8|9)$/.test(f.label))environment.houses.push({id:Number(f.label.split(' ')[1]),x:f.root.position.x,z:f.root.position.z,open:false});}
+  return environment;
+ },updateNativity(dt,reduced=false){nativityLife?.update(dt,reduced);},paths:activePaths,markers,fits,occluders,settlementFeatures,get wallSegments(){return wallSegments;},get nature(){return nature;},occlusionBounds,updateOcclusion,clueTargets,get modelCount(){return modelCount;},get lanternCount(){return lanternMounts.length;},lampState(){return {carriedVisible:lantern.visible,carriedPosition:lantern.position.toArray(),benches:benchItems.map(i=>({lampVisible:i.visual.root.visible,lit:i.visual.core.visible,wickVisible:i.wick.visible,flintVisible:i.flint.visible}))};},update(dt,time,journey,heading=Math.PI,reduced=false,carryPosition=null){
   nativityLife?.update(dt,reduced);
   const p=journey.position,selected=journey.choice;gateLeaf.rotation.y+=((journey.gateOpen?-Math.PI*.48:0)-gateLeaf.rotation.y)*(1-Math.exp(-3*dt));const gateLit=routePaths?!!journey.gateLit:journey.gateOpen;if(gateLit&&!gateLamp.source.light.parent)scene.add(gateLamp.source.light);gateLamp.source.enabled=gateLit;gateLamp.halo.visible=gateLit;gateLamp.core.visible=gateLit;setLanternLit(gateLamp.root,gateLit);
   lamps.forEach(source=>{source.light.intensity=source.enabled?source.intensity:0;});
@@ -211,7 +216,7 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   }
   lantern.visible=journey.lantern;
   lantern.position.set(p.x+Math.sin(heading)*.95+Math.cos(heading)*.35,height(p.x,p.z)+(1.05+(journey.gateSequence?.stage==='light'?Math.sin(Math.PI*Math.min(3,journey.gateSequence.elapsed)/3)*.9:0))+(reduced?0:Math.sin(time*2.4)*.045),p.z+Math.cos(heading)*.95-Math.sin(heading)*.35);
-  if(carryPosition)lantern.position.copy(carryPosition).add(new THREE.Vector3(0,-CARRIED_LANTERN_HEIGHT/2,0));
+  if(carryPosition){lantern.position.copy(carryPosition);lantern.position.y-=CARRIED_LANTERN_HEIGHT/2;}
   lantern.rotation.y=heading;carried.intensity=journey.lantern?(routePaths?6:20):0;
   routes.forEach(({edge,line})=>{const active=!routePaths&&journey.phase==='choice'&&journey.options.some(option=>option.id===edge.id);const reveal=journey.phase==='inspect'&&((journey.at==='lookout'&&edge.requires==='overlook')||(journey.at==='pen'&&edge.requires==='rear'));line.visible=active||reveal;line.material.uniforms.emphasis.value=edge.id===selected?.id||reveal?1:.32;line.material.uniforms.time.value=time;line.material.uniforms.reverse.value=edge.b===journey.at;line.material.uniforms.still.value=reduced;});
   markers.forEach(({node,mesh})=>{mesh.visible=false;});

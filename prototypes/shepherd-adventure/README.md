@@ -12,6 +12,14 @@ Performance assessment is explicitly deferred to a separate session.
 
 # Shepherd Adventure
 
+## Memory investigation — 18 September 2026
+
+Opt-in full-experience profiling is available at `/?profile`. See the
+[measurement guide](docs/memory-profiling.md) and
+[baseline findings and loading recommendation](docs/playtest-roadmap/evidence/2026-09-18-memory/README.md).
+This is a local diagnostic branch; asset optimization and transition changes are
+not implemented by this checkpoint.
+
 ## Accepted playtest update — 18 September 2026
 
 The house handoff and gameplay audio pass is accepted for PR review: doorway framing and simpler House 8 departure, a quiet recorded night bed, contextual wildlife/house voices, sandy staggered footsteps, tactile buttons and lantern ignition. The final house voices are male / single female / male, with distance falloff and silence while doors are open. See the [current roadmap](docs/playtest-roadmap/README.md) and [audio credits](assets/audio/credits.html). House 1 refusal-voice reliability and intro/loading continuity remain separate follow-ups.
@@ -462,3 +470,7 @@ The shelter now uses a Pixal3D stone stall with a left door and wall troughs. Tw
 ### Square stall revision
 
 The nativity shelter has a measured 6 × 6 m interior, closed side walls and four separate wall-aligned feeding troughs. The donkey clears the family and troughs; sheep stand at the front-right entrance. The lantern hangs from a bracket mounted on the actual right wall. [Geometry and scene review](review/2026-09-16-square-stall/README.md).
+
+The local [memory optimization experiment](docs/playtest-roadmap/evidence/2026-09-18-memory-optimization/README.md)
+compares shared/reduced assets and allocation reuse against the initial profile.
+It remains a proof of concept pending visual and physical-device review.

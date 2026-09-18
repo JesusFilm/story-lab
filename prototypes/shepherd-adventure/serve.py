@@ -18,6 +18,30 @@ def ensure_runtime():
 
 class Handler(SimpleHTTPRequestHandler):
     def do_POST(self):
+        if self.path == '/__debug/memory-profile':
+            directory = getattr(self.server, 'profile_dir', None)
+            expected = f'http://127.0.0.1:{self.server.server_port}'
+            alternate = f'http://localhost:{self.server.server_port}'
+            if not directory or self.headers.get('Origin') not in (expected, alternate):
+                self.send_error(403); return
+            try:
+                length = int(self.headers.get('Content-Length', '0'))
+                if not 1 <= length <= 16 * 1024 * 1024 or self.headers.get('Content-Type') != 'application/json':
+                    raise ValueError('Invalid profile')
+                data = json.loads(self.rfile.read(length))
+                if data.get('version') != 1 or not isinstance(data.get('samples'), list):
+                    raise ValueError('Invalid profile')
+            except (ValueError, TypeError, AttributeError):
+                self.send_error(400); return
+            directory.mkdir(parents=True, exist_ok=True)
+            name = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ') + '-' + uuid.uuid4().hex[:8] + '.json'
+            with (directory / name).open('x') as output:
+                json.dump(data, output, separators=(',', ':'))
+            payload = json.dumps({'file': name}).encode()
+            self.send_response(201)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(payload)))
+            self.end_headers(); self.wfile.write(payload); return
         if self.path != '/__debug/capture':
             self.send_error(404); return
         expected = f'http://127.0.0.1:{self.server.server_port}'
@@ -63,6 +87,9 @@ class Handler(SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     p=argparse.ArgumentParser(); p.add_argument('--port',type=int,default=8766)
+    p.add_argument('--profile-dir', type=Path, help='Opt-in local directory for memory-profile JSON exports')
     args=p.parse_args(); ensure_runtime()
     print(f'shepherd-adventure: http://127.0.0.1:{args.port}',flush=True)
-    ThreadingHTTPServer(('127.0.0.1',args.port),Handler).serve_forever()
+    server = ThreadingHTTPServer(('127.0.0.1',args.port),Handler)
+    server.profile_dir = args.profile_dir
+    server.serve_forever()

@@ -6,11 +6,12 @@ export function createJourneyStory({onClose,onPlaying=()=>{}}){
  let player=null,kind=null,muted=false,generation=0,previousFocus;
  function syncSound(){ $('#story-sound').textContent=muted?'Sound off':'Sound on';$('#story-sound').setAttribute('aria-pressed',String(!muted));}
  const close=()=>{generation++;const completed=kind;kind=null;player?.destroy();player=null;stage.replaceChildren();bubble.textContent='';overlay.hidden=true;titleCard.hidden=true;overlay.classList.remove('story-awaiting-start');document.body.classList.remove('story-playing');if(completed)media.release(completed);previousFocus?.focus?.({preventScroll:true});};
- const finish=()=>{const completed=kind;if(!completed)return;close();onClose(completed);};
+ window.shepherdMemory?.register('story',()=>({kind,leases:media.getMemory(),audio:(player?.voices||[]).map(v=>({paused:v.audio.paused,readyState:v.audio.readyState,seconds:v.audio.currentTime,muted:v.audio.muted}))}));
+ const finish=()=>{const completed=kind;if(!completed)return;close();window.shepherdMemory?.mark(`${completed}-closed`);onClose(completed);};
  function advance(){if(!player)return;const s=player.getState();if(s.phase==='idle')player.start();else if(s.paused)player.pause(false);else player.next();}
  function sound(){muted=!muted;syncSound();player?.setMuted(muted);if(!muted)player?.retryAudio();else{$('#story-audio-retry').hidden=true;status.textContent='';}}
  async function open(which){
-  close();previousFocus=document.activeElement;kind=which;const token=generation;document.body.classList.add('story-playing');if(!media.isReady(which))window.storyLoading?.show();
+  window.shepherdMemory?.mark(`${which}-requested`);close();previousFocus=document.activeElement;kind=which;const token=generation;document.body.classList.add('story-playing');if(!media.isReady(which))window.storyLoading?.show();
   overlay.setAttribute('aria-label',which==='opening'?'The angel and the shepherds':'The shepherds find Jesus');bubble.hidden=true;$('#story-audio-retry').hidden=true;$('#story-retry').hidden=true;syncSound();
   try{
    const data=await media.prepare(which);if(token!==generation)return;
@@ -24,7 +25,7 @@ export function createJourneyStory({onClose,onPlaying=()=>{}}){
    player.addEventListener('audioerror',()=>{if(muted)return;status.textContent='Sound could not start.';$('#story-audio-retry').textContent='Retry sound';$('#story-audio-retry').hidden=false;});
    player.addEventListener('complete',finish);
    await player.preload();if(token!==generation)return;
-   status.textContent='';next.textContent='Start';overlay.hidden=false;window.storyLoading?.ready();next.focus({preventScroll:true});onPlaying(which);
+   status.textContent='';next.textContent='Start';overlay.hidden=false;window.storyLoading?.ready();next.focus({preventScroll:true});window.shepherdMemory?.mark(`${which}-visible`);onPlaying(which);
   }catch(error){if(token!==generation)return;window.storyLoading?.show();window.storyLoading?.fail('Story media could not load. Retry or reload to continue.');const retry=document.querySelector('.loading-retry');if(retry){retry.textContent='Retry story';retry.onclick=()=>open(which);retry.focus({preventScroll:true});}}
  }
  next.onclick=advance;$('#story-skip').onclick=finish;$('#story-sound').onclick=sound;$('#story-retry').onclick=()=>open(kind);$('#story-audio-retry').onclick=()=>{player?.retryAudio();$('#story-audio-retry').hidden=true;status.textContent='';};

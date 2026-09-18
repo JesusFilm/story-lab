@@ -1,0 +1,62 @@
+{
+  "before": {
+    "probeStartSeconds": 40.66540000003576,
+    "durationSeconds": 60.00259999996424,
+    "focusLost": false,
+    "samples": 575,
+    "full60MeanMiB": 219.10726025456967,
+    "last45MeanMiB": 216.4983515983404,
+    "last45MinMiB": 166.37975215911865,
+    "last45MaxMiB": 240.19683742523193,
+    "last45P5MiB": 172.87927761077881,
+    "last45P95MiB": 238.3036214828491,
+    "last45DownStepsOver1MiB": 150,
+    "last45ObservedPositiveMiBPerSecond": 56.02979096306695,
+    "frameP50Ms": 16.69999999999709,
+    "frameP95Ms": 17.60000000000582,
+    "frameMaxMs": 17.80000000000291,
+    "fullRoute": {
+      "durationSeconds": 733.7,
+      "heapPeakMiB": 212.84846210479736,
+      "playingMeanMiB": 178.88549707658615,
+      "playingMinMiB": 168.63737869262695,
+      "playingMaxMiB": 199.1752634048462,
+      "completeMinMiB": 175.1070146560669,
+      "completeMaxMiB": 197.22890949249268,
+      "geometryMiB": 127.83133506774902,
+      "textureEstimateMiB": 1996.172526359558,
+      "modelLoads": 40,
+      "errors": []
+    }
+  },
+  "after": {
+    "probeStartSeconds": 45.07390000003576,
+    "durationSeconds": 60.00259999996424,
+    "focusLost": false,
+    "samples": 581,
+    "full60MeanMiB": 164.9453896688307,
+    "last45MeanMiB": 165.18348110462057,
+    "last45MinMiB": 152.0908555984497,
+    "last45MaxMiB": 179.36515712738037,
+    "last45P5MiB": 153.48841342926025,
+    "last45P95MiB": 177.62017650604247,
+    "last45DownStepsOver1MiB": 136,
+    "last45ObservedPositiveMiBPerSecond": 54.90499674479167,
+    "frameP50Ms": 16.69999999999709,
+    "frameP95Ms": 17.89999999999418,
+    "frameMaxMs": 18.70000000001164,
+    "fullRoute": {
+      "durationSeconds": 879.693,
+      "heapPeakMiB": 193.8320837020874,
+      "playingMeanMiB": 153.6086746581806,
+      "playingMinMiB": 139.86192321777344,
+      "playingMaxMiB": 173.06077480316162,
+      "completeMinMiB": 142.3929147720337,
+      "completeMaxMiB": 144.10353088378906,
+      "geometryMiB": 100.33793449401855,
+      "textureEstimateMiB": 1100.172526359558,
+      "modelLoads": 36,
+      "errors": []
+    }
+  }
+}

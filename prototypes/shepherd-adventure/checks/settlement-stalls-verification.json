@@ -8,9 +8,9 @@
         0.00974867398763956,
         2
       ],
-      "height": 2.8,
+      "height": 2.8000000000000003,
       "openFrontDegrees": 106,
-      "routeClearance": 1.0978012707420226
+      "routeClearance": 1.0969029709624643
     },
     {
       "label": "Vegetables 2",
@@ -19,9 +19,9 @@
         -0.23035802051413867,
         -9
       ],
-      "height": 2.8,
+      "height": 2.8000000000000003,
       "openFrontDegrees": -86,
-      "routeClearance": 1.2368241369828747
+      "routeClearance": 1.236037319404438
     },
     {
       "label": "Pottery 1",
@@ -30,9 +30,9 @@
         -0.10139775710574032,
         7.5
       ],
-      "height": 2.8000000000000003,
+      "height": 2.8,
       "openFrontDegrees": 126,
-      "routeClearance": 1.9091080637095457
+      "routeClearance": 1.911316426097856
     },
     {
       "label": "Pottery 2",
@@ -41,9 +41,9 @@
         -0.1900910842228195,
         -2.5
       ],
-      "height": 2.8000000000000003,
+      "height": 2.8,
       "openFrontDegrees": -101,
-      "routeClearance": 1.3296078833655778
+      "routeClearance": 1.3319595994165117
     },
     {
       "label": "Tanner",
@@ -52,11 +52,11 @@
         -0.0039090666482937825,
         -16
       ],
-      "height": 2.8000000000000003,
+      "height": 2.8,
       "openFrontDegrees": -75.00000000000001,
-      "routeClearance": 1.0572522269280067
+      "routeClearance": 1.0526655588529772
     }
   ],
-  "labeledFeatures": 56,
+  "labeledFeatures": 57,
   "limits": "Actual geometry, route clearance, front direction and map consistency; no browser playtest."
 }
