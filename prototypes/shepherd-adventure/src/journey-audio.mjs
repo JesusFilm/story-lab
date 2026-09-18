@@ -4,20 +4,16 @@
 // gameplay bed and effects without touching the story diorama or loader
 // lifecycle; those transitions are a separate, deferred investigation.
 
-const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
-const proximitySources=[
- {kind:'sheep',x:25,z:-26,radius:16,cooldown:1.8,minInterval:7,maxInterval:13}
+import {createNightAmbience} from './night-ambience.mjs';
 
-];
-
-export function createGameplayAudio({onChange=()=>{}}={}){
+export function createGameplayAudio({onChange=()=>{},loadRecording}={}){
+ let night=null;
  let context=null,master=null,ambience=null,effects=null;
- let breezeBuffer=null,footstepBuffers=null,cricketBuffer=null,tapBuffer=null;
+ let breezeBuffer=null,footstepBuffers=null,tapBuffer=null;
  let started=false,muted=false,desiredActive=false,contextActive=false;
  const walkers=Array.from({length:3},(_,i)=>({distance:0,moving:false,phase:i/3,steps:0}));
- let stepDistance=0,insectTime=1.6,breezeTime=7;
- const sources=proximitySources.map(source=>({...source}));
- const events={footsteps:0,decisions:0,crickets:0,breezes:0,sheep:0,voices:0};
+ let stepDistance=0,breezeTime=7;
+ const events={footsteps:0,decisions:0,breezes:0};
 
  function noiseBuffer(seconds,shape='footstep'){
   const length=Math.max(1,Math.ceil((context?.sampleRate||44100)*seconds));
@@ -28,8 +24,6 @@ export function createGameplayAudio({onChange=()=>{}}={}){
     ?Math.pow(1-t,1.7)*(.55+.45*Math.sin(t*Math.PI*5))
     :shape==='sand'
      ?Math.sin(Math.PI*t)**1.3*(.65+.2*Math.sin(t*31)+.15*Math.sin(t*73))
-    :shape==='cricket'
-     ?Math.exp(-t*30)*(.7+.3*Math.sin(t*Math.PI*8))
      :Math.exp(-t*18)*(1-.15*Math.sin(t*Math.PI));
    data[i]=(Math.random()*2-1)*envelope;
   }
@@ -45,8 +39,8 @@ export function createGameplayAudio({onChange=()=>{}}={}){
   master=context.createGain();master.gain.value=.5;master.connect(context.destination);
   ambience=context.createGain();ambience.gain.value=.55;ambience.connect(master);
   effects=context.createGain();effects.gain.value=.9;effects.connect(master);
+  night=createNightAmbience(context,ambience,{load:loadRecording});
   breezeBuffer=noiseBuffer(.9,'breeze');
-  cricketBuffer=noiseBuffer(.075,'cricket');
   tapBuffer=noiseBuffer(.07,'tap');
   footstepBuffers=Array.from({length:6},()=>noiseBuffer(.22+Math.random()*.07,'sand'));
  }
@@ -102,19 +96,6 @@ export function createGameplayAudio({onChange=()=>{}}={}){
   source.connect(filter).connect(gain).connect(effects);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};source.start(now);source.stop(now+.29);events.footsteps++;
  }
 
- function playCricket(){
-  if(!context||context.state!=='running'||!cricketBuffer)return;
-  const now=context.currentTime,root=context.createGain();root.gain.value=.65;root.connect(ambience);
-  const length=.065+Math.random()*.045;
-  for(const offset of [0,.048]){
-   const source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();
-   source.buffer=cricketBuffer;filter.type='bandpass';filter.frequency.value=2300+Math.random()*1900;filter.Q.value=2.4;
-   gain.gain.setValueAtTime(.001,now+offset);gain.gain.exponentialRampToValueAtTime(.052,now+offset+.006);gain.gain.exponentialRampToValueAtTime(.001,now+offset+length);
-   source.connect(filter).connect(gain).connect(root);source.start(now+offset);source.stop(now+offset+length+.01);
-  }
-  setTimeout(()=>{try{root.disconnect();}catch{}},Math.ceil((length+.15)*1000));events.crickets++;
- }
-
  function playBreeze(){
   if(!context||context.state!=='running'||!breezeBuffer)return;
   const now=context.currentTime,source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();
@@ -123,24 +104,23 @@ export function createGameplayAudio({onChange=()=>{}}={}){
   source.connect(filter).connect(gain).connect(ambience);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};source.start(now);source.stop(now+.9);events.breezes++;
  }
 
- function playSheep(amount){
-  if(!context||context.state!=='running')return;
-  const now=context.currentTime,oscillator=context.createOscillator(),filter=context.createBiquadFilter(),gain=context.createGain();
-  oscillator.type='sawtooth';oscillator.frequency.setValueAtTime(235,now);oscillator.frequency.exponentialRampToValueAtTime(155,now+.62);
-  filter.type='bandpass';filter.frequency.value=520;filter.Q.value=.9;
-  const level=.075*amount;gain.gain.setValueAtTime(.001,now);gain.gain.exponentialRampToValueAtTime(level,now+.07);gain.gain.exponentialRampToValueAtTime(.001,now+.68);
-  oscillator.connect(filter).connect(gain).connect(ambience);oscillator.start(now);oscillator.stop(now+.72);oscillator.onended=()=>{oscillator.disconnect();filter.disconnect();gain.disconnect();};events.sheep++;
- }
-
- function updateProximity(dt,position){
-  if(!position||!Number.isFinite(position.x)||!Number.isFinite(position.z))return;
-  for(const source of sources){
-   const distance=Math.hypot(position.x-source.x,position.z-source.z),amount=clamp(1-distance/source.radius,0,1);
-   source.cooldown-=dt;
-   if(amount<=0||source.cooldown>0)continue;
-   playSheep(amount);
-   source.cooldown=source.minInterval+Math.random()*(source.maxInterval-source.minInterval);
-  }
+ function ignite(){
+  if(muted)return false;
+  if(!started)begin();
+  const play=()=>{
+   if(muted||context?.state!=='running')return;
+   // A dry tinder strike followed by a small breath of flame; no pitched reward.
+   const now=context.currentTime;
+   for(const [buffer,offset,duration,frequency,level] of [[tapBuffer,0,.08,2200,.3],[breezeBuffer,.07,.65,1400,.16]]){
+    const source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();
+    source.buffer=buffer;filter.type='lowpass';filter.frequency.value=frequency;
+    gain.gain.setValueAtTime(.001,now+offset);gain.gain.linearRampToValueAtTime(level,now+offset+.025);gain.gain.exponentialRampToValueAtTime(.001,now+offset+duration);
+    source.connect(filter).connect(gain).connect(effects);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};source.start(now+offset);source.stop(now+offset+duration);
+   }
+   events.ignitions=(events.ignitions||0)+1;
+  };
+  if(context?.state==='running')play();else resume().then(play);
+  return true;
  }
 
  function cue(kind='decision'){
@@ -158,7 +138,7 @@ export function createGameplayAudio({onChange=()=>{}}={}){
   return true;
  }
 
- function update(dt,{movement=0,active=true,position=null,companions=[]}={}){
+ function update(dt,{movement=0,active=true,position=null,companions=[],environment={}}={}){
   if(!Number.isFinite(dt)||dt<=0)return;
   setActive(active);
   if(!started||muted||!contextActive)return;
@@ -171,18 +151,17 @@ export function createGameplayAudio({onChange=()=>{}}={}){
    while(walker.distance>=stride){walker.distance-=stride;playFootstep(speed,i);walker.steps++;}
   });
   stepDistance=walkers[0].distance;
-  insectTime-=dt;
-  if(insectTime<=0){playCricket();insectTime=3.2+Math.random()*6.8;}
   breezeTime-=dt;
   if(breezeTime<=0){playBreeze();breezeTime=9+Math.random()*12;}
-  updateProximity(dt,position);
+  night?.update(dt,{...environment,position});
  }
 
  function stop(){
-  desiredActive=false;started=false;walkers.forEach(w=>{w.distance=0;w.moving=false;});stepDistance=0;insectTime=1.6;breezeTime=7;
+  desiredActive=false;started=false;walkers.forEach(w=>{w.distance=0;w.moving=false;});stepDistance=0;breezeTime=7;
+  night?.stop();night=null;
   if(context)context.close().catch(()=>{});
-  context=null;master=ambience=effects=breezeBuffer=cricketBuffer=tapBuffer=footstepBuffers=null;contextActive=false;notify();
+  context=null;master=ambience=effects=breezeBuffer=tapBuffer=footstepBuffers=null;contextActive=false;notify();
  }
 
- return {begin,setActive,setMuted,toggle,cue,update,stop,getState:()=>({started,muted,running:context?.state==='running',contextState:context?.state||'closed',stepDistance,insectTime,breezeTime,walkers:walkers.map(w=>({steps:w.steps,moving:w.moving})),events:{...events}})};
+ return {resetAmbience:()=>night?.reset(),ignite,begin,setActive,setMuted,toggle,cue,update,stop,getState:()=>({started,muted,running:context?.state==='running',contextState:context?.state||'closed',stepDistance,breezeTime,night:night?.getState(),walkers:walkers.map(w=>({steps:w.steps,moving:w.moving})),events:{...events}})};
 }

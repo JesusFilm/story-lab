@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 
 class Param{
  constructor(value=0){this.value=value;}
+ setTargetAtTime(value){this.value=value;}
  setValueAtTime(value){this.value=value;}
  linearRampToValueAtTime(value){this.value=value;}
  exponentialRampToValueAtTime(value){this.value=value;}
@@ -32,7 +33,7 @@ class FakeAudioContext{
 globalThis.AudioContext=FakeAudioContext;
 const {createGameplayAudio}=await import('../src/journey-audio.mjs');
 const changes=[];
-const audio=createGameplayAudio({onChange:state=>changes.push(state)});
+const audio=createGameplayAudio({loadRecording:async()=>({duration:2}),onChange:state=>changes.push(state)});
 assert.equal(audio.getState().started,false);
 assert.equal(audio.getState().muted,false);
 
@@ -46,16 +47,18 @@ const context=FakeAudioContext.instances[0];
 const beforeSteps=context.sources;
 audio.update(2,{movement:4.6,active:true,position:{x:0,z:50}});
 assert(context.sources>beforeSteps,'Running movement should schedule footsteps');
-assert(audio.getState().events.crickets>=1,'A quiet night bed should schedule crickets');
+assert(audio.getState().night.levels.crickets>0,'A quiet night bed should schedule crickets');
 assert.equal(context.oscillators,0,'Crickets should use filtered noise rather than a clean electronic oscillator');
 const beforeCue=context.sources;
 audio.cue();
 assert(context.sources>beforeCue,'A decision should schedule one cue');
-audio.update(5,{movement:0,active:true,position:{x:25,z:-26}});
-assert(audio.getState().events.sheep>=1,'A nearby animal source should schedule a sheep sound');
+audio.update(5,{movement:0,active:true,position:{x:25,z:-26},environment:{point:5}});
+audio.update(2,{environment:{point:5}});
+assert(audio.getState().night.counts.sheep>=1,'A nearby animal source should schedule a sheep sound');
 audio.update(5,{movement:0,active:true,position:{x:5.8,z:-20.1}});
-assert.equal(audio.getState().events.voices,0,'House proximity must not play the rejected three-tone voice placeholder');
+assert.equal(context.oscillators,0,'Recorded ambience must not play the rejected oscillator voices');
 
+audio.ignite();assert.equal(audio.getState().events.ignitions,1);
 audio.setMuted(true);
 await Promise.resolve();
 assert.equal(audio.getState().muted,true);
@@ -76,7 +79,7 @@ assert.equal(audio.getState().contextState,'closed');
 assert(changes.length>=4,'Audio state changes should be observable by the UI control');
 console.log('PASS gameplay audio owner: start, footsteps, decision cue, mute, pause and stop.');
 
-const group=createGameplayAudio();group.begin();await Promise.resolve();await Promise.resolve();
+const group=createGameplayAudio({loadRecording:async()=>({duration:2})});group.begin();await Promise.resolve();await Promise.resolve();
 const strikes=[[],[],[]];let prior=[0,0,0];
 for(let frame=0;frame<120;frame++){
  group.update(1/60,{movement:3.8,companions:[3.8,3.8]});

@@ -1,0 +1,32 @@
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'../../../projects/portal/node_modules/playwright-core/index.mjs');
+import assert from 'node:assert/strict';
+const origin=process.env.WATCH_GAME_TEST_ORIGIN||'http://127.0.0.1:8766';
+const browser=await chromium.launch({headless:true,executablePath:process.env.BROWSER_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+try{
+const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto(origin+'/rehearsal.html?point=1');
+await page.waitForFunction(()=>window.routeRehearsal?.getState().ready,null,{timeout:120000});
+await page.locator('#advance').click();
+await page.waitForFunction(()=>window.routeRehearsal.getState().audio.night?.loaded.length===5);
+for(let i=0;i<5;i++)await page.locator('#lamp-action').click({delay:120});
+await page.waitForFunction(()=>window.routeRehearsal.getState().audio.events.ignitions===1);
+console.log(JSON.stringify(await page.evaluate(()=>window.routeRehearsal.getState().audio)));
+await page.goto(origin+'/rehearsal.html?point=8');
+await page.waitForFunction(()=>window.routeRehearsal?.getState().ready,null,{timeout:120000});
+await page.locator('#advance').click();
+await page.waitForFunction(()=>window.routeRehearsal.getState().audio.events.ignitions===1,{},{timeout:20000});
+await page.goto(origin+'/rehearsal.html?point=3');
+await page.waitForFunction(()=>window.routeRehearsal?.getState().ready,null,{timeout:120000});
+await page.locator('header span').click();
+await page.waitForFunction(()=>window.routeRehearsal.getState().audio.night?.levels['house-3']>.01);
+await page.locator('#advance').click();
+await page.waitForFunction(()=>window.routeRehearsal.getState().sighting.open);
+await page.waitForFunction(()=>window.routeRehearsal.getState().audio.night.levels['house-3']<.001);
+while(await page.locator('#sighting-next').textContent()!=='Thank you')await page.locator('#sighting-next').click({delay:300});
+await page.locator('#sighting-next').click();
+await page.locator('#sighting-next').waitFor({state:'hidden'});
+await page.waitForFunction(()=>window.routeRehearsal.getState().audio.night.levels['house-3']>.01);
+assert.deepEqual(errors,[]);
+console.log('PASS gate ignition and live house murmur open/close attenuation.');
+console.log('PASS browser: five real MP3s decoded, workshop ignition once, no runtime errors.');
+}finally{await browser.close();}

@@ -45,7 +45,7 @@ const tracksScene=createHouseTracksScene(journey,scene);
 const houseScene=createHouseScene(journey,scene,character,{isMuted});
 const sightingScene=createHouseSightingScene(journey,()=>{updateUI();resize();},()=>{if(journey.index===6)beginStallReveal();});
 const reunionScene=createCompanionReunionScene(journey,scene,character,{isMuted});
-const lampScene=createLampScene(journey,()=>{updateUI();resize();});
+const lampScene=createLampScene(journey,()=>{updateUI();resize();},()=>gameplayAudio.ignite());
 const lampLook=new THREE.Vector3(),lampEye=new THREE.Vector3(),lampHand=new THREE.Vector3();let lampCamera=0;
 const choice=$('jump-point');
 for(const stop of STOPS){const option=document.createElement('option');option.value=stop.number-1;option.textContent=`${String(stop.number).padStart(2,'0')} — ${stop.title}`;choice.append(option);}
@@ -186,11 +186,12 @@ document.addEventListener('keydown',()=>{if(!story?.active)gameplayAudio.begin()
 document.addEventListener('click',event=>{
  const button=event.target.closest('button');
  if(!button||button.disabled||button===soundToggle||button.id==='pause'||button.closest('#story-overlay')||button.closest('#review-tools'))return;
+ if(button.id==='lamp-action'&&button.dataset.action==='light')return;
  gameplayAudio.cue(button.id==='lamp-action'?'assembly':'decision');
 },true);
 $('jump').onclick=()=>{if(!ready)return;journey.jump(Number(choice.value));$('review-tools').open=false;reposition();};
 $('replay').onclick=()=>{if(!ready)return;journey.replay();$('review-tools').open=false;reposition();};
-$('restart').onclick=()=>{if(!ready)return;journey.reset();samples.length=0;$('review-tools').open=false;reposition();};
+$('restart').onclick=()=>{if(!ready)return;journey.reset();gameplayAudio.resetAmbience();samples.length=0;$('review-tools').open=false;reposition();};
 addEventListener('keydown',event=>{
  if(!ready||event.repeat)return;
  if(event.key==='Escape'){event.preventDefault();pause();return;}
@@ -234,7 +235,7 @@ function animate(now){
   if(mode==='intro'){
    introTime=Math.min(INTRO_DURATION,introTime+dt);const actors=openingActors(introTime);
    journey.position={...actors.player,z:actors.player.z-2};journey.gait='run';
-  }else if(mode==='playing')journey.step(dt);
+  }else if(mode==='playing'){const wasLit=journey.emptyStall.lit;journey.step(dt);if(!wasLit&&journey.emptyStall.lit&&journey.index===7)gameplayAudio.ignite();}
   clock+=dt;lampScene.tick(dt);
   if(journey.index===7&&!journey.travel&&journey.phase!=='inspect'&&character.tripo){character.tripo.idleSeconds=0;if(journey.distance===before)character.playTripo('idle');}
   movement=mode==='intro'?3.8:dt?(journey.distance-before)/dt:0;
@@ -257,7 +258,10 @@ function animate(now){
    if(arrivalTime>=ARRIVAL_DURATION){mode='ending';updateUI();story.open('ending');}
   }
  }
- gameplayAudio.update(dt,{movement,active:audioActive,position:journey.position,companions:companionMovement});
+ const environment=world.audioEnvironment();
+ environment.point=journey.travel?.index??journey.index;
+ for(const house of environment.houses)house.open=({3:2,8:6,9:8}[house.id]===journey.index)&&sightingScene.getState().open;
+ gameplayAudio.update(dt,{movement,active:audioActive,position:journey.position,companions:companionMovement,environment});
  if(!audioActive)gameplayAudio.setActive(false);
  const key=[journey.index,journey.phase,journey.paused,journey.staged,journey.emptyStall.phase,journey.houseTracks.phase,journey.barredGate.phase,journey.houseRejection.phase,journey.houseSighting.phase,journey.houseSighting.page,journey.houseAdvice.phase,journey.houseAdvice.page,journey.houseOwner.phase,journey.houseOwner.page,journey.reunion.phase,journey.reunion.canFollow,houseScene.getState().audioFailed].join('|');if(key!==signature){signature=key;updateUI();}
  renderer.render(scene,camera);
@@ -297,7 +301,7 @@ try{
  reposition();if(review){window.storyLoading.ready();$('advance').focus({preventScroll:true});}requestAnimationFrame(animate);
 }catch(error){if(!review)throw error;console.error(error);window.storyLoading.fail('The route rehearsal could not load. Reload to try again.');}
 function finishOpening(){mode='playing';journey.position={x:0,z:50,heading:Math.PI};cameraRig.reset();reposition();$('advance').focus({preventScroll:true});}
-function startOpeningCamera(){journey.reset();avatar.visible=true;mode='intro';introTime=0;last=performance.now();gameplayAudio.begin();updateUI();}
+function startOpeningCamera(){journey.reset();gameplayAudio.resetAmbience();avatar.visible=true;mode='intro';introTime=0;last=performance.now();gameplayAudio.begin();updateUI();}
 function finishStory(){mode='complete';updateUI();$('play-again').focus({preventScroll:true});}
 if(!review){
  $('player-options').addEventListener('keydown',event=>{
@@ -306,7 +310,7 @@ if(!review){
  });
  $('skip-opening').onclick=finishOpening;
  $('player-resume').onclick=pause;
- $('player-restart').onclick=$('play-again').onclick=()=>{journey.reset();avatar.visible=true;mode='waiting';updateUI();story.open('opening');};
+ $('player-restart').onclick=$('play-again').onclick=()=>{journey.reset();gameplayAudio.resetAmbience();avatar.visible=true;mode='waiting';updateUI();story.open('opening');};
  $('player-reduced').checked=reduced;$('player-reduced').onchange=()=>{motionOverride=true;reduced=$('player-reduced').checked;$('reduced-motion').checked=reduced;updateUI();};
 }
 return {startOpeningCamera,finishStory,startDebug(controller){mode='debug';avatar.visible=false;updateUI();debugController=controller({camera,renderer,scene});}};

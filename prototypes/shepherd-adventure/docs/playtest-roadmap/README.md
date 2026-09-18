@@ -909,3 +909,14 @@ Implemented three independent movement-driven footstep lanes with different star
 ### D036 / I01 — small listening adjustment
 
 Raised assembly/other tap gains from 0.20/0.256 to 0.32/0.41 (about +4 dB). Walking footstep gain reduced from 0.042 to 0.034 (about -1.8 dB); running remains 0.055. Syntax, existing audio regression and whitespace checks passed. Awaiting listening acceptance.
+
+
+### D037 / I01 — recorded night ambience and ignition
+
+18 September 2026. User reports absent animals/house murmurs and requests reliable contextual night sound, half-volume knocks and lantern ignition cues. Supersedes D033's synthesized wildlife and D034's temporary removal of house murmurs. I01 remains partial, awaiting listening review.
+
+Implemented five distant sheep bleats and two jackal calls at route milestones, quiet continuous recorded crickets attenuated near stationary lights, recorded frogs near the well (first call after 8–20 seconds there, then every 30–60 seconds), and looping recorded house murmurs at lit Houses 3/8/9 with distance falloff. Murmurs fade out while the doorway presenter is open and resume when closed. Recorded sounds respect gameplay pause/mute and reset on restart. Individual failed recordings do not block subsequent route calls. Knock amplitude halved; workshop and gate ignition use an unpitched tinder/flame cue synchronized to lighting. Existing buttons and stride mix retained.
+
+Verification: `verify-journey-audio.mjs` and `verify-night-ambience.mjs` cover playback scheduling, five/two call budgets, proximity/light/door attenuation, frog cadence, pause/reset, ignition and staggered runners. Licensed source/adaptation details are in [audio credits](../../assets/audio/credits.html). The palette is an atmospheric interpretation; species/locality and ancient speech authenticity are not established. Technical verification does not establish audibility or naturalness: full-route listening remains unassessed and requires the next user playtest. Intro/loading continuity remains deferred under D032.
+
+Browser verification: five MP3 assets fetched and decoded without failures; workshop and gate each produced one ignition event; House 3 proximity murmur was present before knocking, faded below 0.001 during the open-door conversation, and resumed after closure. No page errors. The saved `checks/verify-night-audio-browser.mjs` reproduces this targeted check. Full rehearsal route/camera and empty-stall state checks passed, as did syntax, whitespace and publication hash/module checks. An initial browser harness attempted one extra click during the closing fade; correcting the harness to await closure passed. No audible capture was made.
