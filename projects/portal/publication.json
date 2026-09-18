@@ -192,7 +192,10 @@
         "prototypes/shepherd-adventure/assets/audio/frog.mp3",
         "prototypes/shepherd-adventure/assets/audio/house-murmur.mp3",
         "prototypes/shepherd-adventure/assets/audio/jackal.mp3",
-        "prototypes/shepherd-adventure/assets/audio/sheep.mp3"
+        "prototypes/shepherd-adventure/assets/audio/sheep.mp3",
+        "prototypes/shepherd-adventure/assets/audio/house-family.mp3",
+        "prototypes/shepherd-adventure/assets/audio/house-women.mp3",
+        "prototypes/shepherd-adventure/assets/audio/wolf.mp3"
       ],
       "image_alt": "A shepherd carrying a glowing lantern faces the timber gate and lamplit stone walls of the sleeping market",
       "image_version": "8fa1d09eaa07",
@@ -872,12 +875,15 @@
     "prototypes/shepherd-adventure/assets/lamp-assembly/oil.png": "829935ff4c26f4f679400dc99b2c2b174ec39c29a65fb5bbc35f0a313fff7b90",
     "prototypes/shepherd-adventure/assets/lamp-assembly/flint.png": "3c7bef0a882ebb946a2fbbba5c2588899a2f940185ffe27dd06f6dde21b4221a",
     "prototypes/shepherd-adventure/assets/house-3/pointing-right-v1.png": "6fb072fef9da24be9f4ea4acbed670f77abdd8186a6a95d64251b3c8dd25f7ea",
-    "prototypes/shepherd-adventure/src/night-ambience.mjs": "1b6eb77af884bb4bd96913aa54031f7af6e6161df1f63155bdfad91926fa9182",
-    "prototypes/shepherd-adventure/assets/audio/credits.html": "35de3487efe55aa571826edba1a9cdef9afaf481d9b949bb2832b665b7811856",
+    "prototypes/shepherd-adventure/src/night-ambience.mjs": "74c885c3ab326789ad6a49db9649aa59319cb9e356cd3fa2e1cd2403e1c56bb8",
+    "prototypes/shepherd-adventure/assets/audio/credits.html": "715e8e0bd9fb880f9543590543fd8f67f1e0d11ccba752111283498f252da32d",
     "prototypes/shepherd-adventure/assets/audio/crickets.mp3": "9677ea1539196f8fee4650ecdcc8e7fe53eac511ed066b518fe32203c05cad87",
     "prototypes/shepherd-adventure/assets/audio/frog.mp3": "3170d4562569b71f868302ddd5ce7b6378812c0040acee1af44d735797d06da7",
     "prototypes/shepherd-adventure/assets/audio/house-murmur.mp3": "76c232e906e66a8283a4d4fe64cfc151b39b5acf469885b6482403e844c5922f",
-    "prototypes/shepherd-adventure/assets/audio/jackal.mp3": "57023c9740178723ad75ea3348df638b79567a16c8abca99014759ee2a787157",
-    "prototypes/shepherd-adventure/assets/audio/sheep.mp3": "2f8eb8678cf54ee1557c6602175920314fb8629f7e28de39f61fe80c7b3777c2"
+    "prototypes/shepherd-adventure/assets/audio/jackal.mp3": "4f8a50632a5abd6b788bdfdfaa0a2b3444c4ef7949f75deb6f2cc7c3e5a6cf45",
+    "prototypes/shepherd-adventure/assets/audio/sheep.mp3": "2f8eb8678cf54ee1557c6602175920314fb8629f7e28de39f61fe80c7b3777c2",
+    "prototypes/shepherd-adventure/assets/audio/house-family.mp3": "6a03753666138a3fa4b63aa2058cacfbd18c05c31d1de4d35fd90652f4df3cae",
+    "prototypes/shepherd-adventure/assets/audio/house-women.mp3": "ba1b0226ebbdb3d10bceff1430ca50902bb82158096825991504852d0fe6f487",
+    "prototypes/shepherd-adventure/assets/audio/wolf.mp3": "a24e180de5f250df16fe0ec0c9383ac6214cbd2d12db768087a8410ca4f1992f"
   }
 }

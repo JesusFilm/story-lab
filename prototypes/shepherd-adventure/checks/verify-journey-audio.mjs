@@ -24,7 +24,7 @@ class FakeAudioContext{
  createBiquadFilter(){return new FilterNode();}
  createOscillator(){this.sources++;this.oscillators++;return new OscillatorNode();}
  createBufferSource(){this.sources++;return new BufferSourceNode();}
- createBuffer(_channels,length){return {getChannelData:()=>new Float32Array(length)};}
+ createBuffer(channels,length,sampleRate=1000){const data=Array.from({length:channels},()=>new Float32Array(length));return {numberOfChannels:channels,length,sampleRate,duration:length/sampleRate,getChannelData:c=>data[c]};}
  resume(){this.state='running';return Promise.resolve();}
  suspend(){this.state='suspended';return Promise.resolve();}
  close(){this.state='closed';return Promise.resolve();}
@@ -33,7 +33,7 @@ class FakeAudioContext{
 globalThis.AudioContext=FakeAudioContext;
 const {createGameplayAudio}=await import('../src/journey-audio.mjs');
 const changes=[];
-const audio=createGameplayAudio({loadRecording:async()=>({duration:2}),onChange:state=>changes.push(state)});
+const audio=createGameplayAudio({loadRecording:async context=>context.createBuffer(1,2000,1000),onChange:state=>changes.push(state)});
 assert.equal(audio.getState().started,false);
 assert.equal(audio.getState().muted,false);
 
@@ -79,7 +79,7 @@ assert.equal(audio.getState().contextState,'closed');
 assert(changes.length>=4,'Audio state changes should be observable by the UI control');
 console.log('PASS gameplay audio owner: start, footsteps, decision cue, mute, pause and stop.');
 
-const group=createGameplayAudio({loadRecording:async()=>({duration:2})});group.begin();await Promise.resolve();await Promise.resolve();
+const group=createGameplayAudio({loadRecording:async context=>context.createBuffer(1,2000,1000)});group.begin();await Promise.resolve();await Promise.resolve();
 const strikes=[[],[],[]];let prior=[0,0,0];
 for(let frame=0;frame<120;frame++){
  group.update(1/60,{movement:3.8,companions:[3.8,3.8]});
