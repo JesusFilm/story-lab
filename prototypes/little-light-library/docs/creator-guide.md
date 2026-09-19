@@ -1,6 +1,6 @@
 # Create and preview a book
 
-The first authoring workflow edits a structured JSON book and previews it in the existing reader. There is no separate editor format: manual changes and agent-assisted changes both update the same versioned document.
+The default authoring workflow now edits the visible book directly. Follow the [visual editor guide](visual-editor.md) for adding pages and artwork, dragging and resizing characters, live sliders, undo/redo and export. The structured workflow below remains available for advanced edits. Both workflows update the same versioned document.
 
 ## Start with the demonstration book
 
@@ -14,7 +14,7 @@ The first authoring workflow edits a structured JSON book and previews it in the
 
 4. Run the reader, choose **Author**, then either **Load demo**, import the file, or paste its JSON. Choose **Validate & preview**. A failed validation leaves the current preview unchanged.
 5. Judge the result at phone, tablet and desktop widths. Use **Undo previous preview** if the new composition is worse. **Return to reader** exits authoring and leaves the built-in library unchanged.
-6. Choose **Export portable JSON** when the preview is ready to move. Export embeds referenced images and narration so the result is independently playable.
+6. Choose **Export portable JSON** when the preview is ready to move. Export saves the current draft and embeds images and narration so the result is independently playable.
 
 Read the [contract and glossary](book-contract.md) before adding new behavior. It lists the exact supported vocabulary and distinguishes an atlas pose from a rig.
 

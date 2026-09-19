@@ -14,9 +14,9 @@ are records of earlier work, not an active assignment.
 - **New work:** follow the current request and inspect only the relevant implementation.
   Use [README.md](README.md) for setup. Do not import the quality backlog into the task.
 - **Book creation/editor work:** start with [the authoring handoff](docs/authoring-handoff.md),
-  [creator guide](docs/creator-guide.md) and [v1 contract/glossary](docs/book-contract.md).
+  [visual editor guide](docs/visual-editor.md), [creator guide](docs/creator-guide.md) and [v1 contract/glossary](docs/book-contract.md).
   Manual and agent edits use the same JSON. The [original direction](docs/book-authoring-direction.md)
-  remains context; a full visual editor is still open, not an automatic next task.
+  remains context; the current default editor is the in-book visual workspace.
 - **Explicit questions about the past quality goal:** use [the cycle index](review/README.md)
   to locate relevant rounds, then read only their written reviews and applicable
   [ADRs](docs/adr/). Round 23 is the last retained quality round; its
@@ -42,7 +42,8 @@ are records of earlier work, not an active assignment.
    findings remain; historical commit IDs and capture paths are not recovery instructions.
 4. **Book-authoring foundation.** Version 1 draft JSON supports validation, import/preview,
    undo, portable export, generic paper staging and selectively replaceable measured narration.
-   Quiet Garden is a two-spread demonstration. The full visual editor remains undecided.
+   Quiet Garden is a two-spread demonstration. The in-book visual editor now supports
+   direct selection, dragging, resizing, live sliders, pages, art import and undo/redo.
 
 ## What the next direction means
 
@@ -54,7 +55,7 @@ include the user and other biblical storytellers. The story and its meaning lead
 The reader now has a [versioned book contract](docs/book-contract.md) shared by manual and
 agent-assisted authoring. It covers upright backdrops, optional horizontal ground, multiple
 cutouts, atlas poses, placement, anchored whole-card rocking, button interactions and measured
-narration. The Author dialog is a structured-data preview surface, not a full visual editor.
+narration. The Author dialog now defaults to a live visual book workspace; detailed forms and JSON remain available.
 See [supported behavior and tradeoffs](docs/authoring-decisions.md) before expanding it.
 
 ## Implementation and evidence boundaries

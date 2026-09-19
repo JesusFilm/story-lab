@@ -8,7 +8,12 @@ import { chromium } from "playwright";
 const root = path.resolve("dist");
 const prefix = "/acceptance/little-light-library/";
 const output = path.resolve(".test-output/authoring");
-const summaryPath = path.resolve("review/latest/authoring-results.json");
+const visualOnly = process.argv.includes("--visual");
+const summaryPath = path.resolve(
+  visualOnly
+    ? "review/latest/visual-editor-results.json"
+    : "review/latest/authoring-results.json",
+);
 const mime = {
   ".css": "text/css",
   ".html": "text/html",
@@ -70,6 +75,7 @@ const results = {
 };
 
 const check = async (name, run) => {
+  if (visualOnly && !name.startsWith("visual composition")) return;
   const started = Date.now();
   try {
     const detail = await run();
@@ -111,6 +117,7 @@ const openAuthor = async (page) => {
   await page.waitForFunction(
     () => document.querySelector("#author-dialog")?.open === true,
   );
+  await page.locator('[data-studio="details"]').click();
 };
 
 const loadDemo = async (page) => {
@@ -158,8 +165,10 @@ const waitForSettledStage = (page) =>
 const authorJson = async (page) =>
   JSON.parse(await page.locator("#author-json").inputValue());
 
-const setAuthorJson = async (page, book) =>
-  page.locator("#author-json").fill(JSON.stringify(book, null, 2));
+const setAuthorJson = async (page, book) => {
+  await page.locator('[data-author-tab="json"]').click();
+  await page.locator("#author-json-source").fill(JSON.stringify(book, null, 2));
+};
 
 let portablePath;
 
@@ -206,7 +215,7 @@ await check("Responsive two-spread demo preview", async () => {
     await page.waitForFunction(
       () =>
         window.libraryDebug().state.page === 1 &&
-        window.libraryDebug().ready &&
+        window.libraryDebug().scene?.authored &&
         window
           .libraryDebug()
           .scene?.authored?.elements.some((element) => element.id === "branch"),
@@ -687,6 +696,163 @@ await check("Legacy books and nine locales remain complete", async () => {
   await context.close();
   return "Traversed all 16 legacy spreads and opened Eden spread 1 in every supported locale.";
 });
+
+await check(
+  "visual composition: add, drag, resize, undo, pages, export and reader fidelity",
+  async () => {
+    const context = await makeContext();
+    const page = await context.newPage();
+    watchErrors(page);
+    await enter(page);
+    await page.locator("#author").click();
+    await page.locator("#author-visual").waitFor();
+    const state = () =>
+      page.locator("#author-json").inputValue().then(JSON.parse);
+    const ready = () =>
+      page.locator(".scene-loading").waitFor({ state: "hidden" });
+    const art = async (kind, id) => {
+      await page.locator(`.studio-tools [data-studio="${kind}"]`).click();
+      await page.locator(`[data-art="${id}"]`).click();
+      await page.locator(".art-tray").waitFor({ state: "hidden" });
+      await ready();
+    };
+    await page
+      .getByLabel("Book title", { exact: true })
+      .fill("Jonah — composed on the book");
+    await art("background", "underwater-backdrop");
+    await art("character", "jonah-cutout");
+    const before = (await state()).spreads[0].elements[0].placement;
+    await page.locator(".selection-frame").waitFor({ state: "visible" });
+    const rect = await page.locator(".selection-frame").boundingBox();
+    assert.ok(rect && rect.width > 20);
+    await page.mouse.move(rect.x + rect.width / 2, rect.y + rect.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(
+      rect.x + rect.width / 2 - 55,
+      rect.y + rect.height / 2 + 8,
+      { steps: 8 },
+    );
+    await page.mouse.up();
+    const moved = (await state()).spreads[0].elements[0].placement;
+    assert.ok(moved.x < before.x - 0.3);
+    await page.locator('[data-studio="undo"]').click();
+    await ready();
+    assert.equal((await state()).spreads[0].elements[0].placement.x, before.x);
+    await page.locator('[data-studio="redo"]').click();
+    await ready();
+    assert.equal((await state()).spreads[0].elements[0].placement.x, moved.x);
+    await page.locator('[data-select="character-1"]').click();
+    await page.locator(".resize-art").waitFor({ state: "visible" });
+    const handle = await page.locator(".resize-art").boundingBox();
+    await page.mouse.move(
+      handle.x + handle.width / 2,
+      handle.y + handle.height / 2,
+    );
+    await page.mouse.down();
+    await page.mouse.move(
+      handle.x + handle.width / 2 + 16,
+      handle.y + handle.height / 2 - 16,
+      { steps: 6 },
+    );
+    await page.mouse.up();
+    assert.ok(
+      (await state()).spreads[0].elements[0].placement.height > moved.height,
+    );
+    await page.getByLabel("Rotation", { exact: true }).fill("18");
+    await page.getByLabel("Rotation", { exact: true }).press("Tab");
+    assert.equal((await state()).spreads[0].elements[0].placement.rotation, 18);
+    await art("image", "whale-cutout");
+    assert.equal((await state()).spreads[0].elements[1].kind, "prop");
+    await art("ground", "sandy-ground");
+    await page
+      .getByLabel("Page title", { exact: true })
+      .fill("Jonah in the deep");
+    await page
+      .getByLabel("Story line 1", { exact: true })
+      .fill("Jonah prayed from the shelter of the great fish.");
+    await page.locator('.studio-tools [data-studio="page"]').click();
+    await ready();
+    await art("background", "jonah-shore");
+    await page
+      .getByLabel("Page title", { exact: true })
+      .fill("Back on the shore");
+    await page
+      .getByLabel("Story line 1", { exact: true })
+      .fill("Jonah was ready to listen again.");
+    await page.locator('[data-page="0"]').click();
+    await ready();
+    assert.equal(
+      await page.getByLabel("Page title", { exact: true }).inputValue(),
+      "Jonah in the deep",
+    );
+    assert.equal((await state()).spreads[0].elements.length, 2);
+    // The export must contain the current visible draft, without a separate validate/apply step.
+    const downloadPromise = page.waitForEvent("download");
+    await page.locator("#author-export").click();
+    const download = await downloadPromise;
+    const exported = path.join(output, "visual.book.json");
+    await download.saveAs(exported);
+    const saved = JSON.parse(fs.readFileSync(exported, "utf8"));
+    assert.equal(saved.spreads[0].title, "Jonah in the deep");
+    assert.ok(
+      Object.values(saved.assets).every((asset) =>
+        asset.src.startsWith("data:"),
+      ),
+    );
+    const draft = await state();
+    await page.locator('[data-studio="read"]').click();
+    try {
+      await page.waitForFunction(() => {
+        const debug = window.libraryDebug();
+        return (
+          !document.querySelector("#author-dialog").open &&
+          debug.scene?.authored &&
+          debug.scene.popups.every(
+            (angle) => Math.abs(angle - Math.PI / 2) < 0.01,
+          )
+        );
+      });
+    } catch (error) {
+      throw Error(
+        `${error.message}\n${JSON.stringify(await page.evaluate(() => ({ report: document.querySelector("#author-report").textContent, open: document.querySelector("#author-dialog").open, debug: window.libraryDebug() })))}`,
+      );
+    }
+    const rendered = await page.evaluate(
+      () => window.libraryDebug().scene.authored,
+    );
+    assert.equal(rendered.elements.length, 2);
+    assert.equal(
+      rendered.elements[0].position[0],
+      draft.spreads[0].elements[0].placement.x,
+    );
+    assert.ok(
+      Math.abs(rendered.elements[0].rotation - (18 * Math.PI) / 180) < 1e-6,
+    );
+    await page.locator("#author").click();
+    await page.locator('[data-page="1"]').click();
+    await ready();
+    await page.locator('[data-studio="read"]').click();
+    await page.waitForFunction(
+      () =>
+        !document.querySelector("#author-dialog").open &&
+        window.libraryDebug().state.page === 1 &&
+        window.libraryDebug().scene?.authored,
+    );
+    await page.locator("#author").click();
+    await page.setViewportSize({ width: 390, height: 844 });
+    await ready();
+    assert.ok(
+      await page.locator('.studio-tools [data-studio="character"]').isVisible(),
+    );
+    assert.ok(await page.locator(".studio-viewport canvas").isVisible());
+    const overflow = await page
+      .locator("#author-dialog")
+      .evaluate((el) => el.scrollWidth > el.clientWidth + 2);
+    assert.equal(overflow, false);
+    await context.close();
+    return "Created two pages from a blank book with backgrounds, character, image and ground; direct drag/resize, slider, undo/redo, page switching, portable current-draft export, identical reader placement, selected-page reading and 390px layout passed.";
+  },
+);
 
 results.passed =
   results.checks.every((item) => item.passed) &&

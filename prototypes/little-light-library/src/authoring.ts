@@ -1,3 +1,4 @@
+import { installVisualEditor } from "./visual-editor";
 import type {
   AuthoredBook,
   BookAsset,
@@ -92,7 +93,7 @@ export function createBlankBook(): AuthoredBook {
     subtitle: "A new interactive story",
     locale: "en-US",
     status: "draft",
-    source: "",
+    source: "Source not yet specified.",
     retellingNote: "Draft retelling; add the source and adaptation note.",
     cover: "",
     assets: {},
@@ -335,12 +336,12 @@ function renderAssets(book: AuthoredBook, draft: NewAssetDraft) {
 export function installAuthoring(options: {
   audio: () => AudioContext;
   pause: () => void;
-  preview: (book: AuthoredBook) => Promise<void>;
+  preview: (book: AuthoredBook, page?: number) => Promise<void>;
 }) {
   const history = new BookHistory();
   let editing = createBlankBook();
   let activeSpread = 0;
-  let activeTab: "book" | "spreads" | "assets" | "json" = "book";
+  let activeTab: "visual" | "book" | "spreads" | "assets" | "json" = "visual";
   let busy = false;
   let jsonOverride = false;
   let newAssetDraft: NewAssetDraft = {
@@ -351,12 +352,33 @@ export function installAuthoring(options: {
   };
   const dialog = document.createElement("dialog");
   dialog.id = "author-dialog";
-  dialog.innerHTML = `<div class="author-head"><div><p class="eyebrow">Little Light Library · authoring</p><h1>Book editor</h1><p>Create a book with forms, imported assets and readable narration. JSON remains available as an advanced view and export format.</p></div><button id="author-close">Return to reader</button></div><div class="author-toolbar"><button id="author-demo">Load sample</button><button id="author-new">New blank book</button><label class="file-button">Import JSON<input id="author-file" type="file" accept=".json,application/json"></label><button id="author-preview" class="primary">Validate & preview</button><button id="author-undo" disabled>Undo previous preview</button><button id="author-export" disabled>Export portable JSON</button></div><nav class="author-tabs" aria-label="Editor sections"><button data-author-tab="book">Book</button><button data-author-tab="spreads">Spreads</button><button data-author-tab="assets">Assets</button><button data-author-tab="json">Advanced JSON</button></nav><div id="author-form"></div><textarea id="author-json" hidden aria-hidden="true"></textarea><pre id="author-report" role="status" aria-live="polite"></pre>`;
+  dialog.innerHTML = `<div class="author-head"><div><p class="eyebrow">Little Light Library · authoring</p><h1>Book editor</h1><p>Build directly on the book. Add artwork, drag it into place, and try your story as you go.</p></div></div><div class="author-toolbar"><button id="author-demo">Load sample</button><button id="author-new">New blank book</button><label class="file-button">Import JSON<input id="author-file" type="file" accept=".json,application/json"></label><button id="author-preview" class="primary">Validate & preview</button><button id="author-undo" disabled>Undo previous preview</button><button id="author-export" disabled>Export portable JSON</button><button id="author-close">Return to reader</button></div><nav class="author-tabs" aria-label="Editor sections"><button data-author-tab="visual">On the book</button><button data-author-tab="book">Book details</button><button data-author-tab="spreads">Spreads</button><button data-author-tab="assets">Assets</button><button data-author-tab="json">Advanced JSON</button></nav><div id="author-visual"></div><div id="author-form"></div><textarea id="author-json" hidden aria-hidden="true"></textarea><div class="author-feedback"><pre id="author-report" role="status" aria-live="polite"></pre><button id="author-dismiss" aria-label="Dismiss editor status">✕</button></div>`;
   document.body.append(dialog);
   const el = <T extends HTMLElement>(id: string) =>
     dialog.querySelector<T>(`#${id}`)!;
   const form = el<HTMLElement>("author-form");
   const report = el<HTMLElement>("author-report");
+  const visual = installVisualEditor(el<HTMLElement>("author-visual"), {
+    book: () => editing,
+    changed: () => {
+      report.textContent = "";
+      el<HTMLTextAreaElement>("author-json").value = JSON.stringify(editing);
+      el<HTMLButtonElement>("author-export").disabled = false;
+    },
+    load: (book) => {
+      editing = structuredClone(book);
+    },
+    details: () => {
+      activeSpread = visual.page;
+      activeTab = "spreads";
+      renderEditor();
+    },
+    read: () => el<HTMLButtonElement>("author-preview").click(),
+  });
+  el<HTMLButtonElement>("author-dismiss").onclick = () => {
+    report.textContent = "";
+  };
+  dialog.addEventListener("close", () => visual.hide());
   el<HTMLTextAreaElement>("author-json").addEventListener("input", () => {
     jsonOverride = true;
   });
@@ -391,11 +413,13 @@ export function installAuthoring(options: {
         .querySelectorAll<HTMLButtonElement>("button")
         .forEach((button) => (button.disabled = false));
       el<HTMLButtonElement>("author-undo").disabled = !history.canUndo;
-      el<HTMLButtonElement>("author-export").disabled = !history.current;
+      el<HTMLButtonElement>("author-export").disabled = !editing.spreads.length;
     }
   };
   const setEditing = (book: AuthoredBook, message: string) => {
-    editing = structuredClone(book);
+    const result = validateBook(book);
+    if (!result.book) throw Error(describe(result.errors));
+    editing = structuredClone(result.book);
     activeSpread = Math.min(
       activeSpread,
       Math.max(0, editing.spreads.length - 1),
@@ -404,6 +428,10 @@ export function installAuthoring(options: {
     renderEditor();
   };
   function renderEditor() {
+    dialog.classList.toggle("visual-mode", activeTab === "visual");
+    form.hidden = activeTab === "visual";
+    if (activeTab === "visual") visual.show();
+    else visual.hide();
     dialog
       .querySelectorAll<HTMLButtonElement>("[data-author-tab]")
       .forEach((button) =>
@@ -426,7 +454,7 @@ export function installAuthoring(options: {
       form.innerHTML = renderSpreadEditor(editing, activeSpread);
     else if (activeTab === "assets")
       form.innerHTML = renderAssets(editing, newAssetDraft);
-    else {
+    else if (activeTab === "json") {
       form.innerHTML = `<div class="editor-card"><h2>Advanced JSON</h2><p>This is the same book model as the visual controls. Apply JSON to return it to the form editor.</p><textarea id="author-json-source" class="author-json-source" spellcheck="false">${escapeHtml(JSON.stringify(editing, null, 2))}</textarea><button data-author-action="apply-json" class="primary">Apply JSON to editor</button></div>`;
     }
     el<HTMLTextAreaElement>("author-json").value = JSON.stringify(
@@ -731,7 +759,9 @@ export function installAuthoring(options: {
   el<HTMLButtonElement>("author-new").onclick = () => {
     editing = createBlankBook();
     activeSpread = 0;
-    activeTab = "book";
+    activeTab = "visual";
+    visual.hide();
+    visual.show(true);
     newAssetDraft = {
       id: "",
       kind: "image",
@@ -739,7 +769,7 @@ export function installAuthoring(options: {
       src: "",
     };
     report.textContent =
-      "New blank book ready. Add image assets, then add spreads.";
+      "Your blank book is ready. Choose a background or add a character.";
     renderEditor();
   };
   const importBookFile = () => {
@@ -762,13 +792,14 @@ export function installAuthoring(options: {
   el<HTMLButtonElement>("author-preview").onclick = () =>
     void run(async () => {
       report.textContent = "Checking definition and media…";
-      if (jsonOverride) {
-        editing = JSON.parse(
-          el<HTMLTextAreaElement>("author-json").value,
-        ) as AuthoredBook;
-        jsonOverride = false;
-      }
-      const result = validateBook(editing);
+      const candidate =
+        activeTab === "json"
+          ? JSON.parse(el<HTMLTextAreaElement>("author-json-source").value)
+          : jsonOverride
+            ? JSON.parse(el<HTMLTextAreaElement>("author-json").value)
+            : editing;
+      jsonOverride = false;
+      const result = validateBook(candidate);
       if (!result.book) throw Error(describe(result.errors));
       let totalBytes = 0;
       const errors = await validateBookAssets(result.book, async (asset) => {
@@ -787,7 +818,11 @@ export function installAuthoring(options: {
         return { duration: buffer.duration };
       });
       if (errors.length) throw Error(describe(errors));
-      await options.preview(result.book);
+      await options.preview(
+        result.book,
+        activeTab === "visual" ? visual.page : activeSpread,
+      );
+      editing = structuredClone(result.book);
       history.commit(result.book);
       report.textContent = result.warnings.length
         ? describe(result.warnings)
@@ -806,9 +841,11 @@ export function installAuthoring(options: {
     });
   el<HTMLButtonElement>("author-export").onclick = () =>
     void run(async () => {
-      if (!history.current) return;
-      report.textContent = "Embedding assets from the last validated preview…";
-      const book = await portableBook(history.current);
+      const draft = validateBook(editing);
+      if (!draft.book) throw Error(describe(draft.errors));
+      report.textContent =
+        "Embedding artwork and audio from your current book…";
+      const book = await portableBook(draft.book);
       const result = validateBook(book);
       if (!result.book) throw Error(describe(result.errors));
       const url = URL.createObjectURL(
@@ -822,8 +859,7 @@ export function installAuthoring(options: {
       });
       link.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
-      report.textContent =
-        "Exported the last validated preview with embedded media.";
+      report.textContent = "Exported the current book with embedded media.";
     });
   el<HTMLButtonElement>("author-close").onclick = () => dialog.close();
   dialog.oncancel = (event) => {
@@ -831,9 +867,9 @@ export function installAuthoring(options: {
   };
   return {
     open() {
+      report.textContent = "";
       options.pause();
-      editing = structuredClone(history.current || editing);
-      activeTab = "book";
+      activeTab = "visual";
       renderEditor();
       dialog.showModal();
     },

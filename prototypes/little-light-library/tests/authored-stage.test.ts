@@ -231,3 +231,49 @@ test("decoded cue lengths override rounded metadata for narration gestures", asy
   stage.update(1.139, true, false, false);
   closeTo(stage.debug().elements[0].rocking, THREE.MathUtils.degToRad(8));
 });
+
+test("live editor transforms match a freshly loaded reader scene without reloading or compounding", async () => {
+  const { stage, calls } = await makeStage(motion);
+  const book = bookWith(motion);
+  const actor = book.spreads[0].elements[0];
+  for (const anchor of ["bottom", "center"] as const) {
+    actor.placement = {
+      x: -1.4,
+      depth: 0.65,
+      width: 2.3,
+      height: 2.1,
+      elevation: 0.6,
+      rotation: -23,
+      anchor,
+    };
+    stage.editPlacement("actor", actor);
+    stage.editPlacement("actor", actor);
+    const fresh = await AuthoredStage.create(
+      book,
+      book.spreads[0],
+      {
+        loadAsync: async () => new THREE.Texture(),
+      } as unknown as THREE.TextureLoader,
+      () => true,
+    );
+    for (const current of [stage, fresh]) {
+      current.popups.forEach((p) => (p.rotation.x = Math.PI / 2));
+      current.root.updateMatrixWorld(true);
+    }
+    const liveBounds = new THREE.Box3().setFromObject(
+      stage.root.getObjectByName("authored-element-actor")!,
+    );
+    const freshBounds = new THREE.Box3().setFromObject(
+      fresh.root.getObjectByName("authored-element-actor")!,
+    );
+    for (const edge of ["min", "max"] as const)
+      for (const axis of ["x", "y", "z"] as const)
+        closeTo(liveBounds[edge][axis], freshBounds[edge][axis]);
+    stage.rest();
+    closeTo(stage.debug().elements[0].rotation, THREE.MathUtils.degToRad(-23));
+    fresh.dispose();
+  }
+  assert.equal(calls.length, 3, "gestures must not reload any image");
+  stage.dispose();
+  assert.equal(stage.root.children.length, 0);
+});

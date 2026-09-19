@@ -1,5 +1,10 @@
 # Book authoring foundation — durable handoff
 
+**Current editor:** The default Author workspace is now an in-book visual editor.
+See [the visual editor guide](visual-editor.md). The foundation record below describes
+the earlier JSON workflow; direct selection, dragging, resizing, live sliders, visual
+undo/redo and current-draft export have since been added.
+
 The first working authoring milestone is implemented locally. The old quality-improvement
 loop remains parked. Do not expand this into a visual editor or another aesthetic iteration
 without creator steering. No services were purchased; nothing was pushed, merged or deployed.

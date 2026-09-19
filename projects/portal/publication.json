@@ -315,13 +315,14 @@
         "prototypes/little-light-library/src/main.ts",
         "prototypes/little-light-library/src/scene.ts",
         "prototypes/little-light-library/src/state.ts",
-        "prototypes/little-light-library/src/style.css"
+        "prototypes/little-light-library/src/style.css",
+        "prototypes/little-light-library/src/visual-editor.ts"
       ]
     },
     {
       "slug": "story-diorama-lab",
       "title": "Story Diorama",
-      "description": "A reusable storytelling component combining illustrated scenes, scrolling text and gentle soundtracks. Watch Noah\u2019s story or explore the playback and layout controls.",
+      "description": "A reusable storytelling component combining illustrated scenes, scrolling text and gentle soundtracks. Watch Noah’s story or explore the playback and layout controls.",
       "image_alt": "Illustrative painting of Noah beside the wooden framework of the ark, from the Story Diorama demonstration",
       "entry": "noah.html",
       "plain_static": true,
@@ -432,14 +433,14 @@
     },
     {
       "slug": "shepherd-companion-tall",
-      "title": "Shepherd companion \u2014 tall",
+      "title": "Shepherd companion — tall",
       "model": "prototypes/shepherd-adventure/assets/shepherd-companion-tall.glb",
       "prompt": "assets/characters/shepherd-companion-tall/reference-prompt.txt",
       "reference": "assets/characters/shepherd-companion-tall/reference.png"
     },
     {
       "slug": "shepherd-companion-stocky",
-      "title": "Shepherd companion \u2014 stocky",
+      "title": "Shepherd companion — stocky",
       "model": "prototypes/shepherd-adventure/assets/shepherd-companion-stocky.glb",
       "prompt": "assets/characters/shepherd-companion-stocky/reference-prompt.txt",
       "reference": "assets/characters/shepherd-companion-stocky/reference.png"
@@ -964,20 +965,21 @@
     "prototypes/little-light-library/assets/art/jonah/underwater-backdrop.png": "579801ab244527151fb4bfc8ad11805d29b8c0e68c62a61e29dd4bda3ceaac6b",
     "prototypes/little-light-library/assets/art/jonah/whale-cutout.png": "a91b731bda72ed543ed494a72ca8686c4024989e35625480e076b93e1fc0f9ab",
     "prototypes/little-light-library/src/authored-book.ts": "93f81c903a47edf4f1e3aecb1f105f7f60a18764b0415979d0190e2a6e92ea54",
-    "prototypes/little-light-library/src/authored-stage.ts": "894667c869dbb4ffd4640f1370aee952d088dc24fef0c71bdd239df4fd454816",
+    "prototypes/little-light-library/src/authored-stage.ts": "0191beb3b84c091426453791e2037fdd14ec6a1b4c517302c8e9c267f18d8b2e",
     "prototypes/little-light-library/public/assets/art/jonah/jonah-cutout.png": "285fa24ec84acf9bb5f59591003d58e977b82a1adc614730b5ab417634fa7aa5",
     "prototypes/little-light-library/public/assets/art/jonah/jonah-shore.png": "39e2d12c929a55b6468dc49100452965a311e9badced9305ae018774d16cae7b",
     "prototypes/little-light-library/public/assets/art/jonah/sandy-ground.png": "0177be65a2b34cc51ca216c53c22cb784bf8e0edbcbbf28ad5b0e9868fe80027",
     "prototypes/little-light-library/public/assets/art/jonah/underwater-backdrop.png": "579801ab244527151fb4bfc8ad11805d29b8c0e68c62a61e29dd4bda3ceaac6b",
     "prototypes/little-light-library/public/assets/art/jonah/whale-cutout.png": "a91b731bda72ed543ed494a72ca8686c4024989e35625480e076b93e1fc0f9ab",
     "prototypes/little-light-library/public/books/jonah-and-the-whale.book.json": "54a840b88b3ad25d156c9e6a01cfda3faa042361038c70c2f6b5bc8dde6e593b",
-    "prototypes/little-light-library/src/authoring.ts": "a55e4aff0729bbc54cdb4b9b91856941321fdae7f1c9ae680fce62896e4e1ed8",
+    "prototypes/little-light-library/src/authoring.ts": "8575624fd32aa2776a18a038b83f1eb7e011e9dbd983468b435ddd0f3d7b7c81",
     "prototypes/little-light-library/src/book-validation.ts": "f22dba39bdffa2d7fa587e1ab35c2cb8d87c9243acb307376e50de7ecced526e",
     "prototypes/little-light-library/src/contracts.ts": "84c00efb5b79a6bf71321ccbfb95a9f5f32f7a2bf531c5cb6729cd11c5dc0b39",
-    "prototypes/little-light-library/src/main.ts": "bec0d3ecd13f17256281ffc62e35f7b49c9bba03bb3bbbec978b035f956fd3e8",
+    "prototypes/little-light-library/src/main.ts": "c7b013227fa7c16cac248e9b02de10599354e150749d01b8770bc9f8cfe53fc5",
     "prototypes/little-light-library/src/scene.ts": "f32dd096a4d9e2b9c3d931845b37dd2de7882363c00722fdeaaf6acd7f2e6081",
     "prototypes/little-light-library/src/state.ts": "6292ff4e23627ad37fac6c1205ad3966e822bde54866d3127ae318078b64f999",
-    "prototypes/little-light-library/src/style.css": "709a1168f57b347246dccfd3ce419799b3b61102cb92cb61793fe5e00cc25ac1"
+    "prototypes/little-light-library/src/style.css": "cc5c46fe196a1cb872f622cc2f2d66e69393c7b9c3be1b36dc47afcc5fc314a0",
+    "prototypes/little-light-library/src/visual-editor.ts": "50c7e14ff68c0fea53869d9eacf9dda69168df086c26d727cba575ea05df4a1b"
   },
   "local_only_prototypes": []
 }

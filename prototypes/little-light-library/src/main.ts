@@ -179,11 +179,12 @@ function languageDialog(startup: boolean) {
             narration.pause();
             state.hide();
           },
-          preview: async (book) => {
+          preview: async (book, page = 0) => {
             const previousDraft = draft;
             const previousState = { ...state };
             draft = structuredClone(book);
             state.open(book.id, book.spreads.length);
+            state.page = Math.min(page, book.spreads.length - 1);
             try {
               await showPage(false, true);
             } catch (error) {
