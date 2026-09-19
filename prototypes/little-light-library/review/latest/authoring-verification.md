@@ -85,8 +85,8 @@ only measured duration and playback behavior were verified. Full editor, arbitra
 scripts, accounts, collaboration, publishing, custom sound tracks and direct canvas
 selection remain outside this milestone.
 
-The implementation is saved in a local commit with normal hooks. Resolve it using
-`git log --oneline --grep='book authoring' -5`; the exact reference is in the delivery response.
+The implementation is saved in local commit `85dfd7d` with normal hooks: all 416
+publication review hashes passed, followed by TypeScript and all 69 unit tests.
 The normal publication hook initially rejected unlisted source changes. Explicit source
 file reviews/hashes were added to the existing portal manifest; the published static-output
 digest was deliberately not updated. Future publication remains separately gated.

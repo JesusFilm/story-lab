@@ -74,7 +74,9 @@ agent authoring and preserve exact text/audio staleness behavior.
 
 ## Local commits
 
-Resolve the implementation and verification commits with:
+Implementation, documentation, demo and verification: `85dfd7d`
+(`feat: add Little Light Library book authoring foundation`). Normal publication and
+69-test hooks passed. Later documentation-only handoff references can be found with:
 
 ```sh
 git log --oneline --grep='book authoring' -5
@@ -90,5 +92,5 @@ hook required the nine changed/new source files to be explicitly listed and hash
 `projects/portal/publication.json`. Those source changes were reviewed and registered;
 no hook was skipped or weakened. The existing `static_output_digest` remains unchanged.
 A future portal build will require a separate review/update of the newly generated static
-output before it can publish this implementation. No portal tile, deployment or published
+output before it can publish this implementation. No portal tile presentation, deployment or published
 artifact was changed in this task.
