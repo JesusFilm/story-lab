@@ -29,7 +29,7 @@ assert files
 for p in files:
  rel=p.relative_to(OUT)
  assert not any(x in rel.parts for x in ['provenance','review','checks','learnings','.git','node_modules'])
- assert p.suffix in {'.html','.css','.mjs','.js','.json','.jpg','.glb','.txt','.wav','.vtt','.svg','.md','.png','.mp3','.gltf','.bin','.webp',''}
+ assert p.suffix in {'.html','.css','.mjs','.js','.ts','.json','.jpg','.glb','.txt','.wav','.vtt','.svg','.md','.png','.mp3','.gltf','.bin','.webp',''}
  assert p.name not in {'sources.json','publication.json','asset.json','package.json'}
  if p.suffix in {'.png','.mp3'}:
   assert rel.as_posix() in manifest['reviewed_files'],f'Unreviewed media: {rel}'

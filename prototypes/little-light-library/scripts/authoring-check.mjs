@@ -509,7 +509,10 @@ await check("Portable re-import uses embedded media", async () => {
     assetRequests++;
     return route.abort();
   });
-  await page.locator("#author-file").setInputFiles(portablePath);
+  const fileChooserPromise = page.waitForEvent("filechooser");
+  await page.locator("#author-file").click();
+  const fileChooser = await fileChooserPromise;
+  await fileChooser.setFiles(portablePath);
   await page
     .locator("#author-report")
     .filter({ hasText: "Imported into the draft" })
