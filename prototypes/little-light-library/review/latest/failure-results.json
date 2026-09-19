@@ -1,0 +1,46 @@
+{
+  "browser": "153.0.8010.48",
+  "url": "http://127.0.0.1:51479/review/little-light-library/",
+  "checks": [
+    {
+      "name": "Startup and keyboard navigation",
+      "passed": true,
+      "detail": "Chooser, book, settings and visual language recovery worked by keyboard; language switch paused playback."
+    },
+    {
+      "name": "Muted reading timeline",
+      "passed": true,
+      "detail": "Clock advanced 406 ms with sound off and visible highlight."
+    },
+    {
+      "name": "Missing audio and retry",
+      "passed": true,
+      "detail": "Story remained readable after fetch failure; Retry restored the page paused, then Play resumed narration."
+    },
+    {
+      "name": "Missing page image and retry",
+      "passed": true,
+      "detail": "Image failure was announced and recovered through visible Retry."
+    },
+    {
+      "name": "Missing shelf preview preserves library access",
+      "passed": true,
+      "detail": "A missing decorative shelf preview did not block access to either book."
+    },
+    {
+      "name": "Hidden tab requires explicit resume",
+      "passed": true,
+      "detail": "Backgrounding paused; foregrounding stayed paused; Play resumed."
+    },
+    {
+      "name": "Reduced motion and target sizes",
+      "passed": true,
+      "detail": "Reduced-motion preference active; text visible; key controls at least 44×44 CSS px."
+    },
+    {
+      "name": "Renderer startup failure and recovery",
+      "passed": true,
+      "detail": "Simulated unavailable WebGL announced startup failure and exposed retry controls."
+    }
+  ]
+}

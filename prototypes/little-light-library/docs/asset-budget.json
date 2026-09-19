@@ -1,0 +1,30 @@
+{
+  "totals": {
+    "art": 11959320,
+    "audio": 110937780,
+    "models": 33480
+  },
+  "largest": [
+    {
+      "file": "public/assets/audio/hi/eden/eden-08/s2-93de739f6d67f1ab1ed7.wav",
+      "bytes": 605804
+    },
+    {
+      "file": "public/assets/audio/hi/eden/eden-03/s1-7bbc791bd31166283e55.wav",
+      "bytes": 575564
+    },
+    {
+      "file": "public/assets/audio/hi/eden/eden-07/s2-3dc9dfc9c13af16aa756.wav",
+      "bytes": 574604
+    },
+    {
+      "file": "public/assets/audio/hi/noah/noah-08/s1-3567b82e9ad254af64c6.wav",
+      "bytes": 550604
+    },
+    {
+      "file": "public/assets/audio/hi/eden/eden-01/s1-7b3930d0974bebe2a87d.wav",
+      "bytes": 549164
+    }
+  ],
+  "notes": "Source PNGs and Blender editable files stay outside runtime. Runtime loads shelf previews and only the selected page/narration. DPR is capped at1.5, reduced to1 with shadows disabled on sustained slow frames."
+}

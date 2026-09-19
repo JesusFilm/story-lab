@@ -1,0 +1,21 @@
+node_modules/
+dist/
+.test-output/
+
+# Generated iteration output is disposable, not source history.
+review/*
+!review/README.md
+!review/latest/
+review/latest/*
+!review/latest/scene-acceptance.txt
+!review/latest/browser-results.json
+!review/latest/failure-results.json
+!review/latest/race-results.json
+!review/latest/garden-performance.json
+docs/captures/*
+!docs/captures/room-1366.png
+!docs/captures/eden-1366.png
+!docs/captures/flood-1366.png
+!docs/captures/aftermath-1366.png
+!docs/captures/eden-360.png
+!docs/captures/flood-768.png

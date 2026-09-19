@@ -1,0 +1,10 @@
+{
+  "meshes": 6,
+  "target_dimensions_m": [
+    0.31,
+    0.45,
+    0.098
+  ],
+  "source_base_triangles": 72,
+  "exported_runtime_triangles": 648
+}

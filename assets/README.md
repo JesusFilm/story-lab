@@ -46,3 +46,9 @@ Separate Nativity assets: [Mary](characters/mary-nativity/README.md), [Joseph](c
 
 - [Square nativity stall](structures/square-nativity-stall/README.md) — measured square interior and closed side walls.
 - [Straight feeding trough](objects/straight-feeding-trough/README.md) — independent wall-aligned hay container.
+
+[Little Light Library painted sources](references/little-light-library/README.md) and the [shelf book geometry brief](objects/little-light-book/README.md) support its self-contained prototype.
+
+[Little Light botanical wallpaper](textures/little-light-botanical-wallpaper/README.md): original painted cream-and-sage room texture with source and exact prompt.
+
+[Little Light garden floor](textures/little-light-garden-floor/README.md): original transparent painted grass and earth for the Eden paper stage.

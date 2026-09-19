@@ -97,10 +97,18 @@ def main() -> int:
         elif hashlib.sha256(raw).hexdigest() != expected:
             errors.append(f"reviewed hash is stale: {name}")
 
+    local_only = manifest.get("local_only_prototypes", [])
+    if not isinstance(local_only, list) or any(not isinstance(slug, str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug) for slug in local_only):
+        errors.append("local-only prototypes must be exact directory slugs")
+        local_only = []
+    local_prefixes = tuple(f"prototypes/{slug}/" for slug in local_only)
+    for name in published:
+        if name.startswith(local_prefixes):
+            errors.append(f"local-only prototype is also published: {name}")
     check_module_closure(published, errors)
     for name in sorted(staged_names()):
         path = Path(name)
-        if is_publishable_prototype_change(name) and name not in published:
+        if is_publishable_prototype_change(name) and name not in published and not name.startswith(local_prefixes):
             errors.append(f"changed publishable file is not listed in the manifest: {name}")
 
     if errors:
