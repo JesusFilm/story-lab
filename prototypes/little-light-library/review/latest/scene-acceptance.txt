@@ -1,0 +1,345 @@
+
+> little-light-library@0.1.0 verify:scene
+> node scripts/acceptance.mjs --scene
+
+
+> little-light-library@0.1.0 verify
+> npm run lint && npm run check:fast && npm run validate && npm run build
+
+
+> little-light-library@0.1.0 lint
+> prettier --check src tests scripts/*.mjs scripts/*.ts index.html
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> little-light-library@0.1.0 check:fast
+> npm run typecheck && npm test
+
+
+> little-light-library@0.1.0 typecheck
+> tsc --noEmit
+
+
+> little-light-library@0.1.0 test
+> node --import tsx --test tests/*.test.ts
+
+✔ paper figures remain folded until their moving leaf has cleared (0.70375ms)
+✔ reduced motion presents a fully open, supported paper stage immediately (0.299667ms)
+✔ clock uses measured segment boundaries across all speeds without cumulative drift (0.461417ms)
+✔ rate changes preserve cursor, replay resets, ending never advances a page (0.074709ms)
+✔ folded figures extending past the paper remain whole within a single undistorted spread projection (0.500375ms)
+✔ bounds include current visible vertices and exclude hidden alternate geometry without mutating the live stage (0.846917ms)
+✔ empty captures keep the original paper rectangle and do not invent a zoom (0.05075ms)
+✔ live folded points coincide with the shared print projection at reveal (0.741833ms)
+✔ unfolding restores the unchanged upright composition continuously without overshoot (0.404125ms)
+✔ garden print preserves paper margins and gutter with a single continuous image projection (1.327084ms)
+✔ garden geometry/material release never disposes its borrowed shared texture (0.23975ms)
+✔ outgoing page identity requires a fully loaded matching stage (0.322625ms)
+✔ Next prints the outgoing right front; Previous prints the outgoing left back with reversed U (32.622375ms)
+✔ print targets survive source identity changes and are released exactly once on replacement/exit (0.136291ms)
+✔ a failed print capture restores renderer state and preserves borrowed source resources (1.5725ms)
+✔ touch changes the selected paper actor locally while feet and root remain planted (136.600334ms)
+✔ reduced motion gives static touch and hover feedback without deforming the illustration (1.976459ms)
+✔ a sad actor acknowledges touch without acquiring the expansive welcome gesture (72.008167ms)
+✔ Noah's hammer specialization leaves other atlas moods unchanged (18.650541ms)
+✔ Noah's rigid forearm partitions the illustration without duplicate UV coverage (114.385209ms)
+✔ the rigid Noah tool reaches waist height without translating its root (3.796333ms)
+✔ Eve's fruit forearm partitions pose1 exactly and moves rigidly while the cuff and feet stay planted (49.962958ms)
+✔ Eve fruit specialization does not alter other moods or atlas poses (7.698916ms)
+✔ Adam presentation partitions skin once, holds rigid dimensions and restores the complete original pose (164.548625ms)
+✔ Adam presentation leaves other poses and moods on their existing full-pose animation (18.914291ms)
+✔ serpent head moves locally while branch, leaves and lower coils stay fixed (32.140334ms)
+✔ dove wingbeats leave body, head, olive and tail exactly fixed (21.250959ms)
+✔ touch acts during idle pauses; folded and reduced restore geometry exactly with distinct material feedback (44.406834ms)
+✔ WebAudio scheduling, mute, rate change and pause share one timeline (0.702542ms)
+✔ late audio-unlock cannot restart sources after stop or a language change (0.083084ms)
+✔ tab-hide pause cancels a pending audio unlock (0.112875ms)
+✔ flat paper layers separate without cumulative drift and restore their upright bases (0.576917ms)
+✔ folded supports and self shadows stay hidden, restoring only original upright shadow flags (0.304333ms)
+✔ no actor panel straddles the backdrop plane anywhere in the shared folding path (23.359583ms)
+✔ forward fold preserves authored upright positions and original page-clearance timing (0.265208ms)
+✔ paper acting stays flat during collapse/erection and resumes at the upright endpoint (0.062333ms)
+✔ reading focus is finite, restrained for phone, returns exactly, and never compounds on repeated activation (1.239416ms)
+✔ family spreads reserve opposite-edge clearance on phone without weakening ordinary or desktop focus (0.127167ms)
+✔ projected family bounds retain both tight screen edges at every response strength (1.619208ms)
+✔ retained stage keeps original resources alive while a hidden replacement is built (2.46525ms)
+✔ replacement releases the old retained stage once and room cleanup releases the current one (0.717ms)
+✔ shelf picking rejects transparent art and hidden fallback geometry (0.742167ms)
+✔ rapid selection restores the old figure exactly and keeps bases and feet anchored (1.561417ms)
+✔ wallpaper keeps world density and vertical registration around the corner (0.589917ms)
+✔ curtain folds and quilt puff are finite and bounded within the existing furniture (3.311042ms)
+✔ a shelf tap activates, while drag, vertical scroll, cancel and multitouch never do (0.459875ms)
+✔ room orbit is bounded, preserves radius and focus, and reset invalidates a late room release (0.503292ms)
+✔ loading never exposes a partial stage, including opening and reduced motion (0.386042ms)
+✔ stationary old and new halves coexist only until leaf clearance, then complete popups reveal (0.54575ms)
+✔ front and back sample the correct full-spread halves without changing shared GPU textures (1.783708ms)
+✔ a completed snapshot transfers into the next outgoing slot without double disposal or identity drift (0.128917ms)
+✔ first startup defaults and persisted settings survive restart (0.604ms)
+✔ language preserves book and page, resets playback paused; hidden requires explicit resume (0.111042ms)
+✔ flexible leaf keeps its spine fixed, preserves paper length, and stays above the book (2.722916ms)
+✔ Next turns right to left; Previous follows the mirrored left-to-right path (0.11825ms)
+✔ only navigation to an earlier page in the same story reverses the leaf (0.072458ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 56
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 901.606792
+
+> little-light-library@0.1.0 validate
+> node scripts/validate.mjs && node --import tsx scripts/validate-theatre.ts && python3 scripts/audio_verify.py
+
+Validated 9 locales, 144 spreads, 288 phrase cues and 27 names.
+Validated 16 directed spreads and 17 theatre plates/atlases.
+315 cues checked across 9 locales
+en-US 0.75x, 10 distributed phrase onsets: max 26.7 ms
+en-US 1x, 10 distributed phrase onsets: max 20.0 ms
+en-US 1.25x, 10 distributed phrase onsets: max 16.0 ms
+en-US 1.5x, 10 distributed phrase onsets: max 13.3 ms
+en-GB 0.75x, 10 distributed phrase onsets: max 26.7 ms
+en-GB 1x, 10 distributed phrase onsets: max 20.0 ms
+en-GB 1.25x, 10 distributed phrase onsets: max 16.0 ms
+en-GB 1.5x, 10 distributed phrase onsets: max 13.3 ms
+es 0.75x, 10 distributed phrase onsets: max 26.7 ms
+es 1x, 10 distributed phrase onsets: max 20.0 ms
+es 1.25x, 10 distributed phrase onsets: max 16.0 ms
+es 1.5x, 10 distributed phrase onsets: max 13.3 ms
+fr 0.75x, 10 distributed phrase onsets: max 26.7 ms
+fr 1x, 10 distributed phrase onsets: max 20.0 ms
+fr 1.25x, 10 distributed phrase onsets: max 16.0 ms
+fr 1.5x, 10 distributed phrase onsets: max 13.3 ms
+hi 0.75x, 10 distributed phrase onsets: max 26.7 ms
+hi 1x, 10 distributed phrase onsets: max 20.0 ms
+hi 1.25x, 10 distributed phrase onsets: max 16.0 ms
+hi 1.5x, 10 distributed phrase onsets: max 13.3 ms
+it 0.75x, 10 distributed phrase onsets: max 26.7 ms
+it 1x, 10 distributed phrase onsets: max 20.0 ms
+it 1.25x, 10 distributed phrase onsets: max 16.0 ms
+it 1.5x, 10 distributed phrase onsets: max 13.3 ms
+ja 0.75x, 10 distributed phrase onsets: max 26.7 ms
+ja 1x, 10 distributed phrase onsets: max 20.0 ms
+ja 1.25x, 10 distributed phrase onsets: max 16.0 ms
+ja 1.5x, 10 distributed phrase onsets: max 13.3 ms
+pt-BR 0.75x, 10 distributed phrase onsets: max 26.7 ms
+pt-BR 1x, 10 distributed phrase onsets: max 20.0 ms
+pt-BR 1.25x, 10 distributed phrase onsets: max 16.0 ms
+pt-BR 1.5x, 10 distributed phrase onsets: max 13.3 ms
+zh-CN 0.75x, 10 distributed phrase onsets: max 26.7 ms
+zh-CN 1x, 10 distributed phrase onsets: max 20.0 ms
+zh-CN 1.25x, 10 distributed phrase onsets: max 16.0 ms
+zh-CN 1.5x, 10 distributed phrase onsets: max 13.3 ms
+
+> little-light-library@0.1.0 prebuild
+> node scripts/loader-locales.mjs
+
+
+> little-light-library@0.1.0 build
+> vite build --base=./
+
+vite v6.4.3 building for production...
+<script src="./loading-locales.js"> in "/index.html" can't be bundled without type="module" attribute
+<script src="./loading-theatre.js"> in "/index.html" can't be bundled without type="module" attribute
+
+./loading-theatre.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+transforming...
+✓ 31 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   1.45 kB │ gzip:   0.62 kB
+dist/assets/index-CRAQQmwx.css    9.39 kB │ gzip:   2.90 kB
+dist/assets/index-DQ-k-EfY.js   589.22 kB │ gzip: 155.98 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 685ms
+{
+  "browser": "153.0.8010.48",
+  "host": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M4 Pro",
+    "memoryGiB": 48
+  },
+  "checks": [
+    "Both books, 16 spreads, figurines, nested assets and layout at 360×800",
+    "Both books, 16 spreads, figurines, nested assets and layout at 768×1024",
+    "Both books, 16 spreads, figurines, nested assets and layout at 1366×768",
+    "All nine locales exercised, page preserved, reset paused, all four rates replay and pause",
+    "Mute advances clock and saved settings survive startup",
+    "60-second throttled reading performance gates"
+  ],
+  "errors": [],
+  "performance": {
+    "label": "Chromium emulation, not a physical low-end device",
+    "viewport": "360×800",
+    "devicePixelRatio": 1,
+    "cpuSlowdown": 4,
+    "downMbps": 10,
+    "upMbps": 1,
+    "latencyMs": 100,
+    "chooserMs": 3113,
+    "shelfMs": 3426,
+    "shelfBytes": 2150072,
+    "totalTransferredBytes": 10759682,
+    "frames": 3498,
+    "p95Ms": 16.799999999995634,
+    "fps": 58.29407343596249,
+    "heap": 28652600
+  },
+  "passed": true
+}
+{
+  "label": "Eden garden; Chromium emulation, not a physical low-end device",
+  "viewport": "360×800",
+  "devicePixelRatio": 1,
+  "cpuSlowdown": 4,
+  "downMbps": 10,
+  "upMbps": 1,
+  "latencyMs": 100,
+  "chooserMs": 3110,
+  "shelfMs": 3555,
+  "shelfBytes": 2150072,
+  "totalTransferredBytes": 8328272,
+  "frames": 3470,
+  "p95Ms": 16.70000000001164,
+  "fps": 57.82841791774383,
+  "heap": 33989215
+}
+PASS: 60-second Eden garden performance gates.
+{
+  "browser": "153.0.8010.48",
+  "url": "http://127.0.0.1:51479/review/little-light-library/",
+  "checks": [
+    {
+      "name": "Startup and keyboard navigation",
+      "passed": true,
+      "detail": "Chooser, book, settings and visual language recovery worked by keyboard; language switch paused playback."
+    },
+    {
+      "name": "Muted reading timeline",
+      "passed": true,
+      "detail": "Clock advanced 406 ms with sound off and visible highlight."
+    },
+    {
+      "name": "Missing audio and retry",
+      "passed": true,
+      "detail": "Story remained readable after fetch failure; Retry restored the page paused, then Play resumed narration."
+    },
+    {
+      "name": "Missing page image and retry",
+      "passed": true,
+      "detail": "Image failure was announced and recovered through visible Retry."
+    },
+    {
+      "name": "Missing shelf preview preserves library access",
+      "passed": true,
+      "detail": "A missing decorative shelf preview did not block access to either book."
+    },
+    {
+      "name": "Hidden tab requires explicit resume",
+      "passed": true,
+      "detail": "Backgrounding paused; foregrounding stayed paused; Play resumed."
+    },
+    {
+      "name": "Reduced motion and target sizes",
+      "passed": true,
+      "detail": "Reduced-motion preference active; text visible; key controls at least 44×44 CSS px."
+    },
+    {
+      "name": "Renderer startup failure and recovery",
+      "passed": true,
+      "detail": "Simulated unavailable WebGL announced startup failure and exposed retry controls."
+    }
+  ]
+}
+PASS Stale rejected image cannot replace current narration
+PASS Pending figurine name cannot start after tab is hidden
+PASS Failed stale family request cannot append to current stage
+PASS Repeated startup Enter creates one AudioContext
+{
+  "browser": "153.0.8010.48",
+  "url": "http://127.0.0.1:51479/review/little-light-library/",
+  "checks": [
+    {
+      "name": "Stale rejected image cannot replace current narration",
+      "passed": true,
+      "detail": {
+        "beforePosition": 0.011609977324262999,
+        "afterPosition": 0.6675736961451246,
+        "currentPage": 5
+      }
+    },
+    {
+      "name": "Pending figurine name cannot start after tab is hidden",
+      "passed": true,
+      "detail": "Released pending name after simulated visibilitychange; actual application handler prevented playback and stayed paused after restoring visibility."
+    },
+    {
+      "name": "Failed stale family request cannot append to current stage",
+      "passed": true,
+      "detail": {
+        "currentPage": 6,
+        "popupCountBefore": 3,
+        "popupCountAfter": 3
+      }
+    },
+    {
+      "name": "Repeated startup Enter creates one AudioContext",
+      "passed": true,
+      "detail": {
+        "enterInvocations": 3,
+        "contexts": 1
+      }
+    }
+  ]
+}
+[
+  {
+    width: 1366,
+    selectedActor: 1,
+    blankSpaceIgnored: true,
+    keyboard: true,
+    localizedName: 'エバ'
+  },
+  {
+    width: 360,
+    selectedActor: 1,
+    blankSpaceIgnored: true,
+    keyboard: true,
+    localizedName: 'エバ'
+  }
+]
+PASS: normal/reduced Eve activation and consequence-page handoff.
+PASS: normal/reduced Adam touch and keyboard response across welcome, warning and sorrow.
+PASS: actual touch, camera return, fixed controls, rapid keyboard retarget, page/room cancellation and reduced motion.
+PASS: serpent/dove actual touch, keyboard, localization, fixed supports, folded rest, reduced motion and page disposal.
+PASS: shelf focus, grounded feedback, rapid settling, localization and reduced motion.
+PASS: room orbit buttons, mouse/touch gestures, tap safety, grounding, reduced motion, localization and reading reset.
+PASS: room texture success, fallback and delayed arrival preserve usable shelf and reading.
+PASS: garden floor lazy loading, fallback, held completion, stale arrival, page navigation and reduced motion.
+PASS: held-family loading and completed reveal at both sizes.
+[
+  {
+    check: 'Interrupted construction retains the last complete outgoing spread',
+    passed: true
+  },
+  {
+    check: 'Completed stage replaces both print targets with correct source and destination',
+    passed: true
+  },
+  {
+    check: 'Returning to room releases both print targets',
+    passed: true
+  },
+  {
+    check: 'Reduced motion allocates no print target and shows no moving leaf',
+    passed: true
+  }
+]
+PASS: reduced-motion retained stage survives supersession and releases on completion/room exit.
+PASS: scene acceptance (journey, performance, recovery, touch, loading and races). Narration timing/continuity were not rerun; listening remains unverified.

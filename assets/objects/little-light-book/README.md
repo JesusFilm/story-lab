@@ -1,0 +1,7 @@
+# Little Light Library shelf book
+
+[Current visual guide](../../../styles/little-light-library/README.md). A plain, upright 0.45 m hand-bound book for the bedroom shelf: forest-green cloth boards, ivory page block and narrow brass lines. The [isolated reference image](little-light-book-reference.png) and its [exact ImageGen prompt](little-light-book-reference.prompt.txt) establish materials and silhouette. The reference is design guidance; geometry was authored directly in Blender.
+
+[`build.py`](build.py) produces the editable [`source.blend`](little-light-book-source.blend) and [`runtime.glb`](little-light-book-runtime.glb). Six meshes form the page block, boards, spine and inlaid lines; base geometry has 72 triangles before bevel modifiers and the exported runtime GLB has 648 triangles. Overall intended dimensions are 0.31 × 0.45 × 0.098 m. [`render_review.py`](render_review.py) produces the [three-quarter review render](little-light-book-review.png) and [mesh report](mesh-review.json). The review render confirms a complete upright form, legible page block and no missing materials.
+
+The runtime GLB is copied to `prototypes/little-light-library/public/assets/models/little-light-book.glb` for decorative shelf books. Selected covers receive separate localized text and painted art at runtime. All geometry and art were created for Story Lab; no third-party model or textures are embedded.

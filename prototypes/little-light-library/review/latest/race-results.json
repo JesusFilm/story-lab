@@ -1,0 +1,37 @@
+{
+  "browser": "153.0.8010.48",
+  "url": "http://127.0.0.1:51479/review/little-light-library/",
+  "checks": [
+    {
+      "name": "Stale rejected image cannot replace current narration",
+      "passed": true,
+      "detail": {
+        "beforePosition": 0.011609977324262999,
+        "afterPosition": 0.6675736961451246,
+        "currentPage": 5
+      }
+    },
+    {
+      "name": "Pending figurine name cannot start after tab is hidden",
+      "passed": true,
+      "detail": "Released pending name after simulated visibilitychange; actual application handler prevented playback and stayed paused after restoring visibility."
+    },
+    {
+      "name": "Failed stale family request cannot append to current stage",
+      "passed": true,
+      "detail": {
+        "currentPage": 6,
+        "popupCountBefore": 3,
+        "popupCountAfter": 3
+      }
+    },
+    {
+      "name": "Repeated startup Enter creates one AudioContext",
+      "passed": true,
+      "detail": {
+        "enterInvocations": 3,
+        "contexts": 1
+      }
+    }
+  ]
+}

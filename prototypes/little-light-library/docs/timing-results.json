@@ -1,0 +1,259 @@
+{
+  "method": "Actual application first-phrase highlights at ten distributed page starts per locale/rate; recorded WAV onset padding separately verified. AudioContext is the authoritative timeline. This measures scheduling/display onset, not listening quality.",
+  "samples": [
+    {
+      "locale": "en-US",
+      "speed": 0.75,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "en-US",
+      "speed": 1,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "en-US",
+      "speed": 1.25,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "en-US",
+      "speed": 1.5,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "en-GB",
+      "speed": 0.75,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "en-GB",
+      "speed": 1,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "en-GB",
+      "speed": 1.25,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "en-GB",
+      "speed": 1.5,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "es",
+      "speed": 0.75,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "es",
+      "speed": 1,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "es",
+      "speed": 1.25,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "es",
+      "speed": 1.5,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "fr",
+      "speed": 0.75,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "fr",
+      "speed": 1,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "fr",
+      "speed": 1.25,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "fr",
+      "speed": 1.5,
+      "count": 10,
+      "maxSchedulingMs": 5.333333333339851,
+      "conservativeCombinedMs": 32.033333333339854
+    },
+    {
+      "locale": "hi",
+      "speed": 0.75,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "hi",
+      "speed": 1,
+      "count": 10,
+      "maxSchedulingMs": 5.333333333339851,
+      "conservativeCombinedMs": 32.033333333339854
+    },
+    {
+      "locale": "hi",
+      "speed": 1.25,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "hi",
+      "speed": 1.5,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "it",
+      "speed": 0.75,
+      "count": 10,
+      "maxSchedulingMs": 5.333333333339851,
+      "conservativeCombinedMs": 32.033333333339854
+    },
+    {
+      "locale": "it",
+      "speed": 1,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "it",
+      "speed": 1.25,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "it",
+      "speed": 1.5,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "ja",
+      "speed": 0.75,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "ja",
+      "speed": 1,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "ja",
+      "speed": 1.25,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "ja",
+      "speed": 1.5,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "pt-BR",
+      "speed": 0.75,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "pt-BR",
+      "speed": 1,
+      "count": 10,
+      "maxSchedulingMs": 5.333333333339851,
+      "conservativeCombinedMs": 32.033333333339854
+    },
+    {
+      "locale": "pt-BR",
+      "speed": 1.25,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "pt-BR",
+      "speed": 1.5,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "zh-CN",
+      "speed": 0.75,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "zh-CN",
+      "speed": 1,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "zh-CN",
+      "speed": 1.25,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    },
+    {
+      "locale": "zh-CN",
+      "speed": 1.5,
+      "count": 10,
+      "maxSchedulingMs": 0,
+      "conservativeCombinedMs": 26.7
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

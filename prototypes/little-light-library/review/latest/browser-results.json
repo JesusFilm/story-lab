@@ -1,0 +1,36 @@
+{
+  "browser": "153.0.8010.48",
+  "host": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M4 Pro",
+    "memoryGiB": 48
+  },
+  "checks": [
+    "Both books, 16 spreads, figurines, nested assets and layout at 360×800",
+    "Both books, 16 spreads, figurines, nested assets and layout at 768×1024",
+    "Both books, 16 spreads, figurines, nested assets and layout at 1366×768",
+    "All nine locales exercised, page preserved, reset paused, all four rates replay and pause",
+    "Mute advances clock and saved settings survive startup",
+    "60-second throttled reading performance gates"
+  ],
+  "errors": [],
+  "performance": {
+    "label": "Chromium emulation, not a physical low-end device",
+    "viewport": "360×800",
+    "devicePixelRatio": 1,
+    "cpuSlowdown": 4,
+    "downMbps": 10,
+    "upMbps": 1,
+    "latencyMs": 100,
+    "chooserMs": 3113,
+    "shelfMs": 3426,
+    "shelfBytes": 2150072,
+    "totalTransferredBytes": 10759682,
+    "frames": 3498,
+    "p95Ms": 16.799999999995634,
+    "fps": 58.29407343596249,
+    "heap": 28652600
+  },
+  "passed": true
+}

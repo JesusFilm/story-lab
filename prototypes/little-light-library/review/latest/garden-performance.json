@@ -1,0 +1,22 @@
+{
+  "browser": "153.0.8010.48",
+  "host": {
+    "cpu": "Apple M4 Pro",
+    "memoryGiB": 48
+  },
+  "label": "Eden garden; Chromium emulation, not a physical low-end device",
+  "viewport": "360×800",
+  "devicePixelRatio": 1,
+  "cpuSlowdown": 4,
+  "downMbps": 10,
+  "upMbps": 1,
+  "latencyMs": 100,
+  "chooserMs": 3110,
+  "shelfMs": 3555,
+  "shelfBytes": 2150072,
+  "totalTransferredBytes": 8328272,
+  "frames": 3470,
+  "p95Ms": 16.70000000001164,
+  "fps": 57.82841791774383,
+  "heap": 33989215
+}

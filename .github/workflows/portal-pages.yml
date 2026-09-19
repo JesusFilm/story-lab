@@ -22,6 +22,7 @@ jobs:
           cache-dependency-path: |
             projects/portal/package-lock.json
             prototypes/sermon-in-the-crowd/package-lock.json
+            prototypes/little-light-library/package-lock.json
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -29,6 +30,8 @@ jobs:
         working-directory: projects/portal
       - run: npm ci --ignore-scripts --no-audit --no-fund
         working-directory: prototypes/sermon-in-the-crowd
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: prototypes/little-light-library
       - run: npm run build && npm test
         working-directory: projects/portal
       - name: Smoke test Shepherd Adventure

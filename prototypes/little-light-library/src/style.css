@@ -1,0 +1,715 @@
+:root {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #263d38;
+  background: #efe5d3;
+  font-synthesis: none;
+  font-size: 16px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+select {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+  min-height: 46px;
+  min-width: 46px;
+  border: 1px solid #455d4833;
+  border-radius: 14px;
+  background: #fffaf0;
+  color: #29463e;
+  padding: 10px 16px;
+  box-shadow: 0 3px 0 #4a382516;
+  transition:
+    background 0.15s,
+    transform 0.15s;
+}
+button:hover {
+  background: #ece8d4;
+  transform: translateY(-1px);
+}
+button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 3px solid #b17a32;
+  outline-offset: 4px;
+}
+button.primary {
+  background: #31594c;
+  color: #fff9e7;
+  border-color: #31594c;
+}
+button.primary:hover {
+  background: #244a3e;
+}
+button.icon {
+  border-radius: 50%;
+  font-family: system-ui;
+  font-size: 22px;
+  width: 48px;
+  padding: 5px;
+}
+#app {
+  min-height: 100svh;
+  position: relative;
+  overflow: hidden;
+}
+#scene {
+  position: absolute;
+  inset: 0;
+  height: 100svh;
+}
+#scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+#header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 36px;
+  gap: 12px;
+  background: linear-gradient(#efe5d3d9, transparent);
+}
+.brand {
+  color: #29463e;
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 58%;
+}
+.brand-star {
+  font-size: 38px;
+  color: #bd8e41;
+}
+nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+#panel {
+  position: relative;
+  z-index: 1;
+  padding: 0 36px 24px;
+  pointer-events: none;
+  min-height: calc(100svh - 100px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+#panel button {
+  pointer-events: auto;
+}
+.shelf-heading {
+  text-align: center;
+  text-shadow: 0 1px 10px #fff9ed;
+  margin-bottom: 18px;
+}
+.eyebrow {
+  font-family: system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 600;
+  color: #866732;
+}
+h1 {
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 1.12;
+  margin: 8px 0 16px;
+}
+h2 {
+  font-weight: normal;
+  font-size: 28px;
+}
+.book-choices {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+.book-choices button {
+  position: relative;
+  text-align: left;
+  width: 320px;
+  min-height: 90px;
+  background: #fff9e9eb;
+  padding: 18px 50px 18px 20px;
+  backdrop-filter: blur(8px);
+}
+.book-choices span {
+  display: block;
+  font-size: 21px;
+}
+.book-choices small {
+  display: block;
+  margin-top: 7px;
+  color: #6b7464;
+  font-size: 12px;
+}
+.book-choices b {
+  position: absolute;
+  right: 20px;
+  top: 32px;
+  font-size: 25px;
+  font-weight: normal;
+}
+.figurines {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+.figurines button {
+  font-size: 14px;
+  background: #f4efdfdd;
+}
+.figurines span {
+  color: #997940;
+}
+.reading #panel {
+  align-items: flex-end;
+  justify-content: center;
+}
+.reader {
+  pointer-events: auto;
+  width: 390px;
+  background: #fffaf0f5;
+  border: 1px solid #d4c7a9;
+  border-radius: 22px;
+  padding: 26px;
+  box-shadow: 0 20px 60px #48392422;
+}
+.reader-meta {
+  font-family: system-ui;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #637267;
+}
+.reader h1 {
+  font-size: 29px;
+  margin: 16px 0;
+}
+.story-text {
+  font-size: 20px;
+  line-height: 1.65;
+}
+.story-text span {
+  border-radius: 4px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.story-text .active {
+  background: #f3d99a;
+  color: #243d36;
+  box-shadow:
+    3px 0 #f3d99a,
+    -3px 0 #f3d99a;
+}
+.reader-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 18px;
+  color: #6e7667;
+  font-family: system-ui;
+  font-size: 11px;
+}
+.reader-controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+.reader-controls #play {
+  flex: 1;
+}
+.reader-controls button {
+  padding: 10px;
+}
+.wide {
+  width: 100%;
+  margin-top: 16px;
+}
+dialog {
+  border: 1px solid #d9ccb0;
+  border-radius: 26px;
+  color: #29463e;
+  background: #fffaf0;
+  padding: 34px;
+  width: min(540px, calc(100% - 32px));
+  box-shadow: 0 30px 100px #192c3555;
+}
+dialog::backdrop {
+  background: #263b354f;
+  backdrop-filter: blur(7px);
+}
+dialog h1 {
+  font-size: 38px;
+}
+dialog p {
+  line-height: 1.5;
+  color: #6b7568;
+}
+.language-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.language-grid button {
+  font-family: system-ui;
+  font-size: 14px;
+  padding: 10px 4px;
+}
+.language-grid .selected {
+  background: #e0e8d8;
+  border: 2px solid #577351;
+}
+label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  min-height: 60px;
+}
+select {
+  min-height: 46px;
+  min-width: 110px;
+  padding: 8px;
+}
+input {
+  min-height: 46px;
+  max-width: 55%;
+}
+input[type="checkbox"] {
+  width: 44px;
+}
+.help {
+  font-size: 14px;
+}
+#notice {
+  position: fixed;
+  z-index: 5;
+  top: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 90%;
+  background: #fff8e9;
+  box-shadow: 0 5px 30px #332b2222;
+  border-radius: 12px;
+  padding: 12px;
+  font-family: system-ui;
+  font-size: 13px;
+}
+#notice:empty {
+  display: none;
+}
+#notice button {
+  margin-left: 10px;
+}
+.loading-theatre .loading-note:empty {
+  display: none;
+}
+@media (min-width: 1100px) {
+  .reading #scene {
+    width: calc(100% - 340px);
+  }
+  .reading #panel {
+    padding-right: 40px;
+  }
+  .reader {
+    width: 370px;
+  }
+}
+@media (max-width: 900px) {
+  #header {
+    padding: 16px 20px;
+  }
+  .brand {
+    font-size: 18px;
+  }
+  .brand-star {
+    font-size: 30px;
+  }
+  #panel {
+    padding: 0 20px 20px;
+    min-height: calc(100svh - 90px);
+  }
+  .reading #scene {
+    height: 52svh;
+  }
+  .reading #panel {
+    justify-content: flex-end;
+    padding-top: 38svh;
+    align-items: center;
+  }
+  .reader {
+    width: min(640px, 100%);
+    padding: 22px;
+  }
+  .reader h1 {
+    font-size: 26px;
+    margin: 12px 0;
+  }
+  .story-text {
+    font-size: 19px;
+    line-height: 1.5;
+  }
+  .reader-footer {
+    margin-top: 10px;
+  }
+  .reader-controls {
+    margin-top: 12px;
+  }
+}
+@media (max-width: 480px) {
+  #header {
+    padding: 12px;
+    align-items: flex-start;
+  }
+  .brand {
+    font-size: 16px;
+    gap: 6px;
+  }
+  .brand-star {
+    font-size: 27px;
+  }
+  nav {
+    gap: 5px;
+  }
+  button.icon {
+    width: 44px;
+    font-size: 20px;
+  }
+  #shelf {
+    font-size: 0;
+    padding: 8px;
+  }
+  #shelf::first-letter {
+    font-size: 22px;
+  }
+  #panel {
+    padding: 0 12px 16px;
+    min-height: calc(100svh - 78px);
+  }
+  .shelf-heading h1 {
+    font-size: 27px;
+  }
+  .book-choices {
+    gap: 8px;
+  }
+  .book-choices button {
+    width: 50%;
+    padding: 14px 12px;
+    min-height: 110px;
+  }
+  .book-choices span {
+    font-size: 19px;
+  }
+  .book-choices small {
+    font-size: 10px;
+  }
+  .book-choices b {
+    display: none;
+  }
+  .figurines {
+    gap: 8px;
+  }
+  .figurines button {
+    font-size: 13px;
+  }
+  .reading #scene {
+    height: 42svh;
+  }
+  .reading #panel {
+    padding-top: 29svh;
+  }
+  .reader {
+    padding: 18px;
+    border-radius: 18px;
+  }
+  .reader h1 {
+    font-size: 24px;
+  }
+  .story-text {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  .reader-meta {
+    font-size: 10px;
+  }
+  .reader-controls {
+    gap: 7px;
+  }
+  .reader-controls button {
+    padding: 8px;
+  }
+  .language-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  dialog {
+    padding: 24px;
+  }
+  dialog h1 {
+    font-size: 30px;
+  }
+  .reader-footer {
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* Reading is a stage beside a paper card, never a card over the actors. */
+body {
+  background: #273e3c;
+}
+#header {
+  background: linear-gradient(#f5eedde8, transparent);
+}
+.reading #scene {
+  width: calc(100% - 390px);
+  height: 100svh;
+}
+.reading #panel {
+  position: absolute;
+  right: 0;
+  top: 88px;
+  bottom: 0;
+  width: 390px;
+  min-height: 0;
+  padding: 20px 22px 24px 0;
+  justify-content: center;
+}
+.reader {
+  width: 100%;
+  max-height: calc(100svh - 120px);
+  overflow: auto;
+  border-radius: 8px 20px 20px 8px;
+  background: linear-gradient(105deg, #e5d9bb, #fff8e9 5%, #f6ebd5);
+  box-shadow:
+    0 12px 50px #14262240,
+    inset 5px 0 8px #aa936b16;
+  border: 1px solid #dac49a;
+}
+.reader h1 {
+  font-size: 27px;
+}
+.story-text {
+  font-size: 19px;
+  line-height: 1.55;
+}
+.reader-controls {
+  position: sticky;
+  bottom: -26px;
+  background: #f9efd9;
+  padding: 12px 0 4px;
+}
+.shelf-heading {
+  margin-bottom: 10px;
+}
+.shelf-heading h1 {
+  color: #fff5d9;
+  text-shadow: 0 2px 16px #14211d;
+  font-size: 28px;
+}
+.shelf-heading .eyebrow {
+  color: #ead6a5;
+  text-shadow: 0 1px 4px #172b25;
+}
+.book-choices button {
+  min-height: 76px;
+  box-shadow:
+    0 7px 24px #182d2933,
+    inset 0 0 0 3px #fffaf055;
+}
+@media (max-aspect-ratio: 6/5), (max-width: 700px) {
+  .reading #scene {
+    width: 100%;
+    height: 55svh;
+  }
+  .reading #panel {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    min-height: calc(100svh - 85px);
+    padding: calc(55svh - 85px) 18px 18px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .reader {
+    max-width: 720px;
+    max-height: none;
+    padding: 20px;
+    border-radius: 18px;
+  }
+  .reader-controls {
+    bottom: -20px;
+  }
+}
+@media (max-width: 480px) {
+  .reading #scene {
+    height: 44svh;
+  }
+  .reading #panel {
+    padding: calc(44svh - 76px) 10px 12px;
+    min-height: calc(100svh - 76px);
+  }
+  .reader {
+    padding: 16px;
+  }
+  .reader h1 {
+    font-size: 23px;
+    margin: 10px 0;
+  }
+  .story-text {
+    font-size: 17px;
+    line-height: 1.43;
+  }
+  .reader-controls {
+    bottom: -16px;
+    margin-top: 8px;
+  }
+  .reader-meta {
+    font-size: 10px;
+  }
+  .book-choices span {
+    font-size: 17px;
+  }
+}
+
+/* Name tags follow the paper actor, while keyboard focus uses the same target. */
+.paper-name {
+  position: absolute;
+  z-index: 3;
+  transform: translateX(-50%);
+  padding: 5px 14px;
+  border: 1px solid #c29b60;
+  border-radius: 8px;
+  background: #fff1d6;
+  color: #244e45;
+  font:
+    700 16px Georgia,
+    serif;
+  box-shadow: 0 3px 8px #35251835;
+  pointer-events: none;
+}
+.paper-name[hidden] {
+  display: none;
+}
+.paper-target,
+.creature-target {
+  position: absolute;
+  width: 60px;
+  min-height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  pointer-events: none;
+  opacity: 0;
+}
+.paper-target:focus-visible,
+.creature-target:focus-visible {
+  opacity: 1;
+  outline: 2px dashed #ad864c;
+  outline-offset: 5px;
+  border-radius: 12px;
+}
+
+.paper-name.room-name {
+  max-width: min(230px, calc(100% - 24px));
+  text-align: center;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+/* Explicit room exploration is separate from the reading camera. */
+#scene canvas {
+  touch-action: pan-y;
+}
+.reading #scene canvas {
+  touch-action: auto;
+}
+.room-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 auto 10px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 3px 5px 3px 12px;
+  border-radius: 28px;
+  background: #fff7e7e6;
+  box-shadow: 0 3px 12px #14262230;
+}
+.room-view span {
+  font-size: 12px;
+  max-width: 120px;
+  margin-right: 6px;
+  color: #42564a;
+}
+.room-view button {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: 25px;
+}
+.room-view button:hover,
+.room-view button:focus-visible {
+  background: #e4d8b9;
+}
+
+@media (max-width: 480px) {
+  .room-view {
+    padding: 0 3px 0 9px;
+    gap: 0;
+    margin-bottom: 8px;
+  }
+  .room-view span {
+    font-size: 11px;
+    max-width: 95px;
+  }
+  .room-view button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    font-size: 23px;
+  }
+}

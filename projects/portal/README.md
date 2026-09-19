@@ -44,3 +44,9 @@ portal publication inputs change; a failed run uploads a diagnostic screenshot.
 The GitHub Actions workflow deploys the validated artifact to this repository's
 GitHub Pages site. The source repository and the Pages artifact are both intended
 for public sharing. The artifact contains the files needed to run the demos.
+
+Local review prototypes can be registered by exact directory slug in
+`local_only_prototypes`. This permits their source commits without creating a
+portal tile or exporting their runtime. The checker rejects any overlap between
+that list and published prototype files. Moving a prototype to publication still
+requires its explicit file list and reviewed hashes.

@@ -1,5 +1,8 @@
 #!/bin/sh
 set -eu
-
 repo_root=$(git rev-parse --show-toplevel)
-exec python3 "$repo_root/projects/portal/check-publication.py"
+python3 "$repo_root/projects/portal/check-publication.py"
+if git diff --cached --name-only | rg -q '^prototypes/little-light-library/'; then
+  cd "$repo_root/prototypes/little-light-library"
+  npm run check:fast
+fi

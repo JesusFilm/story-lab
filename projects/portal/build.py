@@ -45,6 +45,26 @@ def copy(src, name):
     else:
         shutil.copyfile(src, path)
 
+def static_output_digest(root):
+    """Hash every generated file name and content in a static build."""
+    digest = hashlib.sha256()
+    for path in sorted(p for p in root.rglob('*') if p.is_file()):
+        digest.update(path.relative_to(root).as_posix().encode())
+        digest.update(b'\0')
+        digest.update(hashlib.sha256(path.read_bytes()).digest())
+    return digest.hexdigest()
+
+def static_output_names(proto, root):
+    if proto.get('static_outputs'):
+        for name, expected in proto['static_outputs'].items():
+            if hashlib.sha256((root/name).read_bytes()).hexdigest() != expected:
+                raise ValueError(f'Static output review required: {name}')
+        return proto['static_outputs']
+    expected = proto.get('static_output_digest')
+    if expected is None or static_output_digest(root) != expected:
+        raise ValueError(f"Static output review required: {proto['slug']}")
+    return {p.relative_to(root).as_posix(): None for p in sorted(root.rglob('*')) if p.is_file()}
+
 # Validate everything before clearing the previous successful output.
 for proto in MANIFEST['prototypes']:
     validate_prototype_module_closure(proto)
@@ -54,10 +74,7 @@ for name in MANIFEST['reviewed_files']:
 for proto in MANIFEST['prototypes']:
     if proto.get('static_build'):
         subprocess.run(['npm', 'run', 'build:static'], cwd=ROOT/proto['static_build'], check=True)
-        for name, expected in proto['static_outputs'].items():
-            p = ROOT/proto['static_build']/'dist-static'/name
-            if hashlib.sha256(p.read_bytes()).hexdigest() != expected:
-                raise ValueError(f'Static output review required: {name}')
+        static_output_names(proto, ROOT/proto['static_build']/'dist-static')
 three = HERE / 'node_modules/three'
 assert json.loads((three/'package.json').read_text())['version'] == '0.169.0'
 if OUT.exists():
@@ -112,8 +129,9 @@ for proto in MANIFEST['prototypes']:
         else:
             copy(p, base+relative)
     if proto.get('static_build'):
-        for name in proto['static_outputs']:
-            copy(ROOT/proto['static_build']/'dist-static'/name, base+name)
+        static_root = ROOT/proto['static_build']/'dist-static'
+        for name in static_output_names(proto, static_root):
+            copy(static_root/name, base+name)
     retrospective_link = ''
     if proto.get('retrospective'):
         text = source(proto['retrospective']).read_text()

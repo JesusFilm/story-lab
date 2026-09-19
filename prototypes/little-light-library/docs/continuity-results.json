@@ -1,0 +1,332 @@
+{
+  "browser": "153.0.8010.48",
+  "url": "http://127.0.0.1:65053/review/little-light-library/",
+  "method": "Observe real app clock and phrase-2 DOM onset after pause/resume and mute/volume change on Eden page 1. Expected boundary is decoded recording duration in the checked audio manifest. This measures scheduling/display continuity, not listening quality.",
+  "samples": [
+    {
+      "locale": "en-US",
+      "speed": 0.75,
+      "duration": 7.88,
+      "onsetPosition": 7.887999999999999,
+      "errorMs": 10.666666666665492,
+      "mutedAdvance": 0.16800000000000004,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "en-US",
+      "speed": 1,
+      "duration": 7.88,
+      "onsetPosition": 7.898666666666665,
+      "errorMs": 18.6666666666655,
+      "mutedAdvance": 0.21866666666666568,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "en-US",
+      "speed": 1.25,
+      "duration": 7.88,
+      "onsetPosition": 7.893333333333334,
+      "errorMs": 10.666666666667624,
+      "mutedAdvance": 0.28000000000000025,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "en-US",
+      "speed": 1.5,
+      "duration": 7.88,
+      "onsetPosition": 7.895999999999999,
+      "errorMs": 10.666666666666083,
+      "mutedAdvance": 0.3360000000000003,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "en-GB",
+      "speed": 0.75,
+      "duration": 7.68,
+      "onsetPosition": 7.683999999999996,
+      "errorMs": 5.333333333328009,
+      "mutedAdvance": 0.16799999999999748,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "en-GB",
+      "speed": 1,
+      "duration": 7.68,
+      "onsetPosition": 7.68,
+      "errorMs": 0,
+      "mutedAdvance": 0.22399999999999665,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "en-GB",
+      "speed": 1.25,
+      "duration": 7.68,
+      "onsetPosition": 7.7066666666666706,
+      "errorMs": 21.333333333336668,
+      "mutedAdvance": 0.2799999999999958,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "en-GB",
+      "speed": 1.5,
+      "duration": 7.68,
+      "onsetPosition": 7.7039999999999935,
+      "errorMs": 15.999999999995868,
+      "mutedAdvance": 0.33599999999999497,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "es",
+      "speed": 0.75,
+      "duration": 8.58,
+      "onsetPosition": 8.583999999999993,
+      "errorMs": 5.333333333323272,
+      "mutedAdvance": 0.1680000000000028,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "es",
+      "speed": 1,
+      "duration": 8.58,
+      "onsetPosition": 8.581333333333319,
+      "errorMs": 1.3333333333189756,
+      "mutedAdvance": 0.2186666666666639,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "es",
+      "speed": 1.25,
+      "duration": 8.58,
+      "onsetPosition": 8.580000000000005,
+      "errorMs": 4.263256414560601e-12,
+      "mutedAdvance": 0.2800000000000047,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "es",
+      "speed": 1.5,
+      "duration": 8.58,
+      "onsetPosition": 8.591999999999992,
+      "errorMs": 7.999999999994381,
+      "mutedAdvance": 0.3359999999999843,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "fr",
+      "speed": 0.75,
+      "duration": 8.08,
+      "onsetPosition": 8.088000000000005,
+      "errorMs": 10.666666666672597,
+      "mutedAdvance": 0.1680000000000028,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "fr",
+      "speed": 1,
+      "duration": 8.08,
+      "onsetPosition": 8.09599999999999,
+      "errorMs": 15.999999999989356,
+      "mutedAdvance": 0.2186666666666639,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "fr",
+      "speed": 1.25,
+      "duration": 8.08,
+      "onsetPosition": 8.080000000000016,
+      "errorMs": 1.2789769243681803e-11,
+      "mutedAdvance": 0.2800000000000047,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "fr",
+      "speed": 1.5,
+      "duration": 8.08,
+      "onsetPosition": 8.096000000000004,
+      "errorMs": 10.666666666669045,
+      "mutedAdvance": 0.3359999999999843,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "hi",
+      "speed": 0.75,
+      "duration": 11.44,
+      "onsetPosition": 11.447999999999986,
+      "errorMs": 10.666666666648913,
+      "mutedAdvance": 0.16800000000001347,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "hi",
+      "speed": 1,
+      "duration": 11.44,
+      "onsetPosition": 11.456000000000017,
+      "errorMs": 16.000000000017778,
+      "mutedAdvance": 0.22399999999998954,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "hi",
+      "speed": 1.25,
+      "duration": 11.44,
+      "onsetPosition": 11.453333333333298,
+      "errorMs": 10.666666666638491,
+      "mutedAdvance": 0.2799999999999869,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "hi",
+      "speed": 1.5,
+      "duration": 11.44,
+      "onsetPosition": 11.471999999999994,
+      "errorMs": 21.3333333333298,
+      "mutedAdvance": 0.3359999999999843,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "it",
+      "speed": 0.75,
+      "duration": 8,
+      "onsetPosition": 8.007999999999981,
+      "errorMs": 10.666666666641808,
+      "mutedAdvance": 0.16799999999999216,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "it",
+      "speed": 1,
+      "duration": 8,
+      "onsetPosition": 8.015999999999963,
+      "errorMs": 15.99999999996271,
+      "mutedAdvance": 0.22399999999998954,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "it",
+      "speed": 1.25,
+      "duration": 8,
+      "onsetPosition": 8.013333333333321,
+      "errorMs": 10.666666666656965,
+      "mutedAdvance": 0.28666666666666174,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "it",
+      "speed": 1.5,
+      "duration": 8,
+      "onsetPosition": 8.008000000000024,
+      "errorMs": 5.333333333349326,
+      "mutedAdvance": 0.33600000000002694,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "ja",
+      "speed": 0.75,
+      "duration": 8.86,
+      "onsetPosition": 8.86000000000002,
+      "errorMs": 2.8421709430404007e-11,
+      "mutedAdvance": 0.16800000000001347,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "ja",
+      "speed": 1,
+      "duration": 8.86,
+      "onsetPosition": 8.863999999999976,
+      "errorMs": 3.999999999976467,
+      "mutedAdvance": 0.22399999999998954,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "ja",
+      "speed": 1.25,
+      "duration": 8.86,
+      "onsetPosition": 8.880000000000017,
+      "errorMs": 16.00000000001387,
+      "mutedAdvance": 0.2799999999999869,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "ja",
+      "speed": 1.5,
+      "duration": 8.86,
+      "onsetPosition": 8.872000000000014,
+      "errorMs": 8.000000000009777,
+      "mutedAdvance": 0.32799999999997453,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "pt-BR",
+      "speed": 0.75,
+      "duration": 8.41,
+      "onsetPosition": 8.412000000000006,
+      "errorMs": 2.666666666674663,
+      "mutedAdvance": 0.16800000000001347,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "pt-BR",
+      "speed": 1,
+      "duration": 8.41,
+      "onsetPosition": 8.42133333333328,
+      "errorMs": 11.333333333279683,
+      "mutedAdvance": 0.22399999999998954,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "pt-BR",
+      "speed": 1.25,
+      "duration": 8.41,
+      "onsetPosition": 8.413333333333242,
+      "errorMs": 2.666666666593187,
+      "mutedAdvance": 0.2799999999999869,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "pt-BR",
+      "speed": 1.5,
+      "duration": 8.41,
+      "onsetPosition": 8.423999999999978,
+      "errorMs": 9.333333333318686,
+      "mutedAdvance": 0.3359999999999843,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "zh-CN",
+      "speed": 0.75,
+      "duration": 10.96,
+      "onsetPosition": 10.97199999999998,
+      "errorMs": 15.999999999972186,
+      "mutedAdvance": 0.16799999999999216,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "zh-CN",
+      "speed": 1,
+      "duration": 10.96,
+      "onsetPosition": 10.96533333333332,
+      "errorMs": 5.333333333318535,
+      "mutedAdvance": 0.22399999999998954,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "zh-CN",
+      "speed": 1.25,
+      "duration": 10.96,
+      "onsetPosition": 10.97999999999999,
+      "errorMs": 15.999999999991132,
+      "mutedAdvance": 0.2799999999999869,
+      "pauseDrift": 0
+    },
+    {
+      "locale": "zh-CN",
+      "speed": 1.5,
+      "duration": 10.96,
+      "onsetPosition": 10.968000000000018,
+      "errorMs": 5.333333333344588,
+      "mutedAdvance": 0.3359999999999843,
+      "pauseDrift": 0
+    }
+  ],
+  "passed": true
+}

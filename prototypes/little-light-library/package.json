@@ -1,0 +1,42 @@
+{
+  "name": "little-light-library",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 8771",
+    "build": "vite build --base=./",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "lint": "prettier --check src tests scripts/*.mjs scripts/*.ts index.html",
+    "format": "prettier --write src tests scripts/*.mjs scripts/*.ts index.html",
+    "validate": "node scripts/validate.mjs && node --import tsx scripts/validate-theatre.ts && python3 scripts/audio_verify.py",
+    "check:fast": "npm run typecheck && npm test",
+    "verify": "npm run lint && npm run check:fast && npm run validate && npm run build",
+    "build:static": "vite build --outDir dist-static --base=./",
+    "test:browser": "node scripts/browser-check.mjs",
+    "prebuild": "node scripts/loader-locales.mjs",
+    "predev": "node scripts/loader-locales.mjs",
+    "verify:all": "node scripts/acceptance.mjs",
+    "test:failures": "node scripts/failure-check.mjs",
+    "test:timing": "node scripts/timing-check.mjs",
+    "test:continuity": "node scripts/continuity-check.mjs",
+    "test:races": "node scripts/race-check.mjs",
+    "test:touch": "node scripts/touch-check.mjs",
+    "verify:scene": "node scripts/acceptance.mjs --scene",
+    "clean:generated": "node scripts/clean-generated.mjs"
+  },
+  "dependencies": {
+    "three": "0.169.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "@types/three": "0.169.0",
+    "ajv": "8.20.0",
+    "playwright": "1.63.0",
+    "prettier": "3.4.2",
+    "tsx": "4.23.13",
+    "typescript": "5.7.3",
+    "vite": "6.4.3"
+  }
+}
