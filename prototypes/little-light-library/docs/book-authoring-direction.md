@@ -1,7 +1,8 @@
 # Book authoring — next-phase direction
 
-Status: user intent captured after the quality-iteration phase. Discovery and implementation
-have not begun. This is not a finalized format, editor design or instruction to start building.
+Status: original discovery brief, retained as intent. The first working milestone is now
+implemented; use [the creator guide](creator-guide.md), [v1 contract](book-contract.md) and
+[authoring handoff](authoring-handoff.md) for current behavior. A full visual editor remains open.
 
 ## Product intent
 
@@ -27,20 +28,20 @@ evidence, not a substitute for the creator's taste or an authoring workflow to i
 These are proposed creator-facing terms, not new API fields. Define their exact units and
 behavior when designing the contract; existing code sometimes uses different names.
 
-| Term | Meaning for a creator |
-| --- | --- |
-| Book | An ordered story with a cover, metadata, language versions and spreads. |
-| Spread | One open-book scene and its reading content. Existing code calls this a `Page`. |
-| Backdrop | The upright scenic image that rises when a spread opens. |
-| Ground print | Optional artwork printed on the horizontal page surface, with placement/cropping rules. Distinct from the backdrop. |
-| Cutout / prop | A separate illustrated object placed in depth on the spread; may be static or animated. |
-| Character / actor | A named scene subject with artwork, poses and optional acting/interaction. Creatures can be actors too. |
-| Placement and anchor | Where an element sits, its size/orientation and the point that stays attached to the page or support. |
-| Pose and rig | A pose is an illustrated stance; a rig defines which parts can move and their pivots. A new image does not automatically have a working rig. |
-| Motion cue | A named action with a trigger, duration, strength and repetition/hold behavior; distinguish idle acting from narration-linked and touch-triggered actions. |
-| Interaction | What selecting an element does, including visible/audio feedback and a keyboard equivalent. |
-| Audio track / cue | Narration, ambience/music or an effect, with its own trigger and mix behavior. Narration also supplies the measured follow-along timeline. |
-| Stage direction | The composition and behavior of a spread: elements, depth, framing, moods and cues. |
+| Term                 | Meaning for a creator                                                                                                                                      |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Book                 | An ordered story with a cover, metadata, language versions and spreads.                                                                                    |
+| Spread               | One open-book scene and its reading content. Existing code calls this a `Page`.                                                                            |
+| Backdrop             | The upright scenic image that rises when a spread opens.                                                                                                   |
+| Ground print         | Optional artwork printed on the horizontal page surface, with placement/cropping rules. Distinct from the backdrop.                                        |
+| Cutout / prop        | A separate illustrated object placed in depth on the spread; may be static or animated.                                                                    |
+| Character / actor    | A named scene subject with artwork, poses and optional acting/interaction. Creatures can be actors too.                                                    |
+| Placement and anchor | Where an element sits, its size/orientation and the point that stays attached to the page or support.                                                      |
+| Pose and rig         | A pose is an illustrated stance; a rig defines which parts can move and their pivots. A new image does not automatically have a working rig.               |
+| Motion cue           | A named action with a trigger, duration, strength and repetition/hold behavior; distinguish idle acting from narration-linked and touch-triggered actions. |
+| Interaction          | What selecting an element does, including visible/audio feedback and a keyboard equivalent.                                                                |
+| Audio track / cue    | Narration, ambience/music or an effect, with its own trigger and mix behavior. Narration also supplies the measured follow-along timeline.                 |
+| Stage direction      | The composition and behavior of a spread: elements, depth, framing, moods and cues.                                                                        |
 
 For example: “On spread 2, use this dusk backdrop and a grass ground print; place Miriam left
 of the tree, keep her feet anchored, and raise her hand once during the second narration

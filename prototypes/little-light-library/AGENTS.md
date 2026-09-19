@@ -13,9 +13,10 @@ are records of earlier work, not an active assignment.
 
 - **New work:** follow the current request and inspect only the relevant implementation.
   Use [README.md](README.md) for setup. Do not import the quality backlog into the task.
-- **Book creation/editor work:** start with [the authoring direction](docs/book-authoring-direction.md).
-  It records intent, shared terminology, current limitations, open decisions and a proposed
-  first milestone. It is a discovery brief, not an implemented editor or approved schema.
+- **Book creation/editor work:** start with [the authoring handoff](docs/authoring-handoff.md),
+  [creator guide](docs/creator-guide.md) and [v1 contract/glossary](docs/book-contract.md).
+  Manual and agent edits use the same JSON. The [original direction](docs/book-authoring-direction.md)
+  remains context; a full visual editor is still open, not an automatic next task.
 - **Explicit questions about the past quality goal:** use [the cycle index](review/README.md)
   to locate relevant rounds, then read only their written reviews and applicable
   [ADRs](docs/adr/). Round 23 is the last retained quality round; its
@@ -39,8 +40,9 @@ are records of earlier work, not an active assignment.
    Compared reference play and matched evidence, recorded scores and rejected weaker candidates.
    Raw iteration media was deleted and the branch history squashed during cleanup. Written
    findings remain; historical commit IDs and capture paths are not recovery instructions.
-4. **Authoring direction, now captured for future work.** Move toward creator-defined books
-   and human-guided editing. No editor or general book-import contract has been built yet.
+4. **Book-authoring foundation.** Version 1 draft JSON supports validation, import/preview,
+   undo, portable export, generic paper staging and selectively replaceable measured narration.
+   Quiet Garden is a two-spread demonstration. The full visual editor remains undecided.
 
 ## What the next direction means
 
@@ -49,19 +51,19 @@ mixing the two. The creator controls narrative, text, images, audio, staging, mo
 interaction, using clear names for things and a short edit–preview–steer loop. Likely creators
 include the user and other biblical storytellers. The story and its meaning lead the tooling.
 
-The reader needs a documented, validated book contract shared by manual and agent-assisted
-authoring. This must cover upright backdrops, optional printed floors, multiple objects and
-characters, placement, poses, motion and audio cues. Editor location (inside this prototype or
-separate) and UI scope remain open. A full panel of sliders is not a prerequisite; precise
-terminology and editable structured data are useful first steps. Do not implement an editor
-merely because this direction is recorded here.
+The reader now has a [versioned book contract](docs/book-contract.md) shared by manual and
+agent-assisted authoring. It covers upright backdrops, optional horizontal ground, multiple
+cutouts, atlas poses, placement, anchored whole-card rocking, button interactions and measured
+narration. The Author dialog is a structured-data preview surface, not a full visual editor.
+See [supported behavior and tradeoffs](docs/authoring-decisions.md) before expanding it.
 
 ## Implementation and evidence boundaries
 
-- Today, [contracts](src/contracts.ts), [localized manifests](public/content/), and the
-  [schema](scripts/story.schema.json) cover fixed-book content; [stage directions](src/stage-direction.ts),
-  [scene construction](src/scene.ts), actor rigs and sound selection still encode bespoke behavior.
-  Adding a JSON story alone does not add a fully supported book.
+- Legacy [contracts](src/contracts.ts), [localized manifests](public/content/), and the
+  [original schema](scripts/story.schema.json) preserve the fixed books. Generic drafts use
+  [authored-book.ts](src/authored-book.ts), [shared validation](src/book-validation.ts), and
+  [authored-stage.ts](src/authored-stage.ts). `page.authored` is the compatibility boundary;
+  do not add story-ID branches for imported books or infer anatomical rigs from artwork.
 - Preserve the existing books as regression examples. Keep runtime assets local and independently
   runnable; the reader must not need generation services or credentials.
 - Use the [current visual guide](../../styles/little-light-library/README.md) when relevant.

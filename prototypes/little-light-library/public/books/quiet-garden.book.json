@@ -1,0 +1,247 @@
+{
+  "format": "little-light-book",
+  "version": 1,
+  "id": "quiet-garden",
+  "title": "Quiet Garden",
+  "subtitle": "A two-spread authoring demonstration",
+  "locale": "en-US",
+  "status": "draft",
+  "source": "Genesis 2:4–25",
+  "retellingNote": "Draft demonstration assembled from the existing Little Light Library Eden retelling. The words are an authored adaptation, not a quotation from a modern Bible translation.",
+  "cover": "cover-art",
+  "assets": {
+    "cover-art": {
+      "kind": "image",
+      "src": "assets/art/eden-01.webp",
+      "attribution": "Original Story Lab artwork for the Little Light Library Eden retelling."
+    },
+    "garden-backdrop": {
+      "kind": "image",
+      "src": "assets/art/theatre/garden.webp",
+      "attribution": "Original Story Lab upright garden backdrop."
+    },
+    "garden-ground": {
+      "kind": "image",
+      "src": "assets/art/theatre/garden-floor.webp",
+      "attribution": "Original Story Lab horizontal painted garden ground."
+    },
+    "adam-atlas": {
+      "kind": "image",
+      "src": "assets/art/theatre/adam-poses.webp",
+      "attribution": "Original Story Lab Adam three-pose horizontal atlas."
+    },
+    "eve-atlas": {
+      "kind": "image",
+      "src": "assets/art/theatre/eve-poses.webp",
+      "attribution": "Original Story Lab Eve three-pose horizontal atlas."
+    },
+    "tree-cutout": {
+      "kind": "image",
+      "src": "assets/art/eden-tree.webp",
+      "attribution": "Original Story Lab tree cutout."
+    },
+    "serpent-branch": {
+      "kind": "image",
+      "src": "assets/art/theatre/serpent-branch.webp",
+      "attribution": "Original Story Lab serpent-and-branch cutout."
+    },
+    "narration-garden-1": {
+      "kind": "audio",
+      "src": "assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+      "attribution": "Kokoro-82M generated narration for the existing en-US Eden retelling."
+    },
+    "narration-garden-2": {
+      "kind": "audio",
+      "src": "assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+      "attribution": "Kokoro-82M generated narration for the existing en-US Eden retelling."
+    },
+    "narration-companion-1": {
+      "kind": "audio",
+      "src": "assets/audio/en-US/eden/eden-02/s1-1e6c52c5e1efa3a274bc.wav",
+      "attribution": "Kokoro-82M generated narration for the existing en-US Eden retelling."
+    },
+    "narration-companion-2": {
+      "kind": "audio",
+      "src": "assets/audio/en-US/eden/eden-02/s2-347e3fbf75cbdd3624e9.wav",
+      "attribution": "Kokoro-82M generated narration for the existing en-US Eden retelling."
+    }
+  },
+  "spreads": [
+    {
+      "id": "garden-begins",
+      "title": "A garden called Eden",
+      "source": "Genesis 2:4–20",
+      "stagingNote": "Draft visual staging: Adam stands near a touch-responsive tree in front of an upright garden painting; the painted floor is a separate horizontal print.",
+      "segments": [
+        {
+          "id": "garden-made",
+          "text": "God made the heavens and the earth, then planted a beautiful garden called Eden. He placed Adam there to tend it and enjoy its trees.",
+          "narration": {
+            "asset": "narration-garden-1",
+            "recordedText": "God made the heavens and the earth, then planted a beautiful garden called Eden. He placed Adam there to tend it and enjoy its trees.",
+            "duration": 7.88,
+            "voice": "af_heart"
+          }
+        },
+        {
+          "id": "adam-lives",
+          "text": "God breathed life into Adam. Every creature had a place, but Adam needed a companion.",
+          "narration": {
+            "asset": "narration-garden-2",
+            "recordedText": "God breathed life into Adam. Every creature had a place, but Adam needed a companion.",
+            "duration": 5.13,
+            "voice": "af_heart"
+          }
+        }
+      ],
+      "backdrop": {
+        "asset": "garden-backdrop"
+      },
+      "ground": {
+        "asset": "garden-ground",
+        "x": 0,
+        "depth": 0,
+        "width": 5.4,
+        "height": 2.3,
+        "opacity": 1
+      },
+      "elements": [
+        {
+          "id": "adam",
+          "label": "Adam",
+          "kind": "actor",
+          "asset": "adam-atlas",
+          "pose": {
+            "index": 0,
+            "columns": 3
+          },
+          "placement": {
+            "x": -0.65,
+            "depth": -0.35,
+            "width": 1.2,
+            "height": 2.15,
+            "anchor": "bottom",
+            "elevation": 0,
+            "rotation": 0
+          },
+          "motion": {
+            "preset": "rock",
+            "trigger": "narration",
+            "segment": "adam-lives",
+            "delay": 0.2,
+            "duration": 1.4,
+            "strength": 6,
+            "repeat": 1
+          }
+        },
+        {
+          "id": "tree",
+          "label": "Garden tree",
+          "kind": "prop",
+          "asset": "tree-cutout",
+          "placement": {
+            "x": 1.55,
+            "depth": 0.15,
+            "width": 1.45,
+            "height": 2.35,
+            "anchor": "bottom"
+          },
+          "interaction": {
+            "label": "Gently touch the garden tree",
+            "response": "The paper tree gives a quiet rustle.",
+            "sound": "tap"
+          }
+        }
+      ]
+    },
+    {
+      "id": "a-companion",
+      "title": "A companion and a command",
+      "source": "Genesis 2:16–25",
+      "stagingNote": "Draft visual staging: Adam and Eve are separate anchored atlas cards; a serpent-and-branch prop adds depth without changing the retelling text.",
+      "segments": [
+        {
+          "id": "eve-arrives",
+          "text": "God made Eve from Adam's side and brought her to him. They belonged together, unashamed and at peace.",
+          "narration": {
+            "asset": "narration-companion-1",
+            "recordedText": "God made Eve from Adam's side and brought her to him. They belonged together, unashamed and at peace.",
+            "duration": 5.91,
+            "voice": "af_heart"
+          }
+        },
+        {
+          "id": "the-command",
+          "text": "God gave them the garden's fruit, but one tree was forbidden: the tree of the knowledge of good and evil. He warned them not to eat it.",
+          "narration": {
+            "asset": "narration-companion-2",
+            "recordedText": "God gave them the garden's fruit, but one tree was forbidden: the tree of the knowledge of good and evil. He warned them not to eat it.",
+            "duration": 7.27,
+            "voice": "af_heart"
+          }
+        }
+      ],
+      "backdrop": {
+        "asset": "garden-backdrop"
+      },
+      "ground": {
+        "asset": "garden-ground",
+        "x": 0.1,
+        "depth": -0.05,
+        "width": 5.2,
+        "height": 2.2,
+        "opacity": 0.9
+      },
+      "elements": [
+        {
+          "id": "adam",
+          "label": "Adam",
+          "kind": "actor",
+          "asset": "adam-atlas",
+          "pose": {
+            "index": 0,
+            "columns": 3
+          },
+          "placement": {
+            "x": -0.9,
+            "depth": -0.45,
+            "width": 1.1,
+            "height": 2.05,
+            "anchor": "bottom"
+          }
+        },
+        {
+          "id": "eve",
+          "label": "Eve",
+          "kind": "actor",
+          "asset": "eve-atlas",
+          "pose": {
+            "index": 0,
+            "columns": 3
+          },
+          "placement": {
+            "x": 0.45,
+            "depth": -0.25,
+            "width": 1.05,
+            "height": 2,
+            "anchor": "bottom"
+          }
+        },
+        {
+          "id": "branch",
+          "label": "Serpent on a branch",
+          "kind": "prop",
+          "asset": "serpent-branch",
+          "placement": {
+            "x": 1.75,
+            "depth": 0.2,
+            "width": 1.15,
+            "height": 1.35,
+            "anchor": "bottom",
+            "rotation": -2
+          }
+        }
+      ]
+    }
+  ]
+}

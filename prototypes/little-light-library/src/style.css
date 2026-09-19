@@ -713,3 +713,48 @@ body {
     font-size: 23px;
   }
 }
+
+#author-dialog {
+  width: min(900px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+  text-align: left;
+}
+#author-json {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 30dvh;
+  resize: vertical;
+  font: 13px/1.5 monospace;
+  padding: 12px;
+  border: 1px solid #b3a58f;
+  border-radius: 8px;
+}
+.author-actions,
+.authored-interactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+#author-report {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  max-height: 18dvh;
+  overflow: auto;
+}
+.file-button {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.file-button input {
+  max-width: 100%;
+}
+.draft-note {
+  font-size: 12px;
+  margin: 6px 0;
+}

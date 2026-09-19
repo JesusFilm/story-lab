@@ -1,0 +1,425 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Little Light Library book v1",
+  "type": "object",
+  "properties": {
+    "format": {
+      "const": "little-light-book"
+    },
+    "version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,63}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "subtitle": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "locale": {
+      "type": "string",
+      "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+    },
+    "status": {
+      "const": "draft"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "retellingNote": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "cover": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,63}$"
+    },
+    "assets": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 128,
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]{0,63}$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "enum": [
+              "image",
+              "audio"
+            ]
+          },
+          "src": {
+            "type": "string",
+            "minLength": 1
+          },
+          "attribution": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          }
+        },
+        "required": [
+          "kind",
+          "src",
+          "attribution"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "spreads": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,63}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "stagingNote": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]{0,63}$"
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4000
+                },
+                "narration": {
+                  "type": "object",
+                  "properties": {
+                    "asset": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9-]{0,63}$"
+                    },
+                    "recordedText": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4000
+                    },
+                    "duration": {
+                      "type": "number",
+                      "minimum": 0.05,
+                      "maximum": 180
+                    },
+                    "voice": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4000
+                    }
+                  },
+                  "required": [
+                    "asset",
+                    "recordedText",
+                    "duration",
+                    "voice"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "id",
+                "text"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1,
+            "maxItems": 12
+          },
+          "backdrop": {
+            "type": "object",
+            "properties": {
+              "asset": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{0,63}$"
+              }
+            },
+            "required": [
+              "asset"
+            ],
+            "additionalProperties": false
+          },
+          "ground": {
+            "type": "object",
+            "properties": {
+              "asset": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{0,63}$"
+              },
+              "x": {
+                "type": "number",
+                "minimum": -2.8,
+                "maximum": 2.8
+              },
+              "depth": {
+                "type": "number",
+                "minimum": -1.2,
+                "maximum": 1.2
+              },
+              "width": {
+                "type": "number",
+                "minimum": 0.1,
+                "maximum": 5.6
+              },
+              "height": {
+                "type": "number",
+                "minimum": 0.1,
+                "maximum": 2.4
+              },
+              "opacity": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "asset",
+              "x",
+              "depth",
+              "width",
+              "height"
+            ],
+            "additionalProperties": false
+          },
+          "elements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]{0,63}$"
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4000
+                },
+                "kind": {
+                  "enum": [
+                    "actor",
+                    "prop"
+                  ]
+                },
+                "asset": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]{0,63}$"
+                },
+                "pose": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 15
+                    },
+                    "columns": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 16
+                    }
+                  },
+                  "required": [
+                    "index",
+                    "columns"
+                  ],
+                  "additionalProperties": false
+                },
+                "placement": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number",
+                      "minimum": -2.8,
+                      "maximum": 2.8
+                    },
+                    "depth": {
+                      "type": "number",
+                      "minimum": -1.2,
+                      "maximum": 1.2
+                    },
+                    "width": {
+                      "type": "number",
+                      "minimum": 0.1,
+                      "maximum": 5.6
+                    },
+                    "height": {
+                      "type": "number",
+                      "minimum": 0.1,
+                      "maximum": 2.7
+                    },
+                    "anchor": {
+                      "enum": [
+                        "bottom",
+                        "center"
+                      ]
+                    },
+                    "elevation": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 2
+                    },
+                    "rotation": {
+                      "type": "number",
+                      "minimum": -45,
+                      "maximum": 45
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "depth",
+                    "width",
+                    "height"
+                  ],
+                  "additionalProperties": false
+                },
+                "motion": {
+                  "type": "object",
+                  "properties": {
+                    "preset": {
+                      "enum": [
+                        "rock"
+                      ]
+                    },
+                    "trigger": {
+                      "enum": [
+                        "open",
+                        "interaction",
+                        "narration"
+                      ]
+                    },
+                    "segment": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9-]{0,63}$"
+                    },
+                    "delay": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 60
+                    },
+                    "duration": {
+                      "type": "number",
+                      "minimum": 0.2,
+                      "maximum": 30
+                    },
+                    "strength": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 20
+                    },
+                    "repeat": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 10
+                    }
+                  },
+                  "required": [
+                    "preset",
+                    "trigger",
+                    "duration",
+                    "strength"
+                  ],
+                  "additionalProperties": false
+                },
+                "interaction": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4000
+                    },
+                    "response": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4000
+                    },
+                    "sound": {
+                      "enum": [
+                        "tap"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "response"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "id",
+                "label",
+                "kind",
+                "asset",
+                "placement"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0,
+            "maxItems": 16
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "source",
+          "stagingNote",
+          "segments",
+          "backdrop",
+          "elements"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 40
+    }
+  },
+  "required": [
+    "format",
+    "version",
+    "id",
+    "title",
+    "subtitle",
+    "locale",
+    "status",
+    "source",
+    "retellingNote",
+    "cover",
+    "assets",
+    "spreads"
+  ],
+  "additionalProperties": false
+}

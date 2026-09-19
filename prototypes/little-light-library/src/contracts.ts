@@ -1,3 +1,4 @@
+import type { AuthoredBook, BookSpread } from "./authored-book";
 export const localeIds = [
   "en-US",
   "en-GB",
@@ -10,12 +11,13 @@ export const localeIds = [
   "zh-CN",
 ] as const;
 export type LocaleId = (typeof localeIds)[number];
-export type StoryId = "eden" | "noah";
+export type StoryId = string;
 export interface Segment {
   id: string;
   text: string;
 }
 export interface Page {
+  authored?: { book: AuthoredBook; spread: BookSpread };
   id: string;
   title: string;
   segments: Segment[];

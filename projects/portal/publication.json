@@ -295,7 +295,16 @@
       "static_build": "prototypes/little-light-library",
       "static_output_digest": "9baf7a6d404b492f6ac6de286502613d7842667964eb8c52e03cd8c49646908e",
       "files": [
-        "prototypes/little-light-library/docs/captures/room-1366.png"
+        "prototypes/little-light-library/docs/captures/room-1366.png",
+        "prototypes/little-light-library/src/authored-book.ts",
+        "prototypes/little-light-library/src/authored-stage.ts",
+        "prototypes/little-light-library/src/authoring.ts",
+        "prototypes/little-light-library/src/book-validation.ts",
+        "prototypes/little-light-library/src/contracts.ts",
+        "prototypes/little-light-library/src/main.ts",
+        "prototypes/little-light-library/src/scene.ts",
+        "prototypes/little-light-library/src/state.ts",
+        "prototypes/little-light-library/src/style.css"
       ]
     },
     {
@@ -937,7 +946,16 @@
     "assets/objects/little-light-book/little-light-book-runtime.glb": "37372a513a760792cddf2688e48f1cbb7f2eba34b6e726dbc873423e77b9a363",
     "assets/objects/little-light-book/little-light-book-reference.prompt.txt": "31e5942365c0468dcf57c157f629f013c94cd0ec5baaff62d0d35e2a8cf6de43",
     "assets/objects/little-light-book/little-light-book-reference.png": "37b11a6ba5f7324da14fe31d905630017c781e04db552f8b8660d28b7a8dc0cc",
-    "prototypes/little-light-library/docs/captures/room-1366.png": "31ac2ce1d0a5d326e23d57110770366fef2996e02fa3ff8be4da97b441df14a9"
+    "prototypes/little-light-library/docs/captures/room-1366.png": "31ac2ce1d0a5d326e23d57110770366fef2996e02fa3ff8be4da97b441df14a9",
+    "prototypes/little-light-library/src/authored-book.ts": "93f81c903a47edf4f1e3aecb1f105f7f60a18764b0415979d0190e2a6e92ea54",
+    "prototypes/little-light-library/src/authored-stage.ts": "894667c869dbb4ffd4640f1370aee952d088dc24fef0c71bdd239df4fd454816",
+    "prototypes/little-light-library/src/authoring.ts": "858eb6f7b603c3bd1bf98568334f1effcb0f58a96e0276bf452f9d29fc0d28a9",
+    "prototypes/little-light-library/src/book-validation.ts": "f22dba39bdffa2d7fa587e1ab35c2cb8d87c9243acb307376e50de7ecced526e",
+    "prototypes/little-light-library/src/contracts.ts": "84c00efb5b79a6bf71321ccbfb95a9f5f32f7a2bf531c5cb6729cd11c5dc0b39",
+    "prototypes/little-light-library/src/main.ts": "bec0d3ecd13f17256281ffc62e35f7b49c9bba03bb3bbbec978b035f956fd3e8",
+    "prototypes/little-light-library/src/scene.ts": "f32dd096a4d9e2b9c3d931845b37dd2de7882363c00722fdeaaf6acd7f2e6081",
+    "prototypes/little-light-library/src/state.ts": "6292ff4e23627ad37fac6c1205ad3966e822bde54866d3127ae318078b64f999",
+    "prototypes/little-light-library/src/style.css": "b6d42e8e45685fe36548b3873f4e74699d602cf95d6e852e6c27db9bd94e4355"
   },
   "local_only_prototypes": []
 }

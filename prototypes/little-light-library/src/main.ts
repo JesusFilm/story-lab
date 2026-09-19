@@ -1,3 +1,5 @@
+import { installAuthoring } from "./authoring";
+import { narrationIssues, type AuthoredBook } from "./authored-book";
 import "./style.css";
 import {
   localeIds,
@@ -5,6 +7,7 @@ import {
   type LocaleData,
   type AudioManifest,
   type StoryId,
+  type Story,
 } from "./contracts";
 import { readPreferences, savePreferences } from "./preferences";
 import { ReaderState } from "./state";
@@ -56,6 +59,25 @@ let soundscape: Soundscape | undefined;
 let entering = false,
   figureRequest = 0;
 let lastHighlight = "";
+let draft: AuthoredBook | undefined;
+let authoring: ReturnType<typeof installAuthoring> | undefined;
+function currentStory(): Story {
+  if (draft && state.book === draft.id)
+    return {
+      id: draft.id,
+      title: draft.title,
+      subtitle: draft.subtitle,
+      pages: draft.spreads.map((spread) => ({
+        id: spread.id,
+        title: spread.title,
+        passage: spread.source,
+        segments: spread.segments,
+        image: draft!.assets[spread.backdrop.asset].src,
+        authored: { book: draft!, spread },
+      })),
+    };
+  return locale.stories.find((s) => s.id === state.book)!;
+}
 const onsetSamples: {
   locale: string;
   book: string;
@@ -76,7 +98,8 @@ const t = (key: string) => locale?.ui[key] || window.lightBootUi?.[key] || key;
 const button = (id: string, label: string, cls = "") =>
   `<button id="${id}" class="${cls}">${label}</button>`;
 const persist = () => savePreferences(localStorage, prefs);
-function notice(message = "") {
+function notice(message = "", language: string = locale?.id) {
+  $("#notice").lang = language;
   $("#notice").textContent = message;
 }
 async function fetchLocale(id: LocaleId) {
@@ -86,11 +109,12 @@ async function fetchLocale(id: LocaleId) {
 }
 function header() {
   $("#header").innerHTML =
-    `<a class="brand" href="https://jesusfilm.github.io/story-lab/" aria-label="${escaped(t("back"))}"><span class="brand-star">✦</span><span>${escaped(t("appTitle"))}</span></a><nav>${state.book ? button("shelf", "↩ " + escaped(t("library"))) : ""}${button("language", "🌐", "icon")}${button("settings", "⚙", "icon")}</nav>`;
+    `<a class="brand" href="https://jesusfilm.github.io/story-lab/" aria-label="${escaped(t("back"))}"><span class="brand-star">✦</span><span>${escaped(t("appTitle"))}</span></a><nav>${entered ? button("author", "Author") : ""}${state.book ? button("shelf", "↩ " + escaped(t("library"))) : ""}${button("language", "🌐", "icon")}${button("settings", "⚙", "icon")}</nav>`;
   $("#language").setAttribute("aria-label", t("language"));
   $("#settings").setAttribute("aria-label", t("settings"));
   $("#language").onclick = () => languageDialog(false);
   $("#settings").onclick = settingsDialog;
+  if (entered) $("#author").onclick = () => authoring?.open();
   if (state.book) $("#shelf").onclick = () => void room();
 }
 function localizeLoader() {
@@ -149,6 +173,28 @@ function languageDialog(startup: boolean) {
         soundscape.settings(prefs.volume, prefs.audio);
         narration.speed(prefs.speed);
         narration.volume(prefs.volume, prefs.audio);
+        authoring ??= installAuthoring({
+          audio: () => narration.context,
+          pause: () => {
+            narration.pause();
+            state.hide();
+          },
+          preview: async (book) => {
+            const previousDraft = draft;
+            const previousState = { ...state };
+            draft = structuredClone(book);
+            state.open(book.id, book.spreads.length);
+            try {
+              await showPage(false, true);
+            } catch (error) {
+              draft = previousDraft;
+              Object.assign(state, previousState);
+              if (state.book) await showPage(false);
+              else await room();
+              throw error;
+            }
+          },
+        });
         entered = true;
         d.close();
         await room();
@@ -228,7 +274,7 @@ async function room() {
     });
   const shelfSelection = (button: HTMLButtonElement): Selection =>
     button.dataset.book
-      ? (button.dataset.book as StoryId)
+      ? (button.dataset.book as Selection)
       : button.dataset.character === "noah"
         ? "figure-noah"
         : (button.dataset.character as "adam" | "eve");
@@ -262,7 +308,7 @@ async function room() {
 async function openBook(id: StoryId) {
   soundscape?.scene(id === "eden" ? "eden" : "hope");
   soundscape?.cue("open");
-  state.open(id);
+  state.open(id, draft?.id === id ? draft.spreads.length : 8);
   await showPage(true);
 }
 function failure() {
@@ -275,7 +321,7 @@ function failure() {
   );
   window.storyLoading.fail(t("error"));
 }
-async function showPage(autoplay: boolean) {
+async function showPage(autoplay: boolean, transactional = false) {
   const token = ++operation;
   ready = false;
   lastHighlight = "";
@@ -283,17 +329,49 @@ async function showPage(autoplay: boolean) {
   notice();
   document.body.classList.add("reading");
   header();
-  const story = locale.stories.find((s) => s.id === state.book)!;
+  const story = currentStory();
   const page = story.pages[state.page];
   soundscape?.scene(
-    story.id === "eden" ? "eden" : state.page === 3 ? "storm" : "hope",
+    page.authored
+      ? "hope"
+      : story.id === "eden"
+        ? "eden"
+        : state.page === 3
+          ? "storm"
+          : "hope",
   );
   $("#panel").innerHTML =
-    `<article class="reader"><div class="reader-meta"><span>${escaped(story.title)}</span><span>${state.page + 1} / 8</span></div><h1>${escaped(page.title)}</h1><div class="story-text">${page.segments.map((s, i) => `<span data-segment="${i}">${escaped(s.text)}</span>`).join(" ")}</div><div class="reader-footer"><small>${escaped(t("source"))} · ${escaped(page.passage)}</small><span id="play-status" role="status">${escaped(t("loading"))}</span></div><div class="reader-controls">${button("previous", "←")}${button("play", "▶ " + escaped(t("play")), "primary")}${button("replay", "↻")}${button("next", "→")}</div></article>`;
+    `<article class="reader"><div class="reader-meta"><span>${escaped(story.title)}</span><span>${state.page + 1} / ${story.pages.length}</span></div><h1>${escaped(page.title)}</h1><div class="story-text">${page.segments.map((s, i) => `<span data-segment="${i}">${escaped(s.text)}</span>`).join(" ")}</div><div class="reader-footer"><small>${escaped(t("source"))} · ${escaped(page.passage)}</small><span id="play-status" role="status">${escaped(t("loading"))}</span></div><div class="reader-controls">${button("previous", "←")}${button("play", "▶ " + escaped(t("play")), "primary")}${button("replay", "↻")}${button("next", "→")}</div></article>`;
+  if (page.authored) {
+    const { book, spread } = page.authored;
+    $(".reader").setAttribute("lang", book.locale);
+    $(".reader-controls").setAttribute("lang", locale.id);
+    const note = document.createElement("p");
+    note.className = "draft-note";
+    note.textContent = `Draft retelling · ${book.locale} · ${book.retellingNote}`;
+    $(".reader-meta").after(note);
+    const interactions = document.createElement("div");
+    interactions.className = "authored-interactions";
+    interactions.setAttribute("aria-label", "Story interactions");
+    for (const element of spread.elements.filter((e) => e.interaction)) {
+      const b = document.createElement("button");
+      b.textContent = element.interaction!.label;
+      b.dataset.element = element.id;
+      b.onclick = () => {
+        const result = scene.activateAuthored(element.id);
+        if (result) {
+          notice(result.response, book.locale);
+          if (result.sound) soundscape?.cue(result.sound);
+        }
+      };
+      interactions.append(b);
+    }
+    $(".reader-controls").before(interactions);
+  }
   $("#previous").setAttribute("aria-label", t("previous"));
   $("#next").setAttribute(
     "aria-label",
-    t(state.page === 7 ? "library" : "next"),
+    t(state.page === story.pages.length - 1 ? "library" : "next"),
   );
   $("#replay").setAttribute("aria-label", t("replay"));
   $<HTMLButtonElement>("#previous").disabled = state.page === 0;
@@ -303,7 +381,7 @@ async function showPage(autoplay: boolean) {
     void showPage(true);
   };
   $("#next").onclick = () => {
-    if (state.page === 7) void room();
+    if (state.page === story.pages.length - 1) void room();
     else {
       soundscape?.cue("page");
       state.turn(state.page + 1);
@@ -336,7 +414,13 @@ async function showPage(autoplay: boolean) {
   try {
     await scene.spread(story, page, locale);
     if (token !== operation) return;
-  } catch {
+  } catch (error) {
+    if (token === operation && page.authored && transactional) {
+      state.hide();
+      throw Error(
+        `Stage preview failed: ${String(error)}. The previous preview has been restored; retry or revise the asset.`,
+      );
+    }
     if (token === operation) {
       notice(t("imageError"));
       $("#notice").append(
@@ -349,9 +433,28 @@ async function showPage(autoplay: boolean) {
   }
   if (token !== operation) return;
   try {
-    const cues = page.segments.map(
-      (s) => manifest[`${locale.id}/${story.id}/${page.id}/${s.id}`],
-    );
+    const authored = page.authored;
+    if (
+      authored &&
+      narrationIssues({ ...authored.book, spreads: [authored.spread] }).length
+    ) {
+      notice(
+        "This spread has missing or stale narration. Replace the affected recording, then validate again. Text and interactions remain available.",
+      );
+      $("#play-status").textContent = "Narration needs an update";
+      $<HTMLButtonElement>("#play").disabled = true;
+      $<HTMLButtonElement>("#replay").disabled = true;
+      state.hide();
+      return;
+    }
+    const cues = authored
+      ? authored.spread.segments.map((s) => ({
+          src: authored.book.assets[s.narration!.asset].src,
+          duration: s.narration!.duration,
+        }))
+      : page.segments.map(
+          (s) => manifest[`${locale.id}/${story.id}/${page.id}/${s.id}`],
+        );
     const loaded = await narration.load(cues);
     if (token !== operation || !loaded) return;
     ready = true;
@@ -359,7 +462,13 @@ async function showPage(autoplay: boolean) {
       await narration.play();
       state.play();
     } else state.hide();
-  } catch {
+  } catch (error) {
+    if (token === operation && page.authored && transactional) {
+      state.hide();
+      throw Error(
+        `Narration preview failed: ${String(error)}. Retry or replace the recording.`,
+      );
+    }
     if (token === operation) {
       notice(t("audioError"));
       $("#notice").append(
@@ -449,6 +558,11 @@ document.addEventListener("visibilitychange", () => {
 });
 function frame() {
   scene?.playback(Boolean(narration?.clock.playing));
+  scene?.authoredPlayback(
+    narration?.clock.position || 0,
+    Boolean(narration?.clock.playing),
+    narration?.clock.durations,
+  );
   soundscape?.narration(Boolean(narration?.clock.playing));
   updatePlayback();
   requestAnimationFrame(frame);

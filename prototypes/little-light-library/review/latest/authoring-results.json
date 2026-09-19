@@ -1,0 +1,70 @@
+{
+  "generatedAt": "2026-09-19T12:28:28.480Z",
+  "method": "Playwright against the production build at a nested static URL. Scene values come from the reader's debug surface; narration samples use the decoded WebAudio clock.",
+  "browser": "153.0.8010.48",
+  "host": {
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "urlPath": "/acceptance/little-light-library/",
+  "checks": [
+    {
+      "name": "Responsive two-spread demo preview",
+      "passed": true,
+      "durationMs": 14523,
+      "detail": "Validated and rendered both authored spreads at 360×800, 768×1024, 1366×768."
+    },
+    {
+      "name": "Placement, ground, measured gesture, interaction, rejection, undo and export",
+      "passed": true,
+      "durationMs": 6916,
+      "detail": {
+        "movingFrameSamples": 32,
+        "firstMotionPositionSeconds": 0.22399999999999975,
+        "peakRockDegrees": 11.97632074113926,
+        "portableBytes": 4924589
+      }
+    },
+    {
+      "name": "Late stage asset failure restores the prior preview",
+      "passed": true,
+      "durationMs": 1920,
+      "detail": "Observed 3 tree requests: validation passed, stage loading failed, and the prior preview was restored."
+    },
+    {
+      "name": "Portable re-import uses embedded media",
+      "passed": true,
+      "durationMs": 1561,
+      "detail": "Re-imported 4924589 embedded bytes with no /assets/ request."
+    },
+    {
+      "name": "Reduced motion and muted narration timeline",
+      "passed": true,
+      "durationMs": 1627,
+      "detail": "Muted WebAudio clock advanced and drove highlights while reduced motion kept authored cutouts static; keyboard response remained available."
+    },
+    {
+      "name": "10-second authored-stage phone performance smoke",
+      "passed": true,
+      "durationMs": 14391,
+      "detail": {
+        "label": "Short smoke, not the historical 60-second performance profile",
+        "viewport": "360×800",
+        "devicePixelRatio": 1,
+        "cpuSlowdown": 4,
+        "durationMs": 10016.2,
+        "frames": 601,
+        "fps": 60.00279547133643,
+        "p95Ms": 16.799999999999272
+      }
+    },
+    {
+      "name": "Legacy books and nine locales remain complete",
+      "passed": true,
+      "durationMs": 24943,
+      "detail": "Traversed all 16 legacy spreads and opened Eden spread 1 in every supported locale."
+    }
+  ],
+  "pageErrors": [],
+  "passed": true
+}

@@ -44,6 +44,10 @@ import {
 } from "./turning-leaf";
 import { stageDirections } from "./stage-direction";
 import {
+  AuthoredStage,
+  type AuthoredInteractionResult,
+} from "./authored-stage";
+import {
   createPaperActor,
   type PaperActor,
   type PaperActorMood,
@@ -525,6 +529,9 @@ export class LibraryScene {
   private t0 = performance.now();
   private readTime = 0;
   private wave?: THREE.Mesh;
+  private authoredStage?: AuthoredStage;
+  private authoredPosition = 0;
+  private authoredPlaying = false;
   private onDown = (event: PointerEvent) => {
     if (this.mode !== "room" || event.button !== 0) return;
     this.roomOrbit.down(
@@ -1316,6 +1323,7 @@ export class LibraryScene {
           // The printed fold and live collapse must share the same planar pose.
           // A first turn has no cached destination print and may begin mid-gesture.
           const actorTime = this.reviewTime ?? this.readTime;
+          this.authoredStage?.rest();
           this.actors.forEach((actor, i) =>
             actor.update(
               actorTime + i * 0.8,
@@ -1387,26 +1395,12 @@ export class LibraryScene {
     this.ark = undefined;
     this.popups = [];
     this.wave = undefined;
-    const direction = stageDirections[page.id];
-    this.readingWideEnsemble = Boolean(direction.family);
-    const backdrop = direction.background;
-    this.actorMood = direction.actors[0]?.mood || "listen";
+    this.authoredStage = undefined;
+    this.authoredPosition = 0;
+    this.authoredPlaying = false;
+    const authored = page.authored;
     const loader = new THREE.TextureLoader();
-    const texture = await loader
-      .loadAsync(`./assets/art/theatre/${backdrop}.webp`)
-      .catch(() =>
-        loader.loadAsync(
-          page.image.startsWith("/") ? `.${page.image}` : `./${page.image}`,
-        ),
-      );
-    if (this.disposed || generation !== this.loadGeneration) {
-      texture.dispose();
-      return;
-    }
-    texture.colorSpace = THREE.SRGBColorSpace;
-    texture.anisotropy = 4;
-    this.pageMaps.push(texture);
-    this.currentTexture = texture;
+    let texture: THREE.Texture;
     const popup = (x: number, y: number) => {
       const g = new THREE.Group();
       g.userData.foldStart = Math.PI;
@@ -1415,245 +1409,259 @@ export class LibraryScene {
       this.popups.push(g);
       return g;
     };
-    // An upright painted backcloth hinges from the rear of real horizontal pages.
-    const back = popup(0, 1.22);
-    back.userData.foldStart = Math.PI;
-    const backArt = new THREE.Mesh(
-      new THREE.PlaneGeometry(5.8, 2.7),
-      new THREE.MeshStandardMaterial({
-        map: texture,
-        color: direction.tint || 0xffffff,
-        side: THREE.DoubleSide,
-        roughness: 1,
-      }),
-    );
-    backArt.position.y = 1.35;
-    backArt.castShadow = true;
-    backArt.receiveShadow = true;
-    back.add(backArt);
-    // Paper support triangles remain visible from the reading camera.
-    for (const x of [-2.55, 2.55]) {
-      const shape = new THREE.Shape();
-      shape.moveTo(0, 0);
-      shape.lineTo(0.55, 0);
-      shape.lineTo(0, 0.6);
-      shape.closePath();
-      const support = new THREE.Mesh(new THREE.ShapeGeometry(shape), paper);
-      support.userData.foldSupport = true;
-      support.rotation.y = Math.PI / 2;
-      support.position.set(x, 0.05, -0.02);
-      back.add(support);
-    }
-    for (const actorDirection of direction.actors) {
-      const kind = actorDirection.kind;
-      const tex = await loader
-        .loadAsync(`./assets/art/theatre/${kind}-poses.webp`)
-        .catch(() => loader.loadAsync(`./assets/art/${kind}-figurine.webp`));
+    if (authored) {
+      const stage = await AuthoredStage.create(
+        authored.book,
+        authored.spread,
+        loader,
+        () => !this.disposed && generation === this.loadGeneration,
+      );
+      if (this.disposed || generation !== this.loadGeneration) return;
+      this.pageRoot.add(stage.root);
+      this.authoredStage = stage;
+      this.pageMaps.push(...stage.textures);
+      this.popups.push(...stage.popups);
+      this.propNames.push(
+        ...authored.spread.elements.map((element) => element.id),
+      );
+      texture = stage.backdropTexture;
+      this.currentTexture = texture;
+    } else {
+      const direction = stageDirections[page.id];
+      this.readingWideEnsemble = Boolean(direction.family);
+      const backdrop = direction.background;
+      this.actorMood = direction.actors[0]?.mood || "listen";
+      texture = await loader
+        .loadAsync(`./assets/art/theatre/${backdrop}.webp`)
+        .catch(() =>
+          loader.loadAsync(
+            page.image.startsWith("/") ? `.${page.image}` : `./${page.image}`,
+          ),
+        );
       if (this.disposed || generation !== this.loadGeneration) {
-        tex.dispose();
+        texture.dispose();
         return;
       }
-      tex.colorSpace = THREE.SRGBColorSpace;
-      const atlas = tex.image.width / tex.image.height > 1;
-      fitCutout(tex, atlas ? actorDirection.pose : 0, atlas ? 3 : 1);
-      tex.userData.poseAtlas = atlas;
-      tex.userData.pose = actorDirection.pose;
-      this.pageMaps.push(tex);
-      const actor = createPaperActor(tex, kind, 1.95);
-      const g = popup(actorDirection.x, actorDirection.depth);
-      g.add(actor.root);
-      const index = this.actors.length;
-      const button = document.createElement("button");
-      button.className = "paper-target";
-      button.hidden = true;
-      button.type = "button";
-      button.setAttribute("aria-label", locale.characters[kind]);
-      button.onfocus = () => {
-        this.hoveredCreature = -1;
-        this.hoveredActor = index;
-      };
-      button.onblur = () => {
-        if (this.hoveredActor === index) this.hoveredActor = -1;
-      };
-      button.onclick = () => this.activateActor(index);
-      this.container.append(button);
-      this.actorButtons.push(button);
-      this.actorNames.push(locale.characters[kind]);
-      this.actors.push(actor);
-      this.actorMoods.push(actorDirection.mood);
-    }
-    if (direction.family) {
-      const tex = await loader
-        .loadAsync("./assets/art/theatre/family-seven.webp")
-        .catch(() => undefined);
-      if (generation !== this.loadGeneration || this.disposed) {
-        tex?.dispose();
-        return;
-      }
-      if (tex) {
-        tex.colorSpace = THREE.SRGBColorSpace;
-        fitCutout(tex);
-        this.pageMaps.push(tex);
-        const family = popup(0.75, -0.05);
-        family.name = "family-ensemble";
-        const m = new THREE.Mesh(
-          new THREE.PlaneGeometry(3.25, 3.25 / tex.userData.aspect),
-          new THREE.MeshStandardMaterial({
-            map: tex,
-            alphaTest: 0.3,
-            side: THREE.DoubleSide,
-            roughness: 1,
-          }),
-        );
-        m.position.y = 1.625 / tex.userData.aspect;
-        m.castShadow = true;
-        family.add(m);
-      }
-    }
-    if (direction.ark) {
-      const tex = await loader
-        .loadAsync("./assets/art/theatre/ark.webp")
-        .catch(() => undefined);
-      if (generation !== this.loadGeneration || this.disposed) {
-        tex?.dispose();
-        return;
-      }
-      if (tex) {
-        tex.colorSpace = THREE.SRGBColorSpace;
-        fitCutout(tex);
-        this.pageMaps.push(tex);
-        const ark = popup(0.15, 0.35);
-        const m = new THREE.Mesh(
-          new THREE.PlaneGeometry(4.4, 4.4 / tex.userData.aspect),
-          new THREE.MeshStandardMaterial({
-            map: tex,
-            alphaTest: 0.3,
-            side: THREE.DoubleSide,
-            roughness: 1,
-          }),
-        );
-        m.position.y = 0.5 + 2.2 / tex.userData.aspect;
-        m.castShadow = true;
-        ark.add(m);
-        this.ark = m;
-      }
-    }
-    for (const prop of direction.props || []) {
-      const tex = await loader.loadAsync(
-        `./assets/art/theatre/${prop.file}.webp`,
-      );
-      if (generation !== this.loadGeneration || this.disposed) {
-        tex.dispose();
-        return;
-      }
-      tex.colorSpace = THREE.SRGBColorSpace;
-      fitCutout(tex);
-      this.pageMaps.push(tex);
-      const stand = popup(prop.x, prop.depth);
-      const height = prop.width / tex.userData.aspect;
-      const cutout =
-        prop.file === "serpent-branch"
-          ? this.addCreature("serpent", tex, prop.width, locale.ui.serpent)
-          : new THREE.Mesh(
-              new THREE.PlaneGeometry(prop.width, height),
-              new THREE.MeshStandardMaterial({
-                map: tex,
-                alphaTest: 0.3,
-                side: THREE.DoubleSide,
-                roughness: 1,
-              }),
-            );
-      cutout.position.y = height / 2;
-      cutout.castShadow = true;
-      cutout.receiveShadow = true;
-      stand.add(cutout);
-      this.propNames.push(prop.file);
-    }
-    if (direction.interior) {
-      // A small side opening behind the actor, with a sill and surrounding planks.
-      const cabin = popup(1.45, 0.7);
-      const oak = new THREE.MeshStandardMaterial({
-        map: wood.map,
-        color: 0x73513b,
-        roughness: 0.9,
-      });
-      for (const x of [-0.68, 0.68])
-        box(cabin, 0.18, 1.65, 0.1, oak, x, 0.825, 0);
-      for (const y of [0.35, 1.6]) box(cabin, 1.5, 0.15, 0.14, oak, 0, y, 0);
-      for (const y of [0.07, 0.19]) box(cabin, 1.5, 0.11, 0.08, oak, 0, y, 0);
-    }
-    if (direction.rainbow) {
-      // Seven separate matte paper arcs stand in front of the distant clouds.
-      const bow = popup(0, 0.98);
-      const colours = [
-        0xc95c50, 0xe69552, 0xe6c76e, 0x86a477, 0x6a9bb2, 0x7685aa, 0x9b80aa,
-      ];
-      colours.forEach((colour, i) => {
-        const radius = 2.55 - i * 0.105;
-        const arc = new THREE.Mesh(
-          new THREE.RingGeometry(radius - 0.1, radius, 64, 1, 0, Math.PI),
-          new THREE.MeshStandardMaterial({
-            color: colour,
-            roughness: 1,
-            side: THREE.DoubleSide,
-          }),
-        );
-        arc.position.set(0, 0.15, 0.025);
-        arc.castShadow = true;
-        bow.add(arc);
-      });
-    }
-    if (direction.dove) {
-      const tex = await loader.loadAsync(
-        "./assets/art/theatre/dove-olive.webp",
-      );
-      if (generation !== this.loadGeneration || this.disposed) {
-        tex.dispose();
-        return;
-      }
-      tex.colorSpace = THREE.SRGBColorSpace;
-      fitCutout(tex);
-      this.pageMaps.push(tex);
-      const bird = popup(1.45, 0.55);
-      const cutout = this.addCreature("dove", tex, 1.15, locale.ui.dove);
-      cutout.position.y = 1.15;
-      cutout.castShadow = true;
-      bird.add(cutout);
-    }
-    if (direction.tree !== undefined) {
-      const tex = await loader.loadAsync("./assets/art/eden-tree.webp");
-      if (generation !== this.loadGeneration || this.disposed) {
-        tex.dispose();
-        return;
-      }
-      tex.colorSpace = THREE.SRGBColorSpace;
-      this.pageMaps.push(tex);
-      const tree = popup(direction.tree, 0.3);
-      const mesh = new THREE.Mesh(
-        new THREE.PlaneGeometry(1.5, 2.15),
+      texture.colorSpace = THREE.SRGBColorSpace;
+      texture.anisotropy = 4;
+      this.pageMaps.push(texture);
+      this.currentTexture = texture;
+      // An upright painted backcloth hinges from the rear of real horizontal pages.
+      const back = popup(0, 1.22);
+      back.userData.foldStart = Math.PI;
+      const backArt = new THREE.Mesh(
+        new THREE.PlaneGeometry(5.8, 2.7),
         new THREE.MeshStandardMaterial({
-          map: tex,
-          alphaTest: 0.3,
+          map: texture,
+          color: direction.tint || 0xffffff,
           side: THREE.DoubleSide,
           roughness: 1,
         }),
       );
-      mesh.position.y = 1.075;
-      mesh.castShadow = true;
-      tree.add(mesh);
-    }
-    if (direction.waves) {
-      const tex = await loader.loadAsync("./assets/art/noah-wave.webp");
-      if (generation !== this.loadGeneration || this.disposed) {
-        tex.dispose();
-        return;
+      backArt.position.y = 1.35;
+      backArt.castShadow = true;
+      backArt.receiveShadow = true;
+      back.add(backArt);
+      // Paper support triangles remain visible from the reading camera.
+      for (const x of [-2.55, 2.55]) {
+        const shape = new THREE.Shape();
+        shape.moveTo(0, 0);
+        shape.lineTo(0.55, 0);
+        shape.lineTo(0, 0.6);
+        shape.closePath();
+        const support = new THREE.Mesh(new THREE.ShapeGeometry(shape), paper);
+        support.userData.foldSupport = true;
+        support.rotation.y = Math.PI / 2;
+        support.position.set(x, 0.05, -0.02);
+        back.add(support);
       }
-      tex.colorSpace = THREE.SRGBColorSpace;
-      this.pageMaps.push(tex);
-      for (let row = 0; row < 2; row++) {
-        const g = popup(0, -0.8 + row * 0.65);
+      for (const actorDirection of direction.actors) {
+        const kind = actorDirection.kind;
+        const tex = await loader
+          .loadAsync(`./assets/art/theatre/${kind}-poses.webp`)
+          .catch(() => loader.loadAsync(`./assets/art/${kind}-figurine.webp`));
+        if (this.disposed || generation !== this.loadGeneration) {
+          tex.dispose();
+          return;
+        }
+        tex.colorSpace = THREE.SRGBColorSpace;
+        const atlas = tex.image.width / tex.image.height > 1;
+        fitCutout(tex, atlas ? actorDirection.pose : 0, atlas ? 3 : 1);
+        tex.userData.poseAtlas = atlas;
+        tex.userData.pose = actorDirection.pose;
+        this.pageMaps.push(tex);
+        const actor = createPaperActor(tex, kind, 1.95);
+        const g = popup(actorDirection.x, actorDirection.depth);
+        g.add(actor.root);
+        const index = this.actors.length;
+        const button = document.createElement("button");
+        button.className = "paper-target";
+        button.hidden = true;
+        button.type = "button";
+        button.setAttribute("aria-label", locale.characters[kind]);
+        button.onfocus = () => {
+          this.hoveredCreature = -1;
+          this.hoveredActor = index;
+        };
+        button.onblur = () => {
+          if (this.hoveredActor === index) this.hoveredActor = -1;
+        };
+        button.onclick = () => this.activateActor(index);
+        this.container.append(button);
+        this.actorButtons.push(button);
+        this.actorNames.push(locale.characters[kind]);
+        this.actors.push(actor);
+        this.actorMoods.push(actorDirection.mood);
+      }
+      if (direction.family) {
+        const tex = await loader
+          .loadAsync("./assets/art/theatre/family-seven.webp")
+          .catch(() => undefined);
+        if (generation !== this.loadGeneration || this.disposed) {
+          tex?.dispose();
+          return;
+        }
+        if (tex) {
+          tex.colorSpace = THREE.SRGBColorSpace;
+          fitCutout(tex);
+          this.pageMaps.push(tex);
+          const family = popup(0.75, -0.05);
+          family.name = "family-ensemble";
+          const m = new THREE.Mesh(
+            new THREE.PlaneGeometry(3.25, 3.25 / tex.userData.aspect),
+            new THREE.MeshStandardMaterial({
+              map: tex,
+              alphaTest: 0.3,
+              side: THREE.DoubleSide,
+              roughness: 1,
+            }),
+          );
+          m.position.y = 1.625 / tex.userData.aspect;
+          m.castShadow = true;
+          family.add(m);
+        }
+      }
+      if (direction.ark) {
+        const tex = await loader
+          .loadAsync("./assets/art/theatre/ark.webp")
+          .catch(() => undefined);
+        if (generation !== this.loadGeneration || this.disposed) {
+          tex?.dispose();
+          return;
+        }
+        if (tex) {
+          tex.colorSpace = THREE.SRGBColorSpace;
+          fitCutout(tex);
+          this.pageMaps.push(tex);
+          const ark = popup(0.15, 0.35);
+          const m = new THREE.Mesh(
+            new THREE.PlaneGeometry(4.4, 4.4 / tex.userData.aspect),
+            new THREE.MeshStandardMaterial({
+              map: tex,
+              alphaTest: 0.3,
+              side: THREE.DoubleSide,
+              roughness: 1,
+            }),
+          );
+          m.position.y = 0.5 + 2.2 / tex.userData.aspect;
+          m.castShadow = true;
+          ark.add(m);
+          this.ark = m;
+        }
+      }
+      for (const prop of direction.props || []) {
+        const tex = await loader.loadAsync(
+          `./assets/art/theatre/${prop.file}.webp`,
+        );
+        if (generation !== this.loadGeneration || this.disposed) {
+          tex.dispose();
+          return;
+        }
+        tex.colorSpace = THREE.SRGBColorSpace;
+        fitCutout(tex);
+        this.pageMaps.push(tex);
+        const stand = popup(prop.x, prop.depth);
+        const height = prop.width / tex.userData.aspect;
+        const cutout =
+          prop.file === "serpent-branch"
+            ? this.addCreature("serpent", tex, prop.width, locale.ui.serpent)
+            : new THREE.Mesh(
+                new THREE.PlaneGeometry(prop.width, height),
+                new THREE.MeshStandardMaterial({
+                  map: tex,
+                  alphaTest: 0.3,
+                  side: THREE.DoubleSide,
+                  roughness: 1,
+                }),
+              );
+        cutout.position.y = height / 2;
+        cutout.castShadow = true;
+        cutout.receiveShadow = true;
+        stand.add(cutout);
+        this.propNames.push(prop.file);
+      }
+      if (direction.interior) {
+        // A small side opening behind the actor, with a sill and surrounding planks.
+        const cabin = popup(1.45, 0.7);
+        const oak = new THREE.MeshStandardMaterial({
+          map: wood.map,
+          color: 0x73513b,
+          roughness: 0.9,
+        });
+        for (const x of [-0.68, 0.68])
+          box(cabin, 0.18, 1.65, 0.1, oak, x, 0.825, 0);
+        for (const y of [0.35, 1.6]) box(cabin, 1.5, 0.15, 0.14, oak, 0, y, 0);
+        for (const y of [0.07, 0.19]) box(cabin, 1.5, 0.11, 0.08, oak, 0, y, 0);
+      }
+      if (direction.rainbow) {
+        // Seven separate matte paper arcs stand in front of the distant clouds.
+        const bow = popup(0, 0.98);
+        const colours = [
+          0xc95c50, 0xe69552, 0xe6c76e, 0x86a477, 0x6a9bb2, 0x7685aa, 0x9b80aa,
+        ];
+        colours.forEach((colour, i) => {
+          const radius = 2.55 - i * 0.105;
+          const arc = new THREE.Mesh(
+            new THREE.RingGeometry(radius - 0.1, radius, 64, 1, 0, Math.PI),
+            new THREE.MeshStandardMaterial({
+              color: colour,
+              roughness: 1,
+              side: THREE.DoubleSide,
+            }),
+          );
+          arc.position.set(0, 0.15, 0.025);
+          arc.castShadow = true;
+          bow.add(arc);
+        });
+      }
+      if (direction.dove) {
+        const tex = await loader.loadAsync(
+          "./assets/art/theatre/dove-olive.webp",
+        );
+        if (generation !== this.loadGeneration || this.disposed) {
+          tex.dispose();
+          return;
+        }
+        tex.colorSpace = THREE.SRGBColorSpace;
+        fitCutout(tex);
+        this.pageMaps.push(tex);
+        const bird = popup(1.45, 0.55);
+        const cutout = this.addCreature("dove", tex, 1.15, locale.ui.dove);
+        cutout.position.y = 1.15;
+        cutout.castShadow = true;
+        bird.add(cutout);
+      }
+      if (direction.tree !== undefined) {
+        const tex = await loader.loadAsync("./assets/art/eden-tree.webp");
+        if (generation !== this.loadGeneration || this.disposed) {
+          tex.dispose();
+          return;
+        }
+        tex.colorSpace = THREE.SRGBColorSpace;
+        this.pageMaps.push(tex);
+        const tree = popup(direction.tree, 0.3);
         const mesh = new THREE.Mesh(
-          new THREE.PlaneGeometry(5.45, 1.25),
+          new THREE.PlaneGeometry(1.5, 2.15),
           new THREE.MeshStandardMaterial({
             map: tex,
             alphaTest: 0.3,
@@ -1661,26 +1669,50 @@ export class LibraryScene {
             roughness: 1,
           }),
         );
-        mesh.position.y = 0.62;
+        mesh.position.y = 1.075;
         mesh.castShadow = true;
-        g.add(mesh);
-        if (row === 0) this.wave = mesh;
+        tree.add(mesh);
       }
-    }
-    if (direction.background === "garden") {
-      // Complete the page's printed ground before releasing the hidden loading stage.
-      const floorTexture = await loader
-        .loadAsync("./assets/art/theatre/garden-floor.webp")
-        .catch(() => undefined);
-      if (this.disposed || generation !== this.loadGeneration) {
-        floorTexture?.dispose();
-        return;
+      if (direction.waves) {
+        const tex = await loader.loadAsync("./assets/art/noah-wave.webp");
+        if (generation !== this.loadGeneration || this.disposed) {
+          tex.dispose();
+          return;
+        }
+        tex.colorSpace = THREE.SRGBColorSpace;
+        this.pageMaps.push(tex);
+        for (let row = 0; row < 2; row++) {
+          const g = popup(0, -0.8 + row * 0.65);
+          const mesh = new THREE.Mesh(
+            new THREE.PlaneGeometry(5.45, 1.25),
+            new THREE.MeshStandardMaterial({
+              map: tex,
+              alphaTest: 0.3,
+              side: THREE.DoubleSide,
+              roughness: 1,
+            }),
+          );
+          mesh.position.y = 0.62;
+          mesh.castShadow = true;
+          g.add(mesh);
+          if (row === 0) this.wave = mesh;
+        }
       }
-      if (floorTexture) {
-        floorTexture.colorSpace = THREE.SRGBColorSpace;
-        floorTexture.anisotropy = 4;
-        this.pageMaps.push(floorTexture);
-        this.pageRoot.add(createGardenFloor(floorTexture));
+      if (direction.background === "garden") {
+        // Complete the page's printed ground before releasing the hidden loading stage.
+        const floorTexture = await loader
+          .loadAsync("./assets/art/theatre/garden-floor.webp")
+          .catch(() => undefined);
+        if (this.disposed || generation !== this.loadGeneration) {
+          floorTexture?.dispose();
+          return;
+        }
+        if (floorTexture) {
+          floorTexture.colorSpace = THREE.SRGBColorSpace;
+          floorTexture.anisotropy = 4;
+          this.pageMaps.push(floorTexture);
+          this.pageRoot.add(createGardenFloor(floorTexture));
+        }
       }
     }
     if (generation !== this.loadGeneration) return;
@@ -1707,14 +1739,31 @@ export class LibraryScene {
     this.turningLeaf?.update(0, turnDirection);
     this.turningPage.rotation.y = turnDirection === "forward" ? 0 : -Math.PI;
     this.turnStarted = performance.now();
+    this.authoredStage?.begin();
     this.bookRoot.userData.story = story.id;
+    this.bookRoot.userData.shelfX = authored
+      ? 0
+      : story.id === "eden"
+        ? -0.82
+        : 0.82;
     const c = document.createElement("canvas");
     c.width = 1024;
     c.height = 1536;
     const ctx = c.getContext("2d")!;
-    ctx.fillStyle = story.id === "eden" ? "#244c48" : "#29455e";
+    ctx.fillStyle = authored
+      ? "#34524f"
+      : story.id === "eden"
+        ? "#244c48"
+        : "#29455e";
     ctx.fillRect(0, 0, 1024, 1536);
-    ctx.drawImage(texture.image as CanvasImageSource, 36, 36, 952, 984);
+    ctx.drawImage(
+      (authored ? this.authoredStage!.coverTexture : texture)
+        .image as CanvasImageSource,
+      36,
+      36,
+      952,
+      984,
+    );
     const title = coverTitleTexture(story.title, ctx.fillStyle);
     ctx.drawImage(title.image, 0, 1024, 1024, 512);
     title.dispose();
@@ -1763,6 +1812,21 @@ export class LibraryScene {
   }
   playback(playing: boolean) {
     this.speaking = playing;
+  }
+  authoredPlayback(
+    position: number,
+    playing: boolean,
+    durations: readonly number[] = [],
+  ) {
+    this.authoredPosition = Number.isFinite(position)
+      ? Math.max(0, position)
+      : 0;
+    this.authoredPlaying = playing;
+    this.authoredStage?.narrationDurations(durations);
+  }
+  activateAuthored(id: string): AuthoredInteractionResult | undefined {
+    if (this.mode !== "spread" || this.transitionWaiting) return;
+    return this.authoredStage?.activate(id);
   }
   tilt(character: string) {
     if (this.figurines.has(character)) {
@@ -1836,6 +1900,7 @@ export class LibraryScene {
       popups: this.popups.map((g) => g.rotation.x),
       actorCount: this.actors.length,
       props: this.propNames,
+      authored: this.authoredStage?.debug() ?? null,
       touchedCreature: this.touchedCreature,
       creatures: this.creatures.map(({ creature, kind }) => ({
         kind,
@@ -2002,7 +2067,7 @@ export class LibraryScene {
         this.leftLeaf.rotation.y = Math.PI;
       if (this.opening && !this.transitionWaiting) {
         const flight = pose.flight;
-        const x = this.bookRoot.userData.story === "eden" ? -0.82 : 0.82;
+        const x = Number(this.bookRoot.userData.shelfX) || 0;
         this.bookRoot.position.set(
           x * (1 - flight),
           THREE.MathUtils.lerp(2.15, 1.39, flight) +
@@ -2043,6 +2108,12 @@ export class LibraryScene {
               : 0,
           hover: i === this.hoveredCreature,
         }),
+      );
+      this.authoredStage?.update(
+        this.authoredPosition,
+        this.authoredPlaying,
+        this.reduced,
+        !this.pageRoot.visible || popupActorsAtRest(unfold, false),
       );
       if (this.ark && !this.reduced) {
         this.ark.position.y =

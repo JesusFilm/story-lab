@@ -2,12 +2,14 @@
 
 A local Bible storybook prototype for shared reading, with a child's dimensional bedroom, two illustrated eight-spread books, nine locale options and pre-generated Kokoro phrase narration.
 
-Agents: start with [AGENTS.md](AGENTS.md) for the phase summary and task-specific reading paths. The quality-iteration effort is parked. The next direction is [manual and agent-assisted book authoring](docs/book-authoring-direction.md); its contract and editor design remain to be explored.
+Agents: start with [AGENTS.md](AGENTS.md) for the phase summary and task-specific reading paths. The quality-iteration effort is parked. The first [manual and agent-assisted authoring foundation](docs/creator-guide.md) is implemented; the location and design of a full visual editor remain open.
 
 ```sh
 npm ci
 npm run dev
 ```
+
+For authoring: enter the library, choose **Author → Load two-spread demo → Validate & preview**. Import or paste your own book JSON into the same dialog. See the [contract and glossary](docs/book-contract.md), [agent instructions](docs/agent-authoring.md), and [authoring handoff](docs/authoring-handoff.md). Export portable JSON to keep a validated draft; previews are session-only.
 
 Open http://127.0.0.1:8771/. Choose a language on every startup; the saved language is preselected. Select a cover, use Previous/Next to turn pages, Play/Pause or Replay to control narration, and Library to close the book. Tap a character on the shelf to hear its localized name. Drag horizontally in the room or use the Look around controls to inspect a nearby viewpoint; the reset arrow centers it. Opening a book restores the reading view. On a book page, hover or tap a character for a name tag and individual paper gesture; Tab and Enter provide keyboard access. The globe always opens language recovery. Settings contain language, speed, narration mute and volume. Muting preserves follow-along timing; changing language or hiding the tab pauses playback.
 
