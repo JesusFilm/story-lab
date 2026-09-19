@@ -287,6 +287,18 @@
       "image_version": "3939e4ad17ae"
     },
     {
+      "slug": "little-light-library",
+      "title": "Little Light Library",
+      "description": "Read two interactive Bible storybooks in a child-sized room, with page-turning paper scenes, narration and nine language options.",
+      "image": "prototypes/little-light-library/docs/captures/room-1366.png",
+      "image_alt": "A small illustrated storybook open on a table in the Little Light Library bedroom, with warm light and paper story figures.",
+      "static_build": "prototypes/little-light-library",
+      "static_output_digest": "9baf7a6d404b492f6ac6de286502613d7842667964eb8c52e03cd8c49646908e",
+      "files": [
+        "prototypes/little-light-library/docs/captures/room-1366.png"
+      ]
+    },
+    {
       "slug": "story-diorama-lab",
       "title": "Story Diorama",
       "description": "A reusable storytelling component combining illustrated scenes, scrolling text and gentle soundtracks. Watch Noah\u2019s story or explore the playback and layout controls.",
@@ -924,9 +936,8 @@
     "prototypes/shepherd-adventure/src/rehearsal.mjs": "4d43961f97199af79941dd556164d7dff643ae5db13ae2e22848f1969b0c2df1",
     "assets/objects/little-light-book/little-light-book-runtime.glb": "37372a513a760792cddf2688e48f1cbb7f2eba34b6e726dbc873423e77b9a363",
     "assets/objects/little-light-book/little-light-book-reference.prompt.txt": "31e5942365c0468dcf57c157f629f013c94cd0ec5baaff62d0d35e2a8cf6de43",
-    "assets/objects/little-light-book/little-light-book-reference.png": "37b11a6ba5f7324da14fe31d905630017c781e04db552f8b8660d28b7a8dc0cc"
+    "assets/objects/little-light-book/little-light-book-reference.png": "37b11a6ba5f7324da14fe31d905630017c781e04db552f8b8660d28b7a8dc0cc",
+    "prototypes/little-light-library/docs/captures/room-1366.png": "31ac2ce1d0a5d326e23d57110770366fef2996e02fa3ff8be4da97b441df14a9"
   },
-  "local_only_prototypes": [
-    "little-light-library"
-  ]
+  "local_only_prototypes": []
 }

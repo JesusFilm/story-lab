@@ -34,6 +34,15 @@ class DirectoryRenderingTests(unittest.TestCase):
         self.assertIn('Watch the story', markup)
         self.assertNotIn('<Diorama>', markup)
 
+    def test_prototype_row_supports_reviewed_image_path(self):
+        markup = prototype_card({
+            'slug': 'little-light-library',
+            'title': 'Little Light Library',
+            'description': 'A storybook.',
+            'image': 'prototypes/little-light-library/docs/captures/room-1366.png',
+        })
+        self.assertIn('src="prototypes/little-light-library/docs/captures/room-1366.png"', markup)
+
     def test_asset_category_uses_path_segment(self):
         self.assertEqual(asset_category('assets/animals/sheep/reference-prompt.txt'), 'Animals')
         self.assertEqual(asset_category('assets/structures/animal-pen/reference-prompt.txt'), 'Structures')
