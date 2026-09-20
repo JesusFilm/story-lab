@@ -1,26 +1,26 @@
 # Books and toys in the room
 
-The room shelf holds **six books**. The full creator collection remains in **Author → My books**.
+The two inner shelves hold **15 spine-facing books each (30 total)**. The full creator collection remains in **Author → My books**.
 Choose **Add to room** on a saved book to put it on the physical shelf. Imported portable
 JSON books use the same action. **Remove from room** frees a place without deleting the
-book. The built-in Eden and Noah books can also be removed and restored. A bookend fills
-out an underfilled shelf. Shelf membership saves on this device; it is separate from
+book. The built-in Eden and Noah books can also be removed and restored. Each occupied shelf with fewer than 13 books gets a book stop; shelves with 13–15 books do not. Shelf membership saves on this device; it is separate from
 exported book content and survives browser refresh.
 
-Click or keyboard-focus a physical cover. It slides clear of the shelf, then turns toward
+Click or keyboard-focus a titled spine. It slides clear of the shelf, then turns toward
 you. **Read** moves it onto the table and opens it. **Return** (or Escape) puts it back.
 The previous room heading, look-around buttons, book cards and character-name buttons
 have been removed. Direct pointer orbit remains available.
 
-While reading, **Library** brings the room back into view with the current book still on
-the table. Its raised paper scenery is hidden so it cannot cover the shelf. **Continue reading** returns to the same page and paused narration position.
+While reading, **Library** brings the room back into view with the current book closed on
+the table, its cover facing up. **Continue reading** opens it at the same page and paused
+narration position.
 You can inspect another cover without disturbing that book. Choosing Read performs this
 sequence:
 
 1. Stop narration and toy audio, and move the old toys away.
 2. Fold the current scene, close the book and return it to its shelf position.
 3. Move the chosen closed book onto the table, then unfold its reading scene.
-4. Bring that book's toys onto the lower shelf.
+4. Bring that book's toys onto the top of the bookcase.
 
 Only one copy of a book is visible. Its shelf space stays reserved while it is being
 previewed or read. Inputs are locked while books move, so rapid taps cannot start

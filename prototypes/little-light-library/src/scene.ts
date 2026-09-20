@@ -53,6 +53,8 @@ import type { LocaleData, Page, Story } from "./contracts";
 import {
   RoomShelf,
   roomToyLayout,
+  SHELF_BOOK_SIZE,
+  SHELF_BOOK_YAW,
   type RoomShelfBook,
   type RoomToy,
 } from "./room-shelf";
@@ -541,6 +543,11 @@ export class LibraryScene {
   private tableShelfKey?: string;
   private landedShelfBook = false;
   private shelfBrowsingTable = false;
+  private shelfCoverMotion?: {
+    kind: "close" | "open";
+    started: number;
+    from: number;
+  };
   private shelfToys = new Map<
     string,
     { definition: RoomToy; root: THREE.Group; texture: THREE.Texture }
@@ -732,10 +739,10 @@ export class LibraryScene {
       const scale = Math.max(1, 0.68 / this.camera.aspect);
       this.cameraGoal.set(
         (narrow ? 1.7 : 5.5) * scale,
-        (narrow ? 3.8 : 4.6) * scale,
-        (narrow ? 8.2 : 10.8) * scale,
+        (narrow ? 4.25 : 4.9) * scale,
+        (narrow ? 9.4 : 12.4) * scale,
       );
-      this.lookGoal.set(0, narrow ? 2.15 : 2.0, -1.7);
+      this.lookGoal.set(0, narrow ? 3.05 : 3.15, -1.7);
     } else {
       const scale = Math.max(1, 1.25 / this.camera.aspect);
       // Bring the illustrated stage forward, allowing peripheral book edges to crop.
@@ -982,8 +989,7 @@ export class LibraryScene {
     }
   }
   private makeBook() {
-    this.bookRoot.position.set(0, 1.39, 1.1);
-    this.bookRoot.rotation.x = -Math.PI / 2;
+    this.resetBookToTable();
     const cloth = new THREE.MeshStandardMaterial({
       map: grainTexture("#244c48", "cloth"),
       roughness: 0.83,
@@ -1060,6 +1066,11 @@ export class LibraryScene {
     this.leftLeaf.add(this.coverArt);
     this.bookRoot.add(this.pageRoot);
   }
+  private resetBookToTable() {
+    this.bookRoot.position.set(0, 1.495, 1.1);
+    this.bookRoot.rotation.set(-Math.PI / 2, 0, 0);
+    this.bookRoot.scale.set(1, 1, 1);
+  }
   async room(locale: LocaleData, books?: RoomShelfBook[]) {
     this.clearCreatureTargets();
     this.clearReadingFocus();
@@ -1084,9 +1095,9 @@ export class LibraryScene {
     this.tableShelfKey = undefined;
     this.landedShelfBook = false;
     this.shelfBrowsingTable = false;
+    this.shelfCoverMotion = undefined;
     this.roomShelf.setTableKey();
-    this.bookRoot.position.set(0, 1.39, 1.1);
-    this.bookRoot.scale.setScalar(0.72);
+    this.resetBookToTable();
     this.leftLeaf.rotation.y = Math.PI;
     this.pageRoot.visible = false;
 
@@ -1149,8 +1160,9 @@ export class LibraryScene {
     toy.texture.dispose();
   }
   private async tweenToy(root: THREE.Group, entering: boolean) {
-    const startY = entering ? 1.1 : root.position.y;
-    const endY = entering ? 1.28 : 1.08;
+    const baseY = Number(root.userData.baseY);
+    const startY = entering ? baseY - 0.18 : root.position.y;
+    const endY = entering ? baseY : baseY - 0.2;
     const startScale = entering ? 0.72 : 1;
     const endScale = entering ? 1 : 0.72;
     const started = performance.now();
@@ -1227,8 +1239,14 @@ export class LibraryScene {
       const root = new THREE.Group();
       root.name = `shelf-toy:${definition.id}`;
       root.userData.pick = `toy:${definition.id}`;
-      root.position.set(toySlots[index].x, 1.1, toySlots[index].z);
+      root.position.set(
+        toySlots[index].x,
+        toySlots[index].y - 0.18,
+        toySlots[index].z,
+      );
       root.userData.baseX = root.position.x;
+      root.userData.baseY = toySlots[index].y;
+      root.userData.baseZ = toySlots[index].z;
       root.scale.setScalar(0.72);
       const base = new THREE.Mesh(
         new THREE.CylinderGeometry(0.25, 0.29, 0.08, 16),
@@ -1277,7 +1295,8 @@ export class LibraryScene {
     this.toyResponseTokens.set(id, token);
     const root = toy.root;
     const baseX = Number(root.userData.baseX);
-    const baseY = 1.28;
+    const baseY = Number(root.userData.baseY);
+    const baseZ = Number(root.userData.baseZ);
     const current = () =>
       !this.disposed &&
       generation === this.toyGeneration &&
@@ -1332,20 +1351,29 @@ export class LibraryScene {
       } while (current());
       if (!current()) return;
       root.rotation.set(0, 0, 0);
-      root.position.set(baseX, baseY, -2.69);
+      root.position.set(baseX, baseY, baseZ);
       root.scale.setScalar(1);
     })();
   }
   browseShelf() {
+    if (this.mode === "room" && this.shelfBrowsingTable) return;
     this.clearReadingFocus();
     this.shelfBrowsingTable = this.bookRoot.visible;
     if (this.shelfBrowsingTable) {
-      // Keep the open book on the table, but lower its paper theatre out of the
-      // sightline so the physical shelf and lower-shelf toys remain selectable.
+      // Keep the current book on the table, close its cover, and remove the
+      // raised paper theatre so both book rows and the top-shelf toys stay visible.
       this.pageRoot.visible = false;
       this.turningPage.visible = false;
+      if (this.waitingPaper) this.waitingPaper.visible = false;
+      if (this.stationarySource) this.stationarySource.visible = false;
+      if (this.destinationPaper) this.destinationPaper.visible = false;
       this.actorButtons.forEach((button) => (button.hidden = true));
       this.creatures.forEach(({ button }) => (button.hidden = true));
+      this.shelfCoverMotion = {
+        kind: "close",
+        started: performance.now(),
+        from: this.leftLeaf.rotation.y,
+      };
     }
     this.mode = "room";
     this.roomRoot.visible = true;
@@ -1353,9 +1381,16 @@ export class LibraryScene {
   }
   resumeTable() {
     if (!this.bookRoot.visible) return;
+    if (this.mode === "spread" && !this.shelfBrowsingTable) return;
     this.shelfBrowsingTable = false;
     this.mode = "spread";
-    this.pageRoot.visible = !this.transitionWaiting;
+    this.waitingFromRoom = false;
+    this.pageRoot.visible = false;
+    this.shelfCoverMotion = {
+      kind: "open",
+      started: performance.now(),
+      from: this.leftLeaf.rotation.y,
+    };
     this.resize();
   }
   async inspectShelfBook(key: string) {
@@ -1396,6 +1431,14 @@ export class LibraryScene {
   private async foldTableBook() {
     if (!this.bookRoot.visible) return;
     this.clearReadingFocus();
+    this.shelfCoverMotion = undefined;
+    if (
+      this.shelfBrowsingTable &&
+      Math.abs(this.leftLeaf.rotation.y - Math.PI) < 0.01
+    ) {
+      this.pageRoot.visible = false;
+      return;
+    }
     const started = performance.now();
     const duration = this.reduced ? 0 : 750;
     if (this.mode === "spread") {
@@ -1408,11 +1451,16 @@ export class LibraryScene {
       this.pageRoot.visible = false;
       return;
     }
+    const fromAngle = this.leftLeaf.rotation.y;
     do {
       const amount = duration
         ? ease((performance.now() - started) / duration)
         : 1;
-      this.leftLeaf.rotation.y = Math.PI * amount;
+      this.leftLeaf.rotation.y = THREE.MathUtils.lerp(
+        fromAngle,
+        Math.PI,
+        amount,
+      );
       this.popups.forEach((popup, index) => {
         popupFoldSurface(popup, index, 1 - amount);
         popup.rotation.x = popupFoldAngle(1 - amount);
@@ -1430,11 +1478,12 @@ export class LibraryScene {
     const key = this.tableShelfKey;
     const slot = key ? this.roomShelf.slotPosition(key) : undefined;
     if (key && slot) {
-      const index = this.roomShelf
-        .books()
-        .findIndex((book) => book.key === key);
-      const targetScale = new THREE.Vector3(0.66 / 3.13, 1.24 / 3.6, 0.5);
-      const targetAngle = (index % 2 ? 1 : -1) * 0.34;
+      const targetScale = new THREE.Vector3(
+        SHELF_BOOK_SIZE.width / 3.13,
+        SHELF_BOOK_SIZE.height / 3.6,
+        SHELF_BOOK_SIZE.thickness / 0.4,
+      );
+      const targetAngle = SHELF_BOOK_YAW;
       const centerOffset = 1.56 * targetScale.x;
       const target = slot.clone();
       target.x -= Math.cos(targetAngle) * centerOffset;
@@ -1451,6 +1500,7 @@ export class LibraryScene {
     this.bookRoot.visible = false;
   }
   async landShelfBook(key: string) {
+    this.shelfCoverMotion = undefined;
     if (this.tableShelfKey && this.tableShelfKey !== key)
       await this.returnTableBook();
     if (this.roomShelf.previewKey !== key)
@@ -1460,9 +1510,7 @@ export class LibraryScene {
     this.tableShelfKey = key;
     this.roomShelf.setTableKey(key);
     this.bookRoot.visible = true;
-    this.bookRoot.position.set(0, 1.39, 1.1);
-    this.bookRoot.rotation.x = -Math.PI / 2;
-    this.bookRoot.scale.setScalar(1);
+    this.resetBookToTable();
     this.leftLeaf.rotation.y = Math.PI;
     this.pageRoot.visible = false;
     const cover = this.roomShelf.coverTexture(key);
@@ -1483,6 +1531,7 @@ export class LibraryScene {
     this.landedShelfBook = true;
   }
   async spread(story: Story, page: Page, locale: LocaleData) {
+    this.shelfCoverMotion = undefined;
     this.clearCreatureTargets();
     this.clearReadingFocus();
     this.roomOrbit.reset();
@@ -1989,9 +2038,7 @@ export class LibraryScene {
       (g) =>
         (g.rotation.x = this.reduced ? Math.PI / 2 : g.userData.foldStart || 0),
     );
-    this.bookRoot.rotation.x = -Math.PI / 2;
-    this.bookRoot.position.set(0, 1.39, 1.1);
-    this.bookRoot.scale.setScalar(1);
+    this.resetBookToTable();
   }
   review(
     time?: number,
@@ -2037,6 +2084,51 @@ export class LibraryScene {
     if (this.mode !== "spread" || this.transitionWaiting) return;
     return this.authoredStage?.activate(id);
   }
+  private projectedBounds(object: THREE.Object3D) {
+    object.updateWorldMatrix(true, true);
+    const bounds = new THREE.Box3().setFromObject(object);
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    let left = Infinity;
+    let right = -Infinity;
+    let top = Infinity;
+    let bottom = -Infinity;
+    for (const x of [bounds.min.x, bounds.max.x])
+      for (const y of [bounds.min.y, bounds.max.y])
+        for (const z of [bounds.min.z, bounds.max.z]) {
+          const point = new THREE.Vector3(x, y, z).project(this.camera);
+          const screenX = ((point.x + 1) * rect.width) / 2;
+          const screenY = ((1 - point.y) * rect.height) / 2;
+          left = Math.min(left, screenX);
+          right = Math.max(right, screenX);
+          top = Math.min(top, screenY);
+          bottom = Math.max(bottom, screenY);
+        }
+    return { left, right, top, bottom };
+  }
+  private projectedShelfSpine(object: THREE.Object3D) {
+    object.updateWorldMatrix(true, true);
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    let left = Infinity;
+    let right = -Infinity;
+    let top = Infinity;
+    let bottom = -Infinity;
+    for (const y of [-SHELF_BOOK_SIZE.height / 2, SHELF_BOOK_SIZE.height / 2])
+      for (const z of [
+        -SHELF_BOOK_SIZE.thickness / 2,
+        SHELF_BOOK_SIZE.thickness / 2,
+      ]) {
+        const point = object
+          .localToWorld(new THREE.Vector3(-SHELF_BOOK_SIZE.width / 2, y, z))
+          .project(this.camera);
+        const screenX = ((point.x + 1) * rect.width) / 2;
+        const screenY = ((1 - point.y) * rect.height) / 2;
+        left = Math.min(left, screenX);
+        right = Math.max(right, screenX);
+        top = Math.min(top, screenY);
+        bottom = Math.max(bottom, screenY);
+      }
+    return { left, right, top, bottom };
+  }
   debug() {
     return {
       mode: this.mode,
@@ -2044,6 +2136,7 @@ export class LibraryScene {
       roomDragging: this.roomOrbit.dragging,
       roomWallpaper: this.roomWallpaper,
       camera: this.camera.position.toArray(),
+      cameraGoal: this.cameraGoal.toArray(),
       readingFocus: {
         index: this.readingFocusIndex,
         wideEnsemble: this.readingWideEnsemble,
@@ -2053,7 +2146,17 @@ export class LibraryScene {
         lookOffset: this.readingLookOffset.toArray(),
       },
       look: this.look.toArray(),
+      lookGoal: this.lookGoal.toArray(),
       opening: this.opening,
+      bookTransform: {
+        position: this.bookRoot.position.toArray(),
+        rotation: [
+          this.bookRoot.rotation.x,
+          this.bookRoot.rotation.y,
+          this.bookRoot.rotation.z,
+        ],
+        scale: this.bookRoot.scale.toArray(),
+      },
       hinge: this.leftLeaf.rotation.y,
       pageAngle: this.turningPage.rotation.y,
       pageVisible: this.turningPage.visible,
@@ -2098,6 +2201,7 @@ export class LibraryScene {
       shelf: this.roomShelf.debug(),
       tableShelfKey: this.tableShelfKey ?? null,
       shelfBrowsingTable: this.shelfBrowsingTable,
+      shelfCoverMoving: Boolean(this.shelfCoverMotion),
       shelfToys: [...this.shelfToys].map(([id, toy]) => ({
         id,
         animation: toy.definition.animation,
@@ -2257,7 +2361,7 @@ export class LibraryScene {
           x * (1 - flight),
           THREE.MathUtils.lerp(
             Number(this.bookRoot.userData.shelfY) || 3.61,
-            1.39,
+            1.495,
             flight,
           ) +
             Math.sin(flight * Math.PI) * 0.45,
@@ -2318,6 +2422,30 @@ export class LibraryScene {
         this.wave.rotation.z =
           Math.sin((this.reviewTime ?? time) * 0.8) * 0.015;
     }
+    if (this.shelfCoverMotion) {
+      const motion = this.shelfCoverMotion;
+      const duration = this.reduced ? 0 : motion.kind === "close" ? 320 : 380;
+      const amount = duration ? ease((now - motion.started) / duration) : 1;
+      const target = motion.kind === "close" ? Math.PI : 0;
+      this.leftLeaf.rotation.y = THREE.MathUtils.lerp(
+        motion.from,
+        target,
+        amount,
+      );
+      this.pageRoot.visible = false;
+      this.turningPage.visible = false;
+      if (this.waitingPaper) this.waitingPaper.visible = false;
+      if (this.stationarySource) this.stationarySource.visible = false;
+      if (this.destinationPaper) this.destinationPaper.visible = false;
+      this.actorButtons.forEach((button) => (button.hidden = true));
+      this.creatures.forEach(({ button }) => (button.hidden = true));
+      if (amount >= 1) {
+        this.leftLeaf.rotation.y = target;
+        this.shelfCoverMotion = undefined;
+        if (motion.kind === "open" && this.mode === "spread")
+          this.pageRoot.visible = !this.transitionWaiting;
+      }
+    }
     const roomSelection =
       this.reviewRoomSelection ?? this.hoveredRoom ?? this.focusedRoom ?? null;
     this.pickables.forEach((object) => {
@@ -2375,41 +2503,22 @@ export class LibraryScene {
         this.roomShelf.previewKey !== key;
       button.hidden = !shown;
       if (!shown || !entry) continue;
-      const rect = this.renderer.domElement.getBoundingClientRect();
-      const topLeft = entry.root
-        .localToWorld(new THREE.Vector3(-0.38, 0.68, 0.12))
-        .project(this.camera);
-      const bottomRight = entry.root
-        .localToWorld(new THREE.Vector3(0.38, -0.68, 0.12))
-        .project(this.camera);
-      const left = ((topLeft.x + 1) * rect.width) / 2;
-      const top = ((1 - topLeft.y) * rect.height) / 2;
-      const right = ((bottomRight.x + 1) * rect.width) / 2;
-      const bottom = ((1 - bottomRight.y) * rect.height) / 2;
-      button.style.left = `${Math.min(left, right)}px`;
-      button.style.top = `${Math.min(top, bottom)}px`;
-      button.style.width = `${Math.max(44, Math.abs(right - left))}px`;
-      button.style.height = `${Math.max(44, Math.abs(bottom - top))}px`;
+      const bounds = this.projectedShelfSpine(entry.root);
+      const inset = Math.min(1, (bounds.right - bounds.left) / 4);
+      button.style.left = `${bounds.left + inset}px`;
+      button.style.top = `${bounds.top}px`;
+      button.style.width = `${Math.max(2, bounds.right - bounds.left - inset * 2)}px`;
+      button.style.height = `${Math.max(2, bounds.bottom - bounds.top)}px`;
     }
     for (const button of this.shelfToyButtons) {
       const toy = this.shelfToys.get(button.dataset.toyId!);
       button.hidden = this.mode !== "room" || !toy;
       if (!toy || button.hidden) continue;
-      const rect = this.renderer.domElement.getBoundingClientRect();
-      const topLeft = toy.root
-        .localToWorld(new THREE.Vector3(-0.34, 1.04, 0.08))
-        .project(this.camera);
-      const bottomRight = toy.root
-        .localToWorld(new THREE.Vector3(0.34, 0, 0.08))
-        .project(this.camera);
-      const left = ((topLeft.x + 1) * rect.width) / 2;
-      const top = ((1 - topLeft.y) * rect.height) / 2;
-      const right = ((bottomRight.x + 1) * rect.width) / 2;
-      const bottom = ((1 - bottomRight.y) * rect.height) / 2;
-      button.style.left = `${Math.min(left, right)}px`;
-      button.style.top = `${Math.min(top, bottom)}px`;
-      button.style.width = `${Math.max(44, Math.abs(right - left))}px`;
-      button.style.height = `${Math.max(44, Math.abs(bottom - top))}px`;
+      const bounds = this.projectedBounds(toy.root);
+      button.style.left = `${bounds.left}px`;
+      button.style.top = `${bounds.top}px`;
+      button.style.width = `${Math.max(32, bounds.right - bounds.left)}px`;
+      button.style.height = `${Math.max(32, bounds.bottom - bounds.top)}px`;
     }
     if (this.mode === "spread") {
       const rect = this.renderer.domElement.getBoundingClientRect();

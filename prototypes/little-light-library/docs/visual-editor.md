@@ -99,7 +99,7 @@ gesture handlers; sliders and layer buttons also provide precise alternatives.
 
 ## Put your book in the room
 
-Return to **My books** and choose **Add to room**. The room holds six books; removing
+Return to **My books** and choose **Add to room**. The room holds 30 books across two inner shelves; removing
 one frees its place while keeping the editable book. In **Book details → Book details**,
 **Shelf toys** lets you register up to four toys with artwork, short labels, click motion
 and optional audio. See [Books and toys in the room](room-shelf.md) for reading and swapping.

@@ -35,20 +35,29 @@ const saved = (key: string, title = key): SavedBook => {
 };
 
 test("room lineup defaults to built-ins and normalizes stale, duplicate and excess keys", () => {
-  const live = new Set(["one", "two", "three", "four", "five"]);
-  assert.deepEqual(normalizeRoomKeys(undefined, live), BUILTIN_ROOM_KEYS);
-  assert.deepEqual(
-    normalizeRoomKeys(
-      ["one", "one", "missing", "builtin:noah", "two", "three", "four", "five"],
-      live,
-    ),
-    ["one", "builtin:noah", "two", "three", "four", "five"],
+  const authored = Array.from(
+    { length: ROOM_SHELF_LIMIT + 5 },
+    (_, index) => `saved-${index}`,
   );
+  const live = new Set(authored);
+  assert.deepEqual(normalizeRoomKeys(undefined, live), BUILTIN_ROOM_KEYS);
+  const normalized = normalizeRoomKeys(
+    [authored[0], authored[0], "missing", "builtin:noah", ...authored],
+    live,
+  );
+  assert.equal(normalized.length, ROOM_SHELF_LIMIT);
+  assert.deepEqual(normalized.slice(0, 3), [
+    authored[0],
+    "builtin:noah",
+    authored[1],
+  ]);
+  assert.equal(new Set(normalized).size, ROOM_SHELF_LIMIT);
+  assert.equal(normalized.includes("missing"), false);
 });
 
 test("room membership uses saved keys, enforces capacity and keeps collection entries", async () => {
   const store = new MemoryStore();
-  store.books = Array.from({ length: 7 }, (_, index) =>
+  store.books = Array.from({ length: ROOM_SHELF_LIMIT + 1 }, (_, index) =>
     saved(`saved-${index}`, "Same authored ID"),
   );
   let validations = 0;
@@ -62,17 +71,28 @@ test("room membership uses saved keys, enforces capacity and keeps collection en
     (await room.read()).map(({ key }) => key),
     BUILTIN_ROOM_KEYS,
   );
-  for (let index = 0; index < 4; index++) await room.add(`saved-${index}`);
+  const authoredCapacity = ROOM_SHELF_LIMIT - BUILTIN_ROOM_KEYS.length;
+  for (let index = 0; index < authoredCapacity; index++)
+    await room.add(`saved-${index}`);
   await room.add("saved-0");
   assert.equal((await room.read()).length, ROOM_SHELF_LIMIT);
-  await assert.rejects(room.add("saved-4"), /6 books already/);
+  await assert.rejects(
+    room.add(`saved-${authoredCapacity}`),
+    new RegExp(`${ROOM_SHELF_LIMIT} books already`),
+  );
   await room.remove("builtin:eden");
-  await room.add("saved-4");
-  assert.equal(store.books.length, 7);
-  assert.equal(validations, 7);
+  await room.add(`saved-${authoredCapacity}`);
+  assert.equal(store.books.length, ROOM_SHELF_LIMIT + 1);
+  assert.equal(validations, ROOM_SHELF_LIMIT + 1);
+  const keys = (await room.read()).map(({ key }) => key);
+  assert.equal(keys.length, ROOM_SHELF_LIMIT);
+  assert.equal(keys[0], "builtin:noah");
   assert.deepEqual(
-    (await room.read()).map(({ key }) => key),
-    ["builtin:noah", "saved-0", "saved-1", "saved-2", "saved-3", "saved-4"],
+    keys.slice(1),
+    Array.from(
+      { length: ROOM_SHELF_LIMIT - 1 },
+      (_, index) => `saved-${index}`,
+    ),
   );
 });
 

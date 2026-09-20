@@ -4,7 +4,7 @@ import { resolveBook } from "./book-localization";
 import { validateBook, validateBookAssets } from "./book-validation";
 import type { LocaleData } from "./contracts";
 
-export const ROOM_SHELF_LIMIT = 6;
+export const ROOM_SHELF_LIMIT = 30;
 export const BUILTIN_ROOM_KEYS = ["builtin:eden", "builtin:noah"] as const;
 const SETTING = "room-shelf-v1";
 

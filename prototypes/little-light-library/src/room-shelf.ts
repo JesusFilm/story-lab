@@ -16,11 +16,15 @@ export interface RoomToy {
 
 export type ShelfBookState = "shelf" | "preview" | "table";
 
-const MAX_BOOKS = 6;
-const SLOT_START = -2.38;
-const SLOT_STEP = 0.79;
-const SHELF_Y = 3.61;
-const SHELF_Z = -2.7;
+export const BOOKS_PER_SHELF = 15;
+export const ROOM_BOOK_CAPACITY = BOOKS_PER_SHELF * 2;
+export const SHELF_BOOK_SIZE = { width: 1.02, height: 1.42, thickness: 0.32 };
+export const SHELF_BOOK_YAW = Math.PI / 2;
+const MAX_BOOKS = ROOM_BOOK_CAPACITY;
+const SLOT_START = -2.62;
+const SLOT_STEP = 0.374;
+const SHELF_BASES = [2.99, 1.27];
+const SHELF_Z = -3.0;
 const CLOSED_BOOK_CENTER_X = 1.56;
 const CLOSED_BOOK_WIDTH = 3.13;
 const CLOSED_BOOK_HEIGHT = 3.6;
@@ -29,24 +33,41 @@ export function roomShelfLayout(count: number) {
   const total = THREE.MathUtils.clamp(Math.floor(count), 0, MAX_BOOKS);
   return {
     slots: Array.from({ length: total }, (_, index) => ({
-      x: SLOT_START + index * SLOT_STEP,
-      y: SHELF_Y,
+      x: SLOT_START + (index % BOOKS_PER_SHELF) * SLOT_STEP,
+      y:
+        SHELF_BASES[Math.floor(index / BOOKS_PER_SHELF)] +
+        SHELF_BOOK_SIZE.height / 2,
       z: SHELF_Z,
     })),
-    endStopX:
-      total > 0 && total < MAX_BOOKS
-        ? SLOT_START + (total - 0.5) * SLOT_STEP
-        : null,
+    endStops: SHELF_BASES.flatMap((y, shelf) => {
+      const occupied = Math.min(
+        BOOKS_PER_SHELF,
+        Math.max(0, total - shelf * BOOKS_PER_SHELF),
+      );
+      return occupied > 0 && occupied < 13
+        ? [
+            {
+              x:
+                SLOT_START +
+                (occupied - 1) * SLOT_STEP +
+                SHELF_BOOK_SIZE.thickness / 2 +
+                0.05,
+              y,
+              z: SHELF_Z,
+            },
+          ]
+        : [];
+    }),
   };
 }
 
 export function shelfTransferPose() {
   return {
-    position: { x: CLOSED_BOOK_CENTER_X, y: 1.39, z: 1.1 },
+    position: { x: CLOSED_BOOK_CENTER_X, y: 1.495, z: 1.1 },
     scale: {
-      x: CLOSED_BOOK_WIDTH / 0.66,
-      y: CLOSED_BOOK_HEIGHT / 1.24,
-      z: 2.5,
+      x: CLOSED_BOOK_WIDTH / SHELF_BOOK_SIZE.width,
+      y: CLOSED_BOOK_HEIGHT / SHELF_BOOK_SIZE.height,
+      z: 0.4 / SHELF_BOOK_SIZE.thickness,
     },
     rotationX: -Math.PI / 2,
   };
@@ -56,7 +77,7 @@ export function roomToyLayout(count: number) {
   const total = THREE.MathUtils.clamp(Math.floor(count), 0, 4);
   return Array.from({ length: total }, (_, index) => ({
     x: -1.08 + index * 0.72,
-    y: 1.28,
+    y: 4.78,
     z: -2.69,
   }));
 }
@@ -126,6 +147,28 @@ function composedCover(title: string, artwork?: THREE.Texture) {
   return texture;
 }
 
+function spineTexture(title: string) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 160;
+  canvas.height = 768;
+  const context = canvas.getContext("2d")!;
+  context.fillStyle = "#315954";
+  context.fillRect(0, 0, 160, 768);
+  context.strokeStyle = "#caa96b";
+  context.lineWidth = 5;
+  context.strokeRect(12, 20, 136, 728);
+  context.translate(80, 384);
+  context.rotate(Math.PI / 2);
+  context.fillStyle = "#fff0d1";
+  context.font = "600 48px Georgia, serif";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText(title, 0, 0, 660);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
+
 interface ShelfEntry {
   definition: RoomShelfBook;
   root: THREE.Group;
@@ -150,7 +193,7 @@ export class RoomShelf {
   readonly root = new THREE.Group();
   private entries = new Map<string, ShelfEntry>();
   private order: string[] = [];
-  private endStop?: THREE.Group;
+  private endStops: THREE.Group[] = [];
   private generation = 0;
   private motion?: Motion;
   previewKey?: string;
@@ -174,25 +217,46 @@ export class RoomShelf {
     root.name = `shelf-book:${definition.key}`;
     root.userData.pick = `shelf:${definition.key}`;
     root.position.copy(this.slot(index));
-    root.rotation.y = (index % 2 ? 1 : -1) * 0.34;
-    const cover = new THREE.Mesh(
-      new THREE.BoxGeometry(0.66, 1.24, 0.16),
-      new THREE.MeshStandardMaterial({ color: 0x315954, roughness: 0.76 }),
-    );
-    cover.castShadow = cover.receiveShadow = true;
-    root.add(cover);
-    const art = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.62, 1.18),
-      new THREE.MeshBasicMaterial({ map: texture }),
-    );
-    art.position.z = 0.081;
-    root.add(art);
+    root.rotation.y = SHELF_BOOK_YAW;
+    const { width, height, thickness } = SHELF_BOOK_SIZE;
+    const cloth = new THREE.MeshStandardMaterial({
+      color: 0x315954,
+      roughness: 0.76,
+    });
+    for (const z of [-1, 1]) {
+      const board = new THREE.Mesh(
+        new THREE.BoxGeometry(width, height, 0.025),
+        cloth,
+      );
+      board.position.z = z * (thickness / 2 - 0.0125);
+      board.castShadow = board.receiveShadow = true;
+      root.add(board);
+    }
     const pages = new THREE.Mesh(
-      new THREE.BoxGeometry(0.57, 1.12, 0.035),
+      new THREE.BoxGeometry(width - 0.035, height - 0.06, thickness - 0.05),
       new THREE.MeshStandardMaterial({ color: 0xf2dfb8, roughness: 1 }),
     );
-    pages.position.z = -0.098;
+    pages.position.x = 0.012;
     root.add(pages);
+    const spine = new THREE.Mesh(
+      new THREE.BoxGeometry(0.04, height, thickness),
+      cloth,
+    );
+    spine.position.x = -width / 2 + 0.02;
+    root.add(spine);
+    const art = new THREE.Mesh(
+      new THREE.PlaneGeometry(width - 0.02, height - 0.02),
+      new THREE.MeshBasicMaterial({ map: texture }),
+    );
+    art.position.z = thickness / 2 + 0.001;
+    root.add(art);
+    const title = new THREE.Mesh(
+      new THREE.PlaneGeometry(thickness, height),
+      new THREE.MeshBasicMaterial({ map: spineTexture(definition.title) }),
+    );
+    title.position.x = -width / 2 - 0.001;
+    title.rotation.y = -Math.PI / 2;
+    root.add(title);
     return root;
   }
 
@@ -203,45 +267,49 @@ export class RoomShelf {
       const materials = Array.isArray(object.material)
         ? object.material
         : [object.material];
-      materials.forEach((material) => material.dispose());
+      materials.forEach((material) => {
+        const map = (material as THREE.MeshBasicMaterial).map;
+        if (map && map !== entry.cover) map.dispose();
+        material.dispose();
+      });
     });
     entry.cover.dispose();
     entry.root.removeFromParent();
   }
 
   private rebuildEndStop(count: number) {
-    if (this.endStop) {
-      this.endStop.traverse((object) => {
+    for (const stop of this.endStops) {
+      stop.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();
           (object.material as THREE.Material).dispose();
         }
       });
-      this.endStop.removeFromParent();
+      stop.removeFromParent();
     }
-    this.endStop = undefined;
-    if (!count || count >= MAX_BOOKS) return;
-    const stop = new THREE.Group();
-    stop.name = "shelf-bookend";
-    stop.position.set(roomShelfLayout(count).endStopX!, 2.99, -2.72);
-    const material = new THREE.MeshStandardMaterial({
-      color: 0xb58a4e,
-      metalness: 0.32,
-      roughness: 0.45,
+    this.endStops = roomShelfLayout(count).endStops.map((position) => {
+      const stop = new THREE.Group();
+      stop.name = "shelf-bookend";
+      stop.position.set(position.x, position.y, position.z);
+      const material = new THREE.MeshStandardMaterial({
+        color: 0xb58a4e,
+        metalness: 0.32,
+        roughness: 0.45,
+      });
+      const base = new THREE.Mesh(
+        new THREE.BoxGeometry(0.28, 0.035, 0.94),
+        material,
+      );
+      base.position.set(-0.11, 0.0175, 0);
+      const upright = new THREE.Mesh(
+        new THREE.BoxGeometry(0.06, 1.02, 0.94),
+        material,
+      );
+      upright.position.set(0, 0.51, 0);
+      stop.add(base, upright);
+      this.root.add(stop);
+      return stop;
     });
-    const base = new THREE.Mesh(
-      new THREE.BoxGeometry(0.42, 0.08, 0.48),
-      material,
-    );
-    base.position.y = 0.04;
-    const upright = new THREE.Mesh(
-      new THREE.BoxGeometry(0.08, 0.72, 0.48),
-      material,
-    );
-    upright.position.set(0.17, 0.36, 0);
-    stop.add(base, upright);
-    this.root.add(stop);
-    this.endStop = stop;
   }
 
   async setBooks(books: readonly RoomShelfBook[]) {
@@ -317,9 +385,8 @@ export class RoomShelf {
   }
 
   private resetToSlot(entry: ShelfEntry) {
-    const index = this.order.indexOf(entry.definition.key);
     entry.root.position.copy(entry.slot);
-    entry.root.rotation.set(0, (index % 2 ? 1 : -1) * 0.34, 0);
+    entry.root.rotation.set(0, SHELF_BOOK_YAW, 0);
     entry.root.scale.set(1, 1, 1);
   }
 
@@ -371,7 +438,7 @@ export class RoomShelf {
     // The first beat translates clear of the shelf; the second squares the cover to camera.
     await this.move(
       entry,
-      new THREE.Vector3(entry.slot.x, 3.65, -1.35),
+      new THREE.Vector3(entry.slot.x, entry.slot.y, -1.35),
       entry.root.rotation.clone(),
       new THREE.Vector3(1.12, 1.12, 1.12),
       reduced,
@@ -393,8 +460,16 @@ export class RoomShelf {
     if (!entry) return;
     await this.move(
       entry,
+      new THREE.Vector3(entry.slot.x, entry.slot.y, -1.35),
+      new THREE.Euler(0, SHELF_BOOK_YAW, 0),
+      new THREE.Vector3(1, 1, 1),
+      reduced,
+      300,
+    );
+    await this.move(
+      entry,
       entry.slot.clone(),
-      new THREE.Euler(0, (this.order.indexOf(key!) % 2 ? 1 : -1) * 0.34, 0),
+      new THREE.Euler(0, SHELF_BOOK_YAW, 0),
       new THREE.Vector3(1, 1, 1),
       reduced,
       400,
@@ -455,7 +530,7 @@ export class RoomShelf {
       previewKey: this.previewKey ?? null,
       tableKey: this.tableKey ?? null,
       moving: Boolean(this.motion),
-      endStop: this.endStop?.position.toArray() ?? null,
+      endStops: this.endStops.map((stop) => stop.position.toArray()),
       books: this.order.map((key, index) => {
         const entry = this.entries.get(key)!;
         return {

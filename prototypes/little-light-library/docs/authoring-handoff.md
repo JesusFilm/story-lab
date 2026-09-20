@@ -1,6 +1,20 @@
+# Shelf layout correction
+
+Both inner shelves hold spine-facing books, 15 per shelf. Each occupied shelf below
+13 books has a book stop. Book-specific toys stand on the cabinet top. All table
+placement paths reset the full position, rotation and scale; this fixes the residual
+shelf yaw that tilted subsequent books through the table after switching stories.
+Library view closes the table book with its cover up; Continue reading reopens the
+saved page without resetting the paused narration position. The bottom cover clears
+the tabletop by 5 mm in scene units.
+
+Verification: five focused browser checks pass with zero page errors, including repeated
+Eden/Noah swaps, closed-cover resume, 30 populated slots, adjacent-spine clicks, and
+top-toy framing on desktop and 390px screens. Full typecheck and 128 unit tests pass.
+
 # Current extension: physical room shelf and book toys
 
-See [Books and toys in the room](room-shelf.md). My books now manages a persisted six-book
+See [Books and toys in the room](room-shelf.md). My books now manages a persisted 30-book
 room lineup through Add to room / Remove from room. Physical book selection uses a
 slide-and-turn preview with Read / Return; switching table books returns the old one
 before landing the next. The old footer UI and its handlers are removed. Generic toys

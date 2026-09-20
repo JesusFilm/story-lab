@@ -155,6 +155,87 @@ const readSelected = async (key) => {
     );
   }, key);
 };
+const assertTablePose = (state) => {
+  const close = (actual, expected, label) =>
+    assert.ok(
+      Math.abs(actual - expected) < 1e-6,
+      `${label}: expected ${expected}, received ${actual}`,
+    );
+  const pose = state.scene.bookTransform;
+  [0, 1.495, 1.1].forEach((value, index) =>
+    close(pose.position[index], value, `table position ${index}`),
+  );
+  [-Math.PI / 2, 0, 0].forEach((value, index) =>
+    close(pose.rotation[index], value, `table rotation ${index}`),
+  );
+  [1, 1, 1].forEach((value, index) =>
+    close(pose.scale[index], value, `table scale ${index}`),
+  );
+  close(state.scene.hinge, 0, "open table-book hinge");
+};
+const waitForOpenTablePose = () =>
+  page.waitForFunction(
+    () => {
+      const scene = window.libraryDebug?.().scene;
+      return (
+        scene?.mode === "spread" &&
+        Math.abs(scene.hinge) < 1e-6 &&
+        Math.abs(scene.bookTransform.rotation[0] + Math.PI / 2) < 1e-6 &&
+        Math.abs(scene.bookTransform.rotation[1]) < 1e-6 &&
+        Math.abs(scene.bookTransform.rotation[2]) < 1e-6
+      );
+    },
+    undefined,
+    { timeout: 15_000 },
+  );
+const waitForClosedBrowsingTable = () =>
+  page.waitForFunction(
+    () => {
+      const state = window.libraryDebug?.();
+      return (
+        state?.shelf.browsing === true &&
+        state.shelf.busy === false &&
+        state.scene.shelfBrowsingTable === true &&
+        state.scene.shelfCoverMoving === false &&
+        Math.abs(state.scene.hinge - Math.PI) < 1e-6 &&
+        state.scene.stageVisible === false &&
+        state.scene.camera.every(
+          (value, index) =>
+            Math.abs(value - state.scene.cameraGoal[index]) < 0.02,
+        ) &&
+        state.scene.look.every(
+          (value, index) =>
+            Math.abs(value - state.scene.lookGoal[index]) < 0.02,
+        )
+      );
+    },
+    undefined,
+    { timeout: 15_000 },
+  );
+const assertToyTargetsInView = async () => {
+  const framing = await page.evaluate(() => {
+    const headerBottom = document
+      .querySelector("#header")
+      .getBoundingClientRect().bottom;
+    return [...document.querySelectorAll("[data-toy-id]:not([hidden])")].map(
+      (target) => {
+        const bounds = target.getBoundingClientRect();
+        return {
+          id: target.dataset.toyId,
+          top: bounds.top,
+          bottom: bounds.bottom,
+          headerBottom,
+          viewportHeight: window.innerHeight,
+        };
+      },
+    );
+  });
+  assert.ok(framing.length > 0, "expected visible shelf toy targets");
+  framing.forEach(({ id, top, bottom, headerBottom, viewportHeight }) => {
+    assert.ok(top >= headerBottom, `${id} is obscured by the header`);
+    assert.ok(bottom <= viewportHeight, `${id} extends below the viewport`);
+  });
+};
 
 await check(
   "Physical shelf selection, reading, returning and toy lifecycle",
@@ -211,6 +292,7 @@ await check(
         window.libraryDebug?.().shelf.browsing === true &&
         window.libraryDebug?.().shelf.busy === false,
     );
+    await waitForClosedBrowsingTable();
     state = await debug();
     assert.equal(state.state.book, "eden");
     assert.equal(state.state.page, 1);
@@ -219,6 +301,25 @@ await check(
     assert.equal(state.scene.stageVisible, false);
     assert.equal(state.scene.shelfBrowsingTable, true);
     await page.screenshot({ path: path.join(output, "room-browsing.png") });
+
+    const pausedPosition = state.position;
+    assert.equal(state.playing, false);
+    await page.waitForTimeout(150);
+    assert.ok(Math.abs((await debug()).position - pausedPosition) < 0.01);
+    await page.locator("#shelf").click();
+    await waitShelf(
+      () =>
+        window.libraryDebug?.().shelf.browsing === false &&
+        window.libraryDebug?.().shelf.busy === false,
+    );
+    await waitForOpenTablePose();
+    state = await debug();
+    assert.equal(state.state.page, 1);
+    assert.equal(state.playing, false);
+    assert.ok(Math.abs(state.position - pausedPosition) < 0.01);
+    await page.locator("#shelf").click();
+    await waitForClosedBrowsingTable();
+    state = await debug();
 
     const englishToyLabels = state.shelf.toys.map(({ label }) => label);
     await page.locator("#language").click();
@@ -261,6 +362,7 @@ await check(
         window.libraryDebug?.().shelf.inspected === null &&
         window.libraryDebug?.().shelf.busy === false,
     );
+    await waitForClosedBrowsingTable();
     state = await debug();
     assert.equal(state.shelf.table, "builtin:eden");
     assert.equal(state.state.book, "eden");
@@ -272,7 +374,9 @@ await check(
 
     await selectBook("builtin:noah");
     await readSelected("builtin:noah");
+    await waitForOpenTablePose();
     state = await debug();
+    assertTablePose(state);
     assert.equal(state.state.book, "noah");
     assert.equal(state.state.page, 0);
     assert.deepEqual(
@@ -287,6 +391,26 @@ await check(
       state.scene.shelf.books.find(({ key }) => key === "builtin:noah").state,
       "table",
     );
+    await page.screenshot({
+      path: path.join(output, "second-book-desktop.png"),
+    });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.screenshot({ path: path.join(output, "second-book-phone.png") });
+    await page.setViewportSize({ width: 1366, height: 768 });
+
+    await page.locator("#shelf").click();
+    await waitShelf(
+      () =>
+        window.libraryDebug?.().shelf.browsing === true &&
+        window.libraryDebug?.().shelf.busy === false,
+    );
+    await selectBook("builtin:eden");
+    await readSelected("builtin:eden");
+    await waitForOpenTablePose();
+    state = await debug();
+    assertTablePose(state);
+    assert.equal(state.state.book, "eden");
+    assert.equal(state.scene.shelf.tableKey, "builtin:eden");
     return {
       table: state.shelf.table,
       page: state.state.page,
@@ -443,6 +567,140 @@ await check(
       authoredToy: state.shelf.toys[0],
       persisted: true,
     };
+  },
+);
+
+await check(
+  "Thirty spine-out books and top toys fit at desktop and phone sizes",
+  async () => {
+    await page.evaluate(async () => {
+      const book = await fetch("./books/quiet-garden.book.json").then(
+        (response) => response.json(),
+      );
+      const database = await new Promise((resolve, reject) => {
+        const request = indexedDB.open("little-light-author-books", 1);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      await new Promise((resolve, reject) => {
+        const transaction = database.transaction(
+          ["books", "settings"],
+          "readwrite",
+        );
+        const books = transaction.objectStore("books");
+        const keys = ["builtin:eden", "builtin:noah"];
+        for (let index = 0; index < 28; index++) {
+          const key = `dense-${String(index + 1).padStart(2, "0")}`;
+          keys.push(key);
+          books.put({
+            key,
+            updatedAt: Date.now() + index,
+            book: {
+              ...structuredClone(book),
+              id: `dense-book-${index + 1}`,
+              title: `Garden volume ${index + 1}`,
+            },
+          });
+        }
+        transaction.objectStore("settings").put(keys, "room-shelf-v1");
+        transaction.oncomplete = resolve;
+        transaction.onerror = transaction.onabort = () =>
+          reject(transaction.error);
+      });
+      database.close();
+    });
+
+    await enter();
+    await waitShelf(
+      () =>
+        window.libraryDebug?.().shelf.books.length === 30 &&
+        window.libraryDebug?.().scene.shelf.books.length === 30,
+    );
+    let state = await debug();
+    assert.equal(state.scene.shelf.max, 30);
+    assert.equal(state.scene.shelf.endStops.length, 0);
+    assert.equal(await page.locator("[data-shelf-key]:visible").count(), 30);
+    state.scene.shelf.books.forEach(({ rotation }, index) => {
+      assert.ok(Math.abs(rotation[0]) < 1e-6, `book ${index} rotation x`);
+      assert.ok(
+        Math.abs(rotation[1] - Math.PI / 2) < 1e-6,
+        `book ${index} spine yaw`,
+      );
+      assert.ok(Math.abs(rotation[2]) < 1e-6, `book ${index} rotation z`);
+    });
+    assert.deepEqual(
+      [...new Set(state.scene.shelf.books.map(({ position }) => position[1]))],
+      [3.7, 1.98],
+    );
+    for (const key of [
+      "builtin:eden",
+      "builtin:noah",
+      "dense-13",
+      "dense-14",
+      "dense-15",
+      "dense-28",
+    ]) {
+      await selectBook(key);
+      assert.equal((await debug()).shelf.inspected, key);
+      await page.locator("#shelf-return").click();
+      await waitShelf(
+        () =>
+          window.libraryDebug?.().shelf.inspected === null &&
+          window.libraryDebug?.().shelf.busy === false,
+      );
+    }
+    await page.screenshot({ path: path.join(output, "dense-30-desktop.png") });
+
+    await selectBook("builtin:eden");
+    await readSelected("builtin:eden");
+    await page.locator("#shelf").click();
+    await waitShelf(
+      () =>
+        window.libraryDebug?.().shelf.browsing === true &&
+        window.libraryDebug?.().shelf.busy === false,
+    );
+    await waitForClosedBrowsingTable();
+    state = await debug();
+    assert.deepEqual(
+      state.scene.shelfToys.map(({ id }) => id),
+      ["adam", "eve", "garden-tree"],
+    );
+    assert.ok(
+      state.scene.shelfToys.every(({ position }) => position[1] === 4.78),
+    );
+    await assertToyTargetsInView();
+    await page.screenshot({
+      path: path.join(output, "dense-toys-desktop.png"),
+    });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await enter();
+    await waitShelf(
+      () =>
+        window.libraryDebug?.().shelf.books.length === 30 &&
+        window.libraryDebug?.().scene.shelf.books.length === 30,
+    );
+    assert.equal(await page.locator("[data-shelf-key]:visible").count(), 30);
+    assert.equal(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth + 2,
+      ),
+      true,
+    );
+    await page.screenshot({ path: path.join(output, "dense-30-phone.png") });
+    await selectBook("builtin:eden");
+    await readSelected("builtin:eden");
+    await page.locator("#shelf").click();
+    await waitShelf(
+      () =>
+        window.libraryDebug?.().shelf.browsing === true &&
+        window.libraryDebug?.().shelf.busy === false,
+    );
+    await waitForClosedBrowsingTable();
+    await assertToyTargetsInView();
+    await page.screenshot({ path: path.join(output, "dense-toys-phone.png") });
+    await page.setViewportSize({ width: 1366, height: 768 });
+    return { books: 30, rows: 2, toys: 3, desktopAndPhone: true };
   },
 );
 
