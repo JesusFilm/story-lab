@@ -1,3 +1,14 @@
+import { validateBook } from "./book-validation";
+import { ShelfToyAudio } from "./shelf-toy-audio";
+import { shelfToys, type ShelfToy } from "./room-toys";
+import { RoomLibrary } from "./room-library";
+import { BookNarration } from "./book-reader-audio";
+import {
+  productionLanguages,
+  resolveBook,
+  translationIssues,
+} from "./book-localization";
+import { narrationIssues, type AuthoredBook } from "./authored-book";
 import "./style.css";
 import {
   localeIds,
@@ -5,6 +16,7 @@ import {
   type LocaleData,
   type AudioManifest,
   type StoryId,
+  type Story,
 } from "./contracts";
 import { readPreferences, savePreferences } from "./preferences";
 import { ReaderState } from "./state";
@@ -48,14 +60,213 @@ state.language = prefs.language;
 let locale: LocaleData,
   manifest: AudioManifest = {},
   scene: LibraryScene,
-  narration: Narration,
+  narration: Narration | BookNarration,
   entered = false,
   ready = false,
   operation = 0;
 let soundscape: Soundscape | undefined;
-let entering = false,
-  figureRequest = 0;
+let entering = false;
+let toyAudio: ShelfToyAudio | undefined;
+let currentToys: ShelfToy[] = [];
 let lastHighlight = "";
+let activeBook: AuthoredBook | undefined;
+let bookLocale = "";
+let standardNarration: Narration;
+let bookNarration: BookNarration;
+let viewBook: AuthoredBook | undefined;
+let viewSource: AuthoredBook | undefined;
+function localizedBook() {
+  if (viewSource !== activeBook || viewBook?.locale !== bookLocale) {
+    viewSource = activeBook;
+    viewBook = resolveBook(activeBook!, bookLocale || activeBook!.locale);
+  }
+  return viewBook!;
+}
+const roomLibrary = new RoomLibrary();
+type RoomBook = Awaited<ReturnType<RoomLibrary["resolve"]>>[number];
+let roomBooks: RoomBook[] = [];
+let browsingShelf = true;
+let shelfBusy = false;
+let inspectedBook: RoomBook | undefined;
+let tableKey: string | undefined;
+let shelfStatus = "";
+let pendingPage: Promise<void> | undefined;
+let readerNeedsReload = false;
+
+async function shelfAction(action: () => Promise<void>) {
+  if (shelfBusy) return;
+  shelfBusy = true;
+  header();
+  document
+    .querySelectorAll<HTMLButtonElement>(".shelf-preview button")
+    .forEach((b) => (b.disabled = true));
+  try {
+    await action();
+  } catch (error) {
+    notice(`The book could not be moved: ${String(error)}. Please try again.`);
+  } finally {
+    shelfBusy = false;
+    shelfStatus = "";
+    header();
+    if (browsingShelf) renderShelf();
+  }
+}
+async function refreshRoomBooks() {
+  const books = await roomLibrary.resolve(locale);
+  if (tableKey && !books.some((book) => book.key === tableKey)) {
+    toyAudio?.stop();
+    currentToys = [];
+    await scene.setShelfToys([]);
+    await scene.close();
+    tableKey = undefined;
+    state.close();
+  }
+  roomBooks = books;
+  await scene.setShelfBooks(books);
+}
+function renderShelf() {
+  $("#panel").replaceChildren();
+  if (inspectedBook) {
+    const entry = inspectedBook;
+    $("#panel").innerHTML =
+      `<section class="shelf-preview" aria-label="Selected book"><p class="eyebrow">${entry.book ? escaped(entry.book.locale) : escaped(locale.name)}</p><h1>${escaped(entry.title)}</h1><div><button id="shelf-read" class="primary" ${shelfBusy ? "disabled" : ""}>Read</button><button id="shelf-return" ${shelfBusy ? "disabled" : ""}>Return</button></div><p role="status">${escaped(shelfStatus)}</p></section>`;
+    $("#shelf-read").onclick = () => void readShelfBook();
+    $("#shelf-return").onclick = () => void returnShelfBook();
+  } else if (shelfStatus) {
+    const status = document.createElement("p");
+    status.className = "shelf-status";
+    status.role = "status";
+    status.textContent = shelfStatus;
+    $("#panel").append(status);
+  }
+}
+async function inspectShelfBook(key: string) {
+  if (shelfBusy || !entered) return;
+  if (key === tableKey) {
+    await resumeReading();
+    return;
+  }
+  const entry = roomBooks.find((book) => book.key === key);
+  if (!entry || inspectedBook?.key === key) return;
+  await shelfAction(async () => {
+    narration?.pause();
+    state.hide();
+    soundscape?.pause(true);
+    await scene.returnShelfPreview();
+    inspectedBook = entry;
+    shelfStatus = "Taking the book from the shelf…";
+    renderShelf();
+    await scene.inspectShelfBook(key);
+  });
+  $("#shelf-read")?.focus();
+}
+async function returnShelfBook() {
+  const key = inspectedBook?.key;
+  await shelfAction(async () => {
+    shelfStatus = "Returning the book to its place…";
+    renderShelf();
+    await scene.returnShelfPreview();
+    inspectedBook = undefined;
+  });
+  if (key)
+    document
+      .querySelector<HTMLButtonElement>(`[data-shelf-key="${CSS.escape(key)}"]`)
+      ?.focus();
+}
+document.addEventListener("keydown", (event) => {
+  if (
+    event.key === "Escape" &&
+    inspectedBook &&
+    !shelfBusy &&
+    !document.querySelector("dialog[open]")
+  ) {
+    event.preventDefault();
+    void returnShelfBook();
+  }
+});
+async function readShelfBook() {
+  const entry = inspectedBook;
+  if (!entry) return;
+  await shelfAction(async () => {
+    if (entry.book) {
+      const validation = validateBook(entry.book);
+      if (!validation.book)
+        throw Error(
+          validation.errors
+            .map(({ path, message }) => `${path}: ${message}`)
+            .join("; "),
+        );
+    }
+    ++operation;
+    narration.stop();
+    state.hide();
+    shelfStatus = state.book
+      ? "Returning the open book to the shelf…"
+      : "Moving your book to the table…";
+    renderShelf();
+    toyAudio?.stop();
+    currentToys = [];
+    await scene.setShelfToys([]);
+    await scene.close();
+    tableKey = undefined;
+    state.close();
+    shelfStatus = "Moving your book to the table…";
+    renderShelf();
+    await scene.landShelfBook(entry.key);
+    activeBook = entry.book ? structuredClone(entry.book) : undefined;
+    bookLocale =
+      activeBook &&
+      productionLanguages(activeBook).includes(locale.id) &&
+      !translationIssues(activeBook, locale.id).length
+        ? locale.id
+        : activeBook?.locale || "";
+    tableKey = entry.key;
+    inspectedBook = undefined;
+    browsingShelf = false;
+    const id = activeBook?.id || entry.storyId!;
+    state.open(
+      id,
+      activeBook?.spreads.length ||
+        locale.stories.find((story) => story.id === id)!.pages.length,
+    );
+    soundscape?.cue("open");
+    await showPage(true);
+    currentToys = shelfToys(activeBook, id, locale, manifest);
+    await scene.setShelfToys(currentToys);
+  });
+}
+async function resumeReading() {
+  if (!state.book) return;
+  await shelfAction(async () => {
+    await scene.returnShelfPreview();
+    inspectedBook = undefined;
+    browsingShelf = false;
+    scene.resumeTable();
+    document.body.classList.add("reading");
+    await showPage(false, !readerNeedsReload);
+    soundscape?.pause(document.hidden);
+  });
+}
+
+function currentStory(): Story {
+  if (activeBook && state.book === activeBook.id) {
+    const book = localizedBook();
+    return {
+      id: activeBook.id,
+      title: book.title,
+      subtitle: book.subtitle,
+      pages: book.spreads.map((spread) => ({
+        id: spread.id,
+        title: spread.title,
+        passage: spread.source,
+        segments: spread.segments,
+        image: book.assets[spread.backdrop.asset].src,
+        authored: { book, spread },
+      })),
+    };
+  }
+  return locale.stories.find((s) => s.id === state.book)!;
+}
 const onsetSamples: {
   locale: string;
   book: string;
@@ -76,7 +287,8 @@ const t = (key: string) => locale?.ui[key] || window.lightBootUi?.[key] || key;
 const button = (id: string, label: string, cls = "") =>
   `<button id="${id}" class="${cls}">${label}</button>`;
 const persist = () => savePreferences(localStorage, prefs);
-function notice(message = "") {
+function notice(message = "", language: string = locale?.id) {
+  $("#notice").lang = language;
   $("#notice").textContent = message;
 }
 async function fetchLocale(id: LocaleId) {
@@ -86,12 +298,16 @@ async function fetchLocale(id: LocaleId) {
 }
 function header() {
   $("#header").innerHTML =
-    `<a class="brand" href="https://jesusfilm.github.io/story-lab/" aria-label="${escaped(t("back"))}"><span class="brand-star">✦</span><span>${escaped(t("appTitle"))}</span></a><nav>${state.book ? button("shelf", "↩ " + escaped(t("library"))) : ""}${button("language", "🌐", "icon")}${button("settings", "⚙", "icon")}</nav>`;
+    `<a class="brand" href="https://jesusfilm.github.io/story-lab/" aria-label="${escaped(t("back"))}"><span class="brand-star">✦</span><span>${escaped(t("appTitle"))}</span></a><nav>${state.book ? button("shelf", browsingShelf ? "↪ Continue reading" : "↩ " + escaped(t("library"))) : ""}${button("language", "🌐", "icon")}${button("settings", "⚙", "icon")}</nav>`;
   $("#language").setAttribute("aria-label", t("language"));
   $("#settings").setAttribute("aria-label", t("settings"));
   $("#language").onclick = () => languageDialog(false);
   $("#settings").onclick = settingsDialog;
-  if (state.book) $("#shelf").onclick = () => void room();
+  if (state.book)
+    $("#shelf").onclick = () => void (browsingShelf ? resumeReading() : room());
+  $("#header")
+    .querySelectorAll<HTMLButtonElement>("button")
+    .forEach((b) => (b.disabled = shelfBusy));
 }
 function localizeLoader() {
   document.documentElement.lang = locale.id;
@@ -112,30 +328,67 @@ function languageDialog(startup: boolean) {
     (b) =>
       (b.onclick = async () => {
         const id = b.dataset.locale as LocaleId;
-        const selection = ++operation;
-        narration?.stop();
-        state.hide();
-        ready = false;
-        notice();
-        try {
-          const fetched = await fetchLocale(id);
-          if (selection !== operation) return;
-          locale = fetched;
-          state.changeLanguage(id);
-          prefs.language = id;
-          persist();
-          localizeLoader();
-          header();
-          languageDialog(startup);
-          if (entered) {
-            if (state.book) await showPage(false);
-            else await room();
+        const applyLanguage = async () => {
+          await pendingPage;
+          const selection = ++operation;
+          narration?.stop();
+          toyAudio?.stop();
+          readerNeedsReload = Boolean(state.book);
+          state.hide();
+          ready = false;
+          notice();
+          try {
+            const fetched = await fetchLocale(id);
+            if (selection !== operation) return;
+            locale = fetched;
+            state.changeLanguage(id);
+            if (
+              activeBook &&
+              productionLanguages(activeBook).includes(id) &&
+              !translationIssues(activeBook, id).length
+            )
+              bookLocale = id;
+            prefs.language = id;
+            persist();
+            localizeLoader();
+            header();
+            languageDialog(startup);
+            if (entered) {
+              if (state.book && !browsingShelf) {
+                await showPage(false);
+                currentToys = shelfToys(
+                  activeBook,
+                  state.book,
+                  locale,
+                  manifest,
+                );
+                await scene.setShelfToys(currentToys);
+              } else {
+                await scene.returnShelfPreview();
+                inspectedBook = undefined;
+                await refreshRoomBooks();
+                if (state.book) {
+                  currentToys = shelfToys(
+                    activeBook,
+                    state.book,
+                    locale,
+                    manifest,
+                  );
+                  await scene.setShelfToys(currentToys);
+                }
+                scene.browseShelf();
+                if (!state.book) ready = true;
+                renderShelf();
+              }
+            }
+          } catch {
+            if (selection !== operation) return;
+            if (entered && state.book) await showPage(false);
+            notice(t("error"));
           }
-        } catch {
-          if (selection !== operation) return;
-          if (entered && state.book) await showPage(false);
-          notice(t("error"));
-        }
+        };
+        if (entered) await shelfAction(applyLanguage);
+        else await applyLanguage();
       }),
   );
   $("#enter").onclick = async () => {
@@ -143,9 +396,13 @@ function languageDialog(startup: boolean) {
       if (entering || entered) return;
       entering = true;
       try {
-        narration = new Narration();
+        standardNarration = new Narration();
+        narration = standardNarration;
+        bookNarration = new BookNarration(narration.context);
         await narration.unlock();
         soundscape = new Soundscape(narration.context);
+        toyAudio = new ShelfToyAudio(narration.context);
+        toyAudio.settings(prefs.volume, prefs.audio);
         soundscape.settings(prefs.volume, prefs.audio);
         narration.speed(prefs.speed);
         narration.volume(prefs.volume, prefs.audio);
@@ -176,12 +433,14 @@ function settingsDialog() {
     prefs.audio = (e.target as HTMLInputElement).checked;
     narration?.volume(prefs.volume, prefs.audio);
     soundscape?.settings(prefs.volume, prefs.audio);
+    toyAudio?.settings(prefs.volume, prefs.audio);
     persist();
   };
   $<HTMLInputElement>("#volume").oninput = (e) => {
     prefs.volume = Number((e.target as HTMLInputElement).value);
     narration?.volume(prefs.volume, prefs.audio);
     soundscape?.settings(prefs.volume, prefs.audio);
+    toyAudio?.settings(prefs.volume, prefs.audio);
     persist();
   };
   $("#settings-language").onclick = () => {
@@ -192,81 +451,27 @@ function settingsDialog() {
   d.showModal();
 }
 async function room() {
-  const token = ++operation;
-  if (state.book) {
-    narration?.stop();
-    await scene.close();
-    if (token !== operation) return;
-  }
-  soundscape?.scene("room");
-  soundscape?.cue("close");
-  state.close();
-  narration?.stop();
-  notice();
-  ready = false;
-  document.body.classList.remove("reading");
-  header();
-  $("#panel").innerHTML =
-    `<div class="shelf-heading"><span class="eyebrow">✦ ${escaped(t("library"))}</span><h1>${escaped(t("chooseBook"))}</h1></div><div class="room-view" role="group" aria-label="${escaped(t("lookAround"))}"><span>${escaped(t("lookAround"))}</span><button data-room-look="-1" aria-label="${escaped(t("lookLeft"))}" title="${escaped(t("lookLeft"))}">‹</button><button data-room-look="0" aria-label="${escaped(t("centerView"))}" title="${escaped(t("centerView"))}">↺</button><button data-room-look="1" aria-label="${escaped(t("lookRight"))}" title="${escaped(t("lookRight"))}">›</button></div><div class="book-choices">${locale.stories.map((s) => `<button data-book="${s.id}"><span>${escaped(s.title)}</span><small>${escaped(s.subtitle)}</small><b aria-hidden="true">↗</b></button>`).join("")}</div><div class="figurines" aria-label="${escaped(t("characters"))}">${(["adam", "eve", "noah"] as const).map((c) => `<button data-character="${c}">${escaped(locale.characters[c])} <span aria-hidden="true">♪</span></button>`).join("")}</div>`;
-  document
-    .querySelectorAll<HTMLButtonElement>("[data-book]")
-    .forEach(
-      (b) => (b.onclick = () => void openBook(b.dataset.book as StoryId)),
-    );
-  document
-    .querySelectorAll<HTMLButtonElement>("[data-character]")
-    .forEach(
-      (b) =>
-        (b.onclick = () =>
-          void character(b.dataset.character as "adam" | "eve" | "noah")),
-    );
-  document
-    .querySelectorAll<HTMLButtonElement>("[data-room-look]")
-    .forEach((button) => {
-      button.onclick = () =>
-        scene?.lookRoom(Number(button.dataset.roomLook) as -1 | 0 | 1);
-    });
-  const shelfSelection = (button: HTMLButtonElement): Selection =>
-    button.dataset.book
-      ? (button.dataset.book as StoryId)
-      : button.dataset.character === "noah"
-        ? "figure-noah"
-        : (button.dataset.character as "adam" | "eve");
-  document
-    .querySelectorAll<HTMLButtonElement>("[data-book], [data-character]")
-    .forEach((button) => {
-      const show = () => scene?.focusSelection(shelfSelection(button));
-      const clear = () => {
-        const focused = document.activeElement;
-        scene?.focusSelection(
-          focused instanceof HTMLButtonElement &&
-            focused.matches("[data-book], [data-character]")
-            ? shelfSelection(focused)
-            : null,
-        );
-      };
-      button.onfocus = show;
-      button.onpointerenter = show;
-      button.onblur = clear;
-      button.onpointerleave = clear;
-    });
-  try {
-    await scene.room(locale);
-    if (token !== operation) return;
-    ready = true;
+  await shelfAction(async () => {
+    await pendingPage;
+    ++operation;
+    narration?.pause();
+    state.hide();
+    browsingShelf = true;
+    soundscape?.ambience(true);
+    soundscape?.scene("room");
+    soundscape?.pause(false);
+    notice();
+    document.body.classList.remove("reading");
+    await refreshRoomBooks();
+    scene.browseShelf();
+    if (!state.book) ready = true;
     window.storyLoading.ready();
-  } catch {
-    failure();
-  }
+  });
 }
-async function openBook(id: StoryId) {
-  soundscape?.scene(id === "eden" ? "eden" : "hope");
-  soundscape?.cue("open");
-  state.open(id);
-  await showPage(true);
-}
-function failure() {
-  notice(t("error"));
+function failure(error?: unknown) {
+  notice(
+    error instanceof Error ? `${t("error")} ${error.message}` : t("error"),
+  );
   $("#notice").append(
     Object.assign(document.createElement("button"), {
       textContent: t("retry"),
@@ -275,35 +480,110 @@ function failure() {
   );
   window.storyLoading.fail(t("error"));
 }
-async function showPage(autoplay: boolean) {
+function showPage(autoplay: boolean, resume = false) {
+  if (!resume) readerNeedsReload = false;
+  const loading = renderPage(autoplay, resume).finally(() => {
+    if (pendingPage !== loading) return;
+    pendingPage = undefined;
+    const previous = document.querySelector<HTMLButtonElement>("#previous");
+    const next = document.querySelector<HTMLButtonElement>("#next");
+    if (previous) previous.disabled = state.page === 0;
+    if (next) next.disabled = false;
+  });
+  pendingPage = loading;
+  document
+    .querySelectorAll<HTMLButtonElement>("#previous, #next")
+    .forEach((button) => (button.disabled = true));
+  return loading;
+}
+async function renderPage(autoplay: boolean, resume = false) {
   const token = ++operation;
+  const previousReady = ready;
   ready = false;
   lastHighlight = "";
-  narration.stop();
+  if (!resume) narration.stop();
   notice();
   document.body.classList.add("reading");
   header();
-  const story = locale.stories.find((s) => s.id === state.book)!;
+  const story = currentStory();
   const page = story.pages[state.page];
+  narration = page.authored ? bookNarration : standardNarration;
+  narration.speed(prefs.speed);
+  narration.volume(prefs.volume, prefs.audio);
+  soundscape?.pause(document.hidden);
+  soundscape?.ambience(!page.authored);
   soundscape?.scene(
-    story.id === "eden" ? "eden" : state.page === 3 ? "storm" : "hope",
+    page.authored
+      ? "hope"
+      : story.id === "eden"
+        ? "eden"
+        : state.page === 3
+          ? "storm"
+          : "hope",
   );
   $("#panel").innerHTML =
-    `<article class="reader"><div class="reader-meta"><span>${escaped(story.title)}</span><span>${state.page + 1} / 8</span></div><h1>${escaped(page.title)}</h1><div class="story-text">${page.segments.map((s, i) => `<span data-segment="${i}">${escaped(s.text)}</span>`).join(" ")}</div><div class="reader-footer"><small>${escaped(t("source"))} · ${escaped(page.passage)}</small><span id="play-status" role="status">${escaped(t("loading"))}</span></div><div class="reader-controls">${button("previous", "←")}${button("play", "▶ " + escaped(t("play")), "primary")}${button("replay", "↻")}${button("next", "→")}</div></article>`;
+    `<article class="reader"><div class="reader-meta"><span>${escaped(story.title)}</span><span>${state.page + 1} / ${story.pages.length}</span></div><h1>${escaped(page.title)}</h1><div class="story-text">${page.segments.map((s, i) => `<span data-segment="${i}">${escaped(s.text)}</span>`).join(" ")}</div><div class="reader-footer"><small>${escaped(t("source"))} · ${escaped(page.passage)}</small><span id="play-status" role="status">${escaped(t("loading"))}</span></div><div class="reader-controls">${button("previous", "←")}${button("play", "▶ " + escaped(t("play")), "primary")}${button("replay", "↻")}${button("next", "→")}</div></article>`;
+  if (page.authored) {
+    const { book, spread } = page.authored;
+    $(".reader").setAttribute("lang", book.locale);
+    $(".reader-controls").setAttribute("lang", locale.id);
+    const note = document.createElement("p");
+    note.className = "book-note";
+    note.textContent = `Draft retelling · ${book.locale} · ${book.retellingNote}`;
+    $(".reader-meta").after(note);
+    if (activeBook && productionLanguages(activeBook).length > 1) {
+      const label = document.createElement("label");
+      label.className = "reader-book-language";
+      label.textContent = "Book language ";
+      const select = document.createElement("select");
+      select.setAttribute("aria-label", "Book language");
+      select.innerHTML = productionLanguages(activeBook)
+        .map(
+          (id) =>
+            `<option value="${escaped(id)}" ${id === bookLocale ? "selected" : ""} ${translationIssues(activeBook!, id).length ? "disabled" : ""}>${escaped(names[id as LocaleId] ?? id)}</option>`,
+        )
+        .join("");
+      select.onchange = () => {
+        bookLocale = select.value;
+        void showPage(false);
+      };
+      label.append(select);
+      note.after(label);
+    }
+    const interactions = document.createElement("div");
+    interactions.className = "authored-interactions";
+    interactions.setAttribute("aria-label", "Story interactions");
+    for (const element of spread.elements.filter((e) => e.interaction)) {
+      const b = document.createElement("button");
+      b.textContent = element.interaction!.label;
+      b.dataset.element = element.id;
+      b.onclick = () => {
+        const result = scene.activateAuthored(element.id);
+        if (result) {
+          notice(result.response, book.locale);
+          if (result.sound) soundscape?.cue(result.sound);
+        }
+      };
+      interactions.append(b);
+    }
+    $(".reader-controls").before(interactions);
+  }
   $("#previous").setAttribute("aria-label", t("previous"));
   $("#next").setAttribute(
     "aria-label",
-    t(state.page === 7 ? "library" : "next"),
+    t(state.page === story.pages.length - 1 ? "library" : "next"),
   );
   $("#replay").setAttribute("aria-label", t("replay"));
   $<HTMLButtonElement>("#previous").disabled = state.page === 0;
   $("#previous").onclick = () => {
+    if (shelfBusy || pendingPage) return;
     soundscape?.cue("page");
     state.turn(state.page - 1);
     void showPage(true);
   };
   $("#next").onclick = () => {
-    if (state.page === 7) void room();
+    if (shelfBusy || pendingPage) return;
+    if (state.page === story.pages.length - 1) void room();
     else {
       soundscape?.cue("page");
       state.turn(state.page + 1);
@@ -311,6 +591,7 @@ async function showPage(autoplay: boolean) {
     }
   };
   $("#play").onclick = async () => {
+    if (shelfBusy) return;
     if (!ready) {
       await showPage(true);
       return;
@@ -319,24 +600,46 @@ async function showPage(autoplay: boolean) {
       narration.pause();
       state.hide();
     } else {
-      await narration.play();
+      const active = narration;
+      await active.play();
+      if (token !== operation || narration !== active || !ready) return;
       state.play();
     }
     updatePlayback();
   };
   $("#replay").onclick = async () => {
+    if (shelfBusy) return;
     if (!ready) {
       await showPage(true);
       return;
     }
     lastHighlight = "";
-    await narration.replay();
+    const active = narration;
+    await active.replay();
+    if (token !== operation || narration !== active || !ready) return;
     state.play();
   };
+  if (resume) {
+    ready = previousReady;
+    if (
+      page.authored &&
+      narrationIssues({
+        ...page.authored.book,
+        spreads: [page.authored.spread],
+      }).length &&
+      !page.authored.book.soundtracks?.length
+    ) {
+      $<HTMLButtonElement>("#play").disabled = true;
+      $<HTMLButtonElement>("#replay").disabled = true;
+      $("#play-status").textContent = "Narration needs an update";
+    }
+    updatePlayback();
+    return;
+  }
   try {
     await scene.spread(story, page, locale);
     if (token !== operation) return;
-  } catch {
+  } catch (error) {
     if (token === operation) {
       notice(t("imageError"));
       $("#notice").append(
@@ -349,17 +652,38 @@ async function showPage(autoplay: boolean) {
   }
   if (token !== operation) return;
   try {
-    const cues = page.segments.map(
-      (s) => manifest[`${locale.id}/${story.id}/${page.id}/${s.id}`],
-    );
-    const loaded = await narration.load(cues);
+    const authored = page.authored;
+    if (
+      authored &&
+      narrationIssues({ ...authored.book, spreads: [authored.spread] }).length
+    ) {
+      notice(
+        "Narration is not available for this page. You can still read the story and try its interactions.",
+      );
+      $("#play-status").textContent = "Narration needs an update";
+      if (!authored.book.soundtracks?.length) {
+        $<HTMLButtonElement>("#play").disabled = true;
+        $<HTMLButtonElement>("#replay").disabled = true;
+        state.hide();
+        return;
+      }
+    }
+    const loaded = authored
+      ? await bookNarration.loadBook(authored.book, state.page)
+      : await standardNarration.load(
+          page.segments.map(
+            (s) => manifest[`${locale.id}/${story.id}/${page.id}/${s.id}`],
+          ),
+        );
     if (token !== operation || !loaded) return;
     ready = true;
     if (autoplay && !document.hidden) {
-      await narration.play();
+      const active = narration;
+      await active.play();
+      if (token !== operation || !ready || narration !== active) return;
       state.play();
     } else state.hide();
-  } catch {
+  } catch (error) {
     if (token === operation) {
       notice(t("audioError"));
       $("#notice").append(
@@ -374,27 +698,14 @@ async function showPage(autoplay: boolean) {
   }
   updatePlayback();
 }
-async function character(id: "adam" | "eve" | "noah") {
-  if (state.book || !entered) return;
-  const request = ++figureRequest;
-  const token = operation;
-  soundscape?.cue("figure");
-  scene.tilt(id);
-  narration.stop();
-  if (!prefs.audio) return;
+async function playToy(id: string) {
+  if (shelfBusy || !entered || document.hidden) return;
+  const toy = currentToys.find((item) => item.id === id);
+  if (!toy?.sound) return;
   try {
-    const loaded = await narration.load([manifest[`${locale.id}/names/${id}`]]);
-    if (
-      loaded &&
-      request === figureRequest &&
-      token === operation &&
-      !state.book &&
-      !document.hidden
-    )
-      await narration.play();
+    await toyAudio?.play(toy.sound);
   } catch {
-    if (request === figureRequest && token === operation)
-      notice(t("audioError"));
+    notice("This toy’s sound could not play. Please try again.");
   }
 }
 function updatePlayback() {
@@ -403,7 +714,11 @@ function updatePlayback() {
   const b = $("#play");
   const label = (playing ? "Ⅱ " : "▶ ") + t(playing ? "pause" : "play");
   if (b && b.textContent !== label) b.textContent = label;
-  if (playing && ready) {
+  if (
+    playing &&
+    ready &&
+    (!(narration instanceof BookNarration) || narration.narrationActive)
+  ) {
     const segment = narration.clock.segment;
     const key = `${operation}/${segment}`;
     if (key !== lastHighlight) {
@@ -441,7 +756,7 @@ function updatePlayback() {
 document.addEventListener("visibilitychange", () => {
   soundscape?.pause(document.hidden);
   if (document.hidden) {
-    figureRequest++;
+    toyAudio?.stop();
     narration?.pause();
     state.hide();
     updatePlayback();
@@ -449,6 +764,13 @@ document.addEventListener("visibilitychange", () => {
 });
 function frame() {
   scene?.playback(Boolean(narration?.clock.playing));
+  scene?.authoredPlayback(
+    narration?.clock.position || 0,
+    narration instanceof BookNarration
+      ? narration.narrationActive
+      : Boolean(narration?.clock.playing),
+    narration?.clock.durations,
+  );
   soundscape?.narration(Boolean(narration?.clock.playing));
   updatePlayback();
   requestAnimationFrame(frame);
@@ -462,6 +784,15 @@ window.libraryDebug = () => ({
   scene: scene?.debug(),
   state: { ...state },
   ready,
+  shelf: {
+    browsing: browsingShelf,
+    busy: shelfBusy,
+    inspected: inspectedBook?.key ?? null,
+    table: tableKey ?? null,
+    books: roomBooks.map((book) => ({ key: book.key, title: book.title })),
+    toys: currentToys.map(({ id, label }) => ({ id, label })),
+    toyAudioPlaying: toyAudio?.playing ?? false,
+  },
   position: narration?.clock.position,
   playing: narration?.clock.playing,
   segment: narration?.clock.segment,
@@ -484,17 +815,18 @@ async function boot() {
     scene = new LibraryScene(
       $("#scene"),
       (id) => {
-        if (!entered) return;
-        if (id === "eden" || id === "noah") void openBook(id);
-        else void character(id === "figure-noah" ? "noah" : id);
+        if (!entered || shelfBusy) return;
+        if (id.startsWith("shelf:")) void inspectShelfBook(id.slice(6));
+        else if (id.startsWith("toy:")) void playToy(id.slice(4));
       },
       () => soundscape?.cue("tap"),
     );
-    await scene.room(locale);
+    roomBooks = await roomLibrary.resolve(locale);
+    await scene.room(locale, roomBooks);
     window.storyLoading.ready();
     languageDialog(true);
-  } catch {
-    failure();
+  } catch (error) {
+    failure(error);
   }
 }
 void boot();

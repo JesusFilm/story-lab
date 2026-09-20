@@ -1,0 +1,231 @@
+{
+  "generatedAt": "2026-09-20T19:54:53.734Z",
+  "method": "Playwright against a production build at a nested static URL, using an isolated browser context, committed catalog, stale authoring-storage fixture, and intercepted dense catalog.",
+  "browser": "153.0.8010.48",
+  "host": {
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "urlPath": "/acceptance/little-light-library/",
+  "checks": [
+    {
+      "name": "Physical shelf selection, reading, returning and toy lifecycle",
+      "passed": true,
+      "durationMs": 25214,
+      "detail": {
+        "table": "builtin:eden",
+        "page": 0,
+        "toys": [
+          "adam",
+          "eve",
+          "garden-tree"
+        ]
+      }
+    },
+    {
+      "name": "Busy lock rejects rapid shelf taps",
+      "passed": true,
+      "durationMs": 1848,
+      "detail": {
+        "inspected": "builtin:eden",
+        "headerLocked": true
+      }
+    },
+    {
+      "name": "Reduced motion and narrow room controls remain usable",
+      "passed": true,
+      "durationMs": 585,
+      "detail": {
+        "width": 390,
+        "controlsVisible": true,
+        "horizontalOverflow": false
+      }
+    },
+    {
+      "name": "Committed catalog ignores and preserves stale browser authoring storage",
+      "passed": true,
+      "durationMs": 1042,
+      "detail": {
+        "keys": [
+          "builtin:eden",
+          "builtin:noah",
+          "book:jonah-and-the-whale"
+        ],
+        "staleDraftPreserved": true,
+        "runtimeStorageAccess": false
+      }
+    },
+    {
+      "name": "Committed Jonah and disposable narrated fixture retain navigation and interactions",
+      "passed": true,
+      "durationMs": 18621,
+      "detail": {
+        "committedBooks": 1,
+        "fixtureBooks": 1,
+        "spreads": 5,
+        "fixtureNarration": true,
+        "jonahMissingNarrationReadable": true
+      }
+    },
+    {
+      "name": "Reader settings persist mute and volume and remain keyboard accessible",
+      "passed": true,
+      "durationMs": 2852,
+      "detail": {
+        "persistedMute": true,
+        "persistedVolume": 0.35,
+        "keyboardDialog": true
+      }
+    },
+    {
+      "name": "Fixture book language control and soundtrack survive editor CSS removal",
+      "passed": true,
+      "durationMs": 4356,
+      "detail": {
+        "fixtureOnly": true,
+        "phoneLanguageControl": true,
+        "languageSwitch": true,
+        "decodedSoundtrackLoop": true
+      }
+    },
+    {
+      "name": "Thirty spine-out books and top toys fit at desktop and phone sizes",
+      "passed": true,
+      "durationMs": 25617,
+      "detail": {
+        "books": 30,
+        "rows": 2,
+        "toys": 3,
+        "desktopAndPhone": true,
+        "fixtureOnly": true,
+        "genericToyAudio": true
+      }
+    },
+    {
+      "name": "Nested static runtime loads local resources without generation services",
+      "passed": true,
+      "durationMs": 0,
+      "detail": {
+        "nestedPath": "/acceptance/little-light-library/",
+        "audioResources": 14,
+        "allRequestsWithinStaticBuild": true
+      }
+    }
+  ],
+  "pageErrors": [],
+  "unexpectedRequests": [],
+  "failedResponses": [],
+  "requestFailures": [],
+  "audioRequests": [
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s1-1e6c52c5e1efa3a274bc.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s2-347e3fbf75cbdd3624e9.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/eden/eden-02/s1-d1f6ff0104c9ca151190.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/eden/eden-02/s2-ad48d0b0d33d04922da0.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/noah/noah-01/s1-14671746b05cb849a2ad.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/noah/noah-01/s2-77998a7e92862a5d3c56.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/eden/eden-01/s2-39a2f06f1fcb8541306d.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/eden/eden-01/s1-77549a66ded934b16cb5.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
+    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav"
+  ],
+  "transitionCaptures": [
+    {
+      "file": "/Users/jacobusbrink/Jaxs/projects/story-lab/prototypes/little-light-library/.test-output/room/swap-rotate.png",
+      "phase": "rotate",
+      "observedBeforeCapture": {
+        "key": "builtin:noah",
+        "index": 1,
+        "state": "preview",
+        "visible": true,
+        "position": [
+          -1.4573676487676999,
+          3.5525264525745475,
+          -1.1744362530649377
+        ],
+        "rotation": [
+          0,
+          1.019246549187007,
+          0
+        ]
+      },
+      "tableTransform": {
+        "position": [
+          0,
+          1.495,
+          1.1
+        ],
+        "rotation": [
+          -1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "file": "/Users/jacobusbrink/Jaxs/projects/story-lab/prototypes/little-light-library/.test-output/room/swap-land.png",
+      "phase": "land",
+      "observedBeforeCapture": {
+        "key": "builtin:noah",
+        "index": 1,
+        "state": "preview",
+        "visible": true,
+        "position": [
+          0.30864161742727125,
+          2.9268427646745643,
+          -0.4641979782159109
+        ],
+        "rotation": [
+          -0.3107776403530727,
+          0,
+          0
+        ]
+      },
+      "tableTransform": {
+        "position": [
+          -2.62,
+          3.7,
+          -2.491629392971246
+        ],
+        "rotation": [
+          0,
+          1.5707963267948966,
+          0
+        ],
+        "scale": [
+          0.3258785942492013,
+          0.3944444444444444,
+          0.7999999999999999
+        ]
+      }
+    }
+  ],
+  "passed": true
+}

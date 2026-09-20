@@ -12,6 +12,7 @@ export class Soundscape {
   private hidden = false;
   private disposed = false;
   private speaking = false;
+  private ambienceEnabled = true;
   private next = 0;
   private bar = 0;
   private onState = () => this.wake();
@@ -51,7 +52,7 @@ export class Soundscape {
     if (this.disposed || this.speaking === active) return;
     this.speaking = active;
     this.bed.gain.setTargetAtTime(
-      active ? 0.032 : 0.1,
+      this.ambienceEnabled ? (active ? 0.032 : 0.1) : 0,
       this.context.currentTime,
       0.18,
     );
@@ -59,6 +60,15 @@ export class Soundscape {
       active ? 0.12 : 0.22,
       this.context.currentTime,
       0.08,
+    );
+  }
+  /** Authored books supply their own music while retaining the shared paper sounds. */
+  ambience(enabled: boolean) {
+    this.ambienceEnabled = enabled;
+    this.bed.gain.setTargetAtTime(
+      enabled ? (this.speaking ? 0.032 : 0.1) : 0,
+      this.context.currentTime,
+      0.06,
     );
   }
   scene(kind: "room" | "eden" | "storm" | "hope") {

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "eden",
+    "legacyStory": "eden"
+  },
+  {
+    "id": "noah",
+    "legacyStory": "noah"
+  },
+  {
+    "id": "jonah-and-the-whale",
+    "path": "jonah-and-the-whale.book.json"
+  }
+]

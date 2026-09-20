@@ -1,5 +1,6 @@
 node_modules/
 dist/
+dist-static/
 .test-output/
 
 # Generated iteration output is disposable, not source history.
@@ -19,3 +20,7 @@ docs/captures/*
 !docs/captures/aftermath-1366.png
 !docs/captures/eden-360.png
 !docs/captures/flood-768.png
+
+!review/latest/room-results.json
+
+!review/latest/retirement-results.md

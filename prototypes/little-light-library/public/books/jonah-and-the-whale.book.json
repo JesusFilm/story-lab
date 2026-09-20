@@ -1,0 +1,59 @@
+{
+  "format": "little-light-book",
+  "version": 1,
+  "id": "jonah-and-the-whale",
+  "title": "Jonah and the Whale",
+  "subtitle": "A story of listening, mercy and a great deep breath",
+  "locale": "en-US",
+  "status": "draft",
+  "source": "Jonah 1–4",
+  "retellingNote": "A gentle retelling of Jonah fleeing, being rescued by a great fish, and choosing mercy for Nineveh.",
+  "cover": "jonah-shore",
+  "assets": {
+    "jonah-shore": { "kind": "image", "src": "assets/art/jonah/jonah-shore.png", "attribution": "Creator-supplied image generated for Story Lab" },
+    "sandy-ground": { "kind": "image", "src": "assets/art/jonah/sandy-ground.png", "attribution": "Creator-supplied image generated for Story Lab" },
+    "jonah-cutout": { "kind": "image", "src": "assets/art/jonah/jonah-cutout.png", "attribution": "Creator-supplied image generated for Story Lab" },
+    "whale-cutout": { "kind": "image", "src": "assets/art/jonah/whale-cutout.png", "attribution": "Creator-supplied image generated for Story Lab" },
+    "underwater-backdrop": { "kind": "image", "src": "assets/art/jonah/underwater-backdrop.png", "attribution": "Creator-supplied image generated for Story Lab" }
+  },
+  "spreads": [
+    {
+      "id": "jonah-called",
+      "title": "Jonah hears a call",
+      "source": "Jonah 1:1–3",
+      "stagingNote": "Show Jonah at the shore with his boat behind him. The far whale hints at the rescue to come; all image choices and placement are invented stage directions.",
+      "segments": [{ "id": "segment-1", "text": "God called Jonah to go to Nineveh, but Jonah turned toward the sea." }],
+      "backdrop": { "asset": "jonah-shore" },
+      "ground": { "asset": "sandy-ground", "x": 0, "depth": 0, "width": 5.2, "height": 2.2, "opacity": 0.95 },
+      "elements": [
+        { "id": "jonah", "label": "Jonah", "kind": "actor", "asset": "jonah-cutout", "placement": { "x": -0.9, "depth": 0, "width": 1.1, "height": 2.3, "anchor": "bottom", "elevation": 0, "rotation": 0 }, "motion": { "preset": "rock", "trigger": "open", "duration": 1.4, "strength": 5, "repeat": 1 }, "interaction": { "label": "Listen to Jonah", "response": "Jonah pauses and listens for the quiet call.", "sound": "tap" } },
+        { "id": "whale", "label": "Great fish", "kind": "actor", "asset": "whale-cutout", "placement": { "x": 1, "depth": -0.2, "width": 1.5, "height": 1, "anchor": "bottom", "elevation": 0, "rotation": 0 }, "motion": { "preset": "rock", "trigger": "open", "duration": 1, "strength": 7, "repeat": 1 }, "interaction": { "label": "Meet the great fish", "response": "A gentle whale waits beyond the waves." } }
+      ]
+    },
+    {
+      "id": "jonah-rescued",
+      "title": "A great fish rescues Jonah",
+      "source": "Jonah 1:17–2:10",
+      "stagingNote": "Let the whale rise as the story turns from fear to rescue. Jonah is a small figure against the deep blue, with the sandy print anchoring the paper theatre.",
+      "segments": [{ "id": "segment-1", "text": "A great fish carried Jonah through the deep, and Jonah prayed from its quiet shelter." }],
+      "backdrop": { "asset": "underwater-backdrop" },
+      "ground": { "asset": "sandy-ground", "x": 0, "depth": 0, "width": 5.2, "height": 2.2, "opacity": 1 },
+      "elements": [
+        { "id": "whale-rescue", "label": "Great fish", "kind": "actor", "asset": "whale-cutout", "placement": { "x": 0.5, "depth": 0, "width": 2.1, "height": 1.4, "anchor": "bottom", "elevation": 0, "rotation": 0 }, "motion": { "preset": "rock", "trigger": "narration", "segment": "segment-1", "duration": 2, "strength": 8, "repeat": 1 } },
+        { "id": "jonah-inside", "label": "Jonah", "kind": "actor", "asset": "jonah-cutout", "placement": { "x": -1, "depth": 0, "width": 0.8, "height": 1.6, "anchor": "bottom", "elevation": 0, "rotation": 0 }, "interaction": { "label": "Pray with Jonah", "response": "Jonah remembers that mercy reaches farther than the sea." } }
+      ]
+    },
+    {
+      "id": "jonah-mercy",
+      "title": "Mercy reaches Nineveh",
+      "source": "Jonah 3:1–4:11",
+      "stagingNote": "End with Jonah facing a small city horizon. The whale returns as a quiet visual echo while the message turns toward compassion.",
+      "segments": [{ "id": "segment-1", "text": "Jonah went to Nineveh, and God showed mercy when the people turned toward what was good." }],
+      "backdrop": { "asset": "jonah-shore" },
+      "ground": { "asset": "sandy-ground", "x": 0, "depth": 0, "width": 5.2, "height": 2.2, "opacity": 1 },
+      "elements": [
+        { "id": "jonah-mercy", "label": "Jonah", "kind": "actor", "asset": "jonah-cutout", "placement": { "x": 0, "depth": 0, "width": 1, "height": 2, "anchor": "bottom", "elevation": 0, "rotation": 0 }, "motion": { "preset": "rock", "trigger": "open", "duration": 1, "strength": 3, "repeat": 1 }, "interaction": { "label": "Choose mercy", "response": "God's compassion is wider than Jonah expected." } }
+      ]
+    }
+  ]
+}

@@ -1,46 +1,65 @@
 {
-  "browser": "153.0.8010.48",
-  "url": "http://127.0.0.1:51479/review/little-light-library/",
+  "generatedAt": "2026-09-20T19:56:15.675Z",
+  "method": "Fresh isolated browser contexts against a production build at a nested static URL; failures injected only with Playwright routes.",
+  "urlPath": "/acceptance/little-light-library/",
   "checks": [
     {
-      "name": "Startup and keyboard navigation",
+      "name": "Cold missing catalog shows loader error and Retry restores committed shelf",
       "passed": true,
-      "detail": "Chooser, book, settings and visual language recovery worked by keyboard; language switch paused playback."
+      "detail": {
+        "pendingLoaderVisible": true,
+        "error": "Something went wrong. ./books/catalog.json: HTTP 503. Please retry.Try again",
+        "recoveredBooks": 3,
+        "loaderCleared": true
+      }
     },
     {
-      "name": "Muted reading timeline",
+      "name": "Invalid catalog path identifies the entry and recovers after correction",
       "passed": true,
-      "detail": "Clock advanced 406 ms with sound off and visible highlight."
+      "detail": {
+        "error": "Something went wrong. books/catalog.json[0]: expected a relative .book.json filename and non-reserved id.Try again",
+        "recoveredBooks": 3,
+        "loaderCleared": true
+      }
     },
     {
-      "name": "Missing audio and retry",
+      "name": "Invalid generic definition identifies its field and recovers after correction",
       "passed": true,
-      "detail": "Story remained readable after fetch failure; Retry restored the page paused, then Play resumed narration."
+      "detail": {
+        "error": "Something went wrong. fixture-book.book.json: /spreads/0/backdrop/asset: ASSET_REFERENCE: 'missing-artwork' is missing from /assets.Try again",
+        "recoveredBooks": 4,
+        "loaderCleared": true
+      }
     },
     {
-      "name": "Missing page image and retry",
+      "name": "Missing generic artwork keeps text readable and visible Retry restores playback",
       "passed": true,
-      "detail": "Image failure was announced and recovered through visible Retry."
+      "detail": {
+        "failedResource": "assets/art/theatre/shipyard.webp",
+        "error": "This picture could not load. Try again.Try again",
+        "textPreserved": true,
+        "retryFetchedMedia": true,
+        "restoredStage": true,
+        "resumedPlayback": true,
+        "loaderCleared": true
+      }
     },
     {
-      "name": "Missing shelf preview preserves library access",
+      "name": "Missing generic audio keeps text readable and visible Retry restores playback",
       "passed": true,
-      "detail": "A missing decorative shelf preview did not block access to either book."
-    },
-    {
-      "name": "Hidden tab requires explicit resume",
-      "passed": true,
-      "detail": "Backgrounding paused; foregrounding stayed paused; Play resumed."
-    },
-    {
-      "name": "Reduced motion and target sizes",
-      "passed": true,
-      "detail": "Reduced-motion preference active; text visible; key controls at least 44×44 CSS px."
-    },
-    {
-      "name": "Renderer startup failure and recovery",
-      "passed": true,
-      "detail": "Simulated unavailable WebGL announced startup failure and exposed retry controls."
+      "detail": {
+        "failedResource": "assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
+        "error": "Narration is unavailable, but you can still read the story.Try again",
+        "textPreserved": true,
+        "retryFetchedMedia": true,
+        "restoredStage": true,
+        "resumedPlayback": true,
+        "loaderCleared": true
+      }
     }
-  ]
+  ],
+  "pageErrors": [],
+  "unexpectedRequests": [],
+  "browser": "153.0.8010.48",
+  "passed": true
 }

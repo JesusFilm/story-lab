@@ -1,5 +1,5 @@
 """Shared presentation/export helpers for explicitly reviewed public content."""
-import html, struct
+import hashlib, html, struct
 
 def public_png(raw):
     """Retain pixel/color data; omit textual/provenance chunks from public PNGs."""
@@ -13,6 +13,27 @@ def public_png(raw):
         if kind in keep:result.extend(raw[offset:end])
         offset=end
     return bytes(result)
+
+def static_output_digest(root, exclude=(), *, sanitize_png=False):
+    """Fingerprint upload bytes; source PNGs undergo the same sanitization as copy()."""
+    digest = hashlib.sha256()
+    for path in sorted(p for p in root.rglob('*') if p.is_file()):
+        relative = path.relative_to(root).as_posix()
+        if relative in exclude:
+            continue
+        raw = path.read_bytes()
+        if sanitize_png and path.suffix == '.png':
+            raw = public_png(raw)
+        digest.update(relative.encode())
+        digest.update(b'\0')
+        digest.update(hashlib.sha256(raw).digest())
+    return digest.hexdigest()
+
+def static_source_exclusions(proto, build_root):
+    """Exclude only extra reviewed source copies, never colliding runtime assets."""
+    base = f"prototypes/{proto['slug']}/"
+    return [name.removeprefix(base) for name in proto['files']
+            if not (build_root / name.removeprefix(base)).is_file()]
 
 PROTOTYPE_FORMATS = {
     'shepherd-maze': ('Game', 'Navigation & memory'),

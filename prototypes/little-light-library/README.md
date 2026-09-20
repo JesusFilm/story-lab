@@ -1,39 +1,95 @@
 # Little Light Library
 
-A local Bible storybook prototype for shared reading, with a child's dimensional bedroom, two illustrated eight-spread books, nine locale options and pre-generated Kokoro phrase narration.
+A biblical picture-book reader in a child's dimensional bedroom. The committed
+shelf contains **Adam, Eve, and the Garden**, **Noah and the Great Flood**,
+and **Jonah and the Whale**. Eden and Noah retain eight spreads
+each, nine locales and recorded narration. Jonah is an existing three-spread, English-only draft
+with no narration recordings. Shelf inclusion does not certify editorial readiness.
 
-Agents: start with [AGENTS.md](AGENTS.md) for the phase summary and task-specific reading paths. The quality-iteration effort is parked. The next direction is [manual and agent-assisted book authoring](docs/book-authoring-direction.md); its contract and editor design remain to be explored.
+Creators work with a local coding agent on book files and media, preview in this
+reader, then include reviewed content through a repository commit. The visual
+editor is retired; git history is its archive. The hosted reader needs no author
+account, browser import, generation service or credentials.
+
+## Run and read
+
+From this directory:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:8771/. Choose a language on every startup; the saved language is preselected. Select a cover, use Previous/Next to turn pages, Play/Pause or Replay to control narration, and Library to close the book. Tap a character on the shelf to hear its localized name. Drag horizontally in the room or use the Look around controls to inspect a nearby viewpoint; the reset arrow centers it. Opening a book restores the reading view. On a book page, hover or tap a character for a name tag and individual paper gesture; Tab and Enter provide keyboard access. The globe always opens language recovery. Settings contain language, speed, narration mute and volume. Muting preserves follow-along timing; changing language or hiding the tab pauses playback.
+Open the URL Vite prints; do not assume a free port. Choose a language and enter
+the library. Select a spine to slide out its book and reveal its cover, then choose
+**Read** or **Return**. Previous/Next turns pages; Play/Pause and Replay control
+narration where recordings exist. **Library** closes the current book on the table;
+**Continue reading** restores its page and paused narration position. Selecting
+another book returns the previous one before placing the next.
+
+The globe opens language selection. Settings control speed, mute and volume.
+Muting preserves timing; hiding the tab pauses playback. Use Tab and Enter/Space
+for controls and interaction buttons. Reduced motion preserves the reading flow.
+Book toys appear on top of the cabinet for the current table book; books without
+toy definitions show none. See [room behavior](docs/room-shelf.md).
+
+## Create or revise a book
+
+- [Creator guide](docs/creator-guide.md): files, practical edit/preview loop and
+  commit checklist.
+- [Agent authoring](docs/agent-authoring.md): scoped implementation and reporting.
+- [Book contract](docs/book-contract.md): exact supported content vocabulary.
+- [Audio and languages](docs/audio-language-authoring.md): measured narration,
+  selective replacement, mix and review.
+- [Book skill](../../.agents/skills/little-light-books/SKILL.md): reusable local
+  agent workflow; [draft recovery](docs/draft-recovery.md) preserves old browser work.
+- [Architecture](docs/architecture.md): catalog, runtime boundaries, legacy adapter
+  and static packaging.
+- [Future Feature work](docs/feature-roadmap.md): existing inventory,
+  gaps and acceptance for the three showcase books; this is future work.
+
+The shelf source is [`public/books/catalog.json`](public/books/catalog.json).
+New books use `public/books/<id>.book.json`, assets under `public/assets/`, and
+one catalog registration. Eden and Noah retain their localized manifests and
+specialized paper rigs through a compatibility adapter. Do not rewrite them
+merely to make their storage look like newer books.
+
+Agents start with [AGENTS.md](AGENTS.md). The historical autonomous quality loop
+is parked. Existing content and working translations are preserved during cleanup;
+completing or polishing the showcase books requires a future feature assignment.
+
+## Validate and package
 
 ```sh
-npm run verify       # formatting, types, behavior tests, content/assets, build
-npm run test:browser # installed Chromium integration/Noah performance checks
-npm run verify:all   # all gates, isolated nested static servers; includes both reading performance profiles
+npm run book:validate -- public/books/jonah-and-the-whale.book.json
+npm run book:catalog
+npm run verify
+npm run test:room
+npm run test:recovery
+npm run test:failures
 ```
 
-`npm run build` writes a static `dist/` with relative URLs. Serve it from any nested static directory. The repeatable browser suite uses an installed Google Chrome; set `LIBRARY_URL` only for individual failure/timing scripts against a separate preview. Runtime needs no Kokoro server, Python, credentials or files elsewhere in Story Lab. Production audio tooling does use the existing local lab; see [audio production](docs/audio.md).
+Read warnings as well as the exit status: Jonah's missing narration is a known
+draft gap. Structural validation and measured duration checks cannot establish
+story quality, pronunciation or listening approval.
 
-The full two-book/nine-locale content scope is implemented. Past visual quality work is recorded in the [scored improvement log](review/README.md), as written observations and decisions; raw iteration media was deleted during cleanup. It is not an active assignment. The current room uses a perspective camera, a table-mounted hinged book, independently folding paper actors with story-specific poses, and original procedural ambience and interaction sounds. Reference-level quality has not yet been established. Independent agent editorial review and automated runtime checks have been performed. Voice audition and listening review for pronunciation, names and pacing remain incomplete; generated audio is not pronunciation approved. This is not a claim of human editorial or family testing. See [handoff and acceptance evidence](docs/HANDOFF.md), [milestones and remaining acceptance gates](docs/MILESTONES.md), [research](docs/research.md), [architecture](docs/adr/001-static-architecture.md), and [editorial notes](docs/editorial.md). Do not push or deploy as part of this task.
+`npm run verify:all` runs verification, the current room browser suite, draft recovery
+and missing-resource/retry checks;
+`test:browser` is an alias for that room suite. Older footer-targeting browser
+and acceptance scripts are historical and are not the current recommended gates.
 
-For matched page-turn review against the running local preview, run `node scripts/page-turn-review.mjs`. Set `REVIEW_OUT` to a new review directory to preserve previous attempts. The harness captures six forward/backward phases at phone and desktop sizes, checks turn direction and popup clearance, and retains silent recordings. The recording includes frozen review poses followed by actual-time turns; it is not an audio or perceived-smoothness assessment. See the [page geometry decision](docs/adr/004-flexible-page-turns.md).
+`npm run build` produces `dist/` with relative URLs. Test that production output
+under a nested static URL, with generation services stopped, and inspect the
+shelf-to-reading flow on desktop and phone. The [architecture guide](docs/architecture.md)
+describes the static-hosting and publication checks. The main implementation
+handoff, [authoring-handoff.md](docs/authoring-handoff.md), records checks actually
+executed and remaining limitations; commands in this README are instructions,
+not a claim that verification has passed.
 
-For printed-page continuity, run `node scripts/printed-page-review.mjs` and `node scripts/printed-page-race.mjs` against the preview. The first records both books in both directions; the second tests interrupted loads and target disposal with normal motion. `REVIEW_OUT` selects a fresh evidence directory. Set `TOUCH_REVIEW_OUT` when running acceptance to preserve older touch captures.
-
-The scene/full acceptance commands include separate 60-second Noah and Eden performance runs. To repeat only the painted-garden measurement after building, run `node scripts/garden-performance.mjs`; it serves the production build under a nested path with the same360×800/DPR1/4×CPU/10Mbps/100ms profile. `GARDEN_PERF_OUT` selects a fresh evidence directory.
-
-For Adam’s jointed-palm comparison, run `REVIEW_OUT=review/my-acting-pass node scripts/adam-acting-review.mjs` against the local preview. It records40 acting states,4folded controls and raw real-time material at phone/desktop sizes. The full gate also tests Adam’s normal/reduced touch and keyboard response. [Rig decision and limits](docs/adr/015-adam-hand-presentation.md).
-
-For reading-camera review, run `REVIEW_OUT=review/my-camera-pass node scripts/reading-focus-review.mjs` against the preview. It captures42 fixed actor/fold/focus states across Eden and Noah at phone/desktop sizes. The scene/full gate includes actual-touch and keyboard response, return, rapid retargeting, wide-family activation and reduced-motion checks; set `FOCUS_REVIEW_OUT` to preserve a fresh run. See the [camera response decision](docs/adr/016-reading-camera-response.md).
-
-For serpent and dove acting review, run `REVIEW_OUT=review/my-creature-pass node scripts/creature-review.mjs` and capture maximum wing poses with `REVIEW_OUT=review/my-creature-peaks node scripts/creature-peak-review.mjs`. The first records 36 acting/folded/reduced states and silent real-time material; the second adds four dove peak poses. Scene acceptance includes normal/reduced touch, keyboard activation, localized names and page/room cleanup. Set `CREATURE_REVIEW_OUT` to preserve interaction evidence. See the [creature acting decision](docs/adr/017-paper-creatures.md).
-
-Generated review output is ignored and disposable. Keep the six curated screenshots and
-`review/latest/` results only. After verification, run `npm run clean:generated` to remove
-other captures, test output and `dist/`; this preserves installed dependencies and runtime
-assets. Historical raw evidence was deleted, not archived. See [the cleanup record](docs/repository-cleanup.md).
+Retain only the six curated screenshots and the small `review/latest/` evidence
+bundle. After the verification owner has saved current results and finished with
+the build, `npm run clean:generated` removes disposable captures, `.test-output/`,
+`dist/` and `dist-static/`.
+See [retention rules](docs/repository-cleanup.md). Historical reviews and ADRs
+remain available through [the cycle index](review/README.md); old scores and
+removed captures are not current evidence.

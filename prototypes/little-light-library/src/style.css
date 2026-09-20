@@ -21,7 +21,8 @@ button,
 select {
   font: inherit;
 }
-button {
+button,
+.upload-button {
   cursor: pointer;
   min-height: 46px;
   min-width: 46px;
@@ -35,7 +36,8 @@ button {
     background 0.15s,
     transform 0.15s;
 }
-button:hover {
+button:hover,
+.upload-button:hover {
   background: #ece8d4;
   transform: translateY(-1px);
 }
@@ -46,16 +48,19 @@ button:disabled {
 button:focus-visible,
 a:focus-visible,
 select:focus-visible,
-input:focus-visible {
+input:focus-visible,
+.upload-button:has(input:focus-visible) {
   outline: 3px solid #b17a32;
   outline-offset: 4px;
 }
-button.primary {
+button.primary,
+.upload-button.primary {
   background: #31594c;
   color: #fff9e7;
   border-color: #31594c;
 }
-button.primary:hover {
+button.primary:hover,
+.upload-button.primary:hover {
   background: #244a3e;
 }
 button.icon {
@@ -122,11 +127,6 @@ nav {
 #panel button {
   pointer-events: auto;
 }
-.shelf-heading {
-  text-align: center;
-  text-shadow: 0 1px 10px #fff9ed;
-  margin-bottom: 18px;
-}
 .eyebrow {
   font-family: system-ui, sans-serif;
   text-transform: uppercase;
@@ -144,50 +144,6 @@ h1 {
 h2 {
   font-weight: normal;
   font-size: 28px;
-}
-.book-choices {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-}
-.book-choices button {
-  position: relative;
-  text-align: left;
-  width: 320px;
-  min-height: 90px;
-  background: #fff9e9eb;
-  padding: 18px 50px 18px 20px;
-  backdrop-filter: blur(8px);
-}
-.book-choices span {
-  display: block;
-  font-size: 21px;
-}
-.book-choices small {
-  display: block;
-  margin-top: 7px;
-  color: #6b7464;
-  font-size: 12px;
-}
-.book-choices b {
-  position: absolute;
-  right: 20px;
-  top: 32px;
-  font-size: 25px;
-  font-weight: normal;
-}
-.figurines {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 14px;
-}
-.figurines button {
-  font-size: 14px;
-  background: #f4efdfdd;
-}
-.figurines span {
-  color: #997940;
 }
 .reading #panel {
   align-items: flex-end;
@@ -416,32 +372,6 @@ input[type="checkbox"] {
     padding: 0 12px 16px;
     min-height: calc(100svh - 78px);
   }
-  .shelf-heading h1 {
-    font-size: 27px;
-  }
-  .book-choices {
-    gap: 8px;
-  }
-  .book-choices button {
-    width: 50%;
-    padding: 14px 12px;
-    min-height: 110px;
-  }
-  .book-choices span {
-    font-size: 19px;
-  }
-  .book-choices small {
-    font-size: 10px;
-  }
-  .book-choices b {
-    display: none;
-  }
-  .figurines {
-    gap: 8px;
-  }
-  .figurines button {
-    font-size: 13px;
-  }
   .reading #scene {
     height: 42svh;
   }
@@ -535,24 +465,6 @@ body {
   background: #f9efd9;
   padding: 12px 0 4px;
 }
-.shelf-heading {
-  margin-bottom: 10px;
-}
-.shelf-heading h1 {
-  color: #fff5d9;
-  text-shadow: 0 2px 16px #14211d;
-  font-size: 28px;
-}
-.shelf-heading .eyebrow {
-  color: #ead6a5;
-  text-shadow: 0 1px 4px #172b25;
-}
-.book-choices button {
-  min-height: 76px;
-  box-shadow:
-    0 7px 24px #182d2933,
-    inset 0 0 0 3px #fffaf055;
-}
 @media (max-aspect-ratio: 6/5), (max-width: 700px) {
   .reading #scene {
     width: 100%;
@@ -604,9 +516,6 @@ body {
   }
   .reader-meta {
     font-size: 10px;
-  }
-  .book-choices span {
-    font-size: 17px;
   }
 }
 
@@ -663,53 +572,100 @@ body {
 .reading #scene canvas {
   touch-action: auto;
 }
-.room-view {
+
+.authored-interactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+.book-note {
+  font-size: 12px;
+  margin: 6px 0;
+}
+.reader-book-language {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  margin: 0 auto 10px;
-  width: fit-content;
-  max-width: 100%;
-  padding: 3px 5px 3px 12px;
-  border-radius: 28px;
-  background: #fff7e7e6;
-  box-shadow: 0 3px 12px #14262230;
+  gap: 0.6rem;
+  margin: 0.5rem 0;
+  font-size: 0.85rem;
 }
-.room-view span {
-  font-size: 12px;
-  max-width: 120px;
-  margin-right: 6px;
-  color: #42564a;
-}
-.room-view button {
-  width: 46px;
-  height: 46px;
-  min-width: 46px;
-  padding: 0;
-  background: transparent;
-  box-shadow: none;
-  font-size: 25px;
-}
-.room-view button:hover,
-.room-view button:focus-visible {
-  background: #e4d8b9;
+.reader-book-language select {
+  padding: 0.3rem;
+  border: 1px solid #d4d8c9;
+  border-radius: 5px;
+  background: #fffdf5;
+  font: inherit;
 }
 
+/* The room itself is the book picker; controls appear only for a lifted book. */
+.shelf-preview {
+  align-self: center;
+  width: min(460px, 100%);
+  margin: 0 auto 12px;
+  padding: 18px 24px 12px;
+  border: 1px solid #d5c3a2;
+  border-radius: 18px;
+  background: #fffaf0f2;
+  box-shadow: 0 8px 32px #182d2933;
+  text-align: center;
+  pointer-events: auto;
+}
+.shelf-preview h1 {
+  font-size: 24px;
+  margin: 6px 0 14px;
+}
+.shelf-preview > div {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.shelf-preview button {
+  min-width: 112px;
+}
+.shelf-preview [role="status"] {
+  color: #5c655d;
+  font-size: 13px;
+  margin: 10px 0 0;
+}
+.shelf-status {
+  align-self: center;
+  padding: 12px 18px;
+  background: #fffaf0;
+  border-radius: 12px;
+}
+.shelf-book-target {
+  position: absolute;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: transparent;
+  padding: 0;
+  min-width: 0;
+  min-height: 0;
+  border-radius: 4px;
+}
+.shelf-book-target:hover {
+  background: #fff8dc18;
+  transform: none;
+}
+.shelf-book-target:focus-visible {
+  outline: 3px solid #e4bb70;
+  outline-offset: 4px;
+}
 @media (max-width: 480px) {
-  .room-view {
-    padding: 0 3px 0 9px;
-    gap: 0;
-    margin-bottom: 8px;
+  #shelf {
+    font-size: 12px;
+    padding: 8px;
   }
-  .room-view span {
-    font-size: 11px;
-    max-width: 95px;
+  #shelf::first-letter {
+    font-size: inherit;
   }
-  .room-view button {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    font-size: 23px;
+  .shelf-preview {
+    padding: 12px 16px;
+    margin-bottom: 0;
+  }
+  .shelf-preview h1 {
+    font-size: 21px;
   }
 }

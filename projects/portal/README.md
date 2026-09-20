@@ -31,6 +31,10 @@ before updating its hash. Include runtime dependencies and license files explici
 Run `npm run check:publication` to validate the manifest without rebuilding the
 portal; the repository pre-commit hook runs this same check against the staged
 commit.
+For a `static_output_digest`, hash the bytes that will actually be published:
+`publication_utils.static_output_digest(build_dir, sanitize_png=True)`. The copy
+step strips PNG text/provenance chunks without changing pixels; the upload verifier
+hashes those resulting bytes. Source-file review hashes still cover original files.
 `build.py` builds the sermon client and writes `dist/`; `verify.py` checks its links,
 model dependencies and sensitive-content patterns under both root and project paths.
 
