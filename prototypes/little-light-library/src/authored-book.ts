@@ -14,15 +14,21 @@ export interface BookPlacement {
   rotation?: number;
 }
 export interface BookMotion {
-  preset: "rock";
+  preset: "rock" | "float" | "sway" | "pulse" | "spin";
   trigger: "open" | "interaction" | "narration";
   segment?: string;
   delay?: number;
   duration: number;
   strength: number;
   repeat?: number;
+  /** Omitted preserves legacy repeat counts; false plays once, true repeats indefinitely. */
+  loop?: boolean;
 }
-export interface BookElement {
+export interface BookImageFlip {
+  flipX?: boolean;
+  flipY?: boolean;
+}
+export interface BookElement extends BookImageFlip {
   id: string;
   label: string;
   kind: "actor" | "prop";
@@ -51,8 +57,8 @@ export interface BookSpread {
   /** Minimum page time in seconds; narration may extend it. Default 8. */
   seconds?: number;
   segments: BookSegment[];
-  backdrop: { asset: string };
-  ground?: {
+  backdrop: { asset: string } & BookImageFlip;
+  ground?: BookImageFlip & {
     asset: string;
     x: number;
     depth: number;

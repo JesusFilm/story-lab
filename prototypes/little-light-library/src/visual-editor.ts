@@ -1,6 +1,13 @@
+import { animationPresets } from "./book-animation";
 import * as THREE from "three";
 import { AuthoredStage } from "./authored-stage";
-import type { AuthoredBook, BookSpread, BookElement } from "./authored-book";
+import type {
+  AuthoredBook,
+  BookSpread,
+  BookElement,
+  BookImageFlip,
+  BookMotion,
+} from "./authored-book";
 
 const html = (value: unknown) =>
   String(value ?? "").replace(
@@ -255,9 +262,17 @@ export function installVisualEditor(
     step = 0.01,
   ) =>
     `<label class="studio-range"><span>${label}<output>${value.toFixed(step < 0.01 ? 3 : 2)}</output></span><input aria-label="${label}" data-placement="${key}" type="range" min="${min}" max="${max}" step="${step}" value="${value}"></label>`;
+  const flipControls = (image: BookImageFlip) =>
+    `<div class="image-flips"><label class="studio-check"><input type="checkbox" data-flip="flipX" ${image.flipX ? "checked" : ""}> Flip horizontal</label><label class="studio-check"><input type="checkbox" data-flip="flipY" ${image.flipY ? "checked" : ""}> Flip vertical</label></div>`;
+  const motionControls = (item: BookElement) => {
+    const motion = item.motion;
+    const legacy = motion?.loop === undefined && (motion?.repeat ?? 1) > 1;
+    const playback = motion?.loop ? "loop" : legacy ? "legacy" : "once";
+    return `<p class="eyebrow">Bring it to life</p><label class="animation-field">Animation on this page<select data-motion-preset aria-label="Animation on this page"><option value="">None</option>${animationPresets.map(([id, name]) => `<option value="${id}" ${motion?.preset === id ? "selected" : ""}>${name}</option>`).join("")}</select></label>${motion ? `<label class="animation-field">Playback<select data-motion-playback aria-label="Animation playback"><option value="once" ${playback === "once" ? "selected" : ""}>Play once and stop</option><option value="loop" ${playback === "loop" ? "selected" : ""}>Loop continuously</option>${legacy ? `<option value="legacy" selected>Repeat ${motion.repeat} times (existing)</option>` : ""}</select></label><label class="animation-field">${motion.loop ? "Loop duration (seconds)" : "Animation duration (seconds)"}<input data-motion-duration aria-label="Animation duration (seconds)" type="number" required min="0.2" max="30" step="0.1" value="${motion.duration}"></label><p class="editor-muted">One animation per image on this page. Starts ${motion.trigger === "open" ? "when the page opens" : motion.trigger === "interaction" ? "after its interaction" : "with its narration phrase"}. A completed animation returns to the original placement.</p><button data-studio="play">▷ Try motion</button>` : ""}`;
+  };
   const thumbnail = (item: BookElement, index = item.pose?.index ?? 0) => {
     const columns = item.pose?.columns ?? 1;
-    return `<span class="pose-thumbnail" style="--pose-columns:${columns};--pose-index:${index}"><img src="${html(src(options.book(), item.asset))}" alt=""></span>`;
+    return `<span class="pose-thumbnail" style="--pose-columns:${columns};--pose-index:${index};transform:scale(${item.flipX ? -1 : 1},${item.flipY ? -1 : 1})"><img src="${html(src(options.book(), item.asset))}" alt=""></span>`;
   };
   function controls() {
     host.classList.toggle("page-previewing", previewing);
@@ -289,9 +304,9 @@ export function installVisualEditor(
         MAX_HEIGHT,
         (5.6 * item.placement.height) / item.placement.width,
       );
-      inspector.innerHTML = `<p class="eyebrow">${item.kind === "actor" ? "Character" : "Image"}</p><input aria-label="Artwork name" data-element-name value="${html(item.label)}"><p class="editor-muted">Drag the selected artwork or its name handle. Alt-click cycles overlapping art; clicking an overlap also offers a chooser.</p>${range("Size", "size", item.placement.height, Math.max(0.1, (0.1 * item.placement.height) / item.placement.width), sizeMax)}${range("Left / right", "x", item.placement.x, -2.8, 2.8)}${range("Front / back", "depth", item.placement.depth, FRONT_EDGE, 1.2, 0.005)}<p class="editor-muted">Front edge: −1.575 · maximum height: 3.60 units.</p>${range("Lift", "elevation", item.placement.elevation ?? 0, 0, 2)}${range("Rotation", "rotation", item.placement.rotation ?? 0, -45, 45, 1)}<div class="inspector-actions"><button data-studio="replace">Replace art</button><button data-studio="duplicate">Duplicate</button><button data-studio="remove">Remove</button></div>
+      inspector.innerHTML = `<p class="eyebrow">${item.kind === "actor" ? "Character" : "Image"}</p><input aria-label="Artwork name" data-element-name value="${html(item.label)}"><p class="editor-muted">Drag the selected artwork or its name handle. Alt-click cycles overlapping art; clicking an overlap also offers a chooser.</p>${range("Size", "size", item.placement.height, Math.max(0.1, (0.1 * item.placement.height) / item.placement.width), sizeMax)}${range("Left / right", "x", item.placement.x, -2.8, 2.8)}${range("Front / back", "depth", item.placement.depth, FRONT_EDGE, 1.2, 0.005)}<p class="editor-muted">Front edge: −1.575 · maximum height: 3.60 units.</p>${range("Lift", "elevation", item.placement.elevation ?? 0, 0, 2)}${range("Rotation", "rotation", item.placement.rotation ?? 0, -45, 45, 1)}${flipControls(item)}<div class="inspector-actions"><button data-studio="replace">Replace art</button><button data-studio="duplicate">Duplicate</button><button data-studio="remove">Remove</button></div>
       <details class="pose-settings" ${item.pose ? "open" : ""}><summary>Picture / pose frames</summary><label class="studio-check"><input type="checkbox" data-pose-enabled ${item.pose ? "checked" : ""}> Use a horizontal pose sheet</label>${item.pose ? `<p>These are alternative still poses, not a timed animation. Choose the pose shown on this page.</p><label>Frames across<input type="number" data-pose-columns aria-label="Frames across" min="1" max="16" value="${item.pose.columns}"></label><label>Selected frame index<select data-pose-index aria-label="Selected frame index">${Array.from({ length: item.pose.columns }, (_, i) => `<option value="${i}" ${i === item.pose!.index ? "selected" : ""}>${i} — frame ${i + 1}</option>`).join("")}</select></label><div class="pose-options">${Array.from({ length: item.pose.columns }, (_, i) => `<button data-pose-frame="${i}" aria-label="Choose frame ${i + 1}" aria-pressed="${i === item.pose!.index}">${thumbnail(item, i)}<span>${i + 1}</span></button>`).join("")}</div>` : `<p>Use the whole image, or enable a sheet to select one frame from several side-by-side poses.</p>`}</details>
-      <p class="eyebrow">Bring it to life</p><label class="studio-check"><input type="checkbox" data-rock ${item.motion ? "checked" : ""}> Gentle rocking</label><button data-studio="play">▷ Try motion</button>`;
+      ${motionControls(item)}`;
       inspector.dataset.baseSize = JSON.stringify([
         item.placement.width,
         item.placement.height,
@@ -303,9 +318,9 @@ export function installVisualEditor(
         ground.width,
         ground.height,
       ]);
-      inspector.innerHTML = `<p class="eyebrow">Ground artwork</p><h2>On the page</h2><p class="editor-muted">Available paper: 6.10 wide × 3.15 deep. The dashed outline marks its edges. Rotation or an offset can extend artwork past those edges.</p>${groundRange("Ground scale", "scale", 1, 0.1, Math.max(1, Math.min(6.1 / ground.width, 3.15 / ground.height)))}${groundRange("Ground width", "width", ground.width, 0.1, 6.1)}${groundRange("Ground depth size", "height", ground.height, 0.1, 3.15)}${groundRange("Ground left / right", "x", ground.x, -3.05, 3.05)}${groundRange("Ground front / back", "depth", ground.depth, FRONT_EDGE, 1.575, 0.005)}${groundRange("Ground rotation", "rotation", ground.rotation ?? 0, -180, 180, 1)}${groundRange("Ground opacity", "opacity", ground.opacity ?? 1, 0, 1)}<button data-studio="ground">Replace ground art</button><button data-studio="remove-ground">Remove ground</button>`;
+      inspector.innerHTML = `<p class="eyebrow">Ground artwork</p><h2>On the page</h2><p class="editor-muted">Available paper: 6.10 wide × 3.15 deep. The dashed outline marks its edges. Rotation or an offset can extend artwork past those edges.</p>${groundRange("Ground scale", "scale", 1, 0.1, Math.max(1, Math.min(6.1 / ground.width, 3.15 / ground.height)))}${groundRange("Ground width", "width", ground.width, 0.1, 6.1)}${groundRange("Ground depth size", "height", ground.height, 0.1, 3.15)}${groundRange("Ground left / right", "x", ground.x, -3.05, 3.05)}${groundRange("Ground front / back", "depth", ground.depth, FRONT_EDGE, 1.575, 0.005)}${groundRange("Ground rotation", "rotation", ground.rotation ?? 0, -180, 180, 1)}${groundRange("Ground opacity", "opacity", ground.opacity ?? 1, 0, 1)}${flipControls(ground)}<button data-studio="ground">Replace ground art</button><button data-studio="remove-ground">Remove ground</button>`;
     } else {
-      inspector.innerHTML = `<p class="eyebrow">Background & page ${page + 1}</p><h2>Make it yours</h2><p>The upright background fills a fixed 5.80 × 2.70 rectangle. Its dashed outline shows the maximum space; the ground has a separate 6.10 × 3.15 outline.</p><button data-studio="background">Choose background</button><button data-studio="character">Add a character</button><button data-studio="image">Add an image</button><button data-studio="ground">${ground ? "Replace ground art" : "Add ground art"}</button><hr><button data-studio="duplicate-page">Duplicate page</button><button data-studio="page-left" ${page === 0 ? "disabled" : ""}>Move page earlier</button><button data-studio="page-right" ${page === options.book().spreads.length - 1 ? "disabled" : ""}>Move page later</button><button data-studio="remove-page" ${options.book().spreads.length < 2 ? "disabled" : ""}>Delete page</button>`;
+      inspector.innerHTML = `<p class="eyebrow">Background & page ${page + 1}</p><h2>Make it yours</h2><p>The upright background fills a fixed 5.80 × 2.70 rectangle. Its dashed outline shows the maximum space; the ground has a separate 6.10 × 3.15 outline.</p>${flipControls(spread().backdrop)}<button data-studio="background">Choose background</button><button data-studio="character">Add a character</button><button data-studio="image">Add an image</button><button data-studio="ground">${ground ? "Replace ground art" : "Add ground art"}</button><hr><button data-studio="duplicate-page">Duplicate page</button><button data-studio="page-left" ${page === 0 ? "disabled" : ""}>Move page earlier</button><button data-studio="page-right" ${page === options.book().spreads.length - 1 ? "disabled" : ""}>Move page later</button><button data-studio="remove-page" ${options.book().spreads.length < 2 ? "disabled" : ""}>Delete page</button>`;
     }
     const layers = document.createElement("div");
     layers.className = "studio-layers";
@@ -653,6 +668,9 @@ export function installVisualEditor(
       playing = !playing;
       playStart = performance.now() / 1000;
       stage?.begin();
+      if (!playing) stage?.rest();
+      else if (element()?.motion?.trigger === "interaction")
+        stage?.activate(selected);
       message(
         playing
           ? "Trying movement on this page. Click artwork to edit again."
@@ -830,16 +848,42 @@ export function installVisualEditor(
             value.toFixed(key === "depth" ? 3 : 2);
         });
     }
-    if (input.hasAttribute("data-rock") && element()) {
-      if (input.checked)
-        element()!.motion = {
-          preset: "rock",
-          trigger: "open",
-          duration: 2,
-          strength: 6,
-          repeat: 3,
+    if (input.dataset.flip) {
+      const image =
+        element() ??
+        (selected === "@ground" ? spread().ground : spread().backdrop);
+      if (image)
+        image[input.dataset.flip as keyof BookImageFlip] = input.checked;
+      refresh();
+    }
+    if (element() && input.hasAttribute("data-motion-preset")) {
+      const item = element()!;
+      if (!input.value) delete item.motion;
+      else
+        item.motion = {
+          ...(item.motion ?? {
+            trigger: "open",
+            duration: 2,
+            strength: 8,
+            loop: false,
+          }),
+          preset: input.value as BookMotion["preset"],
         };
-      else delete element()!.motion;
+      refresh();
+    }
+    if (element()?.motion && input.hasAttribute("data-motion-playback")) {
+      if (input.value !== "legacy") {
+        element()!.motion!.loop = input.value === "loop";
+        delete element()!.motion!.repeat;
+      }
+      refresh();
+    }
+    if (element()?.motion && input.hasAttribute("data-motion-duration")) {
+      if (!input.checkValidity()) {
+        input.reportValidity();
+        return;
+      }
+      element()!.motion!.duration = Number(input.value);
       void rebuild();
     }
     if (gestureSnapshot) {

@@ -18,7 +18,7 @@ The working example is [`public/books/quiet-garden.book.json`](../public/books/q
 - **Rig:** movable parts and their pivots. Existing books have artwork-specific rigs; v1 does not infer or author them.
 - **Placement:** an element's position, displayed size, anchor, elevation and rotation.
 - **Anchor:** the point kept on the support surface. `bottom` plants the bottom center; `center` places the image around its center.
-- **Motion cue:** the bounded `rock` gesture plus its trigger and timing controls. It rocks the whole paper card around its anchor.
+- **Motion cue:** one preset per placed image on each spread, with trigger, duration and loop controls. It transforms the whole paper card, not individual limbs.
 - **Interaction:** labeled pointer or keyboard activation with visible text feedback and an optional built-in `tap` sound.
 - **Narration cue:** a measured audio asset tied to one text segment. `recordedText` records exactly which words are in that file.
 - **Stage direction:** the authored composition and behavior of one spread. It is an interpretation and should not be presented as biblical source text.
@@ -55,9 +55,9 @@ For element placement, `anchor` defaults to `bottom`, `elevation` to `0`, and `r
 
 ## Poses, motion and interaction
 
-An element may select `{ "index": 0, "columns": 3 }` from a horizontal image atlas. `index` is zero-based and must be smaller than `columns`. Omitting `pose` uses the complete image. A new image does not acquire movable limbs: the version 1 `rock` preset moves the complete card around its placement anchor.
+An element may select `{ "index": 0, "columns": 3 }` from a horizontal image atlas. `index` is zero-based and must be smaller than `columns`. Omitting `pose` uses the complete image. A new image does not acquire movable limbs: motion presets transform the complete card around its placement anchor. Optional `flipX` and `flipY` booleans on elements, ground and backdrop mirror the image within its rectangle; both default to false. Flips preserve position, anchor and selected atlas cell, and do not alter shared cover art.
 
-`motion.preset` is `rock`. Its trigger is `open`, `interaction`, or `narration`. A narration trigger also names a segment in the same spread. `duration` is seconds; `strength` is the peak rock angle in degrees; optional `delay` is seconds and defaults to `0`; optional `repeat` defaults to `1`. An `open` motion starts when the stage is upright and visible. Narration motions use the reader’s decoded audio durations and playback position, so rounding in declared durations does not accumulate drift. Reduced-motion playback keeps a stable final presentation and does not depend on repeated movement to communicate meaning.
+`motion.preset` is `rock`, `float`, `sway`, `pulse`, or `spin`. Each element has at most one motion per spread. Its trigger is `open`, `interaction`, or `narration`. A narration trigger also names a segment in the same spread. `duration` is seconds per cycle. `strength` means peak degrees for rock, percent of image height for float, percent of width for sway, and percent size increase for pulse. Spin makes one full turn and ignores strength. Optional `delay` is seconds and defaults to `0`. `loop: true` repeats until the page closes; `loop: false` plays once and stops at the original placement. If `loop` is omitted, legacy `repeat` defaults to `1` and permits 1–10 cycles. Explicit `loop` overrides `repeat`. Float and pulse rise and return; sway and rock move to both sides and return; spin ends at the equivalent original orientation. Scrubbing derives transforms from absolute time, so repeated cycles cannot drift. An `open` motion starts when the stage is upright and visible. Narration motions use the reader’s decoded audio durations and playback position, so rounding in declared durations does not accumulate drift. Reduced-motion playback keeps a stable final presentation and does not depend on repeated movement to communicate meaning.
 
 Authored books use their explicit soundtrack layers; procedural library ambience is paused while they are open. The reader master mute/volume and playback rate apply to narration and soundtrack together. Production preview offers its own mute control.
 
@@ -102,7 +102,7 @@ Version 1 does not promise a general rig editor, arbitrary scripts, remote asset
 | Ground x / depth           | −3.05…3.05 / −1.575…1.575 page units; center placement                       |
 | Ground width / height      | 0.1…6.1 / 0.1…3.15 page units                                                |
 | Ground rotation / opacity  | −180…180 degrees (default 0) / 0…1 (default 1)                               |
-| Motion duration / strength | 0.2…30 seconds per cycle / 0…20 degrees peak                                 |
+| Motion duration / strength | 0.2…30 seconds per cycle / 0…20 degrees or percent (see presets)                                 |
 | Motion delay / repeat      | 0…60 seconds (default 0) / integer 1…10 cycles (default 1)                   |
 | Narration duration         | 0.05…180 seconds per cue, measured from the file                             |
 | Media                      | PNG, JPEG, WebP images; browser-supported WAV, MP3, Ogg audio                |

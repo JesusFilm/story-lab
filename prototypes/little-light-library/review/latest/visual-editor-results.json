@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-09-20T06:41:40.646Z",
+  "method": "Playwright against the production build at a nested static URL. Scene values come from the reader's debug surface; narration samples use the decoded WebAudio clock.",
+  "browser": "153.0.8010.48",
+  "host": {
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "urlPath": "/acceptance/little-light-library/",
+  "checks": [
+    {
+      "name": "visual composition: add, drag, resize, undo, pages, export and reader fidelity",
+      "passed": true,
+      "durationMs": 10112,
+      "detail": "Created two pages from a blank book with backgrounds, character, image and ground; direct drag/resize, slider, undo/redo, page switching, portable current-draft export, identical reader placement, selected-page reading and 390px layout passed."
+    },
+    {
+      "name": "Editor controls: overlap picking, full-depth placement, ground, poses and growing text",
+      "passed": true,
+      "durationMs": 4946,
+      "detail": "On-canvas overlap chooser and Alt cycling select a rear card; dragging preserves selection; front edge -1.575 and height3.5 work; ground scale/full-page dimensions/30° rotation match reader; static pose frame controls clamp and thumbnail-crop; long text grows without overlap or nested scrollbars at desktop/tablet/phone; portable export preserves changes."
+    },
+    {
+      "name": "Editor controls: per-image animation, flips, undo and portable playback",
+      "passed": true,
+      "durationMs": 12296,
+      "detail": "Five selectable presets; loop/once and 0.8-second duration; independent image/page settings; horizontal/vertical flips including ground/backdrop; undo/redo; desktop/tablet/phone controls; portable export/reimport; reader loops beyond two cycles and stops once at rest."
+    }
+  ],
+  "pageErrors": [],
+  "passed": true
+}

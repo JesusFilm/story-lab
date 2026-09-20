@@ -1266,6 +1266,187 @@ await check(
   },
 );
 
+await check(
+  "Editor controls: per-image animation, flips, undo and portable playback",
+  async () => {
+    const context = await makeContext();
+    const page = await context.newPage();
+    watchErrors(page);
+    await enter(page);
+    await openAuthor(page);
+    const original = await authorJson(page);
+    const id = original.spreads[0].elements[0].id;
+    if (await page.locator("#author-dismiss").isVisible())
+      await page.locator("#author-dismiss").click();
+    await page.locator('[data-author-tab="visual"]').click();
+    const ready = () =>
+      page.locator(".scene-loading").waitFor({ state: "hidden" });
+    await ready();
+    await page.locator(`[data-select="${id}"]`).click();
+    await page
+      .getByLabel("Animation on this page", { exact: true })
+      .selectOption("");
+    await ready();
+    for (const preset of ["rock", "float", "sway", "spin", "pulse"]) {
+      await page
+        .getByLabel("Animation on this page", { exact: true })
+        .selectOption(preset);
+      await ready();
+      assert.equal(
+        (await authorJson(page)).spreads[0].elements[0].motion.preset,
+        preset,
+      );
+    }
+    await page
+      .getByLabel("Animation playback", { exact: true })
+      .selectOption("loop");
+    await ready();
+    await page
+      .getByLabel("Animation duration (seconds)", { exact: true })
+      .fill("0.8");
+    await page
+      .getByLabel("Animation duration (seconds)", { exact: true })
+      .press("Tab");
+    await ready();
+    await page
+      .locator(".studio-inspector")
+      .getByLabel("Flip horizontal", { exact: true })
+      .check();
+    await ready();
+    await page
+      .locator(".studio-inspector")
+      .getByLabel("Flip vertical", { exact: true })
+      .check();
+    await ready();
+    await page.getByRole("button", { name: "Undo edit", exact: true }).click();
+    await ready();
+    await page.locator(`[data-select="${id}"]`).click();
+    assert.equal(
+      await page
+        .locator(".studio-inspector")
+        .getByLabel("Flip vertical", { exact: true })
+        .isChecked(),
+      false,
+    );
+    await page.getByRole("button", { name: "Redo edit", exact: true }).click();
+    await ready();
+    await page.locator(`[data-select="${id}"]`).click();
+    assert.equal(
+      await page
+        .locator(".studio-inspector")
+        .getByLabel("Flip vertical", { exact: true })
+        .isChecked(),
+      true,
+    );
+    await page.locator(".selection-frame").waitFor({ state: "visible" });
+    const restingBox = await page.locator(".selection-frame").boundingBox();
+    const tryMotion = page.locator('.studio-inspector [data-studio="play"]');
+    await tryMotion.click();
+    await page.waitForFunction(
+      (width) =>
+        document.querySelector(".selection-frame").getBoundingClientRect()
+          .width >
+        width * 1.02,
+      restingBox.width,
+    );
+    await tryMotion.click();
+    await page.waitForFunction(
+      (width) =>
+        Math.abs(
+          document.querySelector(".selection-frame").getBoundingClientRect()
+            .width - width,
+        ) < 0.1,
+      restingBox.width,
+    );
+    for (const width of [1366, 768, 390]) {
+      await page.setViewportSize({ width, height: 844 });
+      await page
+        .getByLabel("Animation playback", { exact: true })
+        .scrollIntoViewIfNeeded();
+      assert.equal(
+        await page
+          .getByLabel("Animation playback", { exact: true })
+          .isVisible(),
+        true,
+      );
+      await page.screenshot({
+        path: path.join(output, `animation-controls-${width}.png`),
+      });
+    }
+    await page.setViewportSize({ width: 1366, height: 768 });
+    await page.locator('[data-select="@ground"]').click();
+    await page
+      .locator(".studio-inspector")
+      .getByLabel("Flip horizontal", { exact: true })
+      .check();
+    await ready();
+    await page.locator('[data-select=""]').click();
+    await page
+      .locator(".studio-inspector")
+      .getByLabel("Flip vertical", { exact: true })
+      .check();
+    await ready();
+    const edited = await authorJson(page);
+    assert.deepEqual(
+      edited.spreads[0].elements.slice(1),
+      original.spreads[0].elements.slice(1),
+    );
+    assert.deepEqual(edited.spreads[1], original.spreads[1]);
+    assert.equal(edited.spreads[0].elements[0].motion.loop, true);
+    assert.equal(edited.spreads[0].elements[0].motion.duration, 0.8);
+    assert.equal(edited.spreads[0].ground.flipX, true);
+    assert.equal(edited.spreads[0].backdrop.flipY, true);
+    await page.locator('[data-page="1"]').click();
+    await ready();
+    await page.locator('[data-page="0"]').click();
+    await ready();
+    const downloadPromise = page.waitForEvent("download");
+    await page.locator("#author-export").click();
+    const filename = path.join(output, "animations.book.json");
+    await (await downloadPromise).saveAs(filename);
+    const exported = JSON.parse(fs.readFileSync(filename, "utf8"));
+    assert.deepEqual(exported.spreads, edited.spreads);
+    // Reimport portable media through the same validator and render it in the reader.
+    await page.locator('[data-studio="details"]').click();
+    await setAuthorJson(page, exported);
+    await page.locator('[data-author-action="apply-json"]').click();
+    await preview(page);
+    await waitForSettledStage(page);
+    await page.waitForFunction(
+      () => window.libraryDebug().scene.authored.elements[0].scale[0] > 1.025,
+    );
+    let runtime = (await page.evaluate(() => window.libraryDebug())).scene
+      .authored.elements[0];
+    assert.equal(runtime.flipX, true);
+    assert.equal(runtime.flipY, true);
+    await page.waitForTimeout(1700);
+    await page.waitForFunction(
+      () => window.libraryDebug().scene.authored.elements[0].scale[0] > 1.025,
+    );
+    await openAuthor(page);
+    if (await page.locator("#author-dismiss").isVisible())
+      await page.locator("#author-dismiss").click();
+    await page.locator('[data-author-tab="visual"]').click();
+    await ready();
+    await page.locator(`[data-select="${id}"]`).click();
+    await page
+      .getByLabel("Animation playback", { exact: true })
+      .selectOption("once");
+    await ready();
+    await page.locator('[data-studio="read"]').click();
+    await waitForSettledStage(page);
+    await page.waitForFunction(
+      () => window.libraryDebug().scene.authored.elements[0].scale[0] > 1.025,
+    );
+    await page.waitForTimeout(1200);
+    runtime = (await page.evaluate(() => window.libraryDebug())).scene.authored
+      .elements[0];
+    assert.deepEqual(runtime.scale, [1, 1, 1]);
+    await context.close();
+    return "Five selectable presets; loop/once and 0.8-second duration; independent image/page settings; horizontal/vertical flips including ground/backdrop; undo/redo; desktop/tablet/phone controls; portable export/reimport; reader loops beyond two cycles and stops once at rest.";
+  },
+);
+
 results.passed =
   results.checks.every((item) => item.passed) &&
   results.pageErrors.length === 0;

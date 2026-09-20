@@ -1,3 +1,25 @@
+# Current extension: image animation and flips
+
+Each placed actor/prop has one optional animation per page: Rock, Float, Sway, Pulse
+or Spin. The visual inspector supports preset, once/loop playback and cycle duration.
+`loop: false` means one cycle; true repeats indefinitely; omitted preserves legacy
+`repeat`. Preset changes preserve existing triggers and timing. The whole card moves,
+not limbs or sprite-sheet frames. Every completed cycle returns to its original placement.
+Ground and backdrop remain static scene surfaces; they support both flip controls.
+
+`book-animation.ts` samples absolute offsets. `AuthoredStage` applies them in both
+reader and editor, including audio/language timeline scrubbing and reduced motion.
+Image flips modify geometry UVs, preserving atlas selection and shared texture/cover
+orientation. Export/reimport and undo retain settings. Older clients may reject the
+new optional fields and presets; existing v1 books remain valid in this client.
+
+Verification: 111 unit tests and typecheck pass, including all presets, legacy timing,
+loop/once endings, timeline scrubbing, reduced motion and non-compounding UV flips.
+Three focused visual browser checks pass, including controls at desktop/tablet/phone widths, undo/redo, export/reimport and reader loop/once behavior. Results are in `review/latest/visual-editor-results.json`.
+See [the visual editor guide](visual-editor.md) for control locations.
+
+---
+
 # Current extension: audio, languages and review
 
 The current task adds **Audio & languages** to the editor and **Preview audio & languages**

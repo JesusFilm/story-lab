@@ -30,16 +30,18 @@ const list = (items: unknown, maxItems: number, minItems = 0) => ({
 });
 const motion = object(
   {
-    preset: choice("rock"),
+    preset: choice("rock", "float", "sway", "pulse", "spin"),
     trigger: choice("open", "interaction", "narration"),
     segment: id,
     delay: num(0, 60),
     duration: num(0.2, 30),
     strength: num(0, 20),
+    loop: { type: "boolean" },
     repeat: { type: "integer", minimum: 1, maximum: 10 },
   },
   ["preset", "trigger", "duration", "strength"],
 );
+const imageFlip = { flipX: { type: "boolean" }, flipY: { type: "boolean" } };
 const placement = object(
   {
     x: num(-2.8, 2.8),
@@ -127,10 +129,11 @@ export const bookSchema = {
             stagingNote: text,
             seconds: num(1, 600),
             segments: list(segment, 12, 1),
-            backdrop: object({ asset: id }),
+            backdrop: object({ asset: id, ...imageFlip }, ["asset"]),
             ground: object(
               {
                 asset: id,
+                ...imageFlip,
                 x: num(-3.05, 3.05),
                 depth: num(-1.575, 1.575),
                 width: num(0.1, 6.1),
@@ -147,6 +150,7 @@ export const bookSchema = {
                   label: text,
                   kind: choice("actor", "prop"),
                   asset: id,
+                  ...imageFlip,
                   pose: object({
                     index: { type: "integer", minimum: 0, maximum: 15 },
                     columns: { type: "integer", minimum: 1, maximum: 16 },

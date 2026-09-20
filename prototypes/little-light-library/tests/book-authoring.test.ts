@@ -229,3 +229,41 @@ test("new form pages avoid deleted-page ID collisions and never inherit unrelate
   book.spreads.push(page);
   assert.equal(createBlankSpread(book).id, "spread-4");
 });
+
+test("animation presets and flip booleans round-trip while invalid values report their paths", () => {
+  for (const preset of ["rock", "float", "sway", "pulse", "spin"] as const) {
+    const book = fixture();
+    const spread = book.spreads[0];
+    Object.assign(spread.elements[0], { flipX: true, flipY: true });
+    Object.assign(spread.elements[0].motion!, {
+      preset,
+      loop: true,
+      duration: 0.2,
+    });
+    spread.backdrop.flipX = true;
+    spread.ground!.flipY = true;
+    assert.deepEqual(validateBook(JSON.parse(JSON.stringify(book))).book, book);
+  }
+  for (const [field, value] of [
+    ["loop", "true"],
+    ["duration", 0.1],
+    ["preset", "fly"],
+  ]) {
+    const book = fixture();
+    Object.assign(book.spreads[0].elements[0].motion!, {
+      [field as string]: value,
+    });
+    assert.ok(
+      validateBook(book).errors.some(
+        (error) => error.path === `/spreads/0/elements/0/motion/${field}`,
+      ),
+    );
+  }
+  const book = fixture();
+  Object.assign(book.spreads[0].backdrop, { flipX: 1 });
+  assert.ok(
+    validateBook(book).errors.some(
+      (error) => error.path === "/spreads/0/backdrop/flipX",
+    ),
+  );
+});

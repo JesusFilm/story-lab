@@ -2288,3 +2288,26 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
   }
 }
+
+.image-flips {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0.8rem 0;
+}
+.animation-field {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.8rem 0;
+}
+.animation-field select,
+.animation-field input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  font: inherit;
+  color: #2d4d3d;
+  background: #fffef9;
+  border: 1px solid #d4d8c9;
+  border-radius: 8px;
+  padding: 0.55rem;
+}

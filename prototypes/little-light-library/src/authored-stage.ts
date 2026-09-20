@@ -1,3 +1,4 @@
+import { authoredMotionTransform } from "./book-animation";
 import * as THREE from "three";
 import type {
   AuthoredBook,
@@ -26,6 +27,9 @@ export interface AuthoredStageDebug {
     meshPosition: number[];
     rotation: number;
     rocking: number;
+    scale: number[];
+    flipX: boolean;
+    flipY: boolean;
   }[];
 }
 
@@ -133,15 +137,24 @@ const disposeDetached = (root: THREE.Object3D, textures: THREE.Texture[]) => {
 };
 
 export function authoredRockAngle(motion: BookMotion, elapsed: number) {
-  const delay = motion.delay ?? 0;
-  const duration = motion.duration;
-  const repeats = Math.max(1, Math.floor(motion.repeat ?? 1));
-  const local = elapsed - delay;
-  if (!(duration > 0) || local < 0 || local >= duration * repeats) return 0;
-  return (
-    Math.sin((local / duration) * Math.PI * 2) *
-    THREE.MathUtils.degToRad(motion.strength)
-  );
+  return authoredMotionTransform(motion, elapsed).rotation;
+}
+
+/** Flip artwork inside its rectangle, leaving placement and atlas selection unchanged. */
+function flipImage(
+  mesh: THREE.Mesh<THREE.PlaneGeometry>,
+  flipX = false,
+  flipY = false,
+) {
+  const uv = mesh.geometry.getAttribute("uv");
+  const original = (mesh.geometry.userData.originalUV ??= Array.from(uv.array));
+  for (let i = 0; i < uv.count; i++)
+    uv.setXY(
+      i,
+      flipX ? 1 - original[i * 2] : original[i * 2],
+      flipY ? 1 - original[i * 2 + 1] : original[i * 2 + 1],
+    );
+  uv.needsUpdate = true;
 }
 
 /** Runtime for the bounded, versioned paper-stage contract. */
@@ -219,6 +232,7 @@ export class AuthoredStage {
         new THREE.PlaneGeometry(5.8, 2.7),
         makeMaterial(backdropTexture),
       );
+      flipImage(backdropMesh, spread.backdrop.flipX, spread.backdrop.flipY);
       backdropMesh.position.y = 1.35;
       backdropMesh.castShadow = backdropMesh.receiveShadow = true;
       backdrop.add(backdropMesh);
@@ -233,6 +247,7 @@ export class AuthoredStage {
           new THREE.PlaneGeometry(definition.width, definition.height),
           material,
         );
+        flipImage(ground, definition.flipX, definition.flipY);
         ground.name = "authored-ground";
         ground.userData.staticPageSurface = true;
         ground.position.set(definition.x, definition.depth, 0.046);
@@ -258,6 +273,7 @@ export class AuthoredStage {
           ),
           material,
         );
+        flipImage(mesh, definition.flipX, definition.flipY);
         mesh.name = `authored-element-${definition.id}`;
         mesh.castShadow = mesh.receiveShadow = true;
         const stand = popup(definition.placement.x, definition.placement.depth);
@@ -341,6 +357,7 @@ export class AuthoredStage {
       placement.height / mesh.geometry.parameters.height,
       1,
     );
+    flipImage(mesh, definition.flipX, definition.flipY);
     mesh.position.y = placement.anchor === "center" ? 0 : placement.height / 2;
     element.popup.position.set(placement.x, placement.depth, 0.075);
     element.pivot.position.y = placement.elevation ?? 0;
@@ -353,6 +370,7 @@ export class AuthoredStage {
   editGround(definition: NonNullable<BookSpread["ground"]>) {
     if (!this.ground) return;
     const { mesh, material } = this.ground;
+    flipImage(mesh, definition.flipX, definition.flipY);
     mesh.scale.set(
       definition.width / mesh.geometry.parameters.width,
       definition.height / mesh.geometry.parameters.height,
@@ -372,6 +390,12 @@ export class AuthoredStage {
 
   rest() {
     for (const element of this.elements) {
+      element.pivot.position.set(
+        0,
+        element.definition.placement.elevation ?? 0,
+        0,
+      );
+      element.pivot.scale.set(1, 1, 1);
       element.pivot.rotation.z = element.baseRotation;
       element.pivot.userData.authoredRocking = 0;
     }
@@ -395,25 +419,30 @@ export class AuthoredStage {
           : now - element.interactionStarted;
       material.emissiveIntensity = interactionAge < 1.4 ? 0.14 : 0;
       const motion = definition.motion;
-      let rocking = 0;
+      let elapsed = -1;
       if (motion && !reduced && !folded) {
         if (motion.trigger === "open")
-          rocking = authoredRockAngle(
-            motion,
-            timeline ? position : now - (this.openedAt ?? now),
-          );
-        else if (motion.trigger === "interaction")
-          rocking = authoredRockAngle(motion, interactionAge);
+          elapsed = timeline ? position : now - (this.openedAt ?? now);
+        else if (motion.trigger === "interaction") elapsed = interactionAge;
         else if ((playing || timeline) && narrationEnabled) {
           const start = motion.segment
             ? this.segmentStarts.get(motion.segment)
             : 0;
-          if (start !== undefined)
-            rocking = authoredRockAngle(motion, position - start);
+          if (start !== undefined) elapsed = position - start;
         }
       }
-      pivot.rotation.z = baseRotation + rocking;
-      pivot.userData.authoredRocking = rocking;
+      const transform = motion
+        ? authoredMotionTransform(motion, elapsed)
+        : { rotation: 0, x: 0, y: 0, scale: 1 };
+      pivot.rotation.z = baseRotation + transform.rotation;
+      pivot.position.set(
+        transform.x * definition.placement.width,
+        (definition.placement.elevation ?? 0) +
+          transform.y * definition.placement.height,
+        0,
+      );
+      pivot.scale.set(transform.scale, transform.scale, 1);
+      pivot.userData.authoredRocking = transform.rotation;
     }
   }
 
@@ -441,6 +470,9 @@ export class AuthoredStage {
         ).toArray(),
         rotation: pivot.rotation.z,
         rocking: Number(pivot.userData.authoredRocking ?? 0),
+        scale: pivot.scale.toArray(),
+        flipX: definition.flipX ?? false,
+        flipY: definition.flipY ?? false,
       })),
     };
   }

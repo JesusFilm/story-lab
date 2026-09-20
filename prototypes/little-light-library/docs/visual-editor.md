@@ -28,7 +28,15 @@ where **Restore book** brings them back, including after a browser refresh.
    **Frames across** configures the sheet; **Selected frame index** or a picture
    button picks the pose. Indexes start at zero. Thumbnails show the selected pose.
    Adam and Eve's three images are alternative still poses, not a timed animation:
-   there is no frame-speed setting. **Gentle rocking** moves the selected whole card.
+   there is no frame-speed setting. Under **Bring it to life**, choose **Rock**,
+   **Float up and down**, **Sway left and right**, **Pulse**, or **Spin**. Each placed
+   image has its own animation on each page. Choose **Play once and stop** or
+   **Loop continuously**, then set the duration (0.2–30 seconds per cycle).
+   **None** removes the animation. A completed cycle returns to the original placement;
+   **Try motion** previews movement and stops it on a second click. Existing trigger
+   settings are preserved; **Book details** changes page-open, narration or interaction
+   timing. **Flip horizontal** and **Flip vertical** mirror the selected artwork
+   without changing its placement or pose index. Flips also work on ground and backdrop art.
 6. Fill in the page title and story lines beneath the scene. Text fields grow as you
    type and shrink when text is removed; no line has its own scrollbars or resize
    handle. The composition pane scrolls as a whole when needed. **Add a line** creates

@@ -21,3 +21,5 @@ docs/captures/*
 !docs/captures/flood-768.png
 
 !review/latest/production-results.json
+
+!review/latest/visual-editor-results.json

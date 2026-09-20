@@ -1,3 +1,4 @@
+import { animationPresets } from "./book-animation";
 import { installBookProduction } from "./book-production";
 import {
   isAssetUsed,
@@ -210,6 +211,8 @@ const input = (
   help = "",
 ) =>
   `<label class="editor-field"><span>${escapeHtml(label)}</span><input data-path="${path}" type="${type}" value="${escapeHtml(value)}" ${type === "number" ? 'step="any"' : ""}>${help ? `<small>${escapeHtml(help)}</small>` : ""}</label>`;
+const checkbox = (label: string, path: string, value: boolean) =>
+  `<label class="studio-check"><input type="checkbox" data-path="${path}" ${value ? "checked" : ""}>${escapeHtml(label)}</label>`;
 const textarea = (label: string, path: string, value: unknown, help = "") =>
   `<label class="editor-field editor-wide"><span>${escapeHtml(label)}</span><textarea data-path="${path}" rows="3">${escapeHtml(value)}</textarea>${help ? `<small>${escapeHtml(help)}</small>` : ""}</label>`;
 const select = (
@@ -290,18 +293,18 @@ function renderSpreadEditor(book: AuthoredBook, activeSpread: number) {
           ["bottom", "Bottom"],
           ["center", "Center"],
         ],
-      )}${input("Elevation", `${path}.placement.elevation`, element.placement.elevation ?? 0, "number")}${input("Rotation degrees", `${path}.placement.rotation`, element.placement.rotation ?? 0, "number")}</div></div><div class="editor-subcard"><strong>Motion</strong>${
+      )}${input("Elevation", `${path}.placement.elevation`, element.placement.elevation ?? 0, "number")}${input("Rotation degrees", `${path}.placement.rotation`, element.placement.rotation ?? 0, "number")}${checkbox("Flip horizontal", `${path}.flipX`, element.flipX ?? false)}${checkbox("Flip vertical", `${path}.flipY`, element.flipY ?? false)}</div></div><div class="editor-subcard"><strong>Motion</strong>${
         motion
-          ? `<div class="editor-grid">${select("Preset", `${path}.motion.preset`, motion.preset, [["rock", "Rock whole card"]])}${select(
-              "Trigger",
-              `${path}.motion.trigger`,
-              motion.trigger,
-              [
-                ["open", "When spread opens"],
-                ["interaction", "After interaction"],
-                ["narration", "During narration"],
-              ],
-            )}${
+          ? `<div class="editor-grid">${select(
+              "Preset",
+              `${path}.motion.preset`,
+              motion.preset,
+              animationPresets.map(([id, label]) => [id, label]),
+            )}${select("Trigger", `${path}.motion.trigger`, motion.trigger, [
+              ["open", "When spread opens"],
+              ["interaction", "After interaction"],
+              ["narration", "During narration"],
+            ])}${
               motion.trigger === "narration"
                 ? select(
                     "Narration segment",
@@ -312,7 +315,7 @@ function renderSpreadEditor(book: AuthoredBook, activeSpread: number) {
                     ),
                   )
                 : ""
-            }${input("Delay seconds", `${path}.motion.delay`, motion.delay ?? 0, "number")}${input("Duration seconds", `${path}.motion.duration`, motion.duration, "number")}${input("Strength degrees", `${path}.motion.strength`, motion.strength, "number")}${input("Repeats", `${path}.motion.repeat`, motion.repeat ?? 1, "number")}</div><button data-author-action="toggle-motion" data-index="${index}">Remove motion</button>`
+            }${input("Delay seconds", `${path}.motion.delay`, motion.delay ?? 0, "number")}${input("Duration seconds", `${path}.motion.duration`, motion.duration, "number")}${input("Strength (degrees / percent)", `${path}.motion.strength`, motion.strength, "number", "Rock uses degrees; float, sway and pulse use percent of the image. Spin always makes one full turn.")}${checkbox("Loop continuously", `${path}.motion.loop`, motion.loop ?? false)}${motion.loop === undefined && (motion.repeat ?? 1) > 1 ? `<small>Existing cue repeats ${motion.repeat} times. Changing the loop option selects continuous looping or one play.</small>` : ""}</div><button data-author-action="toggle-motion" data-index="${index}">Remove motion</button>`
           : `<button data-author-action="toggle-motion" data-index="${index}">Add motion cue</button>`
       }</div><div class="editor-subcard"><strong>Interaction</strong>${
         interaction
@@ -585,9 +588,11 @@ export function installAuthoring(options: {
     const path = target.dataset.path;
     if (!path) return;
     const value =
-      target instanceof HTMLInputElement && target.type === "number"
-        ? Number(target.value)
-        : target.value;
+      target instanceof HTMLInputElement && target.type === "checkbox"
+        ? target.checked
+        : target instanceof HTMLInputElement && target.type === "number"
+          ? Number(target.value)
+          : target.value;
     if (path.startsWith("__new.")) {
       (newAssetDraft as unknown as Record<string, unknown>)[
         path.slice("__new.".length)
