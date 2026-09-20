@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-20T07:35:11.144Z",
-  "method": "Playwright against a production build at a nested static URL, using an isolated browser context and browser-local IndexedDB.",
+  "generatedAt": "2026-09-20T11:03:54.380Z",
+  "method": "Playwright against a production build at a nested static URL, using an isolated browser context, committed catalog, stale authoring-storage fixture, and intercepted dense catalog.",
   "browser": "153.0.8010.48",
   "host": {
     "platform": "darwin",
@@ -11,7 +11,7 @@
     {
       "name": "Physical shelf selection, reading, returning and toy lifecycle",
       "passed": true,
-      "durationMs": 24482,
+      "durationMs": 25105,
       "detail": {
         "table": "builtin:eden",
         "page": 0,
@@ -25,7 +25,7 @@
     {
       "name": "Busy lock rejects rapid shelf taps",
       "passed": true,
-      "durationMs": 1745,
+      "durationMs": 1846,
       "detail": {
         "inspected": "builtin:eden",
         "headerLocked": true
@@ -34,7 +34,7 @@
     {
       "name": "Reduced motion and narrow room controls remain usable",
       "passed": true,
-      "durationMs": 3293,
+      "durationMs": 571,
       "detail": {
         "width": 390,
         "controlsVisible": true,
@@ -42,34 +42,192 @@
       }
     },
     {
-      "name": "Authored toy installs on the room shelf and persists across reload",
+      "name": "Committed catalog ignores and preserves stale browser authoring storage",
       "passed": true,
-      "durationMs": 6823,
+      "durationMs": 1059,
       "detail": {
-        "lineup": [
+        "keys": [
           "builtin:eden",
           "builtin:noah",
-          "included-quiet-garden"
+          "book:quiet-garden",
+          "book:jonah-and-the-whale"
         ],
-        "authoredToy": {
-          "id": "little-tree",
-          "label": "Little tree"
-        },
-        "persisted": true
+        "staleDraftPreserved": true,
+        "runtimeStorageAccess": false
+      }
+    },
+    {
+      "name": "Committed generic books retain navigation, narration, highlighting and interactions",
+      "passed": true,
+      "durationMs": 18120,
+      "detail": {
+        "books": 2,
+        "spreads": 5,
+        "quietGardenNarration": true,
+        "jonahMissingNarrationReadable": true
+      }
+    },
+    {
+      "name": "Reader settings persist mute and volume and remain keyboard accessible",
+      "passed": true,
+      "durationMs": 2601,
+      "detail": {
+        "persistedMute": true,
+        "persistedVolume": 0.35,
+        "keyboardDialog": true
+      }
+    },
+    {
+      "name": "Fixture book language control and soundtrack survive editor CSS removal",
+      "passed": true,
+      "durationMs": 4334,
+      "detail": {
+        "fixtureOnly": true,
+        "phoneLanguageControl": true,
+        "languageSwitch": true,
+        "decodedSoundtrackLoop": true
       }
     },
     {
       "name": "Thirty spine-out books and top toys fit at desktop and phone sizes",
       "passed": true,
-      "durationMs": 16748,
+      "durationMs": 25797,
       "detail": {
         "books": 30,
         "rows": 2,
         "toys": 3,
-        "desktopAndPhone": true
+        "desktopAndPhone": true,
+        "fixtureOnly": true,
+        "genericToyAudio": true
+      }
+    },
+    {
+      "name": "Nested static runtime loads local resources without generation services",
+      "passed": true,
+      "durationMs": 0,
+      "detail": {
+        "nestedPath": "/acceptance/little-light-library/",
+        "audioResources": 10,
+        "allRequestsWithinStaticBuild": true
       }
     }
   ],
   "pageErrors": [],
+  "unexpectedRequests": [],
+  "failedResponses": [],
+  "requestFailures": [],
+  "audioRequests": [
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s1-1e6c52c5e1efa3a274bc.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s2-347e3fbf75cbdd3624e9.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/es/eden/eden-02/s2-ad48d0b0d33d04922da0.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/es/eden/eden-02/s1-d1f6ff0104c9ca151190.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/es/noah/noah-01/s1-14671746b05cb849a2ad.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/es/noah/noah-01/s2-77998a7e92862a5d3c56.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/es/eden/eden-01/s1-77549a66ded934b16cb5.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/es/eden/eden-01/s2-39a2f06f1fcb8541306d.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s1-1e6c52c5e1efa3a274bc.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s2-347e3fbf75cbdd3624e9.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s1-1e6c52c5e1efa3a274bc.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s2-347e3fbf75cbdd3624e9.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s1-1e6c52c5e1efa3a274bc.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s2-347e3fbf75cbdd3624e9.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s1-1e6c52c5e1efa3a274bc.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s2-347e3fbf75cbdd3624e9.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s1-1e6c52c5e1efa3a274bc.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s2-347e3fbf75cbdd3624e9.wav",
+    "http://127.0.0.1:51804/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav"
+  ],
+  "transitionCaptures": [
+    {
+      "file": "/Users/jacobusbrink/Jaxs/projects/story-lab/prototypes/little-light-library/.test-output/room/swap-rotate.png",
+      "phase": "rotate",
+      "observedBeforeCapture": {
+        "key": "builtin:noah",
+        "index": 1,
+        "state": "preview",
+        "visible": true,
+        "position": [
+          -1.4544278034174407,
+          3.5519767041118993,
+          -1.1737817906094037
+        ],
+        "rotation": [
+          0,
+          1.0171904947446508,
+          0
+        ]
+      },
+      "tableTransform": {
+        "position": [
+          0,
+          1.495,
+          1.1
+        ],
+        "rotation": [
+          -1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "file": "/Users/jacobusbrink/Jaxs/projects/story-lab/prototypes/little-light-library/.test-output/room/swap-land.png",
+      "phase": "land",
+      "observedBeforeCapture": {
+        "key": "builtin:noah",
+        "index": 1,
+        "state": "preview",
+        "visible": true,
+        "position": [
+          0.3035169452662722,
+          2.9327065722434,
+          -0.47060381841715965
+        ],
+        "rotation": [
+          -0.3056175017591462,
+          0,
+          0
+        ]
+      },
+      "tableTransform": {
+        "position": [
+          -2.62,
+          3.7,
+          -2.491629392971246
+        ],
+        "rotation": [
+          0,
+          1.5707963267948966,
+          0
+        ],
+        "scale": [
+          0.3258785942492013,
+          0.3944444444444444,
+          0.7999999999999999
+        ]
+      }
+    }
+  ],
   "passed": true
 }
