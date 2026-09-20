@@ -41,6 +41,7 @@ const bookWith = (elementMotion: BookMotion): AuthoredBook => ({
   assets: {
     backdrop: { kind: "image", src: "art/backdrop.webp", attribution: "Test" },
     cover: { kind: "image", src: "art/cover.webp", attribution: "Test" },
+    ground: { kind: "image", src: "art/ground.webp", attribution: "Test" },
     actor: { kind: "image", src: "art/actor.webp", attribution: "Test" },
     intro: { kind: "audio", src: "audio/intro.wav", attribution: "Test" },
     action: { kind: "audio", src: "audio/action.wav", attribution: "Test" },
@@ -74,6 +75,15 @@ const bookWith = (elementMotion: BookMotion): AuthoredBook => ({
         },
       ],
       backdrop: { asset: "backdrop" },
+      ground: {
+        asset: "ground",
+        x: 0.1,
+        depth: -0.2,
+        width: 4,
+        height: 2,
+        rotation: 5,
+        opacity: 0.8,
+      },
       elements: [
         {
           id: "actor",
@@ -212,6 +222,7 @@ test("authored stage loads the declared cover separately from its backdrop", asy
   assert.deepEqual(calls, [
     "./art/backdrop.webp",
     "./art/cover.webp",
+    "./art/ground.webp",
     "./art/actor.webp",
   ]);
   assert.equal(stage.backdropTexture.name, "./art/backdrop.webp");
@@ -273,7 +284,40 @@ test("live editor transforms match a freshly loaded reader scene without reloadi
     closeTo(stage.debug().elements[0].rotation, THREE.MathUtils.degToRad(-23));
     fresh.dispose();
   }
-  assert.equal(calls.length, 3, "gestures must not reload any image");
+  assert.equal(calls.length, 4, "gestures must not reload any image");
   stage.dispose();
   assert.equal(stage.root.children.length, 0);
+});
+
+test("live ground edits match a freshly loaded stage without reloading or compounding", async () => {
+  const { stage, calls } = await makeStage(motion);
+  const book = bookWith(motion);
+  const ground = book.spreads[0].ground!;
+  Object.assign(ground, {
+    x: -1.2,
+    depth: -1.4,
+    width: 5.9,
+    height: 3.05,
+    rotation: -37,
+    opacity: 0.35,
+  });
+  stage.editGround(ground);
+  stage.editGround(ground);
+  const fresh = await AuthoredStage.create(
+    book,
+    book.spreads[0],
+    {
+      loadAsync: async () => new THREE.Texture(),
+    } as unknown as THREE.TextureLoader,
+    () => true,
+  );
+  assert.deepEqual(stage.debug().ground, fresh.debug().ground);
+  const debug = stage.debug().ground!;
+  assert.deepEqual(debug.position, [-1.2, -1.4, 0.046]);
+  assert.deepEqual(debug.size, [5.9, 3.05]);
+  closeTo(debug.rotation, THREE.MathUtils.degToRad(-37));
+  closeTo(debug.opacity, 0.35);
+  assert.equal(calls.length, 4, "ground edits must not reload any image");
+  fresh.dispose();
+  stage.dispose();
 });

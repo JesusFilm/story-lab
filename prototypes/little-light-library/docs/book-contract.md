@@ -47,11 +47,11 @@ Each spread has a stable `id`, visible `title`, `source`, and `stagingNote`. Kee
 - segment `text` is the authored retelling shown and narrated by the reader.
 - `stagingNote` describes invented composition, movement and interaction.
 
-`segments` contains one or more stable segment IDs and readable text. Segment IDs are also used by narration-triggered motion. `backdrop.asset` references the upright image. Optional `ground` references a horizontal image and supplies its own placement and opacity.
+`segments` contains one or more stable segment IDs and readable text. Segment IDs are also used by narration-triggered motion. `backdrop.asset` references the upright image. Optional `ground` references a horizontal image and supplies its own placement, rotation and opacity.
 
 The stage uses reader page units. `x` moves left (negative) and right (positive). `depth` moves across the horizontal page stage: positive values move toward the upright backdrop and negative values toward the reader. `width` and `height` are displayed page-unit dimensions rather than source pixels. The page is about 6 units wide by 3 units deep; validation bounds individual coordinate and size values; it does not guarantee that arbitrary combinations fit inside the page or avoid overlap. `elevation` lifts an element above its support. `rotation` is in degrees. See the demo's moderate values before making large changes, then judge them in preview at phone, tablet and desktop sizes.
 
-For element placement, `anchor` defaults to `bottom`, `elevation` to `0`, and `rotation` to `0`. Ground `opacity` defaults to `1`. Omitted optional values retain their omission in editable JSON while playback applies these defaults.
+For element placement, `anchor` defaults to `bottom`, `elevation` to `0`, and `rotation` to `0`. Ground `rotation` defaults to `0` degrees and `opacity` defaults to `1`. Omitted optional values retain their omission in editable JSON while playback applies these defaults.
 
 ## Poses, motion and interaction
 
@@ -91,25 +91,26 @@ Version 1 does not promise a general rig editor, arbitrary scripts, remote asset
 
 ## Bounds, defaults and rendering rules
 
-| Field                           | Supported range / rule                                                       |
-| ------------------------------- | ---------------------------------------------------------------------------- |
-| IDs                             | Lowercase letter first, then letters/digits/hyphens; maximum 64 characters   |
-| Book size                       | 1–40 spreads; 1–12 text segments and 0–16 elements per spread; 1–128 assets  |
-| Element x / depth               | −2.8…2.8 / −1.2…1.2 page units                                               |
-| Element width / height          | 0.1…5.6 / 0.1…2.7 page units                                                 |
-| Elevation / rotation            | 0…2 page units / −45…45 degrees; defaults 0 / 0                              |
-| Anchor                          | `bottom` (default) or `center`; center at elevation 0 extends below the page |
-| Ground x / depth                | −2.8…2.8 / −1.2…1.2 page units; center placement                             |
-| Ground width / height / opacity | 0.1…5.6 / 0.1…2.4 units / 0…1 (default 1)                                    |
-| Motion duration / strength      | 0.2…30 seconds per cycle / 0…20 degrees peak                                 |
-| Motion delay / repeat           | 0…60 seconds (default 0) / integer 1…10 cycles (default 1)                   |
-| Narration duration              | 0.05…180 seconds per cue, measured from the file                             |
-| Media                           | PNG, JPEG, WebP images; browser-supported WAV, MP3, Ogg audio                |
+| Field                      | Supported range / rule                                                       |
+| -------------------------- | ---------------------------------------------------------------------------- |
+| IDs                        | Lowercase letter first, then letters/digits/hyphens; maximum 64 characters   |
+| Book size                  | 1–40 spreads; 1–12 text segments and 0–16 elements per spread; 1–128 assets  |
+| Element x / depth          | −2.8…2.8 / −1.575…1.2 page units                                             |
+| Element width / height     | 0.1…5.6 / 0.1…3.6 page units                                                 |
+| Elevation / rotation       | 0…2 page units / −45…45 degrees; defaults 0 / 0                              |
+| Anchor                     | `bottom` (default) or `center`; center at elevation 0 extends below the page |
+| Ground x / depth           | −3.05…3.05 / −1.575…1.575 page units; center placement                       |
+| Ground width / height      | 0.1…6.1 / 0.1…3.15 page units                                                |
+| Ground rotation / opacity  | −180…180 degrees (default 0) / 0…1 (default 1)                               |
+| Motion duration / strength | 0.2…30 seconds per cycle / 0…20 degrees peak                                 |
+| Motion delay / repeat      | 0…60 seconds (default 0) / integer 1…10 cycles (default 1)                   |
+| Narration duration         | 0.05…180 seconds per cue, measured from the file                             |
+| Media                      | PNG, JPEG, WebP images; browser-supported WAV, MP3, Ogg audio                |
 
 The fixed backdrop is 5.8 × 2.7 units at depth 1.22. Artwork stretches to the authored
 rectangle; pre-crop it if a different framing is needed. An atlas pose trims transparent
 borders inside the selected cell; a non-atlas image uses its full rectangle including alpha.
-The floor stays horizontal; cutouts rise perpendicular to it. There is no automatic layout,
+The floor stays horizontal; ground rotation turns its print within that plane, and cutouts rise perpendicular to it. There is no automatic layout,
 occlusion correction or camera adjustment. Check your composition in preview.
 
 Assets above 32 MiB each are rejected. Portable export caps decoded media at 96 MiB;

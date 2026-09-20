@@ -4,6 +4,11 @@
 Books and uploaded media autosave in IndexedDB on this device. Selecting a book opens
 the live visual editor; blank books have one neutral page and no story-specific art.
 **Preview page** provides read-only scene preview with Previous/Next navigation.
+The live workspace now also has an overlap chooser and Alt-click cycling, a selected-art
+move handle, ground transform controls, page/backdrop guides, static pose-sheet settings,
+and growing story-line fields. Ground rotation is an optional backward-compatible v1
+field; updated clients support the wider numeric ranges in the contract. Older clients
+may reject books using the new field or expanded bounds.
 See [the visual editor guide](visual-editor.md). The foundation record below describes
 the earlier JSON workflow; direct selection, dragging, resizing, live sliders, visual
 undo/redo and current-draft export have since been added.

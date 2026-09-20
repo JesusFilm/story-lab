@@ -1,6 +1,38 @@
 # Book authoring verification
 
-## Current library and page-editor verification
+## Current editor-control verification
+
+Verified 20 September 2026 (Pacific/Auckland): **10/10 browser checks and 74/74 unit
+tests passed**, with TypeScript, formatting and production build. See the latest
+[browser results](authoring-results.json). No browser page errors were recorded.
+
+The new control check proves on-canvas overlap choosing, Alt-click cycling, and dragging
+a selected rear card while leaving the front card unchanged. It moves artwork to
+−1.575 depth and 3.5 height, scales ground, sets it to 6.1 × 3.15 and rotates it 30°,
+then checks the actual reader transform and a portable export against that definition.
+Pose-sheet columns/index controls clamp the selected index and update the cropped
+thumbnail. Long text grows without overlapping its next line or adding textarea resize
+handles/inner scrollbars at 1366, 768 and 390px. Stale narration still suppresses audio
+while allowing the modified text and scene to preview.
+
+New unit checks cover expanded contract bounds and ground rotation roundtrips, plus
+repeated live ground edits matching a freshly built reader without accumulating scale
+or reloading textures. The original library, authored-reader, audio, invalid-media,
+export, responsive and legacy-book checks also pass.
+
+Visual inspection confirmed the live saved page has clearly separated growing text
+fields, page/backdrop guides, ground properties and single-pose layer thumbnails. These
+are static alternative poses, not a timed sprite animation. A second agent reviewed
+selection/undo, ground updates, pose changes, text layout and capped alpha-mask memory;
+reported issues were corrected. Temporary test captures were inspected and cleaned.
+This does not claim listening, physical-device testing or human creative approval.
+
+The first new fixture used an invalid PNG and was correctly rejected by media validation;
+it was replaced with a valid fixture. The harness was also corrected to await a settled
+visual reader, rather than audio readiness, after intentionally changing narrated text.
+The final stable-build run passes. No runtime validation was weakened.
+
+## Earlier library and page-editor verification
 
 Verified 20 September 2026 (Pacific/Auckland). **All nine browser checks and 72 unit
 tests passed**, along with TypeScript, formatting and the production build. The

@@ -24,6 +24,42 @@ test("demo and generated schema agree with the live versioned contract", () => {
     bookSchema,
   );
 });
+test("expanded paper-stage bounds validate and survive a JSON round trip", () => {
+  const book = fixture();
+  Object.assign(book.spreads[0].elements[0].placement, {
+    depth: -1.575,
+    width: 5.6,
+    height: 3.6,
+  });
+  Object.assign(book.spreads[0].ground!, {
+    x: 3.05,
+    depth: 1.575,
+    width: 6.1,
+    height: 3.15,
+    rotation: -180,
+  });
+  const roundTrip = JSON.parse(JSON.stringify(book));
+  const result = validateBook(roundTrip);
+  assert.deepEqual(result.errors, []);
+  assert.deepEqual(result.book, book);
+
+  for (const mutate of [
+    (candidate: AuthoredBook) =>
+      (candidate.spreads[0].elements[0].placement.depth = -1.576),
+    (candidate: AuthoredBook) =>
+      (candidate.spreads[0].elements[0].placement.height = 3.601),
+    (candidate: AuthoredBook) => (candidate.spreads[0].ground!.x = 3.051),
+    (candidate: AuthoredBook) => (candidate.spreads[0].ground!.depth = -1.576),
+    (candidate: AuthoredBook) => (candidate.spreads[0].ground!.width = 6.101),
+    (candidate: AuthoredBook) => (candidate.spreads[0].ground!.height = 3.151),
+    (candidate: AuthoredBook) =>
+      (candidate.spreads[0].ground!.rotation = 180.001),
+  ]) {
+    const candidate = fixture();
+    mutate(candidate);
+    assert.equal(validateBook(candidate).book, undefined);
+  }
+});
 test("invalid versions, unsupported behavior, duplicate IDs, unsafe sources and broken references give paths", () => {
   const cases: [(b: AuthoredBook) => void, string][] = [
     [

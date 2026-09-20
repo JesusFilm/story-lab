@@ -56,10 +56,7 @@
         "type": "object",
         "properties": {
           "kind": {
-            "enum": [
-              "image",
-              "audio"
-            ]
+            "enum": ["image", "audio"]
           },
           "src": {
             "type": "string",
@@ -71,11 +68,7 @@
             "maxLength": 4000
           }
         },
-        "required": [
-          "kind",
-          "src",
-          "attribution"
-        ],
+        "required": ["kind", "src", "attribution"],
         "additionalProperties": false
       }
     },
@@ -140,19 +133,11 @@
                       "maxLength": 4000
                     }
                   },
-                  "required": [
-                    "asset",
-                    "recordedText",
-                    "duration",
-                    "voice"
-                  ],
+                  "required": ["asset", "recordedText", "duration", "voice"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "id",
-                "text"
-              ],
+              "required": ["id", "text"],
               "additionalProperties": false
             },
             "minItems": 1,
@@ -166,9 +151,7 @@
                 "pattern": "^[a-z][a-z0-9-]{0,63}$"
               }
             },
-            "required": [
-              "asset"
-            ],
+            "required": ["asset"],
             "additionalProperties": false
           },
           "ground": {
@@ -180,23 +163,28 @@
               },
               "x": {
                 "type": "number",
-                "minimum": -2.8,
-                "maximum": 2.8
+                "minimum": -3.05,
+                "maximum": 3.05
               },
               "depth": {
                 "type": "number",
-                "minimum": -1.2,
-                "maximum": 1.2
+                "minimum": -1.575,
+                "maximum": 1.575
               },
               "width": {
                 "type": "number",
                 "minimum": 0.1,
-                "maximum": 5.6
+                "maximum": 6.1
               },
               "height": {
                 "type": "number",
                 "minimum": 0.1,
-                "maximum": 2.4
+                "maximum": 3.15
+              },
+              "rotation": {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
               },
               "opacity": {
                 "type": "number",
@@ -204,13 +192,7 @@
                 "maximum": 1
               }
             },
-            "required": [
-              "asset",
-              "x",
-              "depth",
-              "width",
-              "height"
-            ],
+            "required": ["asset", "x", "depth", "width", "height"],
             "additionalProperties": false
           },
           "elements": {
@@ -228,10 +210,7 @@
                   "maxLength": 4000
                 },
                 "kind": {
-                  "enum": [
-                    "actor",
-                    "prop"
-                  ]
+                  "enum": ["actor", "prop"]
                 },
                 "asset": {
                   "type": "string",
@@ -251,10 +230,7 @@
                       "maximum": 16
                     }
                   },
-                  "required": [
-                    "index",
-                    "columns"
-                  ],
+                  "required": ["index", "columns"],
                   "additionalProperties": false
                 },
                 "placement": {
@@ -267,7 +243,7 @@
                     },
                     "depth": {
                       "type": "number",
-                      "minimum": -1.2,
+                      "minimum": -1.575,
                       "maximum": 1.2
                     },
                     "width": {
@@ -278,13 +254,10 @@
                     "height": {
                       "type": "number",
                       "minimum": 0.1,
-                      "maximum": 2.7
+                      "maximum": 3.6
                     },
                     "anchor": {
-                      "enum": [
-                        "bottom",
-                        "center"
-                      ]
+                      "enum": ["bottom", "center"]
                     },
                     "elevation": {
                       "type": "number",
@@ -297,28 +270,17 @@
                       "maximum": 45
                     }
                   },
-                  "required": [
-                    "x",
-                    "depth",
-                    "width",
-                    "height"
-                  ],
+                  "required": ["x", "depth", "width", "height"],
                   "additionalProperties": false
                 },
                 "motion": {
                   "type": "object",
                   "properties": {
                     "preset": {
-                      "enum": [
-                        "rock"
-                      ]
+                      "enum": ["rock"]
                     },
                     "trigger": {
-                      "enum": [
-                        "open",
-                        "interaction",
-                        "narration"
-                      ]
+                      "enum": ["open", "interaction", "narration"]
                     },
                     "segment": {
                       "type": "string",
@@ -345,12 +307,7 @@
                       "maximum": 10
                     }
                   },
-                  "required": [
-                    "preset",
-                    "trigger",
-                    "duration",
-                    "strength"
-                  ],
+                  "required": ["preset", "trigger", "duration", "strength"],
                   "additionalProperties": false
                 },
                 "interaction": {
@@ -367,25 +324,14 @@
                       "maxLength": 4000
                     },
                     "sound": {
-                      "enum": [
-                        "tap"
-                      ]
+                      "enum": ["tap"]
                     }
                   },
-                  "required": [
-                    "label",
-                    "response"
-                  ],
+                  "required": ["label", "response"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "id",
-                "label",
-                "kind",
-                "asset",
-                "placement"
-              ],
+              "required": ["id", "label", "kind", "asset", "placement"],
               "additionalProperties": false
             },
             "minItems": 0,

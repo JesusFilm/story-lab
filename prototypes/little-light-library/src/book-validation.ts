@@ -38,9 +38,9 @@ const motion = object(
 const placement = object(
   {
     x: num(-2.8, 2.8),
-    depth: num(-1.2, 1.2),
+    depth: num(-1.575, 1.2),
     width: num(0.1, 5.6),
-    height: num(0.1, 2.7),
+    height: num(0.1, 3.6),
     anchor: choice("bottom", "center"),
     elevation: num(0, 2),
     rotation: num(-45, 45),
@@ -100,10 +100,11 @@ export const bookSchema = {
           ground: object(
             {
               asset: id,
-              x: num(-2.8, 2.8),
-              depth: num(-1.2, 1.2),
-              width: num(0.1, 5.6),
-              height: num(0.1, 2.4),
+              x: num(-3.05, 3.05),
+              depth: num(-1.575, 1.575),
+              width: num(0.1, 6.1),
+              height: num(0.1, 3.15),
+              rotation: num(-180, 180),
               opacity: num(0, 1),
             },
             ["asset", "x", "depth", "width", "height"],

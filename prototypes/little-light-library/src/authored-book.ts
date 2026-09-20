@@ -56,6 +56,7 @@ export interface BookSpread {
     depth: number;
     width: number;
     height: number;
+    rotation?: number;
     opacity?: number;
   };
   elements: BookElement[];

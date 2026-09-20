@@ -15,6 +15,7 @@ export interface AuthoredStageDebug {
   ground: null | {
     position: number[];
     size: [number, number];
+    rotation: number;
     opacity: number;
   };
   elements: {
@@ -35,6 +36,11 @@ type RuntimeElement = {
   material: THREE.MeshStandardMaterial;
   baseRotation: number;
   interactionStarted?: number;
+};
+
+type RuntimeGround = {
+  mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>;
+  material: THREE.MeshStandardMaterial;
 };
 
 const assetPath = (book: AuthoredBook, id: string, kind: "image" | "audio") => {
@@ -150,13 +156,13 @@ export class AuthoredStage {
   private readonly segmentStarts = new Map<string, number>();
   private decodedDurations?: readonly number[];
   private openedAt: number | undefined;
-  private groundDebug: AuthoredStageDebug["ground"] = null;
 
   private constructor(
     backdropTexture: THREE.Texture,
     coverTexture: THREE.Texture,
     elements: RuntimeElement[],
     spread: BookSpread,
+    private readonly ground?: RuntimeGround,
   ) {
     this.backdropTexture = backdropTexture;
     this.coverTexture = coverTexture;
@@ -217,7 +223,7 @@ export class AuthoredStage {
       backdropMesh.castShadow = backdropMesh.receiveShadow = true;
       backdrop.add(backdropMesh);
 
-      let groundDebug: AuthoredStageDebug["ground"] = null;
+      let runtimeGround: RuntimeGround | undefined;
       if (spread.ground) {
         const definition = spread.ground;
         const texture = await load(definition.asset);
@@ -230,13 +236,10 @@ export class AuthoredStage {
         ground.name = "authored-ground";
         ground.userData.staticPageSurface = true;
         ground.position.set(definition.x, definition.depth, 0.046);
+        ground.rotation.z = THREE.MathUtils.degToRad(definition.rotation ?? 0);
         ground.receiveShadow = true;
         root.add(ground);
-        groundDebug = {
-          position: ground.position.toArray(),
-          size: [definition.width, definition.height],
-          opacity: material.opacity,
-        };
+        runtimeGround = { mesh: ground, material };
       }
 
       for (const definition of spread.elements) {
@@ -285,11 +288,11 @@ export class AuthoredStage {
         coverTexture,
         elements,
         spread,
+        runtimeGround,
       );
       stage.root.add(...root.children);
       stage.popups.push(...popups);
       stage.textures.push(...textures);
-      stage.groundDebug = groundDebug;
       return stage;
     } catch (error) {
       disposeDetached(root, textures);
@@ -346,6 +349,23 @@ export class AuthoredStage {
     element.definition = definition;
   }
 
+  /** Apply editor ground changes to the loaded mesh without reloading its image. */
+  editGround(definition: NonNullable<BookSpread["ground"]>) {
+    if (!this.ground) return;
+    const { mesh, material } = this.ground;
+    mesh.scale.set(
+      definition.width / mesh.geometry.parameters.width,
+      definition.height / mesh.geometry.parameters.height,
+      1,
+    );
+    mesh.position.set(definition.x, definition.depth, 0.046);
+    mesh.rotation.z = THREE.MathUtils.degToRad(definition.rotation ?? 0);
+    material.opacity = definition.opacity ?? 1;
+    material.transparent = material.opacity < 1;
+    material.alphaTest = material.transparent ? 0 : 0.03;
+    material.needsUpdate = true;
+  }
+
   dispose() {
     disposeDetached(this.root, this.textures);
   }
@@ -388,8 +408,19 @@ export class AuthoredStage {
   }
 
   debug(): AuthoredStageDebug {
+    const ground = this.ground;
     return {
-      ground: this.groundDebug,
+      ground: ground
+        ? {
+            position: ground.mesh.position.toArray(),
+            size: [
+              ground.mesh.geometry.parameters.width * ground.mesh.scale.x,
+              ground.mesh.geometry.parameters.height * ground.mesh.scale.y,
+            ],
+            rotation: ground.mesh.rotation.z,
+            opacity: ground.material.opacity,
+          }
+        : null,
       elements: this.elements.map(({ definition, popup, pivot }) => ({
         id: definition.id,
         kind: definition.kind,

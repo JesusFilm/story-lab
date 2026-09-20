@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { AuthoredStage } from "./authored-stage";
-import type { AuthoredBook, BookSpread } from "./authored-book";
+import type { AuthoredBook, BookSpread, BookElement } from "./authored-book";
 
 const html = (value: unknown) =>
   String(value ?? "").replace(
@@ -11,6 +11,8 @@ const html = (value: unknown) =>
       ]!,
   );
 const clamp = THREE.MathUtils.clamp;
+const FRONT_EDGE = -1.575;
+const MAX_HEIGHT = 3.6;
 const src = (book: AuthoredBook, id: string) => {
   const value = book.assets[id]?.src || "";
   return value.startsWith("data:image/")
@@ -53,6 +55,7 @@ export function installVisualEditor(
   let stagePage: string | undefined;
   let previewing = false;
   let playing = false;
+  let showGuides = true;
   let playStart = 0;
   let back: AuthoredBook[] = [];
   let forward: AuthoredBook[] = [];
@@ -84,8 +87,8 @@ export function installVisualEditor(
     host.querySelector<HTMLElement>(".visual-status")!.textContent = text;
   };
   host.innerHTML = `<div class="studio-bar"><div><span class="eyebrow">Build your story</span><input id="visual-book-title" aria-label="Book title" placeholder="Name your book"></div><div class="studio-actions"><button data-studio="undo" aria-label="Undo edit">↶ Undo</button><button data-studio="redo" aria-label="Redo edit">↷ Redo</button><button data-studio="details">Book details</button><button data-studio="preview" class="primary">Preview page</button><button data-studio="read">Read book ↗</button></div></div>
-  <div class="studio-tools" aria-label="Add to your book"><button data-studio="page">＋ Add page</button><button data-studio="character">＋ Character</button><button data-studio="image">＋ Image</button><button data-studio="background">▧ Background</button><button data-studio="ground">▱ Ground</button><button data-studio="cover">Cover art</button><button data-studio="play">▷ Try motion</button><button data-studio="retry" hidden>Retry artwork</button></div>
-  <div class="page-navigation"><button data-studio="previous-page">← Previous page</button><span class="page-counter"></span><button data-studio="next-page">Next page →</button></div><div class="studio-body"><div class="studio-composition"><div class="studio-viewport" tabindex="0" aria-label="Interactive book canvas. Select a character or image and drag to move it. Arrow keys move the selected artwork."><div class="canvas-hint">Click artwork to select · drag to move · use the corner to resize</div><div class="selection-frame" hidden><span></span><button class="resize-art" aria-label="Drag to resize selected artwork">↗</button></div><div class="scene-loading" role="status" hidden>Loading artwork…</div></div><div class="page-writing"><input aria-label="Page title" id="visual-page-title" placeholder="Name this page"><div class="page-phrases"></div><button data-studio="phrase">＋ Add a line</button></div><p class="visual-status" role="status">Your book updates as you work.</p></div><aside class="studio-inspector" aria-label="Selected artwork"></aside></div><div class="studio-pages" aria-label="Book pages"></div><button class="art-scrim" aria-label="Dismiss artwork chooser" hidden></button><section class="art-tray" aria-label="Choose artwork" hidden></section>`;
+  <div class="studio-tools" aria-label="Add to your book"><button data-studio="page">＋ Add page</button><button data-studio="character">＋ Character</button><button data-studio="image">＋ Image</button><button data-studio="background">▧ Background</button><button data-studio="ground">▱ Ground</button><button data-studio="cover">Cover art</button><button data-studio="play">▷ Try motion</button><button data-studio="guides" aria-pressed="true">Page guides</button><button data-studio="retry" hidden>Retry artwork</button></div>
+  <div class="page-navigation"><button data-studio="previous-page">← Previous page</button><span class="page-counter"></span><button data-studio="next-page">Next page →</button></div><div class="studio-body"><div class="studio-composition"><div class="studio-viewport" tabindex="0" aria-label="Interactive book canvas. Select a character or image and drag to move it. Arrow keys move the selected artwork."><div class="canvas-hint">Drag selected art · Alt-click to cycle overlaps · use the corner to resize</div><div class="stage-guide-label"></div><div class="overlap-picker" aria-label="Overlapping artwork" hidden></div><div class="selection-frame" hidden><button class="move-art" aria-label="Drag selected artwork"></button><button class="resize-art" aria-label="Drag to resize selected artwork">↗</button></div><div class="scene-loading" role="status" hidden>Loading artwork…</div></div><div class="page-writing"><input aria-label="Page title" id="visual-page-title" placeholder="Name this page"><div class="page-phrases"></div><button data-studio="phrase">＋ Add a line</button></div><p class="visual-status" role="status">Your book updates as you work.</p></div><aside class="studio-inspector" aria-label="Selected artwork"></aside></div><div class="studio-pages" aria-label="Book pages"></div><button class="art-scrim" aria-label="Dismiss artwork chooser" hidden></button><section class="art-tray" aria-label="Choose artwork" hidden></section>`;
   const viewport = host.querySelector<HTMLElement>(".studio-viewport")!;
   const inspector = host.querySelector<HTMLElement>(".studio-inspector")!;
   const tray = host.querySelector<HTMLElement>(".art-tray")!;
@@ -98,6 +101,7 @@ export function installVisualEditor(
   scrim.onclick = closeTray;
   const frame = host.querySelector<HTMLElement>(".selection-frame")!;
   const loader = host.querySelector<HTMLElement>(".scene-loading")!;
+  const overlapPicker = host.querySelector<HTMLElement>(".overlap-picker")!;
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.setClearColor(0x000000, 0);
@@ -130,6 +134,40 @@ export function installVisualEditor(
     leaf.position.set(x, 0, -0.03);
     bookRoot.add(leaf);
   }
+  const guides = new THREE.Group();
+  const outline = (points: THREE.Vector3[]) => {
+    const line = new THREE.LineLoop(
+      new THREE.BufferGeometry().setFromPoints(points),
+      new THREE.LineDashedMaterial({
+        color: 0x257663,
+        dashSize: 0.09,
+        gapSize: 0.05,
+        depthTest: false,
+        transparent: true,
+        opacity: 0.85,
+      }),
+    );
+    line.computeLineDistances();
+    line.renderOrder = 1000;
+    guides.add(line);
+  };
+  outline(
+    [
+      [-3.05, -1.575, 0.06],
+      [3.05, -1.575, 0.06],
+      [3.05, 1.575, 0.06],
+      [-3.05, 1.575, 0.06],
+    ].map((p) => new THREE.Vector3(...(p as [number, number, number]))),
+  );
+  outline(
+    [
+      [-2.9, 1.22, 0.075],
+      [2.9, 1.22, 0.075],
+      [2.9, 1.22, 2.775],
+      [-2.9, 1.22, 2.775],
+    ].map((p) => new THREE.Vector3(...(p as [number, number, number]))),
+  );
+  bookRoot.add(guides);
   const raycaster = new THREE.Raycaster();
   const pointer = new THREE.Vector2();
   const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.075);
@@ -215,9 +253,21 @@ export function installVisualEditor(
     max: number,
     step = 0.01,
   ) =>
-    `<label class="studio-range"><span>${label}<output>${value.toFixed(2)}</output></span><input aria-label="${label}" data-placement="${key}" type="range" min="${min}" max="${max}" step="${step}" value="${value}"></label>`;
+    `<label class="studio-range"><span>${label}<output>${value.toFixed(step < 0.01 ? 3 : 2)}</output></span><input aria-label="${label}" data-placement="${key}" type="range" min="${min}" max="${max}" step="${step}" value="${value}"></label>`;
+  const thumbnail = (item: BookElement, index = item.pose?.index ?? 0) => {
+    const columns = item.pose?.columns ?? 1;
+    return `<span class="pose-thumbnail" style="--pose-columns:${columns};--pose-index:${index}"><img src="${html(src(options.book(), item.asset))}" alt=""></span>`;
+  };
   function controls() {
     host.classList.toggle("page-previewing", previewing);
+    guides.visible = showGuides && !previewing;
+    host.querySelector<HTMLElement>(".stage-guide-label")!.textContent =
+      guides.visible
+        ? "Dashed guides: page 6.10 × 3.15 · backdrop 5.80 × 2.70"
+        : "";
+    host
+      .querySelector<HTMLButtonElement>('[data-studio="guides"]')!
+      .setAttribute("aria-pressed", String(showGuides));
     host.querySelector<HTMLButtonElement>(
       '[data-studio="preview"]',
     )!.textContent = previewing ? "Back to editing" : "Preview page";
@@ -231,27 +281,54 @@ export function installVisualEditor(
         .join("")}</div>`;
       return;
     }
-    const item = element();
-    inspector.innerHTML = item
-      ? `<p class="eyebrow">${item.kind === "actor" ? "Character" : "Image"}</p><input aria-label="Artwork name" data-element-name value="${html(item.label)}"><p class="editor-muted">Drag on the book. Arrow keys nudge; Shift moves farther.</p>${range("Size", "size", item.placement.height, 0.2, 2.7, 0.01)}${range("Left / right", "x", item.placement.x, -2.8, 2.8)}${range("Front / back", "depth", item.placement.depth, -1.2, 1.2)}${range("Lift", "elevation", item.placement.elevation ?? 0, 0, 2)}${range("Rotation", "rotation", item.placement.rotation ?? 0, -45, 45, 1)}<div class="inspector-actions"><button data-studio="replace">Replace art</button><button data-studio="duplicate">Duplicate</button><button data-studio="remove">Remove</button></div><p class="eyebrow">Bring it to life</p><label class="studio-check"><input type="checkbox" data-rock ${item.motion ? "checked" : ""}> Gentle rocking</label><button data-studio="play">▷ Try motion</button>`
-      : `<p class="eyebrow">Page ${page + 1}</p><h2>Make it yours</h2><p>Choose a background, then add characters and images. Click anything on the book to move or resize it.</p><button data-studio="background">Choose background</button><button data-studio="character">Add a character</button><button data-studio="image">Add an image</button><hr><button data-studio="duplicate-page">Duplicate page</button><button data-studio="page-left" ${page === 0 ? "disabled" : ""}>Move page earlier</button><button data-studio="page-right" ${page === options.book().spreads.length - 1 ? "disabled" : ""}>Move page later</button><button data-studio="remove-page" ${options.book().spreads.length < 2 ? "disabled" : ""}>Delete page</button>`;
-    if (item)
+    const item = element(),
+      ground = spread().ground;
+    if (item) {
+      const sizeMax = Math.min(
+        MAX_HEIGHT,
+        (5.6 * item.placement.height) / item.placement.width,
+      );
+      inspector.innerHTML = `<p class="eyebrow">${item.kind === "actor" ? "Character" : "Image"}</p><input aria-label="Artwork name" data-element-name value="${html(item.label)}"><p class="editor-muted">Drag the selected artwork or its name handle. Alt-click cycles overlapping art; clicking an overlap also offers a chooser.</p>${range("Size", "size", item.placement.height, Math.max(0.1, (0.1 * item.placement.height) / item.placement.width), sizeMax)}${range("Left / right", "x", item.placement.x, -2.8, 2.8)}${range("Front / back", "depth", item.placement.depth, FRONT_EDGE, 1.2, 0.005)}<p class="editor-muted">Front edge: −1.575 · maximum height: 3.60 units.</p>${range("Lift", "elevation", item.placement.elevation ?? 0, 0, 2)}${range("Rotation", "rotation", item.placement.rotation ?? 0, -45, 45, 1)}<div class="inspector-actions"><button data-studio="replace">Replace art</button><button data-studio="duplicate">Duplicate</button><button data-studio="remove">Remove</button></div>
+      <details class="pose-settings" ${item.pose ? "open" : ""}><summary>Picture / pose frames</summary><label class="studio-check"><input type="checkbox" data-pose-enabled ${item.pose ? "checked" : ""}> Use a horizontal pose sheet</label>${item.pose ? `<p>These are alternative still poses, not a timed animation. Choose the pose shown on this page.</p><label>Frames across<input type="number" data-pose-columns aria-label="Frames across" min="1" max="16" value="${item.pose.columns}"></label><label>Selected frame index<select data-pose-index aria-label="Selected frame index">${Array.from({ length: item.pose.columns }, (_, i) => `<option value="${i}" ${i === item.pose!.index ? "selected" : ""}>${i} — frame ${i + 1}</option>`).join("")}</select></label><div class="pose-options">${Array.from({ length: item.pose.columns }, (_, i) => `<button data-pose-frame="${i}" aria-label="Choose frame ${i + 1}" aria-pressed="${i === item.pose!.index}">${thumbnail(item, i)}<span>${i + 1}</span></button>`).join("")}</div>` : `<p>Use the whole image, or enable a sheet to select one frame from several side-by-side poses.</p>`}</details>
+      <p class="eyebrow">Bring it to life</p><label class="studio-check"><input type="checkbox" data-rock ${item.motion ? "checked" : ""}> Gentle rocking</label><button data-studio="play">▷ Try motion</button>`;
       inspector.dataset.baseSize = JSON.stringify([
         item.placement.width,
         item.placement.height,
       ]);
+    } else if (selected === "@ground" && ground) {
+      const groundRange = (...args: Parameters<typeof range>) =>
+        range(...args).replace("data-placement", "data-ground");
+      inspector.dataset.baseSize = JSON.stringify([
+        ground.width,
+        ground.height,
+      ]);
+      inspector.innerHTML = `<p class="eyebrow">Ground artwork</p><h2>On the page</h2><p class="editor-muted">Available paper: 6.10 wide × 3.15 deep. The dashed outline marks its edges. Rotation or an offset can extend artwork past those edges.</p>${groundRange("Ground scale", "scale", 1, 0.1, Math.max(1, Math.min(6.1 / ground.width, 3.15 / ground.height)))}${groundRange("Ground width", "width", ground.width, 0.1, 6.1)}${groundRange("Ground depth size", "height", ground.height, 0.1, 3.15)}${groundRange("Ground left / right", "x", ground.x, -3.05, 3.05)}${groundRange("Ground front / back", "depth", ground.depth, FRONT_EDGE, 1.575, 0.005)}${groundRange("Ground rotation", "rotation", ground.rotation ?? 0, -180, 180, 1)}${groundRange("Ground opacity", "opacity", ground.opacity ?? 1, 0, 1)}<button data-studio="ground">Replace ground art</button><button data-studio="remove-ground">Remove ground</button>`;
+    } else {
+      inspector.innerHTML = `<p class="eyebrow">Background & page ${page + 1}</p><h2>Make it yours</h2><p>The upright background fills a fixed 5.80 × 2.70 rectangle. Its dashed outline shows the maximum space; the ground has a separate 6.10 × 3.15 outline.</p><button data-studio="background">Choose background</button><button data-studio="character">Add a character</button><button data-studio="image">Add an image</button><button data-studio="ground">${ground ? "Replace ground art" : "Add ground art"}</button><hr><button data-studio="duplicate-page">Duplicate page</button><button data-studio="page-left" ${page === 0 ? "disabled" : ""}>Move page earlier</button><button data-studio="page-right" ${page === options.book().spreads.length - 1 ? "disabled" : ""}>Move page later</button><button data-studio="remove-page" ${options.book().spreads.length < 2 ? "disabled" : ""}>Delete page</button>`;
+    }
     const layers = document.createElement("div");
     layers.className = "studio-layers";
     layers.innerHTML =
-      `<p class="eyebrow">On this page</p><button data-select="" aria-pressed="${!selected}">▧ Background & page</button>` +
+      `<p class="eyebrow">On this page</p><button data-select="" aria-pressed="${!selected}">▧ Background & page</button>${ground ? `<button data-select="@ground" aria-pressed="${selected === "@ground"}"><img src="${html(src(options.book(), ground.asset))}" alt="">Ground artwork</button>` : ""}` +
       spread()
         .elements.map(
           (item) =>
-            `<button data-select="${html(item.id)}" aria-pressed="${item.id === selected}"><img src="${html(src(options.book(), item.asset))}" alt="">${html(item.label)}</button>`,
+            `<button data-select="${html(item.id)}" aria-pressed="${item.id === selected}">${thumbnail(item)}<span>${html(item.label)}${item.pose ? `<small>Pose ${item.pose.index + 1} of ${item.pose.columns}</small>` : ""}</span></button>`,
         )
         .join("");
     inspector.append(layers);
   }
+  function sizeText() {
+    host
+      .querySelectorAll<HTMLTextAreaElement>(".page-phrases textarea")
+      .forEach((input) => {
+        input.style.height = "auto";
+        input.style.height = `${input.scrollHeight + 2}px`;
+      });
+  }
+  new ResizeObserver(sizeText).observe(
+    host.querySelector<HTMLElement>(".page-writing")!,
+  );
   function writing() {
     host.querySelector<HTMLInputElement>("#visual-book-title")!.value =
       options.book().title;
@@ -264,9 +341,10 @@ export function installVisualEditor(
     host.querySelector<HTMLElement>(".page-phrases")!.innerHTML = spread()
       .segments.map(
         (item, index) =>
-          `<textarea ${previewing ? "readonly" : ""} data-line="${index}" aria-label="Story line ${index + 1}" rows="2">${html(item.text)}</textarea>`,
+          `<label class="story-line"><span>Line ${index + 1}</span><textarea ${previewing ? "readonly" : ""} data-line="${index}" aria-label="Story line ${index + 1}" rows="1">${html(item.text)}</textarea></label>`,
       )
       .join("");
+    sizeText();
   }
   async function rebuild() {
     if (!visible) return;
@@ -322,6 +400,7 @@ export function installVisualEditor(
     }
   }
   function refresh(load = true) {
+    overlapPicker.hidden = true;
     ensurePage();
     pages();
     controls();
@@ -331,6 +410,8 @@ export function installVisualEditor(
   }
   function selectElement(id: string) {
     selected = id;
+    overlapPicker.hidden = true;
+    inspector.scrollTop = 0;
     playing = false;
     stage?.rest();
     controls();
@@ -421,7 +502,7 @@ export function installVisualEditor(
         height: 2.2,
         opacity: 1,
       };
-      selected = "";
+      selected = "@ground";
     } else if (target === "replace" && element()) element()!.asset = id;
     else {
       const image = new Image();
@@ -468,6 +549,18 @@ export function installVisualEditor(
       "button",
     );
     if (!button) return;
+    if (button.dataset.pickElement) {
+      selectElement(button.dataset.pickElement);
+      viewport.focus();
+      return;
+    }
+    if (button.dataset.poseFrame !== undefined && element()?.pose) {
+      record();
+      element()!.pose!.index = Number(button.dataset.poseFrame);
+      refresh();
+      notify();
+      return;
+    }
     if (button.dataset.tryElement) {
       const result = stage?.activate(button.dataset.tryElement);
       if (result) message(result.response);
@@ -502,6 +595,11 @@ export function installVisualEditor(
       artTray(action as Target);
       return;
     }
+    if (action === "guides") {
+      showGuides = !showGuides;
+      controls();
+      return;
+    }
     if (action === "close-tray") {
       closeTray();
       return;
@@ -520,6 +618,7 @@ export function installVisualEditor(
     if (action === "preview") {
       previewing = !previewing;
       selected = "";
+      overlapPicker.hidden = true;
       playing = previewing;
       playStart = performance.now() / 1000;
       stage?.begin();
@@ -570,6 +669,10 @@ export function installVisualEditor(
       return;
     }
     record();
+    if (action === "remove-ground") {
+      delete spread().ground;
+      selected = "";
+    }
     if (action === "page" || action === "duplicate-page") {
       if (options.book().spreads.length >= 40) {
         message("A book can hold up to 40 pages.");
@@ -625,7 +728,7 @@ export function installVisualEditor(
     notify();
   });
   host.addEventListener("focusin", (event) => {
-    if ((event.target as HTMLElement).matches("input,textarea"))
+    if ((event.target as HTMLElement).matches("input,textarea,select"))
       gestureSnapshot = snapshot();
   });
   host.addEventListener("input", (event) => {
@@ -635,9 +738,23 @@ export function installVisualEditor(
     else if (input.id === "visual-page-title") {
       spread().title = input.value;
       pages();
-    } else if (input.dataset.line !== undefined)
+    } else if (input.dataset.line !== undefined) {
       spread().segments[Number(input.dataset.line)].text = input.value;
-    else if (input.hasAttribute("data-element-name") && element()) {
+      sizeText();
+    } else if (input.dataset.ground && spread().ground) {
+      const ground = spread().ground!,
+        key = input.dataset.ground,
+        value = Number(input.value);
+      if (key === "scale") {
+        const [width, height] = JSON.parse(inspector.dataset.baseSize!);
+        const scale = Math.min(value, 6.1 / width, 3.15 / height);
+        ground.width = Math.max(0.1, width * scale);
+        ground.height = Math.max(0.1, height * scale);
+      } else (ground as unknown as Record<string, number>)[key] = value;
+      input.previousElementSibling!.querySelector("output")!.textContent =
+        value.toFixed(key === "depth" ? 3 : 2);
+      stage?.editGround(ground);
+    } else if (input.hasAttribute("data-element-name") && element()) {
       element()!.label = input.value;
     } else if (input.dataset.placement && element()) {
       const key = input.dataset.placement;
@@ -645,12 +762,16 @@ export function installVisualEditor(
       const item = element()!;
       if (key === "size") {
         const [width, height] = JSON.parse(inspector.dataset.baseSize!);
-        const scale = Math.min(value / height, 5.6 / width, 2.7 / height);
+        const scale = Math.min(
+          value / height,
+          5.6 / width,
+          MAX_HEIGHT / height,
+        );
         item.placement.width = Math.max(0.1, width * scale);
         item.placement.height = Math.max(0.1, height * scale);
       } else (item.placement as unknown as Record<string, number>)[key] = value;
       input.previousElementSibling!.querySelector("output")!.textContent =
-        value.toFixed(2);
+        value.toFixed(key === "depth" ? 3 : 2);
       livePlacement();
     }
     options.changed();
@@ -658,6 +779,52 @@ export function installVisualEditor(
   host.addEventListener("change", (event) => {
     const input = event.target as HTMLInputElement;
     if (input.type === "file") return;
+    if (
+      element() &&
+      (input.hasAttribute("data-pose-enabled") ||
+        input.hasAttribute("data-pose-columns") ||
+        input.hasAttribute("data-pose-index"))
+    ) {
+      const item = element()!;
+      if (input.hasAttribute("data-pose-enabled")) {
+        if (input.checked) item.pose = { columns: 1, index: 0 };
+        else delete item.pose;
+      } else if (item.pose) {
+        if (input.hasAttribute("data-pose-columns"))
+          item.pose.columns = clamp(
+            Math.floor(Number(input.value)) || 1,
+            1,
+            16,
+          );
+        else item.pose.index = Number(input.value);
+        item.pose.index = clamp(item.pose.index, 0, item.pose.columns - 1);
+      }
+      refresh();
+    }
+    if (input.dataset.ground && spread().ground) {
+      const ground = spread().ground!;
+      inspector.dataset.baseSize = JSON.stringify([
+        ground.width,
+        ground.height,
+      ]);
+      inspector
+        .querySelectorAll<HTMLInputElement>("[data-ground]")
+        .forEach((field) => {
+          const key = field.dataset.ground!;
+          const value =
+            key === "scale"
+              ? 1
+              : ((ground as unknown as Record<string, number>)[key] ??
+                (key === "opacity" ? 1 : 0));
+          if (key === "scale")
+            field.max = String(
+              Math.max(1, Math.min(6.1 / ground.width, 3.15 / ground.height)),
+            );
+          field.value = String(value);
+          field.previousElementSibling!.querySelector("output")!.textContent =
+            value.toFixed(key === "depth" ? 3 : 2);
+        });
+    }
     if (input.hasAttribute("data-rock") && element()) {
       if (input.checked)
         element()!.motion = {
@@ -690,30 +857,102 @@ export function installVisualEditor(
     moved: boolean;
   };
   let drag: Drag | undefined;
+  const pixels = new WeakMap<object, ImageData>();
+  function hitsAtPointer() {
+    const hits = raycaster.intersectObject(stage!.root, true).filter((hit) => {
+      if (
+        !hit.object.name.startsWith("authored-element-") &&
+        hit.object.name !== "authored-ground"
+      )
+        return false;
+      const texture = (
+        hit.object as THREE.Mesh<
+          THREE.BufferGeometry,
+          THREE.MeshStandardMaterial
+        >
+      ).material.map;
+      if (!texture?.image || !hit.uv) return true;
+      try {
+        let data = pixels.get(texture.image);
+        if (!data) {
+          const canvas = document.createElement("canvas");
+          const maskScale = Math.min(
+            1,
+            256 / Math.max(texture.image.width, texture.image.height),
+          );
+          canvas.width = Math.max(
+            1,
+            Math.round(texture.image.width * maskScale),
+          );
+          canvas.height = Math.max(
+            1,
+            Math.round(texture.image.height * maskScale),
+          );
+          const ctx = canvas.getContext("2d")!;
+          ctx.drawImage(texture.image, 0, 0, canvas.width, canvas.height);
+          data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          pixels.set(texture.image, data);
+        }
+        const uv = hit.uv.clone();
+        texture.updateMatrix();
+        texture.transformUv(uv);
+        const x = clamp(Math.floor(uv.x * data.width), 0, data.width - 1),
+          y = clamp(Math.floor(uv.y * data.height), 0, data.height - 1);
+        return data.data[(y * data.width + x) * 4 + 3] > 32;
+      } catch {
+        return true;
+      }
+    });
+    return [
+      ...new Set(
+        hits
+          .filter((hit) => hit.object.name.startsWith("authored-element-"))
+          .map((hit) => hit.object.name.slice("authored-element-".length)),
+      ),
+    ];
+  }
+  function offerOverlaps(ids: string[], event: PointerEvent) {
+    overlapPicker.hidden = ids.length < 2;
+    if (ids.length < 2) return;
+    overlapPicker.innerHTML = `<p>Artwork here · choose one</p>${ids
+      .map((id) => {
+        const item = spread().elements.find((item) => item.id === id)!;
+        return `<button data-pick-element="${html(id)}" aria-pressed="${id === selected}">${thumbnail(item)}${html(item.label)}</button>`;
+      })
+      .join("")}`;
+    const rect = viewport.getBoundingClientRect();
+    overlapPicker.style.left = `${clamp(event.clientX - rect.left + 14, 8, Math.max(8, rect.width - 220))}px`;
+    overlapPicker.style.top = `${clamp(event.clientY - rect.top + 14, 40, Math.max(40, rect.height - 170))}px`;
+  }
   viewport.addEventListener("pointerdown", (event) => {
+    if ((event.target as HTMLElement).closest(".overlap-picker")) return;
     if (pending || !stage || event.button !== 0) return;
     const resize =
       (event.target as HTMLElement).closest(".resize-art") !== null;
+    const handle = (event.target as HTMLElement).closest(".move-art") !== null;
     pointerRay(event);
+    const hits = hitsAtPointer();
     if (previewing) {
-      const hit = raycaster
-        .intersectObject(stage.root, true)
-        .find((hit) => hit.object.name.startsWith("authored-element-"));
-      if (hit) {
-        const result = stage.activate(
-          hit.object.name.slice("authored-element-".length),
-        );
+      if (hits[0]) {
+        const result = stage.activate(hits[0]);
         if (result) message(result.response);
       }
       return;
     }
-    if (!resize) {
-      const hit = raycaster
-        .intersectObject(stage.root, true)
-        .find((hit) => hit.object.name.startsWith("authored-element-"));
-      selectElement(
-        hit ? hit.object.name.slice("authored-element-".length) : "",
-      );
+    if (!resize && !handle) {
+      const index = hits.indexOf(selected);
+      const id = event.altKey
+        ? hits[(index + 1) % hits.length]
+        : index >= 0
+          ? selected
+          : hits[0];
+      const groundHit =
+        !id &&
+        raycaster
+          .intersectObject(stage.root, true)
+          .some((hit) => hit.object.name === "authored-ground");
+      selectElement(id || (groundHit ? "@ground" : ""));
+      offerOverlaps(hits, event);
     }
     const item = element(),
       point = planePoint(event);
@@ -737,12 +976,19 @@ export function installVisualEditor(
   });
   viewport.addEventListener("pointermove", (event) => {
     if (!drag || event.pointerId !== drag.id || !element()) return;
+    if (
+      Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) <
+        3 &&
+      !drag.moved
+    )
+      return;
+    overlapPicker.hidden = true;
     const item = element()!;
     if (drag.resize) {
       const scale = clamp(
         1 + (event.clientX - drag.startX - (event.clientY - drag.startY)) / 180,
         Math.max(0.1 / drag.width, 0.1 / drag.height),
-        Math.min(5.6 / drag.width, 2.7 / drag.height),
+        Math.min(5.6 / drag.width, MAX_HEIGHT / drag.height),
       );
       item.placement.width = drag.width * scale;
       item.placement.height = drag.height * scale;
@@ -752,7 +998,7 @@ export function installVisualEditor(
       item.placement.x = clamp(drag.x + point.x - drag.point.x, -2.8, 2.8);
       item.placement.depth = clamp(
         drag.depth - (point.z - drag.point.z),
-        -1.2,
+        FRONT_EDGE,
         1.2,
       );
     }
@@ -793,7 +1039,7 @@ export function installVisualEditor(
       else
         item.placement.depth = clamp(
           item.placement.depth + (event.key === "ArrowUp" ? delta : -delta),
-          -1.2,
+          FRONT_EDGE,
           1.2,
         );
       livePlacement();
@@ -825,7 +1071,8 @@ export function installVisualEditor(
       width: `${right - left}px`,
       height: `${bottom - top}px`,
     });
-    frame.querySelector("span")!.textContent = element()?.label || "";
+    frame.querySelector(".move-art")!.textContent =
+      `↔ ${element()?.label || ""}`;
   }
   let raf = 0;
   let lastWidth = 0,
@@ -880,6 +1127,7 @@ export function installVisualEditor(
     },
     hide() {
       closeTray();
+      overlapPicker.hidden = true;
       visible = false;
       revision++;
       cancelAnimationFrame(raf);

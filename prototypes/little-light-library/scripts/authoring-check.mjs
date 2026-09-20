@@ -75,7 +75,12 @@ const results = {
 };
 
 const check = async (name, run) => {
-  if (visualOnly && !name.startsWith("visual composition")) return;
+  if (
+    visualOnly &&
+    !name.startsWith("visual composition") &&
+    !name.startsWith("Editor controls")
+  )
+    return;
   console.log(`Running: ${name}`);
   const started = Date.now();
   try {
@@ -1055,6 +1060,209 @@ await check(
     );
     await context.close();
     return "Library-first entry; neutral one-page books with unique IDs and empty art; editing and read-only sequential previews; browser refresh persistence; isolated second book; recoverable deletion across refresh; phone library layout.";
+  },
+);
+
+await check(
+  "Editor controls: overlap picking, full-depth placement, ground, poses and growing text",
+  async () => {
+    const context = await makeContext();
+    const page = await context.newPage();
+    watchErrors(page);
+    await enter(page);
+    await openAuthor(page);
+    const fixture = await authorJson(page);
+    const poseActor = structuredClone(fixture.spreads[0].elements[0]);
+    fixture.assets["overlap-card"] = {
+      kind: "image",
+      src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGP4DwQACfsD/fteaysAAAAASUVORK5CYII=",
+      attribution: "Solid test pixel",
+    };
+    fixture.spreads[0].elements = ["back", "front"].map((id, i) => ({
+      id,
+      label: `${id} card`,
+      kind: "prop",
+      asset: "overlap-card",
+      placement: {
+        x: 0,
+        depth: i ? -0.3 : -0.15,
+        width: 1.2,
+        height: 1.8,
+        anchor: "bottom",
+      },
+    }));
+    await setAuthorJson(page, fixture);
+    await page.locator('[data-author-action="apply-json"]').click();
+    await page.locator("#author-dismiss").click();
+    await page.locator('[data-author-tab="visual"]').click();
+    const ready = () =>
+      page.locator(".scene-loading").waitFor({ state: "hidden" });
+    await ready();
+    await page.locator('[data-select="front"]').click();
+    await page.locator(".selection-frame").waitFor({ state: "visible" });
+    const box = await page.locator(".selection-frame").boundingBox();
+    const x = box.x + box.width / 2,
+      y = box.y + box.height / 2;
+    await page.mouse.click(x, y);
+    await page.locator('.overlap-picker [data-pick-element="back"]').waitFor();
+    assert.equal(
+      await page.locator(".overlap-picker [data-pick-element]").count(),
+      2,
+    );
+    await page.keyboard.down("Alt");
+    await page.mouse.click(x, y);
+    await page.keyboard.up("Alt");
+    assert.equal(
+      await page.getByLabel("Artwork name").inputValue(),
+      "back card",
+    );
+    await page.locator('.overlap-picker [data-pick-element="back"]').click();
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    await page.mouse.move(x - 25, y, { steps: 5 });
+    await page.mouse.up();
+    const moved = await authorJson(page);
+    assert.ok(moved.spreads[0].elements[0].placement.x < -0.1);
+    assert.equal(moved.spreads[0].elements[1].placement.x, 0);
+    await page.getByLabel("Front / back", { exact: true }).fill("-1.575");
+    await page.getByLabel("Front / back", { exact: true }).press("Tab");
+    await page.getByLabel("Size", { exact: true }).fill("3.5");
+    await page.getByLabel("Size", { exact: true }).press("Tab");
+    assert.equal(
+      (await authorJson(page)).spreads[0].elements[0].placement.depth,
+      -1.575,
+    );
+    assert.equal(
+      (await authorJson(page)).spreads[0].elements[0].placement.height,
+      3.5,
+    );
+    await page.locator('[data-select="@ground"]').click();
+    await page.getByLabel("Ground scale", { exact: true }).fill("1.05");
+    await page.getByLabel("Ground scale", { exact: true }).press("Tab");
+    assert.ok(
+      (await authorJson(page)).spreads[0].ground.width >
+        fixture.spreads[0].ground.width,
+    );
+    for (const [label, value] of [
+      ["Ground width", "6.1"],
+      ["Ground depth size", "3.15"],
+      ["Ground rotation", "30"],
+    ]) {
+      await page.getByLabel(label, { exact: true }).fill(value);
+      await page.getByLabel(label, { exact: true }).press("Tab");
+    }
+    const ground = (await authorJson(page)).spreads[0].ground;
+    assert.equal(ground.width, 6.1);
+    assert.equal(ground.height, 3.15);
+    assert.equal(ground.rotation, 30);
+    assert.match(
+      await page.locator(".stage-guide-label").innerText(),
+      /6.10 × 3.15.*5.80 × 2.70/,
+    );
+    // Put an existing three-pose actor into the same document and exercise the visible controls.
+    const withPose = await authorJson(page);
+    withPose.spreads[0].elements.push(poseActor);
+    await page.locator('[data-studio="details"]').click();
+    await setAuthorJson(page, withPose);
+    await page.locator('[data-author-action="apply-json"]').click();
+    await page.locator("#author-dismiss").click();
+    await page.locator('[data-author-tab="visual"]').click();
+    await ready();
+    await page.locator(`[data-select="${poseActor.id}"]`).click();
+    assert.equal(
+      await page.getByLabel("Frames across", { exact: true }).inputValue(),
+      "3",
+    );
+    await page
+      .getByRole("button", { name: "Choose frame 3", exact: true })
+      .click();
+    await ready();
+    assert.equal((await authorJson(page)).spreads[0].elements[2].pose.index, 2);
+    assert.equal(
+      await page
+        .locator(`[data-select="${poseActor.id}"] .pose-thumbnail`)
+        .evaluate((el) =>
+          getComputedStyle(el).getPropertyValue("--pose-index").trim(),
+        ),
+      "2",
+    );
+    await page.getByLabel("Frames across", { exact: true }).fill("2");
+    await page.getByLabel("Frames across", { exact: true }).press("Tab");
+    await ready();
+    assert.equal((await authorJson(page)).spreads[0].elements[2].pose.index, 1);
+    await page.getByLabel("Frames across", { exact: true }).fill("3");
+    await page.getByLabel("Frames across", { exact: true }).press("Tab");
+    await ready();
+    const longText =
+      "A line of story text should remain fully visible as the author writes. ".repeat(
+        9,
+      );
+    await page.getByLabel("Story line 1", { exact: true }).fill(longText);
+    for (const width of [1366, 768, 390]) {
+      await page.setViewportSize({ width, height: 844 });
+      await page.waitForFunction(() =>
+        [...document.querySelectorAll(".page-phrases textarea")].every(
+          (el) => el.scrollHeight <= el.clientHeight + 2,
+        ),
+      );
+      const layout = await page.locator(".page-phrases").evaluate((el) => ({
+        overflow: getComputedStyle(el).overflowY,
+        fields: [...el.querySelectorAll("textarea")].map((t) => ({
+          resize: getComputedStyle(t).resize,
+          scroll: getComputedStyle(t).overflowY,
+        })),
+        rects: [...el.querySelectorAll(".story-line")].map((t) => ({
+          top: t.getBoundingClientRect().top,
+          bottom: t.getBoundingClientRect().bottom,
+        })),
+      }));
+      assert.equal(layout.overflow, "visible");
+      assert.ok(
+        layout.fields.every(
+          (t) => t.resize === "none" && t.scroll === "hidden",
+        ),
+      );
+      assert.ok(layout.rects[1].top >= layout.rects[0].bottom);
+      await page.screenshot({
+        path: path.join(output, `editor-controls-${width}.png`),
+      });
+    }
+    await page.setViewportSize({ width: 1366, height: 768 });
+    const expected = await authorJson(page);
+    await page.locator('[data-studio="read"]').click();
+    try {
+      await page.waitForFunction(() => {
+        const debug = window.libraryDebug();
+        return (
+          !document.querySelector("#author-dialog").open &&
+          debug.scene?.authored &&
+          debug.scene.popups.every(
+            (angle) => Math.abs(angle - Math.PI / 2) < 0.01,
+          )
+        );
+      });
+      assert.equal(await page.locator("#play").isDisabled(), true);
+    } catch (error) {
+      throw Error(
+        `${error.message}: ${await page.locator("#author-report").textContent()}`,
+      );
+    }
+    const runtime = (await page.evaluate(() => window.libraryDebug())).scene
+      .authored;
+    assert.ok(Math.abs(runtime.ground.rotation - Math.PI / 6) < 1e-6);
+    assert.deepEqual(runtime.ground.size, [6.1, 3.15]);
+    assert.equal(runtime.elements[0].position[1], -1.575);
+    await page.locator("#author").click();
+    await page.locator('[data-edit-book="included-quiet-garden"]').click();
+    const downloadPromise = page.waitForEvent("download");
+    await page.locator("#author-export").click();
+    const download = await downloadPromise;
+    const filename = path.join(output, "controls.book.json");
+    await download.saveAs(filename);
+    const exported = JSON.parse(fs.readFileSync(filename, "utf8"));
+    assert.deepEqual(exported.spreads, expected.spreads);
+    await context.close();
+    return "On-canvas overlap chooser and Alt cycling select a rear card; dragging preserves selection; front edge -1.575 and height3.5 work; ground scale/full-page dimensions/30° rotation match reader; static pose frame controls clamp and thumbnail-crop; long text grows without overlap or nested scrollbars at desktop/tablet/phone; portable export preserves changes.";
   },
 );
 

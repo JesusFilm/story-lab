@@ -13,19 +13,35 @@ where **Restore book** brings them back, including after a browser refresh.
    computer. It appears on the book as soon as the artwork loads.
 3. Click artwork and drag it. Drag its corner handle to resize it. The inspector
    offers size, position, depth, lift and rotation sliders. Arrow keys nudge the
-   selected artwork; Shift makes the nudge larger. The layer list selects art
-   that overlaps another element.
-4. Fill in the page title and story lines beneath the scene. **Add a line** creates
+   selected artwork; Shift makes the nudge larger. Clicking overlapping artwork
+   opens an on-canvas chooser; **Alt-click** cycles through the images at that point.
+   A selected rear image stays selected when you drag, and its green name handle
+   gives you a separate grab point. The layer list remains another way to select.
+   Height can reach **3.60 units**; the front/back control reaches the page's front
+   edge at **−1.575**.
+4. Select **Ground artwork** in the layer list (or click the ground) to adjust
+   proportional scale, width, depth, position, rotation and opacity. **Page guides**
+   shows the available **6.10 × 3.15** paper area and **5.80 × 2.70** upright backdrop.
+   Ground rotation or offsets can extend beyond the paper; guides are editing aids,
+   not clipping masks. The backdrop fills its fixed rectangle.
+5. For art with several side-by-side poses, open **Picture / pose frames**.
+   **Frames across** configures the sheet; **Selected frame index** or a picture
+   button picks the pose. Indexes start at zero. Thumbnails show the selected pose.
+   Adam and Eve's three images are alternative still poses, not a timed animation:
+   there is no frame-speed setting. **Gentle rocking** moves the selected whole card.
+6. Fill in the page title and story lines beneath the scene. Text fields grow as you
+   type and shrink when text is removed; no line has its own scrollbars or resize
+   handle. The composition pane scrolls as a whole when needed. **Add a line** creates
    another phrase. Existing narration becomes stale if its text changes.
-5. **Add page** inserts a new scene after the current page. **Previous page**,
+7. **Add page** inserts a new scene after the current page. **Previous page**,
    **Next page** and the thumbnails navigate the book. Select **Background & page**
    to duplicate, reorder or delete a page. **Undo** and **Redo** recover visual edits.
-6. Choose **Preview page** to review the scene, motion, text and interactions without
+8. Choose **Preview page** to review the scene, motion, text and interactions without
    editing controls. Previous/Next stay in preview mode; **Back to editing** makes
    the current page editable again. **Read book** validates the draft and opens the
    selected page in the full reader, including supplied narration. Return through
    **Author → Edit book** to continue.
-7. **My books** saves and returns to the book list. Edits and uploaded media save
+9. **My books** saves and returns to the book list. Edits and uploaded media save
    automatically in this browser on this device; check the save status in the
    toolbar. **Export portable JSON** embeds the current draft's media for backup
    or transfer. Browser storage is local, not an account or cloud backup. Clearing
@@ -62,6 +78,9 @@ The existing authored-book checks retain invalid-definition/media rejection,
 transactional reader recovery, narration timing, portable reimport and the legacy
 books' nine locales. See `review/latest/authoring-results.json` for the latest
 executed results rather than treating this description as a passing test result.
+The editor-controls check additionally exercises overlap choosing/cycling and rear-art
+movement, expanded limits, ground rotation in the reader, pose selection, portable
+export parity and growing non-overlapping text at three viewport widths.
 
 ## Remaining boundaries
 

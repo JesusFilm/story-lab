@@ -1759,3 +1759,203 @@ body {
   background: #edf1e6;
   border-radius: 12px;
 }
+
+/* The writing area has one scroll surface; each phrase grows with its content. */
+.visual-mode .studio-composition {
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #9bab96 #eeeade;
+  overscroll-behavior: contain;
+}
+#author-dialog.visual-mode .studio-viewport {
+  flex: none;
+  min-height: 300px;
+  height: clamp(300px, 46vh, 600px);
+}
+.visual-mode .page-writing {
+  flex: none;
+  padding: 16px 20px;
+}
+.visual-mode .page-phrases {
+  display: grid;
+  gap: 12px;
+  max-height: none;
+  overflow: visible;
+  padding: 12px 0;
+}
+#author-dialog .story-line {
+  display: block;
+  min-height: 0;
+}
+.story-line > span {
+  display: block;
+  margin: 0 0 5px 2px;
+  font:
+    0.68rem system-ui,
+    sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6a796a;
+}
+#author-dialog .page-phrases textarea {
+  display: block;
+  box-sizing: border-box;
+  min-height: 48px;
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+  padding: 10px 12px;
+  background: #fffef9;
+  border: 1px solid #d4dbca;
+  border-radius: 9px;
+  font:
+    1rem/1.55 Georgia,
+    serif;
+}
+#author-dialog .page-phrases textarea:focus {
+  border-color: #32745b;
+  box-shadow: 0 0 0 2px #32745b20;
+}
+.page-previewing .story-line > span {
+  display: none;
+}
+#author-dialog .page-previewing .page-phrases textarea {
+  background: transparent;
+  border-color: transparent;
+  padding: 5px 0;
+}
+.studio-inspector {
+  scrollbar-width: thin;
+  scrollbar-color: #9bab96 #eeeade;
+}
+.stage-guide-label {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  background: #fffdf0dd;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font:
+    0.65rem system-ui,
+    sans-serif;
+  color: #325c4b;
+  pointer-events: none;
+}
+.stage-guide-label:empty {
+  display: none;
+}
+#author-dialog .move-art {
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: -1px;
+  min-height: 26px;
+  padding: 3px 8px;
+  background: #257663;
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: move;
+  touch-action: none;
+}
+.overlap-picker {
+  position: absolute;
+  z-index: 4;
+  width: 210px;
+  max-height: 160px;
+  overflow: auto;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #82a38c;
+  background: #fffdf8;
+  box-shadow: 0 5px 20px #24443530;
+  scrollbar-width: thin;
+}
+.overlap-picker p {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+}
+#author-dialog .overlap-picker button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  font-size: 0.78rem;
+  padding: 4px;
+  margin: 3px 0;
+}
+.pose-thumbnail {
+  display: inline-block;
+  position: relative;
+  width: 34px;
+  height: 38px;
+  overflow: hidden;
+  flex: 0 0 34px;
+}
+#author-dialog .pose-thumbnail img {
+  position: absolute;
+  max-width: none;
+  width: calc(100% * var(--pose-columns));
+  height: 100%;
+  object-fit: fill;
+  left: calc(-100% * var(--pose-index));
+  top: 0;
+}
+.studio-layers small {
+  display: block;
+  font-size: 0.65rem;
+  color: #6a796a;
+}
+.pose-settings {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid #dedbd1;
+}
+.pose-settings summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.pose-settings label:not(.studio-check) {
+  display: grid;
+  gap: 5px;
+  margin: 10px 0;
+}
+#author-dialog .pose-settings input[type="number"],
+#author-dialog .pose-settings select {
+  width: 100%;
+  min-height: 34px;
+  background: #fffef9;
+  border: 1px solid #c9d2c0;
+  border-radius: 6px;
+  padding: 5px;
+  color: #30483c;
+}
+.pose-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+#author-dialog .pose-options button {
+  padding: 3px;
+  display: grid;
+  justify-items: center;
+}
+.pose-options [aria-pressed="true"],
+.overlap-picker [aria-pressed="true"] {
+  background: #dceade;
+  border-color: #82a38c;
+}
+@media (max-width: 760px) {
+  .visual-mode .studio-composition {
+    overflow: visible;
+  }
+  #author-dialog.visual-mode .studio-viewport {
+    position: relative;
+    height: 300px;
+  }
+  .visual-mode .page-writing {
+    padding: 14px;
+  }
+}
