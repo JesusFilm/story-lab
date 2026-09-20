@@ -1,233 +1,353 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import http from "node:http";
+import path from "node:path";
 import { chromium } from "playwright";
 
-const url = process.env.LIBRARY_URL || "http://127.0.0.1:8771/";
-const browser = await chromium.launch({ channel: "chrome", headless: true });
-const results = { browser: browser.version(), url, checks: [] };
-const check = async (name, fn) => {
+const root = path.resolve("dist");
+const prefix = "/acceptance/little-light-library/";
+const output = path.resolve(".test-output/room/failure-results.json");
+assert.ok(
+  fs.existsSync(path.join(root, "index.html")),
+  "Build first with npm run build.",
+);
+const book = JSON.parse(
+  fs.readFileSync(path.join(root, "books/quiet-garden.book.json"), "utf8"),
+);
+const mime = {
+  ".html": "text/html",
+  ".js": "text/javascript",
+  ".css": "text/css",
+  ".json": "application/json",
+  ".webp": "image/webp",
+  ".png": "image/png",
+  ".wav": "audio/wav",
+  ".mp3": "audio/mpeg",
+  ".ogg": "audio/ogg",
+};
+const server = http.createServer((request, response) => {
+  const pathname = new URL(request.url, "http://localhost").pathname;
+  if (!pathname.startsWith(prefix)) return response.writeHead(404).end();
+  const file = path.resolve(
+    root,
+    decodeURIComponent(pathname.slice(prefix.length)) || "index.html",
+  );
+  if (!file.startsWith(root + path.sep)) return response.writeHead(403).end();
+  fs.readFile(file, (error, bytes) => {
+    if (error) return response.writeHead(404).end();
+    response.writeHead(200, {
+      "Content-Type": mime[path.extname(file)] || "application/octet-stream",
+      "Cache-Control": "no-store",
+    });
+    response.end(bytes);
+  });
+});
+await new Promise((resolve, reject) => {
+  server.once("error", reject);
+  server.listen(0, "127.0.0.1", resolve);
+});
+const origin = `http://127.0.0.1:${server.address().port}`;
+const url = origin + prefix;
+const sanitize = (text) =>
+  String(text)
+    .replaceAll(origin, "<static-origin>")
+    .replaceAll(process.cwd(), "<prototype>")
+    .replace(/\/(?:Users|home|private|tmp)\/[^\s"'<>]+/g, "<local-path>");
+const results = {
+  generatedAt: new Date().toISOString(),
+  method:
+    "Fresh isolated browser contexts against a production build at a nested static URL; failures injected only with Playwright routes.",
+  urlPath: prefix,
+  checks: [],
+  pageErrors: [],
+  unexpectedRequests: [],
+};
+let browser;
+
+const enter = async (page, navigate = true) => {
+  if (navigate) await page.goto(url);
+  await page.locator("#enter").click();
+  await page.waitForFunction(
+    () =>
+      window.libraryDebug?.().ready &&
+      window.libraryDebug?.().shelf.books.length === 4 &&
+      !window.libraryDebug?.().shelf.busy,
+  );
+  assert.equal(
+    await page.locator("#loading").isVisible(),
+    false,
+    "Startup loader must clear when the catalog is usable",
+  );
+};
+const openBook = async (page) => {
+  await page.locator('[data-shelf-key="book:quiet-garden"]').click();
+  await page.waitForFunction(
+    () =>
+      window.libraryDebug?.().shelf.inspected === "book:quiet-garden" &&
+      !window.libraryDebug?.().shelf.busy,
+  );
+  await page.locator("#shelf-read").click();
+  await page.waitForFunction(
+    () =>
+      window.libraryDebug?.().shelf.table === "book:quiet-garden" &&
+      !window.libraryDebug?.().shelf.busy,
+  );
+};
+const startupFailure = async (page, pattern) => {
+  await page.locator(".loading-retry").waitFor({ state: "visible" });
+  assert.equal(await page.locator("#loading").isVisible(), true);
+  assert.ok(
+    (await page.locator("#loading-text").innerText()).trim().length > 0,
+  );
+  const message = await page.locator("#notice").innerText();
+  assert.match(
+    message,
+    pattern,
+    "Startup error must identify the failed catalog or definition",
+  );
+  return sanitize(message);
+};
+const recoverStartup = async (page, route) => {
+  await page.unroute(route);
+  await page.locator(".loading-retry").click();
+  await enter(page, false);
+  assert.equal((await page.locator("#notice").innerText()).trim(), "");
+};
+const readable = async (page) => {
+  assert.deepEqual(
+    await page.locator(".story-text [data-segment]").allTextContents(),
+    book.spreads[0].segments.map(({ text }) => text),
+  );
+  assert.equal(
+    await page.locator("#loading").isVisible(),
+    false,
+    "Media failure must not trap the reader behind the startup loader",
+  );
+  assert.equal(await page.locator("#next").isEnabled(), true);
+};
+const check = async (name, run) => {
+  console.log(`Running: ${name}`);
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    reducedMotion: "reduce",
+    serviceWorkers: "block",
+  });
+  const page = await context.newPage();
+  page.setDefaultTimeout(12_000);
+  page.on("pageerror", (error) =>
+    results.pageErrors.push({ check: name, message: sanitize(error.message) }),
+  );
+  await context.route("**/*", async (route) => {
+    const request = new URL(route.request().url());
+    if (
+      ["http:", "https:"].includes(request.protocol) &&
+      (request.origin !== origin || !request.pathname.startsWith(prefix))
+    ) {
+      results.unexpectedRequests.push({
+        check: name,
+        url: sanitize(request.href),
+      });
+      return route.abort();
+    }
+    return route.continue();
+  });
   try {
-    const detail = await fn();
+    const detail = await run(page);
     results.checks.push({ name, passed: true, detail });
   } catch (error) {
-    results.checks.push({ name, passed: false, detail: String(error) });
+    const notice = await page
+      .locator("#notice")
+      .textContent()
+      .catch(() => "");
+    results.checks.push({
+      name,
+      passed: false,
+      detail: { error: sanitize(error.message), notice: sanitize(notice) },
+    });
+    console.error(`Failed: ${name}: ${sanitize(error.message)}`);
+  } finally {
+    await context.close();
   }
 };
-const context = async (options = {}) =>
-  browser.newContext({ viewport: { width: 360, height: 800 }, ...options });
-const enter = async (page) => {
-  await page.goto(url);
-  await page.locator("#enter").waitFor();
-  await page.locator("#enter").click();
-  await page.waitForFunction(() => window.libraryDebug().ready);
-};
-const open = async (page) => {
-  await page.locator('[data-book="eden"]').click();
-  await page.waitForSelector(".reader");
-};
+
 try {
-  await check("Startup and keyboard navigation", async () => {
-    const c = await context();
-    const p = await c.newPage();
-    await p.goto(url);
-    assert.equal(
-      await p.locator("#language-dialog").evaluate((e) => e.open),
-      true,
-    );
-    assert.equal(
-      await p.locator('[data-locale="en-US"]').getAttribute("aria-pressed"),
-      "true",
-    );
-    await p.locator("#enter").focus();
-    await p.keyboard.press("Enter");
-    await p.waitForFunction(() => window.libraryDebug().ready);
-    await p.locator('[data-book="eden"]').focus();
-    await p.keyboard.press("Enter");
-    await p.waitForSelector(".reader");
-    await p.locator("#settings").focus();
-    await p.keyboard.press("Enter");
-    assert.equal(
-      await p.locator("#settings-dialog").evaluate((e) => e.open),
-      true,
-    );
-    await p.keyboard.press("Escape");
-    await p.locator("#language").focus();
-    await p.keyboard.press("Enter");
-    assert.equal(
-      await p.locator("#language-dialog").evaluate((e) => e.open),
-      true,
-    );
-    await p.locator('[data-locale="ja"]').focus();
-    await p.keyboard.press("Enter");
-    await p.locator("#enter").click();
-    await p.waitForFunction(() => window.libraryDebug().ready);
-    assert.equal(await p.locator("html").getAttribute("lang"), "ja");
-    assert.equal(
-      (await p.evaluate(() => window.libraryDebug())).playing,
-      false,
-    );
-    await c.close();
-    return "Chooser, book, settings and visual language recovery worked by keyboard; language switch paused playback.";
-  });
-  await check("Muted reading timeline", async () => {
-    const c = await context();
-    const p = await c.newPage();
-    await enter(p);
-    await p.locator("#settings").click();
-    await p.locator("#audio").uncheck();
-    await p.locator("#settings-close").click();
-    await open(p);
-    await p.waitForFunction(() => window.libraryDebug().ready);
-    const a = await p.evaluate(() => window.libraryDebug());
-    await p.waitForTimeout(400);
-    const b = await p.evaluate(() => window.libraryDebug());
-    assert.equal(b.audio, false);
-    assert.ok(b.position > a.position, `${a.position} → ${b.position}`);
-    assert.ok(await p.locator(".story-text .active").count());
-    await c.close();
-    return `Clock advanced ${Math.round((b.position - a.position) * 1000)} ms with sound off and visible highlight.`;
-  });
-  await check("Missing audio and retry", async () => {
-    const c = await context();
-    const p = await c.newPage();
-    await p.route("**/*.wav", (route) => route.abort());
-    await enter(p);
-    await open(p);
-    await p.locator("#notice").filter({ hasText: /.+/ }).waitFor();
-    assert.ok((await p.locator(".story-text").innerText()).length > 40);
-    assert.equal((await p.evaluate(() => window.libraryDebug())).ready, false);
-    await p.unroute("**/*.wav");
-    await p.locator("#notice button").click({ timeout: 5000 });
-    await p.waitForFunction(() => window.libraryDebug().ready, null, {
-      timeout: 10000,
-    });
-    assert.equal(
-      (await p.evaluate(() => window.libraryDebug())).playing,
-      false,
-    );
-    await p.locator("#play").click();
-    assert.equal((await p.evaluate(() => window.libraryDebug())).playing, true);
-    await c.close();
-    return "Story remained readable after fetch failure; Retry restored the page paused, then Play resumed narration.";
-  });
-  await check("Missing page image and retry", async () => {
-    const c = await context();
-    const p = await c.newPage();
-    await enter(p);
-    await open(p);
-    await p.waitForFunction(() => window.libraryDebug().ready);
-    await p.route("**/theatre/garden.webp", (route) => route.abort());
-    await p.route("**/eden-02.webp", (route) => route.abort());
-    await p.locator("#next").click();
-    await p.locator("#notice").filter({ hasText: /.+/ }).waitFor();
-    assert.ok((await p.locator(".story-text").innerText()).length > 40);
-    const missing = await p.locator("#notice").innerText();
-    await p.unroute("**/eden-02.webp");
-    await p.unroute("**/theatre/garden.webp");
-    const retry = p.locator("#notice button");
-    assert.ok(
-      await retry.count(),
-      `No retry control for image failure: ${missing}`,
-    );
-    await retry.click();
-    await p.waitForFunction(() => window.libraryDebug().ready);
-    await c.close();
-    return "Image failure was announced and recovered through visible Retry.";
-  });
-  await check("Missing shelf preview preserves library access", async () => {
-    const c = await context();
-    const p = await c.newPage();
-    await p.route("**/eden-01.webp", (route) => route.abort());
-    await p.goto(url);
-    await p.locator("#enter").waitFor({ timeout: 10000 });
-    await p.locator("#enter").click();
-    await p.locator('[data-book="noah"]').waitFor();
-    await c.close();
-    return "A missing decorative shelf preview did not block access to either book.";
-  });
-  await check("Hidden tab requires explicit resume", async () => {
-    const c = await context();
-    const p = await c.newPage();
-    await enter(p);
-    await open(p);
-    await p.waitForFunction(() => window.libraryDebug().playing);
-    const other = await c.newPage();
-    await other.goto("about:blank");
-    await p.waitForFunction(() => !window.libraryDebug().playing);
-    const stopped = (await p.evaluate(() => window.libraryDebug())).position;
-    await p.bringToFront();
-    await p.waitForTimeout(300);
-    const visible = await p.evaluate(() => window.libraryDebug());
-    assert.equal(visible.playing, false);
-    assert.ok(Math.abs(visible.position - stopped) < 0.05);
-    await p.locator("#play").click();
-    assert.equal((await p.evaluate(() => window.libraryDebug())).playing, true);
-    await c.close();
-    return "Backgrounding paused; foregrounding stayed paused; Play resumed.";
-  });
-  await check("Reduced motion and target sizes", async () => {
-    const c = await context({ reducedMotion: "reduce" });
-    const p = await c.newPage();
-    await enter(p);
-    assert.equal(
-      await p.evaluate(
-        () => matchMedia("(prefers-reduced-motion: reduce)").matches,
-      ),
-      true,
-    );
-    for (const selector of [
-      "#language",
-      "#settings",
-      '[data-book="eden"]',
-      '[data-character="adam"]',
-    ]) {
-      const box = await p.locator(selector).boundingBox();
-      assert.ok(
-        box.width >= 44 && box.height >= 44,
-        `${selector}: ${box.width}×${box.height}`,
-      );
-    }
-    await open(p);
-    for (const selector of ["#previous", "#play", "#replay", "#next"]) {
-      const box = await p.locator(selector).boundingBox();
-      assert.ok(
-        box.width >= 44 && box.height >= 44,
-        `${selector}: ${box.width}×${box.height}`,
-      );
-    }
-    assert.equal(await p.locator(".story-text").isVisible(), true);
-    await c.close();
-    return "Reduced-motion preference active; text visible; key controls at least 44×44 CSS px.";
-  });
-  await check("Renderer startup failure and recovery", async () => {
-    const c = await context();
-    const p = await c.newPage();
-    await p.addInitScript(() => {
-      const original = HTMLCanvasElement.prototype.getContext;
-      HTMLCanvasElement.prototype.getContext = function (kind, ...args) {
-        if (
-          kind === "webgl" ||
-          kind === "webgl2" ||
-          kind === "experimental-webgl"
-        )
-          return null;
-        return original.call(this, kind, ...args);
+  browser = await chromium.launch({ channel: "chrome", headless: true });
+  results.browser = browser.version();
+  await check(
+    "Cold missing catalog shows loader error and Retry restores committed shelf",
+    async (page) => {
+      const route = url + "books/catalog.json";
+      let fail;
+      let requested;
+      const pending = new Promise((resolve) => {
+        fail = resolve;
+      });
+      const reached = new Promise((resolve) => {
+        requested = resolve;
+      });
+      await page.route(route, async (request) => {
+        requested();
+        await pending;
+        await request.fulfill({
+          status: 503,
+          contentType: "application/json",
+          body: "{}",
+        });
+      });
+      try {
+        await page.goto(url, { waitUntil: "domcontentloaded" });
+        await reached;
+        assert.equal(
+          await page.locator("#loading").isVisible(),
+          true,
+          "Cold loader is visible while catalog is pending",
+        );
+      } finally {
+        fail();
+      }
+      const error = await startupFailure(page, /books\/catalog\.json.*503/i);
+      await recoverStartup(page, route);
+      return {
+        pendingLoaderVisible: true,
+        error,
+        recoveredBooks: 4,
+        loaderCleared: true,
       };
-    });
-    await p.goto(url);
-    await p.locator("#notice button").waitFor({ timeout: 10000 });
-    assert.ok((await p.locator("#notice").innerText()).length > 8);
-    assert.equal(await p.locator(".loading-retry").isVisible(), true);
-    await c.close();
-    return "Simulated unavailable WebGL announced startup failure and exposed retry controls.";
-  });
-} finally {
-  fs.mkdirSync("docs", { recursive: true });
-  fs.writeFileSync(
-    "docs/failure-results.json",
-    JSON.stringify(results, null, 2) + "\n",
+    },
   );
-  await browser.close();
+
+  await check(
+    "Invalid catalog path identifies the entry and recovers after correction",
+    async (page) => {
+      const route = url + "books/catalog.json";
+      await page.route(route, (request) =>
+        request.fulfill({
+          json: [{ id: "quiet-garden", path: "../quiet-garden.book.json" }],
+        }),
+      );
+      await page.goto(url);
+      const error = await startupFailure(
+        page,
+        /catalog\.json\[0\].*relative.*book\.json/i,
+      );
+      await recoverStartup(page, route);
+      return { error, recoveredBooks: 4, loaderCleared: true };
+    },
+  );
+
+  await check(
+    "Invalid generic definition identifies its field and recovers after correction",
+    async (page) => {
+      const route = url + "books/quiet-garden.book.json";
+      const invalid = structuredClone(book);
+      invalid.spreads[0].backdrop.asset = "missing-artwork";
+      await page.route(route, (request) => request.fulfill({ json: invalid }));
+      await page.goto(url);
+      const error = await startupFailure(
+        page,
+        /quiet-garden\.book\.json.*backdrop.*ASSET_REFERENCE/i,
+      );
+      await recoverStartup(page, route);
+      return { error, recoveredBooks: 4, loaderCleared: true };
+    },
+  );
+
+  for (const kind of ["artwork", "audio"]) {
+    await check(
+      `Missing generic ${kind} keeps text readable and visible Retry restores playback`,
+      async (page) => {
+        const asset =
+          kind === "artwork"
+            ? book.spreads[0].backdrop.asset
+            : book.spreads[0].segments[0].narration.asset;
+        const relativePath = book.assets[asset].src;
+        const route = url + relativePath;
+        let injected = 0;
+        await page.route(route, (request) => {
+          injected++;
+          return request.fulfill({
+            status: 503,
+            body: "Injected media failure",
+          });
+        });
+        await enter(page);
+        await openBook(page);
+        await page.locator("#notice button").waitFor({ state: "visible" });
+        await readable(page);
+        assert.ok(
+          injected > 0,
+          "The unavailable media must actually be requested",
+        );
+        const error = await page.locator("#notice").innerText();
+        assert.match(
+          error,
+          kind === "artwork"
+            ? /art|image|picture|illustration/i
+            : /audio|sound|narration/i,
+        );
+        if (kind === "audio")
+          assert.equal(
+            await page.evaluate(() => window.libraryDebug().ready),
+            false,
+          );
+        await page.unroute(route);
+        const restored = page.waitForResponse(
+          (response) => response.url() === route && response.ok(),
+        );
+        await page.locator("#notice button").click();
+        await restored;
+        await page.waitForFunction(
+          () =>
+            window.libraryDebug?.().ready &&
+            !window.libraryDebug?.().shelf.busy &&
+            !!window.libraryDebug?.().scene.authored,
+        );
+        await readable(page);
+        assert.equal(
+          (await page.locator("#notice").innerText()).trim(),
+          "",
+          "Successful Retry clears the failure message",
+        );
+        assert.equal(
+          await page.evaluate(() => window.libraryDebug().playing),
+          false,
+          "Retry recovers paused",
+        );
+        const ids = await page.evaluate(() =>
+          window.libraryDebug().scene.authored.elements.map(({ id }) => id),
+        );
+        assert.deepEqual(
+          ids,
+          book.spreads[0].elements.map(({ id }) => id),
+        );
+        await page.locator("#replay").click();
+        await page.waitForFunction(
+          () =>
+            window.libraryDebug?.().playing &&
+            window.libraryDebug?.().position > 0.1,
+        );
+        return {
+          failedResource: relativePath,
+          error: sanitize(error),
+          textPreserved: true,
+          retryFetchedMedia: true,
+          restoredStage: true,
+          resumedPlayback: true,
+          loaderCleared: true,
+        };
+      },
+    );
+  }
+} finally {
+  await browser?.close();
+  await new Promise((resolve) => server.close(resolve));
+  results.passed =
+    results.checks.length === 5 &&
+    results.checks.every(({ passed }) => passed) &&
+    !results.pageErrors.length &&
+    !results.unexpectedRequests.length;
+  fs.mkdirSync(path.dirname(output), { recursive: true });
+  fs.writeFileSync(output, JSON.stringify(results, null, 2) + "\n");
 }
 console.log(JSON.stringify(results, null, 2));
-if (results.checks.some((x) => !x.passed)) process.exitCode = 1;
+if (!results.passed) process.exitCode = 1;

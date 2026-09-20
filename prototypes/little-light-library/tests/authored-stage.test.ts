@@ -243,85 +243,6 @@ test("decoded cue lengths override rounded metadata for narration gestures", asy
   closeTo(stage.debug().elements[0].rocking, THREE.MathUtils.degToRad(8));
 });
 
-test("live editor transforms match a freshly loaded reader scene without reloading or compounding", async () => {
-  const { stage, calls } = await makeStage(motion);
-  const book = bookWith(motion);
-  const actor = book.spreads[0].elements[0];
-  for (const anchor of ["bottom", "center"] as const) {
-    actor.placement = {
-      x: -1.4,
-      depth: 0.65,
-      width: 2.3,
-      height: 2.1,
-      elevation: 0.6,
-      rotation: -23,
-      anchor,
-    };
-    stage.editPlacement("actor", actor);
-    stage.editPlacement("actor", actor);
-    const fresh = await AuthoredStage.create(
-      book,
-      book.spreads[0],
-      {
-        loadAsync: async () => new THREE.Texture(),
-      } as unknown as THREE.TextureLoader,
-      () => true,
-    );
-    for (const current of [stage, fresh]) {
-      current.popups.forEach((p) => (p.rotation.x = Math.PI / 2));
-      current.root.updateMatrixWorld(true);
-    }
-    const liveBounds = new THREE.Box3().setFromObject(
-      stage.root.getObjectByName("authored-element-actor")!,
-    );
-    const freshBounds = new THREE.Box3().setFromObject(
-      fresh.root.getObjectByName("authored-element-actor")!,
-    );
-    for (const edge of ["min", "max"] as const)
-      for (const axis of ["x", "y", "z"] as const)
-        closeTo(liveBounds[edge][axis], freshBounds[edge][axis]);
-    stage.rest();
-    closeTo(stage.debug().elements[0].rotation, THREE.MathUtils.degToRad(-23));
-    fresh.dispose();
-  }
-  assert.equal(calls.length, 4, "gestures must not reload any image");
-  stage.dispose();
-  assert.equal(stage.root.children.length, 0);
-});
-
-test("live ground edits match a freshly loaded stage without reloading or compounding", async () => {
-  const { stage, calls } = await makeStage(motion);
-  const book = bookWith(motion);
-  const ground = book.spreads[0].ground!;
-  Object.assign(ground, {
-    x: -1.2,
-    depth: -1.4,
-    width: 5.9,
-    height: 3.05,
-    rotation: -37,
-    opacity: 0.35,
-  });
-  stage.editGround(ground);
-  stage.editGround(ground);
-  const fresh = await AuthoredStage.create(
-    book,
-    book.spreads[0],
-    {
-      loadAsync: async () => new THREE.Texture(),
-    } as unknown as THREE.TextureLoader,
-    () => true,
-  );
-  assert.deepEqual(stage.debug().ground, fresh.debug().ground);
-  const debug = stage.debug().ground!;
-  assert.deepEqual(debug.position, [-1.2, -1.4, 0.046]);
-  assert.deepEqual(debug.size, [5.9, 3.05]);
-  closeTo(debug.rotation, THREE.MathUtils.degToRad(-37));
-  closeTo(debug.opacity, 0.35);
-  assert.equal(calls.length, 4, "ground edits must not reload any image");
-  fresh.dispose();
-  stage.dispose();
-});
-
 for (const preset of ["float", "sway", "pulse", "spin"] as const) {
   test(`${preset} samples paused preview time, resets when folded/reduced, and rest clears transforms`, async () => {
     const { stage } = await makeStage({
@@ -346,13 +267,15 @@ for (const preset of ["float", "sway", "pulse", "spin"] as const) {
   });
 }
 
-test("flips change only UVs, preserve atlas selection and placement, and do not compound on live edits", async () => {
+test("flips preserve atlas selection, placement and shared cover orientation", async () => {
   const book = bookWith(motion);
   const spread = book.spreads[0];
   book.cover = spread.backdrop.asset;
   spread.backdrop.flipX = true;
   spread.ground!.flipY = true;
   const actor = spread.elements[0];
+  actor.flipX = true;
+  actor.flipY = true;
   actor.pose = { columns: 3, index: 2 };
   const stage = await AuthoredStage.create(
     book,
@@ -365,29 +288,16 @@ test("flips change only UVs, preserve atlas selection and placement, and do not 
   const mesh = stage.root.getObjectByName(
     "authored-element-actor",
   ) as THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>;
-  const uv = () => Array.from(mesh.geometry.getAttribute("uv").array);
-  const original = uv();
-  const texture = mesh.material.map!;
-  const offset = texture.offset.clone(),
-    repeat = texture.repeat.clone();
-  const originalBounds = new THREE.Box3().setFromObject(mesh);
-  for (const [flipX, flipY] of [
-    [true, false],
-    [true, true],
-    [false, true],
-    [false, false],
-  ]) {
-    Object.assign(actor, { flipX, flipY });
-    stage.editPlacement(actor.id, actor);
-    stage.editPlacement(actor.id, actor);
-    assert.deepEqual(
-      uv(),
-      original.map((v, i) => ((i % 2 === 0 ? flipX : flipY) ? 1 - v : v)),
-    );
-    assert.deepEqual(texture.offset, offset);
-    assert.deepEqual(texture.repeat, repeat);
-    assert.deepEqual(new THREE.Box3().setFromObject(mesh), originalBounds);
-  }
+  const original = Array.from(
+    new THREE.PlaneGeometry(1, 1).getAttribute("uv").array,
+  );
+  assert.deepEqual(
+    Array.from(mesh.geometry.getAttribute("uv").array),
+    original.map((v) => 1 - v),
+  );
+  assert.deepEqual(mesh.material.map!.repeat.toArray(), [1 / 3, 1]);
+  assert.deepEqual(mesh.material.map!.offset.toArray(), [2 / 3, 0]);
+  assert.equal(mesh.position.y, actor.placement.height / 2);
   const backdrop = stage.popups[0]
     .children[0] as THREE.Mesh<THREE.PlaneGeometry>;
   assert.deepEqual(

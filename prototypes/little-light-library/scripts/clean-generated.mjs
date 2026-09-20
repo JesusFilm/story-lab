@@ -25,8 +25,8 @@ for (const [relative, retained] of keep) {
       fs.rmSync(path.join(directory, name), { recursive: true, force: true });
   }
 }
-for (const relative of ["dist", ".test-output"])
+for (const relative of ["dist", "dist-static", ".test-output"])
   fs.rmSync(path.join(root, relative), { recursive: true, force: true });
 console.log(
-  "Removed generated review output, uncurated captures, dist and .test-output; retained runtime assets, source files and curated evidence.",
+  "Removed generated review output, uncurated captures, dist, dist-static and .test-output; retained runtime assets, source files and curated evidence.",
 );

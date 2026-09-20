@@ -10,7 +10,6 @@ import {
   bookSchema,
 } from "../src/book-validation";
 import type { AuthoredBook } from "../src/authored-book";
-import { BookHistory, createBlankSpread } from "../src/authoring";
 import { ReaderState } from "../src/state";
 const source = fs.readFileSync("public/books/quiet-garden.book.json", "utf8");
 const fixture = () => JSON.parse(source) as AuthoredBook;
@@ -193,22 +192,6 @@ test("media validation rejects missing assets and mismatched measured durations"
     4,
   );
 });
-test("validated snapshots undo actual authored data; failed validation leaves history intact", () => {
-  const history = new BookHistory(),
-    manual = fixture();
-  history.commit(manual);
-  const agent = fixture();
-  agent.spreads[0].elements[0].placement.x = -1.2;
-  agent.spreads[0].ground!.opacity = 0.4;
-  history.commit(agent);
-  agent.title = "Uncommitted mutation";
-  assert.equal(history.current!.title, manual.title);
-  const bad = fixture();
-  bad.cover = "unknown";
-  assert.equal(validateBook(bad).book, undefined);
-  assert.equal(history.current!.spreads[0].ground!.opacity, 0.4);
-  assert.deepEqual(history.undo(), manual);
-});
 test("reader navigation uses imported count while preserving eight-spread default", () => {
   const state = new ReaderState();
   state.open("arbitrary-book", 2);
@@ -217,17 +200,6 @@ test("reader navigation uses imported count while preserving eight-spread defaul
   state.open("eden");
   state.turn(12);
   assert.equal(state.page, 7);
-});
-
-test("new form pages avoid deleted-page ID collisions and never inherit unrelated narration", () => {
-  const book = fixture();
-  book.spreads[0].id = "spread-1";
-  book.spreads[1].id = "spread-3";
-  const page = createBlankSpread(book);
-  assert.equal(page.id, "spread-2");
-  assert.equal(page.segments[0].narration, undefined);
-  book.spreads.push(page);
-  assert.equal(createBlankSpread(book).id, "spread-4");
 });
 
 test("animation presets and flip booleans round-trip while invalid values report their paths", () => {

@@ -1,64 +1,79 @@
 # Books and toys in the room
 
-The two inner shelves hold **15 spine-facing books each (30 total)**. The full creator collection remains in **Author → My books**.
-Choose **Add to room** on a saved book to put it on the physical shelf. Imported portable
-JSON books use the same action. **Remove from room** frees a place without deleting the
-book. The built-in Eden and Noah books can also be removed and restored. Each occupied shelf with fewer than 13 books gets a book stop; shelves with 13–15 books do not. Shelf membership saves on this device; it is separate from
-exported book content and survives browser refresh.
+The room loads its ordered collection from
+[`public/books/catalog.json`](../public/books/catalog.json). The current four
+entries are Eden, Noah, Quiet Garden and Jonah. All four appear for a fresh
+visitor; browser author drafts and old saved shelf membership do not determine
+the collection. There is no Add to room / Remove from room authoring UI.
 
-Click or keyboard-focus a titled spine. It slides clear of the shelf, then turns toward
-you. **Read** moves it onto the table and opens it. **Return** (or Escape) puts it back.
-The previous room heading, look-around buttons, book cards and character-name buttons
-have been removed. Direct pointer orbit remains available.
+The two inner shelves hold **15 spine-facing books each (30 total)**. Each
+occupied shelf with fewer than 13 books has a book stop; shelves with 13–15 books
+do not. Book-specific toys stand on top of the cabinet, separate from book slots.
 
-While reading, **Library** brings the room back into view with the current book closed on
-the table, its cover facing up. **Continue reading** opens it at the same page and paused
-narration position.
-You can inspect another cover without disturbing that book. Choosing Read performs this
-sequence:
+## Reading and transfers
 
-1. Stop narration and toy audio, and move the old toys away.
-2. Fold the current scene, close the book and return it to its shelf position.
-3. Move the chosen closed book onto the table, then unfold its reading scene.
-4. Bring that book's toys onto the top of the bookcase.
+Select a titled spine with pointer or keyboard controls. It slides clear of the
+shelf and turns its cover toward the reader. **Read** brings it to the table and
+opens it. **Return** or Escape puts a previewed book back. Inspecting another
+cover leaves the current table book and toys unchanged.
 
-Only one copy of a book is visible. Its shelf space stays reserved while it is being
-previewed or read. Inputs are locked while books move, so rapid taps cannot start
-competing transfers. Reduced motion performs the same state changes without travel.
-A previewed cover's Return leaves the table book and its toys unchanged. Changing a
-book's room membership takes effect when the author editor closes; removing the table
-book closes it before removing its shelf slot.
+While reading, **Library** returns to the room with the current book closed on
+the table, cover up. **Continue reading** reopens the same page at its paused
+narration position. Reading another book performs this sequence:
 
-## Authoring toys
+1. Stop narration and old toy audio; move the previous toys away.
+2. Fold the current scene, close its book and return it to its reserved shelf slot.
+3. Reset the selected book's position, rotation and scale, place it level above
+   the tabletop, then unfold its reading scene.
+4. Display the new table book's toys on the cabinet top.
 
-Open a book, choose **Book details**, then the **Book details** tab and **Shelf toys**.
-Add up to four toys. Each has a short label, artwork from this book, one click animation
-(Rock, Float, Sway, Pulse or Spin) and an optional audio asset. Pose-sheet controls select
-one horizontal atlas frame. Import additional artwork or audio through **Assets**.
-Click animations play for 1.4 seconds and return to rest; another click restarts them.
-Sound effects obey the reader's mute and volume settings and stop when changing books,
-opening the editor or hiding the tab.
+Only one copy of a book is visible. Its shelf slot remains reserved while it is
+previewed or on the table. Inputs are locked during transfers to prevent competing
+moves. Reduced motion preserves these state changes without travel. Repeated
+swaps must not accumulate yaw/tilt or put the book below the tabletop.
 
-Choose **Read book**, then **Library** to try the toys in the room. Toys appear only for
-the current table book; inspecting a different cover does not replace them. The original
-Eden and Noah books have compatibility toy definitions; authored books without `toys`
-show none. Toys are painted standees on small physical bases, using the supplied art;
-the editor does not infer a sculpted 3D model or a rig from the image.
+## Book-defined toys
 
-The optional `toys` array is part of the shared v1 format, so portable exports preserve
-labels, art, poses, animation and sound. Authored toy labels currently use the source
-language in every reading language. Toy art/audio cannot be removed while referenced.
-Toy changes also invalidate review fingerprints, including changes to their media.
+A generic JSON book can define up to four `toys`, each with an ID, short label,
+registered image, optional atlas pose, click animation and optional registered
+audio. Supported animations are rock, float, sway, pulse and spin. A click plays
+one 1.4-second response and returns to rest; another activation restarts it.
+Reduced motion uses static feedback. Toys are painted standees, not inferred
+sculpted models or anatomical rigs.
 
-## Implementation and checks
+Edit toys in the book file and preview from its shelf entry. They appear only
+for the current table book, including its closed state in Library. Quiet Garden
+and Jonah currently have no toy definitions; this is preserved content, not a
+catalog loading error. Eden's compatibility toys are Adam, Eve and a tree;
+Noah's are Noah, the ark and a dove.
 
-`room-library.ts` stores ordered stable saved-book keys (not authored IDs) in IndexedDB,
-which allows two imported copies with the same book ID. `room-shelf.ts` owns physical
-book slots and transfer poses. `scene.ts` manages table folding and toys. `main.ts`
-serializes the room workflow. `room-toys.ts` adapts authored toys and compatibility data;
-`shelf-toy-audio.ts` isolates effect playback from narration.
+Generic toy labels currently remain in the source language. Optional audio obeys
+reader mute/volume and stops on book changes or tab hiding. Keep referenced art
+and audio available, and include toys in visual/listening review.
 
-Run `npm run check:fast`, `npm run build`, then `npm run test:room` for current room
-acceptance. `review/latest/room-results.json` records executed browser checks. Older
-historical room reviews targeting the removed footer controls are not current acceptance
-for this new flow. No publishing, accounts or remote storage are introduced.
+## Implementation and regression checks
+
+`book-catalog.ts` validates ordered registrations. `room-library.ts` resolves
+their committed content without IndexedDB; legacy keys are `builtin:eden` /
+`builtin:noah` and JSON keys are `book:<id>`. `room-shelf.ts` owns physical
+slots/transfers, `scene.ts` owns table folding/toys, and `main.ts` serializes
+the workflow. `room-toys.ts` adapts content; `shelf-toy-audio.ts` isolates
+click effects from narration.
+
+Use `npm run verify` and `npm run test:room` for current reader checks.
+`npm run verify:all` runs those followed by `npm run test:recovery`.
+`test:browser` also runs the current room suite.
+The older footer-control browser/acceptance scripts are historical and are not
+the recommended current suite.
+
+Inspect actual desktop and phone rendering after structural changes: all four
+spines visible, both shelf rows correct at capacity, stops at the threshold,
+toys on top, cover preview/Return, repeated transfers above the table, and
+Library/Continue with paused-position preservation. Test keyboard, touch, mute,
+speed and reduced motion. Automated assertions alone cannot judge physical
+placement or perceived motion. The main [handoff](authoring-handoff.md) records
+executed checks; older results are not evidence for the current revision.
+
+For valuable content left in the retired browser author database, use the
+separate [draft-recovery procedure](draft-recovery.md). Recovery does not add a
+hidden editor or change public shelf membership.

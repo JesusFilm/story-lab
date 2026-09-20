@@ -1,7 +1,7 @@
 """Build only explicitly reviewed public files; never publish the checkout."""
 from pathlib import Path
 import hashlib, html, json, re, shutil, subprocess
-from publication_utils import asset_category, directory, page, prototype_card, public_png
+from publication_utils import asset_category, directory, page, prototype_card, public_png, static_output_digest
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
@@ -45,15 +45,6 @@ def copy(src, name):
     else:
         shutil.copyfile(src, path)
 
-def static_output_digest(root):
-    """Hash every generated file name and content in a static build."""
-    digest = hashlib.sha256()
-    for path in sorted(p for p in root.rglob('*') if p.is_file()):
-        digest.update(path.relative_to(root).as_posix().encode())
-        digest.update(b'\0')
-        digest.update(hashlib.sha256(path.read_bytes()).digest())
-    return digest.hexdigest()
-
 def static_output_names(proto, root):
     if proto.get('static_outputs'):
         for name, expected in proto['static_outputs'].items():
@@ -61,7 +52,7 @@ def static_output_names(proto, root):
                 raise ValueError(f'Static output review required: {name}')
         return proto['static_outputs']
     expected = proto.get('static_output_digest')
-    if expected is None or static_output_digest(root) != expected:
+    if expected is None or static_output_digest(root, sanitize_png=True) != expected:
         raise ValueError(f"Static output review required: {proto['slug']}")
     return {p.relative_to(root).as_posix(): None for p in sorted(root.rglob('*')) if p.is_file()}
 

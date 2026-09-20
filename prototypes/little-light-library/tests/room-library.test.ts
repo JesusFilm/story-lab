@@ -2,182 +2,145 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import type { AuthoredBook } from "../src/authored-book";
-import type { SavedBook } from "../src/book-library";
+import type { LocaleData } from "../src/contracts";
 import { sourceTranslation } from "../src/book-localization";
-import {
-  BUILTIN_ROOM_KEYS,
-  ROOM_SHELF_LIMIT,
-  RoomLibrary,
-  normalizeRoomKeys,
-  validateRoomBook,
-} from "../src/room-library";
+import { RoomLibrary } from "../src/room-library";
 
-const source = fs.readFileSync("public/books/quiet-garden.book.json", "utf8");
-const fixture = () => JSON.parse(source) as AuthoredBook;
+const fixture = (): AuthoredBook =>
+  JSON.parse(fs.readFileSync("public/books/quiet-garden.book.json", "utf8"));
+const locale = (): LocaleData =>
+  JSON.parse(fs.readFileSync("public/content/en-US.json", "utf8"));
 
-class MemoryStore {
-  books: SavedBook[] = [];
-  settings = new Map<string, unknown>();
-  async list() {
-    return structuredClone(this.books);
-  }
-  async mutateSetting<T>(key: string, change: (current: T | undefined) => T) {
-    const next = change(structuredClone(this.settings.get(key)) as T);
-    this.settings.set(key, structuredClone(next));
-    return next;
-  }
+function repository(
+  catalog: unknown,
+  books: Record<string, unknown> = { "quiet-garden.book.json": fixture() },
+) {
+  const requests: string[] = [];
+  const fetcher: typeof fetch = async (input) => {
+    const url = String(input);
+    requests.push(url);
+    if (url === "./books/catalog.json") return Response.json(catalog);
+    const book = books[url.replace(/^\.\/books\//, "")];
+    return book === undefined
+      ? new Response("Missing committed file", { status: 404 })
+      : Response.json(book);
+  };
+  return { room: new RoomLibrary({ fetch: fetcher }), requests };
 }
 
-const saved = (key: string, title = key): SavedBook => {
-  const book = fixture();
-  book.title = title;
-  return { key, book, updatedAt: 1 };
-};
-
-test("room lineup defaults to built-ins and normalizes stale, duplicate and excess keys", () => {
-  const authored = Array.from(
-    { length: ROOM_SHELF_LIMIT + 5 },
-    (_, index) => `saved-${index}`,
-  );
-  const live = new Set(authored);
-  assert.deepEqual(normalizeRoomKeys(undefined, live), BUILTIN_ROOM_KEYS);
-  const normalized = normalizeRoomKeys(
-    [authored[0], authored[0], "missing", "builtin:noah", ...authored],
-    live,
-  );
-  assert.equal(normalized.length, ROOM_SHELF_LIMIT);
-  assert.deepEqual(normalized.slice(0, 3), [
-    authored[0],
-    "builtin:noah",
-    authored[1],
-  ]);
-  assert.equal(new Set(normalized).size, ROOM_SHELF_LIMIT);
-  assert.equal(normalized.includes("missing"), false);
-});
-
-test("room membership uses saved keys, enforces capacity and keeps collection entries", async () => {
-  const store = new MemoryStore();
-  store.books = Array.from({ length: ROOM_SHELF_LIMIT + 1 }, (_, index) =>
-    saved(`saved-${index}`, "Same authored ID"),
-  );
-  let validations = 0;
-  const room = new RoomLibrary({
-    library: store,
-    validate: async () => {
-      validations++;
+test("committed order mixes legacy stories and generic books without browser storage", async (t) => {
+  t.mock.method(globalThis, "fetch", async () => {
+    throw Error("The injected fetch must serve all catalog requests");
+  });
+  const stored = Object.getOwnPropertyDescriptor(globalThis, "indexedDB");
+  Object.defineProperty(globalThis, "indexedDB", {
+    configurable: true,
+    get() {
+      throw Error("Reader must not access browser authoring storage");
     },
   });
-  assert.deepEqual(
-    (await room.read()).map(({ key }) => key),
-    BUILTIN_ROOM_KEYS,
-  );
-  const authoredCapacity = ROOM_SHELF_LIMIT - BUILTIN_ROOM_KEYS.length;
-  for (let index = 0; index < authoredCapacity; index++)
-    await room.add(`saved-${index}`);
-  await room.add("saved-0");
-  assert.equal((await room.read()).length, ROOM_SHELF_LIMIT);
-  await assert.rejects(
-    room.add(`saved-${authoredCapacity}`),
-    new RegExp(`${ROOM_SHELF_LIMIT} books already`),
-  );
-  await room.remove("builtin:eden");
-  await room.add(`saved-${authoredCapacity}`);
-  assert.equal(store.books.length, ROOM_SHELF_LIMIT + 1);
-  assert.equal(validations, ROOM_SHELF_LIMIT + 1);
-  const keys = (await room.read()).map(({ key }) => key);
-  assert.equal(keys.length, ROOM_SHELF_LIMIT);
-  assert.equal(keys[0], "builtin:noah");
-  assert.deepEqual(
-    keys.slice(1),
-    Array.from(
-      { length: ROOM_SHELF_LIMIT - 1 },
-      (_, index) => `saved-${index}`,
-    ),
-  );
+  try {
+    const { room, requests } = repository([
+      { id: "noah", legacyStory: "noah" },
+      { id: "quiet-garden", path: "quiet-garden.book.json" },
+      { id: "eden", legacyStory: "eden" },
+    ]);
+    const content = locale();
+    const resolved = await room.resolve(content);
+    assert.deepEqual(
+      resolved.map(({ key }) => key),
+      ["builtin:noah", "book:quiet-garden", "builtin:eden"],
+    );
+    assert.equal(
+      resolved[0].title,
+      content.stories.find(({ id }) => id === "noah")!.title,
+    );
+    assert.equal(resolved[0].storyId, "noah");
+    assert.equal(resolved[1].title, fixture().title);
+    assert.equal(resolved[1].book!.id, "quiet-garden");
+    assert.equal(
+      resolved[1].cover,
+      `./${fixture().assets[fixture().cover].src}`,
+    );
+    assert.equal(resolved[2].storyId, "eden");
+    assert.deepEqual(
+      requests.sort(),
+      ["./books/catalog.json", "./books/quiet-garden.book.json"].sort(),
+    );
+  } finally {
+    if (stored) Object.defineProperty(globalThis, "indexedDB", stored);
+    else Reflect.deleteProperty(globalThis, "indexedDB");
+  }
 });
 
-test("deleted and stale saved keys are pruned and restoring a book leaves it off shelf", async () => {
-  const store = new MemoryStore();
-  store.books = [saved("live"), { ...saved("deleted"), deletedAt: 1 }];
-  store.settings.set("room-shelf-v1", [
-    "builtin:eden",
-    "live",
-    "deleted",
-    "missing",
-  ]);
-  const room = new RoomLibrary({ library: store, validate: async () => {} });
-  assert.deepEqual(await room.read(), [
-    { key: "builtin:eden" },
-    { key: "live" },
-  ]);
-  store.books[1].deletedAt = undefined;
-  assert.deepEqual(await room.read(), [
-    { key: "builtin:eden" },
-    { key: "live" },
-  ]);
-});
-
-test("resolve preserves duplicate authored IDs by saved key and prefixes public covers", async () => {
-  const store = new MemoryStore();
-  const first = saved("copy-a", "First copy");
-  const second = saved("copy-b", "Second copy");
-  assert.equal(first.book.id, second.book.id);
-  store.books = [first, second];
-  store.settings.set("room-shelf-v1", ["copy-a", "copy-b"]);
-  const room = new RoomLibrary({ library: store, validate: async () => {} });
-  const resolved = await room.resolve("en-US");
+test("unregistered repository books stay off the shelf", async () => {
+  const { room, requests } = repository([{ id: "eden", legacyStory: "eden" }]);
   assert.deepEqual(
-    resolved.map(({ key, title }) => ({ key, title })),
-    [
-      { key: "copy-a", title: "First copy" },
-      { key: "copy-b", title: "Second copy" },
-    ],
+    (await room.resolve(locale())).map(({ key }) => key),
+    ["builtin:eden"],
   );
-  assert.match(resolved[0].cover, /^\.\/assets\//);
+  assert.deepEqual(requests, ["./books/catalog.json"]);
 });
 
-test("localized shelf titles retain the complete source authored book", async () => {
-  const store = new MemoryStore();
-  const entry = saved("localized", "Source title");
-  const translation = sourceTranslation(entry.book);
+test("localized shelf titles preserve source text and translations for later reading", async () => {
+  const book = fixture();
+  const translation = sourceTranslation(book);
   translation.title = "Titre français";
-  entry.book.languages = [entry.book.locale, "fr"];
-  entry.book.translations = { fr: translation };
-  store.books = [entry];
-  store.settings.set("room-shelf-v1", [entry.key]);
-  const room = new RoomLibrary({ library: store, validate: async () => {} });
-
-  const [resolved] = await room.resolve("fr");
-  assert.equal(resolved.title, "Titre français");
-  assert.equal(resolved.book!.locale, entry.book.locale);
-  assert.equal(
-    resolved.book!.spreads[0].segments[0].text,
-    entry.book.spreads[0].segments[0].text,
+  book.languages = [book.locale, "fr"];
+  book.translations = { fr: translation };
+  const content = locale();
+  content.id = "fr";
+  const { room } = repository(
+    [{ id: book.id, path: "quiet-garden.book.json" }],
+    { "quiet-garden.book.json": book },
   );
-  assert.deepEqual(resolved.book!.translations, entry.book.translations);
-  assert.notEqual(resolved.book, entry.book);
+  const [resolved] = await room.resolve(content);
+  assert.equal(resolved.title, translation.title);
+  assert.deepEqual(resolved.book, book);
+  assert.notEqual(resolved.book, book);
 });
 
-test("adding validates structure and decodes every image before changing lineup", async () => {
-  const book = fixture();
-  let images = 0;
-  await validateRoomBook(book, {
-    fetch: async () => new Response(new Blob(["image"]), { status: 200 }),
-    image: async () => {
-      images++;
-    },
+test("an unavailable book translation retains the source-language shelf title", async () => {
+  const content = locale();
+  content.id = "fr";
+  const { room } = repository([
+    { id: "quiet-garden", path: "quiet-garden.book.json" },
+  ]);
+  const [resolved] = await room.resolve(content);
+  assert.equal(resolved.title, fixture().title);
+  assert.equal(resolved.book!.locale, "en-US");
+});
+
+test("missing committed book fails visibly instead of silently shrinking the catalog", async () => {
+  const { room } = repository([{ id: "missing", path: "missing.book.json" }]);
+  await assert.rejects(room.resolve(locale()), /missing|404/i);
+});
+
+test("catalog failures can recover on a later resolve", async () => {
+  let failing = true;
+  const room = new RoomLibrary({
+    fetch: async () =>
+      failing
+        ? new Response("Unavailable", { status: 503 })
+        : Response.json([{ id: "eden", legacyStory: "eden" }]),
   });
-  assert.equal(
-    images,
-    Object.values(book.assets).filter(({ kind }) => kind === "image").length,
+  await assert.rejects(room.resolve(locale()), /catalog|503/i);
+  failing = false;
+  assert.deepEqual(
+    (await room.resolve(locale())).map(({ key }) => key),
+    ["builtin:eden"],
   );
-  const broken = fixture();
-  broken.spreads[0].backdrop.asset = "missing";
+});
+
+test("invalid generic content fails before it becomes a readable room entry", async () => {
+  const book = fixture();
+  book.spreads[0].backdrop.asset = "missing-art";
+  const { room } = repository(
+    [{ id: book.id, path: "quiet-garden.book.json" }],
+    { "quiet-garden.book.json": book },
+  );
   await assert.rejects(
-    validateRoomBook(broken, {
-      fetch: async () => new Response(new Blob()),
-      image: async () => {},
-    }),
-    /ASSET_REFERENCE/,
+    room.resolve(locale()),
+    /backdrop|missing-art|ASSET_REFERENCE/i,
   );
 });

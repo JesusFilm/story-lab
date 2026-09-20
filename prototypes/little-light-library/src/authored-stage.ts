@@ -346,44 +346,6 @@ export class AuthoredStage {
     this.openedAt = undefined;
   }
 
-  /** Apply editor gestures to the same geometry used by the reader, without reloading media. */
-  editPlacement(id: string, definition: BookElement) {
-    const element = this.elements.find((item) => item.definition.id === id);
-    if (!element) return;
-    const placement = definition.placement;
-    const mesh = element.pivot.children[0] as THREE.Mesh<THREE.PlaneGeometry>;
-    mesh.scale.set(
-      placement.width / mesh.geometry.parameters.width,
-      placement.height / mesh.geometry.parameters.height,
-      1,
-    );
-    flipImage(mesh, definition.flipX, definition.flipY);
-    mesh.position.y = placement.anchor === "center" ? 0 : placement.height / 2;
-    element.popup.position.set(placement.x, placement.depth, 0.075);
-    element.pivot.position.y = placement.elevation ?? 0;
-    element.baseRotation = THREE.MathUtils.degToRad(placement.rotation ?? 0);
-    element.pivot.rotation.z = element.baseRotation;
-    element.definition = definition;
-  }
-
-  /** Apply editor ground changes to the loaded mesh without reloading its image. */
-  editGround(definition: NonNullable<BookSpread["ground"]>) {
-    if (!this.ground) return;
-    const { mesh, material } = this.ground;
-    flipImage(mesh, definition.flipX, definition.flipY);
-    mesh.scale.set(
-      definition.width / mesh.geometry.parameters.width,
-      definition.height / mesh.geometry.parameters.height,
-      1,
-    );
-    mesh.position.set(definition.x, definition.depth, 0.046);
-    mesh.rotation.z = THREE.MathUtils.degToRad(definition.rotation ?? 0);
-    material.opacity = definition.opacity ?? 1;
-    material.transparent = material.opacity < 1;
-    material.alphaTest = material.transparent ? 0 : 0.03;
-    material.needsUpdate = true;
-  }
-
   dispose() {
     disposeDetached(this.root, this.textures);
   }

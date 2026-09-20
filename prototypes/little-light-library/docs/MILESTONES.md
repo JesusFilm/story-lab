@@ -2,7 +2,7 @@
 
 ## Current direction
 
-The user has parked the quality-improvement effort after round 23 and deliberately deferred individual polish concerns. Do not resume historical next-cycle instructions unless requested. Start with [AGENTS.md](../AGENTS.md) for context routing. The proposed next phase is [manual and agent-assisted book authoring](book-authoring-direction.md), beginning with terminology and a reader-compatible book contract; no editor implementation is authorized by this record alone.
+This is a historical execution record. The quality-improvement effort remains parked after round 23; do not resume historical next-cycle instructions unless requested. Start with [AGENTS.md](../AGENTS.md), [the current creator guide](creator-guide.md), [architecture](architecture.md) and [future Feature work](feature-roadmap.md). The visual editor and its superseded direction/guides are archived in git history. Historical commands and measurements below describe their recorded revision, not the current recommended checks.
 
 ## Repository cleanup checkpoint
 

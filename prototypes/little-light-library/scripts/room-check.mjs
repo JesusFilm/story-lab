@@ -4,11 +4,27 @@ import http from "node:http";
 import os from "node:os";
 import path from "node:path";
 import { chromium } from "playwright";
+import { tsImport } from "tsx/esm/api";
+
+const { sourceTranslation } = await tsImport(
+  "../src/book-localization.ts",
+  import.meta.url,
+);
 
 const root = path.resolve("dist");
 const prefix = "/acceptance/little-light-library/";
-const output = path.resolve(".test-output/room");
-const summaryPath = path.resolve("review/latest/room-results.json");
+const output = path.resolve(
+  process.env.ROOM_CHECK_OUTPUT || ".test-output/room",
+);
+const summaryPath = path.join(output, "room-results.json");
+const committedKeys = [
+  "builtin:eden",
+  "builtin:noah",
+  "book:quiet-garden",
+  "book:jonah-and-the-whale",
+];
+const bookFixture = (id) =>
+  JSON.parse(fs.readFileSync(path.join(root, `books/${id}.book.json`), "utf8"));
 const mime = {
   ".css": "text/css",
   ".html": "text/html",
@@ -61,12 +77,17 @@ const browser = await chromium.launch({ channel: "chrome", headless: true });
 const results = {
   generatedAt: new Date().toISOString(),
   method:
-    "Playwright against a production build at a nested static URL, using an isolated browser context and browser-local IndexedDB.",
+    "Playwright against a production build at a nested static URL, using an isolated browser context, committed catalog, stale authoring-storage fixture, and intercepted dense catalog.",
   browser: browser.version(),
   host: { platform: os.platform(), arch: os.arch() },
   urlPath: prefix,
   checks: [],
   pageErrors: [],
+  unexpectedRequests: [],
+  failedResponses: [],
+  requestFailures: [],
+  audioRequests: [],
+  transitionCaptures: [],
 };
 
 const check = async (name, run) => {
@@ -84,6 +105,7 @@ const check = async (name, run) => {
     console.error(`Failed: ${name}: ${error.message}`);
     const diagnostic = await page
       .evaluate(() => ({
+        notice: document.querySelector("#notice")?.textContent,
         debug: window.libraryDebug?.(),
         bodyClasses: document.body.className,
         header: [...document.querySelectorAll("#header button")].map(
@@ -117,13 +139,86 @@ const context = await browser.newContext({
   deviceScaleFactor: 1,
   acceptDownloads: false,
 });
+await context.route("**/*", async (route) => {
+  const requestUrl = new URL(route.request().url());
+  if (!["http:", "https:"].includes(requestUrl.protocol))
+    return route.continue();
+  if (
+    requestUrl.origin !== new URL(url).origin ||
+    !requestUrl.pathname.startsWith(prefix)
+  ) {
+    results.unexpectedRequests.push(route.request().url());
+    return route.abort();
+  }
+  return route.continue();
+});
 const page = await context.newPage();
+await page.addInitScript(() => {
+  const connections = new Map();
+  const starts = [];
+  const connect = AudioNode.prototype.connect;
+  AudioNode.prototype.connect = function (destination, ...args) {
+    connections.set(this, destination);
+    return connect.call(this, destination, ...args);
+  };
+  const start = AudioBufferSourceNode.prototype.start;
+  AudioBufferSourceNode.prototype.start = function (...args) {
+    const gains = [];
+    let node = this;
+    const seen = new Set();
+    while (node && !seen.has(node)) {
+      seen.add(node);
+      if (node instanceof GainNode) gains.push(node.gain);
+      node = connections.get(node);
+    }
+    starts.push({ source: this, gains });
+    return start.apply(this, args);
+  };
+  window.readerAudioProbe = () =>
+    starts.map(({ source, gains }) => ({
+      loop: source.loop,
+      duration: source.buffer?.duration,
+      gains: gains.map((gain) => gain.value),
+    }));
+});
+page.on("response", (response) => {
+  if (response.status() >= 400)
+    results.failedResponses.push({
+      url: response.url(),
+      status: response.status(),
+    });
+  if (/\.(wav|mp3|ogg)(?:$|\?)/.test(response.url()))
+    results.audioRequests.push(response.url());
+});
+page.on("requestfailed", (request) => {
+  const reason = request.failure()?.errorText;
+  // Navigation cancels superseded image/audio loads; other failures are regressions.
+  if (reason !== "net::ERR_ABORTED")
+    results.requestFailures.push({ url: request.url(), reason });
+});
 page.setDefaultTimeout(15_000);
 page.on("pageerror", (error) => results.pageErrors.push(error.message));
 
 const debug = () => page.evaluate(() => window.libraryDebug());
 const enter = async () => {
   await page.goto(url);
+  await page.waitForFunction(
+    () =>
+      document.querySelector('[data-locale="en-US"]') ||
+      document.querySelector("#notice button"),
+  );
+  assert.equal(
+    await page.locator("#notice button").count(),
+    0,
+    await page.locator("#notice").textContent(),
+  );
+  await page.locator('[data-locale="en-US"]').click();
+  await page.waitForFunction(
+    () =>
+      document
+        .querySelector('[data-locale="en-US"]')
+        ?.getAttribute("aria-pressed") === "true",
+  );
   await page.locator("#enter").click();
   await page.waitForFunction(() => window.libraryDebug?.().ready);
   await page.waitForFunction(
@@ -134,8 +229,34 @@ const enter = async () => {
 };
 const waitShelf = async (predicate, argument) =>
   page.waitForFunction(predicate, argument, { timeout: 30_000 });
-const selectBook = async (key) => {
+const captureTransition = async (key, phase) => {
+  await waitShelf(
+    ({ key, phase }) => {
+      const state = window.libraryDebug?.();
+      const book = state?.scene.shelf.books.find((entry) => entry.key === key);
+      if (!state?.shelf.busy || !state.scene.shelf.moving || !book?.visible)
+        return false;
+      return phase === "rotate"
+        ? book.rotation[1] > 0.35 && book.rotation[1] < 1.1
+        : book.rotation[0] < -0.3 && book.rotation[0] > -1.1;
+    },
+    { key, phase },
+  );
+  const state = await debug();
+  const file = path.join(output, `swap-${phase}.png`);
+  await page.screenshot({ path: file });
+  results.transitionCaptures.push({
+    file,
+    phase,
+    observedBeforeCapture: state.scene.shelf.books.find(
+      (entry) => entry.key === key,
+    ),
+    tableTransform: state.scene.bookTransform,
+  });
+};
+const selectBook = async (key, capture = false) => {
   await page.locator(`[data-shelf-key="${key}"]`).click();
+  if (capture) await captureTransition(key, "rotate");
   await waitShelf(
     (selected) =>
       window.libraryDebug?.().shelf.inspected === selected &&
@@ -143,8 +264,9 @@ const selectBook = async (key) => {
     key,
   );
 };
-const readSelected = async (key) => {
+const readSelected = async (key, capture = false) => {
   await page.locator("#shelf-read").click();
+  if (capture) await captureTransition(key, "land");
   await waitShelf((selected) => {
     const state = window.libraryDebug?.();
     return (
@@ -212,6 +334,49 @@ const waitForClosedBrowsingTable = () =>
     undefined,
     { timeout: 15_000 },
   );
+// `opening` identifies the opening sequence and can remain true after it settles.
+// Require the rendered stage itself to be upright, visible, and free of turn proxies.
+const waitForSettledSpread = async () => {
+  // ResizeObserver updates the canvas and camera after the viewport changes.
+  await page.evaluate(
+    () =>
+      new Promise((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve)),
+      ),
+  );
+  await page.waitForFunction(
+    () => {
+      const scene = window.libraryDebug?.().scene;
+      return (
+        scene?.mode === "spread" &&
+        scene.stageVisible &&
+        !scene.transitionWaiting &&
+        !scene.pageVisible &&
+        !scene.retainedStageVisible &&
+        scene.popups.length > 0 &&
+        scene.popups.every((angle) => Math.abs(angle - Math.PI / 2) < 0.002) &&
+        scene.camera.every(
+          (value, index) =>
+            Math.abs(
+              value -
+                scene.cameraGoal[index] -
+                scene.readingFocus.cameraOffset[index],
+            ) < 0.36,
+        ) &&
+        scene.look.every(
+          (value, index) =>
+            Math.abs(
+              value -
+                scene.lookGoal[index] -
+                scene.readingFocus.lookOffset[index],
+            ) < 0.03,
+        )
+      );
+    },
+    undefined,
+    { timeout: 15_000 },
+  );
+};
 const assertToyTargetsInView = async () => {
   const framing = await page.evaluate(() => {
     const headerBottom = document
@@ -245,9 +410,14 @@ await check(
     assert.equal(state.shelf.browsing, true);
     assert.equal(state.shelf.table, null);
     assert.equal(state.shelf.inspected, null);
+    assert.equal(
+      state.scene.shelf.endStops.length,
+      1,
+      "Four committed books have one occupied shelf and a book stop",
+    );
     assert.deepEqual(
       state.shelf.books.map(({ key }) => key),
-      ["builtin:eden", "builtin:noah"],
+      committedKeys,
     );
     assert.equal(
       await page.locator(".book-choices,.room-footer,#story-choices").count(),
@@ -372,8 +542,8 @@ await check(
       ["adam", "eve", "garden-tree"],
     );
 
-    await selectBook("builtin:noah");
-    await readSelected("builtin:noah");
+    await selectBook("builtin:noah", true);
+    await readSelected("builtin:noah", true);
     await waitForOpenTablePose();
     state = await debug();
     assertTablePose(state);
@@ -391,10 +561,12 @@ await check(
       state.scene.shelf.books.find(({ key }) => key === "builtin:noah").state,
       "table",
     );
+    await waitForSettledSpread();
     await page.screenshot({
       path: path.join(output, "second-book-desktop.png"),
     });
     await page.setViewportSize({ width: 390, height: 844 });
+    await waitForSettledSpread();
     await page.screenshot({ path: path.join(output, "second-book-phone.png") });
     await page.setViewportSize({ width: 1366, height: 768 });
 
@@ -426,7 +598,8 @@ await check("Busy lock rejects rapid shelf taps", async () => {
     document.querySelector('[data-shelf-key="builtin:noah"]')?.click();
   });
   await page.waitForFunction(() => window.libraryDebug?.().shelf.busy === true);
-  assert.equal(await page.locator("#author").isDisabled(), true);
+  assert.equal(await page.locator("#settings").isDisabled(), true);
+  assert.equal(await page.locator("#language").isDisabled(), true);
   await waitShelf(() => window.libraryDebug?.().shelf.busy === false);
   const state = await debug();
   assert.equal(state.shelf.inspected, "builtin:eden");
@@ -439,10 +612,23 @@ await check("Busy lock rejects rapid shelf taps", async () => {
 await check(
   "Reduced motion and narrow room controls remain usable",
   async () => {
-    await enter();
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 390, height: 844 });
-    await selectBook("builtin:eden");
+    await enter(); // Motion preference is read when the scene is constructed.
+    const spine = page.locator('[data-shelf-key="builtin:eden"]');
+    await spine.focus();
+    await page.keyboard.press("Enter");
+    await waitShelf(
+      () =>
+        window.libraryDebug?.().shelf.inspected === "builtin:eden" &&
+        !window.libraryDebug?.().shelf.busy,
+    );
+    assert.equal(
+      await page
+        .locator("#shelf-read")
+        .evaluate((el) => el === document.activeElement),
+      true,
+    );
     const controls = page.locator(".shelf-preview");
     await controls.waitFor({ state: "visible" });
     const bounds = await controls.boundingBox();
@@ -457,7 +643,7 @@ await check(
     );
     assert.equal((await debug()).scene.shelf.moving, false);
     await page.screenshot({ path: path.join(output, "room-phone.png") });
-    await page.locator("#shelf-return").click();
+    await page.keyboard.press("Escape");
     await waitShelf(() => window.libraryDebug?.().shelf.busy === false);
     await page.setViewportSize({ width: 1366, height: 768 });
     await page.emulateMedia({ reducedMotion: "no-preference" });
@@ -466,119 +652,27 @@ await check(
 );
 
 await check(
-  "Authored toy installs on the room shelf and persists across reload",
+  "Committed catalog ignores and preserves stale browser authoring storage",
   async () => {
     await enter();
-    await page.locator("#author").click();
-    await page.waitForFunction(
-      () => document.querySelector("#author-dialog")?.open === true,
-    );
-    await page.locator('[data-edit-book="included-quiet-garden"]').click();
-    await page.waitForFunction(() =>
-      document
-        .querySelector("#author-dialog")
-        ?.classList.contains("book-editing"),
-    );
-    await page.locator('[data-studio="details"]').click();
-    await page.locator('[data-author-tab="book"]').click();
-    await page.locator("[data-toy-add]").click();
-    await page
-      .locator('[data-toy-index="0"][data-toy-field="id"]')
-      .fill("little-tree");
-    await page
-      .locator('[data-toy-index="0"][data-toy-field="id"]')
-      .dispatchEvent("change");
-    await page
-      .locator('[data-toy-index="0"][data-toy-field="label"]')
-      .fill("Little tree");
-    await page
-      .locator('[data-toy-index="0"][data-toy-field="label"]')
-      .dispatchEvent("change");
-    await page
-      .locator('[data-toy-index="0"][data-toy-field="asset"]')
-      .selectOption("tree-cutout");
-    await page
-      .locator('[data-toy-index="0"][data-toy-field="animation"]')
-      .selectOption("pulse");
-    await page
-      .locator('[data-toy-index="0"][data-toy-field="sound"]')
-      .selectOption("narration-garden-1");
-    await page.locator("#author-books").click();
-    await page.waitForFunction(() =>
-      document
-        .querySelector("#author-dialog")
-        ?.classList.contains("library-mode"),
-    );
-    await page.locator('[data-room-add="included-quiet-garden"]').click();
-    await page
-      .locator('[data-room-remove="included-quiet-garden"]')
-      .waitFor({ state: "visible", timeout: 30_000 });
-    await page.locator("#author-close").click();
-    await page.waitForFunction(
-      () =>
-        document.querySelector("#author-dialog")?.open === false &&
-        window.libraryDebug?.().shelf.busy === false &&
-        window
-          .libraryDebug?.()
-          .shelf.books.some(({ key }) => key === "included-quiet-garden"),
-    );
-
-    await selectBook("included-quiet-garden");
-    await readSelected("included-quiet-garden");
-    let state = await debug();
-    assert.deepEqual(state.shelf.toys, [
-      { id: "little-tree", label: "Little tree" },
-    ]);
-    assert.equal(state.scene.shelfToys[0].id, "little-tree");
-    await page.locator("#shelf").click();
-    await waitShelf(
-      () =>
-        window.libraryDebug?.().shelf.browsing === true &&
-        window.libraryDebug?.().shelf.busy === false,
-    );
-    await page.locator('[data-toy-id="little-tree"]').click();
-    await page.waitForFunction(
-      () => window.libraryDebug?.().shelf.toyAudioPlaying === true,
-    );
-
-    await page.reload();
-    await page.locator("#enter").click();
-    await page.waitForFunction(
-      () =>
-        window.libraryDebug?.().ready &&
-        window
-          .libraryDebug?.()
-          .shelf.books.some(({ key }) => key === "included-quiet-garden"),
-    );
-    state = await debug();
     assert.deepEqual(
-      state.shelf.books.map(({ key }) => key),
-      ["builtin:eden", "builtin:noah", "included-quiet-garden"],
+      (await debug()).shelf.books.map(({ key }) => key),
+      committedKeys,
     );
-    await selectBook("included-quiet-garden");
-    await readSelected("included-quiet-garden");
-    state = await debug();
-    assert.deepEqual(state.shelf.toys, [
-      { id: "little-tree", label: "Little tree" },
-    ]);
-    await page.screenshot({ path: path.join(output, "authored-room.png") });
-    return {
-      lineup: state.shelf.books.map(({ key }) => key),
-      authoredToy: state.shelf.toys[0],
-      persisted: true,
-    };
-  },
-);
-
-await check(
-  "Thirty spine-out books and top toys fit at desktop and phone sizes",
-  async () => {
-    await page.evaluate(async () => {
-      const book = await fetch("./books/quiet-garden.book.json").then(
-        (response) => response.json(),
-      );
+    assert.equal(
+      await page
+        .locator("#author,#author-dialog,[data-author-tab],#author-file")
+        .count(),
+      0,
+    );
+    const staleBook = bookFixture("quiet-garden");
+    await page.evaluate(async (book) => {
       const database = await new Promise((resolve, reject) => {
         const request = indexedDB.open("little-light-author-books", 1);
+        request.onupgradeneeded = () => {
+          request.result.createObjectStore("books", { keyPath: "key" });
+          request.result.createObjectStore("settings");
+        };
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);
       });
@@ -587,27 +681,364 @@ await check(
           ["books", "settings"],
           "readwrite",
         );
-        const books = transaction.objectStore("books");
-        const keys = ["builtin:eden", "builtin:noah"];
-        for (let index = 0; index < 28; index++) {
-          const key = `dense-${String(index + 1).padStart(2, "0")}`;
-          keys.push(key);
-          books.put({
-            key,
-            updatedAt: Date.now() + index,
-            book: {
-              ...structuredClone(book),
-              id: `dense-book-${index + 1}`,
-              title: `Garden volume ${index + 1}`,
-            },
-          });
-        }
-        transaction.objectStore("settings").put(keys, "room-shelf-v1");
+        transaction.objectStore("books").put({
+          key: "included-quiet-garden",
+          updatedAt: 1,
+          book: { ...book, title: "Stale browser-only title" },
+        });
+        transaction
+          .objectStore("settings")
+          .put(["included-quiet-garden", "missing-book"], "room-shelf-v1");
         transaction.oncomplete = resolve;
         transaction.onerror = transaction.onabort = () =>
           reject(transaction.error);
       });
       database.close();
+    }, staleBook);
+    // Fail immediately if runtime starts depending on author storage again.
+    await page.addInitScript(() => {
+      indexedDB.open = () => {
+        throw Error("Runtime attempted to open authoring storage");
+      };
+      indexedDB.deleteDatabase = () => {
+        throw Error("Runtime attempted to erase authoring storage");
+      };
+    });
+    await enter();
+    const state = await debug();
+    assert.deepEqual(
+      state.shelf.books.map(({ key }) => key),
+      committedKeys,
+    );
+    assert.equal(
+      state.shelf.books.find(({ key }) => key === "book:quiet-garden").title,
+      staleBook.title,
+    );
+    // Inspect through a separate document so the runtime guard remains installed.
+    const inspector = await context.newPage();
+    try {
+      await inspector.goto(url + "books/catalog.json");
+      const saved = await inspector.evaluate(async () => {
+        const database = await new Promise((resolve, reject) => {
+          const request = indexedDB.open("little-light-author-books", 1);
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+        const transaction = database.transaction(
+          ["books", "settings"],
+          "readonly",
+        );
+        const read = (request) =>
+          new Promise((resolve, reject) => {
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+          });
+        const [book, keys] = await Promise.all([
+          read(transaction.objectStore("books").get("included-quiet-garden")),
+          read(transaction.objectStore("settings").get("room-shelf-v1")),
+        ]);
+        database.close();
+        return { title: book.book.title, keys };
+      });
+      assert.deepEqual(saved, {
+        title: "Stale browser-only title",
+        keys: ["included-quiet-garden", "missing-book"],
+      });
+    } finally {
+      await inspector.close();
+    }
+    await page.screenshot({ path: path.join(output, "committed-catalog.png") });
+    return {
+      keys: committedKeys,
+      staleDraftPreserved: true,
+      runtimeStorageAccess: false,
+    };
+  },
+);
+
+await check(
+  "Committed generic books retain navigation, narration, highlighting and interactions",
+  async () => {
+    await enter();
+    for (const id of ["quiet-garden", "jonah-and-the-whale"]) {
+      const book = bookFixture(id);
+      await selectBook("book:" + id);
+      await readSelected("book:" + id);
+      await waitForOpenTablePose();
+      assertTablePose(await debug());
+      for (const [index, spread] of book.spreads.entries()) {
+        await page.waitForFunction(
+          (pageNumber) =>
+            window.libraryDebug?.().state.page === pageNumber &&
+            (window.libraryDebug?.().ready ||
+              document.querySelector("#play")?.disabled),
+          index,
+        );
+        assert.equal(
+          await page.locator(".reader h1").textContent(),
+          spread.title,
+        );
+        assert.deepEqual(
+          await page.locator(".story-text [data-segment]").allTextContents(),
+          spread.segments.map(({ text }) => text),
+        );
+        assert.equal(await page.locator("#previous").isDisabled(), index === 0);
+        for (const element of spread.elements.filter(
+          ({ interaction }) => interaction,
+        )) {
+          await page.locator(`[data-element="${element.id}"]`).click();
+          assert.equal(
+            await page.locator("#notice").textContent(),
+            element.interaction.response,
+          );
+        }
+        if (id === "quiet-garden" && index === 0) {
+          await page.locator("#replay").click();
+          await page.waitForFunction(
+            () =>
+              window.libraryDebug?.().playing &&
+              window.libraryDebug?.().position > 0.15,
+          );
+          assert.equal(
+            await page
+              .locator('.story-text [data-segment="0"]')
+              .evaluate((el) => el.classList.contains("active")),
+            true,
+          );
+          await page.locator("#play").click();
+          const paused = (await debug()).position;
+          await page.locator("#shelf").click();
+          await waitForClosedBrowsingTable();
+          await page.locator("#shelf").click();
+          await waitForOpenTablePose();
+          assert.equal((await debug()).playing, false);
+          assert.ok(
+            Math.abs((await debug()).position - paused) < 0.03,
+            "Continue preserves paused narration",
+          );
+        }
+        if (id === "jonah-and-the-whale") {
+          assert.equal(
+            await page.locator("#play").isDisabled(),
+            true,
+            "Unrecorded pages should remain readable without pretend narration",
+          );
+        }
+        if (index === 0) {
+          await waitForSettledSpread();
+          await page.screenshot({
+            path: path.join(output, `${id}-reader.png`),
+          });
+          await page.setViewportSize({ width: 390, height: 844 });
+          await waitForSettledSpread();
+          await page.screenshot({
+            path: path.join(output, `${id}-reader-phone.png`),
+          });
+          await page.setViewportSize({ width: 1366, height: 768 });
+        }
+        if (index < book.spreads.length - 1) {
+          await page.locator("#next").click();
+        }
+      }
+      await page.locator("#previous").click();
+      await page.waitForFunction(
+        (pageNumber) =>
+          (window.libraryDebug?.().ready ||
+            document.querySelector("#play")?.disabled) &&
+          window.libraryDebug?.().state.page === pageNumber,
+        book.spreads.length - 2,
+      );
+      await page.locator("#shelf").click();
+      await waitForClosedBrowsingTable();
+    }
+    return {
+      books: 2,
+      spreads: 5,
+      quietGardenNarration: true,
+      jonahMissingNarrationReadable: true,
+    };
+  },
+);
+
+await check(
+  "Reader settings persist mute and volume and remain keyboard accessible",
+  async () => {
+    await enter();
+    await page.locator("#settings").focus();
+    await page.keyboard.press("Enter");
+    await page.locator("#audio").uncheck();
+    await page.locator("#volume").fill("0.35");
+    await page.locator("#speed").selectOption("1.25");
+    await page.locator("#settings-close").focus();
+    await page.keyboard.press("Enter");
+    await enter();
+    const state = await debug();
+    assert.equal(state.audio, false);
+    assert.equal(state.volume, 0.35);
+    assert.equal(state.speed, 1.25);
+    await selectBook("book:quiet-garden");
+    await readSelected("book:quiet-garden");
+    const previousStarts = await page.evaluate(
+      () => window.readerAudioProbe().length,
+    );
+    await page.locator("#replay").click();
+    await page.waitForFunction(
+      () =>
+        window.libraryDebug?.().playing &&
+        window.libraryDebug?.().position > 0.1,
+    );
+    assert.equal(
+      (await debug()).audio,
+      false,
+      "Mute retains the narration clock",
+    );
+    const mutedSources = await page.evaluate(
+      (offset) => window.readerAudioProbe().slice(offset),
+      previousStarts,
+    );
+    assert.ok(
+      mutedSources.length > 0,
+      "Narration schedules decoded Web Audio sources",
+    );
+    assert.ok(
+      mutedSources.every(({ gains }) => gains.some((value) => value === 0)),
+      "Every scheduled source passes through a muted gain",
+    );
+    await page.locator("#play").click();
+    await page.locator("#settings").click();
+    await page.locator("#audio").check();
+    await page.locator("#volume").fill("0.8");
+    await page.locator("#speed").selectOption("1");
+    await page.locator("#settings-close").click();
+    return { persistedMute: true, persistedVolume: 0.35, keyboardDialog: true };
+  },
+);
+
+await check(
+  "Fixture book language control and soundtrack survive editor CSS removal",
+  async () => {
+    const book = bookFixture("quiet-garden");
+    book.languages = ["en-US", "fr"];
+    const translation = sourceTranslation(book);
+    translation.title = "Fixture French title";
+    translation.spreads[0].title = "Fixture translated page";
+    book.translations = { fr: translation };
+    book.soundtracks = [
+      {
+        id: "fixture-bed",
+        label: "Disposable soundtrack fixture",
+        asset: "narration-garden-1",
+        startPage: book.spreads[0].id,
+        endPage: book.spreads.at(-1).id,
+        startOffset: 0,
+        endOffset: 0,
+        volume: 0.15,
+        fadeIn: 0.1,
+        fadeOut: 0.1,
+        loop: true,
+      },
+    ];
+    await page.route("**/books/quiet-garden.book.json", (route) =>
+      route.fulfill({ json: book }),
+    );
+    try {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await enter();
+      await selectBook("book:quiet-garden");
+      await readSelected("book:quiet-garden");
+      await waitForSettledSpread();
+      const control = page.getByRole("combobox", {
+        name: "Book language",
+        exact: true,
+      });
+      assert.equal(await control.isVisible(), true);
+      const bounds = await control.boundingBox();
+      assert.ok(
+        bounds &&
+          bounds.x >= 0 &&
+          bounds.x + bounds.width <= 390.5 &&
+          bounds.height >= 40,
+      );
+      assert.equal(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth + 2,
+        ),
+        true,
+      );
+      const audio = await page.evaluate(() => window.readerAudioProbe());
+      assert.ok(
+        audio.some(
+          ({ loop, duration, gains }) =>
+            loop &&
+            duration > 1 &&
+            gains.some((value) => Math.abs(value - 0.15) < 0.01),
+        ),
+        "Fixture soundtrack schedules a decoded looping source at its authored gain",
+      );
+      await page.screenshot({
+        path: path.join(output, "fixture-book-language-phone.png"),
+      });
+      await control.selectOption("fr");
+      await page.waitForFunction(
+        () =>
+          document.querySelector(".reader h1")?.textContent ===
+          "Fixture translated page",
+      );
+      assert.equal(await page.locator(".reader").getAttribute("lang"), "fr");
+      await control.selectOption("en-US");
+      await page.waitForFunction(
+        (title) =>
+          document.querySelector(".reader h1")?.textContent === title &&
+          window.libraryDebug?.().ready,
+        book.spreads[0].title,
+      );
+      return {
+        fixtureOnly: true,
+        phoneLanguageControl: true,
+        languageSwitch: true,
+        decodedSoundtrackLoop: true,
+      };
+    } finally {
+      await page.unroute("**/books/quiet-garden.book.json");
+      await page.setViewportSize({ width: 1366, height: 768 });
+    }
+  },
+);
+
+await check(
+  "Thirty spine-out books and top toys fit at desktop and phone sizes",
+  async () => {
+    const denseBook = bookFixture("quiet-garden");
+    denseBook.toys = [
+      {
+        id: "little-tree",
+        label: "Little tree",
+        asset: "tree-cutout",
+        animation: "pulse",
+        sound: "narration-garden-1",
+      },
+    ];
+    const fixtureEntries = Array.from({ length: 28 }, (_, index) => {
+      const id = `dense-${String(index + 1).padStart(2, "0")}`;
+      return { id, path: id + ".book.json" };
+    });
+    await page.route("**/books/catalog.json", (route) =>
+      route.fulfill({
+        json: [
+          { id: "eden", legacyStory: "eden" },
+          { id: "noah", legacyStory: "noah" },
+          ...fixtureEntries,
+        ],
+      }),
+    );
+    await page.route("**/books/dense-*.book.json", (route) => {
+      const id = new URL(route.request().url()).pathname
+        .split("/")
+        .pop()
+        .replace(".book.json", "");
+      return route.fulfill({
+        json: { ...denseBook, id, title: "Garden volume " + id },
+      });
     });
 
     await enter();
@@ -635,10 +1066,10 @@ await check(
     for (const key of [
       "builtin:eden",
       "builtin:noah",
-      "dense-13",
-      "dense-14",
-      "dense-15",
-      "dense-28",
+      "book:dense-13",
+      "book:dense-14",
+      "book:dense-15",
+      "book:dense-28",
     ]) {
       await selectBook(key);
       assert.equal((await debug()).shelf.inspected, key);
@@ -700,7 +1131,52 @@ await check(
     await assertToyTargetsInView();
     await page.screenshot({ path: path.join(output, "dense-toys-phone.png") });
     await page.setViewportSize({ width: 1366, height: 768 });
-    return { books: 30, rows: 2, toys: 3, desktopAndPhone: true };
+    await selectBook("book:dense-28");
+    await readSelected("book:dense-28");
+    await waitForOpenTablePose();
+    assertTablePose(await debug());
+    assert.deepEqual((await debug()).shelf.toys, [
+      { id: "little-tree", label: "Little tree" },
+    ]);
+    await page.locator("#shelf").click();
+    await waitForClosedBrowsingTable();
+    await page.locator('[data-toy-id="little-tree"]').click();
+    await page.waitForFunction(
+      () => window.libraryDebug?.().shelf.toyAudioPlaying === true,
+    );
+    await page.unroute("**/books/catalog.json");
+    await page.unroute("**/books/dense-*.book.json");
+    await enter();
+    assert.deepEqual(
+      (await debug()).shelf.books.map(({ key }) => key),
+      committedKeys,
+    );
+    return {
+      books: 30,
+      rows: 2,
+      toys: 3,
+      desktopAndPhone: true,
+      fixtureOnly: true,
+      genericToyAudio: true,
+    };
+  },
+);
+
+await check(
+  "Nested static runtime loads local resources without generation services",
+  async () => {
+    assert.deepEqual(results.unexpectedRequests, []);
+    assert.deepEqual(results.failedResponses, []);
+    assert.deepEqual(results.requestFailures, []);
+    assert.ok(
+      results.audioRequests.length > 0,
+      "Existing narration must load from the production build",
+    );
+    return {
+      nestedPath: prefix,
+      audioResources: new Set(results.audioRequests).size,
+      allRequestsWithinStaticBuild: true,
+    };
   },
 );
 

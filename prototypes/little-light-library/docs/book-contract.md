@@ -1,8 +1,16 @@
 # Little Light book contract
 
-Version 1 is a small, declarative format for paper-stage books. A creator and an agent edit the same JSON, run the same validator and preview through the same reader. The format deliberately supports a bounded vocabulary rather than executable scripts or arbitrary character rigs.
+Version 1 is a small, declarative format for paper-stage books. A creator and a local agent edit the same committed JSON, run shared validation and preview through the reader. The format supports bounded behavior rather than executable scripts or arbitrary character rigs. There is no browser editor or import workflow.
 
-The working example is [`public/books/quiet-garden.book.json`](../public/books/quiet-garden.book.json). The generated JSON Schema is [`scripts/book.schema.json`](../scripts/book.schema.json); the TypeScript source of truth is [`src/authored-book.ts`](../src/authored-book.ts).
+The working example is [`public/books/quiet-garden.book.json`](../public/books/quiet-garden.book.json). Types are in [`src/authored-book.ts`](../src/authored-book.ts); executable schema and reference rules are in [`src/book-validation.ts`](../src/book-validation.ts). [`scripts/book.schema.json`](../scripts/book.schema.json) is generated from those rules with `npm run book:schema`. Update types, validation and the generated schema together when changing the contract.
+
+The separate [catalog](../public/books/catalog.json) registers ordered entries as
+`{ "id": "quiet-garden", "path": "quiet-garden.book.json" }` or the retained
+`{ "id": "eden", "legacyStory": "eden" }` / Noah equivalent. It accepts 1–30
+entries, rejects duplicates/unknown settings, and requires a JSON entry's ID to
+match its document. Catalog paths are plain filenames relative to `public/books/`;
+asset paths are relative to `public/`. Legacy Eden/Noah content is not a v1 JSON
+book; the [architecture](architecture.md) documents that deliberate exception.
 
 ## Creator glossary
 
@@ -25,7 +33,7 @@ The working example is [`public/books/quiet-garden.book.json`](../public/books/q
 
 ## Top-level fields
 
-Every document has `format: "little-light-book"`, `version: 1`, a stable slug `id`, display `title` and `subtitle`, one BCP-47-like `locale`, and `status: "draft"`. The top-level locale is the source language. Optional language versions, soundtracks and review records extend v1 without changing older documents; see the production fields below. `eden` and `noah` are reserved for the built-in books and cannot be imported as authored IDs.
+Every document has `format: "little-light-book"`, `version: 1`, a stable slug `id`, display `title` and `subtitle`, one BCP-47-like `locale`, and `status: "draft"`. The top-level locale is the source language. Optional language versions, soundtracks and review records extend v1 without changing older documents; see the production fields below. `eden` and `noah` are reserved for the legacy books. `draft` is currently the only status; registration is not a publication/approval state.
 
 `source` describes the biblical or other source material. `retellingNote` identifies what kind of adaptation the words are. `cover` references an image in `assets`. `spreads` is the reading order; array position, not an ID naming pattern, controls that order.
 
@@ -35,7 +43,13 @@ IDs are stable references, not display text. Keep book, spread, segment and elem
 
 `assets` maps an asset ID to `{ kind, src, attribution }`. `kind` is `image` or `audio`. In an editable repository book, `src` is relative to the reader's `public` root, such as `assets/art/theatre/garden.webp`; do not add a leading slash. External URLs, absolute file paths and `..` traversal are unsupported.
 
-The Author screen's portable export embeds every referenced image and audio file as a data URI in the JSON. That exported JSON can be imported in another copy of the static reader without the repository, an agent, synthesis service or credentials. Both public-root paths and exporter-produced data URIs describe the same contract; hand-authored external data URLs are not a substitute for keeping source assets and attribution.
+The schema retains supported image/audio data URIs for compatibility with old
+portable drafts. The committed catalog rejects embedded media: extract it into
+local files beneath `public/`, preserving attribution, and update the registry
+before registration. This keeps runtime media independently inspectable and avoids
+base64-heavy books. The former browser exporter is retired; a committed book and
+its files are the durable package. See [draft recovery](draft-recovery.md) for old
+browser-only work.
 
 Each asset needs nonempty attribution. The validator also checks that references have the right kind: covers, backdrops, grounds and element artwork use images; narration uses audio.
 
@@ -59,7 +73,7 @@ An element may select `{ "index": 0, "columns": 3 }` from a horizontal image atl
 
 `motion.preset` is `rock`, `float`, `sway`, `pulse`, or `spin`. Each element has at most one motion per spread. Its trigger is `open`, `interaction`, or `narration`. A narration trigger also names a segment in the same spread. `duration` is seconds per cycle. `strength` means peak degrees for rock, percent of image height for float, percent of width for sway, and percent size increase for pulse. Spin makes one full turn and ignores strength. Optional `delay` is seconds and defaults to `0`. `loop: true` repeats until the page closes; `loop: false` plays once and stops at the original placement. If `loop` is omitted, legacy `repeat` defaults to `1` and permits 1–10 cycles. Explicit `loop` overrides `repeat`. Float and pulse rise and return; sway and rock move to both sides and return; spin ends at the equivalent original orientation. Scrubbing derives transforms from absolute time, so repeated cycles cannot drift. An `open` motion starts when the stage is upright and visible. Narration motions use the reader’s decoded audio durations and playback position, so rounding in declared durations does not accumulate drift. Reduced-motion playback keeps a stable final presentation and does not depend on repeated movement to communicate meaning.
 
-Authored books use their explicit soundtrack layers; procedural library ambience is paused while they are open. The reader master mute/volume and playback rate apply to narration and soundtrack together. Production preview offers its own mute control.
+Authored books use their explicit soundtrack layers; procedural library ambience is paused while they are open. The reader master mute/volume and playback rate apply to narration and soundtrack together. Use reader playback for authoring review.
 
 `interaction` supplies a concise accessible `label`, a visible `response`, and optionally `sound: "tap"`. The reader provides named buttons below the text for both pointer activation and a keyboard equivalent (Tab, Enter or Space). Canvas cutouts are not direct hit targets in v1. Do not hide story-critical information exclusively inside an interaction.
 
@@ -73,9 +87,9 @@ Use the targeted replacement command after recording or supplying a new public-r
 npm run book:replace-audio -- public/books/quiet-garden.book.json garden-begins garden-made assets/audio/my-garden-made.wav af_heart
 ```
 
-The command measures the WAV, changes only that segment's narration and its asset registration, and snapshots its current text as `recordedText`. It does not synthesize speech. Missing narration still permits text preview but is reported so a finished narrated spread cannot pass unnoticed. Browser imports can decode WAV, MP3 or Ogg audio, while this bounded replacement command accepts WAV.
+The command measures the WAV, changes only that segment's narration and its asset registration, and snapshots its current text as `recordedText`. It does not synthesize speech. Missing narration still permits text reading but is reported so a finished narrated spread cannot pass unnoticed. The runtime can decode browser-supported WAV, MP3 or Ogg audio. Local validation measures PCM WAV directly and MP3/Ogg through optional local `ffprobe`; targeted replacement expects PCM WAV. See [audio and languages](audio-language-authoring.md) for selective local synthesis.
 
-## Validation and import behavior
+## Validation and reader behavior
 
 Validate a file before previewing it:
 
@@ -83,29 +97,46 @@ Validate a file before previewing it:
 npm run book:validate -- public/books/quiet-garden.book.json
 ```
 
-Shared validation covers the format/version, IDs, references, supported presets and triggers, numeric ranges, safe asset locations and narration freshness. The CLI checks image file headers and PCM WAV duration; reader import fully decodes images and browser-supported audio and checks measured duration within 0.04 seconds. Messages include the JSON path and a direct explanation, for example a missing asset reference or stale recording.
+Shared validation covers format/version, IDs, references, supported presets and
+triggers, numeric ranges, safe asset locations and narration freshness. The CLI
+checks local image headers and measured audio (PCM WAV directly, MP3/Ogg through
+optional local `ffprobe`). Shared asset validation reports
+a narration duration mismatch exceeding 0.04 seconds. Runtime image/audio decoding
+provides an additional playback check; header validation alone cannot guarantee
+a complete image decodes correctly.
 
-Import is transactional: the reader validates the complete document before changing the preview. An invalid import displays its issues and leaves the current book untouched. A valid import is an ephemeral preview; **Undo previous preview** restores the immediately preceding valid preview, and **Return to reader** leaves authoring without installing or altering Eden or Noah.
+Structural, invalid-reference and missing/invalid-media failures are errors.
+Missing or stale narration and incomplete translation/review are draft warnings;
+read warnings even if the command exits successfully. Messages identify the JSON
+path, for example `/spreads/0/segments/0/narration`. A validator passing is not a
+claim that every spread has narration or creator approval.
+
+The reader validates catalog/book structure before constructing its collection.
+It fetches local registered media and reports failures through loading/error
+status. There is no browser import transaction or undo history: edit the local
+file, revalidate and refresh the reader. Git provides version history. See
+[audio and languages](audio-language-authoring.md) for source-language fallback
+and the difference between draft warnings and a complete narrated experience.
 
 Version 1 does not promise a general rig editor, arbitrary scripts, remote assets, accounts, collaboration or publishing. Unknown fields and unsupported behavior are errors rather than silently ignored instructions.
 
 ## Bounds, defaults and rendering rules
 
-| Field                      | Supported range / rule                                                       |
-| -------------------------- | ---------------------------------------------------------------------------- |
-| IDs                        | Lowercase letter first, then letters/digits/hyphens; maximum 64 characters   |
-| Book size                  | 1–40 spreads; 1–12 text segments and 0–16 elements per spread; 1–1,024 assets  |
-| Element x / depth          | −2.8…2.8 / −1.575…1.2 page units                                             |
-| Element width / height     | 0.1…5.6 / 0.1…3.6 page units                                                 |
-| Elevation / rotation       | 0…2 page units / −45…45 degrees; defaults 0 / 0                              |
-| Anchor                     | `bottom` (default) or `center`; center at elevation 0 extends below the page |
-| Ground x / depth           | −3.05…3.05 / −1.575…1.575 page units; center placement                       |
-| Ground width / height      | 0.1…6.1 / 0.1…3.15 page units                                                |
-| Ground rotation / opacity  | −180…180 degrees (default 0) / 0…1 (default 1)                               |
-| Motion duration / strength | 0.2…30 seconds per cycle / 0…20 degrees or percent (see presets)                                 |
-| Motion delay / repeat      | 0…60 seconds (default 0) / integer 1…10 cycles (default 1)                   |
-| Narration duration         | 0.05…180 seconds per cue, measured from the file                             |
-| Media                      | PNG, JPEG, WebP images; browser-supported WAV, MP3, Ogg audio                |
+| Field                      | Supported range / rule                                                        |
+| -------------------------- | ----------------------------------------------------------------------------- |
+| IDs                        | Lowercase letter first, then letters/digits/hyphens; maximum 64 characters    |
+| Book size                  | 1–40 spreads; 1–12 text segments and 0–16 elements per spread; 1–1,024 assets |
+| Element x / depth          | −2.8…2.8 / −1.575…1.2 page units                                              |
+| Element width / height     | 0.1…5.6 / 0.1…3.6 page units                                                  |
+| Elevation / rotation       | 0…2 page units / −45…45 degrees; defaults 0 / 0                               |
+| Anchor                     | `bottom` (default) or `center`; center at elevation 0 extends below the page  |
+| Ground x / depth           | −3.05…3.05 / −1.575…1.575 page units; center placement                        |
+| Ground width / height      | 0.1…6.1 / 0.1…3.15 page units                                                 |
+| Ground rotation / opacity  | −180…180 degrees (default 0) / 0…1 (default 1)                                |
+| Motion duration / strength | 0.2…30 seconds per cycle / 0…20 degrees or percent (see presets)              |
+| Motion delay / repeat      | 0…60 seconds (default 0) / integer 1…10 cycles (default 1)                    |
+| Narration duration         | 0.05…180 seconds per cue, measured from the file                              |
+| Media                      | PNG, JPEG, WebP images; browser-supported WAV, MP3, Ogg audio                 |
 
 The fixed backdrop is 5.8 × 2.7 units at depth 1.22. Artwork stretches to the authored
 rectangle; pre-crop it if a different framing is needed. An atlas pose trims transparent
@@ -113,10 +144,12 @@ borders inside the selected cell; a non-atlas image uses its full rectangle incl
 The floor stays horizontal; ground rotation turns its print within that plane, and cutouts rise perpendicular to it. There is no automatic layout,
 occlusion correction or camera adjustment. Check your composition in preview.
 
-Assets above 32 MiB each are rejected. Portable export caps decoded media at 96 MiB;
-file import caps JSON at 140 MiB. Use modest media for phone performance. The exporter
-embeds the complete registered asset set, including unused entries, preserving authored
-settings and attribution. Unknown versions must be migrated explicitly before import.
+Local media validation enforces 32 MiB per asset and 96 MiB of registered media
+bytes (after decoding base64 where present), plus the 1,024-asset contract limit.
+These are package ceilings, not a browser decoded-texture/audio memory budget.
+Validate the complete registry, including unused entries; keep media modest for
+phone memory. The old browser JSON import/export controls are retired.
+Unsupported versions need an explicit migration before the reader can use them.
 
 ## Production fields (optional v1 extension)
 
@@ -130,16 +163,20 @@ settings and attribution. Unknown versions must be migrated explicitly before im
   and cannot silently replace a requested reader language.
 - `spreads[].seconds`: minimum page duration, 1–600 seconds, default 8. Narration
   extends this minimum.
-- `soundtracks[]`: up to 32 layers, each with `id`, `label`, audio `asset`, inclusive
+- `soundtracks[]`: up to 64 layers, each with `id`, `label`, audio `asset`, inclusive
   `startPage`/`endPage` IDs, `startOffset`/`endOffset` seconds removed from the page
   range, `volume` 0–1, `fadeIn`/`fadeOut` 0–60 seconds, and boolean `loop`. Offsets
   must leave positive time in every complete requested-language timeline.
 - `narrationVolume`: 0–1, default 1.
-- `narrationSettings[locale]`: Kokoro `voice` and `speed` 0.5–2 for the next generation.
-  Stored recording provenance retains the voice/speed actually used.
+- `narrationSettings[locale]`: `voice` and `speed` 0.5–2 for local generation.
+  These are generation preferences, not proof that existing recordings used
+  those settings. Cue `voice` records descriptive provenance; exact text and
+  measured duration remain mandatory on each recording.
 - `reviews[]`: `locale`, `pageId`, `fingerprint`, `reviewedAt` ISO timestamp. These
-  record explicit author attestations; they are not security signatures or automated
-  editorial approval. Only current reviews count toward reviewed export.
+  retain explicit creator attestations; they are not security signatures or automated
+  editorial approval. The review auditor distinguishes current, missing and stale
+  records. The retired reviewed-export button is not part of the file workflow.
+  Never fabricate an attestation to silence a warning.
 
 See [the production guide](audio-language-authoring.md) for timing, generation,
 credential handling, limits and review semantics. The generated JSON Schema remains

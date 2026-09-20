@@ -1,4 +1,18 @@
 [
-  "quiet-garden.book.json",
-  "jonah-and-the-whale.book.json"
+  {
+    "id": "eden",
+    "legacyStory": "eden"
+  },
+  {
+    "id": "noah",
+    "legacyStory": "noah"
+  },
+  {
+    "id": "quiet-garden",
+    "path": "quiet-garden.book.json"
+  },
+  {
+    "id": "jonah-and-the-whale",
+    "path": "jonah-and-the-whale.book.json"
+  }
 ]

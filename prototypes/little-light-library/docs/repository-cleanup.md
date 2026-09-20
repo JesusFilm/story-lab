@@ -1,6 +1,9 @@
 # Repository cleanup and retained evidence
 
-Status: cleaned files passed full scene acceptance; the compact tree is the intended PR and local working copy.
+The historical cleanup account below records the earlier scene-acceptance phase.
+For current editor-retirement evidence, see
+[retirement results](../review/latest/retirement-results.md). Its generated-output
+retention policy still applies; no history rewriting is requested by this handoff.
 
 The original prototype PR contained 3,982 changed files totaling 2,233,728,348 bytes
 (2.08 GiB of file content, not compressed Git storage). Of these, 3,334 files and
@@ -46,14 +49,14 @@ npm run clean:generated
 ```
 
 This removes other review folders, non-selected presentation captures, `.test-output/` and
-`dist/`. It preserves installed dependencies, runtime assets, authored sources, written history
+`dist/` and `dist-static/`. It preserves installed dependencies, runtime assets, authored sources, written history
 and curated evidence. Build again with `npm run build` when a deployment artifact is needed.
 
-The cleanup changes no renderer, story text, playback code or active audio. Verification of
-the cleaned tree must include `npm run verify:scene`, manifest/reference checks and the existing
+The cleanup command changes no renderer, story text, playback code or active audio.
+Current verification uses `npm run verify:all`, manifest/reference checks and the
 publication checks. Listening and perceived continuous-motion limitations remain unchanged.
 
-Verification completed: all 56 tests and the complete scene acceptance suite pass. The
+Historical verification completed: all 56 tests and the complete scene acceptance suite passed. The
 publication manifest check and four local-only publication tests also pass. Exactly 315
 WAV files match the audio manifest. All local links in the agent entry point and prototype
 Markdown documentation resolve after removing references to discarded evidence.

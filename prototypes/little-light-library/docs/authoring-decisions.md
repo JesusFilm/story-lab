@@ -1,49 +1,78 @@
-# Authoring foundation decisions
+# Authoring architecture decisions
 
-This milestone implements the direction in `book-authoring-direction.md`. The previous
-quality-improvement effort remains parked. No existing book or bedroom aesthetic was revised.
+Current direction: local agent-assisted files, reader preview, committed catalog
+and static hosting. These decisions supersede the earlier manual/visual-editor
+experiment. The historical quality program remains parked. See
+[architecture](architecture.md) for implementation and
+[Feature work](feature-roadmap.md) for future content work.
 
-## Relevant architecture audit
+## Retire the editor; preserve its useful contract
 
-The localized manifests already provide book text, titles, source references and image paths.
-`Narration` decodes static clips and `PlaybackClock` uses their measured lengths for both
-playback and phrase highlighting. Page-turn identity already accepts arbitrary story strings.
+The editor exposed meaningful controls for text, media, layout, motion, narration,
+soundtrack and toys, but an embedded authoring application is too much product
+and maintenance scope here. Remove its screens, persistence, generation controls,
+proxy and exclusive implementation. Git is the archive. Shared renderer, audio,
+validation and localization modules remain because committed books need them.
 
-Composition is different: `stage-direction.ts` and the legacy branch of `LibraryScene.spread`
-encode page-specific actors, props, floor selection and poses. Anatomical rigs depend on
-particular artwork. The shelf has two physical covers and three figures; legacy schemas,
-audio tooling and navigation assumed two books and eight spreads.
+Creators work with local agents on JSON and media, inspect the actual reader and
+use git for durable review/history. This does not require an author account,
+cloud storage or another dashboard.
 
-The new `page.authored` adapter feeds a generic stage through the same loading, folding,
-printing and reading lifecycle. Existing books keep their manifests, rigs and nine locales.
-Reader navigation now takes the actual spread count. Drafts open through Author rather than
-adding editable shelf furniture. This avoids a wholesale migration or story-ID renderer branches.
+## Make registration explicit and storage-independent
 
-## Deliberate tradeoffs
+One ordered `public/books/catalog.json` includes all four committed books.
+Generic entries name a matching ID and book filename; legacy entries name Eden
+or Noah. Validation enforces the shelf's 30-book limit, supported fields and
+unique references. No visitor's old browser draft or saved room list silently
+changes the public collection.
 
-- **One JSON format for both authors.** Closed objects reject typos and unknown behaviors.
-  Validation has shared structural/reference rules, CLI file checks and browser decoding.
-- **Small bounded motion vocabulary.** Horizontal atlas poses and anchored whole-card `rock`
-  are configurable. Limb rigs, arbitrary scripting, camera composition and custom sound/music
-  tracks remain unsupported. Existing anatomical rigs are preserved for legacy books only.
-- **One locale per draft.** The imported text keeps its own locale while reader controls use
-  the user's chosen UI locale. No implicit translation or content fallback. The authoring UI
-  is English for this milestone.
-- **Preview before installation.** Drafts live in session memory with up to ten validated
-  snapshots and undo. They never replace the built-in library. Source files or exported JSON
-  are the durable copy; there is no account, autosave database or publishing flow.
-- **Embedded transport.** Portable JSON embeds runtime images/audio and attribution. It
-  requires a compatible static reader, but no agent, synthesis service or credentials.
-  Editable source normally uses public-root paths. This is simpler than a ZIP resolver;
-  base64 adds size and is not suitable for very large books.
-- **Exact recorded text.** Each cue stores the exact words attributed to its recording.
-  A text edit derives a warning and disables narration for that spread until repaired.
-  The WAV replacement command only updates one cue and adds its asset; it never deletes
-  existing recordings. `voice` is descriptive provenance, not an automatic synthesis recipe.
-  Validation cannot prove that a creator's recording actually speaks its declared words.
-- **No paid generation.** Demo text/audio reuse four existing en-US Eden recordings with
-  exact measured durations. Their earlier listening limitation still applies.
+Reader preferences remain separate. The retired database is not cleared.
+[Read-only recovery](draft-recovery.md) preserves browser-only work without
+reintroducing an editor or publishing unreviewed storage dumps.
 
-A full visual editor remains an open product decision. The next useful phase is a short
-creator-led session using real requested edits, then choose a small placement/text/motion
-interface over this same contract. Do not begin another autonomous aesthetic loop.
+## Keep a bounded legacy adapter
+
+Migrating Eden/Noah now would require representing artwork-specific rigs,
+specialized staging, procedural sound and nine locale packs in another format.
+That is a substantial content-preservation risk with little cleanup benefit.
+Keep their current sources and adapt them into the same shelf/reader lifecycle.
+
+New books use `page.authored` and the generic stage. Do not add a new story-ID
+branch or create an alternative editable copy of a legacy book. A future migration
+needs explicit scope and visual/audio equivalence evidence.
+
+## Retain the existing declarative v1 vocabulary
+
+Stable IDs, closed schema objects, attributed media, bounded placement, static
+atlas poses, five card-motion presets, button interactions, measured narration,
+translations, soundtrack layers and toys already support new books. Unknown
+fields/settings are errors. No framework, plugin system, rig inference or
+arbitrary scripting is needed for editor retirement.
+
+Whole-card animation is not limb animation. The legacy rig quality is not
+automatically transferable to new artwork. Document this limitation instead of
+promising expressive rigging through unsupported JSON fields.
+
+## Produce local media; validate separately from approving
+
+Exact recorded text plus measured duration detects stale/mismatched cue metadata.
+Local commands replace or synthesize only affected cues and retain old media.
+The hosted reader plays committed files without generation credentials or a proxy.
+
+Normal validation allows reported draft warnings so existing incomplete Jonah
+content stays available. Strict validation fails on those warnings, but neither
+mode establishes biblical fidelity, translation quality, pronunciation or creator
+approval. Preserve review records honestly; no unattended command may invent them.
+
+## Prefer inspectable static assets
+
+New media uses `public/assets/books/<id>/`; existing paths remain intact.
+Catalog books use public-relative files and reject embedded data URIs, while the
+schema retains embedded compatibility for recovering old portable documents.
+Keep source/editable media and rights information useful to future revisions,
+but keep caches, provider metadata, machine paths and secrets out of runtime.
+
+This leaves ordinary static packaging and the portal's reviewed-file/output gates
+in control. Local registration is not deployment. Completing/polishing the three
+showcase books, optional reader improvements and additional translations remain
+future Feature work.

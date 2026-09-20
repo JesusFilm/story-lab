@@ -1,146 +1,172 @@
-# Soundtracks, languages and author review
+# Local narration, languages and soundtracks
 
-Open **Author → My books → Edit**, then **Preview audio & languages**. The advanced
-editor also has an **Audio & languages** tab. This workspace has three sections:
-Soundtrack, Languages & voices, and Preview & review. The original On the book
-preview remains a quick visual composition check; the production preview combines
-text, measured narration, soundtrack layers, animation and interactions.
+Generation happens on the author's machine. The static reader plays committed
+media and never calls Kokoro, a translation service or an API proxy. Preview all
+changes in the reader. The retired audio/language production screen and its
+reviewed-export workflow are no longer entrypoints.
 
-## Compose the sound
+The first future showcase target is a complete English (US) experience. Preserve
+Eden/Noah's existing nine languages; editor cleanup does not generate translations,
+voices or missing Jonah audio.
 
-Import a WAV, MP3 or Ogg soundtrack, or add a track using an existing audio asset.
-Multiple tracks may overlap. Each has a name, inclusive start/end page, volume
-(0–1), fade-in/out (0–60 seconds), optional looping, and seconds trimmed from the
-beginning/end of its page range. Trimming changes the placement on the book timeline;
-it does not trim the beginning of the source recording. A non-looping recording ends
-naturally if it is shorter than its page range. Fades are bounded to the resulting
-clip; overlapping fades form an envelope rather than stacking volume.
+## Choose the correct content path
 
-Set narration volume separately. Page minimum time defaults to eight seconds and
-can be 1–600 seconds. Actual page time is the greater of that minimum and the sum
-of measured narration durations in the chosen language. Thus a longer translation
-extends its page and moves subsequent page boundaries and soundtrack anchors.
+Eden and Noah retain `public/content/<locale>.json` and
+`public/audio-manifest.json`. Their existing generator and voice inventory are
+documented in [legacy audio production](audio.md). Do not apply the generic JSON
+CLI to a locale manifest or regenerate all languages to verify a tooling change.
 
-**Load preview** decodes the recordings and updates the timeline to their actual
-lengths. Before loading, non-looping soundtrack bars show their requested page range;
-after loading they show their measured natural end. Click a page in the timeline or
-scrub to any point. Play runs through the book; pause, restart, mute and reduced motion
-are available. The text highlights follow the audio clock. Artwork uses the reader's
-shared paper stage. Page changes wait for artwork to load before resuming playback.
-The reader uses the same audio mixer but keeps its manual Next/Previous navigation.
+Generic books put exact text and optional narration on each segment in
+`public/books/<id>.book.json`. A recording references a registered audio asset
+and includes `recordedText`, measured `duration` and descriptive `voice`.
+Text and recording must agree exactly. Changing a sentence keeps old
+`recordedText` intact until matching audio exists; never relabel old speech.
 
-When a page has missing/stale narration, all narration on that page is suppressed,
-so phrases cannot play out of order. Soundtracks and text can still be checked in the
-production preview. Such a page cannot receive a current review approval.
+## Local selective synthesis
 
-## Translate the book
+Read the [Kokoro Voice Lab setup](../../../projects/kokoro-voice-lab/README.md)
+before starting production. The existing lab runs on Apple Silicon with its own
+Python environment and model. It is separate from this prototype. Inspect the
+available environment/model/voices; do not assume the server is running or install
+large dependencies merely to validate books. Initial setup can require downloads.
 
-Select intended release languages, or select all nine supported library languages:
-US/UK English, Spanish, French, Hindi, Italian, Japanese, Brazilian Portuguese and
-Simplified Chinese. The source language remains included. Removing a language from
-the release selection retains its translation, recordings and preferences for reuse.
+From `projects/kokoro-voice-lab/`, the lab's documented startup is
+`uv run python server.py` after environment setup. It normally binds loopback
+port 8770. Existing installations may run `.venv/bin/python server.py`.
+Wait for its ready state and inspect the actual available voices.
 
-Enter an OpenRouter API key and model in **Languages & voices**. The default model
-identifier is `google/gemini-3-flash-preview`; it is editable. The selected model must
-support structured JSON output. The integration uses OpenRouter's
-[structured-output chat API](https://openrouter.ai/docs/guides/features/structured-outputs),
-with parameter-compatible provider routing and client-side response validation.
-
-**Generate missing / outdated translations** sends only book text, in order, for each
-missing or source-stale language. Titles, source references, retelling notes, story
-phrases, element names and interaction text are included. Staging instructions and
-media are excluded. A language is applied only after the complete response validates;
-a failed request keeps its previous version. Completed languages remain saved if a
-later request fails or the batch is cancelled. No background retries incur extra calls.
-
-The key lives only in page memory. It is sent only in the Authorization header to
-OpenRouter, never stored in browser book data, portable JSON or source files. **Clear
-key** removes it; reloading also clears it. Model choice lasts for the current session.
-No live OpenRouter request was made during implementation verification.
-
-Select a preview language to edit its translation beside the corresponding source
-text. Regenerating one language replaces its text. Source edits make translations
-outdated. After manually reconciling a translation, explicitly acknowledge that it
-matches the current source. Incomplete structures still require regeneration; that
-acknowledgment cannot repair missing pages/phrases. Translation is a draft, not an
-editorial approval or a claim of a verified Bible translation.
-
-## Generate narration with Kokoro
-
-Start the existing local service from the repository root:
+From the prototype directory, inspect work before synthesis:
 
 ```sh
-cd projects/kokoro-voice-lab
-uv run python server.py
+npm run book:narrate -- public/books/my-book.book.json --dry-run --locale en-US
+npm run book:narrate -- public/books/my-book.book.json --locale en-US --voice af_heart --speed 1 --spread river-bank --segment welcome
 ```
 
-In another terminal, start the editor:
+These are templates for an existing authored file and IDs, not commands to create
+Jonah's missing narration during cleanup. The script:
+
+- Reads existing text in one selected locale; it does not write a story or translate.
+- Skips cues whose text and voice/speed provenance match. Filters `--spread` and
+  `--segment` select only affected content; `--force` regenerates that selection.
+- Uses `--server http://127.0.0.1:8770` by default, querying the local lab's
+  voice/synthesis endpoints directly. Only loopback HTTP is accepted and redirects
+  are rejected. It does not start/install the model or call a paid provider.
+- Writes measured PCM WAVs and updates each completed cue atomically, so rerunning
+  resumes completed work. Old media/assets and review records remain; changed
+  data makes relevant review fingerprints stale.
+- Makes no network requests or file writes with `--dry-run`. Dry-run describes
+  planned work, not model availability or voice quality.
+
+New media belongs beneath `public/assets/books/<id>/`, with `audio/<locale>/`
+for narration. The script writes `PAGE-SEGMENT-HASH.wav` there and records the
+public-relative path. Keep useful source takes separately; do not commit lab caches or
+temporary server outputs. Preserve all existing content paths.
+
+Select a same-language voice and listen before accepting it. `narrationSettings`
+can hold voice/speed preferences; they are not proof of how old audio was produced.
+The cue's voice provenance identifies actual generation choices. Do not erase
+provenance solely to make skipping or validation appear successful.
+
+## Supplied recordings and targeted replacement
+
+Copy a matching PCM WAV into the book's owned media directory, then bind it:
 
 ```sh
-cd prototypes/little-light-library
-npm run dev
+npm run book:replace-audio -- public/books/my-book.book.json river-bank welcome assets/books/my-book/audio/en-US/river-bank-welcome.wav af_heart
+npm run book:validate -- public/books/my-book.book.json
 ```
 
-Vite proxies the editor's `/api/kokoro` requests to loopback port 8770. If Vite was
-already running before its configuration was added, restart it. This integration
-is local-development-only; a published static reader needs no synthesis service.
+Use `--locale LOCALE` when replacing a stored translation cue. The command
+measures the WAV and updates only the named segment plus a new asset registration.
+It preserves other recordings and does not synthesize speech. Replace any default
+attribution with truthful rights/provenance. Do not overwrite shared files to
+change one cue.
 
-Choose **Connect to Kokoro**, then select a voice and recording speed (0.5–2) for
-each language. Voice choices are filtered by Kokoro language prefix. Generation is
-supported for the nine languages listed above; other imported source locales remain
-readable and can use manually supplied narration through Spreads.
+Local validation measures PCM WAV frames directly; MP3/Ogg validation requires
+the optional local `ffprobe` executable and fails with an actionable message
+when unavailable. The replacement command expects WAV. Browser decoding is an
+additional test, not a substitute for correct metadata.
 
-Generate the selected language or all selected languages. Current recordings using
-the chosen voice and speed are skipped. Each successful phrase is decoded to measure
-its duration, embedded in the book, paired with its exact recorded text, and saved.
-Unchanged translated phrases keep their existing recordings when translation runs
-again. Text, voice or speed changes require the affected recording to be regenerated.
-Cancel stops the batch and retains completed work. Leaving production cancels active
-generation. Old recordings are removed only when nothing else references them.
+## Timing, page progression and mix
 
-Portable books remain bounded: 1,024 registered assets, 32 MiB per asset and 96 MiB
-of decoded media in a package. Generation stops with a useful message before adding
-an asset beyond those limits; a maximum-size 40-page, nine-language book may need
-shorter phrases, compressed supplied recordings, smaller images or splitting into
-volumes. The browser must still have enough local storage available.
+One cue corresponds to a readable phrase, not guessed word timestamps. Measure
+the final encoded file after trimming/editing. Shared asset validation rejects a
+declared duration more than 0.04 seconds away from measurement. Text equality
+cannot prove that speech says those words; listen for names, dropped/repeated
+words, clipping, pauses and pacing.
 
-## Audit before release
+A generic spread lasts `max(seconds ?? 8, sum(narration durations))`. Its
+narration cues follow one another on the measured audio clock. The reader uses
+decoded durations for highlighting and narration-triggered motions. The current
+reader exposes a page range on a full-book timeline; do not assume it automatically
+turns pages or guarantees gapless sound through book transitions.
 
-**Preview & review** lists every selected language and page. Load each version,
-listen to its narration and soundtrack, inspect the text and animation, and try its
-interactions. **I reviewed this page** is the author's explicit attestation after
-opening its current preview; the software cannot judge pronunciation, meaning,
-age suitability or whether the author actually listened.
+If any segment lacks current narration, narration for the whole spread is
+suppressed so phrases cannot skip or mismatch. Text and interactions remain
+available. Soundtracks may still play where configured. Jonah currently has
+three such missing cues; its narration-triggered whale gesture is not a completed
+spoken performance.
 
-Approval fingerprints cover the rendered page, relevant media, language, mix and
-page timing. Changing them invalidates the relevant reviews. Missing translations,
-outdated source text, missing/stale recordings and unreviewed pages keep **Export
-reviewed book** unavailable. Export additionally validates every image/audio asset
-and checks measured narration durations. Embedding identical media preserves current
-approvals across export/re-import. Asset paths whose file bytes change outside the
-editor require a new author review; fingerprints are change detection for book data,
-not cryptographic release signatures.
+A `soundtracks[]` layer names an audio asset, inclusive `startPage` and
+`endPage`, offsets trimming the range, `volume`, `fadeIn`, `fadeOut` and
+`loop`. Offsets must leave positive playable time. Non-looping media ends when
+its file or range ends; looping tracks end with their range. Fades are bounded
+by the clip's playable duration. Recheck timing whenever text/audio/page ordering
+changes, including any existing translation timeline.
 
-The ordinary **Export portable JSON** remains available for drafts. Reviewed export
-also remains a draft-format book; it does not publish or release anything. Imported
-books contain all languages, soundtrack settings and recordings, and play without
-OpenRouter, Kokoro or credentials.
+Set a quiet track gain under intelligible narration and verify the complete
+mix by ear, including fade boundaries and toy/effect levels. `narrationVolume`
+controls narration relative to tracks; reader master volume/mute affects both.
+Generic books pause the legacy procedural ambience. No particular numerical
+gain guarantees a balanced mix across different recordings or phone speakers.
 
-## Verification commands
+Test Play/Pause, Replay, speed, mute, page turn, Library/Continue, book swap,
+language change and tab hiding. Muting preserves the clock; leaving/changing
+content must not leave old audio playing.
+
+## Languages and review records
+
+The source `locale` and text are required. Optional `languages` includes that
+source locale. `translations[locale]` reuses spread, segment and element IDs,
+with localized text, labels, interaction responses and cue metadata. Geometry
+and soundtrack settings stay in the source definition. The source fingerprint
+detects translations that became stale after source edits.
+
+The nine UI locales do not imply nine translations for every JSON book.
+A valid matching translation is used when available; otherwise the reader opens
+the book's source language and identifies it. It must not describe that fallback
+as a translated edition. Quiet Garden and Jonah currently contain en-US only.
+Toy labels remain in their source language.
+
+Existing `reviews[]` entries are explicit historical creator attestations,
+not an automated release switch. Changed text, layout, relevant assets, toys or
+timeline can invalidate their fingerprints. Same-path external media-byte changes
+also need fresh review even if a data fingerprint is unchanged. Neither a CLI
+nor a successful synthesis run may assert that somebody listened.
+
+## Validation and completion
 
 ```sh
-npm run check:fast
-npm run lint
-npm run validate
-npm run build
-npm run test:authoring
-npm run test:production
+npm run book:validate -- public/books/my-book.book.json
+npm run book:catalog
+npm run book:validate -- public/books/my-book.book.json --strict
 ```
 
-The production browser suite uses isolated storage, a nested static URL and controlled
-OpenRouter/Kokoro responses. It verifies nine-language batch behavior, cancellation,
-key exclusion, mixes, seeking, language changes, review invalidation, portable and
-reviewed export/re-import, reader playback and narrow layouts. It does not establish
-translation quality or subjective listening approval. The separate live local Kokoro
-check produced English (2.325 s) and Spanish (2.125 s) WAVs at 24 kHz through the editor
-proxy. No author approval was added to the user's saved books during testing.
+Schema, reference and media failures exit unsuccessfully. Normal validation
+reports missing/stale narration, translations and review as warnings.
+`--strict` turns all shared warnings into failures; it still cannot certify
+editorial or listening approval. The present catalog deliberately retains Jonah's
+incomplete narrated draft, so strict catalog validation is not the cleanup's
+completion gate.
+
+The CLI enforces 1,024 registered assets, 32 MiB per asset and 96 MiB of registered
+media bytes (after base64 decoding for recovered embedded documents). These are
+package ceilings, not decoded browser-memory or phone performance targets. Split or
+reduce a large book rather than assuming the reader streams everything.
+
+A complete narrated future book needs every intended cue current, measured and
+actually listened to, all story/art/audio reviewed by the creator, and a production
+static-path pass. Record what was heard, what tools measured, who explicitly
+approved the result and what remains unknown separately. Keep the final verification
+record in [the implementation handoff](authoring-handoff.md) for this cleanup;
+future feature evidence belongs with its own delivery.

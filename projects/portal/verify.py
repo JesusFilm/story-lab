@@ -3,21 +3,12 @@ from pathlib import Path
 from urllib.parse import urljoin, urlsplit, unquote
 import hashlib, json, re, struct
 from html.parser import HTMLParser
+from publication_utils import static_output_digest, static_source_exclusions
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE/'dist'
 manifest=json.loads((HERE/'publication.json').read_text())
 
-def static_output_digest(root, exclude=()):
- digest=hashlib.sha256()
- for path in sorted(p for p in root.rglob('*') if p.is_file()):
-  relative=path.relative_to(root).as_posix()
-  if relative in exclude:
-   continue
-  digest.update(relative.encode())
-  digest.update(b'\0')
-  digest.update(hashlib.sha256(path.read_bytes()).digest())
- return digest.hexdigest()
 patterns={
  'email':r'[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}',
  'credential':r'(?i)(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|(?<![A-Za-z0-9_-])sk-[A-Za-z0-9_-]{20,}|-----BEGIN .*PRIVATE KEY|AKIA[A-Z0-9]{16})',
@@ -94,7 +85,9 @@ for proto in manifest['prototypes']:
   assert hashlib.sha256(output.read_bytes()).hexdigest()==expected,name
  if proto.get('static_output_digest'):
   base=f"prototypes/{proto['slug']}/"
-  excluded=[name.removeprefix(base) for name in proto['files']]
+  build_root=HERE.parent.parent/proto['static_build']/'dist-static'
+  assert (build_root/'index.html').is_file(), 'Run the reviewed portal build before verification'
+  excluded=static_source_exclusions(proto, build_root)
   assert static_output_digest(OUT/'prototypes'/proto['slug'], excluded)==proto['static_output_digest'], proto['slug']
  for name in proto['files']:assert (OUT/name).is_file(),name
 # The portal exposes one entry per experience; model versions belong inside it.
