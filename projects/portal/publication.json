@@ -316,13 +316,16 @@
         "prototypes/little-light-library/src/scene.ts",
         "prototypes/little-light-library/src/state.ts",
         "prototypes/little-light-library/src/style.css",
-        "prototypes/little-light-library/src/visual-editor.ts"
+        "prototypes/little-light-library/src/visual-editor.ts",
+        "prototypes/little-light-library/src/author-library.ts",
+        "prototypes/little-light-library/src/book-library.ts",
+        "prototypes/little-light-library/public/books/catalog.json"
       ]
     },
     {
       "slug": "story-diorama-lab",
       "title": "Story Diorama",
-      "description": "A reusable storytelling component combining illustrated scenes, scrolling text and gentle soundtracks. Watch Noah’s story or explore the playback and layout controls.",
+      "description": "A reusable storytelling component combining illustrated scenes, scrolling text and gentle soundtracks. Watch Noah\u2019s story or explore the playback and layout controls.",
       "image_alt": "Illustrative painting of Noah beside the wooden framework of the ark, from the Story Diorama demonstration",
       "entry": "noah.html",
       "plain_static": true,
@@ -433,14 +436,14 @@
     },
     {
       "slug": "shepherd-companion-tall",
-      "title": "Shepherd companion — tall",
+      "title": "Shepherd companion \u2014 tall",
       "model": "prototypes/shepherd-adventure/assets/shepherd-companion-tall.glb",
       "prompt": "assets/characters/shepherd-companion-tall/reference-prompt.txt",
       "reference": "assets/characters/shepherd-companion-tall/reference.png"
     },
     {
       "slug": "shepherd-companion-stocky",
-      "title": "Shepherd companion — stocky",
+      "title": "Shepherd companion \u2014 stocky",
       "model": "prototypes/shepherd-adventure/assets/shepherd-companion-stocky.glb",
       "prompt": "assets/characters/shepherd-companion-stocky/reference-prompt.txt",
       "reference": "assets/characters/shepherd-companion-stocky/reference.png"
@@ -972,14 +975,17 @@
     "prototypes/little-light-library/public/assets/art/jonah/underwater-backdrop.png": "579801ab244527151fb4bfc8ad11805d29b8c0e68c62a61e29dd4bda3ceaac6b",
     "prototypes/little-light-library/public/assets/art/jonah/whale-cutout.png": "a91b731bda72ed543ed494a72ca8686c4024989e35625480e076b93e1fc0f9ab",
     "prototypes/little-light-library/public/books/jonah-and-the-whale.book.json": "54a840b88b3ad25d156c9e6a01cfda3faa042361038c70c2f6b5bc8dde6e593b",
-    "prototypes/little-light-library/src/authoring.ts": "8575624fd32aa2776a18a038b83f1eb7e011e9dbd983468b435ddd0f3d7b7c81",
+    "prototypes/little-light-library/src/authoring.ts": "8a44d9db04d475d25ce9fac17b6da3f413d1d4a291bd51ceed6cb6a3b1b29704",
     "prototypes/little-light-library/src/book-validation.ts": "f22dba39bdffa2d7fa587e1ab35c2cb8d87c9243acb307376e50de7ecced526e",
     "prototypes/little-light-library/src/contracts.ts": "84c00efb5b79a6bf71321ccbfb95a9f5f32f7a2bf531c5cb6729cd11c5dc0b39",
     "prototypes/little-light-library/src/main.ts": "c7b013227fa7c16cac248e9b02de10599354e150749d01b8770bc9f8cfe53fc5",
     "prototypes/little-light-library/src/scene.ts": "f32dd096a4d9e2b9c3d931845b37dd2de7882363c00722fdeaaf6acd7f2e6081",
     "prototypes/little-light-library/src/state.ts": "6292ff4e23627ad37fac6c1205ad3966e822bde54866d3127ae318078b64f999",
-    "prototypes/little-light-library/src/style.css": "cc5c46fe196a1cb872f622cc2f2d66e69393c7b9c3be1b36dc47afcc5fc314a0",
-    "prototypes/little-light-library/src/visual-editor.ts": "50c7e14ff68c0fea53869d9eacf9dda69168df086c26d727cba575ea05df4a1b"
+    "prototypes/little-light-library/src/style.css": "8cac4fb87404b652e8601116f181a2e6a3f172d4e05b213a88c2d1c959480e6b",
+    "prototypes/little-light-library/src/visual-editor.ts": "675944b0f8381cae5bb04534233c19f05ae2b6a1cf7bb9f66fe28691e7f888f5",
+    "prototypes/little-light-library/src/author-library.ts": "7988b389b192e283b6d1c2152fa6aada9d88bdc41d846f62946b5c2d5398d557",
+    "prototypes/little-light-library/src/book-library.ts": "f783f4efb722af6b2f23fc5c205d143dd0e877ab4623527e6538d4c7e667f9f8",
+    "prototypes/little-light-library/public/books/catalog.json": "2b3ed6bf5a5107dd2ba9a0aa8ef1a15b64a0a166809c317733689827546e70ad"
   },
   "local_only_prototypes": []
 }

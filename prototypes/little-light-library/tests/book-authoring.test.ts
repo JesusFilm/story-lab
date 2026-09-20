@@ -10,7 +10,7 @@ import {
   bookSchema,
 } from "../src/book-validation";
 import type { AuthoredBook } from "../src/authored-book";
-import { BookHistory } from "../src/authoring";
+import { BookHistory, createBlankSpread } from "../src/authoring";
 import { ReaderState } from "../src/state";
 const source = fs.readFileSync("public/books/quiet-garden.book.json", "utf8");
 const fixture = () => JSON.parse(source) as AuthoredBook;
@@ -181,4 +181,15 @@ test("reader navigation uses imported count while preserving eight-spread defaul
   state.open("eden");
   state.turn(12);
   assert.equal(state.page, 7);
+});
+
+test("new form pages avoid deleted-page ID collisions and never inherit unrelated narration", () => {
+  const book = fixture();
+  book.spreads[0].id = "spread-1";
+  book.spreads[1].id = "spread-3";
+  const page = createBlankSpread(book);
+  assert.equal(page.id, "spread-2");
+  assert.equal(page.segments[0].narration, undefined);
+  book.spreads.push(page);
+  assert.equal(createBlankSpread(book).id, "spread-4");
 });

@@ -1,3 +1,4 @@
+import { installBookShelf } from "./author-library";
 import { installVisualEditor } from "./visual-editor";
 import type {
   AuthoredBook,
@@ -22,6 +23,9 @@ export class BookHistory {
   commit(book: AuthoredBook) {
     this.entries.push(structuredClone(book));
     if (this.entries.length > 10) this.entries.shift();
+  }
+  clear() {
+    this.entries = [];
   }
   undo() {
     if (this.canUndo) this.entries.pop();
@@ -105,11 +109,19 @@ const firstAsset = (book: AuthoredBook, kind: "image" | "audio") =>
   Object.entries(book.assets).find(([, asset]) => asset.kind === kind)?.[0] ||
   "";
 
+const unusedId = (prefix: string, ids: string[]) => {
+  let number = 1;
+  while (ids.includes(`${prefix}-${number}`)) number++;
+  return `${prefix}-${number}`;
+};
+
 export function createBlankSpread(book: AuthoredBook): BookSpread {
   const image = firstAsset(book, "image");
-  const audio = firstAsset(book, "audio");
   return {
-    id: `spread-${book.spreads.length + 1}`,
+    id: unusedId(
+      "spread",
+      book.spreads.map((spread) => spread.id),
+    ),
     title: "New spread",
     source: "",
     stagingNote:
@@ -118,16 +130,6 @@ export function createBlankSpread(book: AuthoredBook): BookSpread {
       {
         id: "segment-1",
         text: "Add the first narration phrase.",
-        ...(audio
-          ? {
-              narration: {
-                asset: audio,
-                recordedText: "Add the first narration phrase.",
-                duration: 1,
-                voice: "creator",
-              },
-            }
-          : {}),
       },
     ],
     backdrop: { asset: image },
@@ -340,6 +342,7 @@ export function installAuthoring(options: {
 }) {
   const history = new BookHistory();
   let editing = createBlankBook();
+  let libraryVisible = true;
   let activeSpread = 0;
   let activeTab: "visual" | "book" | "spreads" | "assets" | "json" = "visual";
   let busy = false;
@@ -352,7 +355,7 @@ export function installAuthoring(options: {
   };
   const dialog = document.createElement("dialog");
   dialog.id = "author-dialog";
-  dialog.innerHTML = `<div class="author-head"><div><p class="eyebrow">Little Light Library · authoring</p><h1>Book editor</h1><p>Build directly on the book. Add artwork, drag it into place, and try your story as you go.</p></div></div><div class="author-toolbar"><button id="author-demo">Load sample</button><button id="author-new">New blank book</button><label class="file-button">Import JSON<input id="author-file" type="file" accept=".json,application/json"></label><button id="author-preview" class="primary">Validate & preview</button><button id="author-undo" disabled>Undo previous preview</button><button id="author-export" disabled>Export portable JSON</button><button id="author-close">Return to reader</button></div><nav class="author-tabs" aria-label="Editor sections"><button data-author-tab="visual">On the book</button><button data-author-tab="book">Book details</button><button data-author-tab="spreads">Spreads</button><button data-author-tab="assets">Assets</button><button data-author-tab="json">Advanced JSON</button></nav><div id="author-visual"></div><div id="author-form"></div><textarea id="author-json" hidden aria-hidden="true"></textarea><div class="author-feedback"><pre id="author-report" role="status" aria-live="polite"></pre><button id="author-dismiss" aria-label="Dismiss editor status">✕</button></div>`;
+  dialog.innerHTML = `<div class="author-head"><div><p class="eyebrow">Little Light Library · authoring</p><h1>Book editor</h1><p>Build directly on the book. Add artwork, drag it into place, and try your story as you go.</p></div></div><div class="author-toolbar"><button id="author-books">← My books</button><button id="author-new" class="library-only primary">＋ New book</button><label class="file-button library-only">Import book<input id="author-file" type="file" accept=".json,application/json"></label><span id="author-save-status" role="status"></span><button id="author-preview" class="primary editor-only">Validate & preview</button><button id="author-undo" class="editor-only" disabled>Undo previous preview</button><button id="author-export" class="editor-only" disabled>Export portable JSON</button><button id="author-close">Return to reader</button></div><nav class="author-tabs" aria-label="Editor sections"><button data-author-tab="visual">On the book</button><button data-author-tab="book">Book details</button><button data-author-tab="spreads">Spreads</button><button data-author-tab="assets">Assets</button><button data-author-tab="json">Advanced JSON</button></nav><section id="author-library"></section><div id="author-visual"></div><div id="author-form"></div><textarea id="author-json" hidden aria-hidden="true"></textarea><div class="author-feedback"><pre id="author-report" role="status" aria-live="polite"></pre><button id="author-dismiss" aria-label="Dismiss editor status">✕</button></div>`;
   document.body.append(dialog);
   const el = <T extends HTMLElement>(id: string) =>
     dialog.querySelector<T>(`#${id}`)!;
@@ -364,6 +367,7 @@ export function installAuthoring(options: {
       report.textContent = "";
       el<HTMLTextAreaElement>("author-json").value = JSON.stringify(editing);
       el<HTMLButtonElement>("author-export").disabled = false;
+      shelf.changed();
     },
     load: (book) => {
       editing = structuredClone(book);
@@ -378,7 +382,45 @@ export function installAuthoring(options: {
   el<HTMLButtonElement>("author-dismiss").onclick = () => {
     report.textContent = "";
   };
-  dialog.addEventListener("close", () => visual.hide());
+  let historyKey: string | undefined;
+  const shelf = installBookShelf(el<HTMLElement>("author-library"), {
+    blank: createBlankBook,
+    book: () => editing,
+    status: (text) => {
+      el<HTMLElement>("author-save-status").textContent = text;
+    },
+    open: (book, key) => {
+      libraryVisible = false;
+      editing = structuredClone(book);
+      activeSpread = 0;
+      activeTab = "visual";
+      jsonOverride = false;
+      if (historyKey !== key) history.clear();
+      historyKey = key;
+      visual.hide();
+      visual.show(true);
+      report.textContent = "";
+      renderEditor();
+    },
+  });
+  async function showLibrary() {
+    await shelf.flush();
+    libraryVisible = true;
+    visual.hide();
+    form.hidden = true;
+    dialog.classList.add("library-mode");
+    dialog.classList.remove("visual-mode", "book-editing");
+    report.textContent = "";
+    el<HTMLElement>("author-save-status").textContent = "";
+    await shelf.show();
+  }
+  el<HTMLButtonElement>("author-books").onclick = () => void run(showLibrary);
+  dialog.addEventListener("close", () => {
+    visual.hide();
+    void shelf.flush().catch((error) => {
+      report.textContent = String(error);
+    });
+  });
   el<HTMLTextAreaElement>("author-json").addEventListener("input", () => {
     jsonOverride = true;
   });
@@ -395,6 +437,9 @@ export function installAuthoring(options: {
       picker.type = "file";
       picker.accept = accept;
       picker.onchange = () => resolve(picker.files?.[0]);
+      picker.addEventListener("cancel", () => resolve(undefined), {
+        once: true,
+      });
       picker.click();
     });
   const run = async (fn: () => Promise<void>) => {
@@ -412,6 +457,7 @@ export function installAuthoring(options: {
       dialog
         .querySelectorAll<HTMLButtonElement>("button")
         .forEach((button) => (button.disabled = false));
+      visual.syncButtons();
       el<HTMLButtonElement>("author-undo").disabled = !history.canUndo;
       el<HTMLButtonElement>("author-export").disabled = !editing.spreads.length;
     }
@@ -428,6 +474,11 @@ export function installAuthoring(options: {
     renderEditor();
   };
   function renderEditor() {
+    if (libraryVisible) return;
+    dialog.classList.remove("library-mode");
+    dialog.classList.add("book-editing");
+    el<HTMLElement>("author-library").hidden = true;
+    shelf.changed();
     dialog.classList.toggle("visual-mode", activeTab === "visual");
     form.hidden = activeTab === "visual";
     if (activeTab === "visual") visual.show();
@@ -441,7 +492,7 @@ export function installAuthoring(options: {
         ),
       );
     if (activeTab === "book")
-      form.innerHTML = `<div class="editor-card"><h2>Book identity</h2><p>One locale per draft in version 1; the reader's nine-language library remains unchanged.</p><div class="editor-grid">${input("Book ID", "id", editing.id, "text", "Stable lowercase slug; use a new ID for Jonah.")}${input("Title", "title", editing.title)}${input("Subtitle", "subtitle", editing.subtitle)}${input("Locale", "locale", editing.locale)}${input("Source reference", "source", editing.source)}${select(
+      form.innerHTML = `<div class="editor-card"><h2>Book identity</h2><p>One locale per draft in version 1; the reader's nine-language library remains unchanged.</p><div class="editor-grid">${input("Book ID", "id", editing.id, "text", "Stable identifier for this book.")}${input("Title", "title", editing.title)}${input("Subtitle", "subtitle", editing.subtitle)}${input("Locale", "locale", editing.locale)}${input("Source reference", "source", editing.source)}${select(
         "Cover image",
         "cover",
         editing.cover,
@@ -462,6 +513,9 @@ export function installAuthoring(options: {
       null,
       2,
     );
+    el<HTMLButtonElement>("author-export").disabled =
+      busy || !editing.spreads.length;
+    el<HTMLButtonElement>("author-undo").disabled = busy || !history.canUndo;
     const assetFile =
       dialog.querySelector<HTMLInputElement>("#author-asset-file");
     if (assetFile) assetFile.disabled = busy;
@@ -483,6 +537,7 @@ export function installAuthoring(options: {
       return;
     }
     setEditorPath(editing, path, value);
+    shelf.changed();
     if (rerender) renderEditor();
   };
   dialog
@@ -526,7 +581,10 @@ export function installAuthoring(options: {
     }
     if (action === "add-segment" && spread)
       spread.segments.push({
-        id: `segment-${spread.segments.length + 1}`,
+        id: unusedId(
+          "segment",
+          spread.segments.map((segment) => segment.id),
+        ),
         text: "Add a narration phrase.",
       });
     if (action === "remove-segment" && spread && spread.segments.length > 1)
@@ -535,7 +593,10 @@ export function installAuthoring(options: {
       const image = firstAsset(editing, "image");
       if (image)
         spread.elements.push({
-          id: `element-${spread.elements.length + 1}`,
+          id: unusedId(
+            "element",
+            spread.elements.map((element) => element.id),
+          ),
           label: "New element",
           kind: "prop",
           asset: image,
@@ -569,12 +630,19 @@ export function installAuthoring(options: {
     if (action === "add-narration" && spread) {
       const audio = firstAsset(editing, "audio");
       if (audio)
-        spread.segments[index].narration = {
-          asset: audio,
-          recordedText: spread.segments[index].text,
-          duration: 1,
-          voice: "creator",
-        };
+        void run(async () => {
+          const blob = await assetBytes(editing.assets[audio]);
+          const buffer = await options
+            .audio()
+            .decodeAudioData(await blob.arrayBuffer());
+          spread.segments[index].narration = {
+            asset: audio,
+            recordedText: spread.segments[index].text,
+            duration: buffer.duration,
+            voice: "creator",
+          };
+          renderEditor();
+        });
     }
     if (action === "remove-narration" && spread)
       delete spread.segments[index].narration;
@@ -582,9 +650,10 @@ export function installAuthoring(options: {
       void run(async () => {
         const file = await chooseFile("audio/wav,audio/mpeg,audio/ogg");
         if (!file) return;
-        const id = `${editing.id}-narration-${activeSpread + 1}-${index + 1}`
-          .replace(/[^a-z0-9-]+/gi, "-")
-          .toLowerCase();
+        const id = unusedId("recording", Object.keys(editing.assets));
+        const buffer = await options
+          .audio()
+          .decodeAudioData(await file.arrayBuffer());
         editing.assets[id] = {
           kind: "audio",
           src: await readFileAsDataUrl(file),
@@ -593,10 +662,10 @@ export function installAuthoring(options: {
         spread.segments[index].narration = {
           asset: id,
           recordedText: spread.segments[index].text,
-          duration: 1,
+          duration: buffer.duration,
           voice: "creator",
         };
-        report.textContent = `Imported ${id}; preview to measure its duration.`;
+        report.textContent = `Imported ${id}; measured ${buffer.duration.toFixed(2)} seconds.`;
         renderEditor();
       });
     if (action === "toggle-pose" && spread) {
@@ -627,8 +696,20 @@ export function installAuthoring(options: {
         };
     }
     if (action === "remove-asset") {
-      delete editing.assets[button.dataset.asset || ""];
-      if (editing.cover === button.dataset.asset) editing.cover = "";
+      const id = button.dataset.asset || "";
+      const used =
+        editing.cover === id ||
+        editing.spreads.some(
+          (page) =>
+            page.backdrop.asset === id ||
+            page.ground?.asset === id ||
+            page.elements.some((element) => element.asset === id) ||
+            page.segments.some((segment) => segment.narration?.asset === id),
+        );
+      if (used)
+        report.textContent =
+          "This asset is in use. Choose replacement artwork or narration before removing it.";
+      else delete editing.assets[id];
     }
     if (action === "add-asset-path") {
       const id =
@@ -648,6 +729,10 @@ export function installAuthoring(options: {
             'input[data-path="__new.attribution"]',
           )
           ?.value.trim() || "Creator-supplied asset";
+      if (id in editing.assets) {
+        report.textContent = "That asset ID already exists. Use a new ID.";
+        return;
+      }
       if (id && src) {
         editing.assets[id] = { kind, src, attribution };
         if (!editing.cover && kind === "image") editing.cover = id;
@@ -679,6 +764,8 @@ export function installAuthoring(options: {
           .replace(/[^a-z0-9-]+/g, "-")
           .replace(/^-|-$/g, "");
         if (!id) throw Error("Enter an asset ID or choose a named file.");
+        if (id in editing.assets)
+          throw Error("That asset ID already exists. Use a new ID.");
         const kind = file.type.startsWith("audio/") ? "audio" : kindDraft;
         const data = await readFileAsDataUrl(file);
         editing.assets[id] = { kind, src: data, attribution };
@@ -750,28 +837,7 @@ export function installAuthoring(options: {
     };
     recognition.start();
   });
-  el<HTMLButtonElement>("author-demo").onclick = () =>
-    void run(async () => {
-      const response = await fetch("./books/quiet-garden.book.json");
-      if (!response.ok) throw Error("Sample could not load.");
-      setEditing(await response.json(), "Demo loaded into the visual editor.");
-    });
-  el<HTMLButtonElement>("author-new").onclick = () => {
-    editing = createBlankBook();
-    activeSpread = 0;
-    activeTab = "visual";
-    visual.hide();
-    visual.show(true);
-    newAssetDraft = {
-      id: "",
-      kind: "image",
-      attribution: "Creator-supplied asset",
-      src: "",
-    };
-    report.textContent =
-      "Your blank book is ready. Choose a background or add a character.";
-    renderEditor();
-  };
+  el<HTMLButtonElement>("author-new").onclick = () => shelf.newBook();
   const importBookFile = () => {
     report.textContent = "Imported into the draft; loading…";
     void run(async () => {
@@ -781,10 +847,11 @@ export function installAuthoring(options: {
         throw Error("Book file exceeds 140 MiB");
       report.textContent =
         "Imported into the draft; reading the book definition…";
-      setEditing(
-        JSON.parse(await file.text()),
-        "Imported into the draft editor. Validate & preview to apply.",
-      );
+      const result = validateBook(JSON.parse(await file.text()));
+      if (!result.book) throw Error(describe(result.errors));
+      await shelf.create(result.book);
+      report.textContent = "Imported into the draft editor. Ready to edit.";
+      el<HTMLInputElement>("author-file").value = "";
     });
   };
   el<HTMLInputElement>("author-file").onchange = importBookFile;
@@ -824,6 +891,8 @@ export function installAuthoring(options: {
       );
       editing = structuredClone(result.book);
       history.commit(result.book);
+      shelf.changed();
+      await shelf.flush();
       report.textContent = result.warnings.length
         ? describe(result.warnings)
         : "Valid draft. All media loaded and narration durations measured.";
@@ -836,6 +905,8 @@ export function installAuthoring(options: {
       await options.preview(book);
       history.undo();
       editing = structuredClone(book);
+      shelf.changed();
+      await shelf.flush();
       report.textContent = "Restored the previous validated preview.";
       dialog.close();
     });
@@ -861,17 +932,22 @@ export function installAuthoring(options: {
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       report.textContent = "Exported the current book with embedded media.";
     });
-  el<HTMLButtonElement>("author-close").onclick = () => dialog.close();
+  const closeEditor = () =>
+    void run(async () => {
+      await shelf.flush();
+      dialog.close();
+    });
+  el<HTMLButtonElement>("author-close").onclick = closeEditor;
   dialog.oncancel = (event) => {
-    if (busy) event.preventDefault();
+    event.preventDefault();
+    if (!busy) closeEditor();
   };
   return {
     open() {
       report.textContent = "";
       options.pause();
-      activeTab = "visual";
-      renderEditor();
       dialog.showModal();
+      void run(showLibrary);
     },
     history,
   };

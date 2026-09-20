@@ -24,13 +24,6 @@ const uid = (prefix: string, ids: string[]) => {
   while (ids.includes(`${prefix}-${i}`)) i++;
   return `${prefix}-${i}`;
 };
-const starterArt = [
-  ["jonah-shore", "Shore", "jonah-shore.png"],
-  ["underwater-backdrop", "Underwater", "underwater-backdrop.png"],
-  ["jonah-cutout", "Jonah", "jonah-cutout.png"],
-  ["whale-cutout", "Great fish", "whale-cutout.png"],
-  ["sandy-ground", "Sand", "sandy-ground.png"],
-];
 type Target =
   | "character"
   | "image"
@@ -56,6 +49,9 @@ export function installVisualEditor(
   let visible = false;
   let revision = 0;
   let stage: AuthoredStage | undefined;
+  let stageBook: AuthoredBook | undefined;
+  let stagePage: string | undefined;
+  let previewing = false;
   let playing = false;
   let playStart = 0;
   let back: AuthoredBook[] = [];
@@ -87,9 +83,9 @@ export function installVisualEditor(
   const message = (text: string) => {
     host.querySelector<HTMLElement>(".visual-status")!.textContent = text;
   };
-  host.innerHTML = `<div class="studio-bar"><div><span class="eyebrow">Build your story</span><input id="visual-book-title" aria-label="Book title" placeholder="Name your book"></div><div class="studio-actions"><button data-studio="undo" aria-label="Undo edit">↶ Undo</button><button data-studio="redo" aria-label="Redo edit">↷ Redo</button><button data-studio="details">Book details</button><button data-studio="read" class="primary">Read book ↗</button></div></div>
-  <div class="studio-tools" aria-label="Add to your book"><button data-studio="page">＋ Add page</button><button data-studio="character">＋ Character</button><button data-studio="image">＋ Image</button><button data-studio="background">▧ Background</button><button data-studio="ground">▱ Ground</button><button data-studio="cover">Cover art</button><button data-studio="play">▷ Try motion</button><button data-studio="jonah">Open Jonah</button><button data-studio="retry" hidden>Retry artwork</button></div>
-  <div class="studio-body"><div class="studio-composition"><div class="studio-viewport" tabindex="0" aria-label="Interactive book canvas. Select a character or image and drag to move it. Arrow keys move the selected artwork."><div class="canvas-hint">Click artwork to select · drag to move · use the corner to resize</div><div class="selection-frame" hidden><span></span><button class="resize-art" aria-label="Drag to resize selected artwork">↗</button></div><div class="scene-loading" role="status" hidden>Loading artwork…</div></div><div class="page-writing"><input aria-label="Page title" id="visual-page-title" placeholder="Name this page"><div class="page-phrases"></div><button data-studio="phrase">＋ Add a line</button></div><p class="visual-status" role="status">Your book updates as you work.</p></div><aside class="studio-inspector" aria-label="Selected artwork"></aside></div><div class="studio-pages" aria-label="Book pages"></div><button class="art-scrim" aria-label="Dismiss artwork chooser" hidden></button><section class="art-tray" aria-label="Choose artwork" hidden></section>`;
+  host.innerHTML = `<div class="studio-bar"><div><span class="eyebrow">Build your story</span><input id="visual-book-title" aria-label="Book title" placeholder="Name your book"></div><div class="studio-actions"><button data-studio="undo" aria-label="Undo edit">↶ Undo</button><button data-studio="redo" aria-label="Redo edit">↷ Redo</button><button data-studio="details">Book details</button><button data-studio="preview" class="primary">Preview page</button><button data-studio="read">Read book ↗</button></div></div>
+  <div class="studio-tools" aria-label="Add to your book"><button data-studio="page">＋ Add page</button><button data-studio="character">＋ Character</button><button data-studio="image">＋ Image</button><button data-studio="background">▧ Background</button><button data-studio="ground">▱ Ground</button><button data-studio="cover">Cover art</button><button data-studio="play">▷ Try motion</button><button data-studio="retry" hidden>Retry artwork</button></div>
+  <div class="page-navigation"><button data-studio="previous-page">← Previous page</button><span class="page-counter"></span><button data-studio="next-page">Next page →</button></div><div class="studio-body"><div class="studio-composition"><div class="studio-viewport" tabindex="0" aria-label="Interactive book canvas. Select a character or image and drag to move it. Arrow keys move the selected artwork."><div class="canvas-hint">Click artwork to select · drag to move · use the corner to resize</div><div class="selection-frame" hidden><span></span><button class="resize-art" aria-label="Drag to resize selected artwork">↗</button></div><div class="scene-loading" role="status" hidden>Loading artwork…</div></div><div class="page-writing"><input aria-label="Page title" id="visual-page-title" placeholder="Name this page"><div class="page-phrases"></div><button data-studio="phrase">＋ Add a line</button></div><p class="visual-status" role="status">Your book updates as you work.</p></div><aside class="studio-inspector" aria-label="Selected artwork"></aside></div><div class="studio-pages" aria-label="Book pages"></div><button class="art-scrim" aria-label="Dismiss artwork chooser" hidden></button><section class="art-tray" aria-label="Choose artwork" hidden></section>`;
   const viewport = host.querySelector<HTMLElement>(".studio-viewport")!;
   const inspector = host.querySelector<HTMLElement>(".studio-inspector")!;
   const tray = host.querySelector<HTMLElement>(".art-tray")!;
@@ -192,6 +188,14 @@ export function installVisualEditor(
     };
   }
   function pages() {
+    host.querySelector<HTMLElement>(".page-counter")!.textContent =
+      `Page ${page + 1} of ${options.book().spreads.length}`;
+    host.querySelector<HTMLButtonElement>(
+      '[data-studio="previous-page"]',
+    )!.disabled = page === 0;
+    host.querySelector<HTMLButtonElement>(
+      '[data-studio="next-page"]',
+    )!.disabled = page === options.book().spreads.length - 1;
     host.querySelector<HTMLElement>(".studio-pages")!.innerHTML =
       `<button data-studio="cover" class="page-tile"><img src="${html(src(options.book(), options.book().cover))}" alt="Book cover"><span>Cover art</span></button>` +
       options
@@ -213,6 +217,20 @@ export function installVisualEditor(
   ) =>
     `<label class="studio-range"><span>${label}<output>${value.toFixed(2)}</output></span><input aria-label="${label}" data-placement="${key}" type="range" min="${min}" max="${max}" step="${step}" value="${value}"></label>`;
   function controls() {
+    host.classList.toggle("page-previewing", previewing);
+    host.querySelector<HTMLButtonElement>(
+      '[data-studio="preview"]',
+    )!.textContent = previewing ? "Back to editing" : "Preview page";
+    if (previewing) {
+      inspector.innerHTML = `<p class="eyebrow">Page preview</p><h2>${html(spread().title)}</h2><p>Review this page, then use Next page to continue. Return to editing to make changes.</p><div class="preview-interactions">${spread()
+        .elements.filter((item) => item.interaction)
+        .map(
+          (item) =>
+            `<button data-try-element="${html(item.id)}">${html(item.interaction!.label)}</button>`,
+        )
+        .join("")}</div>`;
+      return;
+    }
     const item = element();
     inspector.innerHTML = item
       ? `<p class="eyebrow">${item.kind === "actor" ? "Character" : "Image"}</p><input aria-label="Artwork name" data-element-name value="${html(item.label)}"><p class="editor-muted">Drag on the book. Arrow keys nudge; Shift moves farther.</p>${range("Size", "size", item.placement.height, 0.2, 2.7, 0.01)}${range("Left / right", "x", item.placement.x, -2.8, 2.8)}${range("Front / back", "depth", item.placement.depth, -1.2, 1.2)}${range("Lift", "elevation", item.placement.elevation ?? 0, 0, 2)}${range("Rotation", "rotation", item.placement.rotation ?? 0, -45, 45, 1)}<div class="inspector-actions"><button data-studio="replace">Replace art</button><button data-studio="duplicate">Duplicate</button><button data-studio="remove">Remove</button></div><p class="eyebrow">Bring it to life</p><label class="studio-check"><input type="checkbox" data-rock ${item.motion ? "checked" : ""}> Gentle rocking</label><button data-studio="play">▷ Try motion</button>`
@@ -239,10 +257,14 @@ export function installVisualEditor(
       options.book().title;
     host.querySelector<HTMLInputElement>("#visual-page-title")!.value =
       spread().title;
+    host.querySelector<HTMLInputElement>("#visual-page-title")!.readOnly =
+      previewing;
+    host.querySelector<HTMLInputElement>("#visual-book-title")!.readOnly =
+      previewing;
     host.querySelector<HTMLElement>(".page-phrases")!.innerHTML = spread()
       .segments.map(
         (item, index) =>
-          `<textarea data-line="${index}" aria-label="Story line ${index + 1}" rows="2">${html(item.text)}</textarea>`,
+          `<textarea ${previewing ? "readonly" : ""} data-line="${index}" aria-label="Story line ${index + 1}" rows="2">${html(item.text)}</textarea>`,
       )
       .join("");
   }
@@ -268,6 +290,8 @@ export function installVisualEditor(
         stage.dispose();
       }
       stage = next;
+      stageBook = options.book();
+      stagePage = spread().id;
       for (const item of spread().elements) stage.editPlacement(item.id, item);
       bookRoot.add(stage.root);
       stage.popups.forEach((popup) => (popup.rotation.x = Math.PI / 2));
@@ -276,10 +300,14 @@ export function installVisualEditor(
       host.querySelector<HTMLButtonElement>('[data-studio="retry"]')!.hidden =
         true;
       message(
-        "Live on the page · changes are kept in this session. Export a copy to keep them.",
+        previewing
+          ? "Page preview · use Previous and Next to review your book."
+          : "Live on the page · changes save automatically to My books.",
       );
     } catch (error) {
       if (ticket === revision && visible) {
+        if (stage && stageBook === options.book() && stagePage === spread().id)
+          stage.root.visible = true;
         host.querySelector<HTMLButtonElement>('[data-studio="retry"]')!.hidden =
           false;
         message(
@@ -318,19 +346,20 @@ export function installVisualEditor(
     scrim.hidden = false;
     const entries = new Map(
       Object.entries(options.book().assets)
-        .filter(([, asset]) => asset.kind === "image")
+        .filter(([id, asset]) => asset.kind === "image" && id !== "blank-paper")
         .map(([id]) => [
           id,
           { name: id.replace(/-/g, " "), path: src(options.book(), id) },
         ]),
     );
-    for (const [id, name, file] of starterArt)
-      if (!entries.has(id))
-        entries.set(id, { name, path: `./assets/art/jonah/${file}` });
-    tray.innerHTML = `<div class="tray-heading"><div><p class="eyebrow">${kind === "replace" ? "Replace selected artwork" : `Add ${kind}`}</p><h2>Choose a picture</h2></div><label class="file-button primary">Upload image<input id="visual-image-upload" type="file" accept="image/png,image/jpeg,image/webp"></label><button data-studio="close-tray" aria-label="Close artwork tray">✕</button></div><div class="art-grid">${[...entries].map(([id, asset]) => `<button data-art="${html(id)}"><img src="${html(asset.path)}" alt="${html(asset.name)}"><span>${html(asset.name)}</span></button>`).join("")}</div><p>Choose a thumbnail or upload a PNG, JPEG or WebP. Transparent images work well as characters.</p>`;
+
+    tray.innerHTML = `<div class="tray-heading"><div><p class="eyebrow">${kind === "replace" ? "Replace selected artwork" : `Add ${kind}`}</p><h2>Choose a picture</h2></div><label class="file-button primary">Upload image<input id="visual-image-upload" type="file" accept="image/png,image/jpeg,image/webp"></label><button data-studio="close-tray" aria-label="Close artwork tray">✕</button></div><p class="art-empty" ${entries.size ? "hidden" : ""}>No artwork in this book yet. Upload your own image to get started.</p><div class="art-grid">${[...entries].map(([id, asset]) => `<button data-art="${html(id)}"><img src="${html(asset.path)}" alt="${html(asset.name)}"><span>${html(asset.name)}</span></button>`).join("")}</div><p>Choose a thumbnail or upload a PNG, JPEG or WebP. Transparent images work well as characters.</p>`;
     tray.querySelector<HTMLInputElement>("input")!.onchange = async (event) => {
       const file = (event.target as HTMLInputElement).files?.[0];
       if (!file) return;
+      const uploadBook = options.book(),
+        uploadPage = page,
+        uploadTarget = target;
       try {
         if (file.size > 32 * 1024 * 1024)
           throw Error("Choose an image smaller than 32 MiB.");
@@ -342,6 +371,13 @@ export function installVisualEditor(
           reader.onerror = () => reject(reader.error);
           reader.readAsDataURL(file);
         });
+        if (
+          !visible ||
+          options.book() !== uploadBook ||
+          page !== uploadPage ||
+          target !== uploadTarget
+        )
+          return;
         const id = uid("image", Object.keys(options.book().assets));
         record();
         options.book().assets[id] = {
@@ -349,6 +385,7 @@ export function installVisualEditor(
           src: data,
           attribution: "Creator-supplied artwork",
         };
+        notify();
         await addArt(id, false);
       } catch (error) {
         message(String(error));
@@ -364,16 +401,12 @@ export function installVisualEditor(
       message("This page has 16 pieces of artwork. Add a new page for more.");
       return;
     }
+    const book = options.book(),
+      artPage = page,
+      artTarget = target,
+      artSelection = selected;
     if (saveHistory) record();
-    const book = options.book();
-    if (!book.assets[id]) {
-      const item = starterArt.find((item) => item[0] === id)!;
-      book.assets[id] = {
-        kind: "image",
-        src: `assets/art/jonah/${item[2]}`,
-        attribution: "Image generated for Story Lab",
-      };
-    }
+    if (!book.assets[id]) throw Error("Choose an image from this book.");
     if (target === "cover") book.cover = id;
     else if (target === "background") {
       spread().backdrop.asset = id;
@@ -394,11 +427,18 @@ export function installVisualEditor(
       const image = new Image();
       image.src = src(book, id);
       await image.decode();
+      if (
+        !visible ||
+        options.book() !== book ||
+        page !== artPage ||
+        target !== artTarget ||
+        selected !== artSelection
+      )
+        return;
       const aspect = image.naturalWidth / image.naturalHeight;
       const height = Math.min(1.9, 2.4 / aspect);
       const width = height * aspect;
-      const name =
-        starterArt.find((item) => item[0] === id)?.[1] || id.replace(/-/g, " ");
+      const name = id.replace(/-/g, " ");
       selected = uid(
         target === "character" ? "character" : "image",
         spread().elements.map((item) => item.id),
@@ -428,6 +468,11 @@ export function installVisualEditor(
       "button",
     );
     if (!button) return;
+    if (button.dataset.tryElement) {
+      const result = stage?.activate(button.dataset.tryElement);
+      if (result) message(result.response);
+      return;
+    }
     if (button.dataset.page !== undefined) {
       page = Number(button.dataset.page);
       selected = "";
@@ -461,6 +506,33 @@ export function installVisualEditor(
       closeTray();
       return;
     }
+    if (action === "previous-page" || action === "next-page") {
+      page = clamp(
+        page + (action === "previous-page" ? -1 : 1),
+        0,
+        options.book().spreads.length - 1,
+      );
+      selected = "";
+      playStart = performance.now() / 1000;
+      refresh();
+      return;
+    }
+    if (action === "preview") {
+      previewing = !previewing;
+      selected = "";
+      playing = previewing;
+      playStart = performance.now() / 1000;
+      stage?.begin();
+      stage?.rest();
+      controls();
+      writing();
+      message(
+        previewing
+          ? "Page preview · use Previous and Next to review your book."
+          : "Editing this page.",
+      );
+      return;
+    }
     if (action === "details") {
       options.details();
       return;
@@ -482,23 +554,6 @@ export function installVisualEditor(
           ? "Trying movement on this page. Click artwork to edit again."
           : "Editing again.",
       );
-      return;
-    }
-    if (action === "jonah") {
-      void fetch("./books/jonah-and-the-whale.book.json")
-        .then((response) => {
-          if (!response.ok) throw Error("Jonah could not load.");
-          return response.json();
-        })
-        .then((book) => {
-          record();
-          options.load(book);
-          page = 0;
-          selected = "";
-          refresh();
-          notify();
-        })
-        .catch((error) => message(String(error)));
       return;
     }
     if (action === "undo" || action === "redo") {
@@ -640,6 +695,18 @@ export function installVisualEditor(
     const resize =
       (event.target as HTMLElement).closest(".resize-art") !== null;
     pointerRay(event);
+    if (previewing) {
+      const hit = raycaster
+        .intersectObject(stage.root, true)
+        .find((hit) => hit.object.name.startsWith("authored-element-"));
+      if (hit) {
+        const result = stage.activate(
+          hit.object.name.slice("authored-element-".length),
+        );
+        if (result) message(result.response);
+      }
+      return;
+    }
     if (!resize) {
       const hit = raycaster
         .intersectObject(stage.root, true)
@@ -789,12 +856,20 @@ export function installVisualEditor(
     raf = requestAnimationFrame(draw);
   }
   return {
+    syncButtons() {
+      if (visible) {
+        pages();
+        updateHistory();
+      }
+    },
     show(reset = false) {
       if (reset) {
         back = [];
         forward = [];
         page = 0;
         selected = "";
+        previewing = false;
+        playing = false;
       }
       host.hidden = false;
       if (!visible) {

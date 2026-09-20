@@ -16,7 +16,7 @@ are records of earlier work, not an active assignment.
 - **Book creation/editor work:** start with [the authoring handoff](docs/authoring-handoff.md),
   [visual editor guide](docs/visual-editor.md), [creator guide](docs/creator-guide.md) and [v1 contract/glossary](docs/book-contract.md).
   Manual and agent edits use the same JSON. The [original direction](docs/book-authoring-direction.md)
-  remains context; the current default editor is the in-book visual workspace.
+  remains context; Author opens My books; selecting or creating a book opens the visual workspace.
 - **Explicit questions about the past quality goal:** use [the cycle index](review/README.md)
   to locate relevant rounds, then read only their written reviews and applicable
   [ADRs](docs/adr/). Round 23 is the last retained quality round; its
@@ -55,7 +55,7 @@ include the user and other biblical storytellers. The story and its meaning lead
 The reader now has a [versioned book contract](docs/book-contract.md) shared by manual and
 agent-assisted authoring. It covers upright backdrops, optional horizontal ground, multiple
 cutouts, atlas poses, placement, anchored whole-card rocking, button interactions and measured
-narration. The Author dialog now defaults to a live visual book workspace; detailed forms and JSON remain available.
+narration. The Author dialog opens a browser-local book library with create, edit, delete and restore. Each book opens a live visual workspace with page-by-page editing and preview; detailed forms and JSON remain available.
 See [supported behavior and tradeoffs](docs/authoring-decisions.md) before expanding it.
 
 ## Implementation and evidence boundaries

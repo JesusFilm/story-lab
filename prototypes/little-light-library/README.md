@@ -9,7 +9,7 @@ npm ci
 npm run dev
 ```
 
-For authoring: enter the library, choose **Author → Load two-spread demo → Validate & preview**. Import or paste your own book JSON into the same dialog. See the [contract and glossary](docs/book-contract.md), [agent instructions](docs/agent-authoring.md), and [authoring handoff](docs/authoring-handoff.md). Export portable JSON to keep a validated draft; previews are session-only.
+For authoring: enter the library and choose **Author** to open **My books**. Create a new blank book, edit an existing book, import JSON, or delete and restore books. Fill in pages in the live editor, use **Preview page** and **Previous/Next page**, or **Read book** for the full reader. Books and artwork save in this browser on this device; export portable JSON for backup or transfer. See the [visual editor guide](docs/visual-editor.md), [contract and glossary](docs/book-contract.md), [agent instructions](docs/agent-authoring.md), and [authoring handoff](docs/authoring-handoff.md).
 
 Open http://127.0.0.1:8771/. Choose a language on every startup; the saved language is preselected. Select a cover, use Previous/Next to turn pages, Play/Pause or Replay to control narration, and Library to close the book. Tap a character on the shelf to hear its localized name. Drag horizontally in the room or use the Look around controls to inspect a nearby viewpoint; the reset arrow centers it. Opening a book restores the reading view. On a book page, hover or tap a character for a name tag and individual paper gesture; Tab and Enter provide keyboard access. The globe always opens language recovery. Settings contain language, speed, narration mute and volume. Muting preserves follow-along timing; changing language or hiding the tab pauses playback.
 

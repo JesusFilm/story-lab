@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T22:54:15.211Z",
+  "generatedAt": "2026-09-20T00:49:50.640Z",
   "method": "Playwright against the production build at a nested static URL. Scene values come from the reader's debug surface; narration samples use the decoded WebAudio clock.",
   "browser": "153.0.8010.48",
   "host": {
@@ -11,42 +11,42 @@
     {
       "name": "Responsive two-spread demo preview",
       "passed": true,
-      "durationMs": 14644,
+      "durationMs": 14852,
       "detail": "Validated and rendered both authored spreads at 360×800, 768×1024, 1366×768."
     },
     {
       "name": "Placement, ground, measured gesture, interaction, rejection, undo and export",
       "passed": true,
-      "durationMs": 7991,
+      "durationMs": 8056,
       "detail": {
         "movingFrameSamples": 32,
         "firstMotionPositionSeconds": 0.21866666666666656,
-        "peakRockDegrees": 11.999946287907274,
+        "peakRockDegrees": 11.993501418565975,
         "portableBytes": 4924589
       }
     },
     {
       "name": "Late stage asset failure restores the prior preview",
       "passed": true,
-      "durationMs": 2003,
+      "durationMs": 2170,
       "detail": "Observed 3 tree requests: validation passed, stage loading failed, and the prior preview was restored."
     },
     {
       "name": "Portable re-import uses embedded media",
       "passed": true,
-      "durationMs": 1453,
+      "durationMs": 1615,
       "detail": "Re-imported 4924589 embedded bytes with no /assets/ request."
     },
     {
       "name": "Reduced motion and muted narration timeline",
       "passed": true,
-      "durationMs": 1657,
+      "durationMs": 1760,
       "detail": "Muted WebAudio clock advanced and drove highlights while reduced motion kept authored cutouts static; keyboard response remained available."
     },
     {
       "name": "10-second authored-stage phone performance smoke",
       "passed": true,
-      "durationMs": 14546,
+      "durationMs": 15315,
       "detail": {
         "label": "Short smoke, not the historical 60-second performance profile",
         "viewport": "360×800",
@@ -55,20 +55,26 @@
         "durationMs": 9999.6,
         "frames": 600,
         "fps": 60.00240009600383,
-        "p95Ms": 16.700000000000728
+        "p95Ms": 16.799999999999272
       }
     },
     {
       "name": "Legacy books and nine locales remain complete",
       "passed": true,
-      "durationMs": 24781,
+      "durationMs": 25003,
       "detail": "Traversed all 16 legacy spreads and opened Eden spread 1 in every supported locale."
     },
     {
       "name": "visual composition: add, drag, resize, undo, pages, export and reader fidelity",
       "passed": true,
-      "durationMs": 5173,
+      "durationMs": 10058,
       "detail": "Created two pages from a blank book with backgrounds, character, image and ground; direct drag/resize, slider, undo/redo, page switching, portable current-draft export, identical reader placement, selected-page reading and 390px layout passed."
+    },
+    {
+      "name": "Book library: new books, isolated art, page preview, autosave and restore",
+      "passed": true,
+      "durationMs": 3222,
+      "detail": "Library-first entry; neutral one-page books with unique IDs and empty art; editing and read-only sequential previews; browser refresh persistence; isolated second book; recoverable deletion across refresh; phone library layout."
     }
   ],
   "pageErrors": [],

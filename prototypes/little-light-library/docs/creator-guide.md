@@ -1,6 +1,6 @@
 # Create and preview a book
 
-The default authoring workflow now edits the visible book directly. Follow the [visual editor guide](visual-editor.md) for adding pages and artwork, dragging and resizing characters, live sliders, undo/redo and export. The structured workflow below remains available for advanced edits. Both workflows update the same versioned document.
+Author opens **My books**. Create a blank book, edit an existing book, import a book, or delete and restore a saved book here. Each book opens into a live page editor with **Preview page**, **Previous page** and **Next page**. Changes save in this browser on this device. Follow the [visual editor guide](visual-editor.md) for adding pages and artwork, dragging and resizing characters, live sliders, undo/redo and export. The structured workflow below remains available for advanced edits. Both workflows update the same versioned document.
 
 ## Start with the demonstration book
 
@@ -12,7 +12,7 @@ The default authoring workflow now edits the visible book directly. Follow the [
    npm run book:validate -- public/books/my-book.book.json
    ```
 
-4. Run the reader, choose **Author**, then either **Load demo**, import the file, or paste its JSON. Choose **Validate & preview**. A failed validation leaves the current preview unchanged.
+4. Run the reader, choose **Author → Edit Quiet Garden**, or use **Import book** from My books. Advanced JSON is available inside an open book. Choose **Validate & preview**. A failed validation leaves the current preview unchanged.
 5. Judge the result at phone, tablet and desktop widths. Use **Undo previous preview** if the new composition is worse. **Return to reader** exits authoring and leaves the built-in library unchanged.
 6. Choose **Export portable JSON** when the preview is ready to move. Export saves the current draft and embeds images and narration so the result is independently playable.
 

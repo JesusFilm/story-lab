@@ -1,6 +1,9 @@
 # Book authoring foundation — durable handoff
 
-**Current editor:** The default Author workspace is now an in-book visual editor.
+**Current editor:** Author opens **My books**, with new/import/edit/delete and restore.
+Books and uploaded media autosave in IndexedDB on this device. Selecting a book opens
+the live visual editor; blank books have one neutral page and no story-specific art.
+**Preview page** provides read-only scene preview with Previous/Next navigation.
 See [the visual editor guide](visual-editor.md). The foundation record below describes
 the earlier JSON workflow; direct selection, dragging, resizing, live sliders, visual
 undo/redo and current-draft export have since been added.
@@ -19,8 +22,8 @@ npm run dev
 ```
 
 Open the localhost URL Vite prints (normally port 8771; it chooses the next free port).
-Choose a UI language and enter the library. **Author → Load two-spread demo → Validate &
-preview** opens Quiet Garden. Import a `.book.json` file or paste JSON to use your own book.
+Choose a UI language and enter the library. **Author → Edit Quiet Garden → Read book**
+opens the demonstration in the reader. Import a `.book.json` file or paste JSON to use your own book.
 The draft locale is explicit; changing reader language still preserves both original books'
 nine locales and does not translate an imported draft.
 
@@ -41,8 +44,12 @@ The Author dialog validates before applying. Invalid data/media retain the curre
 a runtime failure during apply restores prior draft/state. Up to ten validated in-memory
 snapshots support undo. Nothing installs into or replaces the built-in library. Export
 embeds the complete registered media set into portable JSON for another static reader.
-Export uses the last validated preview; unvalidated textarea changes are not exported.
-Keep source files or exports: a refresh discards session history.
+Export uses the current edited book; apply raw JSON changes before exporting.
+Books persist across refresh in this browser; undo history is session-only. Keep exports
+as backups and to move between devices. Clearing site data removes local books.
+The initial book catalog seeds only once, and imports use separate storage keys so a
+matching book ID cannot overwrite another draft. Deletion is recoverable. Existing
+Eden/Noah remain reader examples; the editable catalog contains Quiet Garden and Jonah.
 
 `npm run book:validate -- FILE` runs the shared rules plus image-header and PCM WAV checks.
 Browser validation fully decodes media. `npm run book:replace-audio -- FILE SPREAD SEGMENT
@@ -64,17 +71,18 @@ control and the preview loop. Silence is not creative approval.
 - Single-locale draft packages; authoring controls are English. Reader UI keeps the existing
   nine locale choices. There is no draft translation fallback.
 - Rock is a whole-card gesture, not a limb rig. New rigs, scripts, camera controls, arbitrary
-  sound/music tracks, direct canvas selection and a full visual editor are deferred.
+  sound/music tracks remain deferred. Direct canvas selection and resizing are implemented.
 - Layout values have bounded ranges, but composition, overlap and framing still need visual
   judgment. There is no automatic layout solver.
 - Portable JSON requires this compatible static reader; it is not a standalone HTML executable.
   Base64 increases size. Use small assets for phone performance.
 - Recording metadata cannot certify spoken content. Demo narration reuses exact existing
   en-US clips; duration checks are not listening, pronunciation or theological approval.
-- Session-only undo has no redo or autosave service. Local files and exports are durable copies.
+- Visual undo/redo is session-only. Autosave uses browser IndexedDB, with visible failure
+  status and export recovery. There is no account, cloud sync or multi-tab collaboration.
 
-Recommend one creator-led session on actual story edits next. Use that feedback to choose
-which small controls deserve a visual interface over v1. Keep the contract shared with
+Recommend a creator-led session making a fresh book through My books, filling pages and
+previewing them in order. Keep the contract shared with
 agent authoring and preserve exact text/audio staleness behavior.
 
 ## Local commits

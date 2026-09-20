@@ -26,7 +26,7 @@ Use these instructions when asking an agent to create or revise a Little Light b
 
    Resolve every structural, reference and asset error. A stale-narration issue may remain only when reporting that a new recording is still required; do not claim the narrated book is complete.
 
-9. Preview through **Author → import or paste JSON → Validate & preview**. Check the requested change at relevant phone, tablet and desktop sizes and use keyboard activation, mute and reduced motion when the edit affects them. Visual inspection and listening are human judgments; report them separately from automated validation.
+9. Preview through **Author → Import book → Read book** (or open a saved book, choose Book details, then Advanced JSON and Validate & preview). Check the requested change at relevant phone, tablet and desktop sizes and use keyboard activation, mute and reduced motion when the edit affects them. Visual inspection and listening are human judgments; report them separately from automated validation.
 10. Report the exact JSON paths changed, validation actually run, stale or missing narration still outstanding, and the focused preview checks for the creator. Invite the creator to judge terminology, control and staging. Do not expand into unrelated polish.
 
 ## Example requests

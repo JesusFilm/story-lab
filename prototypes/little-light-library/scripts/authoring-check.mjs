@@ -76,6 +76,7 @@ const results = {
 
 const check = async (name, run) => {
   if (visualOnly && !name.startsWith("visual composition")) return;
+  console.log(`Running: ${name}`);
   const started = Date.now();
   try {
     const detail = await run();
@@ -86,6 +87,7 @@ const check = async (name, run) => {
       detail,
     });
   } catch (error) {
+    console.error(`Failed: ${name}: ${error.message}`);
     results.checks.push({
       name,
       passed: false,
@@ -117,17 +119,11 @@ const openAuthor = async (page) => {
   await page.waitForFunction(
     () => document.querySelector("#author-dialog")?.open === true,
   );
+  await page.locator('[data-edit-book="included-quiet-garden"]').click();
   await page.locator('[data-studio="details"]').click();
 };
 
-const loadDemo = async (page) => {
-  await openAuthor(page);
-  await page.locator("#author-demo").click();
-  await page
-    .locator("#author-report")
-    .filter({ hasText: "Demo loaded" })
-    .waitFor();
-};
+const loadDemo = openAuthor;
 
 const preview = async (page) => {
   await page.locator("#author-preview").click();
@@ -512,7 +508,13 @@ await check("Portable re-import uses embedded media", async () => {
   page.setDefaultTimeout(60_000);
   watchErrors(page);
   await enter(page);
-  await openAuthor(page);
+  await page.locator("#author").click();
+  await page.locator("#author-library .library-book").first().waitFor();
+  await page
+    .locator("#author-library img")
+    .evaluateAll((images) =>
+      Promise.all(images.map((image) => image.decode().catch(() => {}))),
+    );
   let assetRequests = 0;
   await page.route("**/assets/**", (route) => {
     assetRequests++;
@@ -526,6 +528,8 @@ await check("Portable re-import uses embedded media", async () => {
     .locator("#author-report")
     .filter({ hasText: "Imported into the draft" })
     .waitFor();
+  await page.locator("#author-visual").waitFor();
+  await page.locator('[data-studio="details"]').click();
   await preview(page);
   assert.equal(
     assetRequests,
@@ -705,6 +709,11 @@ await check(
     watchErrors(page);
     await enter(page);
     await page.locator("#author").click();
+    await page.locator("#author-new").click();
+    await page.locator("#new-book-title").fill("Jonah — composed on the book");
+    await page
+      .getByRole("button", { name: "Create book", exact: true })
+      .click();
     await page.locator("#author-visual").waitFor();
     const state = () =>
       page.locator("#author-json").inputValue().then(JSON.parse);
@@ -712,7 +721,12 @@ await check(
       page.locator(".scene-loading").waitFor({ state: "hidden" });
     const art = async (kind, id) => {
       await page.locator(`.studio-tools [data-studio="${kind}"]`).click();
-      await page.locator(`[data-art="${id}"]`).click();
+      assert.equal(await page.locator('[data-art="jonah-cutout"]').count(), 0);
+      const chooserPromise = page.waitForEvent("filechooser");
+      await page.locator("#visual-image-upload").click();
+      await (
+        await chooserPromise
+      ).setFiles(path.resolve(`public/assets/art/jonah/${id}.png`));
       await page.locator(".art-tray").waitFor({ state: "hidden" });
       await ready();
     };
@@ -829,6 +843,12 @@ await check(
       Math.abs(rendered.elements[0].rotation - (18 * Math.PI) / 180) < 1e-6,
     );
     await page.locator("#author").click();
+    await page
+      .getByRole("button", {
+        name: "Edit Jonah — composed on the book",
+        exact: true,
+      })
+      .click();
     await page.locator('[data-page="1"]').click();
     await ready();
     await page.locator('[data-studio="read"]').click();
@@ -839,6 +859,12 @@ await check(
         window.libraryDebug().scene?.authored,
     );
     await page.locator("#author").click();
+    await page
+      .getByRole("button", {
+        name: "Edit Jonah — composed on the book",
+        exact: true,
+      })
+      .click();
     await page.setViewportSize({ width: 390, height: 844 });
     await ready();
     assert.ok(
@@ -851,6 +877,184 @@ await check(
     assert.equal(overflow, false);
     await context.close();
     return "Created two pages from a blank book with backgrounds, character, image and ground; direct drag/resize, slider, undo/redo, page switching, portable current-draft export, identical reader placement, selected-page reading and 390px layout passed.";
+  },
+);
+
+await check(
+  "Book library: new books, isolated art, page preview, autosave and restore",
+  async () => {
+    const context = await makeContext();
+    const page = await context.newPage();
+    watchErrors(page);
+    await enter(page);
+    await page.locator("#author").click();
+    await page.locator('[data-edit-book="included-quiet-garden"]').waitFor();
+    assert.equal(await page.locator("#author-visual").isVisible(), false);
+    assert.equal(await page.locator("[data-edit-book]").count(), 2);
+    await page.locator('[data-edit-book="included-quiet-garden"]').click();
+    assert.equal(await page.locator("#author-export").isEnabled(), true);
+    await page.locator('[data-studio="details"]').click();
+    const original = await authorJson(page);
+    const narration = original.spreads[0].segments[0].narration;
+    const chooserPromise = page.waitForEvent("filechooser");
+    await page
+      .locator('[data-author-action="replace-narration"][data-index="0"]')
+      .click();
+    await (
+      await chooserPromise
+    ).setFiles(path.resolve("public", original.assets[narration.asset].src));
+    await page
+      .locator("#author-report")
+      .filter({ hasText: "measured" })
+      .waitFor();
+    const replaced = (await authorJson(page)).spreads[0].segments[0].narration;
+    assert.ok(Math.abs(replaced.duration - narration.duration) < 0.02);
+    assert.ok(replaced.duration > 1);
+    await page.locator('[data-author-tab="assets"]').click();
+    await page
+      .locator(
+        `[data-author-action="remove-asset"][data-asset="${original.cover}"]`,
+      )
+      .click();
+    await page
+      .locator("#author-report")
+      .filter({ hasText: "This asset is in use" })
+      .waitFor();
+    assert.ok((await authorJson(page)).assets[original.cover]);
+    await page.locator('input[data-path="__new.id"]').fill(original.cover);
+    await page
+      .locator('input[data-path="__new.src"]')
+      .fill("assets/art/unused.png");
+    await page.locator('[data-author-action="add-asset-path"]').click();
+    await page
+      .locator("#author-report")
+      .filter({ hasText: "already exists" })
+      .waitFor();
+    assert.deepEqual(
+      (await authorJson(page)).assets[original.cover],
+      original.assets[original.cover],
+    );
+    await page.locator("#author-books").click();
+
+    const create = async (title) => {
+      await page.locator("#author-new").click();
+      await page.locator("#new-book-title").fill(title);
+      await page
+        .getByRole("button", { name: "Create book", exact: true })
+        .click();
+      await page.locator("#author-visual").waitFor();
+      await page.locator(".scene-loading").waitFor({ state: "hidden" });
+    };
+    await create("A brand new story");
+    const id = (await authorJson(page)).id;
+    assert.equal(await page.locator("#author-export").isEnabled(), true);
+    assert.equal((await authorJson(page)).spreads.length, 1);
+    assert.doesNotMatch(JSON.stringify(await authorJson(page)), /jonah/i);
+    assert.equal(
+      await page.locator('[data-studio="previous-page"]').isDisabled(),
+      true,
+    );
+    await page.locator('.studio-tools [data-studio="background"]').click();
+    assert.equal(await page.locator("[data-art]").count(), 0);
+    await page.locator(".art-empty").waitFor();
+    await page.locator('[data-studio="close-tray"]').click();
+    await page.getByLabel("Page title", { exact: true }).fill("First morning");
+    await page
+      .getByLabel("Story line 1", { exact: true })
+      .fill("A new story begins here.");
+    await page.locator('.studio-tools [data-studio="page"]').click();
+    await page.getByLabel("Page title", { exact: true }).fill("Second morning");
+    await page
+      .getByLabel("Story line 1", { exact: true })
+      .fill("The adventure continues.");
+    await page.locator('[data-studio="preview"]').click();
+    assert.equal(
+      await page
+        .getByLabel("Story line 1", { exact: true })
+        .evaluate((el) => el.readOnly),
+      true,
+    );
+    assert.equal(
+      await page.locator('[data-studio="next-page"]').isDisabled(),
+      true,
+    );
+    await page.locator('[data-studio="previous-page"]').click();
+    assert.equal(
+      await page.getByLabel("Story line 1", { exact: true }).inputValue(),
+      "A new story begins here.",
+    );
+    assert.equal(
+      await page
+        .getByRole("button", { name: "Back to editing", exact: true })
+        .isVisible(),
+      true,
+    );
+    await page.locator('[data-studio="next-page"]').click();
+    assert.equal(
+      await page.getByLabel("Page title", { exact: true }).inputValue(),
+      "Second morning",
+    );
+    await page.locator('[data-studio="preview"]').click();
+    await page
+      .getByLabel("Story line 1", { exact: true })
+      .fill("The saved adventure continues.");
+    await page.locator("#author-books").click();
+    await page
+      .getByRole("button", { name: "Edit A brand new story", exact: true })
+      .waitFor();
+    await page.reload();
+    await page.locator("#enter").click();
+    await page.waitForFunction(() => window.libraryDebug()?.ready);
+    await page.locator("#author").click();
+    await page
+      .getByRole("button", { name: "Edit A brand new story", exact: true })
+      .click();
+    assert.equal((await authorJson(page)).id, id);
+    await page.locator('[data-studio="next-page"]').click();
+    assert.equal(
+      await page.getByLabel("Story line 1", { exact: true }).inputValue(),
+      "The saved adventure continues.",
+    );
+    await page.locator("#author-books").click();
+    await page
+      .getByRole("button", { name: "Delete A brand new story", exact: true })
+      .click();
+    await page.getByText("Recently deleted (1)", { exact: true }).waitFor();
+    assert.equal(
+      await page
+        .getByRole("button", { name: "Edit A brand new story", exact: true })
+        .count(),
+      0,
+    );
+    await page.reload();
+    await page.locator("#enter").click();
+    await page.waitForFunction(() => window.libraryDebug()?.ready);
+    await page.locator("#author").click();
+    await page.getByText("Recently deleted (1)", { exact: true }).click();
+    await page
+      .getByRole("button", { name: "Restore book", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "Edit A brand new story", exact: true })
+      .waitFor();
+    await create("Another original book");
+    assert.notEqual((await authorJson(page)).id, id);
+    assert.equal(await page.locator("#author-export").isEnabled(), true);
+    assert.equal((await authorJson(page)).spreads.length, 1);
+    assert.equal((await authorJson(page)).spreads[0].elements.length, 0);
+    await page.locator('.studio-tools [data-studio="character"]').click();
+    assert.equal(await page.locator("[data-art]").count(), 0);
+    await page.locator('[data-studio="close-tray"]').click();
+    await page.locator("#author-books").click();
+    await page.setViewportSize({ width: 390, height: 844 });
+    assert.equal(
+      await page
+        .locator("#author-dialog")
+        .evaluate((el) => el.scrollWidth > el.clientWidth + 2),
+      false,
+    );
+    await context.close();
+    return "Library-first entry; neutral one-page books with unique IDs and empty art; editing and read-only sequential previews; browser refresh persistence; isolated second book; recoverable deletion across refresh; phone library layout.";
   },
 );
 

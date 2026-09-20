@@ -1,4 +1,48 @@
-# Book authoring foundation verification
+# Book authoring verification
+
+## Current library and page-editor verification
+
+Verified 20 September 2026 (Pacific/Auckland). **All nine browser checks and 72 unit
+tests passed**, along with TypeScript, formatting and the production build. The
+[browser results](authoring-results.json) are from the production build served at
+`/acceptance/little-light-library/`; there were no browser page errors.
+
+The new acceptance flow verifies:
+
+- Author opens My books with the two existing editable examples. New books have
+  unique identities, one blank page, and no Jonah artwork or suggestions.
+- Page titles and text can be filled in; Previous/Next work in editing and read-only
+  preview modes. Preview stays active when moving between pages.
+- Changes survive a browser refresh. A second book stays separate. Deletion survives
+  refresh and Restore book returns the saved draft. The library fits at 390px.
+- Existing books can export immediately after opening. Narration import stores its
+  measured duration. Used artwork cannot be removed and duplicate asset IDs cannot
+  overwrite artwork.
+- The composition flow uploads artwork explicitly into a new book, drags/resizes it,
+  adds pages, uses undo/redo, exports embedded media, and compares actual reader
+  placement and rotation with the authored values. Its narrow editor layout passes.
+
+The other seven checks retain responsive reader previews (phone/tablet/desktop),
+validation failures and rollback, narration timing, portable re-import, muted and
+reduced-motion playback, the performance smoke, and both legacy books/nine locales.
+Unit regressions cover database-open retry and page-ID collisions after deletion.
+
+The lead inspected the live My books screen and sequential page previews in the app.
+The independent reviewer checked save/switch/recovery behavior; identified issues
+were corrected, including asynchronous image insertion across books, close-before-save,
+asset overwrite/deletion, narration durations, cancelled audio picking, and storage retry.
+No listening or physical-device assessment is claimed.
+
+Books and embedded media use browser-local IndexedDB. This is not cloud backup or
+multi-tab collaboration; export remains the backup/transfer path. Undo history is
+session-only. No purchase, push, merge or deployment was performed. Normal commit
+hooks remain enabled; publication manifest changes register reviewed runtime sources
+only, retaining the existing static-output digest.
+
+## Earlier foundation verification record
+
+The following records the original foundation delivery; the current results above
+supersede its counts and editor limitations.
 
 Verified 20 September 2026 (Pacific/Auckland). This is the authoring milestone, not a
 resumption of the parked visual-quality program. See [the durable handoff](../../docs/authoring-handoff.md).
