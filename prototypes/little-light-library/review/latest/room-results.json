@@ -1,0 +1,64 @@
+{
+  "generatedAt": "2026-09-20T07:16:15.910Z",
+  "method": "Playwright against a production build at a nested static URL, using an isolated browser context and browser-local IndexedDB.",
+  "browser": "153.0.8010.48",
+  "host": {
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "urlPath": "/acceptance/little-light-library/",
+  "checks": [
+    {
+      "name": "Physical shelf selection, reading, returning and toy lifecycle",
+      "passed": true,
+      "durationMs": 12477,
+      "detail": {
+        "table": "builtin:noah",
+        "page": 0,
+        "toys": [
+          "noah",
+          "ark",
+          "dove"
+        ]
+      }
+    },
+    {
+      "name": "Busy lock rejects rapid shelf taps",
+      "passed": true,
+      "durationMs": 1416,
+      "detail": {
+        "inspected": "builtin:eden",
+        "headerLocked": true
+      }
+    },
+    {
+      "name": "Reduced motion and narrow room controls remain usable",
+      "passed": true,
+      "durationMs": 3440,
+      "detail": {
+        "width": 390,
+        "controlsVisible": true,
+        "horizontalOverflow": false
+      }
+    },
+    {
+      "name": "Authored toy installs on the room shelf and persists across reload",
+      "passed": true,
+      "durationMs": 7506,
+      "detail": {
+        "lineup": [
+          "builtin:eden",
+          "builtin:noah",
+          "included-quiet-garden"
+        ],
+        "authoredToy": {
+          "id": "little-tree",
+          "label": "Little tree"
+        },
+        "persisted": true
+      }
+    }
+  ],
+  "pageErrors": [],
+  "passed": true
+}

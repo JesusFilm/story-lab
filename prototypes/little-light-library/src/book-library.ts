@@ -65,6 +65,40 @@ export class BookLibrary {
   async save(entry: SavedBook) {
     await this.transaction("books", "readwrite", (store) => store.put(entry));
   }
+  async setting<T>(key: string): Promise<T | undefined> {
+    return this.transaction("settings", "readonly", (store) => store.get(key));
+  }
+  async setSetting<T>(key: string, value: T): Promise<void> {
+    await this.transaction("settings", "readwrite", (store) =>
+      store.put(value, key),
+    );
+  }
+  async mutateSetting<T>(
+    key: string,
+    change: (current: T | undefined) => T,
+  ): Promise<T> {
+    const db = await this.open();
+    return new Promise<T>((resolve, reject) => {
+      const transaction = db.transaction("settings", "readwrite");
+      const store = transaction.objectStore("settings");
+      const request = store.get(key);
+      let next: T;
+      request.onsuccess = () => {
+        try {
+          next = change(request.result);
+          store.put(next, key);
+        } catch (error) {
+          transaction.abort();
+          reject(error);
+        }
+      };
+      transaction.oncomplete = () => resolve(next);
+      transaction.onerror = transaction.onabort = () =>
+        reject(
+          transaction.error || request.error || Error("Book storage failed."),
+        );
+    });
+  }
   async seed() {
     if (
       await this.transaction("settings", "readonly", (store) =>

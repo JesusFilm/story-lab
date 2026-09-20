@@ -108,6 +108,14 @@ export interface BookReview {
   fingerprint: string;
   reviewedAt: string;
 }
+export interface BookToy {
+  id: string;
+  label: string;
+  asset: string;
+  pose?: { index: number; columns: number };
+  animation: BookMotion["preset"];
+  sound?: string;
+}
 export interface AuthoredBook {
   format: "little-light-book";
   version: 1;
@@ -128,6 +136,8 @@ export interface AuthoredBook {
   narrationVolume?: number;
   narrationSettings?: Record<string, { voice: string; speed: number }>;
   reviews?: BookReview[];
+  /** Optional interactive figures displayed beside this book on the room shelf. */
+  toys?: BookToy[];
 }
 export interface BookIssue {
   path: string;

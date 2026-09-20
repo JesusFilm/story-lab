@@ -144,3 +144,13 @@ settings and attribution. Unknown versions must be migrated explicitly before im
 See [the production guide](audio-language-authoring.md) for timing, generation,
 credential handling, limits and review semantics. The generated JSON Schema remains
 the exact source for field bounds and required/optional properties.
+
+## Shelf toys
+
+A book may include `toys`, an array of up to four objects. Each requires a unique `id`,
+short `label` (1–60 characters), image `asset`, and `animation` from `rock`, `float`,
+`sway`, `pulse`, `spin`. Optional `pose: {index, columns}` selects an atlas cell with
+the same bounds as an element. Optional `sound` references an audio asset. Toys belong
+to the whole book and appear only while it is the table book. They play one 1.4-second
+click response; reduced motion uses static visual feedback. They retain their authored
+short labels across reading languages. See [the room guide](room-shelf.md).

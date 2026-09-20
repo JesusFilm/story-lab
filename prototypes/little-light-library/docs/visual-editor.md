@@ -96,3 +96,10 @@ The live workspace edits the current paper-stage contract. Use **Preview audio &
 including soundtrack layers, translations, Kokoro narration and author review. Image
 cropping, arbitrary animation rigs and automatic publication remain outside this editor. Touch and pointer use the same
 gesture handlers; sliders and layer buttons also provide precise alternatives.
+
+## Put your book in the room
+
+Return to **My books** and choose **Add to room**. The room holds six books; removing
+one frees its place while keeping the editable book. In **Book details → Book details**,
+**Shelf toys** lets you register up to four toys with artwork, short labels, click motion
+and optional audio. See [Books and toys in the room](room-shelf.md) for reading and swapping.

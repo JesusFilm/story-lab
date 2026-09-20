@@ -17,11 +17,7 @@ import {
   quiltWeaveTexture,
   windowViewTexture,
 } from "./room-material";
-import {
-  visiblePaintHit,
-  footPivot,
-  updateFigureTilts,
-} from "./room-interaction";
+import { visiblePaintHit } from "./room-interaction";
 import * as THREE from "three";
 import { bookPose } from "./choreography";
 import { popupFoldAngle, popupActorsAtRest } from "./popup-fold";
@@ -54,8 +50,21 @@ import {
 } from "./paper-actor";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import type { LocaleData, Page, Story } from "./contracts";
+import {
+  RoomShelf,
+  roomToyLayout,
+  type RoomShelfBook,
+  type RoomToy,
+} from "./room-shelf";
 
-export type Selection = "eden" | "noah" | "adam" | "eve" | "figure-noah";
+export type Selection =
+  | "eden"
+  | "noah"
+  | "adam"
+  | "eve"
+  | "figure-noah"
+  | `shelf:${string}`
+  | `toy:${string}`;
 type Pickable = THREE.Object3D & { userData: { pick?: Selection } };
 const wood = new THREE.MeshStandardMaterial({
   color: 0x805638,
@@ -254,6 +263,7 @@ export class LibraryScene {
   private scene = new THREE.Scene();
   private camera = new THREE.PerspectiveCamera(42, 1, 0.1, 70);
   private roomRoot = new THREE.Group();
+  private roomShelf = new RoomShelf();
   private bookRoot = new THREE.Group();
   private leftLeaf = new THREE.Group();
   private turningPage = new THREE.Group();
@@ -493,7 +503,6 @@ export class LibraryScene {
   private ark?: THREE.Mesh;
   private actorMood: PaperActorMood = "welcome";
   private speaking = false;
-  private figurines = new Map<string, THREE.Group>();
   private pickables: Pickable[] = [];
   private ray = new THREE.Raycaster();
   private pointer = new THREE.Vector2();
@@ -505,8 +514,6 @@ export class LibraryScene {
   private mode: "room" | "spread" = "room";
   private currentTexture?: THREE.Texture;
   private pageMaps: THREE.Texture[] = [];
-  private coverTextures: THREE.Texture[] = [];
-  private figureTextures: THREE.Texture[] = [];
   private roomTextures = new Set<THREE.Texture>();
   private roomWallpaper: "loading" | "loaded" | "fallback" = "loading";
   private loadGeneration = 0;
@@ -524,14 +531,23 @@ export class LibraryScene {
   private roomNames = new Map<Selection, string>();
   private reviewRoomSelection?: Selection;
   private reviewRoomAge?: number;
-  private tiltName = "";
-  private tiltStart = 0;
   private t0 = performance.now();
   private readTime = 0;
   private wave?: THREE.Mesh;
   private authoredStage?: AuthoredStage;
   private authoredPosition = 0;
   private authoredPlaying = false;
+  private shelfButtons: HTMLButtonElement[] = [];
+  private tableShelfKey?: string;
+  private landedShelfBook = false;
+  private shelfBrowsingTable = false;
+  private shelfToys = new Map<
+    string,
+    { definition: RoomToy; root: THREE.Group; texture: THREE.Texture }
+  >();
+  private shelfToyButtons: HTMLButtonElement[] = [];
+  private toyGeneration = 0;
+  private toyResponseTokens = new Map<string, number>();
   private onDown = (event: PointerEvent) => {
     if (this.mode !== "room" || event.button !== 0) return;
     this.roomOrbit.down(
@@ -607,8 +623,17 @@ export class LibraryScene {
       return;
     }
     const selection = this.hitRoom(event);
-    if (selection) this.onSelect(selection);
+    if (selection) this.selectRoom(selection);
   };
+  private selectRoom(selection: Selection) {
+    if (selection.startsWith("toy:")) {
+      const id = selection.slice(4);
+      void this.animateShelfToy(id);
+      this.onSelect(selection);
+      return;
+    }
+    this.onSelect(selection);
+  }
   private hitRoom(event: PointerEvent): Selection | null {
     const bounds = this.renderer.domElement.getBoundingClientRect();
     this.pointer.set(
@@ -623,12 +648,6 @@ export class LibraryScene {
       if (object) return object.userData.pick as Selection;
     }
     return null;
-  }
-  lookRoom(direction: -1 | 0 | 1) {
-    if (this.mode !== "room") return;
-    this.roomOrbit.look(direction);
-    this.drift.set(0, 0);
-    this.hoveredRoom = null;
   }
   focusSelection(selection: Selection | null) {
     this.focusedRoom = selection;
@@ -693,6 +712,7 @@ export class LibraryScene {
     this.scene.add(fill);
     this.scene.add(this.roomRoot, this.bookRoot);
     this.makeRoom();
+    this.roomRoot.add(this.roomShelf.root);
     this.makeBook();
     this.resizeObserver = new ResizeObserver(() => this.resize());
     this.resizeObserver.observe(container);
@@ -811,24 +831,6 @@ export class LibraryScene {
       box(this.roomRoot, 2.78, 0.86, 0.08, teal, x, 0.6, -2.46);
       disc(this.roomRoot, 0.055, brass, x + 0.6, 0.62, -2.35).rotation.x =
         Math.PI / 2;
-    }
-    for (let i = 0; i < 7; i++) {
-      const m = new THREE.MeshStandardMaterial({
-        color: [0x374d42, 0x9b623c, 0x565c73, 0xa4814b][i % 4],
-      });
-      const b = box(
-        this.roomRoot,
-        0.23,
-        0.62 + (i % 3) * 0.07,
-        0.48,
-        m,
-        -2.55 + i * 0.24,
-        3.02 + (0.62 + (i % 3) * 0.07) / 2,
-        -3.04,
-      );
-      b.rotation.z = i === 6 ? -0.1 : 0;
-      for (const y of [-0.2, 0.2])
-        box(b, 0.235, 0.015, 0.015, brass, 0, y, 0.248);
     }
     // Window with deep casing, blue glass, sill and soft pleated linen.
     box(this.roomRoot, 2.2, 2.7, 0.15, timber, -4.65, 3.7, -4.19);
@@ -1058,137 +1060,15 @@ export class LibraryScene {
     this.leftLeaf.add(this.coverArt);
     this.bookRoot.add(this.pageRoot);
   }
-  private addBookCover(
-    id: "eden" | "noah",
-    title: string,
-    x: number,
-    color: number,
-    artwork?: THREE.Texture,
-  ) {
-    const group = new THREE.Group();
-    group.position.set(x, 2.148, -2.72);
-    group.scale.setScalar(1.16);
-    group.rotation.y = id === "eden" ? -0.16 : 0.15;
-    box(
-      group,
-      0.95,
-      1.48,
-      0.18,
-      new THREE.MeshStandardMaterial({ color, roughness: 0.72 }),
-      0,
-      0,
-      0,
-    );
-    const front = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.86, 1.35),
-      new THREE.MeshBasicMaterial({
-        map:
-          artwork ??
-          labelTexture("", id === "eden" ? "#204b42" : "#28476a", "#fff3d9"),
-      }),
-    );
-    front.position.z = 0.102;
-    group.add(front);
-    const titleMap = coverTitleTexture(
-      title,
-      id === "eden" ? "#204b42" : "#28476a",
-    );
-    const titleCard = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.86, 0.43),
-      new THREE.MeshBasicMaterial({ map: titleMap }),
-    );
-    titleCard.position.set(0, -0.46, 0.106);
-    group.add(titleCard);
-    group.userData.pick = id;
-    this.roomRoot.add(group);
-    this.pickables.push(group as Pickable);
-    const frontMap = (front.material as THREE.MeshBasicMaterial).map;
-    if (frontMap) this.coverTextures.push(frontMap);
-    this.coverTextures.push(titleMap);
-  }
-  private addFigurine(
-    id: "adam" | "eve" | "noah",
-    x: number,
-    skin: number,
-    robe: number,
-    artwork?: THREE.Texture,
-  ) {
-    const group = new THREE.Group();
-    group.position.set(x, 2.99, -2.95);
-    const sk = new THREE.MeshStandardMaterial({ color: skin, roughness: 1 }),
-      cloth = new THREE.MeshStandardMaterial({ color: robe, roughness: 1 });
-    disc(group, 0.23, brass.clone(), 0, 0.04, 0);
-    const body = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.12, 0.22, 0.58, 12),
-      cloth,
-    );
-    body.position.y = 0.41;
-    group.add(body);
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.145, 16, 12), sk);
-    head.position.y = 0.8;
-    group.add(head);
-    const hair = new THREE.Mesh(
-      new THREE.SphereGeometry(0.15, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.44),
-      new THREE.MeshStandardMaterial({
-        color: id === "eve" ? 0x33261e : 0x493124,
-      }),
-    );
-    hair.position.y = 0.83;
-    group.add(hair);
-    const movingParts: THREE.Object3D[] = [body, head, hair];
-    let footHeight = 0.12;
-    if (artwork) {
-      installHitMask(artwork);
-      const mask = artwork.userData.hitMask;
-      let lastPaintRow = mask.height - 1;
-      while (
-        lastPaintRow > 0 &&
-        !mask.alpha
-          .subarray(lastPaintRow * mask.width, (lastPaintRow + 1) * mask.width)
-          .some((alpha: number) => alpha >= 90)
-      )
-        lastPaintRow--;
-      footHeight = 0.575 + (0.5 - (lastPaintRow + 1) / mask.height) * 1.02;
-      const painted = new THREE.Mesh(
-        new THREE.PlaneGeometry(0.72, 1.02),
-        new THREE.MeshBasicMaterial({
-          map: artwork,
-          transparent: true,
-          side: THREE.DoubleSide,
-          depthWrite: false,
-        }),
-      );
-      painted.name = "shelf-painted-figure";
-      painted.position.set(0, 0.575, 0.07);
-      group.add(painted);
-      movingParts.push(painted);
-      body.visible = false;
-      head.visible = false;
-      hair.visible = false;
-    }
-    footPivot(group, movingParts, footHeight);
-    group.userData.pick = id === "noah" ? "figure-noah" : id;
-    this.roomRoot.add(group);
-    this.pickables.push(group as Pickable);
-    this.figurines.set(id, group);
-  }
-  async room(locale: LocaleData) {
+  async room(locale: LocaleData, books?: RoomShelfBook[]) {
     this.clearCreatureTargets();
     this.clearReadingFocus();
     this.readingWideEnsemble = false;
     this.roomOrbit.reset();
     this.drift.set(0, 0);
     this.focusedRoom = this.hoveredRoom = null;
-    this.tiltName = "";
     this.reviewRoom();
-    this.roomNames = new Map<Selection, string>([
-      ["adam", locale.characters.adam],
-      ["eve", locale.characters.eve],
-      ["figure-noah", locale.characters.noah],
-      ...locale.stories.map(
-        (story) => [story.id as Selection, story.title] as [Selection, string],
-      ),
-    ]);
+    this.roomNames = new Map<Selection, string>();
     this.retainedStage.clear();
     this.clearSpreadPrints();
     this.transitionWaiting = false;
@@ -1200,89 +1080,407 @@ export class LibraryScene {
     const generation = ++this.loadGeneration;
     this.mode = "room";
     this.roomRoot.visible = true;
-    this.bookRoot.visible = true;
+    this.bookRoot.visible = false;
+    this.tableShelfKey = undefined;
+    this.landedShelfBook = false;
+    this.shelfBrowsingTable = false;
+    this.roomShelf.setTableKey();
     this.bookRoot.position.set(0, 1.39, 1.1);
     this.bookRoot.scale.setScalar(0.72);
     this.leftLeaf.rotation.y = Math.PI;
     this.pageRoot.visible = false;
 
     this.resize();
-    const titles = new Map(
-      locale.stories.map((story) => [story.id, story.title]),
-    );
-    for (const obj of this.pickables) {
-      if (obj.userData.pick === "eden" || obj.userData.pick === "noah") {
-        this.roomRoot.remove(obj);
-        obj.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            child.geometry.dispose();
-            const materials = Array.isArray(child.material)
-              ? child.material
-              : [child.material];
-            materials.forEach((m) => m.dispose());
-          }
-        });
-      }
+    const initialBooks =
+      books ??
+      locale.stories.slice(0, 2).map((story) => ({
+        key: story.id,
+        title: story.title,
+        cover: `./assets/art/${story.id === "eden" ? "eden-01" : "noah-02"}.webp`,
+      }));
+    await this.setShelfBooks(initialBooks);
+    if (generation !== this.loadGeneration || this.disposed) return;
+  }
+  private clearShelfButtons() {
+    this.shelfButtons.forEach((button) => button.remove());
+    this.shelfButtons = [];
+  }
+  private rebuildShelfButtons() {
+    this.clearShelfButtons();
+    for (const book of this.roomShelf.books()) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "shelf-book-target";
+      button.setAttribute("aria-label", `Preview ${book.title}`);
+      button.dataset.shelfKey = book.key;
+      button.onclick = () => this.onSelect(`shelf:${book.key}`);
+      button.onfocus = () => this.focusSelection(`shelf:${book.key}`);
+      button.onblur = () => this.focusSelection(null);
+      this.container.append(button);
+      this.shelfButtons.push(button);
     }
-    this.coverTextures.forEach((texture) => texture.dispose());
-    this.coverTextures = [];
+  }
+  async setShelfBooks(books: RoomShelfBook[]) {
+    await this.roomShelf.setBooks(books);
+    if (this.disposed) return;
+    this.roomShelf.setTableKey(this.tableShelfKey);
     this.pickables = this.pickables.filter(
-      (x) => x.userData.pick !== "eden" && x.userData.pick !== "noah",
+      (object) => !String(object.userData.pick || "").startsWith("shelf:"),
     );
+    this.pickables.push(...(this.roomShelf.pickables() as Pickable[]));
+    for (const book of this.roomShelf.books())
+      this.roomNames.set(`shelf:${book.key}`, book.title);
+    this.rebuildShelfButtons();
+  }
+  private clearToyButtons() {
+    this.shelfToyButtons.forEach((button) => button.remove());
+    this.shelfToyButtons = [];
+  }
+  private disposeToy(toy: { root: THREE.Group; texture: THREE.Texture }) {
+    toy.root.removeFromParent();
+    toy.root.traverse((object) => {
+      if (!(object instanceof THREE.Mesh)) return;
+      object.geometry.dispose();
+      for (const material of Array.isArray(object.material)
+        ? object.material
+        : [object.material])
+        material.dispose();
+    });
+    toy.texture.dispose();
+  }
+  private async tweenToy(root: THREE.Group, entering: boolean) {
+    const startY = entering ? 1.1 : root.position.y;
+    const endY = entering ? 1.28 : 1.08;
+    const startScale = entering ? 0.72 : 1;
+    const endScale = entering ? 1 : 0.72;
+    const started = performance.now();
+    const duration = this.reduced ? 0 : 260;
+    do {
+      const amount = duration
+        ? ease((performance.now() - started) / duration)
+        : 1;
+      root.position.y = THREE.MathUtils.lerp(startY, endY, amount);
+      root.scale.setScalar(THREE.MathUtils.lerp(startScale, endScale, amount));
+      if (amount >= 1) break;
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+    } while (!this.disposed);
+  }
+  async setShelfToys(toys: RoomToy[]) {
+    const definitions = toys.slice(0, 4);
+    const generation = ++this.toyGeneration;
+    this.toyResponseTokens.clear();
     const loader = new THREE.TextureLoader();
-    const [eden, noah] = await Promise.all(
-      ["eden-01", "noah-02"].map((id) =>
-        loader.loadAsync(`./assets/art/${id}.webp`).catch(() => undefined),
+    const textures = await Promise.all(
+      definitions.map((toy) =>
+        loader
+          .loadAsync(
+            /^(?:data:|blob:|https?:)/.test(toy.asset)
+              ? toy.asset
+              : toy.asset.startsWith("/")
+                ? `.${toy.asset}`
+                : toy.asset.startsWith("./")
+                  ? toy.asset
+                  : `./${toy.asset}`,
+          )
+          .catch(() => undefined),
       ),
     );
-    if (generation !== this.loadGeneration || this.disposed) {
-      eden?.dispose();
-      noah?.dispose();
+    if (generation !== this.toyGeneration || this.disposed) {
+      textures.forEach((texture) => texture?.dispose());
       return;
     }
-    [eden, noah].forEach((texture) => {
-      if (texture) {
-        texture.colorSpace = THREE.SRGBColorSpace;
-        texture.repeat.x = 0.55;
-        texture.offset.x = 0.225;
-      }
-    });
-    this.addBookCover(
-      "eden",
-      titles.get("eden") || "Adam and Eve",
-      -0.82,
-      0x204b42,
-      eden,
+    await Promise.all(
+      [...this.shelfToys.values()].map((toy) => this.tweenToy(toy.root, false)),
     );
-    this.addBookCover(
-      "noah",
-      titles.get("noah") || "Noah",
-      0.82,
-      0x28476a,
-      noah,
+    if (generation !== this.toyGeneration || this.disposed) {
+      textures.forEach((texture) => texture?.dispose());
+      return;
+    }
+    this.pickables = this.pickables.filter(
+      (object) => !String(object.userData.pick || "").startsWith("toy:"),
     );
-    if (!this.figurines.size) {
-      const [adamArt, eveArt, noahArt] = await Promise.all(
-        ["adam", "eve", "noah"].map((id) =>
-          loader
-            .loadAsync(`./assets/art/${id}-figurine.webp`)
-            .catch(() => undefined),
-        ),
+    this.shelfToys.forEach((toy) => this.disposeToy(toy));
+    this.shelfToys.clear();
+    this.clearToyButtons();
+    const toySlots = roomToyLayout(definitions.length);
+    for (let index = 0; index < definitions.length; index++) {
+      const texture = textures[index];
+      if (!texture) continue;
+      const definition = definitions[index];
+      texture.colorSpace = THREE.SRGBColorSpace;
+      const columns = Math.max(1, Math.floor(definition.pose?.columns ?? 1));
+      const pose = THREE.MathUtils.clamp(
+        Math.floor(definition.pose?.index ?? 0),
+        0,
+        columns - 1,
       );
-      if (generation !== this.loadGeneration || this.disposed) {
-        [adamArt, eveArt, noahArt].forEach((texture) => texture?.dispose());
+      texture.repeat.set(1 / columns, 1);
+      texture.offset.set(pose / columns, 0);
+      const cellAspect =
+        texture.image && texture.image.height
+          ? texture.image.width / columns / texture.image.height
+          : 0.68 / 0.94;
+      const artWidth = Math.min(0.68, 0.94 * cellAspect);
+      const artHeight = Math.min(0.94, 0.68 / cellAspect);
+      const root = new THREE.Group();
+      root.name = `shelf-toy:${definition.id}`;
+      root.userData.pick = `toy:${definition.id}`;
+      root.position.set(toySlots[index].x, 1.1, toySlots[index].z);
+      root.userData.baseX = root.position.x;
+      root.scale.setScalar(0.72);
+      const base = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.25, 0.29, 0.08, 16),
+        new THREE.MeshStandardMaterial({
+          color: 0xb58a4e,
+          metalness: 0.25,
+          roughness: 0.55,
+        }),
+      );
+      base.position.y = 0.04;
+      const art = new THREE.Mesh(
+        new THREE.PlaneGeometry(artWidth, artHeight),
+        new THREE.MeshBasicMaterial({
+          map: texture,
+          transparent: true,
+          side: THREE.DoubleSide,
+        }),
+      );
+      art.position.set(0, 0.08 + artHeight / 2, 0.04);
+      root.add(base, art);
+      this.roomRoot.add(root);
+      const toy = { definition, root, texture };
+      this.shelfToys.set(definition.id, toy);
+      this.pickables.push(root as Pickable);
+      this.roomNames.set(`toy:${definition.id}`, definition.label);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "shelf-book-target shelf-toy-target";
+      button.dataset.toyId = definition.id;
+      button.setAttribute("aria-label", `Play ${definition.label}`);
+      button.onclick = () => this.selectRoom(`toy:${definition.id}`);
+      button.onfocus = () => this.focusSelection(`toy:${definition.id}`);
+      button.onblur = () => this.focusSelection(null);
+      this.container.append(button);
+      this.shelfToyButtons.push(button);
+    }
+    await Promise.all(
+      [...this.shelfToys.values()].map((toy) => this.tweenToy(toy.root, true)),
+    );
+  }
+  animateShelfToy(id: string) {
+    const toy = this.shelfToys.get(id);
+    if (!toy) return Promise.resolve();
+    const generation = this.toyGeneration;
+    const token = (this.toyResponseTokens.get(id) ?? 0) + 1;
+    this.toyResponseTokens.set(id, token);
+    const root = toy.root;
+    const baseX = Number(root.userData.baseX);
+    const baseY = 1.28;
+    const current = () =>
+      !this.disposed &&
+      generation === this.toyGeneration &&
+      this.toyResponseTokens.get(id) === token &&
+      this.shelfToys.get(id) === toy;
+    return (async () => {
+      if (this.reduced) {
+        const colors: Array<
+          [THREE.Material & { color: THREE.Color }, THREE.Color]
+        > = [];
+        root.traverse((object) => {
+          if (!(object instanceof THREE.Mesh)) return;
+          for (const material of Array.isArray(object.material)
+            ? object.material
+            : [object.material]) {
+            if (
+              !("color" in material) ||
+              !(material.color instanceof THREE.Color)
+            )
+              continue;
+            const colored = material as THREE.Material & { color: THREE.Color };
+            const rest = (material.userData.toyRestColor ??=
+              colored.color.clone()) as THREE.Color;
+            colored.color.copy(rest);
+            colors.push([colored, rest]);
+            colored.color.lerp(new THREE.Color(0xffd98a), 0.3);
+          }
+        });
+        await new Promise<void>((resolve) => setTimeout(resolve, 120));
+        if (current())
+          colors.forEach(([material, color]) => material.color.copy(color));
         return;
       }
-      [adamArt, eveArt, noahArt].forEach((texture) => {
-        if (texture) {
-          texture.colorSpace = THREE.SRGBColorSpace;
-          this.figureTextures.push(texture);
-        }
-      });
-      this.addFigurine("adam", 0.05, 0x9f684c, 0xcabc80, adamArt);
-      this.addFigurine("eve", 0.95, 0x925f47, 0x9c866d, eveArt);
-      this.addFigurine("noah", 1.85, 0xb17b55, 0x718989, noahArt);
+      const started = performance.now();
+      const duration = 1400;
+      do {
+        const progress = Math.min(1, (performance.now() - started) / duration);
+        const wave = Math.sin(progress * Math.PI * 2) * (1 - progress);
+        if (toy.definition.animation === "rock") root.rotation.z = wave * 0.22;
+        if (toy.definition.animation === "float")
+          root.position.y = baseY + Math.abs(wave) * 0.22;
+        if (toy.definition.animation === "sway")
+          root.position.x = baseX + wave * 0.18;
+        if (toy.definition.animation === "pulse")
+          root.scale.setScalar(1 + Math.abs(wave) * 0.13);
+        if (toy.definition.animation === "spin")
+          root.rotation.y = progress * Math.PI * 2;
+        if (progress >= 1) break;
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => resolve()),
+        );
+      } while (current());
+      if (!current()) return;
+      root.rotation.set(0, 0, 0);
+      root.position.set(baseX, baseY, -2.69);
+      root.scale.setScalar(1);
+    })();
+  }
+  browseShelf() {
+    this.clearReadingFocus();
+    this.shelfBrowsingTable = this.bookRoot.visible;
+    if (this.shelfBrowsingTable) {
+      // Keep the open book on the table, but lower its paper theatre out of the
+      // sightline so the physical shelf and lower-shelf toys remain selectable.
+      this.pageRoot.visible = false;
+      this.turningPage.visible = false;
+      this.actorButtons.forEach((button) => (button.hidden = true));
+      this.creatures.forEach(({ button }) => (button.hidden = true));
     }
+    this.mode = "room";
+    this.roomRoot.visible = true;
+    this.resize();
+  }
+  resumeTable() {
+    if (!this.bookRoot.visible) return;
+    this.shelfBrowsingTable = false;
+    this.mode = "spread";
+    this.pageRoot.visible = !this.transitionWaiting;
+    this.resize();
+  }
+  async inspectShelfBook(key: string) {
+    this.browseShelf();
+    if (!(await this.roomShelf.inspect(key, this.reduced)))
+      throw new Error(`Shelf book ${key} is unavailable`);
+  }
+  async returnShelfPreview() {
+    await this.roomShelf.returnPreview(this.reduced);
+  }
+  private async animateBookTo(
+    position: THREE.Vector3,
+    scale: THREE.Vector3,
+    rotation: THREE.Euler,
+  ) {
+    const from = this.bookRoot.position.clone();
+    const fromScale = this.bookRoot.scale.clone();
+    const fromRotation = this.bookRoot.rotation.clone();
+    const started = performance.now();
+    const duration = this.reduced ? 0 : 520;
+    do {
+      const amount = duration
+        ? ease((performance.now() - started) / duration)
+        : 1;
+      this.bookRoot.position.lerpVectors(from, position, amount);
+      this.bookRoot.scale.lerpVectors(fromScale, scale, amount);
+      this.bookRoot.rotation.set(
+        THREE.MathUtils.lerp(fromRotation.x, rotation.x, amount),
+        THREE.MathUtils.lerp(fromRotation.y, rotation.y, amount),
+        THREE.MathUtils.lerp(fromRotation.z, rotation.z, amount),
+      );
+      if (amount >= 1) break;
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+    } while (!this.disposed);
+  }
+  private async foldTableBook() {
+    if (!this.bookRoot.visible) return;
+    this.clearReadingFocus();
+    const started = performance.now();
+    const duration = this.reduced ? 0 : 750;
+    if (this.mode === "spread") {
+      this.opening = false;
+      this.closing = started;
+      if (duration)
+        await new Promise<void>((resolve) => setTimeout(resolve, duration));
+      this.closing = 0;
+      this.leftLeaf.rotation.y = Math.PI;
+      this.pageRoot.visible = false;
+      return;
+    }
+    do {
+      const amount = duration
+        ? ease((performance.now() - started) / duration)
+        : 1;
+      this.leftLeaf.rotation.y = Math.PI * amount;
+      this.popups.forEach((popup, index) => {
+        popupFoldSurface(popup, index, 1 - amount);
+        popup.rotation.x = popupFoldAngle(1 - amount);
+      });
+      if (amount >= 1) break;
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+    } while (!this.disposed);
+    this.pageRoot.visible = false;
+  }
+  private async returnTableBook() {
+    if (!this.bookRoot.visible) return;
+    await this.foldTableBook();
+    const key = this.tableShelfKey;
+    const slot = key ? this.roomShelf.slotPosition(key) : undefined;
+    if (key && slot) {
+      const index = this.roomShelf
+        .books()
+        .findIndex((book) => book.key === key);
+      const targetScale = new THREE.Vector3(0.66 / 3.13, 1.24 / 3.6, 0.5);
+      const targetAngle = (index % 2 ? 1 : -1) * 0.34;
+      const centerOffset = 1.56 * targetScale.x;
+      const target = slot.clone();
+      target.x -= Math.cos(targetAngle) * centerOffset;
+      target.z += Math.sin(targetAngle) * centerOffset;
+      await this.animateBookTo(
+        target,
+        targetScale,
+        new THREE.Euler(0, targetAngle, 0),
+      );
+      this.roomShelf.setTableKey();
+    }
+    this.tableShelfKey = undefined;
+    this.shelfBrowsingTable = false;
+    this.bookRoot.visible = false;
+  }
+  async landShelfBook(key: string) {
+    if (this.tableShelfKey && this.tableShelfKey !== key)
+      await this.returnTableBook();
+    if (this.roomShelf.previewKey !== key)
+      await this.roomShelf.inspect(key, this.reduced);
+    const definition = await this.roomShelf.landPreview(this.reduced);
+    if (!definition) throw new Error(`Shelf book ${key} is unavailable`);
+    this.tableShelfKey = key;
+    this.roomShelf.setTableKey(key);
+    this.bookRoot.visible = true;
+    this.bookRoot.position.set(0, 1.39, 1.1);
+    this.bookRoot.rotation.x = -Math.PI / 2;
+    this.bookRoot.scale.setScalar(1);
+    this.leftLeaf.rotation.y = Math.PI;
+    this.pageRoot.visible = false;
+    const cover = this.roomShelf.coverTexture(key);
+    if (cover && this.coverArt) {
+      const canvas = document.createElement("canvas");
+      canvas.width = 768;
+      canvas.height = 1152;
+      const context = canvas.getContext("2d")!;
+      context.fillStyle = "#34524f";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(cover.image as CanvasImageSource, 24, 24, 720, 1104);
+      this.closedMap?.dispose();
+      this.closedMap = new THREE.CanvasTexture(canvas);
+      this.closedMap.colorSpace = THREE.SRGBColorSpace;
+      this.coverArt.material.map = this.closedMap;
+      this.coverArt.material.needsUpdate = true;
+    }
+    this.landedShelfBook = true;
   }
   async spread(story: Story, page: Page, locale: LocaleData) {
     this.clearCreatureTargets();
@@ -1291,6 +1489,12 @@ export class LibraryScene {
     this.drift.set(0, 0);
     const generation = ++this.loadGeneration;
     const wasRoom = this.mode === "room";
+    const landedShelfBook = wasRoom && this.landedShelfBook;
+    this.landedShelfBook = false;
+    if (wasRoom && !this.tableShelfKey && this.roomShelf.entry(story.id)) {
+      this.tableShelfKey = story.id;
+      this.roomShelf.setTableKey(story.id);
+    }
     this.focusedRoom = this.hoveredRoom = null;
     this.actorLabel.classList.remove("room-name");
     this.actorLabel.style.maxWidth = "";
@@ -1363,7 +1567,7 @@ export class LibraryScene {
     this.roomRoot.visible = true;
     this.bookRoot.visible = true;
     this.transitionWaiting = true;
-    this.waitingFromRoom = wasRoom;
+    this.waitingFromRoom = wasRoom && !landedShelfBook;
     this.pageRoot.visible = false;
     this.turningPage.visible = false;
     if (this.waitingPaper)
@@ -1741,11 +1945,12 @@ export class LibraryScene {
     this.turnStarted = performance.now();
     this.authoredStage?.begin();
     this.bookRoot.userData.story = story.id;
-    this.bookRoot.userData.shelfX = authored
-      ? 0
-      : story.id === "eden"
-        ? -0.82
-        : 0.82;
+    const shelfPosition = this.tableShelfKey
+      ? this.roomShelf.slotPosition(this.tableShelfKey)
+      : undefined;
+    this.bookRoot.userData.shelfX = shelfPosition?.x ?? 0;
+    this.bookRoot.userData.shelfY = shelfPosition?.y ?? 3.61;
+    this.bookRoot.userData.shelfZ = shelfPosition?.z ?? -2.7;
     const c = document.createElement("canvas");
     c.width = 1024;
     c.height = 1536;
@@ -1803,12 +2008,16 @@ export class LibraryScene {
         : THREE.MathUtils.clamp(foldProgress, 0, 1);
   }
   async close() {
-    if (this.mode !== "spread") return;
-    this.clearReadingFocus();
-    this.closing = performance.now();
-    this.opening = false;
-    if (!this.reduced) await new Promise((resolve) => setTimeout(resolve, 850));
+    if (!this.bookRoot.visible) {
+      this.mode = "room";
+      this.resize();
+      return;
+    }
+    await this.returnTableBook();
     this.closing = 0;
+    this.opening = false;
+    this.mode = "room";
+    this.resize();
   }
   playback(playing: boolean) {
     this.speaking = playing;
@@ -1828,22 +2037,7 @@ export class LibraryScene {
     if (this.mode !== "spread" || this.transitionWaiting) return;
     return this.authoredStage?.activate(id);
   }
-  tilt(character: string) {
-    if (this.figurines.has(character)) {
-      this.tiltName = character;
-      this.tiltStart = performance.now();
-      updateFigureTilts(this.figurines, character, 0, this.reduced);
-    }
-  }
   debug() {
-    const screenPoint = (object: THREE.Object3D, point: THREE.Vector3) => {
-      const rect = this.renderer.domElement.getBoundingClientRect();
-      const projected = object.localToWorld(point).project(this.camera);
-      return {
-        x: rect.left + ((projected.x + 1) * rect.width) / 2,
-        y: rect.top + ((1 - projected.y) * rect.height) / 2,
-      };
-    };
     return {
       mode: this.mode,
       roomOrbitYaw: this.roomOrbit.yaw,
@@ -1901,6 +2095,15 @@ export class LibraryScene {
       actorCount: this.actors.length,
       props: this.propNames,
       authored: this.authoredStage?.debug() ?? null,
+      shelf: this.roomShelf.debug(),
+      tableShelfKey: this.tableShelfKey ?? null,
+      shelfBrowsingTable: this.shelfBrowsingTable,
+      shelfToys: [...this.shelfToys].map(([id, toy]) => ({
+        id,
+        animation: toy.definition.animation,
+        position: toy.root.position.toArray(),
+        rotation: toy.root.rotation.toArray().slice(0, 3),
+      })),
       touchedCreature: this.touchedCreature,
       creatures: this.creatures.map(({ creature, kind }) => ({
         kind,
@@ -1914,30 +2117,11 @@ export class LibraryScene {
         this.reviewRoomSelection ??
         this.hoveredRoom ??
         this.focusedRoom ??
-        (this.tiltName === "noah" ? "figure-noah" : this.tiltName || null),
+        null,
       roomLabel:
         this.mode === "room" && !this.actorLabel.hidden
           ? this.actorLabel.textContent
           : null,
-      figurines: [...this.figurines].map(([id, g]) => ({
-        id,
-        position: g.position.toArray(),
-        baseBottom: g.position.y,
-        baseRotation: g.rotation.z,
-        bodyRotation: g.getObjectByName("figurine-foot-pivot")?.rotation.z ?? 0,
-        shelfTop: 2.99,
-        screen: {
-          torso: screenPoint(
-            g.getObjectByName("shelf-painted-figure") || g,
-            new THREE.Vector3(0, 0, 0),
-          ),
-          base: screenPoint(g, new THREE.Vector3(0, 0.04, 0.2)),
-          transparentCorner: screenPoint(
-            g.getObjectByName("shelf-painted-figure") || g,
-            new THREE.Vector3(-0.35, 0.5, 0),
-          ),
-        },
-      })),
       drawCalls: this.renderer.info.render.calls,
       triangles: this.renderer.info.render.triangles,
     };
@@ -1950,6 +2134,7 @@ export class LibraryScene {
       return;
     }
     const now = performance.now();
+    this.roomShelf.update(now);
     const dt = this.lastFrame
       ? Math.min(0.05, (now - this.lastFrame) / 1000)
       : 0.016;
@@ -2065,14 +2250,22 @@ export class LibraryScene {
       });
       if (this.transitionWaiting && this.waitingFromRoom)
         this.leftLeaf.rotation.y = Math.PI;
-      if (this.opening && !this.transitionWaiting) {
+      if (this.opening && !this.transitionWaiting && this.waitingFromRoom) {
         const flight = pose.flight;
         const x = Number(this.bookRoot.userData.shelfX) || 0;
         this.bookRoot.position.set(
           x * (1 - flight),
-          THREE.MathUtils.lerp(2.15, 1.39, flight) +
+          THREE.MathUtils.lerp(
+            Number(this.bookRoot.userData.shelfY) || 3.61,
+            1.39,
+            flight,
+          ) +
             Math.sin(flight * Math.PI) * 0.45,
-          THREE.MathUtils.lerp(-2.72, 1.1, flight),
+          THREE.MathUtils.lerp(
+            Number(this.bookRoot.userData.shelfZ) || -2.7,
+            1.1,
+            flight,
+          ),
         );
         this.bookRoot.rotation.x = THREE.MathUtils.lerp(
           0,
@@ -2125,22 +2318,8 @@ export class LibraryScene {
         this.wave.rotation.z =
           Math.sin((this.reviewTime ?? time) * 0.8) * 0.015;
     }
-    const roomAge = this.reviewRoomAge ?? (now - this.tiltStart) / 1000;
-    const roomCharacter =
-      this.reviewRoomSelection === "figure-noah"
-        ? "noah"
-        : (this.reviewRoomSelection ?? this.tiltName);
-    updateFigureTilts(this.figurines, roomCharacter, roomAge, this.reduced);
-    if (roomAge >= 0.8 && this.reviewRoomAge === undefined) this.tiltName = "";
     const roomSelection =
-      this.reviewRoomSelection ??
-      this.hoveredRoom ??
-      this.focusedRoom ??
-      (this.tiltName
-        ? ((this.tiltName === "noah"
-            ? "figure-noah"
-            : this.tiltName) as Selection)
-        : null);
+      this.reviewRoomSelection ?? this.hoveredRoom ?? this.focusedRoom ?? null;
     this.pickables.forEach((object) => {
       const selected =
         this.mode === "room" && object.userData.pick === roomSelection;
@@ -2169,7 +2348,7 @@ export class LibraryScene {
       this.actorLabel.classList.add("room-name");
       this.actorLabel.hidden = !selected;
       if (selected) {
-        const isBook = roomSelection === "eden" || roomSelection === "noah";
+        const isBook = String(roomSelection).startsWith("shelf:");
         const point = selected
           .localToWorld(
             new THREE.Vector3(0, isBook ? -0.78 : 1.12, isBook ? 0.12 : 0),
@@ -2186,6 +2365,51 @@ export class LibraryScene {
         const labelY = isBook ? anchorY + 8 : anchorY - labelHeight - 8;
         this.actorLabel.style.top = `${Math.max(65, Math.min(rect.height - labelHeight - 12, labelY))}px`;
       }
+    }
+    for (const button of this.shelfButtons) {
+      const key = button.dataset.shelfKey!;
+      const entry = this.roomShelf.entry(key);
+      const shown =
+        this.mode === "room" &&
+        Boolean(entry?.root.visible) &&
+        this.roomShelf.previewKey !== key;
+      button.hidden = !shown;
+      if (!shown || !entry) continue;
+      const rect = this.renderer.domElement.getBoundingClientRect();
+      const topLeft = entry.root
+        .localToWorld(new THREE.Vector3(-0.38, 0.68, 0.12))
+        .project(this.camera);
+      const bottomRight = entry.root
+        .localToWorld(new THREE.Vector3(0.38, -0.68, 0.12))
+        .project(this.camera);
+      const left = ((topLeft.x + 1) * rect.width) / 2;
+      const top = ((1 - topLeft.y) * rect.height) / 2;
+      const right = ((bottomRight.x + 1) * rect.width) / 2;
+      const bottom = ((1 - bottomRight.y) * rect.height) / 2;
+      button.style.left = `${Math.min(left, right)}px`;
+      button.style.top = `${Math.min(top, bottom)}px`;
+      button.style.width = `${Math.max(44, Math.abs(right - left))}px`;
+      button.style.height = `${Math.max(44, Math.abs(bottom - top))}px`;
+    }
+    for (const button of this.shelfToyButtons) {
+      const toy = this.shelfToys.get(button.dataset.toyId!);
+      button.hidden = this.mode !== "room" || !toy;
+      if (!toy || button.hidden) continue;
+      const rect = this.renderer.domElement.getBoundingClientRect();
+      const topLeft = toy.root
+        .localToWorld(new THREE.Vector3(-0.34, 1.04, 0.08))
+        .project(this.camera);
+      const bottomRight = toy.root
+        .localToWorld(new THREE.Vector3(0.34, 0, 0.08))
+        .project(this.camera);
+      const left = ((topLeft.x + 1) * rect.width) / 2;
+      const top = ((1 - topLeft.y) * rect.height) / 2;
+      const right = ((bottomRight.x + 1) * rect.width) / 2;
+      const bottom = ((1 - bottomRight.y) * rect.height) / 2;
+      button.style.left = `${Math.min(left, right)}px`;
+      button.style.top = `${Math.min(top, bottom)}px`;
+      button.style.width = `${Math.max(44, Math.abs(right - left))}px`;
+      button.style.height = `${Math.max(44, Math.abs(bottom - top))}px`;
     }
     if (this.mode === "spread") {
       const rect = this.renderer.domElement.getBoundingClientRect();
@@ -2342,13 +2566,16 @@ export class LibraryScene {
     this.renderer.domElement.removeEventListener("pointermove", this.onMove);
     this.renderer.domElement.removeEventListener("pointerleave", this.onLeave);
     this.actorLabel.remove();
+    this.clearShelfButtons();
+    this.clearToyButtons();
     this.actorButtons.forEach((b) => b.remove());
     this.actors.forEach((a) => a.dispose());
     this.pageMaps.forEach((t) => t.dispose());
-    this.coverTextures.forEach((t) => t.dispose());
-    this.figureTextures.forEach((t) => t.dispose());
     this.roomTextures.forEach((t) => t.dispose());
     this.roomTextures.clear();
+    this.roomShelf.dispose();
+    this.shelfToys.forEach((toy) => this.disposeToy(toy));
+    this.shelfToys.clear();
     this.scene.traverse((o) => {
       if (o instanceof THREE.Mesh) {
         o.geometry.dispose();

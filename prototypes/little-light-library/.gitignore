@@ -23,3 +23,5 @@ docs/captures/*
 !review/latest/production-results.json
 
 !review/latest/visual-editor-results.json
+
+!review/latest/room-results.json

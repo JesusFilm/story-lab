@@ -29,7 +29,8 @@
     "book:replace-audio": "node --import tsx scripts/book-cli.ts replace-audio",
     "book:schema": "node --import tsx scripts/book-cli.ts schema",
     "test:authoring": "node scripts/authoring-check.mjs",
-    "test:production": "node scripts/production-check.mjs"
+    "test:production": "node scripts/production-check.mjs",
+    "test:room": "node scripts/room-check.mjs"
   },
   "dependencies": {
     "three": "0.169.0"

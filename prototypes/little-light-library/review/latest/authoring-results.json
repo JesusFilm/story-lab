@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T03:06:18.597Z",
+  "generatedAt": "2026-09-20T07:15:48.552Z",
   "method": "Playwright against the production build at a nested static URL. Scene values come from the reader's debug surface; narration samples use the decoded WebAudio clock.",
   "browser": "153.0.8010.48",
   "host": {
@@ -11,76 +11,82 @@
     {
       "name": "Responsive two-spread demo preview",
       "passed": true,
-      "durationMs": 15216,
+      "durationMs": 14625,
       "detail": "Validated and rendered both authored spreads at 360×800, 768×1024, 1366×768."
     },
     {
       "name": "Placement, ground, measured gesture, interaction, rejection, undo and export",
       "passed": true,
-      "durationMs": 8485,
+      "durationMs": 10328,
       "detail": {
-        "movingFrameSamples": 33,
-        "firstMotionPositionSeconds": 0.21478458049886617,
-        "peakRockDegrees": 11.99773310817008,
+        "movingFrameSamples": 32,
+        "firstMotionPositionSeconds": 0.21866666666666656,
+        "peakRockDegrees": 11.995649580132254,
         "portableBytes": 4924589
       }
     },
     {
       "name": "Late stage asset failure restores the prior preview",
       "passed": true,
-      "durationMs": 2321,
+      "durationMs": 2691,
       "detail": "Observed 3 tree requests: validation passed, stage loading failed, and the prior preview was restored."
     },
     {
       "name": "Portable re-import uses embedded media",
       "passed": true,
-      "durationMs": 1902,
+      "durationMs": 1563,
       "detail": "Re-imported 4924589 embedded bytes with no /assets/ request."
     },
     {
       "name": "Reduced motion and muted narration timeline",
       "passed": true,
-      "durationMs": 1937,
+      "durationMs": 1706,
       "detail": "Muted WebAudio clock advanced and drove highlights while reduced motion kept authored cutouts static; keyboard response remained available."
     },
     {
       "name": "10-second authored-stage phone performance smoke",
       "passed": true,
-      "durationMs": 15440,
+      "durationMs": 14727,
       "detail": {
         "label": "Short smoke, not the historical 60-second performance profile",
         "viewport": "360×800",
         "devicePixelRatio": 1,
         "cpuSlowdown": 4,
-        "durationMs": 9999.5,
-        "frames": 600,
-        "fps": 60.0030001500075,
+        "durationMs": 10016.3,
+        "frames": 601,
+        "fps": 60.00219641983567,
         "p95Ms": 16.700000000000728
       }
     },
     {
       "name": "Legacy books and nine locales remain complete",
       "passed": true,
-      "durationMs": 25019,
+      "durationMs": 31364,
       "detail": "Traversed all 16 legacy spreads and opened Eden spread 1 in every supported locale."
     },
     {
       "name": "visual composition: add, drag, resize, undo, pages, export and reader fidelity",
       "passed": true,
-      "durationMs": 10352,
+      "durationMs": 10417,
       "detail": "Created two pages from a blank book with backgrounds, character, image and ground; direct drag/resize, slider, undo/redo, page switching, portable current-draft export, identical reader placement, selected-page reading and 390px layout passed."
     },
     {
       "name": "Book library: new books, isolated art, page preview, autosave and restore",
       "passed": true,
-      "durationMs": 3202,
+      "durationMs": 2645,
       "detail": "Library-first entry; neutral one-page books with unique IDs and empty art; editing and read-only sequential previews; browser refresh persistence; isolated second book; recoverable deletion across refresh; phone library layout."
     },
     {
       "name": "Editor controls: overlap picking, full-depth placement, ground, poses and growing text",
       "passed": true,
-      "durationMs": 5002,
+      "durationMs": 4797,
       "detail": "On-canvas overlap chooser and Alt cycling select a rear card; dragging preserves selection; front edge -1.575 and height3.5 work; ground scale/full-page dimensions/30° rotation match reader; static pose frame controls clamp and thumbnail-crop; long text grows without overlap or nested scrollbars at desktop/tablet/phone; portable export preserves changes."
+    },
+    {
+      "name": "Editor controls: per-image animation, flips, undo and portable playback",
+      "passed": true,
+      "durationMs": 12179,
+      "detail": "Five selectable presets; loop/once and 0.8-second duration; independent image/page settings; horizontal/vertical flips including ground/backdrop; undo/redo; desktop/tablet/phone controls; portable export/reimport; reader loops beyond two cycles and stops once at rest."
     }
   ],
   "pageErrors": [],

@@ -76,6 +76,20 @@ const translatedElement = object(
   },
   ["id", "label"],
 );
+const toy = object(
+  {
+    id,
+    label: { type: "string", minLength: 1, maxLength: 60 },
+    asset: id,
+    pose: object({
+      index: { type: "integer", minimum: 0, maximum: 15 },
+      columns: { type: "integer", minimum: 1, maximum: 16 },
+    }),
+    animation: choice("rock", "float", "sway", "pulse", "spin"),
+    sound: id,
+  },
+  ["id", "label", "asset", "animation"],
+);
 const translation = object({
   sourceFingerprint: { type: "string", minLength: 1, maxLength: 64 },
   title: text,
@@ -225,6 +239,7 @@ export const bookSchema = {
         }),
         2048,
       ),
+      toys: list(toy, 4),
     },
     [
       "format",
@@ -303,6 +318,17 @@ export function validateBook(input: unknown): {
         "UNSAFE_ASSET: Use a public-root relative media path or supported embedded media; external URLs, traversal and scripts are unsupported.",
       );
   ref(book.cover, "image", "/cover");
+  unique(book.toys ?? [], "/toys");
+  (book.toys ?? []).forEach((toy, index) => {
+    const path = `/toys/${index}`;
+    ref(toy.asset, "image", `${path}/asset`);
+    if (toy.sound) ref(toy.sound, "audio", `${path}/sound`);
+    if (toy.pose && toy.pose.index >= toy.pose.columns)
+      error(
+        `${path}/pose/index`,
+        "POSE: index must be smaller than columns (zero-based).",
+      );
+  });
   unique(book.spreads, "/spreads");
   book.spreads.forEach((spread, i) => {
     const p = `/spreads/${i}`;

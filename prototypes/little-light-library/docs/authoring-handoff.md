@@ -1,3 +1,26 @@
+# Current extension: physical room shelf and book toys
+
+See [Books and toys in the room](room-shelf.md). My books now manages a persisted six-book
+room lineup through Add to room / Remove from room. Physical book selection uses a
+slide-and-turn preview with Read / Return; switching table books returns the old one
+before landing the next. The old footer UI and its handlers are removed. Generic toys
+are registered per book in Book details, arrive when that book is read, and leave before
+a swap. Toy labels, selected poses, click animations and audio are included in portable
+exports; review fingerprints include toy settings and media.
+
+The full creator collection remains independent of room capacity. Scene sequencing and
+media stay local, and the historical quality loop remains parked. Current room checks
+are in `review/latest/room-results.json`; historical scripts targeting the old footer
+are superseded for room navigation. Verification: 128 unit tests, typecheck, formatting, content/audio validation and production
+build pass. All 11 authoring browser checks and four room browser checks pass with zero
+page errors, including nested static paths, desktop/phone, reduced motion, swap/return,
+page-turn and language races, authored toy sound, and persisted shelf membership. Visual
+inspection confirmed that shelf mode clears raised scenery from the shelf sightline.
+Toy artwork remains a painted standee; authored toy labels use the source language.
+The previous feature records follow below.
+
+---
+
 # Current extension: image animation and flips
 
 Each placed actor/prop has one optional animation per page: Rock, Float, Sway, Pulse

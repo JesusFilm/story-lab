@@ -7,6 +7,7 @@ import {
 } from "./book-localization";
 import { installBookShelf } from "./author-library";
 import { installVisualEditor } from "./visual-editor";
+import { handleToyEdit, renderToyEditor } from "./toy-editor";
 import type {
   AuthoredBook,
   BookAsset,
@@ -371,6 +372,7 @@ function renderAssets(book: AuthoredBook, draft: NewAssetDraft) {
 export function installAuthoring(options: {
   audio: () => AudioContext;
   pause: () => void;
+  closed?: () => Promise<void>;
   preview: (book: AuthoredBook, page?: number) => Promise<void>;
 }) {
   const history = new BookHistory();
@@ -442,6 +444,7 @@ export function installAuthoring(options: {
   let historyKey: string | undefined;
   const shelf = installBookShelf(el<HTMLElement>("author-library"), {
     blank: createBlankBook,
+    decodeAudio: (bytes) => options.audio().decodeAudioData(bytes),
     book: () => editing,
     status: (text) => {
       el<HTMLElement>("author-save-status").textContent = text;
@@ -476,9 +479,12 @@ export function installAuthoring(options: {
   dialog.addEventListener("close", () => {
     visual.hide();
     production.hide();
-    void shelf.flush().catch((error) => {
-      report.textContent = String(error);
-    });
+    void shelf
+      .flush()
+      .then(() => options.closed?.())
+      .catch((error) => {
+        report.textContent = String(error);
+      });
   });
   el<HTMLTextAreaElement>("author-json").addEventListener("input", () => {
     jsonOverride = true;
@@ -561,7 +567,7 @@ export function installAuthoring(options: {
           .filter(([, asset]) => asset.kind === "image")
           .map(([id]) => [id, id] as [string, string]),
         "Choose an imported image.",
-      )}</div>${textarea("Retelling note", "retellingNote", editing.retellingNote, "Say whether this is a retelling, translation or draft adaptation.")}<div class="editor-callout"><strong>Next:</strong> Add assets, then use Spreads to create scenes, text, narration, stage elements and actions.</div></div>`;
+      )}</div>${textarea("Retelling note", "retellingNote", editing.retellingNote, "Say whether this is a retelling, translation or draft adaptation.")}<div class="editor-callout"><strong>Next:</strong> Add assets, then use Spreads to create scenes, text, narration, stage elements and actions.</div></div>${renderToyEditor(editing)}`;
     else if (activeTab === "spreads")
       form.innerHTML = renderSpreadEditor(editing, activeSpread);
     else if (activeTab === "assets")
@@ -617,6 +623,10 @@ export function installAuthoring(options: {
       | HTMLSelectElement
       | HTMLTextAreaElement;
     if (target.matches("[data-path]")) applyPathChange(target);
+    else if (handleToyEdit(editing, event)) {
+      shelf.changed();
+      renderEditor();
+    }
   });
   form.addEventListener("input", (event) => {
     const target = event.target as
@@ -626,6 +636,11 @@ export function installAuthoring(options: {
     if (target.matches("[data-path]")) applyPathChange(target, false);
   });
   form.addEventListener("click", (event) => {
+    if (handleToyEdit(editing, event)) {
+      shelf.changed();
+      renderEditor();
+      return;
+    }
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
       "[data-author-action]",
     );

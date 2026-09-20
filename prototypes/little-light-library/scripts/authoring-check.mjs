@@ -171,6 +171,33 @@ const setAuthorJson = async (page, book) => {
   await page.locator("#author-json-source").fill(JSON.stringify(book, null, 2));
 };
 
+const browseReady = (page) =>
+  page.waitForFunction(
+    () =>
+      window.libraryDebug().shelf.browsing && !window.libraryDebug().shelf.busy,
+  );
+const readRoomBook = async (page, id) => {
+  await browseReady(page);
+  const key = `builtin:${id}`;
+  if ((await page.evaluate(() => window.libraryDebug())).shelf.table === key) {
+    await page.locator("#shelf").click();
+    await page.waitForFunction(() => !window.libraryDebug().shelf.busy);
+    while ((await page.evaluate(() => window.libraryDebug())).state.page > 0) {
+      await page.locator("#previous").click();
+      await page.waitForFunction(() => window.libraryDebug().ready);
+    }
+  } else {
+    await page.locator(`[data-shelf-key="${key}"]`).click();
+    await page.waitForFunction(() => !window.libraryDebug().shelf.busy);
+    await page.locator("#shelf-read").click();
+    await page.waitForFunction(
+      () =>
+        !window.libraryDebug().shelf.busy &&
+        !window.libraryDebug().shelf.browsing,
+    );
+  }
+};
+
 let portablePath;
 
 await check("Responsive two-spread demo preview", async () => {
@@ -653,7 +680,7 @@ await check("Legacy books and nine locales remain complete", async () => {
   watchErrors(page);
   await enter(page);
   for (const book of ["eden", "noah"]) {
-    await page.locator(`[data-book="${book}"]`).click();
+    await readRoomBook(page, book);
     for (let spread = 0; spread < 8; spread++) {
       await page.waitForFunction(
         (expected) =>
@@ -669,7 +696,7 @@ await check("Legacy books and nine locales remain complete", async () => {
       );
       await page.locator("#next").click();
     }
-    await page.locator('[data-book="eden"]').waitFor();
+    await browseReady(page);
   }
   const locales = [
     "en-US",
@@ -690,7 +717,7 @@ await check("Legacy books and nine locales remain complete", async () => {
       locale,
     );
     await page.locator("#enter").click();
-    await page.locator('[data-book="eden"]').click();
+    await readRoomBook(page, "eden");
     await page.waitForFunction(
       (id) =>
         window.libraryDebug().ready &&
@@ -700,7 +727,7 @@ await check("Legacy books and nine locales remain complete", async () => {
     );
     assert.ok((await page.locator(".story-text").innerText()).length > 50);
     await page.locator("#shelf").click();
-    await page.locator('[data-book="eden"]').waitFor();
+    await browseReady(page);
   }
   await context.close();
   return "Traversed all 16 legacy spreads and opened Eden spread 1 in every supported locale.";

@@ -422,3 +422,25 @@ test("media validation measures localized narration definitions", async () => {
     ),
   );
 });
+
+test("toy artwork, labels, motion and sound invalidate author review", () => {
+  const book = fixture();
+  const page = book.spreads[0].id;
+  const before = reviewFingerprint(book, book.locale, page);
+  book.toys = [
+    {
+      id: "tree",
+      label: "Tree",
+      asset: book.spreads[0].elements[0].asset,
+      animation: "rock",
+      sound: book.spreads[0].segments[0].narration!.asset,
+    },
+  ];
+  const withToy = reviewFingerprint(book, book.locale, page);
+  assert.notEqual(withToy, before);
+  book.toys[0].animation = "spin";
+  assert.notEqual(reviewFingerprint(book, book.locale, page), withToy);
+  const beforeSound = reviewFingerprint(book, book.locale, page);
+  book.assets[book.toys[0].sound!].src = "audio/changed.wav";
+  assert.notEqual(reviewFingerprint(book, book.locale, page), beforeSound);
+});

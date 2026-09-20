@@ -235,6 +235,10 @@ const resolvedReviewFingerprint = (
     if (narration) assetIds.add(narration.asset);
   });
   soundtracks.forEach(({ asset }) => assetIds.add(asset));
+  resolved.toys?.forEach(({ asset, sound }) => {
+    assetIds.add(asset);
+    if (sound) assetIds.add(sound);
+  });
   const assets = Object.fromEntries(
     [...assetIds].sort().map((id) => [id, digestAsset(id)]),
   );
@@ -248,6 +252,7 @@ const resolvedReviewFingerprint = (
         retellingNote: resolved.retellingNote,
         cover: resolved.cover,
         narrationVolume: resolved.narrationVolume ?? 1,
+        ...(resolved.toys?.length ? { toys: resolved.toys } : {}),
       },
       pageIndex,
       page,
@@ -359,6 +364,10 @@ export function reviewIssues(book: AuthoredBook): BookIssue[] {
 
 export function isAssetUsed(book: AuthoredBook, id: string): boolean {
   if (book.cover === id) return true;
+  if (
+    (book.toys ?? []).some(({ asset, sound }) => asset === id || sound === id)
+  )
+    return true;
   for (const spread of book.spreads) {
     if (spread.backdrop.asset === id || spread.ground?.asset === id)
       return true;
