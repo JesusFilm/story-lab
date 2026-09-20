@@ -84,7 +84,7 @@ export parity and growing non-overlapping text at three viewport widths.
 
 ## Remaining boundaries
 
-The live workspace edits the current paper-stage contract. It does not add a
-recording studio, narration generation, image cropping, arbitrary animation rigs,
-multi-locale editing or automatic publication. Touch and pointer use the same
+The live workspace edits the current paper-stage contract. Use **Preview audio & languages** for the [production workspace](audio-language-authoring.md),
+including soundtrack layers, translations, Kokoro narration and author review. Image
+cropping, arbitrary animation rigs and automatic publication remain outside this editor. Touch and pointer use the same
 gesture handlers; sliders and layer buttons also provide precise alternatives.

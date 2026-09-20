@@ -43,6 +43,7 @@ export function installVisualEditor(
     load: (book: AuthoredBook) => void;
     details: () => void;
     read: () => void;
+    production: () => void;
   },
 ) {
   let page = 0;
@@ -86,7 +87,7 @@ export function installVisualEditor(
   const message = (text: string) => {
     host.querySelector<HTMLElement>(".visual-status")!.textContent = text;
   };
-  host.innerHTML = `<div class="studio-bar"><div><span class="eyebrow">Build your story</span><input id="visual-book-title" aria-label="Book title" placeholder="Name your book"></div><div class="studio-actions"><button data-studio="undo" aria-label="Undo edit">↶ Undo</button><button data-studio="redo" aria-label="Redo edit">↷ Redo</button><button data-studio="details">Book details</button><button data-studio="preview" class="primary">Preview page</button><button data-studio="read">Read book ↗</button></div></div>
+  host.innerHTML = `<div class="studio-bar"><div><span class="eyebrow">Build your story</span><input id="visual-book-title" aria-label="Book title" placeholder="Name your book"></div><div class="studio-actions"><button data-studio="undo" aria-label="Undo edit">↶ Undo</button><button data-studio="redo" aria-label="Redo edit">↷ Redo</button><button data-studio="details">Book details</button><button data-studio="preview" class="primary">Preview page</button><button data-studio="production">Preview audio & languages</button><button data-studio="read">Read book ↗</button></div></div>
   <div class="studio-tools" aria-label="Add to your book"><button data-studio="page">＋ Add page</button><button data-studio="character">＋ Character</button><button data-studio="image">＋ Image</button><button data-studio="background">▧ Background</button><button data-studio="ground">▱ Ground</button><button data-studio="cover">Cover art</button><button data-studio="play">▷ Try motion</button><button data-studio="guides" aria-pressed="true">Page guides</button><button data-studio="retry" hidden>Retry artwork</button></div>
   <div class="page-navigation"><button data-studio="previous-page">← Previous page</button><span class="page-counter"></span><button data-studio="next-page">Next page →</button></div><div class="studio-body"><div class="studio-composition"><div class="studio-viewport" tabindex="0" aria-label="Interactive book canvas. Select a character or image and drag to move it. Arrow keys move the selected artwork."><div class="canvas-hint">Drag selected art · Alt-click to cycle overlaps · use the corner to resize</div><div class="stage-guide-label"></div><div class="overlap-picker" aria-label="Overlapping artwork" hidden></div><div class="selection-frame" hidden><button class="move-art" aria-label="Drag selected artwork"></button><button class="resize-art" aria-label="Drag to resize selected artwork">↗</button></div><div class="scene-loading" role="status" hidden>Loading artwork…</div></div><div class="page-writing"><input aria-label="Page title" id="visual-page-title" placeholder="Name this page"><div class="page-phrases"></div><button data-studio="phrase">＋ Add a line</button></div><p class="visual-status" role="status">Your book updates as you work.</p></div><aside class="studio-inspector" aria-label="Selected artwork"></aside></div><div class="studio-pages" aria-label="Book pages"></div><button class="art-scrim" aria-label="Dismiss artwork chooser" hidden></button><section class="art-tray" aria-label="Choose artwork" hidden></section>`;
   const viewport = host.querySelector<HTMLElement>(".studio-viewport")!;
@@ -613,6 +614,10 @@ export function installVisualEditor(
       selected = "";
       playStart = performance.now() / 1000;
       refresh();
+      return;
+    }
+    if (action === "production") {
+      options.production();
       return;
     }
     if (action === "preview") {

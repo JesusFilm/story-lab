@@ -16,6 +16,8 @@ Author opens **My books**. Create a blank book, edit an existing book, import a 
 5. Judge the result at phone, tablet and desktop widths. Use **Undo previous preview** if the new composition is worse. **Return to reader** exits authoring and leaves the built-in library unchanged.
 6. Choose **Export portable JSON** when the preview is ready to move. Export saves the current draft and embeds images and narration so the result is independently playable.
 
+For soundtrack layering, bulk translation, Kokoro voices and reviewing every language before release, follow the [production guide](audio-language-authoring.md).
+
 Read the [contract and glossary](book-contract.md) before adding new behavior. It lists the exact supported vocabulary and distinguishes an atlas pose from a rig.
 
 ## Make small, visible edits

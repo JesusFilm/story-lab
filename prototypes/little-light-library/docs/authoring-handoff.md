@@ -1,3 +1,33 @@
+# Current extension: audio, languages and review
+
+The current task adds **Audio & languages** to the editor and **Preview audio & languages**
+to the visual toolbar. See [the production guide](audio-language-authoring.md). The
+shared format now supports optional translations, soundtracks, page timing, voice
+preferences and review attestations. Old books remain valid. The source-of-truth
+modules are `book-localization.ts`, `book-audio.ts`, `book-generation.ts` and
+`book-production.ts`; the static reader shares the mixer through `book-reader-audio.ts`.
+`production-preview.ts` uses `AuthoredStage`, including timeline-based motion scrubbing.
+
+Vite's authoring-only proxy connects loopback Kokoro port 8770. API keys stay in
+page memory and never enter the book. OpenRouter uses configurable structured-output
+chat completion requests; no live paid request was made. Generated translation and
+voice content must receive a human review; generated output is not automatically approved.
+Reviewed export is separate from ordinary draft export and publishes nothing.
+
+Verification for this extension: 99 passing unit tests; 10 passing authoring browser
+checks; the complete production browser workflow at a nested static URL, including
+all nine languages, failure/cancellation, secret exclusion, review invalidation and
+reviewed export/re-import; clean typecheck/format/content validation and production
+build. Existing loader/chunk-size build warnings remain.
+
+Current verification is recorded in `review/latest/production-results.json` and
+`review/latest/authoring-results.json`; do not infer human language/listening approval
+from automated checks. The local Kokoro proxy was additionally verified with actual
+English and Spanish output at 24 kHz. Continue only the user's requested work; the
+historical aesthetic improvement loop remains parked.
+
+---
+
 # Book authoring foundation — durable handoff
 
 **Current editor:** Author opens **My books**, with new/import/edit/delete and restore.

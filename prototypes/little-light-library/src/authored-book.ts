@@ -48,6 +48,8 @@ export interface BookSpread {
   title: string;
   source: string;
   stagingNote: string;
+  /** Minimum page time in seconds; narration may extend it. Default 8. */
+  seconds?: number;
   segments: BookSegment[];
   backdrop: { asset: string };
   ground?: {
@@ -60,6 +62,45 @@ export interface BookSpread {
     opacity?: number;
   };
   elements: BookElement[];
+}
+export interface BookTranslation {
+  /** Fingerprint of all source-language text at translation time. */
+  sourceFingerprint: string;
+  title: string;
+  subtitle: string;
+  source: string;
+  retellingNote: string;
+  spreads: {
+    id: string;
+    title: string;
+    source: string;
+    segments: BookSegment[];
+    elements: {
+      id: string;
+      label: string;
+      interaction?: { label: string; response: string };
+    }[];
+  }[];
+}
+export interface BookSoundtrack {
+  id: string;
+  label: string;
+  asset: string;
+  /** Inclusive page IDs. Offsets trim seconds from the selected page range. */
+  startPage: string;
+  endPage: string;
+  startOffset: number;
+  endOffset: number;
+  volume: number;
+  fadeIn: number;
+  fadeOut: number;
+  loop: boolean;
+}
+export interface BookReview {
+  locale: string;
+  pageId: string;
+  fingerprint: string;
+  reviewedAt: string;
 }
 export interface AuthoredBook {
   format: "little-light-book";
@@ -74,6 +115,13 @@ export interface AuthoredBook {
   cover: string;
   assets: Record<string, BookAsset>;
   spreads: BookSpread[];
+  /** Requested release languages, including the source locale. Defaults to [locale]. */
+  languages?: string[];
+  translations?: Record<string, BookTranslation>;
+  soundtracks?: BookSoundtrack[];
+  narrationVolume?: number;
+  narrationSettings?: Record<string, { voice: string; speed: number }>;
+  reviews?: BookReview[];
 }
 export interface BookIssue {
   path: string;

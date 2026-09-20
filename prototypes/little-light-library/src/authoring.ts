@@ -1,3 +1,9 @@
+import { installBookProduction } from "./book-production";
+import {
+  isAssetUsed,
+  reviewIssues,
+  reviewFingerprint,
+} from "./book-localization";
 import { installBookShelf } from "./author-library";
 import { installVisualEditor } from "./visual-editor";
 import type {
@@ -72,6 +78,16 @@ export async function assetBytes(asset: BookAsset): Promise<Blob> {
 
 export async function portableBook(book: AuthoredBook): Promise<AuthoredBook> {
   const copy = structuredClone(book);
+  const currentReviews = (book.reviews ?? []).filter((review) => {
+    try {
+      return (
+        review.fingerprint ===
+        reviewFingerprint(book, review.locale, review.pageId)
+      );
+    } catch {
+      return false;
+    }
+  });
   let size = 0;
   for (const asset of Object.values(copy.assets)) {
     const blob = await assetBytes(asset);
@@ -85,6 +101,20 @@ export async function portableBook(book: AuthoredBook): Promise<AuthoredBook> {
       reader.readAsDataURL(blob);
     });
   }
+  // Embedding the identical media changes paths, not what the author reviewed.
+  for (const review of copy.reviews ?? [])
+    if (
+      currentReviews.some(
+        (current) =>
+          current.locale === review.locale && current.pageId === review.pageId,
+      )
+    ) {
+      review.fingerprint = reviewFingerprint(
+        copy,
+        review.locale,
+        review.pageId,
+      );
+    }
   return copy;
 }
 
@@ -344,7 +374,13 @@ export function installAuthoring(options: {
   let editing = createBlankBook();
   let libraryVisible = true;
   let activeSpread = 0;
-  let activeTab: "visual" | "book" | "spreads" | "assets" | "json" = "visual";
+  let activeTab:
+    | "visual"
+    | "book"
+    | "spreads"
+    | "assets"
+    | "json"
+    | "production" = "visual";
   let busy = false;
   let jsonOverride = false;
   let newAssetDraft: NewAssetDraft = {
@@ -355,7 +391,7 @@ export function installAuthoring(options: {
   };
   const dialog = document.createElement("dialog");
   dialog.id = "author-dialog";
-  dialog.innerHTML = `<div class="author-head"><div><p class="eyebrow">Little Light Library · authoring</p><h1>Book editor</h1><p>Build directly on the book. Add artwork, drag it into place, and try your story as you go.</p></div></div><div class="author-toolbar"><button id="author-books">← My books</button><button id="author-new" class="library-only primary">＋ New book</button><label class="file-button library-only">Import book<input id="author-file" type="file" accept=".json,application/json"></label><span id="author-save-status" role="status"></span><button id="author-preview" class="primary editor-only">Validate & preview</button><button id="author-undo" class="editor-only" disabled>Undo previous preview</button><button id="author-export" class="editor-only" disabled>Export portable JSON</button><button id="author-close">Return to reader</button></div><nav class="author-tabs" aria-label="Editor sections"><button data-author-tab="visual">On the book</button><button data-author-tab="book">Book details</button><button data-author-tab="spreads">Spreads</button><button data-author-tab="assets">Assets</button><button data-author-tab="json">Advanced JSON</button></nav><section id="author-library"></section><div id="author-visual"></div><div id="author-form"></div><textarea id="author-json" hidden aria-hidden="true"></textarea><div class="author-feedback"><pre id="author-report" role="status" aria-live="polite"></pre><button id="author-dismiss" aria-label="Dismiss editor status">✕</button></div>`;
+  dialog.innerHTML = `<div class="author-head"><div><p class="eyebrow">Little Light Library · authoring</p><h1>Book editor</h1><p>Build directly on the book. Add artwork, drag it into place, and try your story as you go.</p></div></div><div class="author-toolbar"><button id="author-books">← My books</button><button id="author-new" class="library-only primary">＋ New book</button><label class="file-button library-only">Import book<input id="author-file" type="file" accept=".json,application/json"></label><span id="author-save-status" role="status"></span><button id="author-preview" class="primary editor-only">Validate & preview</button><button id="author-undo" class="editor-only" disabled>Undo previous preview</button><button id="author-export" class="editor-only" disabled>Export portable JSON</button><button id="author-close">Return to reader</button></div><nav class="author-tabs" aria-label="Editor sections"><button data-author-tab="visual">On the book</button><button data-author-tab="production">Audio & languages</button><button data-author-tab="book">Book details</button><button data-author-tab="spreads">Spreads</button><button data-author-tab="assets">Assets</button><button data-author-tab="json">Advanced JSON</button></nav><section id="author-library"></section><div id="author-visual"></div><div id="author-form"></div><div id="author-production" hidden></div><textarea id="author-json" hidden aria-hidden="true"></textarea><div class="author-feedback"><pre id="author-report" role="status" aria-live="polite"></pre><button id="author-dismiss" aria-label="Dismiss editor status">✕</button></div>`;
   document.body.append(dialog);
   const el = <T extends HTMLElement>(id: string) =>
     dialog.querySelector<T>(`#${id}`)!;
@@ -378,7 +414,25 @@ export function installAuthoring(options: {
       renderEditor();
     },
     read: () => el<HTMLButtonElement>("author-preview").click(),
+    production: () => {
+      activeSpread = visual.page;
+      activeTab = "production";
+      renderEditor();
+      production.show(activeSpread);
+    },
   });
+  const production = installBookProduction(
+    el<HTMLElement>("author-production"),
+    {
+      book: () => editing,
+      audio: options.audio,
+      changed: () => {
+        shelf.changed();
+        el<HTMLTextAreaElement>("author-json").value = JSON.stringify(editing);
+      },
+      exportReviewed: () => exportBook(true),
+    },
+  );
   el<HTMLButtonElement>("author-dismiss").onclick = () => {
     report.textContent = "";
   };
@@ -407,6 +461,7 @@ export function installAuthoring(options: {
     await shelf.flush();
     libraryVisible = true;
     visual.hide();
+    production.hide();
     form.hidden = true;
     dialog.classList.add("library-mode");
     dialog.classList.remove("visual-mode", "book-editing");
@@ -417,6 +472,7 @@ export function installAuthoring(options: {
   el<HTMLButtonElement>("author-books").onclick = () => void run(showLibrary);
   dialog.addEventListener("close", () => {
     visual.hide();
+    production.hide();
     void shelf.flush().catch((error) => {
       report.textContent = String(error);
     });
@@ -480,7 +536,9 @@ export function installAuthoring(options: {
     el<HTMLElement>("author-library").hidden = true;
     shelf.changed();
     dialog.classList.toggle("visual-mode", activeTab === "visual");
-    form.hidden = activeTab === "visual";
+    form.hidden = activeTab === "visual" || activeTab === "production";
+    if (activeTab === "production") production.show();
+    else production.hide();
     if (activeTab === "visual") visual.show();
     else visual.hide();
     dialog
@@ -492,7 +550,7 @@ export function installAuthoring(options: {
         ),
       );
     if (activeTab === "book")
-      form.innerHTML = `<div class="editor-card"><h2>Book identity</h2><p>One locale per draft in version 1; the reader's nine-language library remains unchanged.</p><div class="editor-grid">${input("Book ID", "id", editing.id, "text", "Stable identifier for this book.")}${input("Title", "title", editing.title)}${input("Subtitle", "subtitle", editing.subtitle)}${input("Locale", "locale", editing.locale)}${input("Source reference", "source", editing.source)}${select(
+      form.innerHTML = `<div class="editor-card"><h2>Book identity</h2><p>Write the source language here. Add translations and voices in Audio & languages.</p><div class="editor-grid">${input("Book ID", "id", editing.id, "text", "Stable identifier for this book.")}${input("Title", "title", editing.title)}${input("Subtitle", "subtitle", editing.subtitle)}${input("Locale", "locale", editing.locale)}${input("Source reference", "source", editing.source)}${select(
         "Cover image",
         "cover",
         editing.cover,
@@ -697,15 +755,7 @@ export function installAuthoring(options: {
     }
     if (action === "remove-asset") {
       const id = button.dataset.asset || "";
-      const used =
-        editing.cover === id ||
-        editing.spreads.some(
-          (page) =>
-            page.backdrop.asset === id ||
-            page.ground?.asset === id ||
-            page.elements.some((element) => element.asset === id) ||
-            page.segments.some((segment) => segment.narration?.asset === id),
-        );
+      const used = isAssetUsed(editing, id);
       if (used)
         report.textContent =
           "This asset is in use. Choose replacement artwork or narration before removing it.";
@@ -910,28 +960,52 @@ export function installAuthoring(options: {
       report.textContent = "Restored the previous validated preview.";
       dialog.close();
     });
-  el<HTMLButtonElement>("author-export").onclick = () =>
-    void run(async () => {
-      const draft = validateBook(editing);
-      if (!draft.book) throw Error(describe(draft.errors));
-      report.textContent =
-        "Embedding artwork and audio from your current book…";
-      const book = await portableBook(draft.book);
-      const result = validateBook(book);
-      if (!result.book) throw Error(describe(result.errors));
-      const url = URL.createObjectURL(
-        new Blob([JSON.stringify(book, null, 2) + "\n"], {
-          type: "application/json",
-        }),
+  async function exportBook(reviewed = false) {
+    const draft = validateBook(editing);
+    if (!draft.book) throw Error(describe(draft.errors));
+    if (reviewed && reviewIssues(draft.book).length)
+      throw Error(
+        "Review all selected languages and pages before exporting a reviewed book.",
       );
-      const link = Object.assign(document.createElement("a"), {
-        href: url,
-        download: `${book.id}.book.json`,
+    report.textContent = "Embedding artwork and audio from your current book…";
+    const book = await portableBook(draft.book);
+    const result = validateBook(book);
+    if (!result.book) throw Error(describe(result.errors));
+    if (reviewed) {
+      const errors = await validateBookAssets(book, async (asset) => {
+        const blob = await assetBytes(asset);
+        if (asset.kind === "image") {
+          const bitmap = await createImageBitmap(blob);
+          bitmap.close();
+          return {};
+        }
+        return {
+          duration: (
+            await options.audio().decodeAudioData(await blob.arrayBuffer())
+          ).duration,
+        };
       });
-      link.click();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-      report.textContent = "Exported the current book with embedded media.";
+      if (errors.length) throw Error(describe(errors));
+      if (reviewIssues(book).length)
+        throw Error("The exported book needs review again.");
+    }
+    const url = URL.createObjectURL(
+      new Blob([JSON.stringify(book, null, 2) + "\n"], {
+        type: "application/json",
+      }),
+    );
+    const link = Object.assign(document.createElement("a"), {
+      href: url,
+      download: `${book.id}${reviewed ? ".reviewed" : ""}.book.json`,
     });
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    report.textContent = reviewed
+      ? "Exported the reviewed book with all media embedded."
+      : "Exported the current draft with embedded media. Use Audio & languages → Preview & review before release.";
+  }
+  el<HTMLButtonElement>("author-export").onclick = () =>
+    void run(() => exportBook());
   const closeEditor = () =>
     void run(async () => {
       await shelf.flush();

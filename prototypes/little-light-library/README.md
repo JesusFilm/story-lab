@@ -39,3 +39,9 @@ Generated review output is ignored and disposable. Keep the six curated screensh
 `review/latest/` results only. After verification, run `npm run clean:generated` to remove
 other captures, test output and `dist/`; this preserves installed dependencies and runtime
 assets. Historical raw evidence was deleted, not archived. See [the cleanup record](docs/repository-cleanup.md).
+
+### Soundtracks, translation and author review
+
+Use **Preview audio & languages** inside an edited book for page-aligned soundtracks,
+OpenRouter translation, local Kokoro voice generation and language/page review.
+See [the production setup and guide](docs/audio-language-authoring.md).

@@ -25,7 +25,7 @@ The working example is [`public/books/quiet-garden.book.json`](../public/books/q
 
 ## Top-level fields
 
-Every document has `format: "little-light-book"`, `version: 1`, a stable slug `id`, display `title` and `subtitle`, one BCP-47-like `locale`, and `status: "draft"`. Version 1 carries one locale per file. The reader shows that locale as a badge; it does not substitute content when the reader's normal nine-locale preference differs. `eden` and `noah` are reserved for the built-in books and cannot be imported as authored IDs.
+Every document has `format: "little-light-book"`, `version: 1`, a stable slug `id`, display `title` and `subtitle`, one BCP-47-like `locale`, and `status: "draft"`. The top-level locale is the source language. Optional language versions, soundtracks and review records extend v1 without changing older documents; see the production fields below. `eden` and `noah` are reserved for the built-in books and cannot be imported as authored IDs.
 
 `source` describes the biblical or other source material. `retellingNote` identifies what kind of adaptation the words are. `cover` references an image in `assets`. `spreads` is the reading order; array position, not an ID naming pattern, controls that order.
 
@@ -59,7 +59,7 @@ An element may select `{ "index": 0, "columns": 3 }` from a horizontal image atl
 
 `motion.preset` is `rock`. Its trigger is `open`, `interaction`, or `narration`. A narration trigger also names a segment in the same spread. `duration` is seconds; `strength` is the peak rock angle in degrees; optional `delay` is seconds and defaults to `0`; optional `repeat` defaults to `1`. An `open` motion starts when the stage is upright and visible. Narration motions use the reader’s decoded audio durations and playback position, so rounding in declared durations does not accumulate drift. Reduced-motion playback keeps a stable final presentation and does not depend on repeated movement to communicate meaning.
 
-Imported drafts currently inherit the reader’s quiet `hope` ambience; there is no authored ambience or music selector in v1. The existing mute/volume control applies to narration, ambience and interaction sound.
+Authored books use their explicit soundtrack layers; procedural library ambience is paused while they are open. The reader master mute/volume and playback rate apply to narration and soundtrack together. Production preview offers its own mute control.
 
 `interaction` supplies a concise accessible `label`, a visible `response`, and optionally `sound: "tap"`. The reader provides named buttons below the text for both pointer activation and a keyboard equivalent (Tab, Enter or Space). Canvas cutouts are not direct hit targets in v1. Do not hide story-critical information exclusively inside an interaction.
 
@@ -94,7 +94,7 @@ Version 1 does not promise a general rig editor, arbitrary scripts, remote asset
 | Field                      | Supported range / rule                                                       |
 | -------------------------- | ---------------------------------------------------------------------------- |
 | IDs                        | Lowercase letter first, then letters/digits/hyphens; maximum 64 characters   |
-| Book size                  | 1–40 spreads; 1–12 text segments and 0–16 elements per spread; 1–128 assets  |
+| Book size                  | 1–40 spreads; 1–12 text segments and 0–16 elements per spread; 1–1,024 assets  |
 | Element x / depth          | −2.8…2.8 / −1.575…1.2 page units                                             |
 | Element width / height     | 0.1…5.6 / 0.1…3.6 page units                                                 |
 | Elevation / rotation       | 0…2 page units / −45…45 degrees; defaults 0 / 0                              |
@@ -117,3 +117,30 @@ Assets above 32 MiB each are rejected. Portable export caps decoded media at 96 
 file import caps JSON at 140 MiB. Use modest media for phone performance. The exporter
 embeds the complete registered asset set, including unused entries, preserving authored
 settings and attribution. Unknown versions must be migrated explicitly before import.
+
+## Production fields (optional v1 extension)
+
+- `languages`: requested release locales, including the source `locale` (source is
+  always included by the reader even when omitted here).
+- `translations[locale]`: source-text fingerprint, localized `title`, `subtitle`,
+  `source`, `retellingNote`, and `spreads` identified by source IDs. Each translated
+  spread has `id`, `title`, `source`, `segments` (same cue format) and `elements`
+  (`id`, `label`, optional interaction label/response). Visual geometry and sounds
+  stay in the source definition. Outdated/incomplete translations are draft warnings,
+  and cannot silently replace a requested reader language.
+- `spreads[].seconds`: minimum page duration, 1–600 seconds, default 8. Narration
+  extends this minimum.
+- `soundtracks[]`: up to 32 layers, each with `id`, `label`, audio `asset`, inclusive
+  `startPage`/`endPage` IDs, `startOffset`/`endOffset` seconds removed from the page
+  range, `volume` 0–1, `fadeIn`/`fadeOut` 0–60 seconds, and boolean `loop`. Offsets
+  must leave positive time in every complete requested-language timeline.
+- `narrationVolume`: 0–1, default 1.
+- `narrationSettings[locale]`: Kokoro `voice` and `speed` 0.5–2 for the next generation.
+  Stored recording provenance retains the voice/speed actually used.
+- `reviews[]`: `locale`, `pageId`, `fingerprint`, `reviewedAt` ISO timestamp. These
+  record explicit author attestations; they are not security signatures or automated
+  editorial approval. Only current reviews count toward reviewed export.
+
+See [the production guide](audio-language-authoring.md) for timing, generation,
+credential handling, limits and review semantics. The generated JSON Schema remains
+the exact source for field bounds and required/optional properties.

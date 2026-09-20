@@ -377,7 +377,14 @@ export class AuthoredStage {
     }
   }
 
-  update(position: number, playing: boolean, reduced: boolean, folded = false) {
+  update(
+    position: number,
+    playing: boolean,
+    reduced: boolean,
+    folded = false,
+    timeline = false,
+    narrationEnabled = true,
+  ) {
     const now = performance.now() / 1000;
     if (!folded && this.openedAt === undefined) this.openedAt = now;
     for (const element of this.elements) {
@@ -391,10 +398,13 @@ export class AuthoredStage {
       let rocking = 0;
       if (motion && !reduced && !folded) {
         if (motion.trigger === "open")
-          rocking = authoredRockAngle(motion, now - (this.openedAt ?? now));
+          rocking = authoredRockAngle(
+            motion,
+            timeline ? position : now - (this.openedAt ?? now),
+          );
         else if (motion.trigger === "interaction")
           rocking = authoredRockAngle(motion, interactionAge);
-        else if (playing) {
+        else if ((playing || timeline) && narrationEnabled) {
           const start = motion.segment
             ? this.segmentStarts.get(motion.segment)
             : 0;
