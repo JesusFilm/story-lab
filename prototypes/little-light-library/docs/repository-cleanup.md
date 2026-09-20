@@ -20,6 +20,10 @@ The user requested removal from both the PR history and local storage, without a
 - Written quality reviews, the cycle log, ADRs and the agent/authoring handoff.
 - Six selected screenshots in `docs/captures/`: room, Eden, flood and aftermath at desktop
   size, Eden on phone and flood on tablet.
+  The room tile was refreshed on 21 September 2026 after opening Eden and returning
+  to Library: closed book on the table, toys on the top shelf, current controls.
+  It retains the `room-1366.png` path for existing links; the new capture is 1280×720.
+  The other five captures remain historical.
 - One compact verification bundle in [review/latest](../review/latest/).
 
 ## Removed

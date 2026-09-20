@@ -1,5 +1,5 @@
 {
-  "bytes": 653977225,
+  "bytes": 653865728,
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "animal-pen.jpg": "d328cae2864bfcce5c17bb73607408f7473537294b41d083093eb701005ab368",
@@ -29,7 +29,7 @@
     "directory-filter.mjs": "8a5d6bcc46f5db764ad942367533efa85c53d0b28f2902a96c5e076527646cdc",
     "directory.js": "03c0947b84971bef1276845edc3aecd0634001d6f543e25cb2a9dc230abd4438",
     "house-01.jpg": "df1a1104ef1aa2bc488dd12ff03bbfea8df5a94f3a18a4e727699bcd32dd7178",
-    "index.html": "d640e0c0ee89ed08b08ab18bb71b4ad554bb54bafecb14b59685e63e4824893b",
+    "index.html": "e415e9ace1418a20559ba60737a95dc956a11d8bec7b2d3dfeac6d27efeb4fba",
     "library/animal-pen.html": "7aaa107e8dd480a7be43511da98c2ccb18c2275a5eed6cce8f250f4514f1dd7d",
     "library/house-01.html": "6849cb54653f06dc7997ea234fb9187cd692b286e9eb2da8937c307fd0ad49fb",
     "library/index.html": "41cea76d5e06ec88517ff994951f63473aead69a9f6816b8dce92a24a3cd208b",
@@ -442,7 +442,7 @@
     "prototypes/little-light-library/content/ja.json": "8a489ce86ef0d44798b6e75147d360a7906fb1e2fcc548bf7aba4811c3405aa3",
     "prototypes/little-light-library/content/pt-BR.json": "2ba1169f84ea46041cab90ab316acb150fede13cf6a9daac266a943ff9b96728",
     "prototypes/little-light-library/content/zh-CN.json": "35a82345ca3831819c8f56c2a5ec6fc690c442748b7dd54a42af8fc897bd3971",
-    "prototypes/little-light-library/docs/captures/room-1366.png": "31ac2ce1d0a5d326e23d57110770366fef2996e02fa3ff8be4da97b441df14a9",
+    "prototypes/little-light-library/docs/captures/room-1366.png": "e4ead76c5c66fbdc23307ebceb4081023221cfec1204889cc90090c1d0f7fa04",
     "prototypes/little-light-library/index.html": "435ef715591ec412f0735f76867b7dda7ff3d0e0e52b28888034c1187c02ce6b",
     "prototypes/little-light-library/loading-locales.js": "27ad3237cb768fb38fa18f3f6b553237727dd1f91db03e60f36685f713f0fbb5",
     "prototypes/little-light-library/loading-theatre.css": "210a1f4764c0a11dff62586d999b1a458a4b69c79c082cd1fd15d8ed52b411a9",
