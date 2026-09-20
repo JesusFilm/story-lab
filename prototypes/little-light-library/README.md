@@ -2,9 +2,8 @@
 
 A biblical picture-book reader in a child's dimensional bedroom. The committed
 shelf contains **Adam, Eve, and the Garden**, **Noah and the Great Flood**,
-**Quiet Garden**, and **Jonah and the Whale**. Eden and Noah retain eight spreads
-each, nine locales and recorded narration. Quiet Garden is a narrated two-spread
-technical demonstration; Jonah is an existing three-spread, English-only draft
+and **Jonah and the Whale**. Eden and Noah retain eight spreads
+each, nine locales and recorded narration. Jonah is an existing three-spread, English-only draft
 with no narration recordings. Shelf inclusion does not certify editorial readiness.
 
 Creators work with a local coding agent on book files and media, preview in this
@@ -62,7 +61,6 @@ completing or polishing the showcase books requires a future feature assignment.
 ## Validate and package
 
 ```sh
-npm run book:validate -- public/books/quiet-garden.book.json
 npm run book:validate -- public/books/jonah-and-the-whale.book.json
 npm run book:catalog
 npm run verify

@@ -11,10 +11,9 @@ import {
 } from "../src/book-validation";
 import type { AuthoredBook } from "../src/authored-book";
 import { ReaderState } from "../src/state";
-const source = fs.readFileSync("public/books/quiet-garden.book.json", "utf8");
-const fixture = () => JSON.parse(source) as AuthoredBook;
+import { readerFixture as fixture } from "../scripts/reader-fixture";
 
-test("demo and generated schema agree with the live versioned contract", () => {
+test("fixture and generated schema agree with the live versioned contract", () => {
   const result = validateBook(fixture());
   assert.deepEqual(result.errors, []);
   assert.deepEqual(result.warnings, []);

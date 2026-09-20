@@ -135,7 +135,7 @@ detects translations that became stale after source edits.
 The nine UI locales do not imply nine translations for every JSON book.
 A valid matching translation is used when available; otherwise the reader opens
 the book's source language and identifies it. It must not describe that fallback
-as a translated edition. Quiet Garden and Jonah currently contain en-US only.
+as a translated edition. Jonah currently contains en-US only.
 Toy labels remain in their source language.
 
 Existing `reviews[]` entries are explicit historical creator attestations,

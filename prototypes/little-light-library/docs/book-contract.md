@@ -2,10 +2,10 @@
 
 Version 1 is a small, declarative format for paper-stage books. A creator and a local agent edit the same committed JSON, run shared validation and preview through the reader. The format supports bounded behavior rather than executable scripts or arbitrary character rigs. There is no browser editor or import workflow.
 
-The working example is [`public/books/quiet-garden.book.json`](../public/books/quiet-garden.book.json). Types are in [`src/authored-book.ts`](../src/authored-book.ts); executable schema and reference rules are in [`src/book-validation.ts`](../src/book-validation.ts). [`scripts/book.schema.json`](../scripts/book.schema.json) is generated from those rules with `npm run book:schema`. Update types, validation and the generated schema together when changing the contract.
+The existing, unrecorded draft example is [`public/books/jonah-and-the-whale.book.json`](../public/books/jonah-and-the-whale.book.json). Types are in [`src/authored-book.ts`](../src/authored-book.ts); executable schema and reference rules are in [`src/book-validation.ts`](../src/book-validation.ts). [`scripts/book.schema.json`](../scripts/book.schema.json) is generated from those rules with `npm run book:schema`. Update types, validation and the generated schema together when changing the contract.
 
 The separate [catalog](../public/books/catalog.json) registers ordered entries as
-`{ "id": "quiet-garden", "path": "quiet-garden.book.json" }` or the retained
+`{ "id": "jonah-and-the-whale", "path": "jonah-and-the-whale.book.json" }` or the retained
 `{ "id": "eden", "legacyStory": "eden" }` / Noah equivalent. It accepts 1–30
 entries, rejects duplicates/unknown settings, and requires a JSON entry's ID to
 match its document. Catalog paths are plain filenames relative to `public/books/`;
@@ -63,7 +63,7 @@ Each spread has a stable `id`, visible `title`, `source`, and `stagingNote`. Kee
 
 `segments` contains one or more stable segment IDs and readable text. Segment IDs are also used by narration-triggered motion. `backdrop.asset` references the upright image. Optional `ground` references a horizontal image and supplies its own placement, rotation and opacity.
 
-The stage uses reader page units. `x` moves left (negative) and right (positive). `depth` moves across the horizontal page stage: positive values move toward the upright backdrop and negative values toward the reader. `width` and `height` are displayed page-unit dimensions rather than source pixels. The page is about 6 units wide by 3 units deep; validation bounds individual coordinate and size values; it does not guarantee that arbitrary combinations fit inside the page or avoid overlap. `elevation` lifts an element above its support. `rotation` is in degrees. See the demo's moderate values before making large changes, then judge them in preview at phone, tablet and desktop sizes.
+The stage uses reader page units. `x` moves left (negative) and right (positive). `depth` moves across the horizontal page stage: positive values move toward the upright backdrop and negative values toward the reader. `width` and `height` are displayed page-unit dimensions rather than source pixels. The page is about 6 units wide by 3 units deep; validation bounds individual coordinate and size values; it does not guarantee that arbitrary combinations fit inside the page or avoid overlap. `elevation` lifts an element above its support. `rotation` is in degrees. Start with moderate values within these bounds before making large changes, then judge them in preview at phone, tablet and desktop sizes.
 
 For element placement, `anchor` defaults to `bottom`, `elevation` to `0`, and `rotation` to `0`. Ground `rotation` defaults to `0` degrees and `opacity` defaults to `1`. Omitted optional values retain their omission in editable JSON while playback applies these defaults.
 
@@ -84,7 +84,7 @@ A segment's optional `narration` references an audio asset and records its measu
 Use the targeted replacement command after recording or supplying a new public-root WAV:
 
 ```sh
-npm run book:replace-audio -- public/books/quiet-garden.book.json garden-begins garden-made assets/audio/my-garden-made.wav af_heart
+npm run book:replace-audio -- public/books/jonah-and-the-whale.book.json jonah-called segment-1 assets/books/jonah-and-the-whale/audio/en-US/jonah-call.wav af_heart
 ```
 
 The command measures the WAV, changes only that segment's narration and its asset registration, and snapshots its current text as `recordedText`. It does not synthesize speech. Missing narration still permits text reading but is reported so a finished narrated spread cannot pass unnoticed. The runtime can decode browser-supported WAV, MP3 or Ogg audio. Local validation measures PCM WAV directly and MP3/Ogg through optional local `ffprobe`; targeted replacement expects PCM WAV. See [audio and languages](audio-language-authoring.md) for selective local synthesis.
@@ -94,7 +94,7 @@ The command measures the WAV, changes only that segment's narration and its asse
 Validate a file before previewing it:
 
 ```sh
-npm run book:validate -- public/books/quiet-garden.book.json
+npm run book:validate -- public/books/jonah-and-the-whale.book.json
 ```
 
 Shared validation covers format/version, IDs, references, supported presets and

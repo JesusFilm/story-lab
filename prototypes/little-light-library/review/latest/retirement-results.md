@@ -1,5 +1,30 @@
 # Editor retirement verification — 20 September 2026
 
+## Follow-up — 21 September 2026: demonstration removed
+
+At the creator's request, Quiet Garden's JSON and catalog entry were deleted.
+Eden, Noah and Jonah are the only three committed books. Shared media and all
+remaining story definitions/locales were preserved. Current guides and the book
+skill no longer direct creators to the removed example. It remains recoverable
+in git history; no browser data was cleared.
+
+`npm run verify:all` passes: 144 tests, catalog/media validation, production build,
+nine nested-static browser checks, draft recovery and five failure/retry cases.
+Generic narration/translation/soundtrack tests now construct a disposable adapter
+from existing Noah media, injected only into isolated test pages. That fixture is
+not in `public/`, the catalog or the static output. The live preview was refreshed
+and visually inspected with only the three intended shelf spines.
+
+Portal build and verification pass (765 files) under all three deployment prefixes.
+Reviewed catalog hash, output digest and publication inventory are updated; the
+generated artifact contains no removed book. Current machine-readable room/failure
+results replace the earlier versions. No push or deployment was performed.
+
+The remainder below records the original four-book retirement baseline, not the
+current collection. Its listening/live-synthesis limitations still apply.
+
+## Original retirement baseline
+
 This is regression and workflow evidence, not acceptance of showcase-book quality.
 The editor is archived in git; the room/reader and all existing story/media content
 are preserved. No push, merge or deployment was performed.

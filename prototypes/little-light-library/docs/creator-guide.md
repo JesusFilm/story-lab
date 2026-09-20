@@ -39,8 +39,8 @@ file while another book or locale still references it.
    in `retellingNote`, and invented composition/action in `stagingNote`.
    Segment `text` is the visible retelling. If actual quotations are requested,
    identify the translation and its permissions rather than inventing a quotation.
-3. Use [Quiet Garden](../public/books/quiet-garden.book.json) as a compact contract
-   example. Create a new file and unique slug; keep `format`, `version` and
+3. Use `book:create` below for a small scaffold and the [contract](book-contract.md)
+   for supported fields. Create a unique slug; keep `format`, `version` and
    `status: "draft"`. Never reuse the reserved `eden` or `noah` IDs. Remove
    copied scenes/media that do not belong to the new story; do not disguise Eden
    artwork or narration as newly produced material.
@@ -79,8 +79,8 @@ against light and dark scenery. Avoid baked lettering in cover or scene artwork.
 
 An upright `backdrop` and optional horizontal `ground` are separate surfaces.
 Each actor/prop has `placement` in page units, not pixels. Negative `x` is left;
-positive `depth` is toward the backdrop. Start with modest values from Quiet
-Garden. Use a bottom anchor for planted figures, keep feet above the page, and
+positive `depth` is toward the backdrop. Start with modest values within the
+contract bounds. Use a bottom anchor for planted figures, keep feet above the page, and
 inspect the gutter, page edges, faces and reading-card overlap on a phone.
 
 A horizontal atlas `pose` chooses a fixed cell. A `motion` transforms the whole
@@ -99,8 +99,8 @@ See the [contract](book-contract.md) for precise limits.
 ## Revise without unnecessary regeneration
 
 Locate objects by stable ID, then make the requested change in place. For
-example, move Quiet Garden's Adam by changing
-`spreads[0].elements[0].placement.x`, or quieten his gesture by changing only
+example, move a spread's first element by changing
+`spreads[0].elements[0].placement.x`, or quieten its gesture by changing only
 `motion.strength`. Preserve trigger, duration and other settings unless they
 are part of the request.
 
@@ -125,13 +125,12 @@ timing, soundtrack fades and listening review.
 
 ## Register and preview
 
-The catalog is an array of objects. Its preserved starting collection is:
+The catalog is an array of objects. Its current collection is:
 
 ```json
 [
   { "id": "eden", "legacyStory": "eden" },
   { "id": "noah", "legacyStory": "noah" },
-  { "id": "quiet-garden", "path": "quiet-garden.book.json" },
   { "id": "jonah-and-the-whale", "path": "jonah-and-the-whale.book.json" }
 ]
 ```

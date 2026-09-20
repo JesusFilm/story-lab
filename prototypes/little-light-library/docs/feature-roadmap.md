@@ -7,8 +7,7 @@ polish **Adam, Eve, and the Garden**, **Noah and the Great Flood**, and
 recordings, translations or room redesign during cleanup.
 
 Build a complete **English (US)** experience first. Preserve the existing
-working language content throughout. Quiet Garden remains a technical
-demonstration and regression fixture; it is not a fourth showcase deliverable.
+working language content throughout. The collection contains only these three books.
 The historical autonomous quality-scoring effort stays parked.
 
 The inventory below comes from the committed definitions, locale manifests,
@@ -23,15 +22,14 @@ context, not current visual/listening evidence.
 | Eden         | Eight spreads, two segments each; Genesis 2–3; nine locales                   | Eight page paintings; garden/exile theatre plates; Adam/Eve pose atlases and specialized rigs; tree, serpent, painted garden floor          | Sixteen narrated phrases per locale, procedural ambience/effects; Adam, Eve, tree compatibility toys |
 | Noah         | Eight spreads, two segments each; Genesis 6–9; nine locales                   | Eight page paintings; shipyard/boarding/storm/receding-water/shore plates; Noah rig, family, animal pairs, ark, waves, dove and other props | Sixteen narrated phrases per locale, procedural ambience/effects; Noah, ark, dove compatibility toys |
 | Jonah        | Three spreads with one sentence each; source notes cite Jonah 1–4; en-US only | Five PNGs: shore/cover, sandy ground, Jonah cutout, whale cutout, underwater backdrop; generic placement/motion/interactions                | No narration recordings, soundtrack or toy definitions                                               |
-| Quiet Garden | Two spreads, four segments; Genesis 2:4–25; en-US only                        | Seven registered image entries reusing Eden art, separate floor/backdrop and atlas cutouts                                                  | Four reused Eden narration clips; no soundtrack or toys                                              |
 
 Eden/Noah text lives in `public/content/<locale>.json`; their cues live in
 `public/audio-manifest.json`. The retained pack has 315 phrase/name clips across
 nine locales, including character-name audio. Their stage direction is in
 `src/stage-direction.ts` and artwork-specific runtime modules.
 
-Jonah and Quiet Garden are authoritative JSON documents in `public/books/`.
-All four are registered in `public/books/catalog.json` and belong on the shelf.
+Jonah is the generic JSON document in `public/books/`.
+All three books are registered in `public/books/catalog.json` and belong on the shelf.
 The [architecture](architecture.md) explains the two runtime paths. Preserve the
 legacy adapter unless a future, separately justified migration can retain its
 visual behavior, source text and all locales.
@@ -102,7 +100,7 @@ acting supply behavior that generic whole-card motion does not reproduce.
   are available. Check their purpose, grounding and continuity at every page
   transition and with motion disabled; do not turn the temptation into a reward.
 - **Shelf:** Adam/Eve/tree toys already exist. Review their legibility, relevance,
-  labels/audio and cover/spine presentation in the actual four-book collection.
+  labels/audio and cover/spine presentation in the actual three-book collection.
 
 ### Available support, blockers and sequence
 
@@ -246,6 +244,14 @@ are **zero narration recordings, zero soundtrack layers and zero toys**.
 - **Shelf:** The shore image supplies a provisional cover. Review a clearer
   final cover/spine and add a relevant small toy set, such as Jonah and the
   great fish, from accepted art with restrained feedback.
+- **Bookend — TODO:** Complete and review Jonah's bookend treatment as part of
+  its shelf presentation. The shared shelf book-stop behavior already exists;
+  it does not establish that Jonah's bookend artwork/presentation is finished.
+- **Content translations — likely follow-up:** Jonah currently has en-US content
+  only. After the English story is settled, confirm the target languages with
+  the creator and translate the book content (not just reader UI), with
+  native-speaker review and matching narration where required. Keep this as
+  explicit pending work, not a claim that the existing UI locales translate Jonah.
 
 ### Available support, blockers and sequence
 
@@ -273,9 +279,11 @@ creative requirement, scope a reusable capability separately before adding it.
    accepted English segments with the local workflow. Measure and attach every
    cue, preserving truthful provenance; no new translation batch is needed.
 5. Align restrained motion with actual cues; add purposeful soundtrack/effects
-   if desired. Complete cover/spine/toys using accepted artwork.
+   if desired. Complete cover/spine/bookend/toys using accepted artwork.
 6. Validate, inspect and listen through the complete reading, obtain explicit
-   creator review, and test the nested static artifact with all four books.
+   creator review, and test the nested static artifact with all three books.
+7. Confirm the likely content-translation follow-up and target locales after
+   English acceptance; track translation, narration and review completion per locale.
 
 ### Book-specific acceptance
 
@@ -285,27 +293,23 @@ described. The title/great-fish distinction and Jonah's response to mercy are
 resolved by creator editorial review. Art depicts the described setting instead
 of leaving a shore where a city is required. Every final en-US segment has
 current measured narration and has been heard in context. Narration gestures
-actually follow the right phrases. Cover/spine and relevant toys are reviewed,
-and no story-specific renderer code is needed for supported behavior.
+actually follow the right phrases. Cover/spine/bookend and relevant toys are
+reviewed, and no story-specific renderer code is needed for supported behavior.
+Any agreed translated editions need their own content/narration review; English
+acceptance does not complete that follow-up.
 
-## Quiet Garden's technical role
+## Regression fixtures
 
-Keep its two spreads, four reused clips, separate ground/backdrop, atlas poses,
-narration-triggered rock and tree interaction as a compact regression example.
-Its reuse of Eden words/audio is explicitly described in its retelling note.
-The serpent prop on the companion spread is invented demonstration staging,
-not a canonical new story beat.
-
-Use it or disposable fixtures to verify validation, placement edits, stale cue
-diagnostics, selective replacement and catalog loading. Do not expand or polish
-it into another showcase, add translations or remove it from the shelf merely
-to make the collection appear more finished.
+Use disposable test fixtures for generic narration, soundtrack, translation and
+catalog-capacity checks. They are not committed library content and must not be
+published or added to the shelf. `scripts/reader-fixture.ts` adapts existing Noah
+media in memory for those tests.
 
 ## Milestones and dependencies for the next agent
 
 | Milestone               | Depends on                                                     | Done when                                                                                                     |
 | ----------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Baseline and brief      | Cleanup handoff, committed catalog, current assets and runtime | All four load; existing warnings/limits documented; creator chooses first book and intended scope             |
+| Baseline and brief      | Cleanup handoff, committed catalog, current assets and runtime | All three load; existing warnings/limits documented; creator chooses first book and intended scope             |
 | Story acceptance        | Source-linked beat audit and creator decisions                 | Full en-US words/page breaks and interpretive choices accepted before final audio                             |
 | Art and staging         | Accepted beats, current visual guide, reusable assets          | Consistent complete sequence, cover/spine/toys and phone/desktop compositions inspected                       |
 | Narration and mix       | Stable text and local production tools/recordings              | Every final English cue measured/listened, timing/mix/gestures reviewed, no missing/stale English narration   |
@@ -314,7 +318,7 @@ to make the collection appear more finished.
 
 Take one book through the complete sequence before applying the process to the
 others. Eden is a sensible default first review because its existing English
-sequence is complete and Quiet Garden exercises related data/assets; creator
+sequence is complete; creator
 priority may differ. Noah then stresses grave-event tone and complex legacy
 staging; Jonah proves the generic contract for a full new narrative. This is a
 suggested order, not an estimate or a requirement to change every existing asset.

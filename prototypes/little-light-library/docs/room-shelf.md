@@ -1,8 +1,8 @@
 # Books and toys in the room
 
 The room loads its ordered collection from
-[`public/books/catalog.json`](../public/books/catalog.json). The current four
-entries are Eden, Noah, Quiet Garden and Jonah. All four appear for a fresh
+[`public/books/catalog.json`](../public/books/catalog.json). The current three
+entries are Eden, Noah and Jonah. All three appear for a fresh
 visitor; browser author drafts and old saved shelf membership do not determine
 the collection. There is no Add to room / Remove from room authoring UI.
 
@@ -42,10 +42,14 @@ Reduced motion uses static feedback. Toys are painted standees, not inferred
 sculpted models or anatomical rigs.
 
 Edit toys in the book file and preview from its shelf entry. They appear only
-for the current table book, including its closed state in Library. Quiet Garden
-and Jonah currently have no toy definitions; this is preserved content, not a
+for the current table book, including its closed state in Library. Jonah
+currently has no toy definitions; this is preserved content, not a
 catalog loading error. Eden's compatibility toys are Adam, Eve and a tree;
 Noah's are Noah, the ark and a dove.
+
+TODO: finish and review Jonah's bookend treatment alongside its cover/spine and
+toys. Existing shared shelf book stops are not a sign-off on this book-specific
+presentation work; track it in the [Jonah roadmap](feature-roadmap.md#jonah-and-the-whale).
 
 Generic toy labels currently remain in the source language. Optional audio obeys
 reader mute/volume and stops on book changes or tab hiding. Keep referenced art
@@ -61,12 +65,12 @@ the workflow. `room-toys.ts` adapts content; `shelf-toy-audio.ts` isolates
 click effects from narration.
 
 Use `npm run verify` and `npm run test:room` for current reader checks.
-`npm run verify:all` runs those followed by `npm run test:recovery`.
+`npm run verify:all` runs those followed by `npm run test:recovery` and `npm run test:failures`.
 `test:browser` also runs the current room suite.
 The older footer-control browser/acceptance scripts are historical and are not
 the recommended current suite.
 
-Inspect actual desktop and phone rendering after structural changes: all four
+Inspect actual desktop and phone rendering after structural changes: all three
 spines visible, both shelf rows correct at capacity, stops at the threshold,
 toys on top, cover preview/Return, repeated transfers above the table, and
 Library/Continue with paused-position preservation. Test keyboard, touch, mute,

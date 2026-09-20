@@ -3,6 +3,11 @@ import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { chromium } from "playwright";
+import { tsImport } from "tsx/esm/api";
+const { readerFixture } = await tsImport(
+  "./reader-fixture.ts",
+  import.meta.url,
+);
 
 const root = path.resolve("dist");
 const prefix = "/acceptance/little-light-library/";
@@ -11,9 +16,11 @@ assert.ok(
   fs.existsSync(path.join(root, "index.html")),
   "Build first with npm run build.",
 );
-const book = JSON.parse(
-  fs.readFileSync(path.join(root, "books/quiet-garden.book.json"), "utf8"),
+const book = readerFixture(root);
+const catalog = JSON.parse(
+  fs.readFileSync(path.join(root, "books/catalog.json"), "utf8"),
 );
+let expectedBooks = catalog.length;
 const mime = {
   ".html": "text/html",
   ".js": "text/javascript",
@@ -68,10 +75,11 @@ const enter = async (page, navigate = true) => {
   if (navigate) await page.goto(url);
   await page.locator("#enter").click();
   await page.waitForFunction(
-    () =>
+    (count) =>
       window.libraryDebug?.().ready &&
-      window.libraryDebug?.().shelf.books.length === 4 &&
+      window.libraryDebug?.().shelf.books.length === count &&
       !window.libraryDebug?.().shelf.busy,
+    expectedBooks,
   );
   assert.equal(
     await page.locator("#loading").isVisible(),
@@ -80,16 +88,16 @@ const enter = async (page, navigate = true) => {
   );
 };
 const openBook = async (page) => {
-  await page.locator('[data-shelf-key="book:quiet-garden"]').click();
+  await page.locator('[data-shelf-key="book:fixture-book"]').click();
   await page.waitForFunction(
     () =>
-      window.libraryDebug?.().shelf.inspected === "book:quiet-garden" &&
+      window.libraryDebug?.().shelf.inspected === "book:fixture-book" &&
       !window.libraryDebug?.().shelf.busy,
   );
   await page.locator("#shelf-read").click();
   await page.waitForFunction(
     () =>
-      window.libraryDebug?.().shelf.table === "book:quiet-garden" &&
+      window.libraryDebug?.().shelf.table === "book:fixture-book" &&
       !window.libraryDebug?.().shelf.busy,
   );
 };
@@ -109,6 +117,8 @@ const startupFailure = async (page, pattern) => {
 };
 const recoverStartup = async (page, route) => {
   await page.unroute(route);
+  if (route.endsWith("/fixture-book.book.json"))
+    await page.route(route, (request) => request.fulfill({ json: book }));
   await page.locator(".loading-retry").click();
   await enter(page, false);
   assert.equal((await page.locator("#notice").innerText()).trim(), "");
@@ -151,6 +161,18 @@ const check = async (name, run) => {
     }
     return route.continue();
   });
+  expectedBooks = catalog.length;
+  if (/generic|definition/i.test(name)) {
+    expectedBooks++;
+    await page.route("**/books/catalog.json", (route) =>
+      route.fulfill({
+        json: [...catalog, { id: book.id, path: book.id + ".book.json" }],
+      }),
+    );
+    await page.route("**/books/fixture-book.book.json", (route) =>
+      route.fulfill({ json: book }),
+    );
+  }
   try {
     const detail = await run(page);
     results.checks.push({ name, passed: true, detail });
@@ -210,7 +232,7 @@ try {
       return {
         pendingLoaderVisible: true,
         error,
-        recoveredBooks: 4,
+        recoveredBooks: expectedBooks,
         loaderCleared: true,
       };
     },
@@ -222,7 +244,7 @@ try {
       const route = url + "books/catalog.json";
       await page.route(route, (request) =>
         request.fulfill({
-          json: [{ id: "quiet-garden", path: "../quiet-garden.book.json" }],
+          json: [{ id: "fixture-book", path: "../fixture-book.book.json" }],
         }),
       );
       await page.goto(url);
@@ -231,24 +253,24 @@ try {
         /catalog\.json\[0\].*relative.*book\.json/i,
       );
       await recoverStartup(page, route);
-      return { error, recoveredBooks: 4, loaderCleared: true };
+      return { error, recoveredBooks: expectedBooks, loaderCleared: true };
     },
   );
 
   await check(
     "Invalid generic definition identifies its field and recovers after correction",
     async (page) => {
-      const route = url + "books/quiet-garden.book.json";
+      const route = url + "books/fixture-book.book.json";
       const invalid = structuredClone(book);
       invalid.spreads[0].backdrop.asset = "missing-artwork";
       await page.route(route, (request) => request.fulfill({ json: invalid }));
       await page.goto(url);
       const error = await startupFailure(
         page,
-        /quiet-garden\.book\.json.*backdrop.*ASSET_REFERENCE/i,
+        /fixture-book\.book\.json.*backdrop.*ASSET_REFERENCE/i,
       );
       await recoverStartup(page, route);
-      return { error, recoveredBooks: 4, loaderCleared: true };
+      return { error, recoveredBooks: expectedBooks, loaderCleared: true };
     },
   );
 

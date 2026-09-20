@@ -14,8 +14,8 @@ The website is a reader. Author in repository files and preview the actual reade
 `public/books/catalog.json` is the ordered collection; each generic book is one
 `public/books/<id>.book.json`. New books use v1 rather than new renderer branches.
 Eden/Noah retain a documented compatibility adapter for their existing rigs/locales;
-inspect `docs/architecture.md` before changing either. Quiet Garden is a technical
-example, not the content brief for a new story.
+inspect `docs/architecture.md` before changing either. Use `book:create` for a new
+scaffold; test-only fixtures are not content briefs or books to publish.
 
 ## Create from a brief
 

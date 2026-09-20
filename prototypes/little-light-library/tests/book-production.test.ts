@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import fs from "node:fs";
 import test from "node:test";
 import type { AuthoredBook, BookTranslation } from "../src/authored-book";
 import {
@@ -15,8 +14,7 @@ import {
 } from "../src/book-localization";
 import { validateBook, validateBookAssets } from "../src/book-validation";
 
-const source = fs.readFileSync("public/books/quiet-garden.book.json", "utf8");
-const fixture = () => JSON.parse(source) as AuthoredBook;
+import { readerFixture as fixture } from "../scripts/reader-fixture";
 
 const translatedBook = () => {
   const book = fixture();
@@ -111,7 +109,7 @@ test("production languages put the source first and localized resolution preserv
   assert.equal(resolved.locale, "fr-FR");
   assert.equal(resolved.title, "Jardin tranquille");
   assert.match(resolved.spreads[0].segments[0].text, /^FR /);
-  assert.equal(resolved.spreads[0].elements[0].asset, "adam-atlas");
+  assert.equal(resolved.spreads[0].elements[0].asset, "actor");
   assert.equal(resolved.spreads[0].elements[1].interaction?.sound, "tap");
   assert.equal(
     resolved.spreads[0].elements[1].interaction?.label.startsWith("FR "),
@@ -236,7 +234,7 @@ test("all requested locale pages require explicit current reviews", () => {
     message.startsWith("STALE_REVIEW"),
   );
   assert.equal(stale.length, 2);
-  assert.ok(stale.every(({ path }) => path.endsWith("/a-companion")));
+  assert.ok(stale.every(({ path }) => path.endsWith("/page-2")));
 });
 
 test("audit reports incomplete locales without resolving partial pages", () => {

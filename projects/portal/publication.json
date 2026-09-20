@@ -289,11 +289,11 @@
     {
       "slug": "little-light-library",
       "title": "Little Light Library",
-      "description": "Explore Bible retellings and a technical demonstration in a child-sized room, with paper scenes, static narration and preserved language content. Jonah is an unfinished draft.",
+      "description": "Explore three Bible retellings in a child-sized room, with paper scenes, static narration and preserved language content. Jonah is an unfinished draft.",
       "image": "prototypes/little-light-library/docs/captures/room-1366.png",
       "image_alt": "A small illustrated storybook open on a table in the Little Light Library bedroom, with warm light and paper story figures.",
       "static_build": "prototypes/little-light-library",
-      "static_output_digest": "079caab6b1a7cb01c0aa41c611beab8b900308927bff6581f079c2779e25049b",
+      "static_output_digest": "58b06cd93c0295fd3036819a52bb3cf089654a7966bce5a08a2071568997c4ad",
       "files": [
         "prototypes/little-light-library/docs/captures/room-1366.png",
         "prototypes/little-light-library/assets/art/jonah/jonah-cutout.png",
@@ -987,7 +987,7 @@
     "prototypes/little-light-library/src/scene.ts": "e2b765a206d4f43d91eb3db78073211bcf21de563d02b4a48180f33903585d5a",
     "prototypes/little-light-library/src/state.ts": "6292ff4e23627ad37fac6c1205ad3966e822bde54866d3127ae318078b64f999",
     "prototypes/little-light-library/src/style.css": "b6af52f4700aac5b6e09a3e5111be1a19bd3ab3f1cc3a75fc313b401aaa56de3",
-    "prototypes/little-light-library/public/books/catalog.json": "4db5921642d1c3cc3deccfbb0ea2e5d4ba87c2df2d1f2211db7b57a5f348c9e8",
+    "prototypes/little-light-library/public/books/catalog.json": "36a626cb41d754cc1c4e1ac5f1b182af5df9ac777f78793eae6e13d51afd77eb",
     "prototypes/little-light-library/src/book-audio.ts": "b2b64fd1ce574d8a3d21157b8e8ede6ce8347e7f334b0caec22e7d16e822fe92",
     "prototypes/little-light-library/src/book-localization.ts": "60802a68a7bec6796dd0e8a76f9bfbef99cc7598f12b2522ba1c6252c5be8624",
     "prototypes/little-light-library/src/book-reader-audio.ts": "6866c7d4ce2aecabea6f3391e45571fc215efd698719f9ae0913e892ab9a102f",

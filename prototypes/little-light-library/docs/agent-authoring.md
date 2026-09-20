@@ -46,9 +46,9 @@ authoring with reader preview; the retired editor is recoverable from git only.
 
 ## Concrete edit requests
 
-- **Placement:** Move `adam` on `garden-begins` 0.25 page units left,
+- **Placement:** Move an existing element on a chosen spread 0.25 page units left,
   preserving depth, scale and motion. Report the field changed and check phone framing.
-- **Ground:** Change only `ground.opacity` on `a-companion` and inspect the
+- **Ground:** Change only `ground.opacity` on a chosen spread and inspect the
   horizontal print; keep the upright backdrop.
 - **Motion:** Reduce an existing rock's strength while preserving trigger and
   timing. Describe it as whole-card motion, not a new arm rig.
@@ -71,7 +71,7 @@ human approval.
 No editor replacement, arbitrary scripting, cloud storage, accounts or autonomous
 quality-scoring loop. Eden and Noah retain their specialized rigs and nine
 locales; a storage migration requires its own content-preserving feature plan.
-Quiet Garden is a compact regression/demo book. The three showcase books are
+The three showcase books are
 future [Feature work](feature-roadmap.md), not part of editor cleanup.
 
 Do not write review attestations merely because checks passed. Review metadata

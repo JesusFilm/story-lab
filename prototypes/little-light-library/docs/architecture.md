@@ -30,7 +30,6 @@ collection for every visitor:
 [
   { "id": "eden", "legacyStory": "eden" },
   { "id": "noah", "legacyStory": "noah" },
-  { "id": "quiet-garden", "path": "quiet-garden.book.json" },
   { "id": "jonah-and-the-whale", "path": "jonah-and-the-whale.book.json" }
 ]
 ```
@@ -51,7 +50,6 @@ IDs identify content. Do not write browser database keys into book definitions.
 | Book path     | Authoritative content                                                                                                | Why it remains                                                                                                      |
 | ------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | Eden and Noah | `public/content/<locale>.json`, `public/audio-manifest.json`, referenced media and existing stage direction/rig code | Preserves the existing eight-spread stories, nine locales, specialized motion and recordings without rewriting them |
-| Quiet Garden  | `public/books/quiet-garden.book.json` plus its registered media                                                      | Small narrated generic-stage technical demonstration                                                                |
 | Jonah         | `public/books/jonah-and-the-whale.book.json` plus its registered media                                               | Preserves the creator's three-spread draft; no narration has been supplied                                          |
 
 The JSON book is the authoritative description of its spreads, text, placement,
@@ -187,7 +185,7 @@ is a possible future optimization, not a promised current feature.
 
 Two inner shelves each accommodate 15 spines. Each occupied shelf below 13 books
 gets a stop. Toys occupy the cabinet top and belong only to the current table
-book. The four-entry catalog uses the existing room; no room redesign is needed.
+book. The three-entry catalog uses the existing room; no room redesign is needed.
 
 Selecting another cover must not disturb the table book until **Read**. A swap
 stops old audio/toys, folds and returns the old book, resets full transforms,
@@ -234,7 +232,7 @@ this prototype's independent runtime copy. Preserve useful originals outside
 `npm run build` uses a relative base and produces `dist/`. Serve that output
 beneath a nested path, such as `/story-lab/prototypes/little-light-library/`,
 without a development proxy or generation server. Check a fresh visitor receives
-all four shelf books, then exercise media loads and failures, page navigation,
+all three shelf books, then exercise media loads and failures, page navigation,
 repeated swaps, Return, Library/Continue, toys, language, mute/volume, keyboard,
 touch and reduced motion. Inspect the network for missing resources and requests
 to localhost/generation endpoints. Include fonts, loader files, JSON, images,

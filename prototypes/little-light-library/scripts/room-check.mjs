@@ -20,11 +20,34 @@ const summaryPath = path.join(output, "room-results.json");
 const committedKeys = [
   "builtin:eden",
   "builtin:noah",
-  "book:quiet-garden",
   "book:jonah-and-the-whale",
 ];
+const { readerFixture } = await tsImport(
+  "./reader-fixture.ts",
+  import.meta.url,
+);
 const bookFixture = (id) =>
-  JSON.parse(fs.readFileSync(path.join(root, `books/${id}.book.json`), "utf8"));
+  id === "fixture-book"
+    ? readerFixture(root)
+    : JSON.parse(
+        fs.readFileSync(path.join(root, `books/${id}.book.json`), "utf8"),
+      );
+const fixtureCatalog = () => [
+  ...JSON.parse(fs.readFileSync(path.join(root, "books/catalog.json"), "utf8")),
+  { id: "fixture-book", path: "fixture-book.book.json" },
+];
+const installFixture = async (book = readerFixture(root)) => {
+  await page.route("**/books/catalog.json", (route) =>
+    route.fulfill({ json: fixtureCatalog() }),
+  );
+  await page.route("**/books/fixture-book.book.json", (route) =>
+    route.fulfill({ json: book }),
+  );
+};
+const removeFixture = async () => {
+  await page.unroute("**/books/fixture-book.book.json");
+  await page.unroute("**/books/catalog.json");
+};
 const mime = {
   ".css": "text/css",
   ".html": "text/html",
@@ -665,7 +688,7 @@ await check(
         .count(),
       0,
     );
-    const staleBook = bookFixture("quiet-garden");
+    const staleBook = bookFixture("jonah-and-the-whale");
     await page.evaluate(async (book) => {
       const database = await new Promise((resolve, reject) => {
         const request = indexedDB.open("little-light-author-books", 1);
@@ -682,13 +705,13 @@ await check(
           "readwrite",
         );
         transaction.objectStore("books").put({
-          key: "included-quiet-garden",
+          key: "included-fixture-book",
           updatedAt: 1,
           book: { ...book, title: "Stale browser-only title" },
         });
         transaction
           .objectStore("settings")
-          .put(["included-quiet-garden", "missing-book"], "room-shelf-v1");
+          .put(["included-fixture-book", "missing-book"], "room-shelf-v1");
         transaction.oncomplete = resolve;
         transaction.onerror = transaction.onabort = () =>
           reject(transaction.error);
@@ -711,7 +734,8 @@ await check(
       committedKeys,
     );
     assert.equal(
-      state.shelf.books.find(({ key }) => key === "book:quiet-garden").title,
+      state.shelf.books.find(({ key }) => key === "book:jonah-and-the-whale")
+        .title,
       staleBook.title,
     );
     // Inspect through a separate document so the runtime guard remains installed.
@@ -734,7 +758,7 @@ await check(
             request.onerror = () => reject(request.error);
           });
         const [book, keys] = await Promise.all([
-          read(transaction.objectStore("books").get("included-quiet-garden")),
+          read(transaction.objectStore("books").get("included-fixture-book")),
           read(transaction.objectStore("settings").get("room-shelf-v1")),
         ]);
         database.close();
@@ -742,7 +766,7 @@ await check(
       });
       assert.deepEqual(saved, {
         title: "Stale browser-only title",
-        keys: ["included-quiet-garden", "missing-book"],
+        keys: ["included-fixture-book", "missing-book"],
       });
     } finally {
       await inspector.close();
@@ -757,10 +781,11 @@ await check(
 );
 
 await check(
-  "Committed generic books retain navigation, narration, highlighting and interactions",
+  "Committed Jonah and disposable narrated fixture retain navigation and interactions",
   async () => {
+    await installFixture();
     await enter();
-    for (const id of ["quiet-garden", "jonah-and-the-whale"]) {
+    for (const id of ["fixture-book", "jonah-and-the-whale"]) {
       const book = bookFixture(id);
       await selectBook("book:" + id);
       await readSelected("book:" + id);
@@ -792,7 +817,7 @@ await check(
             element.interaction.response,
           );
         }
-        if (id === "quiet-garden" && index === 0) {
+        if (id === "fixture-book" && index === 0) {
           await page.locator("#replay").click();
           await page.waitForFunction(
             () =>
@@ -851,10 +876,12 @@ await check(
       await page.locator("#shelf").click();
       await waitForClosedBrowsingTable();
     }
+    await removeFixture();
     return {
-      books: 2,
+      committedBooks: 1,
+      fixtureBooks: 1,
       spreads: 5,
-      quietGardenNarration: true,
+      fixtureNarration: true,
       jonahMissingNarrationReadable: true,
     };
   },
@@ -876,8 +903,8 @@ await check(
     assert.equal(state.audio, false);
     assert.equal(state.volume, 0.35);
     assert.equal(state.speed, 1.25);
-    await selectBook("book:quiet-garden");
-    await readSelected("book:quiet-garden");
+    await selectBook("builtin:eden");
+    await readSelected("builtin:eden");
     const previousStarts = await page.evaluate(
       () => window.readerAudioProbe().length,
     );
@@ -917,7 +944,7 @@ await check(
 await check(
   "Fixture book language control and soundtrack survive editor CSS removal",
   async () => {
-    const book = bookFixture("quiet-garden");
+    const book = bookFixture("fixture-book");
     book.languages = ["en-US", "fr"];
     const translation = sourceTranslation(book);
     translation.title = "Fixture French title";
@@ -927,7 +954,7 @@ await check(
       {
         id: "fixture-bed",
         label: "Disposable soundtrack fixture",
-        asset: "narration-garden-1",
+        asset: "cue-1-1",
         startPage: book.spreads[0].id,
         endPage: book.spreads.at(-1).id,
         startOffset: 0,
@@ -938,14 +965,12 @@ await check(
         loop: true,
       },
     ];
-    await page.route("**/books/quiet-garden.book.json", (route) =>
-      route.fulfill({ json: book }),
-    );
+    await installFixture(book);
     try {
       await page.setViewportSize({ width: 390, height: 844 });
       await enter();
-      await selectBook("book:quiet-garden");
-      await readSelected("book:quiet-garden");
+      await selectBook("book:fixture-book");
+      await readSelected("book:fixture-book");
       await waitForSettledSpread();
       const control = page.getByRole("combobox", {
         name: "Book language",
@@ -999,7 +1024,7 @@ await check(
         decodedSoundtrackLoop: true,
       };
     } finally {
-      await page.unroute("**/books/quiet-garden.book.json");
+      await removeFixture();
       await page.setViewportSize({ width: 1366, height: 768 });
     }
   },
@@ -1008,14 +1033,14 @@ await check(
 await check(
   "Thirty spine-out books and top toys fit at desktop and phone sizes",
   async () => {
-    const denseBook = bookFixture("quiet-garden");
+    const denseBook = bookFixture("fixture-book");
     denseBook.toys = [
       {
         id: "little-tree",
         label: "Little tree",
-        asset: "tree-cutout",
+        asset: "prop",
         animation: "pulse",
-        sound: "narration-garden-1",
+        sound: "cue-1-1",
       },
     ];
     const fixtureEntries = Array.from({ length: 28 }, (_, index) => {

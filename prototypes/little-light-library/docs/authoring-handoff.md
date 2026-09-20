@@ -7,7 +7,7 @@ The autonomous quality-scoring program remains parked.
 ## Current implementation
 
 - `public/books/catalog.json` is the explicit ordered shelf. Every visitor gets
-  Eden, Noah, Quiet Garden and the existing Jonah draft without browser setup.
+  Eden, Noah and the existing Jonah draft without browser setup.
 - Generic books use the existing v1 JSON contract, shared validation, paper stage,
   measured narration, soundtrack mixer, translation resolution and toys.
 - Eden/Noah retain their localized manifests and bespoke rigs through an explicit
@@ -22,10 +22,16 @@ The autonomous quality-scoring program remains parked.
   and selectively narrate with the existing local Kokoro Voice Lab. No provider,
   account, editor application or publishing service was added.
 
-Existing story JSON, localized text, artwork, recordings and translations were
-preserved byte-for-byte. Only the catalog changed under `public/`. Jonah remains
-three spreads without narration. Quiet Garden remains a two-spread technical
-demonstration, not one of the proposed showcase books.
+The editor retirement preserved existing content byte-for-byte. At the creator's
+request on 21 September 2026, the technical demonstration's JSON and registration
+were removed. The three remaining books and all shared Eden assets are unchanged.
+Jonah remains three spreads without narration.
+
+Jonah TODOs also include its bookend treatment and likely book-content
+translations after the English story is settled. Target languages still need
+creator confirmation; translated reader UI is not translated story content.
+See the [Jonah roadmap](feature-roadmap.md#jonah-and-the-whale) for sequencing
+and review requirements. These are notes for future work, not changes made here.
 
 ## Start and author
 
@@ -71,10 +77,12 @@ their own feature work. No push, merge or deployment is part of this delivery.
 
 ## Verification and limitations
 
-The current evidence is [retirement results](../review/latest/retirement-results.md)
-and [room results](../review/latest/room-results.json). These replace editor-era
-verification as the current workflow reference. Historical quality and performance
-results remain historical, not new acceptance evidence.
+The [retirement results](../review/latest/retirement-results.md) include a dated
+book-removal follow-up and the original retirement baseline. Current
+[room results](../review/latest/room-results.json) and
+[failure results](../review/latest/failure-results.json) cover the three-book
+catalog plus explicitly injected test-only fixtures. Historical quality and
+performance results remain historical, not new acceptance evidence.
 
 The browser suite uses isolated storage and committed production content, injects
 disposable 30-book/soundtrack/translation fixtures where needed, and verifies that

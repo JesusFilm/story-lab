@@ -28,7 +28,7 @@ needed for the requested change. Preserve unrelated and concurrent work.
 ## Content and architecture boundaries
 
 `public/books/catalog.json` is the one explicit, ordered shelf registration.
-All four committed entries belong on the shelf: `eden`, `noah`, `quiet-garden`,
+All three committed entries belong on the shelf: `eden`, `noah`,
 `jonah-and-the-whale`. Browser drafts and saved shelf choices do not define the
 public collection. Reader preferences may persist independently.
 
@@ -60,10 +60,10 @@ the relevant browser/origin. Recovery status belongs in the implementation hando
 
 The editor-retirement task preserves content and reader behavior. It does not
 complete Eden, Noah or Jonah as showcase books, generate translations, redesign
-the room or restart subjective quality scoring. Quiet Garden remains a technical
-demonstration. Future feature work is separately specified in the roadmap.
+the room or restart subjective quality scoring. Future feature work is separately
+specified in the roadmap.
 
-Run checks proportionate to the change. For runtime changes, cover all four
+Run checks proportionate to the change. For runtime changes, cover all three
 catalog entries, nested static paths, missing-resource failure/retry, desktop and
 phone, keyboard/touch, mute/volume and reduced motion. Inspect the actual rendered
 scene and repeated book transfers; passing assertions alone cannot establish

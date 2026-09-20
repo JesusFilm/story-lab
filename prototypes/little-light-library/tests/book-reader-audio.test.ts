@@ -1,14 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import fs from "node:fs";
 import { BookNarration } from "../src/book-reader-audio";
 import { buildBookTimeline } from "../src/book-audio";
-import type { AuthoredBook } from "../src/authored-book";
 
-const book = () =>
-  JSON.parse(
-    fs.readFileSync("public/books/quiet-garden.book.json", "utf8"),
-  ) as AuthoredBook;
+import { readerFixture as book } from "../scripts/reader-fixture";
 const context = () =>
   ({
     currentTime: 0,
