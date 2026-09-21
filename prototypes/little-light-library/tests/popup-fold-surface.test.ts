@@ -11,6 +11,7 @@ test("flat paper layers separate without cumulative drift and restore their upri
   });
   for (let repeat = 0; repeat < 10; repeat++) {
     groups.forEach((g, i) => popupFoldSurface(g, i, 0));
+    assert.ok(groups.every((g) => g.scale.y === 1));
     for (let i = 1; i < groups.length; i++)
       assert.ok(
         Math.abs(
@@ -18,6 +19,7 @@ test("flat paper layers separate without cumulative drift and restore their upri
         ) < 1e-10,
       );
     groups.forEach((g, i) => popupFoldSurface(g, i, 1));
+    assert.ok(groups.every((g) => g.scale.y === 1));
     assert.ok(groups.every((g) => g.position.z === 0.075));
   }
 });

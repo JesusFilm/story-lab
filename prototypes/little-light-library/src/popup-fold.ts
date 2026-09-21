@@ -1,4 +1,4 @@
-/** All illustrated panels use one forward-folding plane, with no angular stagger. */
+/** Paper cards rotate together from flat on the page to upright. */
 export function popupFoldAngle(unfolded: number) {
   const open = Math.max(0, Math.min(1, unfolded));
   return Math.PI - (Math.PI / 2) * open;

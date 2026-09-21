@@ -591,7 +591,7 @@ async function renderPage(autoplay: boolean, resume = false) {
     }
   };
   $("#play").onclick = async () => {
-    if (shelfBusy) return;
+    if (shelfBusy || pendingPage) return;
     if (!ready) {
       await showPage(true);
       return;
@@ -601,6 +601,12 @@ async function renderPage(autoplay: boolean, resume = false) {
       state.hide();
     } else {
       const active = narration;
+      if (
+        !(await scene.waitForUnfold(
+          () => token === operation && narration === active,
+        ))
+      )
+        return;
       await active.play();
       if (token !== operation || narration !== active || !ready) return;
       state.play();
@@ -608,13 +614,19 @@ async function renderPage(autoplay: boolean, resume = false) {
     updatePlayback();
   };
   $("#replay").onclick = async () => {
-    if (shelfBusy) return;
+    if (shelfBusy || pendingPage) return;
     if (!ready) {
       await showPage(true);
       return;
     }
     lastHighlight = "";
     const active = narration;
+    if (
+      !(await scene.waitForUnfold(
+        () => token === operation && narration === active,
+      ))
+    )
+      return;
     await active.replay();
     if (token !== operation || narration !== active || !ready) return;
     state.play();
@@ -679,6 +691,12 @@ async function renderPage(autoplay: boolean, resume = false) {
     ready = true;
     if (autoplay && !document.hidden) {
       const active = narration;
+      if (
+        !(await scene.waitForUnfold(
+          () => token === operation && narration === active,
+        ))
+      )
+        return;
       await active.play();
       if (token !== operation || !ready || narration !== active) return;
       state.play();
@@ -816,7 +834,8 @@ async function boot() {
       $("#scene"),
       (id) => {
         if (!entered || shelfBusy) return;
-        if (id.startsWith("shelf:")) void inspectShelfBook(id.slice(6));
+        if (id === "table-book") void resumeReading();
+        else if (id.startsWith("shelf:")) void inspectShelfBook(id.slice(6));
         else if (id.startsWith("toy:")) void playToy(id.slice(4));
       },
       () => soundscape?.cue("tap"),
