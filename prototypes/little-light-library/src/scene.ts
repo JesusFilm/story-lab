@@ -26,6 +26,7 @@ import { spreadReveal } from "./spread-reveal";
 import { RetainedStage } from "./retained-stage";
 import { foldedStagePose } from "./folded-stage-pose";
 import { popupFoldSurface } from "./popup-fold-surface";
+import { ShelfHint } from "./shelf-hint";
 import {
   captureFoldedPage,
   canCaptureOutgoing,
@@ -60,6 +61,7 @@ import {
 } from "./room-shelf";
 
 export type Selection =
+  | "table-book"
   | "eden"
   | "noah"
   | "adam"
@@ -335,6 +337,28 @@ export class LibraryScene {
         : (performance.now() - this.turnStarted) / 1000;
     return this.reduced || bookPose(age, this.opening, false).popups === 1;
   }
+  /** Resolve only after an upright frame, or cancel when the reader moves away. */
+  async waitForUnfold(isCurrent: () => boolean): Promise<boolean> {
+    const generation = this.loadGeneration;
+    while (
+      !this.disposed &&
+      generation === this.loadGeneration &&
+      isCurrent() &&
+      !document.hidden
+    ) {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+      if (this.creatureUsable() && !this.shelfCoverMotion)
+        return (
+          !this.disposed &&
+          generation === this.loadGeneration &&
+          isCurrent() &&
+          !document.hidden
+        );
+    }
+    return false;
+  }
   private clearCreatureTargets() {
     this.creatures.forEach(({ button }) => button.remove());
     this.touchedCreature = this.hoveredCreature = -1;
@@ -514,6 +538,7 @@ export class LibraryScene {
   private drift = new THREE.Vector2();
   private roomOrbit = new RoomOrbitGesture();
   private mode: "room" | "spread" = "room";
+  private shelfHint = new ShelfHint();
   private currentTexture?: THREE.Texture;
   private pageMaps: THREE.Texture[] = [];
   private roomTextures = new Set<THREE.Texture>();
@@ -648,10 +673,19 @@ export class LibraryScene {
       1 - ((event.clientY - bounds.top) / bounds.height) * 2,
     );
     this.ray.setFromCamera(this.pointer, this.camera);
-    for (const hit of this.ray.intersectObjects(this.pickables, true)) {
+    const targets: THREE.Object3D[] = [...this.pickables];
+    if (
+      this.shelfBrowsingTable &&
+      this.bookRoot.visible &&
+      !this.shelfCoverMotion
+    )
+      targets.push(this.bookRoot);
+    for (const hit of this.ray.intersectObjects(targets, true)) {
       if (!visiblePaintHit(hit)) continue;
       let object: THREE.Object3D | null = hit.object;
-      while (object && !object.userData.pick) object = object.parent;
+      while (object && !object.userData.pick && object !== this.bookRoot)
+        object = object.parent;
+      if (object === this.bookRoot) return "table-book";
       if (object) return object.userData.pick as Selection;
     }
     return null;
@@ -696,6 +730,7 @@ export class LibraryScene {
     this.renderer.domElement.addEventListener("pointermove", this.onMove);
     this.renderer.domElement.addEventListener("pointerleave", this.onLeave);
     this.scene.background = new THREE.Color(0x273b3a);
+    this.scene.add(this.shelfHint.root);
     this.scene.fog = new THREE.Fog(0x334240, 18, 38);
     this.scene.add(new THREE.HemisphereLight(0xe3edf2, 0x6f4930, 1.65));
     const sun = new THREE.DirectionalLight(0xffdfad, 2.5);
@@ -1394,6 +1429,7 @@ export class LibraryScene {
     this.resize();
   }
   async inspectShelfBook(key: string) {
+    this.shelfHint.complete();
     this.browseShelf();
     if (!(await this.roomShelf.inspect(key, this.reduced)))
       throw new Error(`Shelf book ${key} is unavailable`);
@@ -1969,7 +2005,7 @@ export class LibraryScene {
       }
     }
     if (generation !== this.loadGeneration) return;
-    if (!wasRoom && !this.reduced) {
+    if (!this.reduced) {
       try {
         const target = captureFoldedPage(
           this.renderer,
@@ -2131,6 +2167,7 @@ export class LibraryScene {
   }
   debug() {
     return {
+      shelfHint: this.shelfHint.debug(),
       mode: this.mode,
       roomOrbitYaw: this.roomOrbit.yaw,
       roomDragging: this.roomOrbit.dragging,
@@ -2201,6 +2238,10 @@ export class LibraryScene {
       shelf: this.roomShelf.debug(),
       tableShelfKey: this.tableShelfKey ?? null,
       shelfBrowsingTable: this.shelfBrowsingTable,
+      closedBookBounds:
+        this.shelfBrowsingTable && this.coverArt
+          ? this.projectedBounds(this.coverArt)
+          : null,
       shelfCoverMoving: Boolean(this.shelfCoverMotion),
       shelfToys: [...this.shelfToys].map(([id, toy]) => ({
         id,
@@ -2239,6 +2280,14 @@ export class LibraryScene {
     }
     const now = performance.now();
     this.roomShelf.update(now);
+    this.shelfHint.update(
+      now,
+      this.roomShelf.pickables()[0],
+      this.mode === "room" &&
+        !document.querySelector("dialog[open]") &&
+        !document.querySelector("#loading:not([hidden])"),
+      this.reduced,
+    );
     const dt = this.lastFrame
       ? Math.min(0.05, (now - this.lastFrame) / 1000)
       : 0.016;
@@ -2337,9 +2386,7 @@ export class LibraryScene {
         this.foldingOut ? this.leafPrint : this.destinationPrint
       ).resource?.texture.userData.printContainment;
       const stagePose = foldedStagePose(
-        this.reduced || (this.opening && outgoingUnfold === undefined)
-          ? undefined
-          : foldFrame,
+        this.reduced ? undefined : foldFrame,
         outgoingUnfold ?? pose.popups,
       );
       this.pageRoot.scale.setScalar(stagePose.scale);
@@ -2350,7 +2397,7 @@ export class LibraryScene {
       this.popups.forEach((g, i) => {
         popupFoldSurface(g, i, unfold);
         g.rotation.x = popupFoldAngle(unfold);
-        g.visible = !(this.opening && age < 0.95);
+        g.visible = unfold > 0.001 && !(this.opening && age < 1.55);
       });
       if (this.transitionWaiting && this.waitingFromRoom)
         this.leftLeaf.rotation.y = Math.PI;
@@ -2615,8 +2662,10 @@ export class LibraryScene {
   }
   private configureSpreadPrints(direction: TurnDirection) {
     if (this.leafPrint.resource) this.leafPrint.direction = direction;
-    const source = this.leafPrint.resource?.texture || null;
-    const destination = this.destinationPrint.resource?.texture || null;
+    // Use the exact page material throughout the turn. Captures retain layout
+    // metadata only; tinting paper with a paper-colored texture changes its color.
+    const source = null;
+    const destination = null;
     this.turningLeaf?.setSpreadPrint(source, destination, direction);
     if (this.waitingPaper) setPrintCrop(this.waitingPaper.material, source);
     const landingLeft = direction === "forward";
@@ -2655,6 +2704,7 @@ export class LibraryScene {
     this.destinationPrint.clear();
   }
   dispose() {
+    this.shelfHint.dispose();
     this.clearCreatureTargets();
     this.retainedStage.clear();
     this.clearSpreadPrints();

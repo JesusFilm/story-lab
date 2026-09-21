@@ -16,7 +16,7 @@ export function spreadReveal(
     };
   const turning = !opening && !reduced && age < 0.58;
   return {
-    stage: !turning,
+    stage: !turning && (reduced || !opening || age >= 1.55),
     waitingPaper: false,
     stationarySource: turning && hasSource,
     destinationPaper: turning && hasDestination,

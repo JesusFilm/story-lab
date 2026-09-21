@@ -12,13 +12,32 @@ do not. Book-specific toys stand on top of the cabinet, separate from book slots
 
 ## Reading and transfers
 
+On each fresh page visit, a small pointing hand invites the visitor to select a
+spine after 15 seconds without selecting a book. Pointer movement, unrelated
+clicks and keyboard activity do not reset or interrupt it. It appears
+for four seconds, then rests for ten seconds before repeating. Selecting any
+book fades it out over 600 milliseconds and dismisses it for the rest of that
+visit, including after returning to the shelf. Dialogs allow an existing cue to
+finish; hidden tabs pause the invitation and restart the idle wait.
+Reduced motion uses a stationary hand.
+
+Turning pages show plain warm paper using the same material as the open pages.
+The entire story stage, including ground artwork, stays hidden until the cover
+has opened. Cards then rotate upward on their hinges, retaining their proportions.
+The folded stage is fitted to the page bounds on initial opening and page turns.
+Cards fold down before the next page turns.
+Narration waits for a fully unfolded rendered frame before starting, including
+autoplay, manual Play and Replay. Leaving the page cancels a pending start.
+Any visible reverse uses the page's warm paper color.
+
 Select a titled spine with pointer or keyboard controls. It slides clear of the
 shelf and turns its cover toward the reader. **Read** brings it to the table and
 opens it. **Return** or Escape puts a previewed book back. Inspecting another
 cover leaves the current table book and toys unchanged.
 
 While reading, **Library** returns to the room with the current book closed on
-the table, cover up. **Continue reading** reopens the same page at its paused
+the table, cover up. Clicking or tapping that closed book, or choosing
+**Continue reading**, reopens the same page at its paused
 narration position. Reading another book performs this sequence:
 
 1. Stop narration and old toy audio; move the previous toys away.

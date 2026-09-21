@@ -293,7 +293,7 @@
       "image": "prototypes/little-light-library/docs/captures/room-1366.png",
       "image_alt": "The closed Adam and Eve storybook rests cover-up on the table, with Adam, Eve and a tree toy on the top shelf in the Little Light Library room.",
       "static_build": "prototypes/little-light-library",
-      "static_output_digest": "58b06cd93c0295fd3036819a52bb3cf089654a7966bce5a08a2071568997c4ad",
+      "static_output_digest": "a5cacd785bc410761c4d61c276f41e5244ffda019f37142d366b7766bf37dbf7",
       "files": [
         "prototypes/little-light-library/docs/captures/room-1366.png",
         "prototypes/little-light-library/assets/art/jonah/jonah-cutout.png",
@@ -325,7 +325,12 @@
         "prototypes/little-light-library/src/room-shelf.ts",
         "prototypes/little-light-library/src/room-toys.ts",
         "prototypes/little-light-library/src/shelf-toy-audio.ts",
-        "prototypes/little-light-library/src/book-catalog.ts"
+        "prototypes/little-light-library/src/book-catalog.ts",
+        "prototypes/little-light-library/src/leaf-print.ts",
+        "prototypes/little-light-library/src/popup-fold-surface.ts",
+        "prototypes/little-light-library/src/popup-fold.ts",
+        "prototypes/little-light-library/src/spread-reveal.ts",
+        "prototypes/little-light-library/src/shelf-hint.ts"
       ]
     },
     {
@@ -983,8 +988,8 @@
     "prototypes/little-light-library/public/books/jonah-and-the-whale.book.json": "54a840b88b3ad25d156c9e6a01cfda3faa042361038c70c2f6b5bc8dde6e593b",
     "prototypes/little-light-library/src/book-validation.ts": "24826073e6b33c59d4682d1869a4fc1f78a6e76216c89d6df29790c059e44920",
     "prototypes/little-light-library/src/contracts.ts": "84c00efb5b79a6bf71321ccbfb95a9f5f32f7a2bf531c5cb6729cd11c5dc0b39",
-    "prototypes/little-light-library/src/main.ts": "68e464c5e000ef82a0dafb8e2ac0f25671afe31d2910473dbe483be7aa4eb24b",
-    "prototypes/little-light-library/src/scene.ts": "e2b765a206d4f43d91eb3db78073211bcf21de563d02b4a48180f33903585d5a",
+    "prototypes/little-light-library/src/main.ts": "5726bec66b1c270ff25c30e169aa71837f47d81453590b57aa4d46412b29a1b4",
+    "prototypes/little-light-library/src/scene.ts": "fc7a831525457002b5065d12188b58bcdcbfb8973f5eae3d968715eb9f072679",
     "prototypes/little-light-library/src/state.ts": "6292ff4e23627ad37fac6c1205ad3966e822bde54866d3127ae318078b64f999",
     "prototypes/little-light-library/src/style.css": "b6af52f4700aac5b6e09a3e5111be1a19bd3ab3f1cc3a75fc313b401aaa56de3",
     "prototypes/little-light-library/public/books/catalog.json": "36a626cb41d754cc1c4e1ac5f1b182af5df9ac777f78793eae6e13d51afd77eb",
@@ -997,7 +1002,12 @@
     "prototypes/little-light-library/src/room-shelf.ts": "464b170fde8c512f0928aab45930151947917eea01260af9337cf64044ea1274",
     "prototypes/little-light-library/src/room-toys.ts": "72f5535540f8171f504e261687eae5e6455cca100272452b3c075b2f6d4e8daf",
     "prototypes/little-light-library/src/shelf-toy-audio.ts": "4f15077e8debc471d0a99e5d57f0cda2bef1aac185cc268078f8830c22c63044",
-    "prototypes/little-light-library/src/book-catalog.ts": "355565fee356c907ff45ec1dd923c9692c67125f40419498a049935840e91417"
+    "prototypes/little-light-library/src/book-catalog.ts": "355565fee356c907ff45ec1dd923c9692c67125f40419498a049935840e91417",
+    "prototypes/little-light-library/src/leaf-print.ts": "58a2356e3329c83b3b5647b802d36e026a0f1f8da4ecbe19c1377fc6f80a6d38",
+    "prototypes/little-light-library/src/popup-fold-surface.ts": "d70b5748f86e283ac7733b7204f30a818ebdcbc80519013618e1ab051a84e1bb",
+    "prototypes/little-light-library/src/popup-fold.ts": "ae2275826e2af560d132019cfc43d6783b3dd25498bbf863c347368b525f389b",
+    "prototypes/little-light-library/src/spread-reveal.ts": "c2c1a8738e3121d98e58ad854d257fc5bffa8c20a196f258124d382652288f76",
+    "prototypes/little-light-library/src/shelf-hint.ts": "c333eee740938b77eeddd47e9fbd2c6369a42bd87fc1db971ca8f508625a3225"
   },
   "local_only_prototypes": []
 }

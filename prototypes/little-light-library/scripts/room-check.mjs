@@ -990,6 +990,12 @@ await check(
         ),
         true,
       );
+      // Audio now starts after the fold, so let the authored 100 ms fade finish.
+      await page.waitForFunction(
+        () =>
+          window.libraryDebug?.().playing &&
+          window.libraryDebug?.().position > 0.15,
+      );
       const audio = await page.evaluate(() => window.readerAudioProbe());
       assert.ok(
         audio.some(

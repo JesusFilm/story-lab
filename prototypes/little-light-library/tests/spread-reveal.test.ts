@@ -35,7 +35,15 @@ test("stationary old and new halves coexist only until leaf clearance, then comp
     destinationPaper: false,
   });
   assert.equal(spreadReveal(false, 0, false, true, false, false).stage, true);
-  assert.equal(spreadReveal(false, 0, true, false, false, false).stage, true);
+  for (const age of [0, 0.85, 1, 1.54])
+    assert.equal(
+      spreadReveal(false, age, true, false, false, false).stage,
+      false,
+    );
+  assert.equal(
+    spreadReveal(false, 1.55, true, false, false, false).stage,
+    true,
+  );
 });
 test("front and back sample the correct full-spread halves without changing shared GPU textures", () => {
   const material = new THREE.MeshStandardMaterial(),

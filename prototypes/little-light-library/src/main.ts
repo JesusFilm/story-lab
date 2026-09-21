@@ -452,10 +452,10 @@ function settingsDialog() {
 }
 async function room() {
   await shelfAction(async () => {
-    await pendingPage;
     ++operation;
     narration?.pause();
     state.hide();
+    await pendingPage;
     browsingShelf = true;
     soundscape?.ambience(true);
     soundscape?.scene("room");
@@ -591,7 +591,7 @@ async function renderPage(autoplay: boolean, resume = false) {
     }
   };
   $("#play").onclick = async () => {
-    if (shelfBusy) return;
+    if (shelfBusy || pendingPage) return;
     if (!ready) {
       await showPage(true);
       return;
@@ -601,23 +601,37 @@ async function renderPage(autoplay: boolean, resume = false) {
       state.hide();
     } else {
       const active = narration;
+      if (
+        !(await scene.waitForUnfold(
+          () => token === operation && narration === active,
+        ))
+      )
+        return;
       await active.play();
       if (token !== operation || narration !== active || !ready) return;
-      state.play();
+      if (active.clock.playing) state.play();
     }
     updatePlayback();
   };
   $("#replay").onclick = async () => {
-    if (shelfBusy) return;
+    if (shelfBusy || pendingPage) return;
     if (!ready) {
       await showPage(true);
       return;
     }
     lastHighlight = "";
     const active = narration;
+    active.pause();
+    state.hide();
+    if (
+      !(await scene.waitForUnfold(
+        () => token === operation && narration === active,
+      ))
+    )
+      return;
     await active.replay();
     if (token !== operation || narration !== active || !ready) return;
-    state.play();
+    if (active.clock.playing) state.play();
   };
   if (resume) {
     ready = previousReady;
@@ -649,6 +663,7 @@ async function renderPage(autoplay: boolean, resume = false) {
         }),
       );
     }
+    return;
   }
   if (token !== operation) return;
   try {
@@ -676,13 +691,19 @@ async function renderPage(autoplay: boolean, resume = false) {
           ),
         );
     if (token !== operation || !loaded) return;
-    ready = true;
+    const active = narration;
+    if (
+      !(await scene.waitForUnfold(
+        () => token === operation && narration === active,
+      ))
+    )
+      return;
     if (autoplay && !document.hidden) {
-      const active = narration;
       await active.play();
-      if (token !== operation || !ready || narration !== active) return;
-      state.play();
+      if (token !== operation || narration !== active) return;
+      if (active.clock.playing) state.play();
     } else state.hide();
+    ready = true;
   } catch (error) {
     if (token === operation) {
       notice(t("audioError"));
@@ -816,7 +837,8 @@ async function boot() {
       $("#scene"),
       (id) => {
         if (!entered || shelfBusy) return;
-        if (id.startsWith("shelf:")) void inspectShelfBook(id.slice(6));
+        if (id === "table-book") void resumeReading();
+        else if (id.startsWith("shelf:")) void inspectShelfBook(id.slice(6));
         else if (id.startsWith("toy:")) void playToy(id.slice(4));
       },
       () => soundscape?.cue("tap"),

@@ -74,6 +74,7 @@ export function captureFoldedPage(
   // Tiny deterministic layer offsets remove coplanar interference in the flat composite.
   clone.children.forEach((popup, i) => {
     if (popup.userData.staticPageSurface) return;
+    popup.scale.y = 1;
     popup.rotation.x = Number(popup.userData.foldStart) || 0;
     popup.position.z =
       (popup.userData.foldBaseZ ?? popup.position.z) + i * FOLD_LAYER_GAP;
@@ -110,6 +111,8 @@ export function captureFoldedPage(
     ? foldedPrintFrame(visibleFoldedBounds(clone))
     : undefined;
   if (containment) target.texture.userData.printContainment = containment;
+  // Folded pages show paper, never a flattened, upside-down story illustration.
+  clone.visible = false;
   const layout = containment || {
     ...printLayout(direction),
     top: 1.715,
