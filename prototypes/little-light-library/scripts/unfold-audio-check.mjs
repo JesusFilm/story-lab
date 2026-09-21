@@ -56,6 +56,20 @@ try {
   console.log(
     "Narration begins only after upright popups on opening and page turn.",
   );
+  await page.waitForFunction(() => window.libraryDebug?.().ready);
+  await page.evaluate(() => {
+    window.narrationStarts = [];
+  });
+  await page.locator("#next").click();
+  await page.locator("#shelf").click();
+  await page.waitForFunction(
+    () =>
+      window.libraryDebug?.().shelf.browsing &&
+      !window.libraryDebug?.().shelf.busy,
+  );
+  assert.equal(await page.evaluate(() => window.narrationStarts.length), 0);
+  assert.equal(await page.evaluate(() => window.libraryDebug().playing), false);
+  console.log("Returning to the library cancels pending narration.");
 } finally {
   await browser.close();
 }

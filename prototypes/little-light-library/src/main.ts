@@ -452,10 +452,10 @@ function settingsDialog() {
 }
 async function room() {
   await shelfAction(async () => {
-    await pendingPage;
     ++operation;
     narration?.pause();
     state.hide();
+    await pendingPage;
     browsingShelf = true;
     soundscape?.ambience(true);
     soundscape?.scene("room");
@@ -609,7 +609,7 @@ async function renderPage(autoplay: boolean, resume = false) {
         return;
       await active.play();
       if (token !== operation || narration !== active || !ready) return;
-      state.play();
+      if (active.clock.playing) state.play();
     }
     updatePlayback();
   };
@@ -621,6 +621,8 @@ async function renderPage(autoplay: boolean, resume = false) {
     }
     lastHighlight = "";
     const active = narration;
+    active.pause();
+    state.hide();
     if (
       !(await scene.waitForUnfold(
         () => token === operation && narration === active,
@@ -629,7 +631,7 @@ async function renderPage(autoplay: boolean, resume = false) {
       return;
     await active.replay();
     if (token !== operation || narration !== active || !ready) return;
-    state.play();
+    if (active.clock.playing) state.play();
   };
   if (resume) {
     ready = previousReady;
@@ -661,6 +663,7 @@ async function renderPage(autoplay: boolean, resume = false) {
         }),
       );
     }
+    return;
   }
   if (token !== operation) return;
   try {
@@ -688,19 +691,19 @@ async function renderPage(autoplay: boolean, resume = false) {
           ),
         );
     if (token !== operation || !loaded) return;
-    ready = true;
+    const active = narration;
+    if (
+      !(await scene.waitForUnfold(
+        () => token === operation && narration === active,
+      ))
+    )
+      return;
     if (autoplay && !document.hidden) {
-      const active = narration;
-      if (
-        !(await scene.waitForUnfold(
-          () => token === operation && narration === active,
-        ))
-      )
-        return;
       await active.play();
-      if (token !== operation || !ready || narration !== active) return;
-      state.play();
+      if (token !== operation || narration !== active) return;
+      if (active.clock.playing) state.play();
     } else state.hide();
+    ready = true;
   } catch (error) {
     if (token === operation) {
       notice(t("audioError"));

@@ -1,5 +1,5 @@
 {
-  "bytes": 653889586,
+  "bytes": 653889770,
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "animal-pen.jpg": "d328cae2864bfcce5c17bb73607408f7473537294b41d083093eb701005ab368",
@@ -427,7 +427,7 @@
     "prototypes/little-light-library/assets/audio/zh-CN/noah/noah-07/s2-807d950ed76382f47406.wav": "88dc82fc6193862df0fbb36586fe29f2ccf127703278e957c03b02668cdd978c",
     "prototypes/little-light-library/assets/audio/zh-CN/noah/noah-08/s1-0865768712a3a3b9808c.wav": "027c212f15adde53126e422126d0b372440df643abf5f14b753842aeec25f16a",
     "prototypes/little-light-library/assets/audio/zh-CN/noah/noah-08/s2-9d46f4098d756446f43d.wav": "5f5b912981cfd5ab03baceb7a47064a45ebae4c0af8d0cb981ed718eb251a5d0",
-    "prototypes/little-light-library/assets/index-CSA2uzdf.js": "1f58d68087efbb266543a2fbb7b72c8d2fff41b54fa3fd27b6ae16ba8b8ca2dc",
+    "prototypes/little-light-library/assets/index-CpTVsULA.js": "1f9c00198c258d7952c058ad133f14580c4b00f1fd8ab7dfb054920d7ec7c568",
     "prototypes/little-light-library/assets/index-HMJenEvD.css": "1b4ed723f949c53ba2dcde599f8073524de3e88a2edc48e9ddddfcf33f4cc6fc",
     "prototypes/little-light-library/assets/models/little-light-book.glb": "37372a513a760792cddf2688e48f1cbb7f2eba34b6e726dbc873423e77b9a363",
     "prototypes/little-light-library/audio-manifest.json": "7177639276311568dcf90d0c25804803f8e0ec54d11d186a8a0c0cabbf53644c",
@@ -443,7 +443,7 @@
     "prototypes/little-light-library/content/pt-BR.json": "2ba1169f84ea46041cab90ab316acb150fede13cf6a9daac266a943ff9b96728",
     "prototypes/little-light-library/content/zh-CN.json": "35a82345ca3831819c8f56c2a5ec6fc690c442748b7dd54a42af8fc897bd3971",
     "prototypes/little-light-library/docs/captures/room-1366.png": "e4ead76c5c66fbdc23307ebceb4081023221cfec1204889cc90090c1d0f7fa04",
-    "prototypes/little-light-library/index.html": "f6dbcfb558a83c027bbf433990eb89d9e75f066b5c0f3d822a60298bd8a7af55",
+    "prototypes/little-light-library/index.html": "f7ffc897974ff291b853f2898807f20bc66fd392253d08120f99b3efad212705",
     "prototypes/little-light-library/loading-locales.js": "27ad3237cb768fb38fa18f3f6b553237727dd1f91db03e60f36685f713f0fbb5",
     "prototypes/little-light-library/loading-theatre.css": "210a1f4764c0a11dff62586d999b1a458a4b69c79c082cd1fd15d8ed52b411a9",
     "prototypes/little-light-library/loading-theatre.js": "e9636a691b3bc986b4cdc5be1bcd38f28546a74ee31b3695a2a4b7aee7e58819",
@@ -464,7 +464,7 @@
     "prototypes/little-light-library/src/book-validation.ts": "24826073e6b33c59d4682d1869a4fc1f78a6e76216c89d6df29790c059e44920",
     "prototypes/little-light-library/src/contracts.ts": "84c00efb5b79a6bf71321ccbfb95a9f5f32f7a2bf531c5cb6729cd11c5dc0b39",
     "prototypes/little-light-library/src/leaf-print.ts": "58a2356e3329c83b3b5647b802d36e026a0f1f8da4ecbe19c1377fc6f80a6d38",
-    "prototypes/little-light-library/src/main.ts": "61cfe8d0fa3b5546d054090d5331aff4c867a02da4aec7ab08a7e0032806a213",
+    "prototypes/little-light-library/src/main.ts": "5726bec66b1c270ff25c30e169aa71837f47d81453590b57aa4d46412b29a1b4",
     "prototypes/little-light-library/src/popup-fold-surface.ts": "d70b5748f86e283ac7733b7204f30a818ebdcbc80519013618e1ab051a84e1bb",
     "prototypes/little-light-library/src/popup-fold.ts": "ae2275826e2af560d132019cfc43d6783b3dd25498bbf863c347368b525f389b",
     "prototypes/little-light-library/src/room-library.ts": "d885f9375218b47a2ac5029f089d81867e0dc2d38871607bdb1209084faeaaaa",

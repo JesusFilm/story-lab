@@ -293,7 +293,7 @@
       "image": "prototypes/little-light-library/docs/captures/room-1366.png",
       "image_alt": "The closed Adam and Eve storybook rests cover-up on the table, with Adam, Eve and a tree toy on the top shelf in the Little Light Library room.",
       "static_build": "prototypes/little-light-library",
-      "static_output_digest": "01901e60a99074d7956fc3e199af519cebde48705fcadf1439a98afbd6fab1d6",
+      "static_output_digest": "a5cacd785bc410761c4d61c276f41e5244ffda019f37142d366b7766bf37dbf7",
       "files": [
         "prototypes/little-light-library/docs/captures/room-1366.png",
         "prototypes/little-light-library/assets/art/jonah/jonah-cutout.png",
@@ -988,7 +988,7 @@
     "prototypes/little-light-library/public/books/jonah-and-the-whale.book.json": "54a840b88b3ad25d156c9e6a01cfda3faa042361038c70c2f6b5bc8dde6e593b",
     "prototypes/little-light-library/src/book-validation.ts": "24826073e6b33c59d4682d1869a4fc1f78a6e76216c89d6df29790c059e44920",
     "prototypes/little-light-library/src/contracts.ts": "84c00efb5b79a6bf71321ccbfb95a9f5f32f7a2bf531c5cb6729cd11c5dc0b39",
-    "prototypes/little-light-library/src/main.ts": "61cfe8d0fa3b5546d054090d5331aff4c867a02da4aec7ab08a7e0032806a213",
+    "prototypes/little-light-library/src/main.ts": "5726bec66b1c270ff25c30e169aa71837f47d81453590b57aa4d46412b29a1b4",
     "prototypes/little-light-library/src/scene.ts": "fc7a831525457002b5065d12188b58bcdcbfb8973f5eae3d968715eb9f072679",
     "prototypes/little-light-library/src/state.ts": "6292ff4e23627ad37fac6c1205ad3966e822bde54866d3127ae318078b64f999",
     "prototypes/little-light-library/src/style.css": "b6af52f4700aac5b6e09a3e5111be1a19bd3ab3f1cc3a75fc313b401aaa56de3",
