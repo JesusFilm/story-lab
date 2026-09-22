@@ -10,7 +10,9 @@ License: **CC0 1.0 Universal**; the original license is retained in
 [originals/License_Standard.txt](originals/License_Standard.txt).
 Downloaded 11 September 2026 from the pinned public mirror commit recorded in
 [provenance.json](provenance.json). That manifest records hashes of the original
-files; no scripts from the download were executed.
+files; no scripts from the download were executed. PNG metadata was later stripped
+without changing pixel data; where that removed a chunk, the entry keeps the
+mirror's hash and size as `upstream_sha256`/`upstream_bytes`.
 
 ## Selection and use
 

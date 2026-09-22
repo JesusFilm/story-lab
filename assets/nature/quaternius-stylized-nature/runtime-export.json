@@ -88,8 +88,10 @@
     },
     {
       "path": "originals/glTF/PathRocks_Diffuse.png",
-      "sha256": "85a04abb2c136fee53b376daf3b7d7f96fdf3966de0258dff6fe2b24da792b23",
-      "bytes": 811732
+      "sha256": "df31c0574686b94109b40d56057eb3551224c539bd9ff44f719b24622883df1b",
+      "bytes": 811711,
+      "upstream_sha256": "85a04abb2c136fee53b376daf3b7d7f96fdf3966de0258dff6fe2b24da792b23",
+      "upstream_bytes": 811732
     },
     {
       "path": "originals/glTF/Pebble_Round_2.bin",
@@ -133,8 +135,10 @@
     },
     {
       "path": "originals/glTF/Rocks_Diffuse.png",
-      "sha256": "b813696df6081f469a127092eb0ce45cc39d56f3ccc0699152bfcd3804810b48",
-      "bytes": 2517398
+      "sha256": "7616d35e4b41e88702c34c866715c8b4dbc4638f47d8a1a279e27b9fc95a41e9",
+      "bytes": 2517377,
+      "upstream_sha256": "b813696df6081f469a127092eb0ce45cc39d56f3ccc0699152bfcd3804810b48",
+      "upstream_bytes": 2517398
     },
     {
       "path": "originals/glTF/TwistedTree_1.bin",
@@ -175,33 +179,33 @@
   "runtime_files": [
     {
       "path": "prototypes/shepherd-adventure/assets/nature/Bark_DeadTree.png",
-      "sha256": "498c5a20e54df4be73f543a786497e7df840ae907242e142621e22dd16a07aec",
-      "bytes": 1301370
+      "sha256": "0e382ca7ecd69226b9db4d65bd6099706e154384d6ec4f13ccec119edd8f5f24",
+      "bytes": 1301290
     },
     {
       "path": "prototypes/shepherd-adventure/assets/nature/Bark_DeadTree_Normal.png",
-      "sha256": "d3a0dc287eba6512851a0e3aca12cb348e2168dc6787ea3b01ef622514642988",
-      "bytes": 1721802
+      "sha256": "0f525d156830a6b8d80ada85de9c9c85df8f18b3eede1854c697b4941f0ff4f5",
+      "bytes": 1721722
     },
     {
       "path": "prototypes/shepherd-adventure/assets/nature/Bark_NormalTree.png",
-      "sha256": "f40d425d875500b4fb4a9543cc361c5330f5058468e4d0f905631de516dda8c0",
-      "bytes": 1228434
+      "sha256": "01ca34489206d36a872b6122515157675e826ae92da2ffc834721351520dc838",
+      "bytes": 1228354
     },
     {
       "path": "prototypes/shepherd-adventure/assets/nature/Bark_NormalTree_Normal.png",
-      "sha256": "17a53781868cada06020a478a88efe449322637f3e2924ea489b087c92aeab3b",
-      "bytes": 1365524
+      "sha256": "7503846d460b56b55489e2bd0e68bee279f2c239c9fd70bda4e02c889e4ad421",
+      "bytes": 1365444
     },
     {
       "path": "prototypes/shepherd-adventure/assets/nature/Bark_TwistedTree.png",
-      "sha256": "b721ec3a567efdd52aba75021c3ec4562a4392dc916c5e11b08b9afd2c8c8db4",
-      "bytes": 1375499
+      "sha256": "2f6f8388e7d2f09d267360bb481c1a99d23d9039a6669dd47b9d631c420532f8",
+      "bytes": 1375419
     },
     {
       "path": "prototypes/shepherd-adventure/assets/nature/Bark_TwistedTree_Normal.png",
-      "sha256": "d3a0dc287eba6512851a0e3aca12cb348e2168dc6787ea3b01ef622514642988",
-      "bytes": 1721802
+      "sha256": "0f525d156830a6b8d80ada85de9c9c85df8f18b3eede1854c697b4941f0ff4f5",
+      "bytes": 1721722
     },
     {
       "path": "prototypes/shepherd-adventure/assets/nature/CommonTree_2.bin",
@@ -250,8 +254,8 @@
     },
     {
       "path": "prototypes/shepherd-adventure/assets/nature/PathRocks_Diffuse.png",
-      "sha256": "85a04abb2c136fee53b376daf3b7d7f96fdf3966de0258dff6fe2b24da792b23",
-      "bytes": 811732
+      "sha256": "df31c0574686b94109b40d56057eb3551224c539bd9ff44f719b24622883df1b",
+      "bytes": 811711
     },
     {
       "path": "prototypes/shepherd-adventure/assets/nature/Pebble_Round_2.bin",
@@ -295,8 +299,8 @@
     },
     {
       "path": "prototypes/shepherd-adventure/assets/nature/Rocks_Diffuse.png",
-      "sha256": "2dd54656f9a35aad155c9c13b9d1e0c3026509a1ab4926cbe6203a7f4b0834d5",
-      "bytes": 1142110
+      "sha256": "5d5a055fbac2e9d4d97300162f9117ccbbc873d8571e3138a04da0a75eeb4fc6",
+      "bytes": 1141957
     },
     {
       "path": "prototypes/shepherd-adventure/assets/nature/TwistedTree_1.bin",
