@@ -312,6 +312,12 @@ export class StoryDiorama extends EventTarget {
       return;
     }
     const audio = new Audio(c.src);
+    // Native streaming decode is opaque. Record readiness/stalls, not invented
+    // PCM bytes or decode duration, for the optional phone diagnostic export.
+    for (const type of ["loadstart", "loadedmetadata", "canplay", "playing", "waiting", "stalled", "ended"])
+      audio.addEventListener(type, () => window.shepherdStartup?.mark("story-audio-" + type, {
+        readyState: audio.readyState, networkState: audio.networkState, mediaSeconds: audio.currentTime
+      }));
     audio.loop = !!c.loop;
     audio.preload = "none";
     audio.volume = 0;

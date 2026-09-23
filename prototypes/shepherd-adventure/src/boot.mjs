@@ -9,10 +9,10 @@ const story=createJourneyStory({onPlaying(kind){window.shepherdStartup?.mark(`${
  const game=await prepareGame();
  if(!game){window.storyLoading.show();window.storyLoading.fail('The game could not load. Reload to try again.');console.error(gameError);return;}
  try{await game.startOpeningCamera();window.storyLoading.ready();}
- catch(error){console.error(error);window.storyLoading.show();window.storyLoading.fail('The 3D view could not start. Reload to restart, or try another browser.');}
+ catch(error){window.shepherdStartup?.failure('world-first-frame',error.message);console.error(error);window.storyLoading.show();window.storyLoading.fail('The 3D view could not start. Reload to restart, or try another browser.');}
 }});
 function prepareGame(){
- if(!gamePromise){window.shepherdStartup?.mark('game-import-start');gamePromise=import('./village-game.mjs').then(module=>{window.shepherdStartup?.mark('game-import-end');return module.createVillageGame(story);}).catch(error=>{gameError=error;return null;});}
+ if(!gamePromise){window.shepherdStartup?.mark('game-import-start');gamePromise=import('./village-game.mjs').then(module=>{window.shepherdStartup?.mark('game-import-end');return module.createVillageGame(story);}).catch(error=>{window.shepherdStartup?.failure('world-prepare',error.message);gameError=error;return null;});}
  return gamePromise;
 }
 if(new URLSearchParams(location.search).has('debug')){

@@ -26,7 +26,7 @@ export function createStoryMedia(){
     const media=new Map(entries);
     lease.story={...source,cues:source.cues.map(c=>({...c,...(c.image?{image:media.get(c.image)}:{}),...(c.music?{music:{...c.music,src:c.music.src}}:{})}))};
     // Decode the image before committing the story to the screen.
-    await mapMedia([...new Set(lease.story.cues.map(c=>c.image).filter(Boolean))],async src=>{const image=new Image();image.src=src;try{await image.decode();}finally{image.removeAttribute('src');}});
+    await mapMedia([...new Set(lease.story.cues.map(c=>c.image).filter(Boolean))],async src=>{const image=new Image(),start=performance.now();image.src=src;try{await image.decode();window.shepherdStartup?.mark('story-image-decoded',{kind,start,duration:performance.now()-start,width:image.naturalWidth,height:image.naturalHeight,logicalRGBABytes:image.naturalWidth*image.naturalHeight*4});}finally{image.removeAttribute('src');}});
     if(lease.controller.signal.aborted)throw new DOMException('Cancelled','AbortError');
     window.shepherdStartup?.mark(`${kind}-media-decoded`,{blobBytes:lease.blobBytes});lease.ready=true;return lease.story;
    }catch(error){if(leases.get(kind)===lease)release(kind);throw error;}finally{clearTimeout(timer);}

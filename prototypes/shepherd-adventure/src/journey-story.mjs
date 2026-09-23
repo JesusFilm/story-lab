@@ -22,11 +22,11 @@ export function createJourneyStory({onClose,onPlaying=()=>{}}){
    player.setMuted(muted);
    player.addEventListener('cue',e=>{bubble.hidden=!e.detail.cue.bubble;bubble.textContent=e.detail.cue.bubble?e.detail.cue.text:'';});
    player.addEventListener('state',e=>{const s=e.detail;const idle=s.phase==='idle';overlay.classList.toggle('story-awaiting-start',idle);titleCard.hidden=!idle;next.textContent=s.phase==='idle'?'Start':s.paused?'Continue':s.index===s.total-1?(kind==='opening'?'Start adventure':'Finish story'):'Next verse';});
-   player.addEventListener('audioerror',()=>{if(muted)return;status.textContent='Sound could not start.';$('#story-audio-retry').textContent='Retry sound';$('#story-audio-retry').hidden=false;});
+   player.addEventListener('audioerror',e=>{window.shepherdStartup?.failure('story-audio',e.detail?.message||'Story audio unavailable');if(muted)return;status.textContent='Sound could not start.';$('#story-audio-retry').textContent='Retry sound';$('#story-audio-retry').hidden=false;});
    player.addEventListener('complete',finish);
    await player.preload();if(token!==generation)return;
    status.textContent='';next.textContent='Start';overlay.hidden=false;window.storyLoading?.ready();next.focus({preventScroll:true});window.shepherdMemory?.mark(`${which}-visible`);onPlaying(which);
-  }catch(error){if(token!==generation)return;window.storyLoading?.show();window.storyLoading?.fail('Story media could not load. Retry or reload to continue.');const retry=document.querySelector('.loading-retry');if(retry){retry.textContent='Retry story';retry.onclick=()=>open(which);retry.focus({preventScroll:true});}}
+  }catch(error){if(token!==generation)return;window.shepherdStartup?.failure('story-media',error.message);window.storyLoading?.show();window.storyLoading?.fail('Story media could not load. Retry or reload to continue.');const retry=document.querySelector('.loading-retry');if(retry){retry.textContent='Retry story';retry.onclick=()=>open(which);retry.focus({preventScroll:true});}}
  }
  next.onclick=advance;$('#story-skip').onclick=finish;$('#story-sound').onclick=sound;$('#story-retry').onclick=()=>open(kind);$('#story-audio-retry').onclick=()=>{player?.retryAudio();$('#story-audio-retry').hidden=true;status.textContent='';};
  // Register before the dynamically imported game. Story keys never leak into it.

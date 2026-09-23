@@ -96,3 +96,8 @@ heap and process RSS snapshots. RSS is not additive phone RAM; texture estimates
 are not GPU residency. No Android hardware, GPU, thermal or scheduling behavior
 is emulated by SwiftShader/CDP throttling. Screenshots add overhead. One run per
 cell is exploratory evidence, not a percentile/SLA measurement.
+
+For matched 393×851 screenshots of all three tiers, run
+`node startup-tests/capture-tiers.mjs` against the new artifact. Entry and staged
+House 1 captures pause via the existing menu; they are visual comparison evidence,
+not extra gameplay completion evidence. `CAPTURE_OUT` selects the output folder.
