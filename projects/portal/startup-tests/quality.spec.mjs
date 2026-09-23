@@ -35,6 +35,9 @@ test('4 Mbps + 4x CPU cold launch: responsive diorama, smaller assets, lamp and 
  await info.attach('diorama',{body:await page.screenshot({scale:'css'}),contentType:'image/png'});
  await page.locator('#story-next').tap();await expect(page.locator('#story-next')).toHaveText('Next verse');
  await page.waitForTimeout(1200);
+ // Keep reading until the native stream really starts. Audio must not gate
+ // initial visibility, and world preparation must remain deferred throughout.
+ await expect.poll(()=>page.evaluate(()=>shepherdStartup.report().marks.some(m=>m.phase==='story-audio-playing')),{timeout:15000}).toBe(true);
  expect(await page.evaluate(()=>performance.getEntriesByType('resource').some(r=>r.name.includes('village-game')||/\.(glb|gltf)$/.test(r.name)))).toBe(false);
  const story=await page.evaluate(()=>shepherdStartup.report());
  expect(Math.max(0,...story.inputs.filter(x=>x.target==='story-next').map(x=>x.queue+x.paint))).toBeLessThan(1200);
