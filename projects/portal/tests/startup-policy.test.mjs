@@ -5,7 +5,7 @@ import {runInNewContext} from 'node:vm';
 const script=readFileSync(new URL('../../../prototypes/shepherd-adventure/src/startup.js',import.meta.url),'utf8');
 function launch({query='',saved=null,memory=8,cores=8,connection={downlink:10,effectiveType:'4g'},coarse=false,storageDenied=false}={}){
  const storage=new Map(saved?[['shepherd-quality',saved]]:[]);
- const context={URL,navigator:{deviceMemory:memory,hardwareConcurrency:cores,connection},location:{search:query},matchMedia:()=>({matches:coarse}),performance:{now:()=>1,getEntriesByName:()=>[],getEntriesByType:()=>[],setResourceTimingBufferSize:()=>{}},localStorage:{getItem:k=>{if(storageDenied)throw Error();return storage.get(k)},setItem:(k,v)=>{if(storageDenied)throw Error();storage.set(k,v)}},addEventListener:()=>{},document:{baseURI:'https://example.test/story-lab/prototypes/shepherd-adventure/',currentScript:null}};
+ const context={URL,URLSearchParams,navigator:{deviceMemory:memory,hardwareConcurrency:cores,connection},location:{search:query},matchMedia:()=>({matches:coarse}),performance:{now:()=>1,getEntriesByName:()=>[],getEntriesByType:()=>[],setResourceTimingBufferSize:()=>{}},localStorage:{getItem:k=>{if(storageDenied)throw Error();return storage.get(k)},setItem:(k,v)=>{if(storageDenied)throw Error();storage.set(k,v)}},addEventListener:()=>{},document:{baseURI:'https://example.test/story-lab/prototypes/shepherd-adventure/',currentScript:null}};
  context.window=context;runInNewContext(script,context);return context;
 }
 test('conservative capability policy uses several signals and missing-API fallback',()=>{
