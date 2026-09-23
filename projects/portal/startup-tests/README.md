@@ -16,11 +16,13 @@ npm run test:startup
 npm run test:mobile
 ```
 
-The PR suite runs the five startup cases once in Chromium, plus three existing
+The PR suite runs the six startup cases once in Chromium, plus three existing
 mobile cases in each of Chromium portrait, Chromium landscape, and WebKit. It
 includes real pixel readback, native story-music playback readiness, touch lamp
 assembly and House 1, a staged final-area
-load/failure/retry, selection/storage fallbacks, and a missing routing-table fault.
+load/failure/retry, automatic mobile selection, legacy-storage/diagnostic precedence, automatic desktop
+Original rendering (including touch and absent APIs), and a missing routing-table fault.
+The tier matrix uses explicit diagnostic overrides; normal mobile checks do not.
 A staged ending is not a full browser walkthrough. Pixel sampling rejects a
 controlled solid-clear scene in the mobile suite.
 

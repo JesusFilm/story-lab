@@ -40,7 +40,7 @@ for(const name of names)for(const tier of (process.env.BENCH_TIERS||'existing').
   const wallStart=Date.now();let timer;const timeout=Number(process.env.BENCH_TIMEOUT||120000);
   try{await Promise.race([(async()=>{
    await page.goto('about:blank');
-   await page.goto(base+(tier==='existing'?'':`?quality=${tier}&diagnostics`),{waitUntil:'domcontentloaded',timeout});
+   await page.goto(base+`?quality=${tier}&diagnostics`,{waitUntil:'domcontentloaded',timeout});
    await page.locator('#story-overlay').waitFor({state:'visible',timeout});
    result.phases.push({phase:'diorama-visible',wallMs:Date.now()-wallStart});await page.evaluate(()=>startupProbe.mark('diorama-visible-harness'));
    await page.screenshot({path:path.join(output,`${name}-${tier}-${cache}-diorama.png`),scale:'css',timeout:15000});

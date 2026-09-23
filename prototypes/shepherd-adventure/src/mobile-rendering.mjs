@@ -2,7 +2,7 @@ import {Vector3} from 'three';
 // Select once per launch: rotating a phone must not change its resource budget.
 export function renderingBudget(){
  const tier=window.shepherdStartup?.tier||'existing';
- const mobile=tier!=='existing'||matchMedia('(pointer: coarse)').matches;
+ const mobile=tier!=='existing';
  return {tier,mobile,maxTextureSize:tier==='minimal'?256:mobile?512:Infinity,pixelRatio:Math.min(devicePixelRatio||1,mobile?1:1.5),antialias:!mobile,shadowSize:mobile?1024:2048,maxPointLights:tier==='minimal'?2:mobile?4:Infinity};
 }
 

@@ -10,5 +10,3 @@
 #loading.loading-theatre button:focus-visible{outline:2px solid #edc77d;outline-offset:3px}
 #loading.loading-theatre .loading-elapsed{font:12px/1.5 system-ui,sans-serif;font-variant-numeric:tabular-nums;color:#c9cfcd;margin-top:8px}
 @media(max-height:550px){#loading.loading-theatre{justify-content:flex-start}#loading.loading-theatre canvas{height:180px}}
-
-.loading-quality{font:14px system-ui;color:#eadcc4;margin:8px;position:relative;z-index:1}.loading-quality select{font:inherit;padding:8px;background:#20313b;color:#fff;border:1px solid #7c8b90;border-radius:6px;max-width:180px}

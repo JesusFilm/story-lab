@@ -1,15 +1,26 @@
-## Constrained-device quality — 23 September 2026
+## Automatic quality — 23 September 2026
 
-The loader and pause menu offer Automatic, Smallest download, Low and Original.
-Choices persist and restart the story. For the Samsung A50 test, open
-`?quality=minimal&diagnostics`; Save diagnostics is available on the loader and
-pause menu. `?quality=low` and `?quality=existing` force the other tiers.
-Automatic clears the override and chooses conservatively from available hints.
+Open and play: phones/tablets automatically use Minimal (the smallest download);
+desktops use Original, including browsers without memory/network hints. Selection
+happens once before media/models and remains fixed through resize/rotation. There
+is no player quality chooser. No phone is promoted based on RAM or core count.
 
-Small tiers download build-time smaller models and illustrations. World loading
-begins after the opening scripture, and the final area loads before its encounter.
-[Measurements, generation, benchmark commands and hardware limits](../../docs/reports/shepherd-adventure-constrained-startup.md).
-Physical A50 validation remains required; VM emulation is not certification.
+Developer comparisons only: `?diagnostics&quality=minimal`, `low`, or `existing`
+select a tier for that URL visit and its reload/retry. Both parameters are required;
+bare `?quality=...`, invalid values and all old saved choices are ignored. Nothing
+is saved. Remove the parameters before sharing a normal game link. `?diagnostics`
+alone keeps automatic selection and enables local startup instrumentation;
+`window.shepherdStartup.report()` returns the report, including the tier and
+selection reason. There is no telemetry upload.
+
+Small tiers retain build-time smaller assets, deferred world/final-area loading,
+loading progress, retry and GPU pacing. [Policy, tests and classification limits](../../docs/reports/shepherd-adventure-auto-quality.md).
+[Existing measurements and generation pipeline](../../docs/reports/shepherd-adventure-constrained-startup.md).
+
+The user completed a full playthrough of the prior PR14 Minimal build on a Samsung
+A50 over 4 Mbps Wi-Fi. This is functional phone evidence, not visual acceptance:
+they consider its visuals below sharing quality. This follow-up still needs their
+phone test; it does not establish universal compatibility.
 
 ## Full feature playthrough — 15 September 2026
 
