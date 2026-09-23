@@ -73,11 +73,10 @@ test('selection, persistence, absent APIs, invalid override and low/original ass
 });
 
 test('desktop low tier and mobile original render regression',async({browser},info)=>{
- // 800×600 keeps software-GPU readback bounded on CI. A 1024×768 run
- // returned healthy pixels (158 colours, 20% lit) but its synchronous readback
- // alone took 34.7 s. The constrained mobile fixture/budgets are unchanged.
+ // Keep the original desktop viewport: GPU pacing, rather than a smaller
+ // fixture or longer timeout, must prevent queued-frame readback stalls.
  for(const tier of ['low','existing']){
-  const context=await browser.newContext({viewport:tier==='existing'?{width:393,height:851}:{width:800,height:600},isMobile:tier==='existing',hasTouch:true,deviceScaleFactor:1});const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const context=await browser.newContext({viewport:tier==='existing'?{width:393,height:851}:{width:1024,height:768},isMobile:tier==='existing',hasTouch:true,deviceScaleFactor:1});const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('http://127.0.0.1:8964/story-lab/'+entry+'?quality='+tier);await expect(page.locator('#story-overlay')).toBeVisible();await page.locator('#story-skip').tap();await expect(page.locator('#loading')).toBeHidden({timeout:100000});await page.locator('#skip-opening').tap();await expect(page.locator('#advance')).toHaveText('Find a lamp');await rendered(page);
   await capture(page,info,tier+'-entry');
   await info.attach(tier+'-pixels',{body:JSON.stringify(await pixels(page)),contentType:'application/json'});expect(errors).toEqual([]);await context.close();
