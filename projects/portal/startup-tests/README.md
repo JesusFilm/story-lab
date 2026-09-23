@@ -86,8 +86,9 @@ Each case calibrates network using uncached bytes and records three fixed-work
 CPU samples. The summary compares their median to the same tier's fast run.
 The initial benchmark marker `world-first-frame-harness` means only **intro
 control present**; it is retained in recorded raw evidence. Completed GPU work is
-`first-frame-gpu-complete` in the new runtime. Matched usable-input timing is
-`touch-movement`. Resource counts and control presence do not certify rendering.
+`first-frame-gpu-complete` in the new runtime. Matched input timing is
+`touch-movement`: the touch command has been accepted and the route destination
+has changed. It is not a touch-to-photon measurement. Resource counts and control presence do not certify rendering.
 CI performs the actual pixel and extended-play assertions separately.
 
 Reports contain request starts/finishes, incomplete body bytes, ResourceTiming,

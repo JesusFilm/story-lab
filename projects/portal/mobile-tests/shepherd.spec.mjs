@@ -92,6 +92,8 @@ test('cold story → rendered world → touch lamp assembly, rotation and contex
   const label=await button.textContent();await button.tap();
   if(label==='Take lamp')break;
   await expect(button).not.toHaveText(label);
+  // These are deliberate single taps; preserve the game's double-tap guard.
+  await page.waitForTimeout(550);
  }
  await expect.poll(()=>page.evaluate(()=>window.routeRehearsal.getState().lantern)).toBe(true);
  await capture(page,info,'lamp-carried');

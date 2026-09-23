@@ -53,7 +53,7 @@ test('4 Mbps + 4x CPU cold launch: responsive diorama, smaller assets, lamp and 
  expect(assetViolations([...report.resources,{path:'/assets/shepherd-tripo-v2.glb'}],'minimal')).toHaveLength(1);
  await capture(page,info,'minimal-entry');
  await page.locator('#advance').tap();await expect(page.locator('#advance')).toHaveText('Get a lamp!',{timeout:90000});await page.locator('#advance').tap();
- for(let i=0;i<6;i++){const button=page.locator('#lamp-action');await expect(button).toBeVisible();const label=await button.textContent();await button.tap();if(label==='Take lamp')break;await expect(button).not.toHaveText(label);}
+ for(let i=0;i<6;i++){const button=page.locator('#lamp-action');await expect(button).toBeVisible();const label=await button.textContent();await button.tap();if(label==='Take lamp')break;await expect(button).not.toHaveText(label);await page.waitForTimeout(550);}
  await expect.poll(()=>page.evaluate(()=>routeRehearsal.getState().lantern)).toBe(true);
  await page.locator('#advance').tap();await expect(page.locator('#advance')).toHaveText('Knock on door',{timeout:90000});await page.locator('#advance').tap();
  await expect.poll(()=>page.evaluate(()=>routeRehearsal.getState().houseRejection.complete),{timeout:40000}).toBe(true);await rendered(page);await capture(page,info,'minimal-first-house');
