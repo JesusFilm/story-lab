@@ -1,5 +1,5 @@
 {
-  "bytes": 722178792,
+  "bytes": 722178008,
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "animal-pen.jpg": "d328cae2864bfcce5c17bb73607408f7473537294b41d083093eb701005ab368",
@@ -825,10 +825,10 @@
     "prototypes/shepherd-adventure/assets/vegetable-market-stall-pixal3d.glb": "8d9bb84f1c9d13d063047c7d19b468850179328d908f8d134d46d76ea0e89d69",
     "prototypes/shepherd-adventure/assets/workbench/stall.jpg": "229c3eda7ae80a0491069cfe582265d4d75ac7f997509d596da3980f7a1a3269",
     "prototypes/shepherd-adventure/house-sighting.css": "46975797324708d16ac94ebeea65d5ec46e136409c97306872527c899a4ed5b0",
-    "prototypes/shepherd-adventure/index.html": "7767b418ab0db46c1eb03303e338a8cd91ac8ae8c1f29ff9428ec239844f4e7e",
+    "prototypes/shepherd-adventure/index.html": "f097a43335414f757f6b5aa074020ecccff461322d91b5c867e7ec6f0334eef2",
     "prototypes/shepherd-adventure/journey.css": "a796fd0e183d2c226b462a002e4742ff9d006acab74359eb8d6399441a56ed91",
     "prototypes/shepherd-adventure/lamp-scene.css": "5e0f072a27d8956935aadceab6d70fae493b518a18a38c26d243e5403bc93c41",
-    "prototypes/shepherd-adventure/loading-theatre.css": "c833186b495c664735001dd3789fb294431dd21d2b2f7c6f95ac012c8dd16245",
+    "prototypes/shepherd-adventure/loading-theatre.css": "210a1f4764c0a11dff62586d999b1a458a4b69c79c082cd1fd15d8ed52b411a9",
     "prototypes/shepherd-adventure/loading-theatre.js": "094449ba063e4a39af66435623e75c8bca9dcea5063658299df28d21897b5970",
     "prototypes/shepherd-adventure/player.css": "952c7b8620886d7dd9f7c65d2c09a2362c0400c60ef7f27b44a185e15c611f91",
     "prototypes/shepherd-adventure/rehearsal.css": "215118a3b5cb134d2dd6786b356e73cfc9d705560031b6e84c007e1873c11542",
@@ -884,7 +884,7 @@
     "prototypes/shepherd-adventure/src/rehearsal-route.mjs": "8c775652d527c9f571e8f842f2f85733c9f38adcc966889097990ebd8c3be8e1",
     "prototypes/shepherd-adventure/src/rehearsal.mjs": "4d43961f97199af79941dd556164d7dff643ae5db13ae2e22848f1969b0c2df1",
     "prototypes/shepherd-adventure/src/route-geometry.mjs": "0dbd4fe95e23b60a876f850d02e32c4423025b619fdbd7f7c3d717261ec7e39a",
-    "prototypes/shepherd-adventure/src/startup.js": "d87781c7fae5395fad7b869ac05377cbba9816f881eaca75653ef80c49d6f34e",
+    "prototypes/shepherd-adventure/src/startup.js": "b2d4f0c3417e997a68819f6404543fdce82a3eadad6cce3fc12cb71c7984c68c",
     "prototypes/shepherd-adventure/src/story-media.mjs": "cb96b23d039ff65742ba86efe6677a6c0f9352403bc1abab18bca31633379a75",
     "prototypes/shepherd-adventure/src/village-game.mjs": "5a4b41d12b2b4450d4414b6c342c78da071015c93a25f7bc4f643730837841e3",
     "prototypes/shepherd-adventure/src/village-layout.mjs": "2e7ba28c540e987d37e1b89a96ca53e524f81d22f52e351bf7c742b1012d1e0f",

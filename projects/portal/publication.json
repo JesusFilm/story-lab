@@ -764,7 +764,7 @@
     "prototypes/shepherd-maze/assets/structure-lamp-tripo-v2.glb": "5e26fdb36e10c862f75896002981354d29c137d181bcafef0ee1f551689d0b14",
     "prototypes/shepherd-maze/assets/village-world.glb": "37f5c082c6112ad2d4e1b698a128692c088ba24ea1507fc7c85067e9f7c421e2",
     "prototypes/shepherd-maze/maps/village/maze-layout.json": "9cd81b0ab05be3e4bd35a5b69994c1d4fd744fe77d9a077b947322d7c1b44698",
-    "prototypes/shepherd-adventure/index.html": "e9abdb34ce1421e44df4ec78f79953b1ea25c9c96516bc47a07fd7c5b334b907",
+    "prototypes/shepherd-adventure/index.html": "567e03ae8be26fcca6326a99c2e7147a266ac1cb43082b5061d02d8fbf702c7c",
     "prototypes/shepherd-adventure/rehearsal.html": "d9afb6d9e499c4f37272409e65dcaba833f6aa3f26d0d29219d01fef47e63688",
     "prototypes/shepherd-adventure/journey.css": "a796fd0e183d2c226b462a002e4742ff9d006acab74359eb8d6399441a56ed91",
     "prototypes/shepherd-adventure/src/character-variants.mjs": "8af5c68c21e8a61a4803eaefaaf0817971ede2209e6f2d5c1580238107200cb5",
@@ -924,7 +924,7 @@
     "prototypes/sermon-in-the-crowd/public/THIRD-PARTY.txt": "b2fe4984ab587d3710b07d295a49eacd303123f2d7c6c41fb4cee267e78f032b",
     "prototypes/shepherd-maze/loading-theatre.css": "210a1f4764c0a11dff62586d999b1a458a4b69c79c082cd1fd15d8ed52b411a9",
     "prototypes/shepherd-maze/loading-theatre.js": "b372451244da6eb7e0ef1551f867e671c6c5a760017efe4f4d5c6eb63fb55f82",
-    "prototypes/shepherd-adventure/loading-theatre.css": "c833186b495c664735001dd3789fb294431dd21d2b2f7c6f95ac012c8dd16245",
+    "prototypes/shepherd-adventure/loading-theatre.css": "210a1f4764c0a11dff62586d999b1a458a4b69c79c082cd1fd15d8ed52b411a9",
     "prototypes/shepherd-adventure/loading-theatre.js": "094449ba063e4a39af66435623e75c8bca9dcea5063658299df28d21897b5970",
     "prototypes/sermon-in-the-crowd/public/loading-theatre.css": "210a1f4764c0a11dff62586d999b1a458a4b69c79c082cd1fd15d8ed52b411a9",
     "prototypes/sermon-in-the-crowd/public/loading-theatre.js": "b372451244da6eb7e0ef1551f867e671c6c5a760017efe4f4d5c6eb63fb55f82",
@@ -1367,7 +1367,7 @@
     "prototypes/shepherd-adventure/assets/quality/minimal/workbench/stall.webp": "f936eed54a82ffa74951d02aab08b901c7099fa984435963fa338c62285f31cd",
     "prototypes/shepherd-adventure/src/asset-loading.mjs": "b0eb6d24d700b576df4fabb57105c955bea40847536004b243b7062c895e6cb7",
     "prototypes/shepherd-adventure/src/quality-assets.js": "229d1fbe3d6a08157aced014df08afabed77b51e14cc67759ecc038efeec0a0f",
-    "prototypes/shepherd-adventure/src/startup.js": "79d0f76bcd1051c2e2710dcb32102e037fb7d44aecf1ea025bab44f655e0baaa"
+    "prototypes/shepherd-adventure/src/startup.js": "c69cc40eb5756a8dae9acdbce6c37f5fe094688a6a101beeb2c87dabc63a457e"
   },
   "local_only_prototypes": []
 }

@@ -48,6 +48,5 @@
  }
  addEventListener('DOMContentLoaded',()=>{
   for(const img of document.querySelectorAll('img[data-quality-src]'))img.src=asset(img.dataset.qualitySrc);
-  for(const button of document.querySelectorAll('[data-diagnostics-export]')){button.hidden=!enabled;button.onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(report(),null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='shepherd-startup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};}
  });
 })();

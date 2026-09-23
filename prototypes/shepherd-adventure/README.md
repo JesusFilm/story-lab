@@ -9,8 +9,9 @@ Developer comparisons only: `?diagnostics&quality=minimal`, `low`, or `existing`
 select a tier for that URL visit and its reload/retry. Both parameters are required;
 bare `?quality=...`, invalid values and all old saved choices are ignored. Nothing
 is saved. Remove the parameters before sharing a normal game link. `?diagnostics`
-alone keeps automatic selection and enables local Save diagnostics buttons; reports
-include the tier and selection reason. There is no telemetry upload.
+alone keeps automatic selection and enables local startup instrumentation;
+`window.shepherdStartup.report()` returns the report, including the tier and
+selection reason. There is no telemetry upload.
 
 Small tiers retain build-time smaller assets, deferred world/final-area loading,
 loading progress, retry and GPU pacing. [Policy, tests and classification limits](../../docs/reports/shepherd-adventure-auto-quality.md).
