@@ -44,7 +44,13 @@ test.beforeEach(async({page})=>{
  page.on('pageerror',error=>logs.push({type:'pageerror',message:error.message}));
  page.on('crash',()=>logs.push({type:'crash'}));
  page.on('console',message=>{if(['error','warning'].includes(message.type()))logs.push({type:message.type(),message:message.text()});});
- page.on('requestfailed',r=>logs.push({type:'requestfailed',url:r.url(),message:r.failure()?.errorText}));
+ page.on('requestfailed',r=>{
+  const message=r.failure()?.errorText;
+  // Closing scripture releases its streaming Audio source. An aborted music
+  // request is expected; genuine HTTP/audio errors and all asset aborts remain.
+  if(r.url().endsWith('/assets/story/silent-night-96k.mp3')&&message==='net::ERR_ABORTED')return;
+  logs.push({type:'requestfailed',url:r.url(),message});
+ });
  page.on('response',r=>{if(r.status()>=400)logs.push({type:'http',url:r.url(),status:r.status()});});
  await page.addInitScript(()=>{
   window.mobileContextEvents=[];window.mobileTextureUploads=[];

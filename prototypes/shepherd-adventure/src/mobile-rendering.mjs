@@ -51,7 +51,24 @@ export function watchRenderer(renderer,budget,onFailure=()=>{}){
   lights.sort((a,b)=>a.distance-b.distance);
   lights.forEach(({light,distance},index)=>{light.visible=index<budget.maxPointLights&&Number.isFinite(distance);});
  }
- let failed=false,frames=0;
+ let failed=false,frames=0,pendingFrame=null,blockedSince=null;
+ const gl=renderer.getContext();
+ // Bound GPU work as well as asset work. Submitting a new frame every rAF can
+ // queue seconds of old frames behind a slow GPU and block the next GL call.
+ function canRender(){
+  if(failed)return false;
+  if(!pendingFrame)return true;
+  if(gl.isContextLost()){lost();return false;}
+  const state=gl.clientWaitSync(pendingFrame,0,0);
+  if(state===gl.ALREADY_SIGNALED||state===gl.CONDITION_SATISFIED){gl.deleteSync(pendingFrame);pendingFrame=null;blockedSince=null;return true;}
+  if(document.hidden)blockedSince=null;
+  else blockedSince??=performance.now();
+  if(state===gl.WAIT_FAILED||(blockedSince!==null&&performance.now()-blockedSince>30000)){
+   window.shepherdStartup?.failure('gpu-frame','A submitted frame did not complete');
+   fail('The 3D view stopped responding. Reload to restart.');
+  }
+  return false;
+ }
  function fail(message){
   if(failed)return;
   failed=true;onFailure();
@@ -65,9 +82,10 @@ export function watchRenderer(renderer,budget,onFailure=()=>{}){
  renderer.render=(scene,camera)=>{
   if(failed)throw Error('The 3D view is unavailable. Reload to restart.');
   if(renderer.getContext().isContextLost()){lost();throw Error('WebGL context lost');}
-  try{selectLights(scene,camera);const start=performance.now();render(scene,camera);if(!frames)window.shepherdStartup?.mark('first-render-submitted',{duration:performance.now()-start,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});frames++;}catch(error){fail('The 3D view could not render. Reload to restart, or try another browser.');throw error;}
+  if(!canRender())return;
+  try{selectLights(scene,camera);const start=performance.now();render(scene,camera);if(!frames)window.shepherdStartup?.mark('first-render-submitted',{duration:performance.now()-start,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});frames++;pendingFrame=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);if(!pendingFrame)throw Error('Could not track the 3D frame');gl.flush();}catch(error){fail('The 3D view could not render. Reload to restart, or try another browser.');throw error;}
  };
- return {get failed(){return failed;},get frames(){return frames;},fail};
+ return {get failed(){return failed;},get frames(){return frames;},canRender,fail};
 }
 
 // Wait asynchronously for submitted uploads/shaders/draws. A submitted draw is

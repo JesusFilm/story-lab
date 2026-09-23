@@ -244,8 +244,10 @@ function animate(now){
  try{tick(now);}catch(error){stopAudio();console.error(error);rendering.fail('The 3D view stopped. Reload to restart, or try another browser.');return;}
  requestAnimationFrame(animate);
 }
-function tick(now){const raw=(now-last)/1000;last=now;
- if(!ready||awaitingFirstFrame)return;
+function tick(now){
+ if(!ready||awaitingFirstFrame){last=now;return;}
+ if(!rendering.canRender())return;
+ const raw=(now-last)/1000;last=now;
  if(debugController){const debugDt=document.hidden?0:Math.min(raw,.1);debugController.update(debugDt);if(debugController.animateAmbience)world.updateNativity(debugDt,reduced);renderer.render(scene,camera);return;}
  const active=!journey.paused&&!document.hidden&&!story?.active&&['playing','intro','arrival'].includes(mode),audioActive=active&&['playing','intro'].includes(mode),dt=active?Math.min(raw,.1):0,moving=!!journey.travel,leg=journey.travel?.index;
  houseScene.setActive(audioActive);gateScene.setActive(audioActive);stallScene.setActive(audioActive);
