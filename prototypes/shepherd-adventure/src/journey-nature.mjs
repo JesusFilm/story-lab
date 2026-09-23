@@ -11,6 +11,7 @@ function normalized(source){
  root.traverse(o=>{if(o.isMesh){o.material=Array.isArray(o.material)?o.material.map(m=>m.clone()):o.material.clone();for(const m of Array.isArray(o.material)?o.material:[o.material]){m.roughness=1;if(m.name.includes('Leaves')){m.color.set('#7f8964');m.alphaTest=Math.max(.4,m.alphaTest);m.side=THREE.DoubleSide;}else m.color.set('#b8afa0');}o.castShadow=true;o.receiveShadow=true;}});return root;
 }
 export async function addVillageNature(loader,scene,fits,pathDistance,watchOcclusion){
+ const tier=window.shepherdStartup?.tier||'existing';
  const loaded=await Promise.all(NATURE_MODELS.map(async name=>[name,normalized((await loader.loadAsync('/assets/nature/'+name+'.gltf')).scene)])),sources=Object.fromEntries(loaded),rng=seeded(),placements=[];
  const occupied=[];
  function buildingDistance(x,z){const shelterDistance=Math.hypot(Math.max(Math.abs(x-NATIVITY.x)-NATIVITY.depth/2,0),Math.max(Math.abs(z-NATIVITY.z)-NATIVITY.width/2,0));return Math.min(shelterDistance,...fits.map(({rect:[a,b,c,d]})=>Math.hypot(Math.max(a-x,0,x-c),Math.max(b-z,0,z-d))));}
@@ -28,7 +29,7 @@ export async function addVillageNature(loader,scene,fits,pathDistance,watchOcclu
  for(const [i,z] of [57,69,82,95].entries()){put(TREE_MODELS[i%3],i%2?-12:12,z,5,'tree',true);put(ROCK_MODELS[i%3],i%2?9:-9,z+3,1.5,'boulder',true);}
  const b=VILLAGE_BOUNDS;
  // Irregular woodland clusters beyond the wall, leaving the arrival lane clear.
- for(let i=0;i<52;i++){
+ for(let i=0;i<(tier==='minimal'?12:tier==='low'?26:52);i++){
   let x,z;const side=i%4,t=rng();
   if(side===0){x=b.minX-5-rng()*18;z=b.minZ-8+t*(b.maxZ-b.minZ+25);}
   else if(side===1){x=b.maxX+5+rng()*18;z=b.minZ-8+t*(b.maxZ-b.minZ+25);}
@@ -37,14 +38,14 @@ export async function addVillageNature(loader,scene,fits,pathDistance,watchOcclu
   if(pathDistance(x,z)<6||occupied.some(p=>Math.hypot(p.x-x,p.z-z)<4))continue;
   put(TREE_MODELS[i%4],x,z,4.5+rng()*3.3,'tree',true);
  }
- for(let i=0;i<70;i++){
+ for(let i=0;i<(tier==='minimal'?18:tier==='low'?35:70);i++){
   const angle=rng()*Math.PI*2,x=Math.cos(angle)*(46+rng()*16),z=-7+Math.sin(angle)*(55+rng()*17);
   if(x>b.minX-3&&x<b.maxX+3&&z>b.minZ-3&&z<b.maxZ+3||pathDistance(x,z)<4||occupied.some(p=>Math.hypot(p.x-x,p.z-z)<p.r+1))continue;
   put(ROCK_MODELS[i%3],x,z,.7+rng()*2.3,'boulder',true);
  }
  // Replace the old primitive stones with instances of the downloaded pebble mesh.
  const pebble=sources.Pebble_Round_2;pebble.updateMatrixWorld(true);const parts=[];pebble.traverse(o=>{if(o.isMesh)parts.push(o);});const samples=[];
- for(let i=0;i<1800;i++){const x=(rng()-.5)*136,z=rng()*150-85;if(pathDistance(x,z)<1.45||buildingDistance(x,z)<.4)continue;samples.push({x,z,scale:.035+rng()*.13,yaw:rng()*Math.PI*2});}
+ for(let i=0;i<(tier==='minimal'?150:tier==='low'?600:1800);i++){const x=(rng()-.5)*136,z=rng()*150-85;if(pathDistance(x,z)<1.45||buildingDistance(x,z)<.4)continue;samples.push({x,z,scale:.035+rng()*.13,yaw:rng()*Math.PI*2});}
  const dummy=new THREE.Object3D();for(const part of parts){const geometry=part.geometry.clone();geometry.applyMatrix4(part.matrixWorld);const stones=new THREE.InstancedMesh(geometry,part.material,samples.length);stones.name='quaternius-pebbles';stones.receiveShadow=true;for(const [i,p] of samples.entries()){dummy.position.set(p.x,height(p.x,p.z)-.025,p.z);dummy.rotation.y=p.yaw;dummy.scale.set(p.scale,p.scale,p.scale);dummy.updateMatrix();stones.setMatrixAt(i,dummy.matrix);}scene.add(stones);}
  return {placements,pebbleCount:samples.length,sourceModels:NATURE_MODELS};
 }

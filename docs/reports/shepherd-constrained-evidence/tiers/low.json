@@ -1,0 +1,2253 @@
+{
+  "tier": "low",
+  "errors": [],
+  "diagnostics": {
+    "schema": 1,
+    "build": "bc3f9af281baa357",
+    "tier": "low",
+    "selection": "override",
+    "hints": {
+      "memoryGiB": 8,
+      "cores": 8,
+      "downlinkMbps": 9.7,
+      "effectiveType": "4g",
+      "saveData": false,
+      "coarse": true
+    },
+    "marks": [
+      {
+        "phase": "html",
+        "ms": 12.299999952316284
+      },
+      {
+        "phase": "loader",
+        "ms": 38.39999997615814
+      },
+      {
+        "phase": "startup-script",
+        "ms": 45.60000002384186
+      },
+      {
+        "phase": "opening-media-start",
+        "ms": 73.39999997615814
+      },
+      {
+        "phase": "story-image-decoded",
+        "ms": 159.29999995231628,
+        "kind": "opening",
+        "start": 138.69999992847443,
+        "duration": 20.600000023841858,
+        "width": 1024,
+        "height": 576,
+        "logicalRGBABytes": 2359296
+      },
+      {
+        "phase": "story-image-decoded",
+        "ms": 173.60000002384186,
+        "kind": "opening",
+        "start": 139,
+        "duration": 34.60000002384186,
+        "width": 1024,
+        "height": 576,
+        "logicalRGBABytes": 2359296
+      },
+      {
+        "phase": "story-image-decoded",
+        "ms": 183.60000002384186,
+        "kind": "opening",
+        "start": 159.5,
+        "duration": 24.100000023841858,
+        "width": 1024,
+        "height": 576,
+        "logicalRGBABytes": 2359296
+      },
+      {
+        "phase": "story-image-decoded",
+        "ms": 198.89999997615814,
+        "kind": "opening",
+        "start": 173.69999992847443,
+        "duration": 25.200000047683716,
+        "width": 1024,
+        "height": 576,
+        "logicalRGBABytes": 2359296
+      },
+      {
+        "phase": "story-image-decoded",
+        "ms": 222.39999997615814,
+        "kind": "opening",
+        "start": 183.79999995231628,
+        "duration": 38.60000002384186,
+        "width": 1024,
+        "height": 576,
+        "logicalRGBABytes": 2359296
+      },
+      {
+        "phase": "story-image-decoded",
+        "ms": 235.19999992847443,
+        "kind": "opening",
+        "start": 199.10000002384186,
+        "duration": 36.09999990463257,
+        "width": 1024,
+        "height": 576,
+        "logicalRGBABytes": 2359296
+      },
+      {
+        "phase": "opening-media-decoded",
+        "ms": 235.39999997615814,
+        "blobBytes": 662144
+      },
+      {
+        "phase": "opening-interactive",
+        "ms": 243.29999995231628
+      },
+      {
+        "phase": "game-import-start",
+        "ms": 372.60000002384186
+      },
+      {
+        "phase": "game-import-end",
+        "ms": 571.2999999523163
+      },
+      {
+        "phase": "scene-create-start",
+        "ms": 572.1000000238419
+      },
+      {
+        "phase": "scene-create-end",
+        "ms": 1643.2999999523163
+      },
+      {
+        "phase": "model-start",
+        "ms": 1643.8999999761581,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-prototype.glb"
+      },
+      {
+        "phase": "model-start",
+        "ms": 1648.7999999523163,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-tripo-v2.glb"
+      },
+      {
+        "phase": "model-start",
+        "ms": 1698.6000000238419,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-companion-tall.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1704.2999999523163,
+        "start": 1699.2999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 5
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1705.7999999523163,
+        "start": 1699.5,
+        "width": 512,
+        "height": 512,
+        "duration": 6.299999952316284
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1706.7999999523163,
+        "start": 1699.8999999761581,
+        "width": 512,
+        "height": 512,
+        "duration": 6.899999976158142
+      },
+      {
+        "phase": "model-start",
+        "ms": 1729.1999999284744,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-companion-stocky.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1779.8999999761581,
+        "start": 1770.6000000238419,
+        "width": 512,
+        "height": 512,
+        "duration": 9.299999952316284
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1781.2999999523163,
+        "start": 1774.6999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 6.600000023841858
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1782.7999999523163,
+        "start": 1764.6999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 18.100000023841858
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1784,
+        "start": 1773.1999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 10.800000071525574
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1785.2999999523163,
+        "start": 1775,
+        "width": 512,
+        "height": 512,
+        "duration": 10.299999952316284
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1790.1999999284744,
+        "start": 1770.7999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 19.399999976158142
+      },
+      {
+        "phase": "model-start",
+        "ms": 1792.6000000238419,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/oil-jar-pixal3d.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1818.3999999761581,
+        "start": 1813.1999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 5.200000047683716
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1821.5,
+        "start": 1814.2999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 7.200000047683716
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1822.6999999284744,
+        "start": 1816.6000000238419,
+        "width": 512,
+        "height": 512,
+        "duration": 6.099999904632568
+      },
+      {
+        "phase": "model-start",
+        "ms": 1823.3999999761581,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/lamp-workbench-pixal3d.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1843.7999999523163,
+        "start": 1840.3999999761581,
+        "width": 512,
+        "height": 512,
+        "duration": 3.399999976158142
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1845.1000000238419,
+        "start": 1840.1000000238419,
+        "width": 512,
+        "height": 512,
+        "duration": 5
+      },
+      {
+        "phase": "model-start",
+        "ms": 1888,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/portable-lantern-tripo.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1915.6000000238419,
+        "start": 1909.5,
+        "width": 512,
+        "height": 512,
+        "duration": 6.100000023841858
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1916.7999999523163,
+        "start": 1909.1999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 7.600000023841858
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1918.1000000238419,
+        "start": 1912.2999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 5.800000071525574
+      },
+      {
+        "phase": "model-start",
+        "ms": 1918.6999999284744,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/stone-well-tripo.glb"
+      },
+      {
+        "phase": "model-start",
+        "ms": 1920.6999999284744,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/timber-gate-tripo.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1956.2999999523163,
+        "start": 1948.1999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 8.100000023841858
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1957.5,
+        "start": 1948.3999999761581,
+        "width": 512,
+        "height": 512,
+        "duration": 9.100000023841858
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1961,
+        "start": 1948.6000000238419,
+        "width": 512,
+        "height": 512,
+        "duration": 12.399999976158142
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1963.2999999523163,
+        "start": 1953.6000000238419,
+        "width": 512,
+        "height": 512,
+        "duration": 9.699999928474426
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1966.6000000238419,
+        "start": 1957.6999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 8.900000095367432
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1967.6000000238419,
+        "start": 1961.7999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 5.800000071525574
+      },
+      {
+        "phase": "model-start",
+        "ms": 1968.6000000238419,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/house-01-tripo-v2.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 1996.1000000238419,
+        "start": 1984.7999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 11.300000071525574
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2007.2999999523163,
+        "start": 1989.6999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 17.600000023841858
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2008.3999999761581,
+        "start": 1989.2999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 19.100000023841858
+      },
+      {
+        "phase": "model-start",
+        "ms": 2146.899999976158,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/market-stall-tripo-v2.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2177,
+        "start": 2172.5,
+        "width": 512,
+        "height": 512,
+        "duration": 4.5
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2180.1999999284744,
+        "start": 2173,
+        "width": 512,
+        "height": 512,
+        "duration": 7.199999928474426
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2182.7999999523163,
+        "start": 2175.600000023842,
+        "width": 512,
+        "height": 512,
+        "duration": 7.199999928474426
+      },
+      {
+        "phase": "model-start",
+        "ms": 2185.6999999284744,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/animal-pen-tripo-v2.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2208.399999976158,
+        "start": 2202.100000023842,
+        "width": 512,
+        "height": 512,
+        "duration": 6.299999952316284
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2209.7999999523163,
+        "start": 2204.5,
+        "width": 512,
+        "height": 512,
+        "duration": 5.299999952316284
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2210.600000023842,
+        "start": 2204.899999976158,
+        "width": 512,
+        "height": 512,
+        "duration": 5.700000047683716
+      },
+      {
+        "phase": "model-start",
+        "ms": 2212.100000023842,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/vegetable-market-stall-pixal3d.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2238.899999976158,
+        "start": 2233.1999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 5.700000047683716
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2242.2999999523163,
+        "start": 2234.5,
+        "width": 512,
+        "height": 512,
+        "duration": 7.799999952316284
+      },
+      {
+        "phase": "model-start",
+        "ms": 2249.6999999284744,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/pottery-market-stall-pixal3d.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2281.600000023842,
+        "start": 2275.6999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 5.900000095367432
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2286.600000023842,
+        "start": 2277.2999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 9.300000071525574
+      },
+      {
+        "phase": "model-start",
+        "ms": 2295.100000023842,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/tanner-market-stall-pixal3d.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2322,
+        "start": 2317.2999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 4.700000047683716
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2323.899999976158,
+        "start": 2317.100000023842,
+        "width": 512,
+        "height": 512,
+        "duration": 6.699999928474426
+      },
+      {
+        "phase": "model-start",
+        "ms": 2330.7999999523163,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/limestone-house-annex.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2367.7999999523163,
+        "start": 2362.6999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 5.100000023841858
+      },
+      {
+        "phase": "model-start",
+        "ms": 2369.600000023842,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-wall-cluster-a.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2395,
+        "start": 2390.2999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 4.700000047683716
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2400.100000023842,
+        "start": 2389.6999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 10.400000095367432
+      },
+      {
+        "phase": "model-start",
+        "ms": 2400.5,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-wall-cluster-b.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2432.2999999523163,
+        "start": 2428.2999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 4
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2433.5,
+        "start": 2428.100000023842,
+        "width": 512,
+        "height": 512,
+        "duration": 5.399999976158142
+      },
+      {
+        "phase": "model-start",
+        "ms": 2434.100000023842,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-basket-cluster-a.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2482.100000023842,
+        "start": 2475.899999976158,
+        "width": 512,
+        "height": 512,
+        "duration": 6.200000047683716
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2483.399999976158,
+        "start": 2475.100000023842,
+        "width": 512,
+        "height": 512,
+        "duration": 8.299999952316284
+      },
+      {
+        "phase": "model-start",
+        "ms": 2484.399999976158,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-basket-cluster-b.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2511.600000023842,
+        "start": 2507.7999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 3.8000000715255737
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2512.7999999523163,
+        "start": 2507.100000023842,
+        "width": 512,
+        "height": 512,
+        "duration": 5.699999928474426
+      },
+      {
+        "phase": "model-start",
+        "ms": 2517.899999976158,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/low-wall-perimeter.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2541.899999976158,
+        "start": 2537.399999976158,
+        "width": 512,
+        "height": 512,
+        "duration": 4.5
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2545.7999999523163,
+        "start": 2537.7999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 8
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2547,
+        "start": 2538,
+        "width": 512,
+        "height": 512,
+        "duration": 9
+      },
+      {
+        "phase": "model-start",
+        "ms": 2602.899999976158,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/CommonTree_2.glb"
+      },
+      {
+        "phase": "model-start",
+        "ms": 2607.5,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/TwistedTree_1.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2713,
+        "start": 2694.7999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 18.200000047683716
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2714.100000023842,
+        "start": 2702.899999976158,
+        "width": 512,
+        "height": 512,
+        "duration": 11.200000047683716
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2715.7999999523163,
+        "start": 2700.1999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 15.600000023841858
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2718.2999999523163,
+        "start": 2699.1999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 19.100000023841858
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2721.100000023842,
+        "start": 2696.399999976158,
+        "width": 512,
+        "height": 512,
+        "duration": 24.700000047683716
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2723.1999999284744,
+        "start": 2701.2999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 21.899999976158142
+      },
+      {
+        "phase": "model-start",
+        "ms": 2723.7999999523163,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/TwistedTree_3.glb"
+      },
+      {
+        "phase": "model-start",
+        "ms": 2724.1999999284744,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/DeadTree_2.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2789.5,
+        "start": 2785.399999976158,
+        "width": 512,
+        "height": 512,
+        "duration": 4.100000023841858
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2800.5,
+        "start": 2774.1999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 26.300000071525574
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2807,
+        "start": 2775.6999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 31.300000071525574
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2808.5,
+        "start": 2796.2999999523163,
+        "width": 512,
+        "height": 512,
+        "duration": 12.200000047683716
+      },
+      {
+        "phase": "model-start",
+        "ms": 2808.6999999284744,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Rock_Medium_1.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2828.2999999523163,
+        "start": 2797.100000023842,
+        "width": 512,
+        "height": 512,
+        "duration": 31.199999928474426
+      },
+      {
+        "phase": "model-start",
+        "ms": 2830,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Rock_Medium_2.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2850.1999999284744,
+        "start": 2844.5,
+        "width": 512,
+        "height": 512,
+        "duration": 5.699999928474426
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2852.1999999284744,
+        "start": 2847.1999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 5
+      },
+      {
+        "phase": "model-start",
+        "ms": 2853,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Rock_Medium_3.glb"
+      },
+      {
+        "phase": "model-start",
+        "ms": 2853.399999976158,
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Pebble_Round_2.glb"
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2879.6999999284744,
+        "start": 2875.100000023842,
+        "width": 512,
+        "height": 512,
+        "duration": 4.599999904632568
+      },
+      {
+        "phase": "image-decoded",
+        "ms": 2883,
+        "start": 2876.1999999284744,
+        "width": 512,
+        "height": 512,
+        "duration": 6.800000071525574
+      },
+      {
+        "phase": "world-assets-ready",
+        "ms": 2940.1999999284744
+      },
+      {
+        "phase": "scene-inventory",
+        "ms": 2947.600000023842,
+        "meshes": 686,
+        "materials": 466,
+        "geometries": 313,
+        "textures": 66,
+        "imageSources": 66,
+        "sceneTrianglesIncludingInstances": 2639400,
+        "geometryViewBytes": 25125958,
+        "geometryBackingBytes": 10159372,
+        "logicalTextureRGBAWithMipmaps": 92274688,
+        "limits": "Logical scene inventory, including hidden meshes; not GPU residency or total process/phone RAM. Backing buffers can include other GLB data."
+      },
+      {
+        "phase": "first-render-submitted",
+        "ms": 4114.799999952316,
+        "duration": 1117.7999999523163,
+        "calls": 260,
+        "triangles": 1960726
+      },
+      {
+        "phase": "audio-decoded",
+        "ms": 4136.399999976158,
+        "start": 4128.799999952316,
+        "duration": 7.5,
+        "pcmBytes": 184320
+      },
+      {
+        "phase": "audio-decoded",
+        "ms": 4140.399999976158,
+        "start": 4128.799999952316,
+        "duration": 11.600000023841858,
+        "pcmBytes": 576000
+      },
+      {
+        "phase": "audio-decoded",
+        "ms": 4145.100000023842,
+        "start": 4128.799999952316,
+        "duration": 16.300000071525574,
+        "pcmBytes": 825600
+      },
+      {
+        "phase": "audio-decoded",
+        "ms": 4152.199999928474,
+        "start": 4128.799999952316,
+        "duration": 23.300000071525574,
+        "pcmBytes": 1351888
+      },
+      {
+        "phase": "audio-decoded",
+        "ms": 4180.600000023842,
+        "start": 4128.600000023842,
+        "duration": 52,
+        "pcmBytes": 2990968
+      },
+      {
+        "phase": "audio-decoded",
+        "ms": 4192,
+        "start": 4128.799999952316,
+        "duration": 63.200000047683716,
+        "pcmBytes": 3606800
+      },
+      {
+        "phase": "audio-decoded",
+        "ms": 4218.899999976158,
+        "start": 4128.899999976158,
+        "duration": 89.89999997615814,
+        "pcmBytes": 5419768
+      },
+      {
+        "phase": "first-frame-gpu-complete",
+        "ms": 5820.100000023842,
+        "duration": 1703.9000000953674
+      },
+      {
+        "phase": "world-ready",
+        "ms": 5820.100000023842
+      }
+    ],
+    "failures": [],
+    "longTasks": [
+      {
+        "start": 553.7999999523163,
+        "duration": 1096
+      },
+      {
+        "start": 2007.5,
+        "duration": 140
+      },
+      {
+        "start": 2546,
+        "duration": 58
+      },
+      {
+        "start": 2882.100000023842,
+        "duration": 1234
+      }
+    ],
+    "gaps": [
+      {
+        "start": 568.3,
+        "duration": 1083.4
+      },
+      {
+        "start": 2018.3,
+        "duration": 116.70000000000005
+      },
+      {
+        "start": 2884.9,
+        "duration": 1233.2999999999997
+      },
+      {
+        "start": 4518.2,
+        "duration": 1283.3000000000002
+      }
+    ],
+    "inputs": [
+      {
+        "type": "pointerdown",
+        "target": "story-skip",
+        "at": 369.6999999284744,
+        "queue": 12.899999976158142,
+        "paint": 15.900000095367432
+      },
+      {
+        "type": "click",
+        "target": "story-skip",
+        "at": 371.39999997615814,
+        "queue": 14.600000023841858,
+        "paint": 14.299999952316284
+      },
+      {
+        "type": "pointerdown",
+        "target": "skip-opening",
+        "at": 6202.699999928474,
+        "queue": 11.599999904632568,
+        "paint": 16.100000023841858
+      },
+      {
+        "type": "click",
+        "target": "skip-opening",
+        "at": 6204.899999976158,
+        "queue": 13.600000023841858,
+        "paint": 13.899999976158142
+      },
+      {
+        "type": "pointerdown",
+        "target": "pause",
+        "at": 6890.100000023842,
+        "queue": 8.900000095367432,
+        "paint": 12.299999952316284
+      },
+      {
+        "type": "click",
+        "target": "pause",
+        "at": 6893.600000023842,
+        "queue": 12.300000071525574,
+        "paint": 8.799999952316284
+      },
+      {
+        "type": "pointerdown",
+        "target": "player-resume",
+        "at": 7335.899999976158,
+        "queue": 13.700000047683716,
+        "paint": 28.299999952316284
+      },
+      {
+        "type": "click",
+        "target": "player-resume",
+        "at": 7337.100000023842,
+        "queue": 14.800000071525574,
+        "paint": 27.09999990463257
+      },
+      {
+        "type": "click",
+        "target": "jump",
+        "at": 7342.399999976158,
+        "queue": 0,
+        "paint": 21.799999952316284
+      },
+      {
+        "type": "pointerdown",
+        "target": "pause",
+        "at": 7422.100000023842,
+        "queue": 6.100000023841858,
+        "paint": 13.099999904632568
+      },
+      {
+        "type": "click",
+        "target": "pause",
+        "at": 7424.5,
+        "queue": 8.5,
+        "paint": 10.699999928474426
+      }
+    ],
+    "models": [
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-prototype.glb",
+        "start": 1643.8999999761581,
+        "end": 1695.6000000238419
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-tripo-v2.glb",
+        "start": 1648.7999999523163,
+        "end": 1711.3999999761581
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-companion-stocky.glb",
+        "start": 1729.1999999284744,
+        "end": 1787
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-companion-tall.glb",
+        "start": 1698.6000000238419,
+        "end": 1791.2999999523163
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/oil-jar-pixal3d.glb",
+        "start": 1792.6000000238419,
+        "end": 1823.1999999284744
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/lamp-workbench-pixal3d.glb",
+        "start": 1823.3999999761581,
+        "end": 1845.3999999761581
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/portable-lantern-tripo.glb",
+        "start": 1888,
+        "end": 1918.5
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/stone-well-tripo.glb",
+        "start": 1918.6999999284744,
+        "end": 1961.2999999523163
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/timber-gate-tripo.glb",
+        "start": 1920.6999999284744,
+        "end": 1968.1999999284744
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/house-01-tripo-v2.glb",
+        "start": 1968.6000000238419,
+        "end": 2008.8999999761581
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/market-stall-tripo-v2.glb",
+        "start": 2146.899999976158,
+        "end": 2183.2999999523163
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/animal-pen-tripo-v2.glb",
+        "start": 2185.6999999284744,
+        "end": 2211
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/vegetable-market-stall-pixal3d.glb",
+        "start": 2212.100000023842,
+        "end": 2243
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/pottery-market-stall-pixal3d.glb",
+        "start": 2249.6999999284744,
+        "end": 2288.100000023842
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/tanner-market-stall-pixal3d.glb",
+        "start": 2295.100000023842,
+        "end": 2324.399999976158
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/limestone-house-annex.glb",
+        "start": 2330.7999999523163,
+        "end": 2368.5
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-wall-cluster-a.glb",
+        "start": 2369.600000023842,
+        "end": 2400.399999976158
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-wall-cluster-b.glb",
+        "start": 2400.5,
+        "end": 2433.899999976158
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-basket-cluster-a.glb",
+        "start": 2434.100000023842,
+        "end": 2483.7999999523163
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-basket-cluster-b.glb",
+        "start": 2484.399999976158,
+        "end": 2513.100000023842
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/low-wall-perimeter.glb",
+        "start": 2517.899999976158,
+        "end": 2547.2999999523163
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/CommonTree_2.glb",
+        "start": 2602.899999976158,
+        "end": 2721.6999999284744
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/TwistedTree_1.glb",
+        "start": 2607.5,
+        "end": 2723.600000023842
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/DeadTree_2.glb",
+        "start": 2724.1999999284744,
+        "end": 2807.5
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/TwistedTree_3.glb",
+        "start": 2723.7999999523163,
+        "end": 2828.7999999523163
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Rock_Medium_1.glb",
+        "start": 2808.6999999284744,
+        "end": 2850.899999976158
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Rock_Medium_2.glb",
+        "start": 2830,
+        "end": 2852.6999999284744
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Rock_Medium_3.glb",
+        "start": 2853,
+        "end": 2880.100000023842
+      },
+      {
+        "url": "http://127.0.0.1:8962/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Pebble_Round_2.glb",
+        "start": 2853.399999976158,
+        "end": 2883.1999999284744
+      }
+    ],
+    "heap": {
+      "usedJSHeapBytes": 68000000,
+      "totalJSHeapBytes": 91700000
+    },
+    "resources": [
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/vendor/story-diorama/story-diorama.css",
+        "start": 10.299999952316284,
+        "end": 24.100000023841858,
+        "transfer": 3309,
+        "encoded": 3009,
+        "decodedHTTP": 3009
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/player.css",
+        "start": 10.699999928474426,
+        "end": 25.600000023841858,
+        "transfer": 4360,
+        "encoded": 4060,
+        "decodedHTTP": 4060
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/house-sighting.css",
+        "start": 10.699999928474426,
+        "end": 25.100000023841858,
+        "transfer": 2709,
+        "encoded": 2409,
+        "decodedHTTP": 2409
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/rehearsal.css",
+        "start": 10.699999928474426,
+        "end": 25.399999976158142,
+        "transfer": 2900,
+        "encoded": 2600,
+        "decodedHTTP": 2600
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/lamp-scene.css",
+        "start": 10.899999976158142,
+        "end": 24.399999976158142,
+        "transfer": 3108,
+        "encoded": 2808,
+        "decodedHTTP": 2808
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/story.css",
+        "start": 10.899999976158142,
+        "end": 24.699999928474426,
+        "transfer": 3654,
+        "encoded": 3354,
+        "decodedHTTP": 3354
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/loading-theatre.css",
+        "start": 11,
+        "end": 34.89999997615814,
+        "transfer": 2041,
+        "encoded": 1741,
+        "decodedHTTP": 1741
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/loading-theatre.js",
+        "start": 11.199999928474426,
+        "end": 36.10000002384186,
+        "transfer": 6854,
+        "encoded": 6554,
+        "decodedHTTP": 6554
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/memory-profile.js",
+        "start": 11.199999928474426,
+        "end": 36.299999952316284,
+        "transfer": 9767,
+        "encoded": 9467,
+        "decodedHTTP": 9467
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/startup.js",
+        "start": 11.299999952316284,
+        "end": 35.699999928474426,
+        "transfer": 5879,
+        "encoded": 5579,
+        "decodedHTTP": 5579
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/boot.mjs",
+        "start": 11.399999976158142,
+        "end": 35.299999952316284,
+        "transfer": 2004,
+        "encoded": 1704,
+        "decodedHTTP": 1704
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/quality-assets.js",
+        "start": 11.399999976158142,
+        "end": 35.89999997615814,
+        "transfer": 15886,
+        "encoded": 15586,
+        "decodedHTTP": 15586
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-story.mjs",
+        "start": 52.799999952316284,
+        "end": 56,
+        "transfer": 6291,
+        "encoded": 5991,
+        "decodedHTTP": 5991
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/vendor/story-diorama/story-diorama.mjs",
+        "start": 57.299999952316284,
+        "end": 62.10000002384186,
+        "transfer": 14362,
+        "encoded": 14062,
+        "decodedHTTP": 14062
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/story-media.mjs",
+        "start": 57.39999997615814,
+        "end": 61.89999997615814,
+        "transfer": 3839,
+        "encoded": 3539,
+        "decodedHTTP": 3539
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-story-data.mjs",
+        "start": 63.199999928474426,
+        "end": 69.79999995231628,
+        "transfer": 628,
+        "encoded": 328,
+        "decodedHTTP": 328
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/vendor/story-diorama/timeline.mjs",
+        "start": 63.5,
+        "end": 70.5,
+        "transfer": 4801,
+        "encoded": 4501,
+        "decodedHTTP": 4501
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/vendor/story-diorama/appearance.mjs",
+        "start": 63.60000002384186,
+        "end": 70.10000002384186,
+        "transfer": 3455,
+        "encoded": 3155,
+        "decodedHTTP": 3155
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/story/opening.json",
+        "start": 74.19999992847443,
+        "end": 77.79999995231628,
+        "transfer": 4717,
+        "encoded": 4417,
+        "decodedHTTP": 4417
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/lamp-assembly/lamp.webp",
+        "start": 75.79999995231628,
+        "end": 81.89999997615814,
+        "transfer": 9334,
+        "encoded": 9034,
+        "decodedHTTP": 9034
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/story/watch.webp",
+        "start": 79.79999995231628,
+        "end": 86.5,
+        "transfer": 97104,
+        "encoded": 96804,
+        "decodedHTTP": 96804
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/story/announcement.webp",
+        "start": 80.10000002384186,
+        "end": 87.79999995231628,
+        "transfer": 97736,
+        "encoded": 97436,
+        "decodedHTTP": 97436
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/story/reassurance.webp",
+        "start": 94.79999995231628,
+        "end": 98.5,
+        "transfer": 91890,
+        "encoded": 91590,
+        "decodedHTTP": 91590
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/story/gathering.webp",
+        "start": 108.10000002384186,
+        "end": 114.19999992847443,
+        "transfer": 122420,
+        "encoded": 122120,
+        "decodedHTTP": 122120
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/story/host.webp",
+        "start": 119.29999995231628,
+        "end": 123.60000002384186,
+        "transfer": 130660,
+        "encoded": 130360,
+        "decodedHTTP": 130360
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/story/departure.webp",
+        "start": 126.19999992847443,
+        "end": 129.5,
+        "transfer": 124134,
+        "encoded": 123834,
+        "decodedHTTP": 123834
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/village-game.mjs",
+        "start": 372.89999997615814,
+        "end": 376.1999999284744,
+        "transfer": 32307,
+        "encoded": 32007,
+        "decodedHTTP": 32007
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/asset-loading.mjs",
+        "start": 388.10000002384186,
+        "end": 399.1999999284744,
+        "transfer": 3156,
+        "encoded": 2856,
+        "decodedHTTP": 2856
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/mobile-rendering.mjs",
+        "start": 388.10000002384186,
+        "end": 400,
+        "transfer": 6646,
+        "encoded": 6346,
+        "decodedHTTP": 6346
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/empty-stall-scene.mjs",
+        "start": 388.1999999284744,
+        "end": 411,
+        "transfer": 5379,
+        "encoded": 5079,
+        "decodedHTTP": 5079
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/companion-reunion-scene.mjs",
+        "start": 388.1999999284744,
+        "end": 417.2999999523163,
+        "transfer": 5125,
+        "encoded": 4825,
+        "decodedHTTP": 4825
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/house-tracks-scene.mjs",
+        "start": 388.2999999523163,
+        "end": 416.89999997615814,
+        "transfer": 5666,
+        "encoded": 5366,
+        "decodedHTTP": 5366
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/gate-scene.mjs",
+        "start": 388.39999997615814,
+        "end": 417.5,
+        "transfer": 5070,
+        "encoded": 4770,
+        "decodedHTTP": 4770
+      },
+      {
+        "path": "/story-lab/vendor/three/build/three.module.js",
+        "start": 388.5,
+        "end": 472.6999999284744,
+        "transfer": 1305120,
+        "encoded": 1304820,
+        "decodedHTTP": 1304820
+      },
+      {
+        "path": "/story-lab/vendor/three/examples/jsm/loaders/GLTFLoader.js",
+        "start": 388.60000002384186,
+        "end": 418.2999999523163,
+        "transfer": 110329,
+        "encoded": 110029,
+        "decodedHTTP": 110029
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-scene.mjs",
+        "start": 388.60000002384186,
+        "end": 424.5,
+        "transfer": 3770,
+        "encoded": 3470,
+        "decodedHTTP": 3470
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/character-variants.mjs",
+        "start": 388.6999999284744,
+        "end": 431.39999997615814,
+        "transfer": 7166,
+        "encoded": 6866,
+        "decodedHTTP": 6866
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-world.mjs",
+        "start": 388.6999999284744,
+        "end": 430.89999997615814,
+        "transfer": 26575,
+        "encoded": 26275,
+        "decodedHTTP": 26275
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-camera.mjs",
+        "start": 388.6999999284744,
+        "end": 433.2999999523163,
+        "transfer": 6367,
+        "encoded": 6067,
+        "decodedHTTP": 6067
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-animal-route.mjs",
+        "start": 388.7999999523163,
+        "end": 436.5,
+        "transfer": 1380,
+        "encoded": 1080,
+        "decodedHTTP": 1080
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/rehearsal-route.mjs",
+        "start": 388.7999999523163,
+        "end": 439.39999997615814,
+        "transfer": 11975,
+        "encoded": 11675,
+        "decodedHTTP": 11675
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/house-sighting-scene.mjs",
+        "start": 388.89999997615814,
+        "end": 455.6999999284744,
+        "transfer": 7227,
+        "encoded": 6927,
+        "decodedHTTP": 6927
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/house-scene.mjs",
+        "start": 389,
+        "end": 458.6999999284744,
+        "transfer": 7451,
+        "encoded": 7151,
+        "decodedHTTP": 7151
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/lamp-scene.mjs",
+        "start": 389.10000002384186,
+        "end": 454.5,
+        "transfer": 2963,
+        "encoded": 2663,
+        "decodedHTTP": 2663
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-model.mjs",
+        "start": 389.10000002384186,
+        "end": 459,
+        "transfer": 19597,
+        "encoded": 19297,
+        "decodedHTTP": 19297
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-presentation.mjs",
+        "start": 389.1999999284744,
+        "end": 453.10000002384186,
+        "transfer": 2099,
+        "encoded": 1799,
+        "decodedHTTP": 1799
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-arrival.mjs",
+        "start": 389.2999999523163,
+        "end": 473.7999999523163,
+        "transfer": 1118,
+        "encoded": 818,
+        "decodedHTTP": 818
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-audio.mjs",
+        "start": 389.2999999523163,
+        "end": 479.39999997615814,
+        "transfer": 8831,
+        "encoded": 8531,
+        "decodedHTTP": 8531
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/empty-stall.mjs",
+        "start": 412.7999999523163,
+        "end": 474.39999997615814,
+        "transfer": 1772,
+        "encoded": 1472,
+        "decodedHTTP": 1472
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/barred-gate.mjs",
+        "start": 420.1999999284744,
+        "end": 475.7999999523163,
+        "transfer": 977,
+        "encoded": 677,
+        "decodedHTTP": 677
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/companion-character.mjs",
+        "start": 421.5,
+        "end": 477,
+        "transfer": 1732,
+        "encoded": 1432,
+        "decodedHTTP": 1432
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/companion-reunion.mjs",
+        "start": 421.60000002384186,
+        "end": 494.10000002384186,
+        "transfer": 4572,
+        "encoded": 4272,
+        "decodedHTTP": 4272
+      },
+      {
+        "path": "/story-lab/vendor/three/examples/jsm/utils/BufferGeometryUtils.js",
+        "start": 425.10000002384186,
+        "end": 497.7999999523163,
+        "transfer": 32068,
+        "encoded": 31768,
+        "decodedHTTP": 31768
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/nativity-lantern-mount.mjs",
+        "start": 434.10000002384186,
+        "end": 495,
+        "transfer": 2276,
+        "encoded": 1976,
+        "decodedHTTP": 1976
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/house-annexes.mjs",
+        "start": 434.10000002384186,
+        "end": 496.10000002384186,
+        "transfer": 1884,
+        "encoded": 1584,
+        "decodedHTTP": 1584
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/village-layout.mjs",
+        "start": 434.2999999523163,
+        "end": 495.5,
+        "transfer": 1952,
+        "encoded": 1652,
+        "decodedHTTP": 1652
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-nativity.mjs",
+        "start": 434.39999997615814,
+        "end": 498.6999999284744,
+        "transfer": 8447,
+        "encoded": 8147,
+        "decodedHTTP": 8147
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/lamp-workbench-model.mjs",
+        "start": 434.39999997615814,
+        "end": 513.1999999284744,
+        "transfer": 2462,
+        "encoded": 2162,
+        "decodedHTTP": 2162
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-nature.mjs",
+        "start": 434.5,
+        "end": 517.3999999761581,
+        "transfer": 5542,
+        "encoded": 5242,
+        "decodedHTTP": 5242
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-boundaries.mjs",
+        "start": 434.6999999284744,
+        "end": 515.2999999523163,
+        "transfer": 4532,
+        "encoded": 4232,
+        "decodedHTTP": 4232
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-lantern.mjs",
+        "start": 434.7999999523163,
+        "end": 513.5,
+        "transfer": 3013,
+        "encoded": 2713,
+        "decodedHTTP": 2713
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-poi-models.mjs",
+        "start": 434.89999997615814,
+        "end": 514.2999999523163,
+        "transfer": 1739,
+        "encoded": 1439,
+        "decodedHTTP": 1439
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/house-decorations.mjs",
+        "start": 435,
+        "end": 512.6000000238419,
+        "transfer": 2650,
+        "encoded": 2350,
+        "decodedHTTP": 2350
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/journey-terrain.mjs",
+        "start": 435,
+        "end": 531,
+        "transfer": 419,
+        "encoded": 119,
+        "decodedHTTP": 119
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/route-geometry.mjs",
+        "start": 441.10000002384186,
+        "end": 531.7999999523163,
+        "transfer": 1444,
+        "encoded": 1144,
+        "decodedHTTP": 1144
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/house-sighting.mjs",
+        "start": 441.10000002384186,
+        "end": 531.2999999523163,
+        "transfer": 1217,
+        "encoded": 917,
+        "decodedHTTP": 917
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/house-tracks.mjs",
+        "start": 441.10000002384186,
+        "end": 535.8999999761581,
+        "transfer": 1560,
+        "encoded": 1260,
+        "decodedHTTP": 1260
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/house-rejection.mjs",
+        "start": 441.1999999284744,
+        "end": 529.1999999284744,
+        "transfer": 1391,
+        "encoded": 1091,
+        "decodedHTTP": 1091
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/lamp-assembly.mjs",
+        "start": 441.1999999284744,
+        "end": 531.6000000238419,
+        "transfer": 2100,
+        "encoded": 1800,
+        "decodedHTTP": 1800
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/lamp-craft.mjs",
+        "start": 460.6999999284744,
+        "end": 547.1999999284744,
+        "transfer": 2040,
+        "encoded": 1740,
+        "decodedHTTP": 1740
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/night-ambience.mjs",
+        "start": 463.7999999523163,
+        "end": 549,
+        "transfer": 5887,
+        "encoded": 5587,
+        "decodedHTTP": 5587
+      },
+      {
+        "path": "/story-lab/vendor/three/examples/jsm/utils/SkeletonUtils.js",
+        "start": 501.1999999284744,
+        "end": 549.2999999523163,
+        "transfer": 9102,
+        "encoded": 8802,
+        "decodedHTTP": 8802
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/src/nativity-straw.mjs",
+        "start": 501.5,
+        "end": 548.6999999284744,
+        "transfer": 2679,
+        "encoded": 2379,
+        "decodedHTTP": 2379
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-prototype.glb",
+        "start": 1648.6999999284744,
+        "end": 1655.2999999523163,
+        "transfer": 59504,
+        "encoded": 59204,
+        "decodedHTTP": 59204
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-tripo-v2.glb",
+        "start": 1649.1999999284744,
+        "end": 1657.6999999284744,
+        "transfer": 726628,
+        "encoded": 726328,
+        "decodedHTTP": 726328
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-companion-tall.glb",
+        "start": 1698.8999999761581,
+        "end": 1706.2999999523163,
+        "transfer": 495672,
+        "encoded": 495372,
+        "decodedHTTP": 495372
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/shepherd-companion-stocky.glb",
+        "start": 1729.5,
+        "end": 1737.1000000238419,
+        "transfer": 459560,
+        "encoded": 459260,
+        "decodedHTTP": 459260
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/oil-jar-pixal3d.glb",
+        "start": 1793,
+        "end": 1801.3999999761581,
+        "transfer": 322792,
+        "encoded": 322492,
+        "decodedHTTP": 322492
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/lamp-workbench-pixal3d.glb",
+        "start": 1824.1999999284744,
+        "end": 1830.1000000238419,
+        "transfer": 480048,
+        "encoded": 479748,
+        "decodedHTTP": 479748
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/portable-lantern-tripo.glb",
+        "start": 1888.3999999761581,
+        "end": 1896,
+        "transfer": 214772,
+        "encoded": 214472,
+        "decodedHTTP": 214472
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/stone-well-tripo.glb",
+        "start": 1919.1000000238419,
+        "end": 1930.2999999523163,
+        "transfer": 299324,
+        "encoded": 299024,
+        "decodedHTTP": 299024
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/timber-gate-tripo.glb",
+        "start": 1921.1999999284744,
+        "end": 1932.3999999761581,
+        "transfer": 324800,
+        "encoded": 324500,
+        "decodedHTTP": 324500
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/house-01-tripo-v2.glb",
+        "start": 1969.1000000238419,
+        "end": 1973.8999999761581,
+        "transfer": 273860,
+        "encoded": 273560,
+        "decodedHTTP": 273560
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/market-stall-tripo-v2.glb",
+        "start": 2147.399999976158,
+        "end": 2156.5,
+        "transfer": 293000,
+        "encoded": 292700,
+        "decodedHTTP": 292700
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/animal-pen-tripo-v2.glb",
+        "start": 2186.100000023842,
+        "end": 2192.100000023842,
+        "transfer": 397180,
+        "encoded": 396880,
+        "decodedHTTP": 396880
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/vegetable-market-stall-pixal3d.glb",
+        "start": 2212.399999976158,
+        "end": 2222.6999999284744,
+        "transfer": 632064,
+        "encoded": 631764,
+        "decodedHTTP": 631764
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/pottery-market-stall-pixal3d.glb",
+        "start": 2250.100000023842,
+        "end": 2260.7999999523163,
+        "transfer": 488888,
+        "encoded": 488588,
+        "decodedHTTP": 488588
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/tanner-market-stall-pixal3d.glb",
+        "start": 2295.399999976158,
+        "end": 2300.7999999523163,
+        "transfer": 540552,
+        "encoded": 540252,
+        "decodedHTTP": 540252
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/limestone-house-annex.glb",
+        "start": 2331.399999976158,
+        "end": 2338.1999999284744,
+        "transfer": 736876,
+        "encoded": 736576,
+        "decodedHTTP": 736576
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-wall-cluster-a.glb",
+        "start": 2370.2999999523163,
+        "end": 2377.899999976158,
+        "transfer": 703812,
+        "encoded": 703512,
+        "decodedHTTP": 703512
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-wall-cluster-b.glb",
+        "start": 2401,
+        "end": 2408.7999999523163,
+        "transfer": 772664,
+        "encoded": 772364,
+        "decodedHTTP": 772364
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-basket-cluster-a.glb",
+        "start": 2434.5,
+        "end": 2443.100000023842,
+        "transfer": 760956,
+        "encoded": 760656,
+        "decodedHTTP": 760656
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/optimized/olive-basket-cluster-b.glb",
+        "start": 2484.7999999523163,
+        "end": 2494.6999999284744,
+        "transfer": 870916,
+        "encoded": 870616,
+        "decodedHTTP": 870616
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/low-wall-perimeter.glb",
+        "start": 2519.2999999523163,
+        "end": 2525.2999999523163,
+        "transfer": 220544,
+        "encoded": 220244,
+        "decodedHTTP": 220244
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/CommonTree_2.glb",
+        "start": 2603.7999999523163,
+        "end": 2619,
+        "transfer": 1035388,
+        "encoded": 1035088,
+        "decodedHTTP": 1035088
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/TwistedTree_1.glb",
+        "start": 2607.6999999284744,
+        "end": 2623,
+        "transfer": 1274124,
+        "encoded": 1273824,
+        "decodedHTTP": 1273824
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/TwistedTree_3.glb",
+        "start": 2724.100000023842,
+        "end": 2740.899999976158,
+        "transfer": 1290356,
+        "encoded": 1290056,
+        "decodedHTTP": 1290056
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/DeadTree_2.glb",
+        "start": 2724.399999976158,
+        "end": 2739.1999999284744,
+        "transfer": 947144,
+        "encoded": 946844,
+        "decodedHTTP": 946844
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Rock_Medium_1.glb",
+        "start": 2809.100000023842,
+        "end": 2818.399999976158,
+        "transfer": 41204,
+        "encoded": 40904,
+        "decodedHTTP": 40904
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Rock_Medium_2.glb",
+        "start": 2830.5,
+        "end": 2834.399999976158,
+        "transfer": 39040,
+        "encoded": 38740,
+        "decodedHTTP": 38740
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Rock_Medium_3.glb",
+        "start": 2853.2999999523163,
+        "end": 2861.7999999523163,
+        "transfer": 45164,
+        "encoded": 44864,
+        "decodedHTTP": 44864
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/quality/low/nature/Pebble_Round_2.glb",
+        "start": 2853.899999976158,
+        "end": 2862.899999976158,
+        "transfer": 34224,
+        "encoded": 33924,
+        "decodedHTTP": 33924
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/audio/crickets.mp3",
+        "start": 2964.7999999523163,
+        "end": 2977,
+        "transfer": 125720,
+        "encoded": 125420,
+        "decodedHTTP": 125420
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/audio/sheep.mp3",
+        "start": 2965.1999999284744,
+        "end": 2989.899999976158,
+        "transfer": 8655,
+        "encoded": 8355,
+        "decodedHTTP": 8355
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/audio/frog.mp3",
+        "start": 2966.1999999284744,
+        "end": 2991.7999999523163,
+        "transfer": 24920,
+        "encoded": 24620,
+        "decodedHTTP": 24620
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/audio/jackal.mp3",
+        "start": 2966.6999999284744,
+        "end": 2991.5,
+        "transfer": 35480,
+        "encoded": 35180,
+        "decodedHTTP": 35180
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/audio/wolf.mp3",
+        "start": 2966.899999976158,
+        "end": 2991.600000023842,
+        "transfer": 57368,
+        "encoded": 57068,
+        "decodedHTTP": 57068
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/audio/house-murmur.mp3",
+        "start": 2967.1999999284744,
+        "end": 2993.600000023842,
+        "transfer": 151256,
+        "encoded": 150956,
+        "decodedHTTP": 150956
+      },
+      {
+        "path": "/story-lab/prototypes/shepherd-adventure/assets/audio/house-woman.mp3",
+        "start": 2967.5,
+        "end": 2997.6999999284744,
+        "transfer": 226904,
+        "encoded": 226604,
+        "decodedHTTP": 226604
+      }
+    ],
+    "limits": "Heap is JS only; HTTP decoded sizes are not image RAM. GPU residency and total phone memory are not measured."
+  },
+  "state": {
+    "reunion": {
+      "phase": "pending",
+      "elapsed": 0,
+      "cameraElapsed": 0,
+      "canFollow": false,
+      "followRequested": false,
+      "actors": [
+        {
+          "x": 0,
+          "z": 0,
+          "heading": 0,
+          "visible": false,
+          "moving": false,
+          "speed": 0,
+          "distance": 0
+        },
+        {
+          "x": 0,
+          "z": 0,
+          "heading": 0,
+          "visible": false,
+          "moving": false,
+          "speed": 0,
+          "distance": 0
+        }
+      ]
+    },
+    "index": 1,
+    "at": "s02-house-1",
+    "phase": "choice",
+    "paused": false,
+    "staged": true,
+    "lantern": true,
+    "lampAssembly": {
+      "step": 5,
+      "open": false,
+      "lit": true,
+      "taken": true,
+      "feedback": ""
+    },
+    "houseRejection": {
+      "started": false,
+      "elapsed": 0,
+      "phase": "ready",
+      "lit": false,
+      "complete": false
+    },
+    "houseSighting": {
+      "started": false,
+      "elapsed": 0,
+      "page": 0,
+      "phase": "ready",
+      "complete": false
+    },
+    "houseAdvice": {
+      "started": false,
+      "elapsed": 0,
+      "page": 0,
+      "phase": "ready",
+      "complete": false
+    },
+    "houseOwner": {
+      "started": false,
+      "elapsed": 0,
+      "page": 0,
+      "phase": "ready",
+      "complete": false
+    },
+    "barredGate": {
+      "started": false,
+      "elapsed": 0,
+      "phase": "ready",
+      "complete": false
+    },
+    "houseTracks": {
+      "started": false,
+      "elapsed": 0,
+      "phase": "ready",
+      "searchDistance": 0,
+      "spotted": false,
+      "complete": false
+    },
+    "gateLit": false,
+    "emptyStall": {
+      "phase": "search",
+      "elapsed": 0,
+      "lit": false,
+      "open": false,
+      "complete": false
+    },
+    "gateOpen": false,
+    "distance": 0,
+    "position": {
+      "x": -13,
+      "z": 18.5,
+      "heading": 1.5707963267948966
+    },
+    "destination": null,
+    "completed": [
+      "s01-lamp"
+    ],
+    "ready": true,
+    "rendering": {
+      "failed": false,
+      "frames": 5,
+      "budget": {
+        "tier": "low",
+        "mobile": true,
+        "maxTextureSize": 512,
+        "pixelRatio": 1,
+        "antialias": false,
+        "shadowSize": 1024,
+        "maxPointLights": 4
+      }
+    },
+    "audio": {
+      "started": true,
+      "muted": false,
+      "running": true,
+      "contextState": "running",
+      "stepDistance": 0,
+      "breezeTime": 6.885300000023842,
+      "night": {
+        "loaded": [
+          "sheep",
+          "frog",
+          "jackal",
+          "wolf",
+          "crickets",
+          "voices",
+          "woman"
+        ],
+        "failures": [],
+        "counts": {
+          "sheep": 0,
+          "jackal": 0,
+          "wolf": 0,
+          "frog": 0
+        },
+        "pending": 0,
+        "frogWait": 15.518578835131652,
+        "houseTracks": {},
+        "levels": {
+          "crickets": 0.044155003122252116
+        }
+      },
+      "walkers": [
+        {
+          "steps": 0,
+          "moving": false
+        },
+        {
+          "steps": 0,
+          "moving": false
+        },
+        {
+          "steps": 0,
+          "moving": false
+        }
+      ],
+      "events": {
+        "footsteps": 0,
+        "decisions": 3,
+        "breezes": 0
+      }
+    },
+    "stall": {
+      "hand": [
+        -13.016169434715817,
+        0.8975423334976655,
+        18.80218345433988
+      ],
+      "lamp": [
+        -16.031305569536013,
+        2.1616587997154584,
+        -13.778005956428215
+      ]
+    },
+    "camera": {
+      "position": {
+        "x": -19.3280723763244,
+        "y": 3.514245849862615,
+        "z": 14.385634921400381
+      },
+      "look": {
+        "x": -11.4,
+        "y": 1.164245849862615,
+        "z": 18.5
+      },
+      "playerVisible": true,
+      "aheadVisible": false,
+      "yaw": 1.1071487177940897,
+      "arm": 7.935678924956577
+    },
+    "lamp": {
+      "carriedVisible": true,
+      "carriedPosition": [
+        -13.016169434715817,
+        0.7475423334976655,
+        18.80218345433988
+      ],
+      "benches": [
+        {
+          "lampVisible": false,
+          "lit": false,
+          "wickVisible": false,
+          "flintVisible": false
+        }
+      ]
+    },
+    "house": {
+      "light": 0,
+      "voiceReady": false,
+      "audioFailed": false,
+      "played": []
+    },
+    "sighting": {
+      "open": false,
+      "loading": false,
+      "failed": false,
+      "page": -1
+    },
+    "view": {
+      "position": [
+        -19.3280723763244,
+        3.514245849862615,
+        14.385634921400381
+      ],
+      "look": {
+        "x": -11.4,
+        "y": 1.164245849862615,
+        "z": 18.5
+      }
+    },
+    "buffer": [
+      393,
+      851
+    ],
+    "reduced": false
+  },
+  "limits": "Same 393x851 viewport and static pause-menu capture; House 1 is staged via the existing review control, not walked."
+}

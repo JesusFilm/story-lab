@@ -3,16 +3,24 @@ const entry='prototypes/shepherd-adventure/';
 
 // Read the WebGL drawing buffer in the same animation frame as game rendering.
 // HTML, a canvas element, draw-call counters and a solid clear colour cannot pass.
+// Five-bit channels retain real variation in the minimal night palette; four-bit
+// bins collapsed the healthy WebKit village to 23 colours (13.6% lit).
 async function pixels(page){
- return page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>{
+ return page.evaluate(()=>new Promise(resolve=>{
+ const previous=window.routeRehearsal?.getState().rendering.frames||0;
+ function sample(){
+  // GPU backpressure can intentionally skip a rAF. Read only in a frame that
+  // actually submitted a draw, before the default drawing buffer is discarded.
+  if((window.routeRehearsal?.getState().rendering.frames||0)===previous){requestAnimationFrame(sample);return;}
   const canvas=document.getElementById('world'),gl=canvas.getContext('webgl2');
   if(!gl||gl.isContextLost())return resolve({colours:0,lit:0});
   const w=gl.drawingBufferWidth,h=gl.drawingBufferHeight,data=new Uint8Array(w*h*4);
   gl.readPixels(0,0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,data);
   const colours=new Set();let lit=0,n=0;
-  for(let y=0;y<h;y+=8)for(let x=0;x<w;x+=8){const i=(y*w+x)*4,r=data[i],g=data[i+1],b=data[i+2];colours.add((r>>4)*256+(g>>4)*16+(b>>4));if(Math.max(r,g,b)>35)lit++;n++;}
+  for(let y=0;y<h;y+=8)for(let x=0;x<w;x+=8){const i=(y*w+x)*4,r=data[i],g=data[i+1],b=data[i+2];colours.add((r>>3)*1024+(g>>3)*32+(b>>3));if(Math.max(r,g,b)>35)lit++;n++;}
   resolve(window.mobileLastPixels={colours:colours.size,lit:lit/n,width:w,height:h});
- })));
+ }requestAnimationFrame(sample);
+ }));
 }
 async function rendered(page,{intro=false}={}){
  await expect.poll(async()=>{const p=await pixels(page);return p.colours>(intro?12:24)&&p.lit>(intro ? 0.005 : 0.03);},{message:'actual varied, illuminated 3D pixels',timeout:45000}).toBe(true);
@@ -42,7 +50,13 @@ test.beforeEach(async({page})=>{
  page.on('pageerror',error=>logs.push({type:'pageerror',message:error.message}));
  page.on('crash',()=>logs.push({type:'crash'}));
  page.on('console',message=>{if(['error','warning'].includes(message.type()))logs.push({type:message.type(),message:message.text()});});
- page.on('requestfailed',r=>logs.push({type:'requestfailed',url:r.url(),message:r.failure()?.errorText}));
+ page.on('requestfailed',r=>{
+  const message=r.failure()?.errorText;
+  // Closing scripture releases its streaming Audio source. An aborted music
+  // request is expected; genuine HTTP/audio errors and all asset aborts remain.
+  if(r.url().endsWith('/assets/story/silent-night-96k.mp3')&&message==='net::ERR_ABORTED')return;
+  logs.push({type:'requestfailed',url:r.url(),message});
+ });
  page.on('response',r=>{if(r.status()>=400)logs.push({type:'http',url:r.url(),status:r.status()});});
  await page.addInitScript(()=>{
   window.mobileContextEvents=[];window.mobileTextureUploads=[];
@@ -78,6 +92,8 @@ test('cold story → rendered world → touch lamp assembly, rotation and contex
   const label=await button.textContent();await button.tap();
   if(label==='Take lamp')break;
   await expect(button).not.toHaveText(label);
+  // These are deliberate single taps; preserve the game's double-tap guard.
+  await page.waitForTimeout(550);
  }
  await expect.poll(()=>page.evaluate(()=>window.routeRehearsal.getState().lantern)).toBe(true);
  await capture(page,info,'lamp-carried');

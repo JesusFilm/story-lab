@@ -8,7 +8,7 @@ export function createJourneyStory({onClose,onPlaying=()=>{}}){
  const close=()=>{generation++;const completed=kind;kind=null;player?.destroy();player=null;stage.replaceChildren();bubble.textContent='';overlay.hidden=true;titleCard.hidden=true;overlay.classList.remove('story-awaiting-start');document.body.classList.remove('story-playing');if(completed)media.release(completed);previousFocus?.focus?.({preventScroll:true});};
  window.shepherdMemory?.register('story',()=>({kind,leases:media.getMemory(),audio:(player?.voices||[]).map(v=>({paused:v.audio.paused,readyState:v.audio.readyState,seconds:v.audio.currentTime,muted:v.audio.muted}))}));
  const finish=()=>{const completed=kind;if(!completed)return;close();window.shepherdMemory?.mark(`${completed}-closed`);onClose(completed);};
- function advance(){if(!player)return;const s=player.getState();if(s.phase==='idle')player.start();else if(s.paused)player.pause(false);else player.next();}
+ function advance(){if(!player)return;window.shepherdStartup?.mark('story-input');const s=player.getState();if(s.phase==='idle')player.start();else if(s.paused)player.pause(false);else player.next();}
  function sound(){muted=!muted;syncSound();player?.setMuted(muted);if(!muted)player?.retryAudio();else{$('#story-audio-retry').hidden=true;status.textContent='';}}
  async function open(which){
   window.shepherdMemory?.mark(`${which}-requested`);close();previousFocus=document.activeElement;kind=which;const token=generation;document.body.classList.add('story-playing');if(!media.isReady(which))window.storyLoading?.show();
@@ -22,11 +22,11 @@ export function createJourneyStory({onClose,onPlaying=()=>{}}){
    player.setMuted(muted);
    player.addEventListener('cue',e=>{bubble.hidden=!e.detail.cue.bubble;bubble.textContent=e.detail.cue.bubble?e.detail.cue.text:'';});
    player.addEventListener('state',e=>{const s=e.detail;const idle=s.phase==='idle';overlay.classList.toggle('story-awaiting-start',idle);titleCard.hidden=!idle;next.textContent=s.phase==='idle'?'Start':s.paused?'Continue':s.index===s.total-1?(kind==='opening'?'Start adventure':'Finish story'):'Next verse';});
-   player.addEventListener('audioerror',()=>{if(muted)return;status.textContent='Sound could not start.';$('#story-audio-retry').textContent='Retry sound';$('#story-audio-retry').hidden=false;});
+   player.addEventListener('audioerror',e=>{window.shepherdStartup?.failure('story-audio',e.detail?.message||'Story audio unavailable');if(muted)return;status.textContent='Sound could not start.';$('#story-audio-retry').textContent='Retry sound';$('#story-audio-retry').hidden=false;});
    player.addEventListener('complete',finish);
    await player.preload();if(token!==generation)return;
    status.textContent='';next.textContent='Start';overlay.hidden=false;window.storyLoading?.ready();next.focus({preventScroll:true});window.shepherdMemory?.mark(`${which}-visible`);onPlaying(which);
-  }catch(error){if(token!==generation)return;window.storyLoading?.show();window.storyLoading?.fail('Story media could not load. Retry or reload to continue.');const retry=document.querySelector('.loading-retry');if(retry){retry.textContent='Retry story';retry.onclick=()=>open(which);retry.focus({preventScroll:true});}}
+  }catch(error){if(token!==generation)return;window.shepherdStartup?.failure('story-media',error.message);window.storyLoading?.show();window.storyLoading?.fail('Story media could not load. Retry or reload to continue.');const retry=document.querySelector('.loading-retry');if(retry){retry.textContent='Retry story';retry.onclick=()=>open(which);retry.focus({preventScroll:true});}}
  }
  next.onclick=advance;$('#story-skip').onclick=finish;$('#story-sound').onclick=sound;$('#story-retry').onclick=()=>open(kind);$('#story-audio-retry').onclick=()=>{player?.retryAudio();$('#story-audio-retry').hidden=true;status.textContent='';};
  // Register before the dynamically imported game. Story keys never leak into it.

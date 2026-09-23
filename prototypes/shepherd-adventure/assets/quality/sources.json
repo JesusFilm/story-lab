@@ -1,0 +1,1526 @@
+{
+  "version": 1,
+  "tiers": {
+    "minimal": {
+      "assets/animal-pen-tripo-v2.glb": {
+        "url": "assets/quality/minimal/animal-pen-tripo-v2.glb",
+        "bytes": 204312,
+        "vertices": 5262,
+        "triangles": 4032,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/house-01-tripo-v2.glb": {
+        "url": "assets/quality/minimal/house-01-tripo-v2.glb",
+        "bytes": 87156,
+        "vertices": 1949,
+        "triangles": 2250,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/market-stall-tripo-v2.glb": {
+        "url": "assets/quality/minimal/market-stall-tripo-v2.glb",
+        "bytes": 94860,
+        "vertices": 2219,
+        "triangles": 2280,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/shepherd-prototype.glb": {
+        "url": "assets/quality/minimal/shepherd-prototype.glb",
+        "bytes": 53316,
+        "vertices": 3551,
+        "triangles": 6987,
+        "textureRGBA": 0
+      },
+      "assets/shepherd-tripo-v2.glb": {
+        "url": "assets/quality/minimal/shepherd-tripo-v2.glb",
+        "bytes": 452960,
+        "vertices": 2025,
+        "triangles": 2304,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/stone-well-tripo.glb": {
+        "url": "assets/quality/minimal/stone-well-tripo.glb",
+        "bytes": 80644,
+        "vertices": 1762,
+        "triangles": 2356,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/timber-gate-tripo.glb": {
+        "url": "assets/quality/minimal/timber-gate-tripo.glb",
+        "bytes": 103184,
+        "vertices": 2425,
+        "triangles": 2124,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/portable-lantern-tripo.glb": {
+        "url": "assets/quality/minimal/portable-lantern-tripo.glb",
+        "bytes": 112216,
+        "vertices": 2154,
+        "triangles": 4903,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/low-wall-perimeter.glb": {
+        "url": "assets/quality/minimal/low-wall-perimeter.glb",
+        "bytes": 85016,
+        "vertices": 1679,
+        "triangles": 3522,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/nature/CommonTree_2.gltf": {
+        "url": "assets/quality/minimal/nature/CommonTree_2.glb",
+        "bytes": 279088,
+        "vertices": 3008,
+        "triangles": 2522,
+        "textureRGBA": 699050.6666666666
+      },
+      "assets/nature/DeadTree_2.gltf": {
+        "url": "assets/quality/minimal/nature/DeadTree_2.glb",
+        "bytes": 128772,
+        "vertices": 806,
+        "triangles": 1543,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/nature/Pebble_Round_2.gltf": {
+        "url": "assets/quality/minimal/nature/Pebble_Round_2.glb",
+        "bytes": 11840,
+        "vertices": 59,
+        "triangles": 114,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/nature/Rock_Medium_1.gltf": {
+        "url": "assets/quality/minimal/nature/Rock_Medium_1.glb",
+        "bytes": 17208,
+        "vertices": 173,
+        "triangles": 342,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/nature/Rock_Medium_2.gltf": {
+        "url": "assets/quality/minimal/nature/Rock_Medium_2.glb",
+        "bytes": 15052,
+        "vertices": 124,
+        "triangles": 244,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/nature/Rock_Medium_3.gltf": {
+        "url": "assets/quality/minimal/nature/Rock_Medium_3.glb",
+        "bytes": 20816,
+        "vertices": 255,
+        "triangles": 506,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/nature/TwistedTree_1.gltf": {
+        "url": "assets/quality/minimal/nature/TwistedTree_1.glb",
+        "bytes": 363412,
+        "vertices": 4794,
+        "triangles": 4235,
+        "textureRGBA": 699050.6666666666
+      },
+      "assets/nature/TwistedTree_3.gltf": {
+        "url": "assets/quality/minimal/nature/TwistedTree_3.glb",
+        "bytes": 371996,
+        "vertices": 4959,
+        "triangles": 4346,
+        "textureRGBA": 699050.6666666666
+      },
+      "assets/oil-jar-pixal3d.glb": {
+        "url": "assets/quality/minimal/oil-jar-pixal3d.glb",
+        "bytes": 140068,
+        "vertices": 2524,
+        "triangles": 6821,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/vegetable-market-stall-pixal3d.glb": {
+        "url": "assets/quality/minimal/vegetable-market-stall-pixal3d.glb",
+        "bytes": 270680,
+        "vertices": 4254,
+        "triangles": 19591,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/pottery-market-stall-pixal3d.glb": {
+        "url": "assets/quality/minimal/pottery-market-stall-pixal3d.glb",
+        "bytes": 361164,
+        "vertices": 6079,
+        "triangles": 25604,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/tanner-market-stall-pixal3d.glb": {
+        "url": "assets/quality/minimal/tanner-market-stall-pixal3d.glb",
+        "bytes": 262092,
+        "vertices": 4230,
+        "triangles": 18762,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/shepherd-companion-tall.glb": {
+        "url": "assets/quality/minimal/shepherd-companion-tall.glb",
+        "bytes": 242640,
+        "vertices": 1710,
+        "triangles": 1536,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/shepherd-companion-stocky.glb": {
+        "url": "assets/quality/minimal/shepherd-companion-stocky.glb",
+        "bytes": 230680,
+        "vertices": 1518,
+        "triangles": 1524,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/nativity-family-pixal3d.glb": {
+        "url": "assets/quality/minimal/nativity-family-pixal3d.glb",
+        "bytes": 357128,
+        "vertices": 5996,
+        "triangles": 24092,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/sheep-tripo-v2.glb": {
+        "url": "assets/quality/minimal/sheep-tripo-v2.glb",
+        "bytes": 226120,
+        "vertices": 2631,
+        "triangles": 2390,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/lamp-workbench-pixal3d.glb": {
+        "url": "assets/quality/minimal/lamp-workbench-pixal3d.glb",
+        "bytes": 193284,
+        "vertices": 3052,
+        "triangles": 13319,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/house-decorations/olive-wall-cluster-a.glb": {
+        "url": "assets/quality/minimal/house-decorations/olive-wall-cluster-a.glb",
+        "bytes": 223212,
+        "vertices": 3950,
+        "triangles": 13850,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/house-decorations/olive-wall-cluster-b.glb": {
+        "url": "assets/quality/minimal/house-decorations/olive-wall-cluster-b.glb",
+        "bytes": 246136,
+        "vertices": 4192,
+        "triangles": 16128,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/house-decorations/olive-basket-cluster-a.glb": {
+        "url": "assets/quality/minimal/house-decorations/olive-basket-cluster-a.glb",
+        "bytes": 290904,
+        "vertices": 5287,
+        "triangles": 17364,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/house-decorations/olive-basket-cluster-b.glb": {
+        "url": "assets/quality/minimal/house-decorations/olive-basket-cluster-b.glb",
+        "bytes": 274248,
+        "vertices": 4784,
+        "triangles": 17740,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/limestone-house-annex.glb": {
+        "url": "assets/quality/minimal/limestone-house-annex.glb",
+        "bytes": 466600,
+        "vertices": 7895,
+        "triangles": 33676,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/mary-seated-idle.glb": {
+        "url": "assets/quality/minimal/mary-seated-idle.glb",
+        "bytes": 273992,
+        "vertices": 4362,
+        "triangles": 4584,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/joseph-seated-idle.glb": {
+        "url": "assets/quality/minimal/joseph-seated-idle.glb",
+        "bytes": 289572,
+        "vertices": 4680,
+        "triangles": 4587,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/jesus-manger-tripo.glb": {
+        "url": "assets/quality/minimal/jesus-manger-tripo.glb",
+        "bytes": 213236,
+        "vertices": 3946,
+        "triangles": 10895,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/nativity-stone-stall.glb": {
+        "url": "assets/quality/minimal/nativity-stone-stall.glb",
+        "bytes": 315764,
+        "vertices": 4761,
+        "triangles": 25427,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/nativity-donkey-idle.glb": {
+        "url": "assets/quality/minimal/nativity-donkey-idle.glb",
+        "bytes": 3380776,
+        "vertices": 60138,
+        "triangles": 38518,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/square-nativity-stall.glb": {
+        "url": "assets/quality/minimal/square-nativity-stall.glb",
+        "bytes": 535576,
+        "vertices": 8003,
+        "triangles": 44603,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/straight-feeding-trough.glb": {
+        "url": "assets/quality/minimal/straight-feeding-trough.glb",
+        "bytes": 154572,
+        "vertices": 2205,
+        "triangles": 10775,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/jesus-manger-tripo.glb": {
+        "url": "assets/quality/minimal/optimized/jesus-manger-tripo.glb",
+        "bytes": 213260,
+        "vertices": 3946,
+        "triangles": 10895,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/joseph-seated-idle.glb": {
+        "url": "assets/quality/minimal/optimized/joseph-seated-idle.glb",
+        "bytes": 289564,
+        "vertices": 4680,
+        "triangles": 4587,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/limestone-house-annex.glb": {
+        "url": "assets/quality/minimal/optimized/limestone-house-annex.glb",
+        "bytes": 334712,
+        "vertices": 6054,
+        "triangles": 21508,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/mary-seated-idle.glb": {
+        "url": "assets/quality/minimal/optimized/mary-seated-idle.glb",
+        "bytes": 274008,
+        "vertices": 4362,
+        "triangles": 4584,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/olive-basket-cluster-a.glb": {
+        "url": "assets/quality/minimal/optimized/olive-basket-cluster-a.glb",
+        "bytes": 287248,
+        "vertices": 5218,
+        "triangles": 17107,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/olive-basket-cluster-b.glb": {
+        "url": "assets/quality/minimal/optimized/olive-basket-cluster-b.glb",
+        "bytes": 268448,
+        "vertices": 4686,
+        "triangles": 17280,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/olive-wall-cluster-a.glb": {
+        "url": "assets/quality/minimal/optimized/olive-wall-cluster-a.glb",
+        "bytes": 205388,
+        "vertices": 3708,
+        "triangles": 12161,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/olive-wall-cluster-b.glb": {
+        "url": "assets/quality/minimal/optimized/olive-wall-cluster-b.glb",
+        "bytes": 226904,
+        "vertices": 3923,
+        "triangles": 14343,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/pottery-market-stall-pixal3d.glb": {
+        "url": "assets/quality/minimal/optimized/pottery-market-stall-pixal3d.glb",
+        "bytes": 224348,
+        "vertices": 4030,
+        "triangles": 13717,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/square-nativity-stall.glb": {
+        "url": "assets/quality/minimal/optimized/square-nativity-stall.glb",
+        "bytes": 421636,
+        "vertices": 6756,
+        "triangles": 32266,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/straight-feeding-trough.glb": {
+        "url": "assets/quality/minimal/optimized/straight-feeding-trough.glb",
+        "bytes": 138400,
+        "vertices": 2124,
+        "triangles": 8495,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/tanner-market-stall-pixal3d.glb": {
+        "url": "assets/quality/minimal/optimized/tanner-market-stall-pixal3d.glb",
+        "bytes": 194948,
+        "vertices": 3216,
+        "triangles": 12963,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/optimized/vegetable-market-stall-pixal3d.glb": {
+        "url": "assets/quality/minimal/optimized/vegetable-market-stall-pixal3d.glb",
+        "bytes": 193972,
+        "vertices": 3077,
+        "triangles": 13071,
+        "textureRGBA": 349525.3333333333
+      },
+      "assets/story/announcement.jpg": {
+        "url": "assets/quality/minimal/story/announcement.webp",
+        "bytes": 46010
+      },
+      "assets/story/nativity.jpg": {
+        "url": "assets/quality/minimal/story/nativity.webp",
+        "bytes": 51150
+      },
+      "assets/nature/Bark_DeadTree.png": {
+        "url": "assets/quality/minimal/nature/Bark_DeadTree.webp",
+        "bytes": 11998
+      },
+      "assets/nature/Bark_DeadTree_Normal.png": {
+        "url": "assets/quality/minimal/nature/Bark_DeadTree_Normal.webp",
+        "bytes": 22712
+      },
+      "assets/nature/Bark_NormalTree.png": {
+        "url": "assets/quality/minimal/nature/Bark_NormalTree.webp",
+        "bytes": 12184
+      },
+      "assets/nature/Bark_NormalTree_Normal.png": {
+        "url": "assets/quality/minimal/nature/Bark_NormalTree_Normal.webp",
+        "bytes": 14584
+      },
+      "assets/nature/Bark_TwistedTree.png": {
+        "url": "assets/quality/minimal/nature/Bark_TwistedTree.webp",
+        "bytes": 17094
+      },
+      "assets/nature/Bark_TwistedTree_Normal.png": {
+        "url": "assets/quality/minimal/nature/Bark_TwistedTree_Normal.webp",
+        "bytes": 22712
+      },
+      "assets/nature/Leaves_NormalTree.png": {
+        "url": "assets/quality/minimal/nature/Leaves_NormalTree.webp",
+        "bytes": 59722
+      },
+      "assets/nature/Leaves_NormalTree_C.png": {
+        "url": "assets/quality/minimal/nature/Leaves_NormalTree_C.webp",
+        "bytes": 64704
+      },
+      "assets/nature/Leaves_TwistedTree.png": {
+        "url": "assets/quality/minimal/nature/Leaves_TwistedTree.webp",
+        "bytes": 33318
+      },
+      "assets/nature/Leaves_TwistedTree_C.png": {
+        "url": "assets/quality/minimal/nature/Leaves_TwistedTree_C.webp",
+        "bytes": 49170
+      },
+      "assets/nature/PathRocks_Diffuse.png": {
+        "url": "assets/quality/minimal/nature/PathRocks_Diffuse.webp",
+        "bytes": 22556
+      },
+      "assets/nature/Rocks_Diffuse.png": {
+        "url": "assets/quality/minimal/nature/Rocks_Diffuse.webp",
+        "bytes": 24832
+      },
+      "assets/workbench/stall.jpg": {
+        "url": "assets/quality/minimal/workbench/stall.webp",
+        "bytes": 42202
+      },
+      "assets/story/watch.jpg": {
+        "url": "assets/quality/minimal/story/watch.webp",
+        "bytes": 44384
+      },
+      "assets/story/reassurance.jpg": {
+        "url": "assets/quality/minimal/story/reassurance.webp",
+        "bytes": 44760
+      },
+      "assets/story/gathering.jpg": {
+        "url": "assets/quality/minimal/story/gathering.webp",
+        "bytes": 60770
+      },
+      "assets/story/host.jpg": {
+        "url": "assets/quality/minimal/story/host.webp",
+        "bytes": 64554
+      },
+      "assets/story/departure.jpg": {
+        "url": "assets/quality/minimal/story/departure.webp",
+        "bytes": 60732
+      },
+      "assets/story/sharing.jpg": {
+        "url": "assets/quality/minimal/story/sharing.webp",
+        "bytes": 58446
+      },
+      "assets/story/mary.jpg": {
+        "url": "assets/quality/minimal/story/mary.webp",
+        "bytes": 50924
+      },
+      "assets/story/return.jpg": {
+        "url": "assets/quality/minimal/story/return.webp",
+        "bytes": 58782
+      },
+      "assets/house-3/lit-door-v3.png": {
+        "url": "assets/quality/minimal/house-3/lit-door-v3.webp",
+        "bytes": 46206
+      },
+      "assets/house-3/opening-door-v3.png": {
+        "url": "assets/quality/minimal/house-3/opening-door-v3.webp",
+        "bytes": 42900
+      },
+      "assets/house-3/helpful-resident-v3.png": {
+        "url": "assets/quality/minimal/house-3/helpful-resident-v3.webp",
+        "bytes": 38016
+      },
+      "assets/house-3/pointing-right-v1.png": {
+        "url": "assets/quality/minimal/house-3/pointing-right-v1.webp",
+        "bytes": 37524
+      },
+      "assets/house-8/closed-door-v2.png": {
+        "url": "assets/quality/minimal/house-8/closed-door-v2.webp",
+        "bytes": 41886
+      },
+      "assets/house-8/open-door-v2.png": {
+        "url": "assets/quality/minimal/house-8/open-door-v2.webp",
+        "bytes": 36838
+      },
+      "assets/house-9/opening-door-v2.png": {
+        "url": "assets/quality/minimal/house-9/opening-door-v2.webp",
+        "bytes": 24532
+      },
+      "assets/house-9/talking-owner-v2.png": {
+        "url": "assets/quality/minimal/house-9/talking-owner-v2.webp",
+        "bytes": 23350
+      },
+      "assets/house-9/pointing-left-v2.png": {
+        "url": "assets/quality/minimal/house-9/pointing-left-v2.webp",
+        "bytes": 22706
+      },
+      "assets/story/nativity-manger-aligned.png": {
+        "url": "assets/quality/minimal/story/nativity-manger-aligned.webp",
+        "bytes": 40706
+      },
+      "assets/lamp-assembly/lamp.png": {
+        "url": "assets/quality/minimal/lamp-assembly/lamp.webp",
+        "bytes": 7790
+      },
+      "assets/lamp-assembly/wick.png": {
+        "url": "assets/quality/minimal/lamp-assembly/wick.webp",
+        "bytes": 9450
+      },
+      "assets/lamp-assembly/oil.png": {
+        "url": "assets/quality/minimal/lamp-assembly/oil.webp",
+        "bytes": 7508
+      },
+      "assets/lamp-assembly/flint.png": {
+        "url": "assets/quality/minimal/lamp-assembly/flint.webp",
+        "bytes": 18212
+      }
+    },
+    "low": {
+      "assets/animal-pen-tripo-v2.glb": {
+        "url": "assets/quality/low/animal-pen-tripo-v2.glb",
+        "bytes": 396880,
+        "vertices": 8688,
+        "triangles": 8237,
+        "textureRGBA": 4194304
+      },
+      "assets/house-01-tripo-v2.glb": {
+        "url": "assets/quality/low/house-01-tripo-v2.glb",
+        "bytes": 273560,
+        "vertices": 5158,
+        "triangles": 7038,
+        "textureRGBA": 4194304
+      },
+      "assets/market-stall-tripo-v2.glb": {
+        "url": "assets/quality/low/market-stall-tripo-v2.glb",
+        "bytes": 292700,
+        "vertices": 5686,
+        "triangles": 7124,
+        "textureRGBA": 4194304
+      },
+      "assets/shepherd-prototype.glb": {
+        "url": "assets/quality/low/shepherd-prototype.glb",
+        "bytes": 59204,
+        "vertices": 3689,
+        "triangles": 7232,
+        "textureRGBA": 0
+      },
+      "assets/shepherd-tripo-v2.glb": {
+        "url": "assets/quality/low/shepherd-tripo-v2.glb",
+        "bytes": 726328,
+        "vertices": 5325,
+        "triangles": 7206,
+        "textureRGBA": 4194304
+      },
+      "assets/stone-well-tripo.glb": {
+        "url": "assets/quality/low/stone-well-tripo.glb",
+        "bytes": 299024,
+        "vertices": 4926,
+        "triangles": 7338,
+        "textureRGBA": 4194304
+      },
+      "assets/timber-gate-tripo.glb": {
+        "url": "assets/quality/low/timber-gate-tripo.glb",
+        "bytes": 324500,
+        "vertices": 6112,
+        "triangles": 6638,
+        "textureRGBA": 4194304
+      },
+      "assets/portable-lantern-tripo.glb": {
+        "url": "assets/quality/low/portable-lantern-tripo.glb",
+        "bytes": 214472,
+        "vertices": 3207,
+        "triangles": 3319,
+        "textureRGBA": 4194304
+      },
+      "assets/low-wall-perimeter.glb": {
+        "url": "assets/quality/low/low-wall-perimeter.glb",
+        "bytes": 220244,
+        "vertices": 2590,
+        "triangles": 5104,
+        "textureRGBA": 4194304
+      },
+      "assets/nature/CommonTree_2.gltf": {
+        "url": "assets/quality/low/nature/CommonTree_2.glb",
+        "bytes": 1035088,
+        "vertices": 3790,
+        "triangles": 3527,
+        "textureRGBA": 4194304
+      },
+      "assets/nature/DeadTree_2.gltf": {
+        "url": "assets/quality/low/nature/DeadTree_2.glb",
+        "bytes": 946844,
+        "vertices": 1845,
+        "triangles": 3545,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/nature/Pebble_Round_2.gltf": {
+        "url": "assets/quality/low/nature/Pebble_Round_2.glb",
+        "bytes": 33924,
+        "vertices": 59,
+        "triangles": 114,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/nature/Rock_Medium_1.gltf": {
+        "url": "assets/quality/low/nature/Rock_Medium_1.glb",
+        "bytes": 40904,
+        "vertices": 173,
+        "triangles": 342,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/nature/Rock_Medium_2.gltf": {
+        "url": "assets/quality/low/nature/Rock_Medium_2.glb",
+        "bytes": 38740,
+        "vertices": 124,
+        "triangles": 244,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/nature/Rock_Medium_3.gltf": {
+        "url": "assets/quality/low/nature/Rock_Medium_3.glb",
+        "bytes": 44864,
+        "vertices": 263,
+        "triangles": 522,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/nature/TwistedTree_1.gltf": {
+        "url": "assets/quality/low/nature/TwistedTree_1.glb",
+        "bytes": 1273824,
+        "vertices": 6646,
+        "triangles": 6360,
+        "textureRGBA": 4194304
+      },
+      "assets/nature/TwistedTree_3.gltf": {
+        "url": "assets/quality/low/nature/TwistedTree_3.glb",
+        "bytes": 1290056,
+        "vertices": 6995,
+        "triangles": 6273,
+        "textureRGBA": 4194304
+      },
+      "assets/oil-jar-pixal3d.glb": {
+        "url": "assets/quality/low/oil-jar-pixal3d.glb",
+        "bytes": 322492,
+        "vertices": 3450,
+        "triangles": 7689,
+        "textureRGBA": 4194304
+      },
+      "assets/vegetable-market-stall-pixal3d.glb": {
+        "url": "assets/quality/low/vegetable-market-stall-pixal3d.glb",
+        "bytes": 897140,
+        "vertices": 13892,
+        "triangles": 49098,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/pottery-market-stall-pixal3d.glb": {
+        "url": "assets/quality/low/pottery-market-stall-pixal3d.glb",
+        "bytes": 3257068,
+        "vertices": 78046,
+        "triangles": 58233,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/tanner-market-stall-pixal3d.glb": {
+        "url": "assets/quality/low/tanner-market-stall-pixal3d.glb",
+        "bytes": 718828,
+        "vertices": 12658,
+        "triangles": 39594,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/shepherd-companion-tall.glb": {
+        "url": "assets/quality/low/shepherd-companion-tall.glb",
+        "bytes": 495372,
+        "vertices": 4103,
+        "triangles": 4800,
+        "textureRGBA": 4194304
+      },
+      "assets/shepherd-companion-stocky.glb": {
+        "url": "assets/quality/low/shepherd-companion-stocky.glb",
+        "bytes": 459260,
+        "vertices": 3841,
+        "triangles": 4768,
+        "textureRGBA": 4194304
+      },
+      "assets/nativity-family-pixal3d.glb": {
+        "url": "assets/quality/low/nativity-family-pixal3d.glb",
+        "bytes": 1157716,
+        "vertices": 20419,
+        "triangles": 61208,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/sheep-tripo-v2.glb": {
+        "url": "assets/quality/low/sheep-tripo-v2.glb",
+        "bytes": 562048,
+        "vertices": 6869,
+        "triangles": 8422,
+        "textureRGBA": 4194304
+      },
+      "assets/lamp-workbench-pixal3d.glb": {
+        "url": "assets/quality/low/lamp-workbench-pixal3d.glb",
+        "bytes": 479748,
+        "vertices": 8229,
+        "triangles": 24585,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/house-decorations/olive-wall-cluster-a.glb": {
+        "url": "assets/quality/low/house-decorations/olive-wall-cluster-a.glb",
+        "bytes": 866484,
+        "vertices": 16301,
+        "triangles": 46129,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/house-decorations/olive-wall-cluster-b.glb": {
+        "url": "assets/quality/low/house-decorations/olive-wall-cluster-b.glb",
+        "bytes": 934904,
+        "vertices": 17193,
+        "triangles": 51429,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/house-decorations/olive-basket-cluster-a.glb": {
+        "url": "assets/quality/low/house-decorations/olive-basket-cluster-a.glb",
+        "bytes": 778304,
+        "vertices": 13672,
+        "triangles": 37484,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/house-decorations/olive-basket-cluster-b.glb": {
+        "url": "assets/quality/low/house-decorations/olive-basket-cluster-b.glb",
+        "bytes": 946232,
+        "vertices": 17587,
+        "triangles": 50971,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/limestone-house-annex.glb": {
+        "url": "assets/quality/low/limestone-house-annex.glb",
+        "bytes": 1382436,
+        "vertices": 26176,
+        "triangles": 82265,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/mary-seated-idle.glb": {
+        "url": "assets/quality/low/mary-seated-idle.glb",
+        "bytes": 745424,
+        "vertices": 11351,
+        "triangles": 14328,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/joseph-seated-idle.glb": {
+        "url": "assets/quality/low/joseph-seated-idle.glb",
+        "bytes": 758324,
+        "vertices": 11622,
+        "triangles": 14341,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/jesus-manger-tripo.glb": {
+        "url": "assets/quality/low/jesus-manger-tripo.glb",
+        "bytes": 899416,
+        "vertices": 21817,
+        "triangles": 18624,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/nativity-stone-stall.glb": {
+        "url": "assets/quality/low/nativity-stone-stall.glb",
+        "bytes": 1048816,
+        "vertices": 18598,
+        "triangles": 66636,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/nativity-donkey-idle.glb": {
+        "url": "assets/quality/low/nativity-donkey-idle.glb",
+        "bytes": 3703952,
+        "vertices": 64669,
+        "triangles": 42352,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/square-nativity-stall.glb": {
+        "url": "assets/quality/low/square-nativity-stall.glb",
+        "bytes": 11200196,
+        "vertices": 277829,
+        "triangles": 187558,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/straight-feeding-trough.glb": {
+        "url": "assets/quality/low/straight-feeding-trough.glb",
+        "bytes": 676000,
+        "vertices": 11612,
+        "triangles": 36214,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/optimized/jesus-manger-tripo.glb": {
+        "url": "assets/quality/low/optimized/jesus-manger-tripo.glb",
+        "bytes": 899880,
+        "vertices": 21817,
+        "triangles": 18624,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/optimized/joseph-seated-idle.glb": {
+        "url": "assets/quality/low/optimized/joseph-seated-idle.glb",
+        "bytes": 758732,
+        "vertices": 11622,
+        "triangles": 14341,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/optimized/limestone-house-annex.glb": {
+        "url": "assets/quality/low/optimized/limestone-house-annex.glb",
+        "bytes": 736576,
+        "vertices": 14259,
+        "triangles": 38009,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/optimized/mary-seated-idle.glb": {
+        "url": "assets/quality/low/optimized/mary-seated-idle.glb",
+        "bytes": 745816,
+        "vertices": 11351,
+        "triangles": 14328,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/optimized/olive-basket-cluster-a.glb": {
+        "url": "assets/quality/low/optimized/olive-basket-cluster-a.glb",
+        "bytes": 760656,
+        "vertices": 13259,
+        "triangles": 36728,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/optimized/olive-basket-cluster-b.glb": {
+        "url": "assets/quality/low/optimized/olive-basket-cluster-b.glb",
+        "bytes": 870616,
+        "vertices": 15812,
+        "triangles": 47571,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/optimized/olive-wall-cluster-a.glb": {
+        "url": "assets/quality/low/optimized/olive-wall-cluster-a.glb",
+        "bytes": 703512,
+        "vertices": 13193,
+        "triangles": 35354,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/optimized/olive-wall-cluster-b.glb": {
+        "url": "assets/quality/low/optimized/olive-wall-cluster-b.glb",
+        "bytes": 772364,
+        "vertices": 14078,
+        "triangles": 40716,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/optimized/pottery-market-stall-pixal3d.glb": {
+        "url": "assets/quality/low/optimized/pottery-market-stall-pixal3d.glb",
+        "bytes": 488588,
+        "vertices": 8790,
+        "triangles": 24215,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/optimized/square-nativity-stall.glb": {
+        "url": "assets/quality/low/optimized/square-nativity-stall.glb",
+        "bytes": 1323924,
+        "vertices": 24960,
+        "triangles": 77685,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/optimized/straight-feeding-trough.glb": {
+        "url": "assets/quality/low/optimized/straight-feeding-trough.glb",
+        "bytes": 567888,
+        "vertices": 9695,
+        "triangles": 28188,
+        "textureRGBA": 1398101.3333333333
+      },
+      "assets/optimized/tanner-market-stall-pixal3d.glb": {
+        "url": "assets/quality/low/optimized/tanner-market-stall-pixal3d.glb",
+        "bytes": 540252,
+        "vertices": 9223,
+        "triangles": 28016,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/optimized/vegetable-market-stall-pixal3d.glb": {
+        "url": "assets/quality/low/optimized/vegetable-market-stall-pixal3d.glb",
+        "bytes": 631764,
+        "vertices": 9033,
+        "triangles": 31589,
+        "textureRGBA": 2796202.6666666665
+      },
+      "assets/story/announcement.jpg": {
+        "url": "assets/quality/low/story/announcement.webp",
+        "bytes": 97436
+      },
+      "assets/story/nativity.jpg": {
+        "url": "assets/quality/low/story/nativity.webp",
+        "bytes": 105596
+      },
+      "assets/nature/Bark_DeadTree.png": {
+        "url": "assets/quality/low/nature/Bark_DeadTree.webp",
+        "bytes": 33280
+      },
+      "assets/nature/Bark_DeadTree_Normal.png": {
+        "url": "assets/quality/low/nature/Bark_DeadTree_Normal.webp",
+        "bytes": 51158
+      },
+      "assets/nature/Bark_NormalTree.png": {
+        "url": "assets/quality/low/nature/Bark_NormalTree.webp",
+        "bytes": 31074
+      },
+      "assets/nature/Bark_NormalTree_Normal.png": {
+        "url": "assets/quality/low/nature/Bark_NormalTree_Normal.webp",
+        "bytes": 31074
+      },
+      "assets/nature/Bark_TwistedTree.png": {
+        "url": "assets/quality/low/nature/Bark_TwistedTree.webp",
+        "bytes": 45512
+      },
+      "assets/nature/Bark_TwistedTree_Normal.png": {
+        "url": "assets/quality/low/nature/Bark_TwistedTree_Normal.webp",
+        "bytes": 51158
+      },
+      "assets/nature/Leaves_NormalTree.png": {
+        "url": "assets/quality/low/nature/Leaves_NormalTree.webp",
+        "bytes": 82058
+      },
+      "assets/nature/Leaves_NormalTree_C.png": {
+        "url": "assets/quality/low/nature/Leaves_NormalTree_C.webp",
+        "bytes": 82564
+      },
+      "assets/nature/Leaves_TwistedTree.png": {
+        "url": "assets/quality/low/nature/Leaves_TwistedTree.webp",
+        "bytes": 34034
+      },
+      "assets/nature/Leaves_TwistedTree_C.png": {
+        "url": "assets/quality/low/nature/Leaves_TwistedTree_C.webp",
+        "bytes": 34538
+      },
+      "assets/nature/PathRocks_Diffuse.png": {
+        "url": "assets/quality/low/nature/PathRocks_Diffuse.webp",
+        "bytes": 43578
+      },
+      "assets/nature/Rocks_Diffuse.png": {
+        "url": "assets/quality/low/nature/Rocks_Diffuse.webp",
+        "bytes": 47522
+      },
+      "assets/workbench/stall.jpg": {
+        "url": "assets/quality/low/workbench/stall.webp",
+        "bytes": 84834
+      },
+      "assets/story/watch.jpg": {
+        "url": "assets/quality/low/story/watch.webp",
+        "bytes": 96804
+      },
+      "assets/story/reassurance.jpg": {
+        "url": "assets/quality/low/story/reassurance.webp",
+        "bytes": 91590
+      },
+      "assets/story/gathering.jpg": {
+        "url": "assets/quality/low/story/gathering.webp",
+        "bytes": 122120
+      },
+      "assets/story/host.jpg": {
+        "url": "assets/quality/low/story/host.webp",
+        "bytes": 130360
+      },
+      "assets/story/departure.jpg": {
+        "url": "assets/quality/low/story/departure.webp",
+        "bytes": 123834
+      },
+      "assets/story/sharing.jpg": {
+        "url": "assets/quality/low/story/sharing.webp",
+        "bytes": 119168
+      },
+      "assets/story/mary.jpg": {
+        "url": "assets/quality/low/story/mary.webp",
+        "bytes": 100178
+      },
+      "assets/story/return.jpg": {
+        "url": "assets/quality/low/story/return.webp",
+        "bytes": 115302
+      },
+      "assets/house-3/lit-door-v3.png": {
+        "url": "assets/quality/low/house-3/lit-door-v3.webp",
+        "bytes": 108958
+      },
+      "assets/house-3/opening-door-v3.png": {
+        "url": "assets/quality/low/house-3/opening-door-v3.webp",
+        "bytes": 98628
+      },
+      "assets/house-3/helpful-resident-v3.png": {
+        "url": "assets/quality/low/house-3/helpful-resident-v3.webp",
+        "bytes": 83104
+      },
+      "assets/house-3/pointing-right-v1.png": {
+        "url": "assets/quality/low/house-3/pointing-right-v1.webp",
+        "bytes": 79758
+      },
+      "assets/house-8/closed-door-v2.png": {
+        "url": "assets/quality/low/house-8/closed-door-v2.webp",
+        "bytes": 101840
+      },
+      "assets/house-8/open-door-v2.png": {
+        "url": "assets/quality/low/house-8/open-door-v2.webp",
+        "bytes": 86968
+      },
+      "assets/house-9/opening-door-v2.png": {
+        "url": "assets/quality/low/house-9/opening-door-v2.webp",
+        "bytes": 57334
+      },
+      "assets/house-9/talking-owner-v2.png": {
+        "url": "assets/quality/low/house-9/talking-owner-v2.webp",
+        "bytes": 52912
+      },
+      "assets/house-9/pointing-left-v2.png": {
+        "url": "assets/quality/low/house-9/pointing-left-v2.webp",
+        "bytes": 50810
+      },
+      "assets/story/nativity-manger-aligned.png": {
+        "url": "assets/quality/low/story/nativity-manger-aligned.webp",
+        "bytes": 81222
+      },
+      "assets/lamp-assembly/lamp.png": {
+        "url": "assets/quality/low/lamp-assembly/lamp.webp",
+        "bytes": 9034
+      },
+      "assets/lamp-assembly/wick.png": {
+        "url": "assets/quality/low/lamp-assembly/wick.webp",
+        "bytes": 12228
+      },
+      "assets/lamp-assembly/oil.png": {
+        "url": "assets/quality/low/lamp-assembly/oil.webp",
+        "bytes": 8870
+      },
+      "assets/lamp-assembly/flint.png": {
+        "url": "assets/quality/low/lamp-assembly/flint.webp",
+        "bytes": 23846
+      }
+    }
+  },
+  "sources": {
+    "assets/animal-pen-tripo-v2.glb": {
+      "sha256": "d46961854bb782496d3b01e4de9e3b9f6ae5cef168bbb9f69a3c31dd25e005f1",
+      "bytes": 1789052,
+      "vertices": 20283,
+      "triangles": 28363,
+      "textureRGBA": 67108864
+    },
+    "assets/house-01-tripo-v2.glb": {
+      "sha256": "7a05ffc1260fdca80cbefd2490f6e0e2ada0241e554a521d117e10705c464c05",
+      "bytes": 1497544,
+      "vertices": 16361,
+      "triangles": 28172,
+      "textureRGBA": 67108864
+    },
+    "assets/market-stall-tripo-v2.glb": {
+      "sha256": "a4657064c8b6ea5a0a7db6842d92508c37ea2feada48c03db4695a25af3f18eb",
+      "bytes": 1918476,
+      "vertices": 17368,
+      "triangles": 28510,
+      "textureRGBA": 67108864
+    },
+    "assets/shepherd-prototype.glb": {
+      "sha256": "05d79df52d8f044843e6f352bd8e6781ca506b143d6d941f13b2d2f400be730b",
+      "bytes": 585180,
+      "vertices": 16208,
+      "triangles": 25704,
+      "textureRGBA": 0
+    },
+    "assets/shepherd-tripo-v2.glb": {
+      "sha256": "4589ee4bfeda946310017ea8ee0f1dc1660ab852200a4a737d6349ded5e9e3fe",
+      "bytes": 4146228,
+      "vertices": 16938,
+      "triangles": 28824,
+      "textureRGBA": 67108864
+    },
+    "assets/stone-well-tripo.glb": {
+      "sha256": "1a22f6c9c25ddaa115bf77f95e7df79a67f0436bcb9fda0f83a5b47e8da1fa25",
+      "bytes": 2086868,
+      "vertices": 16522,
+      "triangles": 29455,
+      "textureRGBA": 67108864
+    },
+    "assets/timber-gate-tripo.glb": {
+      "sha256": "fba37fbe18cc673604a80d3ee192220dd83e71b1e2a4fd3230c65b6878a75b2f",
+      "bytes": 1802148,
+      "vertices": 17166,
+      "triangles": 26564,
+      "textureRGBA": 67108864
+    },
+    "assets/portable-lantern-tripo.glb": {
+      "sha256": "d3d4dde3bcf6ddbb8a3fa347589d6bb98523a2f2421ace329101cba83e0ae9b3",
+      "bytes": 1113992,
+      "vertices": 7682,
+      "triangles": 10247,
+      "textureRGBA": 67108864
+    },
+    "assets/low-wall-perimeter.glb": {
+      "sha256": "980554316cd43950008dce3e3c1319b12490a6790bf73dab533a2158687cc834",
+      "bytes": 1203940,
+      "vertices": 4124,
+      "triangles": 5824,
+      "textureRGBA": 67108864
+    },
+    "assets/nature/CommonTree_2.gltf": {
+      "sha256": "7504f9ac12da4e559003d251b08e4b30c4466ca244c29a91df6f436c9cbd068d",
+      "bytes": 2861,
+      "vertices": 8107,
+      "triangles": 5648,
+      "textureRGBA": 16777216
+    },
+    "assets/nature/DeadTree_2.gltf": {
+      "sha256": "f02b1d88153ed9c2402de3894e07d6ec4a6214962dc0c3798db5e58ddceaab52",
+      "bytes": 1629,
+      "vertices": 8635,
+      "triangles": 6557,
+      "textureRGBA": 11184810.666666666
+    },
+    "assets/nature/Pebble_Round_2.gltf": {
+      "sha256": "1cb5ab8c7b21931203354096aac49c729cb2c8ceb39cf4ec1d45f2dc037a0b35",
+      "bytes": 1360,
+      "vertices": 212,
+      "triangles": 114,
+      "textureRGBA": 5592405.333333333
+    },
+    "assets/nature/Rock_Medium_1.gltf": {
+      "sha256": "397bb3e98cea97282c00f5370c15f88e9de410a78c2371b2270ea53b9053b239",
+      "bytes": 1343,
+      "vertices": 351,
+      "triangles": 342,
+      "textureRGBA": 5592405.333333333
+    },
+    "assets/nature/Rock_Medium_2.gltf": {
+      "sha256": "8b635c9569ae6aee5331f361eb6b2ecce061131498ef89f1a54bab60deab2a77",
+      "bytes": 1337,
+      "vertices": 249,
+      "triangles": 244,
+      "textureRGBA": 5592405.333333333
+    },
+    "assets/nature/Rock_Medium_3.gltf": {
+      "sha256": "8382224ed9d1db520be04aee848b0ab671832b162ef5a2ba5370fc61b2d33a24",
+      "bytes": 1344,
+      "vertices": 531,
+      "triangles": 522,
+      "textureRGBA": 5592405.333333333
+    },
+    "assets/nature/TwistedTree_1.gltf": {
+      "sha256": "67c77864d59d349a96dbdb2a96424ed1a947ef82d598e4db65cad7d3df56710e",
+      "bytes": 2822,
+      "vertices": 14064,
+      "triangles": 9564,
+      "textureRGBA": 16777216
+    },
+    "assets/nature/TwistedTree_3.gltf": {
+      "sha256": "50f5133306d694e80598a5a1aaccea4d419852493e58e731026eca53a403e9e7",
+      "bytes": 2820,
+      "vertices": 14805,
+      "triangles": 10089,
+      "textureRGBA": 16777216
+    },
+    "assets/oil-jar-pixal3d.glb": {
+      "sha256": "cf259c8361a982a2614cb1897a742c8fa201c187640d159dc9f3804dad207187",
+      "bytes": 2050744,
+      "vertices": 6781,
+      "triangles": 7998,
+      "textureRGBA": 16777216
+    },
+    "assets/vegetable-market-stall-pixal3d.glb": {
+      "sha256": "8d9bb84f1c9d13d063047c7d19b468850179328d908f8d134d46d76ea0e89d69",
+      "bytes": 10533872,
+      "vertices": 200482,
+      "triangles": 149493,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/pottery-market-stall-pixal3d.glb": {
+      "sha256": "259945257cbf884f4fe40a97e820f874ba7518b48ab9a6b696d7f6265d933705",
+      "bytes": 7845856,
+      "vertices": 155036,
+      "triangles": 149894,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/tanner-market-stall-pixal3d.glb": {
+      "sha256": "621200ae8361e23544837a9550f0e89cb129b8669e3efc35a5068a04f3845ea8",
+      "bytes": 9337752,
+      "vertices": 193533,
+      "triangles": 149067,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/shepherd-companion-tall.glb": {
+      "sha256": "2f016139b1577b935b96ed2425b4325af0c7a57429eedd6b725552ac60e25f90",
+      "bytes": 2538820,
+      "vertices": 12258,
+      "triangles": 19204,
+      "textureRGBA": 67108864
+    },
+    "assets/shepherd-companion-stocky.glb": {
+      "sha256": "ec5a3f70cb036b014d64409e4f6e03e85393994d3791cdb50721c405f9a28f12",
+      "bytes": 2372596,
+      "vertices": 11800,
+      "triangles": 19072,
+      "textureRGBA": 67108864
+    },
+    "assets/nativity-family-pixal3d.glb": {
+      "sha256": "b2f4cb054b1ee19090de8594fd21f1eb642bc2af0a026cdaaeb67eab7b86bf7e",
+      "bytes": 9619916,
+      "vertices": 188299,
+      "triangles": 149691,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/sheep-tripo-v2.glb": {
+      "sha256": "cee1fc0aa3715cba94abc949da68009ef34cb337ecc902ead1af68953ef3314f",
+      "bytes": 2335756,
+      "vertices": 18795,
+      "triangles": 29878,
+      "textureRGBA": 67108864
+    },
+    "assets/lamp-workbench-pixal3d.glb": {
+      "sha256": "d3343c723ca764a8b3c60d25748581983c349194f894aefa4662c8be117c7911",
+      "bytes": 3415736,
+      "vertices": 63410,
+      "triangles": 49879,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/house-decorations/olive-wall-cluster-a.glb": {
+      "sha256": "700b91641b3c651dfb95390c9227c12eaf48ea3b6682020e280c29215ec584cf",
+      "bytes": 9758060,
+      "vertices": 212524,
+      "triangles": 149257,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/house-decorations/olive-wall-cluster-b.glb": {
+      "sha256": "2a4e77ebdf0c03bab28e49f641ed3ea1400a94cca6d63344d5edf22a97f1355c",
+      "bytes": 10071176,
+      "vertices": 219114,
+      "triangles": 148878,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/house-decorations/olive-basket-cluster-a.glb": {
+      "sha256": "cf743c4fc76bbb3ea6674c51a5a3e98f972d2d7b7dae8dd5da740da754c8afe7",
+      "bytes": 10881308,
+      "vertices": 224053,
+      "triangles": 148341,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/house-decorations/olive-basket-cluster-b.glb": {
+      "sha256": "b37293433c6879ed000454fe52ed3f40d1a6c6710055c89961784c403eb1c0a1",
+      "bytes": 14975544,
+      "vertices": 344930,
+      "triangles": 215966,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/limestone-house-annex.glb": {
+      "sha256": "7da962813f4e39e58feb8dc31aace24ed42035a7185dc21482c9d31f5347d985",
+      "bytes": 8456260,
+      "vertices": 174454,
+      "triangles": 159783,
+      "textureRGBA": 22369621.333333332
+    },
+    "assets/mary-seated-idle.glb": {
+      "sha256": "977d069c2f6a5cd9ab97f48ea1b0c0e990425feacfb288be0895c782c1539fcd",
+      "bytes": 4627992,
+      "vertices": 34517,
+      "triangles": 57320,
+      "textureRGBA": 178956970.66666666
+    },
+    "assets/joseph-seated-idle.glb": {
+      "sha256": "448b6f74eb80e32cb62c4f9d44af853b41033c2a1568184ac6d810f2b9b2300c",
+      "bytes": 4495372,
+      "vertices": 35265,
+      "triangles": 57392,
+      "textureRGBA": 178956970.66666666
+    },
+    "assets/jesus-manger-tripo.glb": {
+      "sha256": "e87323cb2790bcd1aecbfb672003e91de4e146eef3838aa871532ae711126789",
+      "bytes": 4308668,
+      "vertices": 46663,
+      "triangles": 56736,
+      "textureRGBA": 178956970.66666666
+    },
+    "assets/nativity-stone-stall.glb": {
+      "sha256": "9db053dff32a4e8bb73aacffe310a0ab202250d9900746d48981edf0554a3daf",
+      "bytes": 11331612,
+      "vertices": 254291,
+      "triangles": 179013,
+      "textureRGBA": 22369621.333333332
+    },
+    "assets/nativity-donkey-idle.glb": {
+      "sha256": "7000d32a35551bfa8d71190358c25ef861ff024640c00ecd0e281e98b3cbe46c",
+      "bytes": 6150768,
+      "vertices": 81665,
+      "triangles": 59758,
+      "textureRGBA": 22369621.333333332
+    },
+    "assets/square-nativity-stall.glb": {
+      "sha256": "ea261056a4a6b4346a474ffdf5dadfb6cfe458773ef062bf3e5ff3c571006d17",
+      "bytes": 20516084,
+      "vertices": 458687,
+      "triangles": 394461,
+      "textureRGBA": 22369621.333333332
+    },
+    "assets/straight-feeding-trough.glb": {
+      "sha256": "473c3de797f74c29d1ee04a07d7eee37d1bb79818650d93e14f1ef60781aed92",
+      "bytes": 10225228,
+      "vertices": 222683,
+      "triangles": 149451,
+      "textureRGBA": 22369621.333333332
+    },
+    "assets/optimized/jesus-manger-tripo.glb": {
+      "sha256": "93a6d42621ddd90212f4a72672856b532a8424b2197611b95d5bc38548fed8bc",
+      "bytes": 2763632,
+      "vertices": 46663,
+      "triangles": 56736,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/optimized/joseph-seated-idle.glb": {
+      "sha256": "b23a83e41b804c797f5bed4f238c06b72a9180270e92bc73feff4e3c82088123",
+      "bytes": 2994808,
+      "vertices": 35265,
+      "triangles": 57392,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/optimized/limestone-house-annex.glb": {
+      "sha256": "2e1f13d1f151e9084788a63f5e9f286cd22cb27a70cdbe0ca3af95fc5f2214fc",
+      "bytes": 4673504,
+      "vertices": 109428,
+      "triangles": 82097,
+      "textureRGBA": 5592405.333333333
+    },
+    "assets/optimized/mary-seated-idle.glb": {
+      "sha256": "777bce70b63db6c8236bbbbe931aac92733338debaec5560caa10cfe47b6bcaf",
+      "bytes": 2962156,
+      "vertices": 34517,
+      "triangles": 57320,
+      "textureRGBA": 44739242.666666664
+    },
+    "assets/optimized/olive-basket-cluster-a.glb": {
+      "sha256": "14ff8369ade2b613bf35c73d381c8628d295541d6d8de03941759b00d2f75554",
+      "bytes": 8743844,
+      "vertices": 209221,
+      "triangles": 135619,
+      "textureRGBA": 11184810.666666666
+    },
+    "assets/optimized/olive-basket-cluster-b.glb": {
+      "sha256": "29a4a6b84e762244240266d0a56e4748222b02ee933a27b58e58fc9ff22a4de7",
+      "bytes": 13093328,
+      "vertices": 324830,
+      "triangles": 200835,
+      "textureRGBA": 11184810.666666666
+    },
+    "assets/optimized/olive-wall-cluster-a.glb": {
+      "sha256": "5ce6d963d53fe3dd0c1d2be197aa0a96b07ecb08ce529dc8295e991fc7a725d1",
+      "bytes": 7192348,
+      "vertices": 174683,
+      "triangles": 112796,
+      "textureRGBA": 11184810.666666666
+    },
+    "assets/optimized/olive-wall-cluster-b.glb": {
+      "sha256": "b048f95a71241c530d4136c9ce7e4953121847e28cc68d40b72190af69e35a7a",
+      "bytes": 7705196,
+      "vertices": 187499,
+      "triangles": 119131,
+      "textureRGBA": 11184810.666666666
+    },
+    "assets/optimized/pottery-market-stall-pixal3d.glb": {
+      "sha256": "3b49d0c959f4a0782b24aabbd11d9899220ee29d3477b06a0e8b5404396719a5",
+      "bytes": 3333336,
+      "vertices": 76110,
+      "triangles": 56528,
+      "textureRGBA": 11184810.666666666
+    },
+    "assets/optimized/square-nativity-stall.glb": {
+      "sha256": "54407e8fcb18aa243e79881335cc3fb76d75eb618bd348c39136687fc815b34f",
+      "bytes": 11510188,
+      "vertices": 267700,
+      "triangles": 178283,
+      "textureRGBA": 22369621.333333332
+    },
+    "assets/optimized/straight-feeding-trough.glb": {
+      "sha256": "8ea704ae05a01765dc044cf90529d006f296e71be47b85aeca2b00ffdce73470",
+      "bytes": 7755952,
+      "vertices": 189001,
+      "triangles": 117203,
+      "textureRGBA": 5592405.333333333
+    },
+    "assets/optimized/tanner-market-stall-pixal3d.glb": {
+      "sha256": "c5e9eff9919482eca85fc55f022ddba035be571c1d4334cd5f41e75e35274b8e",
+      "bytes": 6983832,
+      "vertices": 164671,
+      "triangles": 119747,
+      "textureRGBA": 11184810.666666666
+    },
+    "assets/optimized/vegetable-market-stall-pixal3d.glb": {
+      "sha256": "e5d8ea5879bab4c56dcc6e6a450a97b200f14d0f590202d35c04a278b612af9c",
+      "bytes": 7112780,
+      "vertices": 163931,
+      "triangles": 111270,
+      "textureRGBA": 11184810.666666666
+    },
+    "assets/story/announcement.jpg": {
+      "bytes": 596512,
+      "sha256": "5af1f11bcf97531eb22f41cd1f854f91021d25d8fe059838c2dcde720a33dae1"
+    },
+    "assets/story/nativity.jpg": {
+      "bytes": 622729,
+      "sha256": "ef197238bbac4b3c302acdb07c1e15ae2a5109dae9ed571594d597722bee0abb"
+    },
+    "assets/nature/Bark_DeadTree.png": {
+      "bytes": 1301290,
+      "sha256": "0e382ca7ecd69226b9db4d65bd6099706e154384d6ec4f13ccec119edd8f5f24"
+    },
+    "assets/nature/Bark_DeadTree_Normal.png": {
+      "bytes": 1721722,
+      "sha256": "0f525d156830a6b8d80ada85de9c9c85df8f18b3eede1854c697b4941f0ff4f5"
+    },
+    "assets/nature/Bark_NormalTree.png": {
+      "bytes": 1228354,
+      "sha256": "01ca34489206d36a872b6122515157675e826ae92da2ffc834721351520dc838"
+    },
+    "assets/nature/Bark_NormalTree_Normal.png": {
+      "bytes": 1365444,
+      "sha256": "7503846d460b56b55489e2bd0e68bee279f2c239c9fd70bda4e02c889e4ad421"
+    },
+    "assets/nature/Bark_TwistedTree.png": {
+      "bytes": 1375419,
+      "sha256": "2f6f8388e7d2f09d267360bb481c1a99d23d9039a6669dd47b9d631c420532f8"
+    },
+    "assets/nature/Bark_TwistedTree_Normal.png": {
+      "bytes": 1721722,
+      "sha256": "0f525d156830a6b8d80ada85de9c9c85df8f18b3eede1854c697b4941f0ff4f5"
+    },
+    "assets/nature/Leaves_NormalTree.png": {
+      "bytes": 158772,
+      "sha256": "171ad1c8fa6ddde351a3b3c9e2b1457d5c7a4a43ba4fd55a83801029db797151"
+    },
+    "assets/nature/Leaves_NormalTree_C.png": {
+      "bytes": 158796,
+      "sha256": "998612bdf0b76a22f5f54d65cd7a457815d2842d89653fa4348a4ebb42933ad3"
+    },
+    "assets/nature/Leaves_TwistedTree.png": {
+      "bytes": 69611,
+      "sha256": "d548e707fa34a558f88f477fa98f7b4ad3afbd4ceb7ab954506be694edf0f2ba"
+    },
+    "assets/nature/Leaves_TwistedTree_C.png": {
+      "bytes": 70353,
+      "sha256": "0e459b56b14c0e81b1b7cf3d1e8c6f0bb71790eb6c46bb02a76a922d8df646ea"
+    },
+    "assets/nature/PathRocks_Diffuse.png": {
+      "bytes": 811711,
+      "sha256": "df31c0574686b94109b40d56057eb3551224c539bd9ff44f719b24622883df1b"
+    },
+    "assets/nature/Rocks_Diffuse.png": {
+      "bytes": 1141957,
+      "sha256": "5d5a055fbac2e9d4d97300162f9117ccbbc873d8571e3138a04da0a75eeb4fc6"
+    },
+    "assets/workbench/stall.jpg": {
+      "bytes": 528628,
+      "sha256": "229c3eda7ae80a0491069cfe582265d4d75ac7f997509d596da3980f7a1a3269"
+    },
+    "assets/story/watch.jpg": {
+      "bytes": 598108,
+      "sha256": "abba0bdd31a0986b456e1a857674048a36d6860cc11acbc91bce4bfea8012f29"
+    },
+    "assets/story/reassurance.jpg": {
+      "bytes": 567096,
+      "sha256": "af60aacce0b2f81e4266366486f6777eeaf87c1629bcfe122251e61145be2dd5"
+    },
+    "assets/story/gathering.jpg": {
+      "bytes": 656903,
+      "sha256": "dec129c961e4259632940ee7cc744789de63d6677d73438e1bfad31ad0377415"
+    },
+    "assets/story/host.jpg": {
+      "bytes": 693390,
+      "sha256": "596b9f38169e78f5b6d7c827981ff926e608cca0efdf5bd8d5e646b169092aab"
+    },
+    "assets/story/departure.jpg": {
+      "bytes": 674680,
+      "sha256": "472e33b612edacfdbaae83b89802a5fe5b2e8fdd954fdc6b1a57a8552a20ac46"
+    },
+    "assets/story/sharing.jpg": {
+      "bytes": 656778,
+      "sha256": "69ca5cbafe9eb3f3aafb0d961beaa01729703c7b4abcd5997030e21f572ac2aa"
+    },
+    "assets/story/mary.jpg": {
+      "bytes": 591600,
+      "sha256": "e466995205c308dfd75249d4dddb7ae0e1acfd1a8de1c8b9b83d7f5b42026d3c"
+    },
+    "assets/story/return.jpg": {
+      "bytes": 636762,
+      "sha256": "27e9936c009dc948dd61029f3ef6b235af9985748baa56e123b68b7a5aa06100"
+    },
+    "assets/house-3/lit-door-v3.png": {
+      "bytes": 2996283,
+      "sha256": "34b62b1dcd35da7fa2c60a60386d3fbe3508e0f3561190e35313398705ce5d52"
+    },
+    "assets/house-3/opening-door-v3.png": {
+      "bytes": 2740938,
+      "sha256": "09c049e8eff855eb6da6d66a267259e1be431039dfcd9fe935bbf237d40fbb5b"
+    },
+    "assets/house-3/helpful-resident-v3.png": {
+      "bytes": 2515417,
+      "sha256": "eed2bbfd973a7618b0d7e2ed0cc2cbdf746ccf473592ae4a60b5b315dc841258"
+    },
+    "assets/house-3/pointing-right-v1.png": {
+      "bytes": 2436448,
+      "sha256": "6fb072fef9da24be9f4ea4acbed670f77abdd8186a6a95d64251b3c8dd25f7ea"
+    },
+    "assets/house-8/closed-door-v2.png": {
+      "bytes": 2883418,
+      "sha256": "922e3bfc655fc0345d6b1a842668a015f135ef38296060d519f97b25cb527398"
+    },
+    "assets/house-8/open-door-v2.png": {
+      "bytes": 2681381,
+      "sha256": "65a8f61094649166fa8047fefc352f9e1d1f729dbac380531dcafb9793a6f197"
+    },
+    "assets/house-9/opening-door-v2.png": {
+      "bytes": 2222781,
+      "sha256": "677740cdb128d13034ade1f519f9481e24d163cfd13e08d708749e29d49119f9"
+    },
+    "assets/house-9/talking-owner-v2.png": {
+      "bytes": 2110563,
+      "sha256": "2b1cd08f5be00d7585babca98e958debfd08e471fca6623f62a4f28e8f345d44"
+    },
+    "assets/house-9/pointing-left-v2.png": {
+      "bytes": 2052019,
+      "sha256": "a3a8300fc405af24fc7471a5580b80ca56cb38cf54452a765e7472f8021a5fe5"
+    },
+    "assets/story/nativity-manger-aligned.png": {
+      "bytes": 2201221,
+      "sha256": "c77455d5ee7b12c0d39d89eeccaee3958cbb506005ad1e4406402def21a786b1"
+    },
+    "assets/lamp-assembly/lamp.png": {
+      "bytes": 175106,
+      "sha256": "06217b8047e6e2bcbd11cba24441205d51bb00d0175d1f95396fb8d2a4283a75"
+    },
+    "assets/lamp-assembly/wick.png": {
+      "bytes": 318809,
+      "sha256": "743503f48cd33fa31f6ab00fa2f4549ab73343e2c13c78398271a234609a2312"
+    },
+    "assets/lamp-assembly/oil.png": {
+      "bytes": 222495,
+      "sha256": "829935ff4c26f4f679400dc99b2c2b174ec39c29a65fb5bbc35f0a313fff7b90"
+    },
+    "assets/lamp-assembly/flint.png": {
+      "bytes": 384398,
+      "sha256": "3c7bef0a882ebb946a2fbbba5c2588899a2f940185ffe27dd06f6dde21b4221a"
+    }
+  }
+}

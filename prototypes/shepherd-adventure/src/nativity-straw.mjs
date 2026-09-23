@@ -7,7 +7,7 @@ export function addNativityStraw(shelter,floorAt=()=>0,{width=4.7,depth=3.6}={})
  const geometry=new THREE.BufferGeometry();
  geometry.setAttribute('position',new THREE.Float32BufferAttribute([-.006,0,-.5,.006,0,-.5,-.005,.06,0,.005,.06,0,-.003,.02,.5,.003,.02,.5],3));
  geometry.setIndex([0,1,2,1,3,2,2,3,4,3,5,4]);geometry.computeVertexNormals();
- const straw=new THREE.InstancedMesh(geometry,new THREE.MeshStandardMaterial({color:'#b99852',roughness:1,side:THREE.DoubleSide}),8500);
+ const straw=new THREE.InstancedMesh(geometry,new THREE.MeshStandardMaterial({color:'#b99852',roughness:1,side:THREE.DoubleSide}),window.shepherdStartup?.tier==='minimal'?1000:window.shepherdStartup?.tier==='low'?3000:8500);
  straw.name='nativity-loose-straw';const dummy=new THREE.Object3D(),color=new THREE.Color();
  for(let i=0;i<straw.count;i++){
   const x=(random()-.5)*width,z=(random()-.5)*depth;

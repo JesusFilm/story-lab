@@ -1,18 +1,19 @@
+const qualityImage=url=>window.shepherdStartup?.asset(url)||url;
 import {StoryDiorama} from '../vendor/story-diorama/story-diorama.mjs';
-const image=name=>new URL(`../assets/house-3/${name}.png`,import.meta.url).href;
+const image=name=>qualityImage(new URL(`../assets/house-3/${name}.png`,import.meta.url).href);
 const sightingCues=[
  {title:'Shepherd',text:'“Have you seen a couple with a donkey?”',image:image('opening-door-v3'),alt:'The door opens inward and a resident looks out from the warm interior.'},
  {title:'Resident',text:'“Yes. They were looking for somewhere to stay.”',image:image('helpful-resident-v3'),alt:'The resident speaks from his warmly lit doorway.'},
  {title:'Resident',text:'“They went toward the gate. Try there.”',image:image('pointing-right-v1'),alt:'The resident points to his own right, toward the left side of the image, giving directions to the gate.'}
 ];
 
-const adviceImage=name=>new URL(`../assets/house-8/${name}.png`,import.meta.url).href;
+const adviceImage=name=>qualityImage(new URL(`../assets/house-8/${name}.png`,import.meta.url).href);
 const adviceCues=[
  {title:'Shepherd',text:'“Have you seen a couple with a donkey?”',image:adviceImage('open-door-v2'),alt:'The old man stands in his warmly lit doorway with his staff.'},
  {title:'Old man',text:'“I haven’t seen them. Try the empty stall by the gate. They may be resting there.”',image:adviceImage('open-door-v2'),alt:'The old man gives directions from the open doorway.'}
 ];
 
-const ownerImage=name=>new URL(`../assets/house-9/${name}.png`,import.meta.url).href;
+const ownerImage=name=>qualityImage(new URL(`../assets/house-9/${name}.png`,import.meta.url).href);
 const ownerCues=[
  {title:'Shepherd',text:'“Have you seen a couple with a donkey?”',image:ownerImage('opening-door-v2'),alt:'The door opens inward on its right hinge. A shorter, full-bodied middle-aged man with a large beard, colorful robes and a wrapped headcloth stands in House 9’s doorway.'},
  {title:'Pen owner',text:'“Yes. The woman was about to give birth.”',image:ownerImage('talking-owner-v2'),alt:'The owner explains matter-of-factly, raising an open hand as he speaks.'},

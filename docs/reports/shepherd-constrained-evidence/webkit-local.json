@@ -1,0 +1,1170 @@
+{
+  "method": "Playwright 1.55.0 Noble container on the same VM; WebKit iPhone emulation, not hardware",
+  "checks": [
+    {
+      "title": "cold story \u2192 rendered world \u2192 touch lamp assembly, rotation and context recovery",
+      "project": "webkit-iphone",
+      "status": "passed",
+      "durationMs": 33483,
+      "browser-log": [],
+      "state": {
+        "state": {
+          "reunion": {
+            "phase": "pending",
+            "elapsed": 0,
+            "cameraElapsed": 0,
+            "canFollow": false,
+            "followRequested": false,
+            "actors": [
+              {
+                "x": 0,
+                "z": 0,
+                "heading": 0,
+                "visible": false,
+                "moving": false,
+                "speed": 0,
+                "distance": 0
+              },
+              {
+                "x": 0,
+                "z": 0,
+                "heading": 0,
+                "visible": false,
+                "moving": false,
+                "speed": 0,
+                "distance": 0
+              }
+            ]
+          },
+          "index": -1,
+          "at": "entry",
+          "phase": "choice",
+          "paused": false,
+          "staged": false,
+          "lantern": false,
+          "lampAssembly": {
+            "step": 0,
+            "open": false,
+            "lit": false,
+            "taken": false,
+            "feedback": ""
+          },
+          "houseRejection": {
+            "started": false,
+            "elapsed": 0,
+            "phase": "ready",
+            "lit": false,
+            "complete": false
+          },
+          "houseSighting": {
+            "started": false,
+            "elapsed": 0,
+            "page": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "houseAdvice": {
+            "started": false,
+            "elapsed": 0,
+            "page": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "houseOwner": {
+            "started": false,
+            "elapsed": 0,
+            "page": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "barredGate": {
+            "started": false,
+            "elapsed": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "houseTracks": {
+            "started": false,
+            "elapsed": 0,
+            "phase": "ready",
+            "searchDistance": 0,
+            "spotted": false,
+            "complete": false
+          },
+          "gateLit": false,
+          "emptyStall": {
+            "phase": "search",
+            "elapsed": 0,
+            "lit": false,
+            "open": false,
+            "complete": false
+          },
+          "gateOpen": false,
+          "distance": 0,
+          "position": {
+            "x": 0,
+            "z": 50,
+            "heading": 3.141592653589793
+          },
+          "destination": null,
+          "completed": [],
+          "ready": true,
+          "rendering": {
+            "failed": false,
+            "frames": 19,
+            "budget": {
+              "tier": "minimal",
+              "mobile": true,
+              "maxTextureSize": 256,
+              "pixelRatio": 1,
+              "antialias": false,
+              "shadowSize": 1024,
+              "maxPointLights": 2
+            }
+          },
+          "audio": {
+            "started": true,
+            "muted": false,
+            "running": true,
+            "contextState": "running",
+            "stepDistance": 0,
+            "breezeTime": 5.472000000000006,
+            "night": {
+              "loaded": [
+                "crickets",
+                "sheep",
+                "frog",
+                "jackal",
+                "wolf",
+                "voices",
+                "woman"
+              ],
+              "failures": [],
+              "counts": {
+                "sheep": 0,
+                "jackal": 0,
+                "wolf": 0,
+                "frog": 0
+              },
+              "pending": 0,
+              "frogWait": 14.478254189148155,
+              "houseTracks": {},
+              "levels": {
+                "crickets": 0.11970491984781302
+              }
+            },
+            "walkers": [
+              {
+                "steps": 3,
+                "moving": false
+              },
+              {
+                "steps": 3,
+                "moving": false
+              },
+              {
+                "steps": 3,
+                "moving": false
+              }
+            ],
+            "events": {
+              "footsteps": 9,
+              "decisions": 1,
+              "breezes": 0
+            }
+          },
+          "stall": {
+            "hand": [
+              0.2714870896554805,
+              0.8852459478692938,
+              49.925718089168114
+            ],
+            "lamp": [
+              -16.031305569536013,
+              2.1616587997154584,
+              -13.778005956428215
+            ]
+          },
+          "camera": {
+            "position": {
+              "x": -0.8500000000000008,
+              "y": 3.5097827985726098,
+              "z": 56.3
+            },
+            "look": {
+              "x": 1.959434878635765e-16,
+              "y": 1.1597827985726097,
+              "z": 48.4
+            },
+            "playerVisible": true,
+            "aheadVisible": true,
+            "yaw": 3.141592653589793,
+            "arm": 6.812855495311783
+          },
+          "lamp": {
+            "carriedVisible": false,
+            "carriedPosition": [
+              0.2714870896554805,
+              0.7352459478692938,
+              49.925718089168114
+            ],
+            "benches": [
+              {
+                "lampVisible": true,
+                "lit": false,
+                "wickVisible": true,
+                "flintVisible": true
+              }
+            ]
+          },
+          "house": {
+            "light": 0,
+            "voiceReady": false,
+            "audioFailed": false,
+            "played": []
+          },
+          "sighting": {
+            "open": false,
+            "loading": false,
+            "failed": false,
+            "page": -1
+          },
+          "view": {
+            "position": [
+              -0.8500000000000008,
+              3.5097827985726098,
+              56.3
+            ],
+            "look": {
+              "x": 1.959434878635765e-16,
+              "y": 1.1597827985726097,
+              "z": 48.4
+            }
+          },
+          "buffer": [
+            664,
+            390
+          ],
+          "reduced": false
+        },
+        "events": [],
+        "textureUploads": [
+          [
+            512,
+            512
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            128,
+            128
+          ]
+        ],
+        "pixels": {
+          "colours": 72,
+          "lit": 0.08114089009097615,
+          "width": 664,
+          "height": 390
+        },
+        "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+        "viewport": [
+          664,
+          390
+        ],
+        "dpr": 3
+      }
+    },
+    {
+      "title": "required model failure is actionable and reload recovers",
+      "project": "webkit-iphone",
+      "status": "passed",
+      "durationMs": 8372,
+      "browser-log": [],
+      "state": {
+        "state": {
+          "reunion": {
+            "phase": "pending",
+            "elapsed": 0,
+            "cameraElapsed": 0,
+            "canFollow": false,
+            "followRequested": false,
+            "actors": [
+              {
+                "x": 0,
+                "z": 0,
+                "heading": 0,
+                "visible": false,
+                "moving": false,
+                "speed": 0,
+                "distance": 0
+              },
+              {
+                "x": 0,
+                "z": 0,
+                "heading": 0,
+                "visible": false,
+                "moving": false,
+                "speed": 0,
+                "distance": 0
+              }
+            ]
+          },
+          "index": -1,
+          "at": "entry",
+          "phase": "choice",
+          "paused": false,
+          "staged": false,
+          "lantern": false,
+          "lampAssembly": {
+            "step": 0,
+            "open": false,
+            "lit": false,
+            "taken": false,
+            "feedback": ""
+          },
+          "houseRejection": {
+            "started": false,
+            "elapsed": 0,
+            "phase": "ready",
+            "lit": false,
+            "complete": false
+          },
+          "houseSighting": {
+            "started": false,
+            "elapsed": 0,
+            "page": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "houseAdvice": {
+            "started": false,
+            "elapsed": 0,
+            "page": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "houseOwner": {
+            "started": false,
+            "elapsed": 0,
+            "page": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "barredGate": {
+            "started": false,
+            "elapsed": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "houseTracks": {
+            "started": false,
+            "elapsed": 0,
+            "phase": "ready",
+            "searchDistance": 0,
+            "spotted": false,
+            "complete": false
+          },
+          "gateLit": false,
+          "emptyStall": {
+            "phase": "search",
+            "elapsed": 0,
+            "lit": false,
+            "open": false,
+            "complete": false
+          },
+          "gateOpen": false,
+          "distance": 0,
+          "position": {
+            "x": 0,
+            "z": 50,
+            "heading": 3.141592653589793
+          },
+          "destination": null,
+          "completed": [],
+          "ready": true,
+          "rendering": {
+            "failed": false,
+            "frames": 20,
+            "budget": {
+              "tier": "minimal",
+              "mobile": true,
+              "maxTextureSize": 256,
+              "pixelRatio": 1,
+              "antialias": false,
+              "shadowSize": 1024,
+              "maxPointLights": 2
+            }
+          },
+          "audio": {
+            "started": true,
+            "muted": false,
+            "running": true,
+            "contextState": "running",
+            "stepDistance": 0,
+            "breezeTime": 5.378000000000006,
+            "night": {
+              "loaded": [
+                "crickets",
+                "sheep",
+                "frog",
+                "wolf",
+                "voices",
+                "jackal",
+                "woman"
+              ],
+              "failures": [],
+              "counts": {
+                "sheep": 0,
+                "jackal": 0,
+                "wolf": 0,
+                "frog": 0
+              },
+              "pending": 0,
+              "frogWait": 17.720896831837873,
+              "houseTracks": {},
+              "levels": {
+                "crickets": 0.11980220185880182
+              }
+            },
+            "walkers": [
+              {
+                "steps": 3,
+                "moving": false
+              },
+              {
+                "steps": 4,
+                "moving": false
+              },
+              {
+                "steps": 4,
+                "moving": false
+              }
+            ],
+            "events": {
+              "footsteps": 11,
+              "decisions": 1,
+              "breezes": 0
+            }
+          },
+          "stall": {
+            "hand": [
+              0.3136049667110152,
+              0.8772757013489993,
+              49.91891130515798
+            ],
+            "lamp": [
+              -16.031305569536013,
+              2.1616587997154584,
+              -13.778005956428215
+            ]
+          },
+          "camera": {
+            "position": {
+              "x": -0.8500000000000009,
+              "y": 3.5097827985726098,
+              "z": 57.5
+            },
+            "look": {
+              "x": 1.959434878635765e-16,
+              "y": 1.1597827985726097,
+              "z": 48.4
+            },
+            "playerVisible": true,
+            "aheadVisible": true,
+            "yaw": 3.141592653589793,
+            "arm": 7.93567892495658
+          },
+          "lamp": {
+            "carriedVisible": false,
+            "carriedPosition": [
+              0.3136049667110152,
+              0.7272757013489993,
+              49.91891130515798
+            ],
+            "benches": [
+              {
+                "lampVisible": true,
+                "lit": false,
+                "wickVisible": true,
+                "flintVisible": true
+              }
+            ]
+          },
+          "house": {
+            "light": 0,
+            "voiceReady": false,
+            "audioFailed": false,
+            "played": []
+          },
+          "sighting": {
+            "open": false,
+            "loading": false,
+            "failed": false,
+            "page": -1
+          },
+          "view": {
+            "position": [
+              -0.8500000000000009,
+              3.5097827985726098,
+              57.5
+            ],
+            "look": {
+              "x": 1.959434878635765e-16,
+              "y": 1.1597827985726097,
+              "z": 48.4
+            }
+          },
+          "buffer": [
+            390,
+            664
+          ],
+          "reduced": false
+        },
+        "events": [],
+        "textureUploads": [
+          [
+            512,
+            512
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            128,
+            128
+          ]
+        ],
+        "pixels": {
+          "colours": 51,
+          "lit": 0.13449717236292108,
+          "width": 390,
+          "height": 664
+        },
+        "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+        "viewport": [
+          390,
+          664
+        ],
+        "dpr": 3
+      }
+    },
+    {
+      "title": "pixel check rejects a renderer that only clears its canvas",
+      "project": "webkit-iphone",
+      "status": "passed",
+      "durationMs": 6306,
+      "browser-log": [],
+      "state": {
+        "state": {
+          "reunion": {
+            "phase": "pending",
+            "elapsed": 0,
+            "cameraElapsed": 0,
+            "canFollow": false,
+            "followRequested": false,
+            "actors": [
+              {
+                "x": 0,
+                "z": 0,
+                "heading": 0,
+                "visible": false,
+                "moving": false,
+                "speed": 0,
+                "distance": 0
+              },
+              {
+                "x": 0,
+                "z": 0,
+                "heading": 0,
+                "visible": false,
+                "moving": false,
+                "speed": 0,
+                "distance": 0
+              }
+            ]
+          },
+          "index": -1,
+          "at": "entry",
+          "phase": "choice",
+          "paused": false,
+          "staged": false,
+          "lantern": false,
+          "lampAssembly": {
+            "step": 0,
+            "open": false,
+            "lit": false,
+            "taken": false,
+            "feedback": ""
+          },
+          "houseRejection": {
+            "started": false,
+            "elapsed": 0,
+            "phase": "ready",
+            "lit": false,
+            "complete": false
+          },
+          "houseSighting": {
+            "started": false,
+            "elapsed": 0,
+            "page": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "houseAdvice": {
+            "started": false,
+            "elapsed": 0,
+            "page": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "houseOwner": {
+            "started": false,
+            "elapsed": 0,
+            "page": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "barredGate": {
+            "started": false,
+            "elapsed": 0,
+            "phase": "ready",
+            "complete": false
+          },
+          "houseTracks": {
+            "started": false,
+            "elapsed": 0,
+            "phase": "ready",
+            "searchDistance": 0,
+            "spotted": false,
+            "complete": false
+          },
+          "gateLit": false,
+          "emptyStall": {
+            "phase": "search",
+            "elapsed": 0,
+            "lit": false,
+            "open": false,
+            "complete": false
+          },
+          "gateOpen": false,
+          "distance": 0,
+          "position": {
+            "x": 0,
+            "z": 50,
+            "heading": 3.141592653589793
+          },
+          "destination": null,
+          "completed": [],
+          "ready": true,
+          "rendering": {
+            "failed": false,
+            "frames": 21,
+            "budget": {
+              "tier": "minimal",
+              "mobile": true,
+              "maxTextureSize": 256,
+              "pixelRatio": 1,
+              "antialias": false,
+              "shadowSize": 1024,
+              "maxPointLights": 2
+            }
+          },
+          "audio": {
+            "started": true,
+            "muted": false,
+            "running": true,
+            "contextState": "running",
+            "stepDistance": 0,
+            "breezeTime": 5.514000000000005,
+            "night": {
+              "loaded": [
+                "crickets",
+                "frog",
+                "sheep",
+                "jackal",
+                "wolf",
+                "woman",
+                "voices"
+              ],
+              "failures": [],
+              "counts": {
+                "sheep": 0,
+                "jackal": 0,
+                "wolf": 0,
+                "frog": 0
+              },
+              "pending": 0,
+              "frogWait": 15.566814168581255,
+              "houseTracks": {},
+              "levels": {
+                "crickets": 0.1196551025861121
+              }
+            },
+            "walkers": [
+              {
+                "steps": 2,
+                "moving": false
+              },
+              {
+                "steps": 3,
+                "moving": false
+              },
+              {
+                "steps": 3,
+                "moving": false
+              }
+            ],
+            "events": {
+              "footsteps": 8,
+              "decisions": 1,
+              "breezes": 0
+            }
+          },
+          "stall": {
+            "hand": [
+              0.2733338191770041,
+              0.8861212617945401,
+              49.924046801858694
+            ],
+            "lamp": [
+              -16.031305569536013,
+              2.1616587997154584,
+              -13.778005956428215
+            ]
+          },
+          "camera": {
+            "position": {
+              "x": -0.8500000000000009,
+              "y": 3.5097827985726098,
+              "z": 57.5
+            },
+            "look": {
+              "x": 1.959434878635765e-16,
+              "y": 1.1597827985726097,
+              "z": 48.4
+            },
+            "playerVisible": true,
+            "aheadVisible": true,
+            "yaw": 3.141592653589793,
+            "arm": 7.93567892495658
+          },
+          "lamp": {
+            "carriedVisible": false,
+            "carriedPosition": [
+              0.2733338191770041,
+              0.7361212617945401,
+              49.924046801858694
+            ],
+            "benches": [
+              {
+                "lampVisible": true,
+                "lit": false,
+                "wickVisible": true,
+                "flintVisible": true
+              }
+            ]
+          },
+          "house": {
+            "light": 0,
+            "voiceReady": false,
+            "audioFailed": false,
+            "played": []
+          },
+          "sighting": {
+            "open": false,
+            "loading": false,
+            "failed": false,
+            "page": -1
+          },
+          "view": {
+            "position": [
+              -0.8500000000000009,
+              3.5097827985726098,
+              57.5
+            ],
+            "look": {
+              "x": 1.959434878635765e-16,
+              "y": 1.1597827985726097,
+              "z": 48.4
+            }
+          },
+          "buffer": [
+            390,
+            664
+          ],
+          "reduced": false
+        },
+        "events": [],
+        "textureUploads": [
+          [
+            512,
+            512
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            256,
+            256
+          ],
+          [
+            128,
+            128
+          ]
+        ],
+        "pixels": {
+          "colours": 51,
+          "lit": 0.13253012048192772,
+          "width": 390,
+          "height": 664
+        },
+        "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+        "viewport": [
+          390,
+          664
+        ],
+        "dpr": 3
+      }
+    }
+  ]
+}

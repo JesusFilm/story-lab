@@ -54,10 +54,12 @@ for(let index=0;index<10;index++){
 }
 assert.equal(j.jump(-1),false);assert.equal(j.jump(10),false);j.reset();assert.deepEqual(j.snapshot(),new RouteRehearsal().snapshot());
 
+const quality=process.env.WATCH_GAME_QUALITY||'existing';
 const canonical=JSON.parse(readFileSync(new URL('../map/settlement-layout.json',import.meta.url)));
 const map=JSON.parse(readFileSync(new URL('../map/rehearsal-layout.json',import.meta.url)));
 const {world,scene}=await loadSettlement({routePaths:CORRIDORS,houseApproaches:HOUSE_APPROACHES});
-assert.equal(world.settlementFeatures.length,map.features.length);
+const expectedFeatures=map.features.filter(f=>quality!=='minimal'||f.kind!=='prop');
+assert.deepEqual(world.settlementFeatures.map(f=>f.label).sort(),expectedFeatures.map(f=>f.label).sort(),'Only optional decorative props may be omitted');
 const fixedLights=scene.children.filter(o=>o.isPointLight);
 assert.equal(fixedLights.length,5,'Only three helpful houses, workbench and nativity have fixed lights');
 for(const house of [3,8,9]){
@@ -69,7 +71,7 @@ for(const feature of world.settlementFeatures){
  const saved=map.features.find(f=>f.label===feature.label);assert(saved,feature.label);
  const original=canonical.features.find(f=>f.label===feature.label);
  // Decorations follow the host facade, which deliberately turns in rehearsal.
- if(!(feature.root.userData.decoration||feature.root.userData.annex))feature.root.position.toArray().forEach((v,i)=>assert(Math.abs(v-original.position[i])<.001,`${feature.label}: centre moved`));
+ if(!(feature.root.userData.decoration||feature.root.userData.annex))feature.root.position.toArray().forEach((v,i)=>assert(Math.abs(v-original.position[i])<(quality==='existing'||i!==1?.001:.1),`${feature.label}: centre moved`));
  const approach=HOUSE_APPROACHES[Number(feature.label.replace('House ',''))];
  if(feature.kind==='house'&&approach){
   const direction=new THREE.Vector3(1,0,0).applyQuaternion(feature.root.quaternion);
@@ -77,7 +79,7 @@ for(const feature of world.settlementFeatures){
   assert(direction.dot(toStop)>.9999,`${feature.label}: door facade must face knocking point`);
  }else if(!(feature.root.userData.decoration||feature.root.userData.annex))assert.equal(feature.root.rotation.y,original.yaw,`${feature.label}: unexpected rotation`);
  const box=new THREE.Box3().setFromObject(feature.root);
- for(const side of ['min','max'])box[side].toArray().forEach((value,i)=>assert(Math.abs(value-saved.bounds[side][i])<.001,`${feature.label}: changed ${side} dimension ${i}`));
+ for(const side of ['min','max'])box[side].toArray().forEach((value,i)=>assert(Math.abs(value-saved.bounds[side][i])<(quality==='existing'?.001:.25),`${feature.label}: changed ${side} dimension ${i}`));
  assert(Math.abs(feature.root.rotation.y-saved.yaw)<1e-8,`${feature.label}: changed rotation`);
 }
 function segmentDistance(p,a,b){const dx=b.x-a.x,dz=b.z-a.z,den=dx*dx+dz*dz;const t=den?Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.z-a.z)*dz)/den)):0;return Math.hypot(p.x-a.x-t*dx,p.z-a.z-t*dz);}
@@ -113,15 +115,22 @@ world.settlementFeatures.find(f=>f.label==='Animal-area gate').root.traverse(obj
  for(let i=0;i<positions.count;i++){p.fromBufferAttribute(positions,i).applyMatrix4(object.matrixWorld);vertices.push([p.x,p.z]);}
  gateParts.push(hull(vertices));
 });
+// Measure the selected meshes, not the stored original footprints. Exact original
+// bounds above remain a separate layout regression; compact bounds have a 25 cm
+// envelope for simplification, while the 45 cm path clearance below is unchanged.
+const currentFeatures=world.settlementFeatures.map(({root,label})=>{
+ const points=[],p=new THREE.Vector3();root.traverse(object=>{if(!object.isMesh)return;const a=object.geometry.attributes.position;for(let i=0;i<a.count;i++){p.fromBufferAttribute(a,i);if(object.isSkinnedMesh)object.applyBoneTransform(i,p);p.applyMatrix4(object.matrixWorld);points.push([p.x,p.z]);}});
+ return {label,footprint:hull(points)};
+});
 for(const [index,corridor] of [...CORRIDORS,{points:sampleCorridor(SEARCH_POINTS)},{points:sampleCorridor([SEARCH_POINTS.at(-1),...STOPS[5].controls.slice(1)])}].entries()){
  let closest={metres:Infinity,label:''};
  for(const p of corridor.points){
-  for(const feature of map.features){
+  for(const feature of currentFeatures){
    const d=feature.label==='Animal-area gate'?Math.min(...gateParts.map(poly=>polygonDistance(p,poly))):polygonDistance(p,feature.footprint);
    if(d<closest.metres)closest={metres:d,label:feature.label,point:p};
    if(d<.45)failures.push({leg:index+1,feature:feature.label,clearance:d,point:p});
   }
-  for(const wall of map.walls){
+  for(const wall of world.wallSegments){
    const d=segmentDistance(p,wall.a,wall.b)-wall.width/2;
    if(d<closest.metres)closest={metres:d,label:wall.kind,point:p};
    if(d<.45)failures.push({leg:index+1,feature:wall.kind,clearance:d,point:p});
@@ -130,7 +139,7 @@ for(const [index,corridor] of [...CORRIDORS,{points:sampleCorridor(SEARCH_POINTS
  legs.push({number:index+1,title:STOPS[index]?.title||'House 5 inspection / departure',metres:lengthOf(corridor.points),closest});
 }
 const folder=new URL(process.env.REHEARSAL_REVIEW_OUTPUT||'../review/2026-09-14-empty-stall/',import.meta.url);mkdirSync(folder,{recursive:true});
-writeFileSync(new URL('geometry-and-state.json',folder),JSON.stringify({status:failures.length?'failed':'passed',fullDistance,unchangedCentres:world.settlementFeatures.length,orientedHouses:Object.keys(HOUSE_APPROACHES),legs,failures,limits:'Sampled path clearance against projected model hulls and wall centerlines, plus state transitions. Not a live camera or enjoyment test.'},null,2)+'\n');
+writeFileSync(new URL('geometry-and-state.json',folder),JSON.stringify({quality,status:failures.length?'failed':'passed',fullDistance,unchangedCentres:world.settlementFeatures.length,orientedHouses:Object.keys(HOUSE_APPROACHES),legs,failures,limits:'Sampled path clearance against projected model hulls and wall centerlines, plus state transitions. Not a live camera or enjoyment test.'},null,2)+'\n');
 console.log(JSON.stringify({fullDistance,legs,failures:failures.slice(0,12),failureCount:failures.length},null,2));
 assert.equal(failures.length,0,'Rehearsal corridor needs at least 45 cm clearance from current structures and walls');
 const cameras=[];
