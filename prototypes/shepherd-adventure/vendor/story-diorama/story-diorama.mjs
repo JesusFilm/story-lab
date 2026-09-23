@@ -166,9 +166,14 @@ export class StoryDiorama extends EventTarget {
     this.showCue();
     this.frame = requestAnimationFrame((t) => this.update(t));
   }
+  releaseVoice(v) {
+    v.audio.pause();
+    v.audio.removeAttribute("src");
+    v.audio.load();
+  }
   stop() {
     cancelAnimationFrame(this.frame);
-    this.voices.forEach((v) => v.audio.pause());
+    this.voices.forEach((v) => this.releaseVoice(v));
     this.voices = [];
     this.pending = null;
     this.running = false;
@@ -235,7 +240,7 @@ export class StoryDiorama extends EventTarget {
     this.timeline.seek(index);
     index = this.timeline.index;
     this.finishing = false;
-    this.voices.forEach((v) => v.audio.pause());
+    this.voices.forEach((v) => this.releaseVoice(v));
     this.voices = [];
     this.pending = null;
     // Reconstruct inherited soundtrack when jumping into the middle of a section.
@@ -308,7 +313,7 @@ export class StoryDiorama extends EventTarget {
     }
     const audio = new Audio(c.src);
     audio.loop = !!c.loop;
-    audio.preload = "auto";
+    audio.preload = "none";
     audio.volume = 0;
     audio.muted = this.muted;
     const v = {
@@ -355,7 +360,7 @@ export class StoryDiorama extends EventTarget {
       v.audio.volume = Math.max(0, Math.min(1, v.level * this.volume));
       v.audio.muted = this.muted;
       if ((v.to === 0 && p === 1) || v.audio.ended) {
-        v.audio.pause();
+        this.releaseVoice(v);
         return false;
       }
       return true;

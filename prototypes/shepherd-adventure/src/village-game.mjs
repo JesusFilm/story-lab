@@ -1,4 +1,5 @@
-import {budgetTextures,watchRenderer} from './mobile-rendering.mjs';
+import {configureAssetLoading,sceneInventory} from './asset-loading.mjs';
+import {budgetTextures,watchRenderer,firstFrameComplete} from './mobile-rendering.mjs';
 import {createCompanionReunionScene} from './companion-reunion-scene.mjs';
 import {createEmptyStallScene} from './empty-stall-scene.mjs';
 import {createHouseTracksScene} from './house-tracks-scene.mjs';
@@ -21,8 +22,10 @@ import {arrivalFrame,ARRIVAL_DURATION} from './journey-arrival.mjs';
 import {createGameplayAudio} from './journey-audio.mjs';
 
 export async function createVillageGame(story=null,{review=false}={}){
+window.shepherdStartup?.mark('scene-create-start');
 const $=id=>document.getElementById(id),journey=new RouteRehearsal();
 let mode=review?'playing':'waiting',introTime=0,arrivalTime=0,arrivalShot=null;
+let awaitingFirstFrame=false;
 let ready=false,clock=0,last=performance.now(),heading=Math.PI,renderWidth=0,renderHeight=0;
 let stallOrientation=null,debugController=null,needsRender=true;
 const companionSpeeds=[0,0],cameraPlayerPosition={x:0,y:0,z:0},cameraLook=new THREE.Vector3(),uiState=[],previousUI=[];
@@ -159,7 +162,12 @@ function pose(dt,instant=false){
  world.updateOcclusion(camera,p,instant?10:dt);
 }
 function reposition(){stallOrientation=null;cameraRig.reset();heading=journey.position.heading;clock=0;updateUI();resize();pose(0,true);if(mode!=='waiting')renderer.render(scene,camera);last=performance.now();}
-function next(){if(!ready||journey.paused||mode!=='playing'||story?.active)return;if(journey.index===6&&!journey.travel&&journey.houseAdvice.complete){
+function next(){if(!ready||journey.paused||mode!=='playing'||story?.active)return;
+ if(journey.index===8&&!world.finalAreaReady){
+  ready=false;stopAudio();window.storyLoading.show();window.storyLoading.status('Preparing the animal pen and shelter…');updateUI();
+  world.prepareFinalArea().then(()=>{ready=true;last=performance.now();window.storyLoading.ready();updateUI();next();}).catch(error=>{window.shepherdStartup?.failure('final-area',error.message);window.storyLoading.fail('The shelter could not load. Reload to try again.');});return;
+ }
+if(journey.index===6&&!journey.travel&&journey.houseAdvice.complete){
  if(!stallOrientation){beginStallReveal();return;}
  if(stallOrientation.phase!=='holding')return;
  if(journey.next()){stallOrientation.phase='departing';stallOrientation.time=0;updateUI();}return;
@@ -235,7 +243,7 @@ function animate(now){
  requestAnimationFrame(animate);
 }
 function tick(now){const raw=(now-last)/1000;last=now;
- if(!ready)return;
+ if(!ready||awaitingFirstFrame)return;
  if(debugController){const debugDt=document.hidden?0:Math.min(raw,.1);debugController.update(debugDt);if(debugController.animateAmbience)world.updateNativity(debugDt,reduced);renderer.render(scene,camera);return;}
  const active=!journey.paused&&!document.hidden&&!story?.active&&['playing','intro','arrival'].includes(mode),audioActive=active&&['playing','intro'].includes(mode),dt=active?Math.min(raw,.1):0,moving=!!journey.travel,leg=journey.travel?.index;
  houseScene.setActive(audioActive);gateScene.setActive(audioActive);stallScene.setActive(audioActive);
@@ -307,12 +315,14 @@ try{
  window.shepherdMemory?.mark('world-load-start');
  const resourceErrors=[];
  const manager=new THREE.LoadingManager();manager.onError=url=>resourceErrors.push(url);manager.onProgress=(_url,loaded,total)=>window.storyLoading.status(`Loading village resources: ${loaded} / ${total}`);
- const loader=new GLTFLoader(manager);budgetTextures(loader,budget);window.shepherdMemory?.observeLoader(loader);window.storyLoading.status('Loading the shepherd and village…');
+ window.shepherdStartup?.mark('scene-create-end');
+ const loader=new GLTFLoader(manager);configureAssetLoading(loader);budgetTextures(loader,budget);window.shepherdMemory?.observeLoader(loader);window.storyLoading.status('Loading the shepherd and village…');
  await Promise.all([character.load(loader),reunionScene.load(loader),world.dress(loader)]);
  if(resourceErrors.length)throw Error(`Village resources failed: ${resourceErrors.join(', ')}`);
- window.shepherdMemory?.mark('world-assets-ready');
+ window.shepherdMemory?.mark('world-assets-ready');window.shepherdStartup?.mark('world-assets-ready');if(new URLSearchParams(location.search).has('diagnostics'))window.shepherdStartup?.mark('scene-inventory',sceneInventory(scene));
  ready=true;$('review-panel').inert=false;
  const query=new URLSearchParams(location.search),point=Number(query.get('point'));
+ if(review&&point>=9)await world.prepareFinalArea();
  if(review&&query.has('point')&&Number.isInteger(point)&&point>=1&&point<=10){journey.jump(point-1);choice.value=point-1;if(query.has('replay'))journey.replay();}
  // Direct reunion review, without replaying the accepted owner dialogue.
  if(query.has('reunion')&&journey.index===8&&!journey.travel){journey.knockOnHouse();journey.step(3);for(let i=0;i<4;i++)journey.advanceOwner();}
@@ -339,11 +349,11 @@ try{
  reposition();window.shepherdMemory?.mark(review?'world-first-render':'world-prepared');if(review){window.storyLoading.ready();$('advance').focus({preventScroll:true});}requestAnimationFrame(animate);
 }catch(error){if(!review)throw error;console.error(error);window.storyLoading.fail('The route rehearsal could not load. Reload to try again.');}
 function finishOpening(){mode='playing';journey.position={x:0,z:50,heading:Math.PI};cameraRig.reset();reposition();$('advance').focus({preventScroll:true});}
-function startOpeningCamera(){if(rendering.failed)throw Error('The 3D view is unavailable. Reload to restart.');journey.reset();gameplayAudio.resetAmbience();avatar.visible=true;mode='intro';introTime=0;last=performance.now();gameplayAudio.begin();updateUI();tick(performance.now());window.shepherdMemory?.mark('world-first-render');}
+async function startOpeningCamera(){if(rendering.failed)throw Error('The 3D view is unavailable. Reload to restart.');journey.reset();gameplayAudio.resetAmbience();avatar.visible=true;mode='intro';introTime=0;last=performance.now();gameplayAudio.begin();updateUI();tick(performance.now());awaitingFirstFrame=true;try{await firstFrameComplete(renderer);}catch(error){rendering.fail('The first 3D frame could not finish. Reload to try again.');throw error;}finally{awaitingFirstFrame=false;last=performance.now();}window.shepherdMemory?.mark('world-first-render');window.shepherdStartup?.mark('world-ready');}
 function finishStory(){mode='complete';updateUI();$('play-again').focus({preventScroll:true});}
 if(!review){
  $('player-options').addEventListener('keydown',event=>{
-  if(event.key!=='Tab')return;const controls=[...$('player-options').querySelectorAll('button,input')];
+  if(event.key!=='Tab')return;const controls=[...$('player-options').querySelectorAll('button,input,select')];
   const index=controls.indexOf(document.activeElement);event.preventDefault();controls[(index+(event.shiftKey?-1:1)+controls.length)%controls.length].focus();
  });
  $('skip-opening').onclick=finishOpening;

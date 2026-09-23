@@ -50,7 +50,8 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   }return faded;
  }
 
- const rng=random(),terrain=new THREE.PlaneGeometry(220,240,240,260);terrain.rotateX(-Math.PI/2);terrain.translate(0,0,-20);
+ const tier=window.shepherdStartup?.tier||'existing',segments=tier==='minimal'?[80,88]:tier==='low'?[120,130]:[240,260];
+ const rng=random(),terrain=new THREE.PlaneGeometry(220,240,...segments);terrain.attributes.position.gridSegments=segments;terrain.rotateX(-Math.PI/2);terrain.translate(0,0,-20);
  const pos=terrain.attributes.position,colors=new Float32Array(pos.count*3),dirt=new THREE.Color('#a49474'),grass=new THREE.Color('#555b42'),rock=new THREE.Color('#555550');
  for(let i=0;i<pos.count;i++){
   const x=pos.getX(i),z=pos.getZ(i),d=walkDistance(x,z),h=height(x,z);pos.setY(i,h+(pathDistance(x,z)>3?Math.sin(x*.32)*Math.sin(z*.27)*.14:0));
@@ -63,8 +64,9 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
  for(let i=0;i<17;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(1,14,7),hillMat);m.scale.set(18+rng()*30,6+rng()*11,15+rng()*23);m.name='distant-horizon-hill';m.position.set(-130+i*17,-3,-120-m.scale.z-rng()*20);scene.add(m);}
  // Low grass remains procedural; all trees and rocks use licensed model assets.
  const dummy=new THREE.Object3D();let placed=0;
- const blade=new THREE.ConeGeometry(.1,.65,3),tufts=new THREE.InstancedMesh(blade,new THREE.MeshStandardMaterial({color:'#696445',roughness:1,flatShading:true}),4000);placed=0;
- for(let i=0;i<15000&&placed<4000;i++){const x=(rng()-.5)*120,z=rng()*140-80;if(walkDistance(x,z)<2.1||(Math.abs(x-NATIVITY.x)<NATIVITY.depth/2+.4&&Math.abs(z-NATIVITY.z)<NATIVITY.width/2+.4))continue;const s=.25+rng()*.8;dummy.position.set(x,height(x,z)+s*.28,z);dummy.scale.set(s,s,s);dummy.rotation.set(.2,rng()*6,.3);dummy.updateMatrix();tufts.setMatrixAt(placed++,dummy.matrix);}tufts.count=placed;scene.add(tufts);
+ const tuftCount=tier==='minimal'?600:tier==='low'?1800:4000;
+ const blade=new THREE.ConeGeometry(.1,.65,3),tufts=new THREE.InstancedMesh(blade,new THREE.MeshStandardMaterial({color:'#696445',roughness:1,flatShading:true}),tuftCount);placed=0;
+ for(let i=0;i<15000&&placed<tuftCount;i++){const x=(rng()-.5)*120,z=rng()*140-80;if(walkDistance(x,z)<2.1||(Math.abs(x-NATIVITY.x)<NATIVITY.depth/2+.4&&Math.abs(z-NATIVITY.z)<NATIVITY.width/2+.4))continue;const s=.25+rng()*.8;dummy.position.set(x,height(x,z)+s*.28,z);dummy.scale.set(s,s,s);dummy.rotation.set(.2,rng()*6,.3);dummy.updateMatrix();tufts.setMatrixAt(placed++,dummy.matrix);}tufts.count=placed;scene.add(tufts);
  const bark=new THREE.MeshStandardMaterial({color:'#453e31',roughness:1});
  // Sparse sky stars; no destination beacon reveals the solution.
  const stars=[];for(let i=0;i<900;i++){const theta=rng()*Math.PI*2,v=.08+rng()*.9;stars.push(Math.cos(theta)*Math.sqrt(1-v*v)*210,v*210,Math.sin(theta)*Math.sqrt(1-v*v)*210);}
@@ -151,8 +153,18 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
    outer.position.set(c.x,height(c.x,c.z)-.05,c.z);fits.push({rect,clearance:clearance(rect)});return c;
   }throw new Error('No clear scenery placement near '+x+','+z);
  }
+ let finalAreaPromise=null,finalAreaReady=false,assetLoader;
+ function prepareFinalArea(){
+  if(!finalAreaPromise)finalAreaPromise=(async()=>{
+   window.shepherdStartup?.mark('final-area-start');
+   nativityLife=await dressNativity(assetLoader,scene,shelter,recordFeature,watchOcclusion);modelCount+=14;mountNativityLantern(shelter,nativityLamp,SETTLEMENT_LANTERN_HEIGHT);
+   finalAreaReady=true;window.shepherdStartup?.mark('final-area-ready');
+  })();
+  return finalAreaPromise;
+ }
  async function dress(loader){
-  nativityLife=await dressNativity(loader,scene,shelter,recordFeature,watchOcclusion);modelCount+=14;mountNativityLantern(shelter,nativityLamp,SETTLEMENT_LANTERN_HEIGHT);
+  assetLoader=loader;
+  if(!window.shepherdStartup||window.shepherdStartup.tier==='existing'||new URLSearchParams(location.search).has('debug'))await prepareFinalArea();
   const jarSource=(await loader.loadAsync('/assets/oil-jar-pixal3d.glb')).scene;
   const benchSource=(await loader.loadAsync(WORKBENCH_URL)).scene;
   for(const bench of workbenches){
@@ -187,7 +199,7 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
    }
   }
   modelCount+=await addHouseAnnexes(loader,scene,settlementFeatures,(x,z)=>terrainSurface(pos,x,z),recordFeature,watchOcclusion,occluders);
-  modelCount+=await addHouseDecorations(loader,scene,settlementFeatures,(x,z)=>terrainSurface(pos,x,z),recordFeature,watchOcclusion);
+  if(window.shepherdStartup?.tier!=='minimal')modelCount+=await addHouseDecorations(loader,scene,settlementFeatures,(x,z)=>terrainSurface(pos,x,z),recordFeature,watchOcclusion);
   // Existing procedural grass must not poke through the new pots and stonework.
   const dressingBounds=settlementFeatures.filter(f=>f.root.userData.decoration||f.root.userData.annex).map(f=>new THREE.Box3().setFromObject(f.root).expandByScalar(.12));
   const grassMatrix=new THREE.Matrix4(),grassPosition=new THREE.Vector3();
@@ -201,7 +213,7 @@ export function createJourneyWorld(scene,{routePaths=null,houseApproaches={}}={}
   for(const {root,size} of lanternMounts){const body=fitLantern(lanternSource,size);root.add(body);setLanternLit(body,!root.userData.unlit&&root.name!=='hearth-lantern'&&root.name!=='gate-lantern');}
  }
  const environment={lights:[],well:well.position,houses:[]};let audioFeatureCount=-1;
- return {dress,terrain,audioEnvironment(){
+ return {dress,prepareFinalArea,get finalAreaReady(){return finalAreaReady;},terrain,audioEnvironment(){
   environment.lights.length=0;for(const lamp of lamps)if(lamp.enabled)environment.lights.push(lamp);
   if(audioFeatureCount!==settlementFeatures.length){audioFeatureCount=settlementFeatures.length;environment.houses.length=0;for(const f of settlementFeatures)if(/^House (3|8|9)$/.test(f.label))environment.houses.push({id:Number(f.label.split(' ')[1]),x:f.root.position.x,z:f.root.position.z,open:false});}
   return environment;

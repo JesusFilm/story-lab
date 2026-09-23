@@ -1,8 +1,9 @@
 import {Vector3} from 'three';
 // Select once per launch: rotating a phone must not change its resource budget.
 export function renderingBudget(){
- const mobile=matchMedia('(pointer: coarse)').matches;
- return {mobile,maxTextureSize:mobile?512:Infinity,pixelRatio:Math.min(devicePixelRatio||1,mobile?1:1.5),antialias:!mobile,shadowSize:mobile?1024:2048,maxPointLights:mobile?4:Infinity};
+ const tier=window.shepherdStartup?.tier||'existing';
+ const mobile=tier!=='existing'||matchMedia('(pointer: coarse)').matches;
+ return {tier,mobile,maxTextureSize:tier==='minimal'?256:mobile?512:Infinity,pixelRatio:Math.min(devicePixelRatio||1,mobile?1:1.5),antialias:!mobile,shadowSize:mobile?1024:2048,maxPointLights:tier==='minimal'?2:mobile?4:Infinity};
 }
 
 // Resize before the first GPU upload, retaining geometry, animations, material
@@ -64,7 +65,24 @@ export function watchRenderer(renderer,budget,onFailure=()=>{}){
  renderer.render=(scene,camera)=>{
   if(failed)throw Error('The 3D view is unavailable. Reload to restart.');
   if(renderer.getContext().isContextLost()){lost();throw Error('WebGL context lost');}
-  try{selectLights(scene,camera);render(scene,camera);frames++;}catch(error){fail('The 3D view could not render. Reload to restart, or try another browser.');throw error;}
+  try{selectLights(scene,camera);const start=performance.now();render(scene,camera);if(!frames)window.shepherdStartup?.mark('first-render-submitted',{duration:performance.now()-start,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});frames++;}catch(error){fail('The 3D view could not render. Reload to restart, or try another browser.');throw error;}
  };
  return {get failed(){return failed;},get frames(){return frames;},fail};
+}
+
+// Wait asynchronously for submitted uploads/shaders/draws. A submitted draw is
+// not evidence that the GPU has finished it. Keep the loader animating meanwhile.
+export async function firstFrameComplete(renderer){
+ const gl=renderer.getContext(),sync=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0),start=performance.now();gl.flush();
+ if(!sync)throw Error('Could not check the first 3D frame');
+ try{await new Promise((resolve,reject)=>{
+  function poll(){
+   if(gl.isContextLost())return reject(Error('Context lost during first frame'));
+   const state=gl.clientWaitSync(sync,0,0);
+   if(state===gl.ALREADY_SIGNALED||state===gl.CONDITION_SATISFIED)return resolve();
+   if(state===gl.WAIT_FAILED||performance.now()-start>30000)return reject(Error('First 3D frame did not complete'));
+   setTimeout(poll,16);
+  }poll();
+ });window.shepherdStartup?.mark('first-frame-gpu-complete',{duration:performance.now()-start});}
+ finally{gl.deleteSync(sync);}
 }

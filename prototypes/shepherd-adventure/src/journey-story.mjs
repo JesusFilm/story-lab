@@ -8,7 +8,7 @@ export function createJourneyStory({onClose,onPlaying=()=>{}}){
  const close=()=>{generation++;const completed=kind;kind=null;player?.destroy();player=null;stage.replaceChildren();bubble.textContent='';overlay.hidden=true;titleCard.hidden=true;overlay.classList.remove('story-awaiting-start');document.body.classList.remove('story-playing');if(completed)media.release(completed);previousFocus?.focus?.({preventScroll:true});};
  window.shepherdMemory?.register('story',()=>({kind,leases:media.getMemory(),audio:(player?.voices||[]).map(v=>({paused:v.audio.paused,readyState:v.audio.readyState,seconds:v.audio.currentTime,muted:v.audio.muted}))}));
  const finish=()=>{const completed=kind;if(!completed)return;close();window.shepherdMemory?.mark(`${completed}-closed`);onClose(completed);};
- function advance(){if(!player)return;const s=player.getState();if(s.phase==='idle')player.start();else if(s.paused)player.pause(false);else player.next();}
+ function advance(){if(!player)return;window.shepherdStartup?.mark('story-input');const s=player.getState();if(s.phase==='idle')player.start();else if(s.paused)player.pause(false);else player.next();}
  function sound(){muted=!muted;syncSound();player?.setMuted(muted);if(!muted)player?.retryAudio();else{$('#story-audio-retry').hidden=true;status.textContent='';}}
  async function open(which){
   window.shepherdMemory?.mark(`${which}-requested`);close();previousFocus=document.activeElement;kind=which;const token=generation;document.body.classList.add('story-playing');if(!media.isReady(which))window.storyLoading?.show();

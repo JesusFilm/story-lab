@@ -8,6 +8,8 @@ on:
       - projects/portal/shepherd-adventure-smoke.mjs
       - projects/portal/playwright.mobile.config.mjs
       - projects/portal/mobile-tests/**
+      - projects/portal/startup-tests/**
+      - projects/portal/playwright.startup.config.mjs
       - projects/portal/serve.py
       - projects/portal/package.json
       - projects/portal/package-lock.json
@@ -54,6 +56,10 @@ jobs:
         working-directory: projects/portal
       - name: Mobile rendering and touch regression tests
         run: npm run test:mobile -- --project=${{ matrix.target }}
+        working-directory: projects/portal
+      - name: Constrained startup and quality regression
+        if: matrix.target == 'android-portrait-dpr3'
+        run: npm run test:startup
         working-directory: projects/portal
       - name: Upload mobile screenshots, traces and logs
         if: always()

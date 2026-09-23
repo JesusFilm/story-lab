@@ -1042,3 +1042,25 @@ Status: technically verified in draft PR #13 (runtime `31d36ae`, CI run
 35828071550); all nine mobile cases passed. Human/physical-device playtest remains
 open. Final 512 px scene texture estimate is 104.2 MiB versus the recorded
 1,100.2 MiB baseline; geometry is unchanged. See the report for artifacts and limits. No release or unrelated roadmap completion is implied.
+
+### D045 / F19 / I04 / I08 / R01 — constrained A50 startup and small asset tiers
+
+23 September 2026. The updated report names Samsung Galaxy A50 and a reported
+4 Mbps Wi-Fi internet line, with a freeze before visible diorama and a loader
+beyond 100 seconds. Preserve D044's earlier white-world screenshot as a separate
+observation; the phone's tested revision and failure mechanism remain unknown.
+The user authorizes a constrained-device investigation, runtime/asset changes,
+benchmarks and a draft PR, without merge, deployment or paid device services.
+
+[Implementation, reproducible evidence and limits](../../../../docs/reports/shepherd-adventure-constrained-startup.md).
+The bounded slice chooses minimal/low/original assets before download and decode,
+uses reproducible texture/geometry derivatives, removes world preparation behind
+the scripture, streams music independently, bounds asset work and defers the final
+area. It retains story/route interactions and adds a persistent user override,
+opt-in diagnostics, first-frame GPU completion and constrained PR regression.
+
+The 4 Mbps/4× CPU VM test has passed through a visible responsive diorama, actual
+rendered world, touch lamp assembly and the first-house response. Broader tier,
+recovery and matched-matrix checks are in progress. This is technical progress;
+A50 hardware, art/sound acceptance and the separate F08 camera issue remain open.
+Desktop throttling/SwiftShader cannot establish a physical-device performance floor.

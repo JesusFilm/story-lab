@@ -8,7 +8,9 @@
     "test:unit": "python3 -m unittest discover -s tests -p 'test_*.py' && node --test tests/*.test.mjs",
     "test:shepherd-adventure": "node shepherd-adventure-smoke.mjs",
     "check:publication": "python3 check-publication.py",
-    "test:mobile": "playwright test --config playwright.mobile.config.mjs"
+    "test:mobile": "playwright test --config playwright.mobile.config.mjs",
+    "test:startup": "playwright test --config playwright.startup.config.mjs",
+    "bench:startup": "node startup-tests/matrix.mjs"
   },
   "dependencies": {
     "three": "0.169.0"
