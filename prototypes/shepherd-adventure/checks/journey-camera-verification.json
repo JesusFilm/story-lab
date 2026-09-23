@@ -3,13 +3,62 @@
   "treeBounds": 61,
   "stationaryCases": 112,
   "maxSettledMotionMetres": 0,
-  "status": "passed",
+  "status": "failed",
   "directedLaneConfigurations": 304,
   "frames": 61816,
-  "hiddenPlayerChestFrames": 0,
-  "aheadOcclusionFrames": 11,
-  "minimumArmMetres": 2.299185204276953,
+  "hiddenPlayerChestFrames": 804,
+  "aheadOcclusionFrames": 1307,
+  "minimumArmMetres": 0,
   "maxYawStepRadians": 0.05333333333333368,
-  "failures": [],
+  "failures": [
+    {
+      "edge": "lane-0",
+      "reverse": false,
+      "d": 5.7866666666666715,
+      "portrait": false
+    },
+    {
+      "edge": "lane-0",
+      "reverse": false,
+      "d": 5.880000000000005,
+      "portrait": false
+    },
+    {
+      "edge": "lane-0",
+      "reverse": false,
+      "d": 5.973333333333339,
+      "portrait": false
+    },
+    {
+      "edge": "lane-0",
+      "reverse": false,
+      "d": 6.066666666666673,
+      "portrait": false
+    },
+    {
+      "edge": "lane-0",
+      "reverse": false,
+      "d": 6.160000000000006,
+      "portrait": false
+    },
+    {
+      "edge": "lane-0",
+      "reverse": false,
+      "d": 6.25333333333334,
+      "portrait": false
+    },
+    {
+      "edge": "lane-0",
+      "reverse": false,
+      "d": 6.346666666666674,
+      "portrait": false
+    },
+    {
+      "edge": "lane-0",
+      "reverse": false,
+      "d": 6.4400000000000075,
+      "portrait": false
+    }
+  ],
   "limits": "Sampled character-chest visibility against loaded structure bounds. Does not prove full-body visibility, tree/prop occlusion, inspection-camera composition, or subjective motion quality."
 }

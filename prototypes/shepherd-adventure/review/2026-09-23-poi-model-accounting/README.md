@@ -21,25 +21,59 @@ unparented source fit: the well is `[2.2, 0.85, 2.2]` metres and the gate is
 and centered on their anchors. The existing well path-clearance, wall, gate
 opening, support-post, and occlusion-bound assertions remain unchanged.
 
+## Decorative-wall collision repair
+
+The stale assertion exposed 29 route samples inside the decorative-wall runs
+added with the annex/decorative scenery. The layout keeps the authored walls but
+opens the route junction and turns the two open-ended runs away from the lanes:
+
+| Run | Repair | Why this is stable |
+| --- | --- | --- |
+| 2 · House 1 | Rerouted north, then west/south to `[-10, 25] → [-12, 22]` | Clears both the canonical gate-to-hearth lane and the House 1 rehearsal corridor |
+| 5 · House 8 annex | Turns south to `[6, -22] → [8, -25]` | Keeps the open end on the far side of the square-to-pen lane |
+| 6/11 · House 7 / House 4 | Splits at the square: the House 7 section ends at `[-0.1, -12.8]`; a new open-ended tail reaches House 4 from `[5.2, -5]` | Leaves a deliberate opening at the route junction while retaining both host connections |
+
+The POI check retains its original all-wall/all-route point assertion and adds
+continuous-segment regressions for the formerly colliding lane/run pairs. Final
+minimum excess clearances beyond the existing `wall.width / 2 + 0.6` rule are:
+
+| Route / wall run(s) | Minimum excess clearance |
+| --- | ---: |
+| `lane-0` / 2 | 0.452 m |
+| `lane-14` / 5 | 5.165 m |
+| `lane-13` / 6, 11 | 1.122 m |
+| `lane-14` / 6, 11 | 2.695 m |
+| `lane-9` / 6, 11 | 1.034 m |
+| `lane-11` / 6, 11 | 1.648 m |
+| `lane-15` / 6, 11 | 2.695 m |
+
+Each regression requires more than 0.25 m excess clearance, so the check does
+not merely encode the current point samples or replace `28` with `63`.
+
 ## Verification
 
-- Before the change, `node checks/verify-journey-poi.mjs` stopped at the stale
-  assertion with `63 !== 28`.
-- After the change, the new category and placed-geometry assertions pass and
-  execution reaches the existing wall-clearance loop.
-- The POI check then reports an existing layout failure: 29 samples from the
-  canonical `world.paths` are within the prohibited clearance of newly added
-  `decoration-wall` segments. The worst sample is `(-6.2299, 23.7074)` against
-  the wall from `(-7.8, 24)` to `(-4.2, 23.4)`, at `-0.8595` metres after the
-  required margin. This is outside the model-count assertion and has not been
-  weakened or changed here.
-- `node checks/verify-journey-camera.mjs` passes its current evidence input:
-  61,816 frames, zero hidden-player samples, and 317 foliage-fade frames.
-- `node checks/verify-village-layout.mjs`, `node checks/verify-settlement-stalls.mjs`,
-  `node checks/verify-house-decorations.mjs`, and `node checks/verify-rehearsal.mjs`
-  pass independently.
+- Baseline: `node checks/verify-journey-poi.mjs` stopped at the stale assertion
+  with `63 !== 28`.
+- `node checks/verify-journey-poi.mjs`: passed. The later POI geometry, well
+  clearance, wall, gate opening, support-post, and moving-occlusion assertions
+  executed; model count is 63, wall segments are 178, and all seven named
+  route-wall regression groups passed.
+- `node checks/verify-village-layout.mjs`: passed, including 17 host/perimeter
+  wall joins, six annex joins, and the 1–2 decorations per house checks.
+- `node checks/verify-rehearsal.mjs`: passed with 0 sampled corridor failures;
+  its 2,002-frame landscape and 2,002-frame portrait walkthroughs reported 0
+  hidden-player samples.
+- `node checks/generate-settlement-map.mjs` and
+  `node checks/generate-settlement-map.mjs --rehearsal`: regenerated the
+  committed settlement and rehearsal layout/map artifacts.
 
-The canonical-route/decorative-wall collisions need a separate layout decision
-before the full POI check can be reported green. Repairing those collisions
-would require changing scenery/layout or changing the scope of the existing
-wall assertion, neither of which is part of this focused model-count repair.
+The standalone `node checks/verify-journey-camera.mjs` was also rerun against
+the fresh 63-model POI geometry evidence and remains red: 804 hidden-player
+chest frames out of 61,816, first appearing on forward `lane-0` at distances
+5.787–6.440 m. A focused diagnostic identifies the blocker as the current
+House 1 annex occluder (occluder index 19; bounds approximately
+`x[-10.289,-5.110]`, `z[20.477,24.930]`), not a repaired decorative-wall
+segment. The route-wall, rehearsal, and layout checks are green. Fixing that
+annex/camera occlusion would expand beyond the authorized decorative-wall
+collision repair, so it is recorded here rather than changing gameplay or
+camera behavior in this PR.
