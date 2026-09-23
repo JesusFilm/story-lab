@@ -58,7 +58,9 @@ for(const name of names)for(const tier of (process.env.BENCH_TIERS||'existing').
    await page.evaluate(()=>startupProbe.mark('touch-movement'));
    if(tier!=='existing'&&await page.evaluate(()=>window.shepherdStartup?.tier)!==tier)throw Error('Requested quality was not selected');
    if(result.events.some(e=>['pageerror','crash','http'].includes(e.type)))throw Error('Browser errors during launch');
-   result.status='passed';
+   // A timed-out Playwright operation can finish while partial evidence is
+   // being saved. It must never turn a bounded failure back into success.
+   if(result.status==='running')result.status='passed';
   })(),new Promise((_,reject)=>timer=setTimeout(()=>reject(Error(`bounded ${timeout}ms timeout`)),timeout))]);}
   catch(e){result.status='failed';result.error=e.message;}
   finally{clearTimeout(timer);clearInterval(checkpoint);result.processes=await browserCDP.send('SystemInfo.getProcessInfo').then(async r=>Promise.all(r.processInfo.map(async p=>{const status=await fs.readFile(`/proc/${p.id}/status`,'utf8').catch(()=> '');return {type:p.type,cpuSeconds:p.cpuTime,rssKiB:Number(status.match(/VmRSS:\s+(\d+)/)?.[1]||0)};}))).catch(()=>null);result.probe=await Promise.race([page.evaluate(()=>({probe:window.startupProbe?.report(),diagnostics:window.shepherdStartup?.report(),state:window.routeRehearsal?.getState()})).catch(()=>null),new Promise(r=>setTimeout(()=>r(null),5000))]);

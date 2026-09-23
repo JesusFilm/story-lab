@@ -31,7 +31,9 @@ symmetric rates (the game performs no substantive upload). It checks a 256,000
 byte uncached probe. Budgets are 15 s to visible decoded diorama, 1.2 s story input
 queue + paint, 75 s world-ready, 6 s maximum pre-ready main-thread long task,
 10,000,000 observed HTTP bytes including partial canceled music, 115 HTTP requests,
-and 55 asset ResourceTiming entries. These generous CI ceilings are regression
+and 55 asset ResourceTiming entries. Request events include cache hits;
+incomplete Fetch responses can omit chunk byte counts, so failed-run traffic
+totals are lower bounds rather than packet-capture totals. These generous CI ceilings are regression
 alarms, not targets or phone guarantees. Full measurements justify them in the
 [report](../../../docs/reports/shepherd-adventure-constrained-startup.md).
 

@@ -61,14 +61,14 @@ for row in rows:
 result = dict(schema=1, limits=[
     'Single serial observation per cell, not a distribution or A50 hardware emulation.',
     'Warm follows cold in the same browser; failed cold only partially primes cache. An unresponsive renderer can prevent warm execution.',
-    'Observed transfer includes completed HTTP encoded bytes and unfinished/canceled body bytes; missing unfinished headers make it a lower bound. HTTP cache bytes are not decoded image RAM.',
+    'Observed transfer includes completed HTTP encoded bytes and unfinished/canceled body bytes; unfinished headers and unreported aborted Fetch chunks make it a lower bound. Request events include cache hits, not only wire round trips. HTTP cache bytes are not decoded image RAM.',
     'introControlSeconds is UI presence, NOT a completed GPU frame. Baseline has no GPU fence. Use touchMovementSeconds for matched touch-command acceptance and gpuCompleteSeconds for instrumented new runtime.',
     'After GPU fence budgets exclude later test work; before tasks extend through first touch. Screenshot and browser instrumentation add overhead.',
     'Process RSS snapshots share memory and are not summed or called phone/GPU residency; process CPU seconds are cumulative.',
 ], rows=rows)
 a.output.parent.mkdir(parents=True, exist_ok=True)
 a.output.write_text(json.dumps(result, indent=2)+'\n')
-lines = ['# Serial benchmark matrix', '', 'Seconds since navigation; MB are decimal observed network bytes including partial canceled bodies. See the report for assumptions and limits.', '', '| Constraint | Tier | Cache | Result | Diorama s | GPU complete s | Touch accepted s | MB | Requests |', '|---|---|---|---|---:|---:|---:|---:|---:|']
+lines = ['# Serial benchmark matrix', '', 'Seconds since navigation; MB are decimal observed browser HTTP bytes (lower bounds for incomplete responses), including reported canceled-body chunks. See the report for assumptions and limits.', '', '| Constraint | Tier | Cache | Result | Diorama s | GPU complete s | Touch accepted s | MB | Request events |', '|---|---|---|---|---:|---:|---:|---:|---:|']
 for r in rows:
     num = lambda key: '—' if r.get(key) is None else f'{r[key]:.2f}'
     mb = '—' if 'observedTransferBytes' not in r else f'{r["observedTransferBytes"]/1e6:.2f}'

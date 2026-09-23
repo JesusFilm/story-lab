@@ -1,0 +1,6 @@
+{
+  "filesCompared": 178,
+  "changed": [],
+  "result": "passed",
+  "method": "Repeat pinned generator on the same source files; compare SHA-256 of all 176 variants plus provenance and runtime routing table."
+}
