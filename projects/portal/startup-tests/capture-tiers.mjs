@@ -11,7 +11,9 @@ try{for(const tier of ['minimal','low','existing']){
  try{
   await page.goto(base+`?quality=${tier}&diagnostics`);await page.locator('#story-overlay').waitFor({state:'visible'});await page.locator('#story-skip').tap();await page.locator('#loading').waitFor({state:'hidden',timeout:120000});await page.locator('#skip-opening').tap();await page.waitForFunction(()=>document.querySelector('#advance').textContent==='Find a lamp');
   for(const [name,index] of [['entry',null],['house-staged',1]]){
+   const previous=await page.evaluate(()=>routeRehearsal.getState().rendering.frames);
    if(index!==null)await page.evaluate(index=>{document.querySelector('#jump-point').value=String(index);document.querySelector('#jump').click();},index);
+   await page.waitForFunction(previous=>routeRehearsal.getState().rendering.frames>previous,previous);
    await page.locator('#pause').tap();await page.locator('#player-options').waitFor({state:'visible'});await page.locator('#player-options').evaluate(e=>e.style.visibility='hidden');
    await page.screenshot({path:`${out}/${tier}-${name}.png`,scale:'css',timeout:60000});await page.locator('#player-options').evaluate(e=>e.style.visibility='');await page.locator('#player-resume').tap();
   }

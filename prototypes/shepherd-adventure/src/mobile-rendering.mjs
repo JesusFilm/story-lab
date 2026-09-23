@@ -53,6 +53,9 @@ export function watchRenderer(renderer,budget,onFailure=()=>{}){
  }
  let failed=false,frames=0,pendingFrame=null,blockedSince=null;
  const gl=renderer.getContext();
+ // Hidden tabs may stop rAF entirely, so reset the visible-wait clock on the
+ // visibility event rather than relying on another hidden-frame poll.
+ document.addEventListener('visibilitychange',()=>{blockedSince=null;});
  // Bound GPU work as well as asset work. Submitting a new frame every rAF can
  // queue seconds of old frames behind a slow GPU and block the next GL call.
  function canRender(){
