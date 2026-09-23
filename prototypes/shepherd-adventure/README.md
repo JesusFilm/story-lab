@@ -1,3 +1,16 @@
+## Constrained-device quality — 23 September 2026
+
+The loader and pause menu offer Automatic, Smallest download, Low and Original.
+Choices persist and restart the story. For the Samsung A50 test, open
+`?quality=minimal&diagnostics`; Save diagnostics is available on the loader and
+pause menu. `?quality=low` and `?quality=existing` force the other tiers.
+Automatic clears the override and chooses conservatively from available hints.
+
+Small tiers download build-time smaller models and illustrations. World loading
+begins after the opening scripture, and the final area loads before its encounter.
+[Measurements, generation, benchmark commands and hardware limits](../../docs/reports/shepherd-adventure-constrained-startup.md).
+Physical A50 validation remains required; VM emulation is not certification.
+
 ## Full feature playthrough — 15 September 2026
 
 Run `python3 serve.py --port 8766` here and open `http://127.0.0.1:8766/`.

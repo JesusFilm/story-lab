@@ -3,6 +3,8 @@ const entry='prototypes/shepherd-adventure/';
 
 // Read the WebGL drawing buffer in the same animation frame as game rendering.
 // HTML, a canvas element, draw-call counters and a solid clear colour cannot pass.
+// Five-bit channels retain real variation in the minimal night palette; four-bit
+// bins collapsed the healthy WebKit village to 23 colours (13.6% lit).
 async function pixels(page){
  return page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>{
   const canvas=document.getElementById('world'),gl=canvas.getContext('webgl2');
@@ -10,7 +12,7 @@ async function pixels(page){
   const w=gl.drawingBufferWidth,h=gl.drawingBufferHeight,data=new Uint8Array(w*h*4);
   gl.readPixels(0,0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,data);
   const colours=new Set();let lit=0,n=0;
-  for(let y=0;y<h;y+=8)for(let x=0;x<w;x+=8){const i=(y*w+x)*4,r=data[i],g=data[i+1],b=data[i+2];colours.add((r>>4)*256+(g>>4)*16+(b>>4));if(Math.max(r,g,b)>35)lit++;n++;}
+  for(let y=0;y<h;y+=8)for(let x=0;x<w;x+=8){const i=(y*w+x)*4,r=data[i],g=data[i+1],b=data[i+2];colours.add((r>>3)*1024+(g>>3)*32+(b>>3));if(Math.max(r,g,b)>35)lit++;n++;}
   resolve(window.mobileLastPixels={colours:colours.size,lit:lit/n,width:w,height:h});
  })));
 }

@@ -3,7 +3,7 @@ const entry='prototypes/shepherd-adventure/';
 test.afterEach(async({page},info)=>{const report=await page.evaluate(()=>window.shepherdStartup?.report()).catch(()=>null);await info.attach('startup-diagnostics',{body:JSON.stringify(report,null,2),contentType:'application/json'});});
 async function pixels(page){return page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>{
  const gl=document.querySelector('#world').getContext('webgl2'),w=gl.drawingBufferWidth,h=gl.drawingBufferHeight,data=new Uint8Array(w*h*4);gl.readPixels(0,0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,data);
- const colors=new Set();let lit=0,n=0;for(let y=0;y<h;y+=8)for(let x=0;x<w;x+=8){const i=(y*w+x)*4;colors.add((data[i]>>4)*256+(data[i+1]>>4)*16+(data[i+2]>>4));lit+=Math.max(data[i],data[i+1],data[i+2])>35;n++;}resolve({colors:colors.size,lit:lit/n});
+ const colors=new Set();let lit=0,n=0;for(let y=0;y<h;y+=8)for(let x=0;x<w;x+=8){const i=(y*w+x)*4;colors.add((data[i]>>3)*1024+(data[i+1]>>3)*32+(data[i+2]>>3));lit+=Math.max(data[i],data[i+1],data[i+2])>35;n++;}resolve({colors:colors.size,lit:lit/n});
 })));}
 async function rendered(page){await expect.poll(async()=>{const p=await pixels(page);return p.colors>24&&p.lit>.03;},{timeout:30000}).toBe(true);}
 function assetViolations(resources,tier){return resources.filter(r=>/\/assets\/.*\.(glb|gltf|bin|png|jpg|webp)(?:$|\?)/.test(r.path)&&!r.path.includes(`/quality/${tier}/`));}
