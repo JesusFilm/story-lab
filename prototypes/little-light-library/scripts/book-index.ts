@@ -20,6 +20,17 @@ const link = (target: string, label = target) => {
   return `[${label}](${relative})`;
 };
 const mediaLink = (src: string) => link(`public/${src}`, src);
+const legacyAssetPath = (source: string) => {
+  if (source.startsWith("assets/")) return source;
+  if (source.startsWith("./assets/")) return source.slice(2);
+  if (source.startsWith("/assets/")) return source.slice(1);
+  const file = /\.[a-z0-9]+$/i.test(source) ? source : `${source}.webp`;
+  return `assets/art/theatre/${file}`;
+};
+const legacySpecialProp = (
+  value: true | import("../src/stage-direction-types").StageProp,
+  fallback: import("../src/stage-direction-types").StageProp,
+) => (value === true ? fallback : value);
 const listFiles = async (directory: string): Promise<string[]> => {
   const entries = await fs
     .readdir(directory, { withFileTypes: true })
@@ -69,25 +80,72 @@ const legacyStagePage = (page: LegacyPage) => {
   if (!stage)
     return `No page-specific stage direction is registered for \`${page.id}\`.`;
   const lines = [
-    `- Painted stage plate: ${mediaLink(`assets/art/theatre/${stage.background}.webp`)}`,
+    `- Painted backdrop: ${mediaLink(legacyAssetPath(stage.background))}`,
+    `- Full-page ground print: ${mediaLink(legacyAssetPath(stage.ground))}`,
     ...stage.actors.map(
       (actor) =>
-        `- ${actor.kind} actor: pose ${actor.pose}, mood \`${actor.mood}\`, position (${actor.x}, ${actor.depth}); artwork ${mediaLink(`assets/art/theatre/${actor.kind}-poses.webp`)}.`,
+        `- ${actor.kind} actor: pose ${actor.pose}, mood \`${actor.mood}\`, position (${actor.x}, ${actor.depth})${actor.flipX ? ", mirrored horizontally" : ""}; artwork ${mediaLink(`assets/art/theatre/${actor.kind}-poses.webp`)}.`,
     ),
     ...(stage.props ?? []).map(
       (prop) =>
-        `- ${prop.file} prop: width ${prop.width}, position (${prop.x}, ${prop.depth}); artwork ${mediaLink(`assets/art/theatre/${prop.file}.webp`)}.`,
+        `- ${prop.file} prop: visible width ${prop.width}, position (${prop.x}, ${prop.depth})${prop.flipX ? ", mirrored horizontally" : ""}${prop.motion ? `, ${prop.motion.kind} motion (${prop.motion.strength}${prop.motion.kind === "sway" ? "°" : " page units"}, ${prop.motion.periodSeconds ?? 3.4}s cycle)` : ""}; artwork ${mediaLink(legacyAssetPath(prop.file))}.`,
     ),
   ];
+  const addSpecialProp = (
+    label: string,
+    value: boolean | import("../src/stage-direction-types").StageProp,
+    fallback: import("../src/stage-direction-types").StageProp,
+  ) => {
+    if (!value) return;
+    const prop = legacySpecialProp(value, fallback);
+    lines.push(
+      `- ${label}: visible width ${prop.width}, position (${prop.x}, ${prop.depth}); artwork ${mediaLink(legacyAssetPath(prop.file))}.`,
+    );
+  };
+  addSpecialProp("floating ark", stage.ark, {
+    file: "ark.webp",
+    width: 4.4,
+    x: 0.15,
+    depth: 0.35,
+  });
+  addSpecialProp("family group", stage.family, {
+    file: "family-seven.webp",
+    width: 3.25,
+    x: 0.75,
+    depth: -0.05,
+  });
+  addSpecialProp("dove", stage.dove, {
+    file: "dove-olive.webp",
+    width: 1.15,
+    x: 1.45,
+    depth: 0.55,
+    creature: "dove",
+  });
   const flags = [
     stage.tree !== undefined ? `tree at ${stage.tree}` : "",
-    stage.waves ? "animated waves" : "",
-    stage.ark ? "floating ark" : "",
-    stage.family ? "family group" : "",
+    stage.waves
+      ? Array.isArray(stage.waves)
+        ? `${stage.waves.length} independently layered animated waves`
+        : `${typeof stage.waves === "number" ? stage.waves : 2} animated waves`
+      : "",
     stage.interior ? "ark interior" : "",
-    stage.dove ? "dove" : "",
     stage.rainbow ? "rainbow" : "",
   ].filter(Boolean);
+  if (Array.isArray(stage.waves))
+    lines.push(
+      ...stage.waves.map(
+        (wave, index) =>
+          `- Wave layer ${index + 1}: visible width ${wave.width}, depth ${wave.depth}${wave.motion ? `, phase ${wave.motion.phaseRadians ?? 0} rad` : ""}; artwork ${mediaLink(legacyAssetPath(wave.file))}.`,
+      ),
+    );
+  else if (stage.waves)
+    lines.push(
+      `- Wave layers use ${mediaLink("assets/books/jonah-and-the-whale/art/storm-wave-layer.webp")} with distinct depth and phase offsets.`,
+    );
+  if (stage.tree !== undefined)
+    lines.push(
+      `- Eden tree cutout: ${mediaLink("assets/art/eden-tree.webp")}.`,
+    );
   if (flags.length) lines.push(`- Scene elements: ${flags.join(", ")}.`);
   return lines.join("\n");
 };
@@ -95,6 +153,13 @@ const legacyStagePage = (page: LegacyPage) => {
 const legacyIndex = async (id: "eden" | "noah") => {
   const story = english.stories.find(({ id: storyId }) => storyId === id);
   if (!story) throw Error(`Missing ${id} in en-US content.`);
+  const assetBookId = id === "noah" ? "noah-and-the-great-flood" : id;
+  const sourceArtFiles = await listFiles(
+    path.join(prototypeRoot, "assets", "books", assetBookId),
+  );
+  const bookRuntimeFiles = await listFiles(
+    path.join(publicRoot, "assets", "books", assetBookId),
+  );
   const lines = [
     `# ${story.title}`,
     "",
@@ -106,12 +171,28 @@ const legacyIndex = async (id: "eden" | "noah") => {
     `- Base story, title, and page text: ${link("public/content/en-US.json")}`,
     `- Localized titles and page text: ${locales.map((locale) => link(`public/content/${locale}.json`, locale)).join(", ")}`,
     `- Measured narration manifest: ${link("public/audio-manifest.json")}`,
-    `- Page staging and motions: ${link("src/stage-direction.ts")}`,
+    `- Shared page staging contract and composition: ${link("src/stage-direction.ts")}, ${link(`src/${id}-stage-direction.ts`)}, ${link("src/stage-direction-types.ts")}`,
+    `- Shared stage surfaces and alpha-aware cutout geometry: ${link("src/garden-floor.ts")}, ${link("src/stage-prop-geometry.ts")}, ${link("src/alpha-bounds.ts")}`,
+    `- Shared legacy scene renderer and motion: ${link("src/scene.ts")}, ${link("src/stage-motion.ts")}`,
     `- Shared actor transitions: ${link("src/paper-actor.ts")}`,
     `- Shared narration transport and page-range audio: ${link("src/book-reader-audio.ts")}, ${link("src/book-audio.ts")}`,
     `- Shared room ambience: ${link("src/soundscape.ts")}`,
     "",
     `The cover artwork begins with page one, ${mediaLink(story.pages[0].image)}. Eden and Noah retain their established localized voice and character rigs.`,
+    "",
+    `- Book-specific art notes and source inventory: ${
+      sourceArtFiles
+        .filter((file) => file.endsWith("README.md"))
+        .map((file) => link(file))
+        .join(", ") || "none"
+    }.`,
+    `- Editable source art and prompts: ${
+      sourceArtFiles
+        .filter((file) => !file.endsWith("README.md"))
+        .map((file) => link(file))
+        .join(", ") || "none"
+    }.`,
+    `- Book-local runtime art: ${bookRuntimeFiles.map((file) => mediaLink(file.replace(/^public\//, ""))).join(", ") || "shared theatre paths listed per page"}.`,
     "",
     "## Page sequence, text, art, and scene direction",
     "",

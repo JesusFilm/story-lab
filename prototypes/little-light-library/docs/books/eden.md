@@ -8,12 +8,18 @@ Generated per-book review index. Source text stays in locale files; page staging
 - Base story, title, and page text: [public/content/en-US.json](../../public/content/en-US.json)
 - Localized titles and page text: [en-GB](../../public/content/en-GB.json), [en-US](../../public/content/en-US.json), [es](../../public/content/es.json), [fr](../../public/content/fr.json), [hi](../../public/content/hi.json), [it](../../public/content/it.json), [ja](../../public/content/ja.json), [pt-BR](../../public/content/pt-BR.json), [zh-CN](../../public/content/zh-CN.json)
 - Measured narration manifest: [public/audio-manifest.json](../../public/audio-manifest.json)
-- Page staging and motions: [src/stage-direction.ts](../../src/stage-direction.ts)
+- Shared page staging contract and composition: [src/stage-direction.ts](../../src/stage-direction.ts), [src/eden-stage-direction.ts](../../src/eden-stage-direction.ts), [src/stage-direction-types.ts](../../src/stage-direction-types.ts)
+- Shared stage surfaces and alpha-aware cutout geometry: [src/garden-floor.ts](../../src/garden-floor.ts), [src/stage-prop-geometry.ts](../../src/stage-prop-geometry.ts), [src/alpha-bounds.ts](../../src/alpha-bounds.ts)
+- Shared legacy scene renderer and motion: [src/scene.ts](../../src/scene.ts), [src/stage-motion.ts](../../src/stage-motion.ts)
 - Shared actor transitions: [src/paper-actor.ts](../../src/paper-actor.ts)
 - Shared narration transport and page-range audio: [src/book-reader-audio.ts](../../src/book-reader-audio.ts), [src/book-audio.ts](../../src/book-audio.ts)
 - Shared room ambience: [src/soundscape.ts](../../src/soundscape.ts)
 
 The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/assets/art/eden-01.webp). Eden and Noah retain their established localized voice and character rigs.
+
+- Book-specific art notes and source inventory: [assets/books/eden/README.md](../../assets/books/eden/README.md).
+- Editable source art and prompts: [assets/books/eden/prompts/continuous-garden-ground.txt](../../assets/books/eden/prompts/continuous-garden-ground.txt), [assets/books/eden/prompts/eden-guarded-way-backcloth.txt](../../assets/books/eden/prompts/eden-guarded-way-backcloth.txt), [assets/books/eden/prompts/exile-earth-ground.txt](../../assets/books/eden/prompts/exile-earth-ground.txt), [assets/books/eden/prompts/fieldwork-tools.txt](../../assets/books/eden/prompts/fieldwork-tools.txt), [assets/books/eden/prompts/fig-leaf-hiding-screen.txt](../../assets/books/eden/prompts/fig-leaf-hiding-screen.txt), [assets/books/eden/source-art/continuous-garden-ground.png](../../assets/books/eden/source-art/continuous-garden-ground.png), [assets/books/eden/source-art/eden-guarded-way-backcloth.png](../../assets/books/eden/source-art/eden-guarded-way-backcloth.png), [assets/books/eden/source-art/exile-earth-ground.png](../../assets/books/eden/source-art/exile-earth-ground.png), [assets/books/eden/source-art/fieldwork-tools.png](../../assets/books/eden/source-art/fieldwork-tools.png), [assets/books/eden/source-art/fig-leaf-hiding-screen.png](../../assets/books/eden/source-art/fig-leaf-hiding-screen.png).
+- Book-local runtime art: shared theatre paths listed per page.
 
 ## Page sequence, text, art, and scene direction
 
@@ -30,8 +36,10 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
+- Painted backdrop: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
+- Full-page ground print: [assets/art/theatre/continuous-garden-ground.webp](../../public/assets/art/theatre/continuous-garden-ground.webp)
 - adam actor: pose 0, mood `welcome`, position (-0.4, -0.5); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
+- Eden tree cutout: [assets/art/eden-tree.webp](../../public/assets/art/eden-tree.webp).
 - Scene elements: tree at -2.15.
 
 ### 02. A companion and a command (`eden-02`)
@@ -47,9 +55,11 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
+- Painted backdrop: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
+- Full-page ground print: [assets/art/theatre/continuous-garden-ground.webp](../../public/assets/art/theatre/continuous-garden-ground.webp)
 - adam actor: pose 0, mood `welcome`, position (-0.65, -0.5); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
-- eve actor: pose 0, mood `welcome`, position (0.8, -0.25); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
+- eve actor: pose 0, mood `welcome`, position (0.8, -0.25), mirrored horizontally; artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
+- Eden tree cutout: [assets/art/eden-tree.webp](../../public/assets/art/eden-tree.webp).
 - Scene elements: tree at -2.3.
 
 ### 03. The serpent's question (`eden-03`)
@@ -65,10 +75,11 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
+- Painted backdrop: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
+- Full-page ground print: [assets/art/theatre/continuous-garden-ground.webp](../../public/assets/art/theatre/continuous-garden-ground.webp)
 - adam actor: pose 0, mood `warn`, position (-0.65, 0.05); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
 - eve actor: pose 1, mood `warn`, position (0.55, -0.7); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
-- serpent-branch prop: width 1.25, position (1.75, 0.1); artwork [assets/art/theatre/serpent-branch.webp](../../public/assets/art/theatre/serpent-branch.webp).
+- serpent-branch prop: visible width 1.25, position (1.75, 0.1); artwork [assets/art/theatre/serpent-branch.webp](../../public/assets/art/theatre/serpent-branch.webp).
 
 ### 04. Shame and hiding (`eden-04`)
 
@@ -83,9 +94,12 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
+- Painted backdrop: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
+- Full-page ground print: [assets/art/theatre/continuous-garden-ground.webp](../../public/assets/art/theatre/continuous-garden-ground.webp)
 - adam actor: pose 1, mood `sad`, position (-0.65, -0.45); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
 - eve actor: pose 2, mood `sad`, position (0.65, -0.5); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
+- assets/art/theatre/fig-leaf-hiding-screen.webp prop: visible width 4.9, position (0, -0.55), sway motion (0.12°, 5.1s cycle); artwork [assets/art/theatre/fig-leaf-hiding-screen.webp](../../public/assets/art/theatre/fig-leaf-hiding-screen.webp).
+- Eden tree cutout: [assets/art/eden-tree.webp](../../public/assets/art/eden-tree.webp).
 - Scene elements: tree at 2.2.
 
 ### 05. Consequences (`eden-05`)
@@ -101,9 +115,11 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
+- Painted backdrop: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
+- Full-page ground print: [assets/art/theatre/continuous-garden-ground.webp](../../public/assets/art/theatre/continuous-garden-ground.webp)
 - adam actor: pose 1, mood `sad`, position (-0.7, -0.65); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
 - eve actor: pose 2, mood `sad`, position (0.6, -0.4); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
+- Eden tree cutout: [assets/art/eden-tree.webp](../../public/assets/art/eden-tree.webp).
 - Scene elements: tree at -2.1.
 
 ### 06. Outside the garden (`eden-06`)
@@ -119,7 +135,8 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/exile.webp](../../public/assets/art/theatre/exile.webp)
+- Painted backdrop: [assets/art/theatre/eden-guarded-way-backcloth.webp](../../public/assets/art/theatre/eden-guarded-way-backcloth.webp)
+- Full-page ground print: [assets/art/theatre/exile-earth-ground.webp](../../public/assets/art/theatre/exile-earth-ground.webp)
 - adam actor: pose 1, mood `sad`, position (-0.85, -0.4); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
 - eve actor: pose 2, mood `sad`, position (0.8, -0.25); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
 
@@ -136,9 +153,11 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/exile.webp](../../public/assets/art/theatre/exile.webp)
-- adam actor: pose 1, mood `sad`, position (-0.35, -0.75); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
-- eve actor: pose 2, mood `sad`, position (0.7, -0.3); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
+- Painted backdrop: [assets/art/theatre/exile.webp](../../public/assets/art/theatre/exile.webp)
+- Full-page ground print: [assets/art/theatre/exile-earth-ground.webp](../../public/assets/art/theatre/exile-earth-ground.webp)
+- adam actor: pose 0, mood `work`, position (-0.45, -0.75); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
+- eve actor: pose 0, mood `work`, position (0.45, -0.45); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
+- assets/art/theatre/fieldwork-tools.webp prop: visible width 1.75, position (1.65, -1.05); artwork [assets/art/theatre/fieldwork-tools.webp](../../public/assets/art/theatre/fieldwork-tools.webp).
 
 ### 08. A promise carried forward (`eden-08`)
 
@@ -153,10 +172,10 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/exile.webp](../../public/assets/art/theatre/exile.webp)
+- Painted backdrop: [assets/art/theatre/exile.webp](../../public/assets/art/theatre/exile.webp)
+- Full-page ground print: [assets/art/theatre/exile-earth-ground.webp](../../public/assets/art/theatre/exile-earth-ground.webp)
 - adam actor: pose 2, mood `hope`, position (-0.75, -0.4); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
 - eve actor: pose 0, mood `hope`, position (0.65, -0.25); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
-- Scene elements: tree at -2.25.
 
 ## Narration files by locale
 

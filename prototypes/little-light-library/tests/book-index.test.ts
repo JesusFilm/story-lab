@@ -20,6 +20,13 @@ const repositoryFiles = (directory: string): string[] =>
         return entry.isDirectory() ? repositoryFiles(target) : [target];
       })
     : [];
+const legacyAssetPath = (source: string) => {
+  if (source.startsWith("assets/")) return source;
+  if (source.startsWith("./assets/")) return source.slice(2);
+  if (source.startsWith("/assets/")) return source.slice(1);
+  const file = /\.[a-z0-9]+$/i.test(source) ? source : `${source}.webp`;
+  return `assets/art/theatre/${file}`;
+};
 
 test("each committed book index links every authoritative story and media source", () => {
   for (const entry of catalog) {
@@ -49,8 +56,20 @@ test("each committed book index links every authoritative story and media source
             `${entry.id}/${page.id} text`,
           );
         assert.ok(
-          index.includes(`assets/art/theatre/${stage.background}.webp`),
+          index.includes(legacyAssetPath(stage.background)),
           `${entry.id}/${page.id} backdrop`,
+        );
+        assert.ok(
+          index.includes(legacyAssetPath(stage.ground)),
+          `${entry.id}/${page.id} ground`,
+        );
+        assert.ok(
+          fs.existsSync(`public/${legacyAssetPath(stage.background)}`),
+          `${entry.id}/${page.id} backdrop exists`,
+        );
+        assert.ok(
+          fs.existsSync(`public/${legacyAssetPath(stage.ground)}`),
+          `${entry.id}/${page.id} ground exists`,
         );
         for (const actor of stage.actors)
           assert.ok(
@@ -59,8 +78,38 @@ test("each committed book index links every authoritative story and media source
           );
         for (const prop of stage.props ?? [])
           assert.ok(
-            index.includes(`assets/art/theatre/${prop.file}.webp`),
+            index.includes(legacyAssetPath(prop.file)),
             `${entry.id}/${page.id} ${prop.file} artwork`,
+          );
+        for (const [label, value] of [
+          ["family", stage.family],
+          ["ark", stage.ark],
+          ["dove", stage.dove],
+        ] as const)
+          if (value && typeof value === "object")
+            assert.ok(
+              index.includes(legacyAssetPath(value.file)),
+              `${entry.id}/${page.id} ${label} art`,
+            );
+        if (Array.isArray(stage.waves))
+          for (const wave of stage.waves)
+            assert.ok(
+              index.includes(legacyAssetPath(wave.file)),
+              `${entry.id}/${page.id} wave art`,
+            );
+        const assetBookId =
+          entry.id === "noah" ? "noah-and-the-great-flood" : entry.id;
+        for (const source of repositoryFiles(`assets/books/${assetBookId}`))
+          assert.ok(
+            index.includes(source),
+            `${entry.id} source file ${source}`,
+          );
+        for (const asset of repositoryFiles(
+          `public/assets/books/${assetBookId}`,
+        ))
+          assert.ok(
+            index.includes(asset.replace(/^public\//, "")),
+            `${entry.id} runtime asset ${asset}`,
           );
       }
       for (const locale of fs
@@ -79,7 +128,10 @@ test("each committed book index links every authoritative story and media source
           assert.ok(index.includes(cue.src), `${entry.id} audio ${key}`);
         }
       }
-      assert.ok(index.includes("stage-direction.ts"));
+      assert.ok(index.includes(`${entry.id}-stage-direction.ts`));
+      assert.ok(index.includes("stage-direction-types.ts"));
+      assert.ok(index.includes("stage-prop-geometry.ts"));
+      assert.ok(index.includes("garden-floor.ts"));
       assert.ok(index.includes("paper-actor.ts"));
       assert.ok(index.includes("book-reader-audio.ts"));
     } else {

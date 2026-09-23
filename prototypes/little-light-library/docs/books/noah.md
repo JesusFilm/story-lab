@@ -8,12 +8,18 @@ Generated per-book review index. Source text stays in locale files; page staging
 - Base story, title, and page text: [public/content/en-US.json](../../public/content/en-US.json)
 - Localized titles and page text: [en-GB](../../public/content/en-GB.json), [en-US](../../public/content/en-US.json), [es](../../public/content/es.json), [fr](../../public/content/fr.json), [hi](../../public/content/hi.json), [it](../../public/content/it.json), [ja](../../public/content/ja.json), [pt-BR](../../public/content/pt-BR.json), [zh-CN](../../public/content/zh-CN.json)
 - Measured narration manifest: [public/audio-manifest.json](../../public/audio-manifest.json)
-- Page staging and motions: [src/stage-direction.ts](../../src/stage-direction.ts)
+- Shared page staging contract and composition: [src/stage-direction.ts](../../src/stage-direction.ts), [src/noah-stage-direction.ts](../../src/noah-stage-direction.ts), [src/stage-direction-types.ts](../../src/stage-direction-types.ts)
+- Shared stage surfaces and alpha-aware cutout geometry: [src/garden-floor.ts](../../src/garden-floor.ts), [src/stage-prop-geometry.ts](../../src/stage-prop-geometry.ts), [src/alpha-bounds.ts](../../src/alpha-bounds.ts)
+- Shared legacy scene renderer and motion: [src/scene.ts](../../src/scene.ts), [src/stage-motion.ts](../../src/stage-motion.ts)
 - Shared actor transitions: [src/paper-actor.ts](../../src/paper-actor.ts)
 - Shared narration transport and page-range audio: [src/book-reader-audio.ts](../../src/book-reader-audio.ts), [src/book-audio.ts](../../src/book-audio.ts)
 - Shared room ambience: [src/soundscape.ts](../../src/soundscape.ts)
 
 The cover artwork begins with page one, [assets/art/noah-01.webp](../../public/assets/art/noah-01.webp). Eden and Noah retain their established localized voice and character rigs.
+
+- Book-specific art notes and source inventory: [assets/books/noah-and-the-great-flood/README.md](../../assets/books/noah-and-the-great-flood/README.md).
+- Editable source art and prompts: [assets/books/noah-and-the-great-flood/prompts/noah-ark-interior-backdrop.txt](../../assets/books/noah-and-the-great-flood/prompts/noah-ark-interior-backdrop.txt), [assets/books/noah-and-the-great-flood/prompts/noah-ark-interior-plank-floor.txt](../../assets/books/noah-and-the-great-flood/prompts/noah-ark-interior-plank-floor.txt), [assets/books/noah-and-the-great-flood/prompts/noah-covenant-shore-backdrop.txt](../../assets/books/noah-and-the-great-flood/prompts/noah-covenant-shore-backdrop.txt), [assets/books/noah-and-the-great-flood/prompts/noah-family-seven-sober.txt](../../assets/books/noah-and-the-great-flood/prompts/noah-family-seven-sober.txt), [assets/books/noah-and-the-great-flood/prompts/noah-shore-stone-ground.txt](../../assets/books/noah-and-the-great-flood/prompts/noah-shore-stone-ground.txt), [assets/books/noah-and-the-great-flood/prompts/noah-stone-altar.txt](../../assets/books/noah-and-the-great-flood/prompts/noah-stone-altar.txt), [assets/books/noah-and-the-great-flood/prompts/noah-storm-water-ground.txt](../../assets/books/noah-and-the-great-flood/prompts/noah-storm-water-ground.txt), [assets/books/noah-and-the-great-flood/prompts/noah-storm-wave-crest.txt](../../assets/books/noah-and-the-great-flood/prompts/noah-storm-wave-crest.txt), [assets/books/noah-and-the-great-flood/prompts/noah-worksite-earth-ground.txt](../../assets/books/noah-and-the-great-flood/prompts/noah-worksite-earth-ground.txt), [assets/books/noah-and-the-great-flood/source-art/noah-ark-interior-backdrop.png](../../assets/books/noah-and-the-great-flood/source-art/noah-ark-interior-backdrop.png), [assets/books/noah-and-the-great-flood/source-art/noah-ark-interior-plank-floor.png](../../assets/books/noah-and-the-great-flood/source-art/noah-ark-interior-plank-floor.png), [assets/books/noah-and-the-great-flood/source-art/noah-covenant-shore-backdrop.png](../../assets/books/noah-and-the-great-flood/source-art/noah-covenant-shore-backdrop.png), [assets/books/noah-and-the-great-flood/source-art/noah-family-seven-sober.png](../../assets/books/noah-and-the-great-flood/source-art/noah-family-seven-sober.png), [assets/books/noah-and-the-great-flood/source-art/noah-shore-stone-ground.png](../../assets/books/noah-and-the-great-flood/source-art/noah-shore-stone-ground.png), [assets/books/noah-and-the-great-flood/source-art/noah-stone-altar.png](../../assets/books/noah-and-the-great-flood/source-art/noah-stone-altar.png), [assets/books/noah-and-the-great-flood/source-art/noah-storm-water-ground.png](../../assets/books/noah-and-the-great-flood/source-art/noah-storm-water-ground.png), [assets/books/noah-and-the-great-flood/source-art/noah-storm-wave-crest.png](../../assets/books/noah-and-the-great-flood/source-art/noah-storm-wave-crest.png), [assets/books/noah-and-the-great-flood/source-art/noah-worksite-earth-ground.png](../../assets/books/noah-and-the-great-flood/source-art/noah-worksite-earth-ground.png).
+- Book-local runtime art: [assets/books/noah-and-the-great-flood/art/noah-ark-interior-backdrop.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-ark-interior-backdrop.webp), [assets/books/noah-and-the-great-flood/art/noah-ark-interior-plank-floor.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-ark-interior-plank-floor.webp), [assets/books/noah-and-the-great-flood/art/noah-covenant-shore-backdrop.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-covenant-shore-backdrop.webp), [assets/books/noah-and-the-great-flood/art/noah-family-seven-sober.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-family-seven-sober.webp), [assets/books/noah-and-the-great-flood/art/noah-shore-stone-ground.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-shore-stone-ground.webp), [assets/books/noah-and-the-great-flood/art/noah-stone-altar.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-stone-altar.webp), [assets/books/noah-and-the-great-flood/art/noah-storm-water-ground.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-storm-water-ground.webp), [assets/books/noah-and-the-great-flood/art/noah-storm-wave-crest.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-storm-wave-crest.webp), [assets/books/noah-and-the-great-flood/art/noah-worksite-earth-ground.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-worksite-earth-ground.webp).
 
 ## Page sequence, text, art, and scene direction
 
@@ -30,7 +36,8 @@ The cover artwork begins with page one, [assets/art/noah-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/shipyard.webp](../../public/assets/art/theatre/shipyard.webp)
+- Painted backdrop: [assets/art/theatre/shipyard.webp](../../public/assets/art/theatre/shipyard.webp)
+- Full-page ground print: [assets/books/noah-and-the-great-flood/art/noah-worksite-earth-ground.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-worksite-earth-ground.webp)
 - noah actor: pose 2, mood `listen`, position (-0.3, -0.5); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
 
 ### 02. Build a great ark (`noah-02`)
@@ -46,9 +53,10 @@ The cover artwork begins with page one, [assets/art/noah-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/shipyard.webp](../../public/assets/art/theatre/shipyard.webp)
+- Painted backdrop: [assets/art/theatre/shipyard.webp](../../public/assets/art/theatre/shipyard.webp)
+- Full-page ground print: [assets/books/noah-and-the-great-flood/art/noah-worksite-earth-ground.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-worksite-earth-ground.webp)
 - noah actor: pose 0, mood `work`, position (-0.35, 0.1); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
-- timber-bench prop: width 2.25, position (-0.45, -0.35); artwork [assets/art/theatre/timber-bench.webp](../../public/assets/art/theatre/timber-bench.webp).
+- timber-bench prop: visible width 2.25, position (-0.45, -0.35); artwork [assets/art/theatre/timber-bench.webp](../../public/assets/art/theatre/timber-bench.webp).
 
 ### 03. Into the ark (`noah-03`)
 
@@ -63,10 +71,11 @@ The cover artwork begins with page one, [assets/art/noah-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/boarding.webp](../../public/assets/art/theatre/boarding.webp)
-- noah actor: pose 2, mood `welcome`, position (-1.75, -0.65); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
-- animal-pairs prop: width 2.9, position (0.2, -1.15); artwork [assets/art/theatre/animal-pairs.webp](../../public/assets/art/theatre/animal-pairs.webp).
-- Scene elements: family group.
+- Painted backdrop: [assets/art/theatre/boarding.webp](../../public/assets/art/theatre/boarding.webp)
+- Full-page ground print: [assets/books/noah-and-the-great-flood/art/noah-worksite-earth-ground.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-worksite-earth-ground.webp)
+- noah actor: pose 2, mood `welcome`, position (-1.65, -0.55); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
+- animal-pairs prop: visible width 2.45, position (1.05, -1.05), mirrored horizontally; artwork [assets/art/theatre/animal-pairs.webp](../../public/assets/art/theatre/animal-pairs.webp).
+- family group: visible width 3.25, position (0.75, -0.05); artwork [assets/art/theatre/family-seven.webp](../../public/assets/art/theatre/family-seven.webp).
 
 ### 04. Waters over the earth (`noah-04`)
 
@@ -81,8 +90,13 @@ The cover artwork begins with page one, [assets/art/noah-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/storm-open-water.webp](../../public/assets/art/theatre/storm-open-water.webp)
-- Scene elements: animated waves, floating ark.
+- Painted backdrop: [assets/art/theatre/storm-open-water.webp](../../public/assets/art/theatre/storm-open-water.webp)
+- Full-page ground print: [assets/books/noah-and-the-great-flood/art/noah-storm-water-ground.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-storm-water-ground.webp)
+- floating ark: visible width 4.4, position (0.15, 0.35); artwork [assets/art/theatre/ark.webp](../../public/assets/art/theatre/ark.webp).
+- Wave layer 1: visible width 4.9, depth 0.78, phase 0.25 rad; artwork [assets/books/noah-and-the-great-flood/art/noah-storm-wave-crest.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-storm-wave-crest.webp).
+- Wave layer 2: visible width 5.25, depth 0.12, phase 2.35 rad; artwork [assets/books/noah-and-the-great-flood/art/noah-storm-wave-crest.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-storm-wave-crest.webp).
+- Wave layer 3: visible width 4.65, depth -0.72, phase 4.4 rad; artwork [assets/books/noah-and-the-great-flood/art/noah-storm-wave-crest.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-storm-wave-crest.webp).
+- Scene elements: 3 independently layered animated waves.
 
 ### 05. A leaf of hope (`noah-05`)
 
@@ -97,9 +111,10 @@ The cover artwork begins with page one, [assets/art/noah-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/receding-water.webp](../../public/assets/art/theatre/receding-water.webp)
-- noah actor: pose 1, mood `listen`, position (-0.9, -0.5); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
-- Scene elements: ark interior, dove.
+- Painted backdrop: [assets/books/noah-and-the-great-flood/art/noah-ark-interior-backdrop.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-ark-interior-backdrop.webp)
+- Full-page ground print: [assets/books/noah-and-the-great-flood/art/noah-ark-interior-plank-floor.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-ark-interior-plank-floor.webp)
+- noah actor: pose 2, mood `listen`, position (-1.05, -0.45); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
+- dove: visible width 0.58, position (0.9, -0.3); artwork [assets/art/theatre/dove-olive.webp](../../public/assets/art/theatre/dove-olive.webp).
 
 ### 06. Out into a changed world (`noah-06`)
 
@@ -114,9 +129,11 @@ The cover artwork begins with page one, [assets/art/noah-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/shore.webp](../../public/assets/art/theatre/shore.webp)
-- noah actor: pose 2, mood `hope`, position (-1.8, -0.75); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
-- Scene elements: family group.
+- Painted backdrop: [assets/art/theatre/shore.webp](../../public/assets/art/theatre/shore.webp)
+- Full-page ground print: [assets/books/noah-and-the-great-flood/art/noah-shore-stone-ground.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-shore-stone-ground.webp)
+- noah actor: pose 1, mood `sad`, position (-1.75, -0.55); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
+- animal-pairs prop: visible width 2.45, position (1.05, -1.05); artwork [assets/art/theatre/animal-pairs.webp](../../public/assets/art/theatre/animal-pairs.webp).
+- family group: visible width 3.4, position (0.55, -0.18); artwork [assets/books/noah-and-the-great-flood/art/noah-family-seven-sober.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-family-seven-sober.webp).
 
 ### 07. God's covenant (`noah-07`)
 
@@ -131,9 +148,11 @@ The cover artwork begins with page one, [assets/art/noah-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/shore.webp](../../public/assets/art/theatre/shore.webp)
-- noah actor: pose 2, mood `hope`, position (-0.75, -0.5); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
-- Scene elements: rainbow.
+- Painted backdrop: [assets/books/noah-and-the-great-flood/art/noah-covenant-shore-backdrop.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-covenant-shore-backdrop.webp)
+- Full-page ground print: [assets/books/noah-and-the-great-flood/art/noah-shore-stone-ground.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-shore-stone-ground.webp)
+- noah actor: pose 2, mood `hope`, position (-0.95, -0.55); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
+- assets/books/noah-and-the-great-flood/art/noah-stone-altar.webp prop: visible width 1.2, position (1.45, -0.9); artwork [assets/books/noah-and-the-great-flood/art/noah-stone-altar.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-stone-altar.webp).
+- family group: visible width 3.25, position (0.75, -0.05); artwork [assets/art/theatre/family-seven.webp](../../public/assets/art/theatre/family-seven.webp).
 
 ### 08. Remember the rainbow (`noah-08`)
 
@@ -148,9 +167,10 @@ The cover artwork begins with page one, [assets/art/noah-01.webp](../../public/a
 
 **Scene write-up and animation:**
 
-- Painted stage plate: [assets/art/theatre/shore.webp](../../public/assets/art/theatre/shore.webp)
-- noah actor: pose 2, mood `hope`, position (-1.8, -0.7); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
-- Scene elements: family group, rainbow.
+- Painted backdrop: [assets/books/noah-and-the-great-flood/art/noah-covenant-shore-backdrop.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-covenant-shore-backdrop.webp)
+- Full-page ground print: [assets/books/noah-and-the-great-flood/art/noah-shore-stone-ground.webp](../../public/assets/books/noah-and-the-great-flood/art/noah-shore-stone-ground.webp)
+- noah actor: pose 2, mood `hope`, position (-1.65, -0.55); artwork [assets/art/theatre/noah-poses.webp](../../public/assets/art/theatre/noah-poses.webp).
+- family group: visible width 3.25, position (0.75, -0.05); artwork [assets/art/theatre/family-seven.webp](../../public/assets/art/theatre/family-seven.webp).
 
 ## Narration files by locale
 
