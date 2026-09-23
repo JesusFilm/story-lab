@@ -1,74 +1,98 @@
-# Constrained Shepherd Adventure startup
+# Constrained Shepherd startup
 
-Build the reviewed portal first. Dependencies and browser versions are pinned in
-`../package-lock.json`. `npm run test:startup` runs the practical PR regression:
-4× Chromium CPU slowdown, 4 Mbps download (500,000 bytes/s), assumed 150 ms latency,
-empty HTTP cache, mobile viewport/touch and real WebGL pixel readback. It proceeds
-through lamp assembly and the first house, not merely the Find a lamp control.
-It checks effective network throttling, a visible decoded diorama, responsive
-Start, absence of world preloading while reading, small-asset-only requests,
-resource/transfer/long-task limits, GPU completion, quality overrides/fallbacks,
-a desktop launch and staged deferred-area failure/recovery. The staged last-area
-case is explicitly not a full-route physical playtest.
+These tests run against the reviewed portal artifact under `/story-lab/`, not a
+prototype-only development server. No device farm or deployment is involved.
 
-Current CI budgets: diorama within 15 s; world ready within 75 s of navigation;
-at most 55 asset HTTP entries, 115 total HTTP requests and 10,000,000 observed
-transfer bytes (including canceled music response bodies) through initial
-play; no startup long task over 6 s under 4× CPU emulation; story input queue plus
-next animation-frame delay below 1.2 s. Startup long tasks stop at world-ready;
-expensive test-only GPU readback is excluded from that responsiveness budget.
-Pixel readback and the existing clear-only negative control remain required.
-These are regression tolerances, not promised A50 timings.
-
-Run a benchmark server in one terminal, from `projects/portal`:
+From the repository root, install/build the portal and its bundled dependencies:
 
 ```sh
+npm ci --prefix projects/portal
+npm ci --prefix prototypes/sermon-in-the-crowd
+npm ci --prefix prototypes/little-light-library
+npm --prefix projects/portal run build
+cd projects/portal
+npx playwright install --with-deps chromium webkit
+npm run test:startup
+npm run test:mobile
+```
+
+The PR suite runs the five startup cases once in Chromium, plus three existing
+mobile cases in each of Chromium portrait, Chromium landscape, and WebKit. It
+includes real pixel readback, touch lamp assembly and House 1, a staged final-area
+load/failure/retry, selection/storage fallbacks, and a missing routing-table fault.
+A staged ending is not a full browser walkthrough. Pixel sampling rejects a
+controlled solid-clear scene in the mobile suite.
+
+The primary cold-start case uses **500,000 bytes/s = 4 Mbps**, assumed 150 ms
+latency, and Chromium's 4x CPU slowdown. The 4 Mbps value is the user's reported
+line speed, not measured phone throughput. Upload is unknown; the harness sets
+symmetric rates (the game performs no substantive upload). It checks a 256,000
+byte uncached probe. Budgets are 15 s to visible decoded diorama, 1.2 s story input
+queue + paint, 75 s world-ready, 6 s maximum pre-ready main-thread long task,
+10,000,000 observed HTTP bytes including partial canceled music, 115 HTTP requests,
+and 55 asset ResourceTiming entries. These generous CI ceilings are regression
+alarms, not targets or phone guarantees. Full measurements justify them in the
+[report](../../../docs/reports/shepherd-adventure-constrained-startup.md).
+
+## Optional serial matrix
+
+Keep two built artifacts: the comparison baseline and the working implementation.
+For this investigation the baseline is commit `0d87b83` (merged PR 13). Extract
+that revision with `git archive` into a disposable directory outside this worktree,
+install the same pinned dependencies there, and build its portal. Do not reset or
+pull a running checkout. `server.py --dist` serves an already-built artifact and
+adds calibration endpoints only to this local benchmark server.
+
+Start these in separate terminals from `projects/portal`:
+
+```sh
+python3 startup-tests/server.py --port 8963 --dist /absolute/baseline/projects/portal/dist
 python3 startup-tests/server.py --port 8962
 ```
 
-For matched before/after, save a reviewed pre-change portal build separately and
-serve it with the same server, e.g. `--port 8963 --dist /path/to/before/dist`.
-The server's 256,000-byte and HTML calibration endpoints are never published.
-Run the matrix in a quiet VM (do not run other browser/asset-generation tests at
-the same time):
+Then, from `projects/portal`:
 
 ```sh
-npm run bench:startup
-# Or a bounded primary comparison:
-BENCH_CASES=fast,reported4,combined4 BENCH_TIERS=before,minimal,low npm run bench:startup
-# Single revision, all configured constraints, cold and warm:
-BENCH_TIERS=minimal,low node startup-tests/benchmark.mjs
+BENCH_OUT=test-results/matched-matrix npm run bench:startup
+python3 startup-tests/summarize.py test-results/matched-matrix --output test-results/matrix.json
 ```
 
-`BEFORE_URL`/`AFTER_URL` select matrix endpoints; `BENCH_URL` selects the single
-benchmark endpoint. `BENCH_CASES`, `BENCH_TIERS`, `BENCH_CACHE`, `BENCH_TIMEOUT`
-(milliseconds, default 120000) and `BENCH_OUT` configure runs. The matrix runner
-uses a separate browser per case/tier with a 280 s outer process deadline.
-Failed launches retain partial results, HTTP request inventories and external
-phase timestamps even when the renderer cannot answer JS. Warm means reuse of
-the prior attempt's cache, which may be partially primed after a failure.
+Optional environment variables: `BENCH_CASES` (comma-separated case names),
+`BENCH_TIERS=before,minimal,low`, `BENCH_CACHE=cold,warm`, `BEFORE_URL`, `AFTER_URL`.
+`benchmark.mjs` can run one artifact using `BENCH_URL` and
+`BENCH_TIERS=minimal,low,existing`. The matrix wrapper maps `before` to the
+baseline server's original assets. No baseline quality query is added.
 
-Cases: fast; CPU-only 4× and 6×; network-only 4 Mbps/150 ms, 1.6 Mbps/150 ms,
-0.5 Mbps/400 ms; combined 4×+4 Mbps, 4×+1.6 Mbps and 6×+0.5 Mbps. Upload speed on
-the phone is unknown; emulation uses the matching download rate for uploads.
-A static scene makes no substantive upload. Rates use decimal bits/s. No claim
-is made that a reported 4 Mbps subscription achieves that throughput over Wi-Fi.
+| Case | CPU rate | Download bytes/s | Assumed latency |
+|---|---:|---:|---:|
+| fast | 1 | Unlimited | 0 ms |
+| cpu4 / cpu6 | 4 / 6 | Unlimited | 0 ms |
+| reported4 | 1 | 500,000 | 150 ms |
+| net16 | 1 | 200,000 | 150 ms |
+| net05 | 1 | 62,500 | 400 ms |
+| combined4 | 4 | 500,000 | 150 ms |
+| combined16 | 4 | 200,000 | 150 ms |
+| combined05 | 6 | 62,500 | 400 ms |
 
-CPU calibration records three repetitions of fixed work, with network calibration
-recorded independently; compare ratios with the fast case on the same VM.
-SystemInfo process RSS/CPU counters describe this browser process tree only.
-They are not private working set, GPU residency, or phone RAM. The startup probe
-records HTTP transfer/encoded/decoded bytes, long tasks, frame gaps and input
-latency. The runtime diagnostics additionally record phase boundaries, native
-image/audio decode, model load/parse and logical scene resources.
+A case/tier runs in its own browser process, cold then warm. A 120 s launch
+bound retains HTTP/error evidence and attempts a 5 s diagnostic read. An
+unresponsive renderer may prevent warm execution. The parent kills only its own
+child process group after 280 s. Partial JSON checkpoints every 10 s survive that
+kill. A failed cold attempt gives only a partially warm cache; even a completed
+warm attempt can refetch evicted files. Do not discard failures from summaries.
+Run the matrix without overlapping local browser/geometry workloads.
 
-Only explicit `?diagnostics` enables the full runtime recording/export interface.
-No diagnostics are sent to a server. The forced tier persists via localStorage;
-Automatic clears it. Test the A50 with `?quality=minimal&diagnostics` and record
-its exported build ID. SwiftShader/desktop CPU throttling cannot emulate the
-phone's GPU, OS scheduling, drivers, memory pressure or thermal behavior.
+Each case calibrates network using uncached bytes and records three fixed-work
+CPU samples. The summary compares their median to the same tier's fast run.
+The initial benchmark marker `world-first-frame-harness` means only **intro
+control present**; it is retained in recorded raw evidence. Completed GPU work is
+`first-frame-gpu-complete` in the new runtime. Matched usable-input timing is
+`touch-movement`. Resource counts and control presence do not certify rendering.
+CI performs the actual pixel and extended-play assertions separately.
 
-Codec comparison, after installing quality build dependencies:
-`node ../../prototypes/shepherd-adventure/tools/quality/measure-codecs.mjs /path/to/codecs.json`.
-It compares native PNG/JPEG/WebP at matching dimensions and CPU rates; it does
-not imply a measured result for untested WASM decoders.
+Reports contain request starts/finishes, incomplete body bytes, ResourceTiming,
+phase and model spans, long tasks, frame gaps, input events, errors, optional JS
+heap and process RSS snapshots. RSS is not additive phone RAM; texture estimates
+are not GPU residency. No Android hardware, GPU, thermal or scheduling behavior
+is emulated by SwiftShader/CDP throttling. Screenshots add overhead. One run per
+cell is exploratory evidence, not a percentile/SLA measurement.
