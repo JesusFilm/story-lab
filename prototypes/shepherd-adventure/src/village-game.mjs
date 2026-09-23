@@ -202,7 +202,9 @@ document.addEventListener('click',event=>{
  if(button.id==='lamp-action'&&button.dataset.action==='light')return;
  gameplayAudio.cue(button.id==='lamp-action'?'assembly':'decision');
 },true);
-$('jump').onclick=()=>{if(!ready)return;journey.jump(Number(choice.value));$('review-tools').open=false;reposition();};
+$('jump').onclick=async()=>{if(!ready)return;
+ if(review&&Number(choice.value)>=8&&!world.finalAreaReady){ready=false;window.storyLoading.show();window.storyLoading.status('Preparing the animal pen and shelter…');try{await world.prepareFinalArea();ready=true;window.storyLoading.ready();}catch(error){window.shepherdStartup?.failure('final-area',error.message);window.storyLoading.fail('The shelter could not load. Reload to try again.');return;}}
+ journey.jump(Number(choice.value));$('review-tools').open=false;reposition();};
 $('replay').onclick=()=>{if(!ready)return;journey.replay();$('review-tools').open=false;reposition();};
 $('restart').onclick=()=>{if(!ready)return;journey.reset();gameplayAudio.resetAmbience();samples.length=0;$('review-tools').open=false;reposition();};
 addEventListener('keydown',event=>{
