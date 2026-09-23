@@ -6,7 +6,12 @@ const entry='prototypes/shepherd-adventure/';
 // Five-bit channels retain real variation in the minimal night palette; four-bit
 // bins collapsed the healthy WebKit village to 23 colours (13.6% lit).
 async function pixels(page){
- return page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>{
+ return page.evaluate(()=>new Promise(resolve=>{
+ const previous=window.routeRehearsal?.getState().rendering.frames||0;
+ function sample(){
+  // GPU backpressure can intentionally skip a rAF. Read only in a frame that
+  // actually submitted a draw, before the default drawing buffer is discarded.
+  if((window.routeRehearsal?.getState().rendering.frames||0)===previous){requestAnimationFrame(sample);return;}
   const canvas=document.getElementById('world'),gl=canvas.getContext('webgl2');
   if(!gl||gl.isContextLost())return resolve({colours:0,lit:0});
   const w=gl.drawingBufferWidth,h=gl.drawingBufferHeight,data=new Uint8Array(w*h*4);
@@ -14,7 +19,8 @@ async function pixels(page){
   const colours=new Set();let lit=0,n=0;
   for(let y=0;y<h;y+=8)for(let x=0;x<w;x+=8){const i=(y*w+x)*4,r=data[i],g=data[i+1],b=data[i+2];colours.add((r>>3)*1024+(g>>3)*32+(b>>3));if(Math.max(r,g,b)>35)lit++;n++;}
   resolve(window.mobileLastPixels={colours:colours.size,lit:lit/n,width:w,height:h});
- })));
+ }requestAnimationFrame(sample);
+ }));
 }
 async function rendered(page,{intro=false}={}){
  await expect.poll(async()=>{const p=await pixels(page);return p.colours>(intro?12:24)&&p.lit>(intro ? 0.005 : 0.03);},{message:'actual varied, illuminated 3D pixels',timeout:45000}).toBe(true);
