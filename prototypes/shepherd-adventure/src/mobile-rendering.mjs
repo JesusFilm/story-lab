@@ -2,7 +2,7 @@ import {Vector3} from 'three';
 // Select once per launch: rotating a phone must not change its resource budget.
 export function renderingBudget(){
  const mobile=matchMedia('(pointer: coarse)').matches;
- return {mobile,maxTextureSize:mobile?1024:Infinity,pixelRatio:Math.min(devicePixelRatio||1,mobile?1:1.5),antialias:!mobile,shadowSize:mobile?1024:2048,maxPointLights:mobile?4:Infinity};
+ return {mobile,maxTextureSize:mobile?512:Infinity,pixelRatio:Math.min(devicePixelRatio||1,mobile?1:1.5),antialias:!mobile,shadowSize:mobile?1024:2048,maxPointLights:mobile?4:Infinity};
 }
 
 // Resize before the first GPU upload, retaining geometry, animations, material

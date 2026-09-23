@@ -15,7 +15,7 @@ async function pixels(page){
  })));
 }
 async function rendered(page,{intro=false}={}){
- await expect.poll(async()=>{const p=await pixels(page);return p.colours>(intro?12:24)&&p.lit>(intro?.005:.03);},{message:'actual varied, illuminated 3D pixels',timeout:45000}).toBe(true);
+ await expect.poll(async()=>{const p=await pixels(page);return p.colours>(intro?12:24)&&p.lit>(intro ? 0.005 : 0.03);},{message:'actual varied, illuminated 3D pixels',timeout:45000}).toBe(true);
 }
 async function capture(page,info,name){
  await rendered(page);
@@ -66,7 +66,7 @@ test.afterEach(async({page},info)=>{
 test('cold story → rendered world → touch lamp assembly, rotation and context recovery',async({page},info)=>{
  await opening(page);await capture(page,info,'entry-world');
  expect(await page.evaluate(()=>window.mobileTextureUploads.length)).toBeGreaterThan(0);
- expect(await page.evaluate(()=>Math.max(...window.mobileTextureUploads.flat()))).toBeLessThanOrEqual(1024);
+ expect(await page.evaluate(()=>Math.max(...window.mobileTextureUploads.flat()))).toBeLessThanOrEqual(512);
  const size=page.viewportSize();await page.setViewportSize({width:size.height,height:size.width});
  await expect.poll(()=>page.evaluate(()=>{const c=document.querySelector('#world');return c.width===innerWidth&&c.height===innerHeight;})).toBe(true);
  await capture(page,info,'rotated-world');

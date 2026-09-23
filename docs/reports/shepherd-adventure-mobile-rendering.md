@@ -45,7 +45,7 @@ above a missing world. Existing PR smoke coverage checked controls and module
 loading, not rendered pixels or touch gameplay.
 
 The mobile budget is selected once using the coarse-pointer media query, so
-rotation does not switch resource policies. It caps model textures at 1024 px
+rotation does not switch resource policies. It caps model textures at 512 px
 before upload, uses a DPR-1 framebuffer without multisample antialiasing, omits
 real-time shadow maps, and limits point lights to the four nearest active lights.
 Moonlight, starlight, nearby amber lamps, original geometry, animations, story and
@@ -60,6 +60,14 @@ reload overlay and stop gameplay/audio. Reload recreates the world through the
 opening story. Required resource failures, including loader-managed texture
 errors, prevent readiness. A killed browser/OS process cannot be recovered by
 JavaScript inside that process.
+
+The same inventory method reports **412.2 MiB** for an intermediate 1024 px
+mobile budget and **104.2 MiB** for the final 512 px budget, about **90.5% below**
+the earlier 1,100.2 MiB estimate. Geometry remains 100.3 MiB. The prepared mobile
+scene has 80 texture/image sources; no world frame was rendered behind the
+opening. [Inventory and measurement limits](../../prototypes/shepherd-adventure/docs/playtest-roadmap/evidence/2026-09-23-mobile/render-budget.json).
+This is a resource-quality comparison, not a matched hardware performance result.
+Downloads and geometry are unchanged, and multi-second preparation work remains.
 
 ## Verification
 
@@ -79,7 +87,11 @@ texture-upload dimensions, screenshots and failure traces are retained in CI.
 The existing pull-request workflow now installs pinned Chromium/WebKit and runs
 this suite, uploading artifacts even on failure.
 
-Final browser results and artifact links will be recorded after validation.
+The intermediate 1024 px build passed all three WebKit cases locally, including
+the clear-only negative control. Android portrait and WebKit CI jobs also passed;
+the final 512 px budget is being revalidated. Final artifact links follow below.
+
+Draft PR: [#13](https://github.com/JesusFilm/story-lab/pull/13).
 
 ## Remaining physical-device uncertainty
 

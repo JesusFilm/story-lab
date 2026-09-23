@@ -1009,7 +1009,7 @@
     "prototypes/little-light-library/src/popup-fold.ts": "ae2275826e2af560d132019cfc43d6783b3dd25498bbf863c347368b525f389b",
     "prototypes/little-light-library/src/spread-reveal.ts": "c2c1a8738e3121d98e58ad854d257fc5bffa8c20a196f258124d382652288f76",
     "prototypes/little-light-library/src/shelf-hint.ts": "c333eee740938b77eeddd47e9fbd2c6369a42bd87fc1db971ca8f508625a3225",
-    "prototypes/shepherd-adventure/src/mobile-rendering.mjs": "eeba370490fd9c9520513dd3062a34836b7d2cf739dfa83c5ba0dad62df29d0b"
+    "prototypes/shepherd-adventure/src/mobile-rendering.mjs": "ce75a480342e4f894459534f3d64df1589a4aa8b19cf09a9d7cba06edf60adc7"
   },
   "local_only_prototypes": []
 }
