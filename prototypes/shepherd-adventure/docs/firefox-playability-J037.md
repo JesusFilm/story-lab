@@ -1,58 +1,89 @@
-# J037 — repeatable VM Firefox playability check
+# J051 — hardened Firefox playability check for PR #11
 
-Date: 23 September 2026 (NZST). Base: `codex/shepherd-story-rebuild` at
-`f6c2c6b504fe4d7a6e01b14748ad726857a8083a`.
+Date: 23 September 2026 (NZST). The live `origin/ops/j037` ref was verified at
+`d521b7f4e9fb7bf9c45693eff50919ba9c69aa3b` before editing. PR #11 remains a
+draft with that branch as its head; this follow-up keeps the existing check,
+README, and report scope.
 
-## Result
+## Implemented
 
-Added `checks/verify-firefox-playability.mjs` and concise run instructions in
-the prototype README. The script uses only Node 22's built-in WebDriver HTTP
-and WebSocket APIs, the installed Firefox/geckodriver, and the existing Python
-server. It starts both processes on free localhost ports unless
-`WATCH_GAME_TEST_ORIGIN` points to an existing server. Captures stay under
-the prototype's ignored `captures/` tree.
+`checks/verify-firefox-playability.mjs` now:
 
-The check waits for `document.visibilityState=visible`, the loading overlay to
-hide, the game's asset-loaded `ready` state, a nonzero WebGL 2 canvas and an
-active play phase. It drives the opening cues, enters the actual rendered
-village, starts the first leg, pauses, resumes and restarts. The ending is
-exercised through the documented direct story preview and returns to the
-opening. Firefox BiDi collects JavaScript errors and response/fetch failures;
-the incidental `/favicon.ico` 404 on the preview page is excluded from
-asset/module failures. A nonzero exit reports browser or flow failures.
+- opens Firefox BiDi before navigation, awaits a bounded `session.subscribe`
+  response, validates the success result, fails on transport or unexpected
+  socket closure, and requires observed same-origin page requests before
+  declaring telemetry valid;
+- captures bounded, sanitized stdout/stderr tails for the prototype server and
+  geckodriver, checks for early child exit during startup and waits, and writes
+  those safe diagnostics into `trace.json`;
+- handles SIGINT/SIGTERM through an idempotent cleanup path that attempts the
+  WebDriver session, BiDi socket, geckodriver, and server cleanup without
+  replacing the original failure;
+- requests and verifies a 1440 × 900 CSS viewport, records the WebDriver
+  window rect, outer size, device pixel ratio, focus, and visibility, checks
+  that WebGL is not lost, and records available route/frame signals plus an
+  in-page requestAnimationFrame progress probe;
+- observes the first walking state, pauses immediately, verifies destination 0
+  remains a paused walking state, and only then captures the stable walking
+  screenshot. Route-entry is recorded as state-only so screenshot latency
+  cannot turn a healthy first movement into an arrival or pause timeout;
+- documents the shared `DISPLAY=:0` focus constraint and places no-DISPLAY /
+  headless guidance before browser-session creation.
 
-## Exact verification
+The check deliberately has no pixel threshold or image-diff gate. Its telemetry
+claim is limited to the subscribed events and page requests actually observed;
+it is not a complete performance or visual oracle.
+
+## Verification
 
 From `prototypes/shepherd-adventure`:
 
 ```sh
-node checks/verify-firefox-playability.mjs
 node --check checks/verify-firefox-playability.mjs
+git diff --check
+FIREFOX_HEADLESS=1 node checks/verify-firefox-playability.mjs
+node checks/verify-firefox-playability.mjs
 ```
 
-The first command passed using headed Firefox 155.0.1, geckodriver 0.37.1,
-Node 22.22.1 and the existing X display `:0`. The script started its own
-`serve.py` process and stopped it on completion. WebGL loading took about a
-minute on this VM. The trace recorded 168 browser responses, zero JavaScript
-errors and zero failed asset/module requests. The first route leg had
-`destination=0`, `phase=walking`; pause set `paused=true`, resume cleared it,
-and restart reopened the first story. The ending preview reached `Finish
-story`, followed by the opening `Start` control.
+All four commands passed. Both smoke runs used Node 22.22.1, Firefox 155.0.1,
+and geckodriver 0.37.1. The headed run used the existing shared `DISPLAY=:0`
+and passed with focus and visibility true at every recorded stage.
 
-Evidence: `captures/firefox-playability/2026-09-23T00-03-53-087Z/trace.json`
-and eight PNGs beside it. I visually inspected `03-route-entry.png`,
-`04-route-moving.png`, `05-paused.png`, `08-ending.png` and
-`09-replay-opening.png`. The route captures contain the lit village,
-shepherd and ground, rather than the loading overlay or a blank canvas.
-`git check-ignore` confirms the trace is ignored by
-`captures/.gitignore`; the PNGs are ignored by the same rule.
+Headed evidence:
 
-## Limits
+- trace: `captures/firefox-playability/2026-09-23T03-00-14-381Z/trace.json`;
+- verified CSS viewport 1440 × 900, outer window 1492 × 1037, device pixel
+  ratio 1;
+- requestAnimationFrame probe advanced from 33 to 269;
+- BiDi subscription acknowledged, 131 same-origin page requests observed, 168
+  response events recorded, zero JavaScript errors, zero failed network
+  events, and no unexpected socket close;
+- visual captures: `01-opening.png`, `04-route-moving-paused.png`,
+  `06-restart-opening.png`, and `07-direct-ending-story-preview.png`.
 
-The natural ten-stop route, lamp assembly, arrival transition, phone layout,
-and physical-device performance are outside this smoke check. The ending
-preview verifies the diorama and its replay behavior independently of that
-route. The scripted state assertions establish operability and save images,
-while a human still reviews composition and visual defects in the PNGs.
-Headless mode is available with `FIREFOX_HEADLESS=1` but was not used for this
-passing run.
+Headless evidence:
+
+- trace: `captures/firefox-playability/2026-09-23T03-06-13-872Z/trace.json`;
+- verified CSS viewport 1440 × 900, outer window 1440 × 986, device pixel
+  ratio 1;
+- requestAnimationFrame probe advanced from 29 to 199;
+- BiDi subscription acknowledged, 131 same-origin page requests observed, 169
+  response events recorded, zero JavaScript errors, zero failed network
+  events, and no unexpected socket close.
+
+The trace keeps the child-process tails for diagnosis. The expected server
+SIGTERM during cleanup and the browser's incidental `/favicon.ico` 404 are not
+reported as run failures; the latter is excluded from asset/module failure
+telemetry.
+
+## Wording and limits
+
+`story-preview.html?story=ending` is documented as an isolated review of the
+ending story component and replay control. It is not the game's ending
+diorama/arrival transition and does not claim that the shepherd walked the
+route.
+
+The full ten-stop route, lamp/arrival journey, pixel scoring or image-diff
+oracle, and device/mobile coverage remain deferred. No packages were installed,
+and this work did not comment on, merge, deploy, or otherwise change production
+state.
