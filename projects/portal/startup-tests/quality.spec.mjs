@@ -17,6 +17,11 @@ test('4 Mbps + 4x CPU cold launch: responsive diorama, smaller assets, lamp and 
  await page.goto('/story-lab/__probe.html');
  const calibration=await page.evaluate(async()=>{const t=performance.now();const bytes=(await(await fetch('/story-lab/__probe.bin')).arrayBuffer()).byteLength;return {bytes,ms:performance.now()-t};});
  expect(calibration.bytes).toBe(256000);expect(calibration.ms).toBeGreaterThan(450);
+ const requests=new Map(),received=new Map(),finished=new Map();
+ cdp.on('Network.requestWillBeSent',e=>{if(/^https?:/.test(e.request.url))requests.set(e.requestId,{path:new URL(e.request.url).pathname});});
+ cdp.on('Network.dataReceived',e=>{if(requests.has(e.requestId))received.set(e.requestId,(received.get(e.requestId)||0)+e.encodedDataLength);});
+ cdp.on('Network.loadingFinished',e=>{if(requests.has(e.requestId))finished.set(e.requestId,e.encodedDataLength);});
+ const observedTransfer=()=>[...requests.keys()].reduce((n,id)=>n+(finished.get(id)??received.get(id)??0),0);
  await page.goto(entry+'?quality=minimal&diagnostics');
  await expect(page.locator('#story-overlay')).toBeVisible({timeout:15000});
  await expect.poll(()=>page.locator('#story-scene img:visible').first().evaluate(img=>img.complete&&img.naturalWidth>100)).toBe(true);
@@ -32,9 +37,10 @@ test('4 Mbps + 4x CPU cold launch: responsive diorama, smaller assets, lamp and 
  await expect(page.locator('#skip-opening')).toBeVisible();await page.locator('#skip-opening').tap();await rendered(page);
  const report=await page.evaluate(()=>shepherdStartup.report());
  expect(report.marks.find(x=>x.phase==='world-ready').ms).toBeLessThan(75000);
- expect(assetViolations(report.resources,'minimal')).toEqual([]);
+ expect(assetViolations([...requests.values()],'minimal')).toEqual([]);
+ expect(requests.size).toBeLessThanOrEqual(115);
  expect(report.resources.filter(r=>r.path.includes('/assets/')).length).toBeLessThanOrEqual(55);
- expect(report.resources.reduce((n,r)=>n+r.encoded,0)).toBeLessThan(10000000);
+ const startupTransferBytes=observedTransfer();expect(startupTransferBytes).toBeLessThan(10000000);
  expect(report.resources.some(r=>r.path.includes('square-nativity-stall'))).toBe(false);
  expect(Math.max(0,...report.longTasks.filter(x=>x.start<report.marks.find(m=>m.phase==='world-ready').ms).map(x=>x.duration))).toBeLessThan(6000);
  // Fault control: the budget rejects one accidentally fetched original.
@@ -46,7 +52,7 @@ test('4 Mbps + 4x CPU cold launch: responsive diorama, smaller assets, lamp and 
  await page.locator('#advance').tap();await expect(page.locator('#advance')).toHaveText('Knock on door',{timeout:90000});await page.locator('#advance').tap();
  await expect.poll(()=>page.evaluate(()=>routeRehearsal.getState().houseRejection.complete),{timeout:40000}).toBe(true);await rendered(page);await capture(page,info,'minimal-first-house');
  expect(errors).toEqual([]);
- await info.attach('measurements',{body:JSON.stringify({calibration,report:await page.evaluate(()=>shepherdStartup.report()),pixels:await pixels(page),state:await page.evaluate(()=>routeRehearsal.getState())},null,2),contentType:'application/json'});
+ await info.attach('measurements',{body:JSON.stringify({calibration,startupTransferBytes,report:await page.evaluate(()=>shepherdStartup.report()),pixels:await pixels(page),state:await page.evaluate(()=>routeRehearsal.getState())},null,2),contentType:'application/json'});
 });
 
 test('selection, persistence, absent APIs, invalid override and low/original asset routing',async({page})=>{

@@ -12,7 +12,8 @@ a desktop launch and staged deferred-area failure/recovery. The staged last-area
 case is explicitly not a full-route physical playtest.
 
 Current CI budgets: diorama within 15 s; world ready within 75 s of navigation;
-at most 55 asset HTTP entries and 10,000,000 encoded resource bytes through initial
+at most 55 asset HTTP entries, 115 total HTTP requests and 10,000,000 observed
+transfer bytes (including canceled music response bodies) through initial
 play; no startup long task over 6 s under 4× CPU emulation; story input queue plus
 next animation-frame delay below 1.2 s. Startup long tasks stop at world-ready;
 expensive test-only GPU readback is excluded from that responsiveness budget.
