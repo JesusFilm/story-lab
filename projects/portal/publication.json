@@ -210,7 +210,8 @@
         "prototypes/shepherd-adventure/assets/optimized/straight-feeding-trough.glb",
         "prototypes/shepherd-adventure/assets/optimized/tanner-market-stall-pixal3d.glb",
         "prototypes/shepherd-adventure/assets/optimized/vegetable-market-stall-pixal3d.glb",
-        "prototypes/shepherd-adventure/src/rehearsal.mjs"
+        "prototypes/shepherd-adventure/src/rehearsal.mjs",
+        "prototypes/shepherd-adventure/src/mobile-rendering.mjs"
       ],
       "image_alt": "A shepherd carrying a glowing lantern faces the timber gate and lamplit stone walls of the sleeping market",
       "image_version": "8fa1d09eaa07",
@@ -768,7 +769,7 @@
     "prototypes/story-diorama-lab/assets/hiraeth.mp3": "f790c7d53b8d802981ff7cdd8c59e22cdfe103ea66aba296c6cf1a65fe7fcf01",
     "projects/portal/public/story-diorama-lab.jpg": "5aa260fc01c5b5015d3af3870b8492b128ed24d2a1cb72ff32c8b8380c01c68e",
     "projects/portal/public/shepherd-adventure.jpg": "8fa1d09eaa07a1f5f61fa8071eec52e27749c262e35b60a81ffa1792f3cb9069",
-    "prototypes/shepherd-adventure/src/boot.mjs": "72daf1f1d0fdce61912e57cad0b905995f31e3fa6fbfa0d14ca79bc3b8017370",
+    "prototypes/shepherd-adventure/src/boot.mjs": "2b1dbf53a76582dccf1ac619ef7b454981a4b03f3ebc7a59d370f57a6af24c64",
     "prototypes/shepherd-adventure/src/journey-story.mjs": "fd30ffd5425016ca6d96cb26d7b735e8209a32c3fa40fc5d11c1106b7061fc26",
     "prototypes/shepherd-adventure/src/story-media.mjs": "7303fe55fa0690737935914ad1cf3df0e208b7ac2125a099ab68b657d2f13163",
     "prototypes/shepherd-adventure/src/journey-story-data.mjs": "af729b8adc360ba028318a2b81bfb2acc6d93139a9e706ddae36c1c7c338b7b7",
@@ -863,7 +864,7 @@
     "prototypes/shepherd-adventure/assets/lamp-workbench-pixal3d.glb": "d3343c723ca764a8b3c60d25748581983c349194f894aefa4662c8be117c7911",
     "assets/structures/lamp-workbench/lamp-workbench-reference-prompt.txt": "89964d981c6a6a9c18dbec13ae498f5b89aa4da257d099b1b7a62d6c7bc5fb68",
     "assets/structures/lamp-workbench/lamp-workbench-reference.png": "0b8e4c4446230f5738a0ebdf227d9942ec07574bb31cb98c0004b599394e215b",
-    "prototypes/shepherd-adventure/src/journey-scene.mjs": "5570ce7395ed2bca882fd68ea6e865b3db668b0a4e51aab5a54757ffa92071a9",
+    "prototypes/shepherd-adventure/src/journey-scene.mjs": "07023717ad1639cd77bdf2a236fa37c3c184d65d6b3c41572e13461c4085c444",
     "prototypes/shepherd-adventure/src/house-decorations.mjs": "437de74add33b67b76e66ed70d210242dce2d808d5bbcf0bb8291cf9d0beed03",
     "prototypes/shepherd-adventure/assets/house-decorations/olive-wall-cluster-a.glb": "700b91641b3c651dfb95390c9227c12eaf48ea3b6682020e280c29215ec584cf",
     "assets/objects/olive-wall-cluster-a/olive-wall-cluster-a-reference-prompt.txt": "785f6326c4c8c8ddb764c8c00150ce564da8803f2bdce1f90286fa486c1e6d83",
@@ -904,7 +905,7 @@
     "assets/characters/joseph-nativity/joseph-seated-reference.png": "836d68bb8dd190a9402b3a1c31e34a5cc97a2e6b892ecae4daad33cd331cf7fa",
     "assets/characters/jesus-manger/jesus-reference.prompt.txt": "5989cef049a8f0b82ee6de4c530ebb64e6665756eeb628c0ef2561bd649d3d13",
     "assets/characters/jesus-manger/jesus-reference.png": "b9e87590e08a7049eb0e537281be4a904ee949a4bc81e6457d5088e4aff7a5c3",
-    "prototypes/shepherd-adventure/src/village-game.mjs": "5b7c21f20e4fa8540e7bff55cb1a1e702590b6c01296bd1a635848a3dee166e7",
+    "prototypes/shepherd-adventure/src/village-game.mjs": "5479b351660aea39343f502b143154ee27a6a30edac4a050f030e6a5d1997e51",
     "prototypes/shepherd-adventure/src/journey-audio.mjs": "86603849cf88b959053d0c021fdfdb4db07e8ab3c42cbd98c293849fd34657ec",
     "prototypes/shepherd-adventure/src/barred-gate.mjs": "9ba581734d791d74da9a9c82510ee4892f85d545b8c9a77c5ca4b5a394d18fa9",
     "prototypes/shepherd-adventure/src/companion-reunion-scene.mjs": "7327d157427112f4f7b27c39c2633a96a6bec39d77b314e63e2fe01513df8e56",
@@ -1007,7 +1008,8 @@
     "prototypes/little-light-library/src/popup-fold-surface.ts": "d70b5748f86e283ac7733b7204f30a818ebdcbc80519013618e1ab051a84e1bb",
     "prototypes/little-light-library/src/popup-fold.ts": "ae2275826e2af560d132019cfc43d6783b3dd25498bbf863c347368b525f389b",
     "prototypes/little-light-library/src/spread-reveal.ts": "c2c1a8738e3121d98e58ad854d257fc5bffa8c20a196f258124d382652288f76",
-    "prototypes/little-light-library/src/shelf-hint.ts": "c333eee740938b77eeddd47e9fbd2c6369a42bd87fc1db971ca8f508625a3225"
+    "prototypes/little-light-library/src/shelf-hint.ts": "c333eee740938b77eeddd47e9fbd2c6369a42bd87fc1db971ca8f508625a3225",
+    "prototypes/shepherd-adventure/src/mobile-rendering.mjs": "eeba370490fd9c9520513dd3062a34836b7d2cf739dfa83c5ba0dad62df29d0b"
   },
   "local_only_prototypes": []
 }

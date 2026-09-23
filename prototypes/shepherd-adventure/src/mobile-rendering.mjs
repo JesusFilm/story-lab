@@ -1,0 +1,70 @@
+import {Vector3} from 'three';
+// Select once per launch: rotating a phone must not change its resource budget.
+export function renderingBudget(){
+ const mobile=matchMedia('(pointer: coarse)').matches;
+ return {mobile,maxTextureSize:mobile?1024:Infinity,pixelRatio:Math.min(devicePixelRatio||1,mobile?1:1.5),antialias:!mobile,shadowSize:mobile?1024:2048,maxPointLights:mobile?4:Infinity};
+}
+
+// Resize before the first GPU upload, retaining geometry, animations, material
+// settings and shared texture sources. Originals remain available to desktop.
+export function budgetTextures(loader,budget){
+ if(!Number.isFinite(budget.maxTextureSize))return;
+ loader.register(()=>({name:'StoryLabTextureBudget',afterRoot(gltf){
+  const images=new Map();
+  for(const scene of gltf.scenes)scene.traverse(object=>{
+   for(const material of (Array.isArray(object.material)?object.material:[object.material])){
+    if(!material)continue;
+    for(const texture of Object.values(material))if(texture?.isTexture&&texture.image){
+     const image=texture.image;
+     if(!images.has(image))images.set(image,new Set());
+     images.get(image).add(texture);
+    }
+   }
+  });
+  for(const [image,textures] of images){
+   const ratio=Math.min(1,budget.maxTextureSize/Math.max(image.width,image.height));
+   if(ratio===1)continue;
+   const canvas=document.createElement('canvas');
+   canvas.width=Math.max(1,Math.round(image.width*ratio));canvas.height=Math.max(1,Math.round(image.height*ratio));
+   // Keep the full-size decode off the GPU while making the smaller copy.
+   const context=canvas.getContext('2d',{willReadFrequently:true});
+   if(!context)throw Error('Could not prepare mobile textures');
+   context.drawImage(image,0,0,canvas.width,canvas.height);
+   for(const texture of textures){texture.source.data=canvas;texture.needsUpdate=true;}
+   image.close?.();
+  }
+ }}));
+}
+
+// A context can disappear after loading has finished. Keep a persistent error
+// over the world and stop play; reload creates a clean renderer and asset graph.
+export function watchRenderer(renderer,budget,onFailure=()=>{}){
+ const lightPosition=new Vector3();
+ function selectLights(scene,camera){
+  if(!budget.mobile)return;
+  const lights=[];
+  scene.traverse(light=>{if(light.isPointLight){
+   let active=light.intensity>0;for(let parent=light.parent;parent;parent=parent.parent)active=active&&parent.visible;
+   lights.push({light,distance:active?light.getWorldPosition(lightPosition).distanceToSquared(camera.position):Infinity});
+  }});
+  lights.sort((a,b)=>a.distance-b.distance);
+  lights.forEach(({light,distance},index)=>{light.visible=index<budget.maxPointLights&&Number.isFinite(distance);});
+ }
+ let failed=false,frames=0;
+ function fail(message){
+  if(failed)return;
+  failed=true;onFailure();
+  window.storyLoading.show();window.storyLoading.fail(message);
+  document.getElementById('review-panel').inert=true;
+ }
+ const lost=()=>fail('The 3D view was interrupted. Reload to restart. If it happens again, close other tabs and try again.');
+ renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();lost();});
+ renderer.debug.onShaderError=(gl,program)=>{console.error('WebGL shader failure:',gl.getProgramInfoLog(program));throw Error('The 3D shaders could not run on this browser.');};
+ const render=renderer.render.bind(renderer);
+ renderer.render=(scene,camera)=>{
+  if(failed)throw Error('The 3D view is unavailable. Reload to restart.');
+  if(renderer.getContext().isContextLost()){lost();throw Error('WebGL context lost');}
+  try{selectLights(scene,camera);render(scene,camera);frames++;}catch(error){fail('The 3D view could not render. Reload to restart, or try another browser.');throw error;}
+ };
+ return {get failed(){return failed;},get frames(){return frames;},fail};
+}
