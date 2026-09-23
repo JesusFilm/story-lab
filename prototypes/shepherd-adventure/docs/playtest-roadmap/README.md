@@ -1060,7 +1060,9 @@ area. It retains story/route interactions and adds a persistent user override,
 opt-in diagnostics, first-frame GPU completion and constrained PR regression.
 
 The 4 Mbps/4× CPU VM test has passed through a visible responsive diorama, actual
-rendered world, touch lamp assembly and the first-house response. Broader tier,
-recovery and matched-matrix checks are in progress. This is technical progress;
-A50 hardware, art/sound acceptance and the separate F08 camera issue remain open.
+rendered world, touch lamp assembly and the first-house response. All three tiers
+pass whole-route geometry/state and portrait/landscape camera-sample checks.
+Draft PR #14 and the report above retain the final matrix, captures, exact CI
+coverage and failures. Technical validation does not close A50 hardware,
+art/sound acceptance or the separate F08 camera issue.
 Desktop throttling/SwiftShader cannot establish a physical-device performance floor.

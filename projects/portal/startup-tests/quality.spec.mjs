@@ -6,7 +6,7 @@ async function pixels(page){return page.evaluate(()=>new Promise(resolve=>reques
  const colors=new Set();let lit=0,n=0;for(let y=0;y<h;y+=8)for(let x=0;x<w;x+=8){const i=(y*w+x)*4;colors.add((data[i]>>3)*1024+(data[i+1]>>3)*32+(data[i+2]>>3));lit+=Math.max(data[i],data[i+1],data[i+2])>35;n++;}resolve({colors:colors.size,lit:lit/n});
 })));}
 async function rendered(page){await expect.poll(async()=>{const p=await pixels(page);return p.colors>24&&p.lit>.03;},{timeout:30000}).toBe(true);}
-function assetViolations(resources,tier){return resources.filter(r=>/\/assets\/.*\.(glb|gltf|bin|png|jpg|webp)(?:$|\?)/.test(r.path)&&!r.path.includes(`/quality/${tier}/`));}
+function assetViolations(resources,tier){return resources.filter(r=>/\/assets\/.*\.(glb|gltf|bin|png|jpe?g|webp|avif|ktx2|basis)(?:$|\?)/.test(r.path)&&!r.path.includes(`/quality/${tier}/`));}
 async function capture(page,info,name){await page.locator('#pause').tap();await expect(page.locator('#player-options')).toBeVisible();await page.locator('#player-options').evaluate(e=>e.style.visibility='hidden');await info.attach(name,{body:await page.screenshot({scale:'css'}),contentType:'image/png'});await page.locator('#player-options').evaluate(e=>e.style.visibility='');await page.locator('#player-resume').tap();}
 
 test('4 Mbps + 4x CPU cold launch: responsive diorama, smaller assets, lamp and first house',async({page},info)=>{
