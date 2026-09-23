@@ -1,0 +1,133 @@
+{
+  "runtimeCommit": "31d36ae",
+  "ciRun": "https://github.com/JesusFilm/story-lab/actions/runs/35828071550",
+  "coverageLimit": "Desktop browser mobile emulation; not physical Android or iOS. Mobile traversal ends after lamp acquisition.",
+  "results": [
+    {
+      "project": "android-portrait-dpr3",
+      "test": "cold story \u2192 rendered world \u2192 touch lamp assembly, rotation and context recovery",
+      "status": "passed",
+      "durationMs": 251195,
+      "healthyBrowserLog": [],
+      "maximumUploadedTextureDimension": 512,
+      "finalPixelSample": {
+        "colours": 40,
+        "lit": 0.17271028037383176,
+        "width": 851,
+        "height": 393
+      }
+    },
+    {
+      "project": "android-portrait-dpr3",
+      "test": "required model failure is actionable and reload recovers",
+      "status": "passed",
+      "durationMs": 49939,
+      "healthyBrowserLog": [],
+      "maximumUploadedTextureDimension": 512,
+      "finalPixelSample": {
+        "colours": 34,
+        "lit": 0.33214953271028036,
+        "width": 393,
+        "height": 851
+      }
+    },
+    {
+      "project": "android-portrait-dpr3",
+      "test": "pixel check rejects a renderer that only clears its canvas",
+      "status": "passed",
+      "durationMs": 41786,
+      "healthyBrowserLog": [],
+      "maximumUploadedTextureDimension": 512,
+      "finalPixelSample": {
+        "colours": 34,
+        "lit": 0.33271028037383177,
+        "width": 393,
+        "height": 851
+      }
+    },
+    {
+      "project": "android-landscape-dpr4",
+      "test": "cold story \u2192 rendered world \u2192 touch lamp assembly, rotation and context recovery",
+      "status": "passed",
+      "durationMs": 238628,
+      "healthyBrowserLog": [],
+      "maximumUploadedTextureDimension": 512,
+      "finalPixelSample": {
+        "colours": 34,
+        "lit": 0.33214953271028036,
+        "width": 393,
+        "height": 851
+      }
+    },
+    {
+      "project": "android-landscape-dpr4",
+      "test": "required model failure is actionable and reload recovers",
+      "status": "passed",
+      "durationMs": 65762,
+      "healthyBrowserLog": [],
+      "maximumUploadedTextureDimension": 512,
+      "finalPixelSample": {
+        "colours": 40,
+        "lit": 0.17289719626168223,
+        "width": 851,
+        "height": 393
+      }
+    },
+    {
+      "project": "android-landscape-dpr4",
+      "test": "pixel check rejects a renderer that only clears its canvas",
+      "status": "passed",
+      "durationMs": 62427,
+      "healthyBrowserLog": [],
+      "maximumUploadedTextureDimension": 512,
+      "finalPixelSample": {
+        "colours": 40,
+        "lit": 0.17214953271028038,
+        "width": 851,
+        "height": 393
+      }
+    },
+    {
+      "project": "webkit-iphone",
+      "test": "cold story \u2192 rendered world \u2192 touch lamp assembly, rotation and context recovery",
+      "status": "passed",
+      "durationMs": 134793,
+      "healthyBrowserLog": [],
+      "maximumUploadedTextureDimension": 512,
+      "finalPixelSample": {
+        "colours": 37,
+        "lit": 0.2050651585935579,
+        "width": 664,
+        "height": 390
+      }
+    },
+    {
+      "project": "webkit-iphone",
+      "test": "required model failure is actionable and reload recovers",
+      "status": "passed",
+      "durationMs": 50538,
+      "healthyBrowserLog": [],
+      "maximumUploadedTextureDimension": 512,
+      "finalPixelSample": {
+        "colours": 33,
+        "lit": 0.3039095156134743,
+        "width": 390,
+        "height": 664
+      }
+    },
+    {
+      "project": "webkit-iphone",
+      "test": "pixel check rejects a renderer that only clears its canvas",
+      "status": "passed",
+      "durationMs": 26472,
+      "healthyBrowserLog": [],
+      "maximumUploadedTextureDimension": 512,
+      "finalPixelSample": {
+        "colours": 33,
+        "lit": 0.3044012785837226,
+        "width": 390,
+        "height": 664
+      }
+    }
+  ]
+}
