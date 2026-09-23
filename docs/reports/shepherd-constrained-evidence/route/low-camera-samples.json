@@ -1,0 +1,17 @@
+{
+  "cameras": [
+    {
+      "portrait": false,
+      "frames": 2002,
+      "hiddenPlayerSamples": 0,
+      "minimumArm": 4.618979271932043
+    },
+    {
+      "portrait": true,
+      "frames": 2002,
+      "hiddenPlayerSamples": 0,
+      "minimumArm": 4.553914280650638
+    }
+  ],
+  "limits": "30 Hz geometry samples in landscape/portrait. Does not assess the UI, subject readability, animal-interest shot, or subjective camera comfort."
+}
