@@ -764,7 +764,7 @@
     "prototypes/shepherd-maze/assets/structure-lamp-tripo-v2.glb": "5e26fdb36e10c862f75896002981354d29c137d181bcafef0ee1f551689d0b14",
     "prototypes/shepherd-maze/assets/village-world.glb": "37f5c082c6112ad2d4e1b698a128692c088ba24ea1507fc7c85067e9f7c421e2",
     "prototypes/shepherd-maze/maps/village/maze-layout.json": "9cd81b0ab05be3e4bd35a5b69994c1d4fd744fe77d9a077b947322d7c1b44698",
-    "prototypes/shepherd-adventure/index.html": "5d06ca20d7d60d12bc7c1336c4cf8c4477b45506a96ff443a995456d2ade6e91",
+    "prototypes/shepherd-adventure/index.html": "e9abdb34ce1421e44df4ec78f79953b1ea25c9c96516bc47a07fd7c5b334b907",
     "prototypes/shepherd-adventure/rehearsal.html": "d9afb6d9e499c4f37272409e65dcaba833f6aa3f26d0d29219d01fef47e63688",
     "prototypes/shepherd-adventure/journey.css": "a796fd0e183d2c226b462a002e4742ff9d006acab74359eb8d6399441a56ed91",
     "prototypes/shepherd-adventure/src/character-variants.mjs": "8af5c68c21e8a61a4803eaefaaf0817971ede2209e6f2d5c1580238107200cb5",
@@ -1188,7 +1188,7 @@
     "prototypes/little-light-library/src/popup-fold.ts": "ae2275826e2af560d132019cfc43d6783b3dd25498bbf863c347368b525f389b",
     "prototypes/little-light-library/src/spread-reveal.ts": "c2c1a8738e3121d98e58ad854d257fc5bffa8c20a196f258124d382652288f76",
     "prototypes/little-light-library/src/shelf-hint.ts": "c333eee740938b77eeddd47e9fbd2c6369a42bd87fc1db971ca8f508625a3225",
-    "prototypes/shepherd-adventure/src/mobile-rendering.mjs": "1f2a11388388b2cca6e75f6e7140e17ff188e2405deaa0e2ffffd29014fddfd8",
+    "prototypes/shepherd-adventure/src/mobile-rendering.mjs": "39d4b3712a8406cdf96109ee22be1e3f9458ccba3ee6c04a8a24455edfa7415c",
     "prototypes/shepherd-adventure/assets/quality/low/animal-pen-tripo-v2.glb": "fc2d1bcfe7a08e6abeef84c7814807a4079a85c4a1fb98cf5730841633649217",
     "prototypes/shepherd-adventure/assets/quality/low/house-01-tripo-v2.glb": "aa1445fa2c9e02114821526ad93db1a167bbb85aaec7a1e0375ce86b8f0b8dec",
     "prototypes/shepherd-adventure/assets/quality/low/house-3/helpful-resident-v3.webp": "f45e88520d69e5122864b79f9c5314ee1cede3162e2cc2d8be0a786f2efa4c02",
@@ -1367,7 +1367,7 @@
     "prototypes/shepherd-adventure/assets/quality/minimal/workbench/stall.webp": "f936eed54a82ffa74951d02aab08b901c7099fa984435963fa338c62285f31cd",
     "prototypes/shepherd-adventure/src/asset-loading.mjs": "b0eb6d24d700b576df4fabb57105c955bea40847536004b243b7062c895e6cb7",
     "prototypes/shepherd-adventure/src/quality-assets.js": "229d1fbe3d6a08157aced014df08afabed77b51e14cc67759ecc038efeec0a0f",
-    "prototypes/shepherd-adventure/src/startup.js": "3177407ed83425f3dd2d7f68530ee9216bc81b1083716adc76f0e77d7d380036"
+    "prototypes/shepherd-adventure/src/startup.js": "79d0f76bcd1051c2e2710dcb32102e037fb7d44aecf1ea025bab44f655e0baaa"
   },
   "local_only_prototypes": []
 }

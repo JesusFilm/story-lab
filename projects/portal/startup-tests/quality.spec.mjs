@@ -28,7 +28,7 @@ test('4 Mbps + 4x CPU cold launch: responsive diorama, smaller assets, lamp and 
  cdp.on('Network.dataReceived',e=>{if(requests.has(e.requestId))received.set(e.requestId,(received.get(e.requestId)||0)+e.encodedDataLength);});
  cdp.on('Network.loadingFinished',e=>{if(requests.has(e.requestId))finished.set(e.requestId,e.encodedDataLength);});
  const observedTransfer=()=>[...requests.keys()].reduce((n,id)=>n+(finished.get(id)??received.get(id)??0),0);
- await page.goto(entry+'?quality=minimal&diagnostics');
+ await page.goto(entry+'?diagnostics');
  await expect(page.locator('#story-overlay')).toBeVisible({timeout:15000});
  await expect.poll(()=>page.locator('#story-scene img:visible').first().evaluate(img=>img.complete&&img.naturalWidth>100)).toBe(true);
  const shown=await page.evaluate(()=>performance.now());expect(shown).toBeLessThan(15000);
@@ -40,6 +40,7 @@ test('4 Mbps + 4x CPU cold launch: responsive diorama, smaller assets, lamp and 
  await expect.poll(()=>page.evaluate(()=>shepherdStartup.report().marks.some(m=>m.phase==='story-audio-playing')),{timeout:15000}).toBe(true);
  expect(await page.evaluate(()=>performance.getEntriesByType('resource').some(r=>r.name.includes('village-game')||/\.(glb|gltf)$/.test(r.name)))).toBe(false);
  const story=await page.evaluate(()=>shepherdStartup.report());
+ expect(story.tier).toBe('minimal');expect(story.selection).toBe('automatic');await expect(page.locator('[data-quality]')).toHaveCount(0);
  expect(Math.max(0,...story.inputs.filter(x=>x.target==='story-next').map(x=>x.queue+x.paint))).toBeLessThan(1200);
  await page.locator('#story-skip').tap();
  await expect(page.locator('#loading')).toBeHidden({timeout:65000});
@@ -64,30 +65,58 @@ test('4 Mbps + 4x CPU cold launch: responsive diorama, smaller assets, lamp and 
  await info.attach('measurements',{body:JSON.stringify({calibration,startupTransferBytes,report:await page.evaluate(()=>shepherdStartup.report()),pixels:await pixels(page),state:await page.evaluate(()=>routeRehearsal.getState())},null,2),contentType:'application/json'});
 });
 
-test('selection, persistence, absent APIs, invalid override and low/original asset routing',async({page})=>{
- await page.addInitScript(()=>{Object.defineProperty(navigator,'deviceMemory',{get:()=>undefined});Object.defineProperty(navigator,'connection',{get:()=>undefined});Object.defineProperty(navigator,'hardwareConcurrency',{get:()=>undefined});});
- await page.goto(entry+'?quality=invalid');await expect(page.locator('#story-overlay')).toBeVisible();expect(await page.evaluate(()=>shepherdStartup.tier)).toBe('minimal');
- await page.goto(entry+'?quality=low');await expect(page.locator('#story-overlay')).toBeVisible();expect(await page.evaluate(()=>shepherdStartup.tier)).toBe('low');expect(assetViolations(await page.evaluate(()=>shepherdStartup.report().resources),'low')).toEqual([]);
- await page.goto(entry);await expect(page.locator('#story-overlay')).toBeVisible();expect(await page.evaluate(()=>shepherdStartup.tier)).toBe('low');
- await page.goto(entry+'?quality=existing');await expect(page.locator('#story-overlay')).toBeVisible();expect(await page.evaluate(()=>shepherdStartup.asset('./assets/shepherd-tripo-v2.glb'))).toBe('./assets/shepherd-tripo-v2.glb');
- // Storage denial must not prevent startup or a query override.
- await page.addInitScript(()=>{Storage.prototype.getItem=Storage.prototype.setItem=()=>{throw Error('blocked storage');};});
- await page.goto(entry+'?quality=minimal');await expect(page.locator('#story-overlay')).toBeVisible();expect(await page.evaluate(()=>shepherdStartup.tier)).toBe('minimal');
+test('legacy choices, diagnostic precedence and storage denial do not defeat automatic mobile',async({page})=>{
+ await page.addInitScript(()=>{localStorage.setItem('shepherd-quality','existing');Object.defineProperty(navigator,'deviceMemory',{get:()=>undefined});Object.defineProperty(navigator,'connection',{get:()=>undefined});});
+ for(const [query,tier] of [['?quality=existing','minimal'],['?diagnostics&quality=low','low'],['','minimal'],['?diagnostics&quality=invalid','minimal']]){
+  await page.goto(entry+query);await expect(page.locator('#story-overlay')).toBeVisible();
+  expect(await page.evaluate(()=>shepherdStartup.tier)).toBe(tier);
+  expect(assetViolations(await page.evaluate(()=>shepherdStartup.report().resources),tier)).toEqual([]);
+  await expect(page.locator('[data-quality]')).toHaveCount(0);
+ }
+ await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw Error('blocked storage');}});});
+ await page.goto(entry);await expect(page.locator('#story-overlay')).toBeVisible();expect(await page.evaluate(()=>shepherdStartup.tier)).toBe('minimal');
 });
 
-test('desktop low tier and mobile original render regression',async({browser},info)=>{
- // Keep the original desktop viewport: GPU pacing, rather than a smaller
- // fixture or longer timeout, must prevent queued-frame readback stalls.
- for(const tier of ['low','existing']){
-  const context=await browser.newContext({viewport:tier==='existing'?{width:393,height:851}:{width:1024,height:768},isMobile:tier==='existing',hasTouch:true,deviceScaleFactor:1});const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://127.0.0.1:8964/story-lab/'+entry+'?quality='+tier);await expect(page.locator('#story-overlay')).toBeVisible();await page.locator('#story-skip').tap();await expect(page.locator('#loading')).toBeHidden({timeout:100000});await page.locator('#skip-opening').tap();await expect(page.locator('#advance')).toHaveText('Find a lamp');await rendered(page);
-  await capture(page,info,tier+'-entry');
-  await info.attach(tier+'-pixels',{body:JSON.stringify(await pixels(page)),contentType:'application/json'});expect(errors).toEqual([]);await context.close();
+test('automatic desktop Original and diagnostic Low render with tier-consistent requests and budgets',async({browser},info)=>{
+ for(const tier of ['existing','low']){
+  const context=await browser.newContext({isMobile:false,userAgent:'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140.0.0.0 Safari/537.36',viewport:{width:1024,height:768},hasTouch:true,deviceScaleFactor:1});
+  await context.addInitScript(()=>{Object.defineProperty(navigator,'deviceMemory',{get:()=>undefined});Object.defineProperty(navigator,'connection',{get:()=>undefined});localStorage.setItem('shepherd-quality','minimal');});
+  const page=await context.newPage(),errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push({path:new URL(r.url()).pathname}));
+  await page.goto('http://127.0.0.1:8964/story-lab/'+entry+(tier==='low'?'?diagnostics&quality=low':''));await expect(page.locator('#story-overlay')).toBeVisible();
+  expect(await page.evaluate(()=>shepherdStartup.tier)).toBe(tier);await expect(page.locator('[data-quality]')).toHaveCount(0);
+  await page.locator('#story-skip').tap();await expect(page.locator('#loading')).toBeHidden({timeout:100000});await page.locator('#skip-opening').tap();await expect(page.locator('#advance')).toHaveText('Find a lamp');await rendered(page);
+  const budget=await page.evaluate(async()=> (await import('./src/mobile-rendering.mjs')).renderingBudget());
+  expect(budget.mobile).toBe(tier!=='existing');expect(budget.antialias).toBe(tier==='existing');
+  if(tier==='existing'){
+   expect(requests.some(r=>r.path.endsWith('/assets/shepherd-tripo-v2.glb'))).toBe(true);
+   expect(requests.some(r=>r.path.includes('/quality/'))).toBe(false);
+   await page.setViewportSize({width:360,height:640});expect(await page.evaluate(()=>shepherdStartup.tier)).toBe('existing');await rendered(page);
+  }else expect(assetViolations(requests,tier)).toEqual([]);
+  await capture(page,info,tier+'-entry');expect(errors).toEqual([]);await context.close();
+ }
+});
+
+test('small desktop and desktop-style iPad select before their first image request',async({browser})=>{
+ for(const [userAgent,platform,hasTouch,tier] of [
+  ['Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Version/18.0 Safari/605.1.15','MacIntel',false,'existing'],
+  ['Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0','Linux x86_64',false,'existing'],
+  ['Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Version/18.0 Safari/605.1.15','MacIntel',true,'minimal']
+ ]){
+  // Signal fixtures in Chromium, not claims of actual Safari/Firefox hardware.
+  const context=await browser.newContext({isMobile:false,userAgent,hasTouch,viewport:{width:360,height:640}});
+  await context.addInitScript(({platform,hasTouch})=>{
+   for(const [key,value] of Object.entries({platform,maxTouchPoints:hasTouch?5:0,userAgentData:undefined,deviceMemory:undefined,connection:undefined}))Object.defineProperty(navigator,key,{get:()=>value});
+  },{platform,hasTouch});
+  const page=await context.newPage(),images=[];page.on('request',r=>{if(/\/assets\/.*\.(webp|png|jpg)$/.test(r.url()))images.push(r.url());});
+  await page.goto('http://127.0.0.1:8964/story-lab/'+entry);await expect(page.locator('#story-overlay')).toBeVisible();
+  expect(await page.evaluate(()=>shepherdStartup.tier)).toBe(tier);expect(images.length).toBeGreaterThan(0);
+  expect(images.every(url=>tier==='minimal'?url.includes('/quality/minimal/'):!url.includes('/quality/'))).toBe(true);
+  await context.close();
  }
 });
 
 test('staged later-route check: deferred shelter loads once, renders and reports failure',async({page},info)=>{
- await page.goto(entry+'?quality=minimal&diagnostics');await expect(page.locator('#story-overlay')).toBeVisible();await page.locator('#story-skip').tap();await expect(page.locator('#loading')).toBeHidden({timeout:60000});await page.locator('#skip-opening').tap();
+ await page.goto(entry+'?diagnostics');await expect(page.locator('#story-overlay')).toBeVisible();await page.locator('#story-skip').tap();await expect(page.locator('#loading')).toBeHidden({timeout:60000});await page.locator('#skip-opening').tap();
  expect(await page.evaluate(()=>shepherdStartup.report().resources.some(r=>r.path.includes('square-nativity-stall')))).toBe(false);
  // Explicitly staged via the existing review control, not a claimed full walk.
  await page.evaluate(()=>{document.querySelector('#jump-point').value='8';document.querySelector('#jump').click();});
@@ -103,5 +132,5 @@ test('staged later-route check: deferred shelter loads once, renders and reports
 test('missing small-asset table fails closed without original downloads',async({page})=>{
  const originals=[];page.on('request',request=>{if(/\/assets\/.*\.(glb|gltf|png|jpg)$/.test(request.url())&&!request.url().includes('/quality/'))originals.push(request.url());});
  await page.route('**/src/quality-assets.js',route=>route.abort());
- await page.goto(entry+'?quality=minimal');await expect(page.locator('.loading-retry')).toBeVisible();expect(originals).toEqual([]);await expect(page.locator('#story-overlay')).toBeHidden();
+ await page.goto(entry);await expect(page.locator('.loading-retry')).toBeVisible();expect(originals).toEqual([]);await expect(page.locator('#story-overlay')).toBeHidden();
 });

@@ -32,6 +32,7 @@ async function capture(page,info,name){
 }
 async function opening(page){
  await page.goto(entry);
+ expect(await page.evaluate(()=>shepherdStartup.tier)).toBe('minimal');
  await expect(page.locator('#story-overlay')).toBeVisible();
  await expect(page.locator('#story-scene img:visible').first()).toBeVisible();
  await page.locator('#story-next').tap();

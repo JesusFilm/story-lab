@@ -19,6 +19,10 @@ the source captures and detailed before/after records; `WORKFLOW.md` explains ho
 an agent resumes a feedback session. The former visual companion was retired in
 D028 because it duplicated this record and was not used by the prototype.
 
+Latest loading follow-up: [D046](#d046--f19--i04--i08--r01--automatic-quality).
+PR14 Minimal now has a user-confirmed A50 full playthrough, but not visual acceptance.
+I04/I08/M1 remain partial; this automatic-selection follow-up awaits phone testing.
+
 ## Current direction at a glance
 
 - Keep opening/ending scripture unchanged and text-focused; show exact verse
@@ -826,6 +830,8 @@ alternatives. Link deferred items to their revisit trigger. “Verified” is te
 | 2026-09-18 | D033 / I01 gameplay audio revision | Removed the continuous wind buffer; replaced the robotic oscillator cricket chime with filtered noise chirps; lowered the occasional breeze rustle; replaced the digital button tone with low-volume wood/stone-like taps and a softer assembly variant; retained distance-attenuated sheep near the animal pen and muffled low voices near lit houses. Rehearsal starts the same owner on its first pointer/keyboard gesture. | [Revised audio evidence and limits](evidence/2026-09-18-gameplay-audio/README.md). `node --check`, `verify-journey-audio` including filtered-cricket/proximity assertions, scene checks, full rehearsal/camera checks, CUA reload/toggle/House 8 flow and `git diff --check` passed. | Awaiting user playtest; source scheduling is verified but the mix still needs listening. | Listen for calmness, audibility and distance falloff. Adjust levels/radii if needed; add more regional animal/fire detail only after this pass. Intro handoff/loading remain deferred. |
 | 2026-09-23 | F19 / I04 / R01 | Mobile texture/framebuffer/light budget, first-frame loading gate, renderer/context error recovery and production-build mobile PR matrix. | [Report and validation](../../../../docs/reports/shepherd-adventure-mobile-rendering.md); D044. All 9 mobile CI cases passed; local WebKit 3/3; captures visually inspected. | No physical-device or player-facing acceptance inferred. | [Draft PR #13](https://github.com/JesusFilm/story-lab/pull/13); I04/M1 remain partial. |
 
+| 2026-09-23 | D046 / F19 / I04 / I08 / R01 | Automatic Minimal for phones/tablets, Original for desktops; removed player chooser and persistent overrides. | [Policy, checks and limits](../../../../docs/reports/shepherd-adventure-auto-quality.md). | User completed PR14 Minimal on A50/4 Mbps Wi-Fi; visuals below sharing quality. J061 phone test pending. | I04/I08/M1 remain partial; no merge/deployment or art acceptance. |
+
 For every future completed part, add its item IDs, actual scope, before/after
 evidence, checks/results, limitations, user verdict, commit/PR if any and remaining
 work. Record new decisions/deviations in the table above in the same change as the
@@ -1066,3 +1072,19 @@ Draft PR #14 and the report above retain the final matrix, captures, exact CI
 coverage and failures. Technical validation does not close A50 hardware,
 art/sound acceptance or the separate F08 camera issue.
 Desktop throttling/SwiftShader cannot establish a physical-device performance floor.
+
+### D046 / F19 / I04 / I08 / R01 — automatic quality
+
+23 September 2026. User confirmed a **full playthrough on Samsung A50, 4 Mbps
+Wi-Fi, Smallest download / Minimal** in merged PR14. This supersedes D045's
+pending functional A50 check for that build only, not visual acceptance: the user
+considers its visuals below sharing quality. They request automatic selection
+without a player choice. D046 supersedes D045's persistent quality chooser.
+
+Phones/tablets now select Minimal, desktops Original, before media/models load.
+No RAM/core-based phone promotion; Low remains available through explicit,
+nonpersistent diagnostic URLs. Legacy saved choices are ignored. The scope retains
+PR14's assets, pipeline, deferred preparation, progress, retry and GPU pacing.
+[Policy, verification and limits](../../../../docs/reports/shepherd-adventure-auto-quality.md).
+This follow-up needs a physical-phone playtest. I04/I08/M1 remain partial;
+no visual acceptance, universal compatibility, merge or deployment is implied.
