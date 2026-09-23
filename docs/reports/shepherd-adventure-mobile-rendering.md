@@ -73,7 +73,7 @@ Downloads and geometry are unchanged, and multi-second preparation work remains.
 
 The production portal builds successfully; publication verification passes for
 771 reviewed runtime files at `/`, `/story-lab/` and `/story-lab-demos/`, including
-sensitive-content and dependency checks. Portal Python/Node unit tests pass.
+sensitive-content and dependency checks. Portal unit tests pass: 15 Python tests and 3 Node tests.
 Existing route/camera geometry verification reports zero failures and zero hidden
 player samples in portrait and landscape; lamp-assembly and story-sequence checks
 also pass. Generated historical review snapshots were restored after those tests.
@@ -87,11 +87,41 @@ texture-upload dimensions, screenshots and failure traces are retained in CI.
 The existing pull-request workflow now installs pinned Chromium/WebKit and runs
 this suite, uploading artifacts even on failure.
 
-The intermediate 1024 px build passed all three WebKit cases locally, including
-the clear-only negative control. Android portrait and WebKit CI jobs also passed;
-the final 512 px budget is being revalidated. Final artifact links follow below.
+Final rendering revision **`31d36ae`** passed all **9 mobile CI cases** in
+[run 35828071550](https://github.com/JesusFilm/story-lab/actions/runs/35828071550).
+Each target passed touch lamp acquisition with rotation/context reload, required
+model failure/reload, and the clear-only negative control:
 
-Draft PR: [#13](https://github.com/JesusFilm/story-lab/pull/13).
+| Target | CSS viewport / DPR | Result |
+| --- | --- | --- |
+| Chromium Android-like portrait | 393 × 851 / 3, then rotated | 3/3 pass |
+| Chromium Android-like landscape | 851 × 393 / 4, then rotated | 3/3 pass |
+| Linux WebKit iPhone emulation | 390 × 664 / 3, then rotated; reduced motion | 3/3 pass |
+
+Playwright 1.55.0 pins Chromium 140.0.7339.16 and WebKit. The final WebKit suite
+also passed locally in the Noble container (3/3, 5.1 minutes). All CI artifacts
+were downloaded and checked: healthy browser logs are empty and every case's
+maximum observed texture upload dimension is 512. These durations include browser
+instrumentation and are not performance benchmarks. Mobile traversal ends at lamp
+acquisition; the complete later route is not claimed as mobile-playtested.
+
+[Persistent captures and evidence](../../prototypes/shepherd-adventure/docs/playtest-roadmap/evidence/2026-09-23-mobile/README.md)
+include visually inspected portrait/landscape village views, lamp acquisition and
+the context-loss overlay. [Machine-readable CI results](../../prototypes/shepherd-adventure/docs/playtest-roadmap/evidence/2026-09-23-mobile/verification.json)
+record all nine outcomes and pixel/upload samples. The original phone screenshot
+is excluded.
+
+The CI run publishes `shepherd-adventure-android-portrait-dpr3`,
+`shepherd-adventure-android-landscape-dpr4` and `shepherd-adventure-webkit-iphone`
+(14-day retention). They contain the HTML report, screenshots, logs and state;
+failed cases retain traces and failure screenshots. Local artifacts remain at
+`projects/portal/playwright-report/index.html` (WebKit) and
+`projects/portal/test-results/ci-{android-portrait,android-landscape,webkit}/`
+(downloaded CI reports). Final documentation/capture commits do not change the
+validated runtime or test suite.
+
+Draft PR: [#13](https://github.com/JesusFilm/story-lab/pull/13), created using the
+confirmed `jaco-brink` account. No merge or deployment was performed.
 
 ## Remaining physical-device uncertainty
 
