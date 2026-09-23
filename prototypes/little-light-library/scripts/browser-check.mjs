@@ -105,9 +105,43 @@ try {
           `44px target ${JSON.stringify(control)}`,
         );
         assert.ok(control.y + control.height <= size.height, "reachable next");
-        await page.locator("#next").click();
+        if (i < 7) {
+          await page.locator("#next").click();
+        } else {
+          assert.equal(await page.locator("#next").isDisabled(), true);
+          assert.equal(
+            await page.locator("#next .transport-label").textContent(),
+            "Next",
+          );
+          const lastPage = (await page.evaluate(() => window.libraryDebug()))
+            .state.page;
+          await page.locator("#next").evaluate((button) => button.click());
+          assert.equal(
+            (await page.evaluate(() => window.libraryDebug())).state.page,
+            lastPage,
+            "disabled Next cannot navigate past the last page",
+          );
+          await page.locator("#play").focus();
+          const playingBeforeKey = (
+            await page.evaluate(() => window.libraryDebug())
+          ).playing;
+          await page.keyboard.press("Enter");
+          await page.waitForFunction(
+            (playing) => window.libraryDebug().playing !== playing,
+            playingBeforeKey,
+          );
+          const playingAfterKey = (
+            await page.evaluate(() => window.libraryDebug())
+          ).playing;
+          await page.keyboard.press("Enter");
+          await page.waitForFunction(
+            (playing) => window.libraryDebug().playing !== playing,
+            playingAfterKey,
+          );
+        }
       }
-      await page.waitForSelector('[data-book="eden"]');
+      await page.locator("#shelf").click();
+      await page.waitForSelector(`[data-shelf-key="builtin:${book}"]`);
     }
     for (const name of ["adam", "eve", "noah"]) {
       await page.locator(`[data-character="${name}"]`).click();
@@ -158,11 +192,44 @@ try {
     assert.equal(d.playing, false);
     assert.equal(d.position, 0);
     assert.equal(await page.locator("html").getAttribute("lang"), locale);
+    const ui = JSON.parse(
+      fs.readFileSync(path.join("public/content", `${locale}.json`), "utf8"),
+    ).ui;
+    assert.deepEqual(
+      await page.locator(".reader-controls .transport-label").allTextContents(),
+      [ui.previous, ui.play, ui.next],
+      `${locale} transport labels are localized and visible`,
+    );
+    assert.equal(await page.locator(".reader-controls button").count(), 3);
+    assert.equal(await page.locator("#replay").count(), 0);
+    assert.equal(await page.locator(".reader h1").count(), 1);
+    assert.equal(await page.locator(".story-text").count(), 1);
+    assert.equal(await page.locator(".reader-meta").count(), 1);
+    assert.equal(await page.locator(".reader-footer small").count(), 0);
+    assert.equal(
+      await page
+        .locator(".book-note, .book-context, .reader-book-language")
+        .count(),
+      0,
+    );
+    assert.equal(await page.locator("#language").count(), 1);
+    const initialWidths = await page
+      .locator(".reader-controls button")
+      .evaluateAll((buttons) =>
+        buttons.map((button) => button.getBoundingClientRect().width),
+      );
+    assert.ok(Math.max(...initialWidths) - Math.min(...initialWidths) < 1);
+    const labelWeights = await page
+      .locator(".transport-label, .transport-icon")
+      .evaluateAll((items) =>
+        items.map((item) => Number(getComputedStyle(item).fontWeight)),
+      );
+    assert.ok(labelWeights.every((weight) => weight >= 700));
     for (const speed of [0.75, 1, 1.25, 1.5]) {
       await page.locator("#settings").click();
       await page.locator("#speed").selectOption(String(speed));
       await page.locator("#settings-close").click();
-      await page.locator("#replay").click();
+      await page.locator("#play").click();
       await page.waitForTimeout(150);
       d = await page.evaluate(() => window.libraryDebug());
       assert.equal(d.speed, speed);
@@ -178,7 +245,7 @@ try {
     }
   }
   check(
-    "All nine locales exercised, page preserved, reset paused, all four rates replay and pause",
+    "All nine locales show localized equal transport controls and support play/pause at all four rates",
   );
   await page.locator("#settings").click();
   await page.locator("#audio").uncheck();
@@ -186,7 +253,7 @@ try {
   await page.locator("#volume").press("Home");
   for (let i = 0; i < 7; i++) await page.locator("#volume").press("ArrowRight");
   await page.locator("#settings-close").click();
-  await page.locator("#replay").click();
+  await page.locator("#play").click();
   const before = (await page.evaluate(() => window.libraryDebug())).position;
   await page.waitForTimeout(250);
   assert.ok(

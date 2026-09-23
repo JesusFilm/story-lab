@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import * as THREE from "three";
-import { AuthoredStage, authoredRockAngle } from "../src/authored-stage";
+import {
+  AuthoredStage,
+  authoredCharacterEntrance,
+  authoredRockAngle,
+} from "../src/authored-stage";
 import type { AuthoredBook, BookMotion } from "../src/authored-book";
 
 const motion: BookMotion = {
@@ -104,17 +108,35 @@ const bookWith = (elementMotion: BookMotion): AuthoredBook => ({
   ],
 });
 
-async function makeStage(elementMotion: BookMotion) {
+async function makeStage(
+  elementMotion: BookMotion,
+  options: {
+    actorTexture?: THREE.Texture;
+    anchor?: "bottom" | "center";
+    elevation?: number;
+    flipY?: boolean;
+    rotation?: number;
+  } = {},
+) {
   const calls: string[] = [];
   const loader = {
     async loadAsync(src: string) {
       calls.push(src);
-      const texture = new THREE.Texture();
+      const texture =
+        src.endsWith("actor.webp") && options.actorTexture
+          ? options.actorTexture
+          : new THREE.Texture();
       texture.name = src;
       return texture;
     },
   } as unknown as THREE.TextureLoader;
   const book = bookWith(elementMotion);
+  const placement = book.spreads[0].elements[0].placement;
+  if (options.anchor) placement.anchor = options.anchor;
+  if (options.elevation !== undefined) placement.elevation = options.elevation;
+  if (options.flipY !== undefined)
+    book.spreads[0].elements[0].flipY = options.flipY;
+  if (options.rotation !== undefined) placement.rotation = options.rotation;
   const stage = await AuthoredStage.create(
     book,
     book.spreads[0],
@@ -315,4 +337,94 @@ test("flips preserve atlas selection, placement and shared cover orientation", a
   assert.deepEqual(stage.coverTexture.repeat.toArray(), [1, 1]);
   assert.deepEqual(stage.coverTexture.offset.toArray(), [0, 0]);
   stage.dispose();
+});
+
+test("character page entrances rise gently, finish, and respect reduced motion", () => {
+  const start = authoredCharacterEntrance(0);
+  const middle = authoredCharacterEntrance(0.16);
+  const settled = authoredCharacterEntrance(0.32);
+
+  assert.equal(start.opacity, 0);
+  assert.ok(start.scale < middle.scale && middle.scale < settled.scale);
+  assert.deepEqual(settled, { opacity: 1, scale: 1 });
+  assert.deepEqual(authoredCharacterEntrance(0, true), {
+    opacity: 1,
+    scale: 1,
+  });
+});
+
+function alphaTexture(
+  padding: { top: number; bottom: number } = { top: 0, bottom: 0 },
+) {
+  const width = 4;
+  const height = 4;
+  const pixels = new Uint8Array(width * height * 4);
+  for (let y = padding.top; y < height - padding.bottom; y++)
+    for (let x = 0; x < width; x++) pixels[(y * width + x) * 4 + 3] = 255;
+  const texture = new THREE.DataTexture(
+    pixels,
+    width,
+    height,
+    THREE.RGBAFormat,
+  );
+  // This test data is laid out like a decoded image: first row is the top.
+  texture.flipY = true;
+  return texture;
+}
+
+test("bottom anchor compensates transparent PNG padding after the page unfolds", async () => {
+  const texture = alphaTexture({ top: 0, bottom: 1 });
+  const { stage } = await makeStage(motion, {
+    actorTexture: texture,
+    elevation: 0.18,
+    rotation: 0,
+  });
+
+  const mesh = stage.root.getObjectByName(
+    "authored-element-actor",
+  ) as THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>;
+  const pivot = mesh.parent!;
+  const stand = pivot.parent!;
+  stand.rotation.x = Math.PI / 2;
+  stage.root.updateMatrixWorld(true);
+  const visibleBottomPadding = 0.25;
+  const visibleBottom = mesh.localToWorld(
+    new THREE.Vector3(
+      0,
+      -mesh.geometry.parameters.height / 2 +
+        visibleBottomPadding * mesh.geometry.parameters.height,
+      0,
+    ),
+  );
+  const anchor = pivot.localToWorld(new THREE.Vector3());
+  const standOrigin = stand.localToWorld(new THREE.Vector3());
+  closeTo(visibleBottom.distanceTo(anchor), 0);
+  closeTo(anchor.z - standOrigin.z, 0.18);
+  closeTo(anchor.y - standOrigin.y, 0);
+  closeTo(stage.debug().elements[0].meshPosition[1], 0.375);
+  stage.dispose();
+});
+
+test("opaque art and center anchors ignore alpha padding; flipped art uses its top edge", async () => {
+  const opaque = alphaTexture();
+  const bottom = await makeStage(motion, { actorTexture: opaque });
+  closeTo(bottom.stage.debug().elements[0].meshPosition[1], 1.5 / 2);
+  bottom.stage.dispose();
+
+  const padded = alphaTexture({ top: 0, bottom: 1 });
+  const centered = await makeStage(motion, {
+    actorTexture: padded,
+    anchor: "center",
+  });
+  closeTo(centered.stage.debug().elements[0].meshPosition[1], 0);
+  centered.stage.dispose();
+
+  const flipped = alphaTexture({ top: 1, bottom: 0 });
+  const flippedStage = await makeStage(motion, {
+    actorTexture: flipped,
+    flipY: true,
+    rotation: 0,
+  });
+  closeTo(flippedStage.stage.debug().elements[0].meshPosition[1], 0.375);
+  flippedStage.stage.dispose();
 });

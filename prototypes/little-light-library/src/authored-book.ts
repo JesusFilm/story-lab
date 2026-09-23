@@ -4,6 +4,12 @@ export interface BookAsset {
   src: string;
   attribution: string;
 }
+/** Stable physical cover identity shared by every view of a book. */
+export interface BookAppearance {
+  coverColor: string;
+  spineColor: string;
+  accentColor: string;
+}
 export interface BookPlacement {
   x: number;
   depth: number;
@@ -127,6 +133,8 @@ export interface AuthoredBook {
   source: string;
   retellingNote: string;
   cover: string;
+  /** Optional for old v1 documents; new books should choose an explicit palette. */
+  appearance?: BookAppearance;
   assets: Record<string, BookAsset>;
   spreads: BookSpread[];
   /** Requested release languages, including the source locale. Defaults to [locale]. */

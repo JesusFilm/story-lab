@@ -39,4 +39,4 @@ Runtime review must include small/intermediate windows, not only a wide screensh
 
 ## Printed stage surfaces
 
-[Garden ground](../../assets/textures/little-light-garden-floor/README.md) connects a garden backcloth to planted characters with quiet earthy detail and restrained foliage. Print on the horizontal paper while preserving cream margins, the gutter, ribbon and readable cast shadows. It must still look like a crafted book, not an opaque terrain slab. Keep characters dominant and do not carry lush garden staging into exile or flood scenes.
+[Garden ground](../../assets/textures/little-light-garden-floor/README.md) connects a garden backcloth to planted characters with quiet earthy detail and restrained foliage. Print on the horizontal paper while preserving cream margins, the gutter and readable cast shadows. It must still look like a crafted book, not an opaque terrain slab. Keep characters dominant and do not carry lush garden staging into exile or flood scenes.

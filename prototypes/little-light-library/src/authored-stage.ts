@@ -37,8 +37,10 @@ type RuntimeElement = {
   definition: BookElement;
   popup: THREE.Group;
   pivot: THREE.Group;
+  mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>;
   material: THREE.MeshStandardMaterial;
   baseRotation: number;
+  entranceIndex: number;
   interactionStarted?: number;
 };
 
@@ -66,6 +68,103 @@ const makeMaterial = (texture: THREE.Texture, opacity = 1) =>
     emissive: 0x9d642b,
     emissiveIntensity: 0,
   });
+
+const transparentVerticalFractions = new WeakMap<
+  THREE.Texture,
+  { top: number; bottom: number }
+>();
+
+/** Return the alpha padding on either vertical edge of a local image texture. */
+function transparentVerticalPaddingFraction(
+  texture: THREE.Texture,
+  useTopEdge: boolean,
+) {
+  const cached = transparentVerticalFractions.get(texture);
+  if (cached) return useTopEdge ? cached.top : cached.bottom;
+
+  const image = texture.image as CanvasImageSource & {
+    data?: ArrayLike<number>;
+    height?: number;
+    naturalHeight?: number;
+    naturalWidth?: number;
+    videoHeight?: number;
+    videoWidth?: number;
+    width?: number;
+  };
+  const width = Number(
+    image?.naturalWidth ?? image?.videoWidth ?? image?.width,
+  );
+  const height = Number(
+    image?.naturalHeight ?? image?.videoHeight ?? image?.height,
+  );
+  if (!(width > 0 && height > 0)) return 0;
+
+  try {
+    let pixels: ArrayLike<number> | undefined;
+    if (image.data && image.data.length >= width * height * 4) {
+      pixels = image.data;
+    } else if (typeof document !== "undefined") {
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext("2d");
+      if (context) {
+        context.drawImage(image, 0, 0, width, height);
+        pixels = context.getImageData(0, 0, width, height).data;
+      }
+    }
+    if (!pixels) return 0;
+
+    const left = THREE.MathUtils.clamp(
+      Math.floor(texture.offset.x * width),
+      0,
+      width - 1,
+    );
+    const right = THREE.MathUtils.clamp(
+      Math.ceil((texture.offset.x + texture.repeat.x) * width),
+      left + 1,
+      width,
+    );
+    const top = THREE.MathUtils.clamp(
+      Math.floor((1 - texture.offset.y - texture.repeat.y) * height),
+      0,
+      height - 1,
+    );
+    const bottom = THREE.MathUtils.clamp(
+      Math.ceil((1 - texture.offset.y) * height),
+      top + 1,
+      height,
+    );
+    let firstVisibleRow = bottom;
+    let lastVisibleRow = -1;
+    for (let y = top; y < bottom; y++) {
+      const pixelRow = texture.flipY ? y : height - 1 - y;
+      for (let x = left; x < right; x++) {
+        if (pixels[(pixelRow * width + x) * 4 + 3] > 32) {
+          firstVisibleRow = Math.min(firstVisibleRow, y);
+          lastVisibleRow = Math.max(lastVisibleRow, y);
+        }
+      }
+    }
+    if (lastVisibleRow < 0) return 0;
+
+    const imageHeight = bottom - top;
+    const padding = {
+      top: THREE.MathUtils.clamp((firstVisibleRow - top) / imageHeight, 0, 1),
+      bottom: THREE.MathUtils.clamp(
+        (bottom - 1 - lastVisibleRow) / imageHeight,
+        0,
+        1,
+      ),
+    };
+    transparentVerticalFractions.set(texture, padding);
+    return useTopEdge ? padding.top : padding.bottom;
+  } catch {
+    // Mock textures, tainted canvases, and unsupported image sources keep the
+    // existing edge anchor, so failed alpha inspection never blocks a page.
+    return 0;
+  }
+}
 
 function selectAtlasPose(
   texture: THREE.Texture,
@@ -138,6 +237,25 @@ const disposeDetached = (root: THREE.Object3D, textures: THREE.Texture[]) => {
 
 export function authoredRockAngle(motion: BookMotion, elapsed: number) {
   return authoredMotionTransform(motion, elapsed).rotation;
+}
+
+export interface CharacterEntrance {
+  opacity: number;
+  scale: number;
+}
+
+/** A quiet, short rise used when new paper characters unfold on a spread. */
+export function authoredCharacterEntrance(
+  elapsed: number,
+  reducedMotion = false,
+): CharacterEntrance {
+  if (reducedMotion) return { opacity: 1, scale: 1 };
+  const progress = THREE.MathUtils.clamp(elapsed / 0.32, 0, 1);
+  const eased = 1 - (1 - progress) ** 3;
+  return {
+    opacity: eased,
+    scale: 0.985 + 0.015 * eased,
+  };
 }
 
 /** Flip artwork inside its rectangle, leaving placement and atlas selection unchanged. */
@@ -266,6 +384,16 @@ export class AuthoredStage {
             definition.pose.columns,
           );
         const material = makeMaterial(texture);
+        const entranceIndex =
+          definition.kind === "actor"
+            ? elements.filter(
+                ({ definition: previous }) => previous.kind === "actor",
+              ).length
+            : -1;
+        if (entranceIndex >= 0) {
+          material.transparent = true;
+          material.depthWrite = false;
+        }
         const mesh = new THREE.Mesh(
           new THREE.PlaneGeometry(
             definition.placement.width,
@@ -287,15 +415,22 @@ export class AuthoredStage {
         mesh.position.y =
           definition.placement.anchor === "center"
             ? 0
-            : definition.placement.height / 2;
+            : definition.placement.height / 2 -
+              transparentVerticalPaddingFraction(
+                texture,
+                definition.flipY ?? false,
+              ) *
+                definition.placement.height;
         pivot.add(mesh);
         stand.add(pivot);
         elements.push({
           definition,
           popup: stand,
           pivot,
+          mesh,
           material,
           baseRotation: pivot.rotation.z,
+          entranceIndex,
         });
       }
       if (!stillCurrent()) throw new Error("authored-stage-superseded");
@@ -360,6 +495,10 @@ export class AuthoredStage {
       element.pivot.scale.set(1, 1, 1);
       element.pivot.rotation.z = element.baseRotation;
       element.pivot.userData.authoredRocking = 0;
+      if (element.entranceIndex >= 0) {
+        element.material.opacity = 1;
+        element.mesh.scale.set(1, 1, 1);
+      }
     }
   }
 
@@ -374,7 +513,7 @@ export class AuthoredStage {
     const now = performance.now() / 1000;
     if (!folded && this.openedAt === undefined) this.openedAt = now;
     for (const element of this.elements) {
-      const { definition, pivot, material, baseRotation } = element;
+      const { definition, pivot, mesh, material, baseRotation } = element;
       const interactionAge =
         element.interactionStarted === undefined
           ? Infinity
@@ -396,6 +535,19 @@ export class AuthoredStage {
       const transform = motion
         ? authoredMotionTransform(motion, elapsed)
         : { rotation: 0, x: 0, y: 0, scale: 1 };
+      const entrance =
+        element.entranceIndex >= 0
+          ? authoredCharacterEntrance(
+              folded || this.openedAt === undefined
+                ? 0.32
+                : now - this.openedAt - element.entranceIndex * 0.09,
+              reduced,
+            )
+          : { opacity: 1, scale: 1 };
+      if (element.entranceIndex >= 0) {
+        material.opacity = entrance.opacity;
+        mesh.scale.set(entrance.scale, entrance.scale, 1);
+      }
       pivot.rotation.z = baseRotation + transform.rotation;
       pivot.position.set(
         transform.x * definition.placement.width,

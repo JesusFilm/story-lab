@@ -10,6 +10,11 @@ The two inner shelves hold **15 spine-facing books each (30 total)**. Each
 occupied shelf with fewer than 13 books has a book stop; shelves with 13–15 books
 do not. Book-specific toys stand on top of the cabinet, separate from book slots.
 
+Each book's appearance palette sets its cover cloth, spine and trim. The shelf
+preview and physical book share one generated cover texture, so its artwork,
+title and colors travel with it from the shelf to the table and stay attached
+while the book is open.
+
 ## Reading and transfers
 
 On each fresh page visit, a small pointing hand invites the visitor to select a
@@ -27,7 +32,8 @@ has opened. Cards then rotate upward on their hinges, retaining their proportion
 The folded stage is fitted to the page bounds on initial opening and page turns.
 Cards fold down before the next page turns.
 Narration waits for a fully unfolded rendered frame before starting, including
-autoplay, manual Play and Replay. Leaving the page cancels a pending start.
+autoplay and manual Play/Pause. Play starts the current page again after its
+narration ends. Leaving the page cancels a pending start.
 Any visible reverse uses the page's warm paper color.
 
 Select a titled spine with pointer or keyboard controls. It slides clear of the
@@ -61,14 +67,12 @@ Reduced motion uses static feedback. Toys are painted standees, not inferred
 sculpted models or anatomical rigs.
 
 Edit toys in the book file and preview from its shelf entry. They appear only
-for the current table book, including its closed state in Library. Jonah
-currently has no toy definitions; this is preserved content, not a
-catalog loading error. Eden's compatibility toys are Adam, Eve and a tree;
-Noah's are Noah, the ark and a dove.
-
-TODO: finish and review Jonah's bookend treatment alongside its cover/spine and
-toys. Existing shared shelf book stops are not a sign-off on this book-specific
-presentation work; track it in the [Jonah roadmap](feature-roadmap.md#jonah-and-the-whale).
+for the current table book, including its closed state in Library. A book without
+toy definitions simply leaves this optional cabinet display empty. Eden's
+compatibility toys are Adam, Eve and a tree; Noah's are Noah, the ark and a dove.
+See the [Jonah index](books/jonah-and-the-whale.md) for its current character and
+stage assets. The shared shelf book-stop behavior is part of shelf capacity,
+independent of any book-specific decoration.
 
 Generic toy labels currently remain in the source language. Optional audio obeys
 reader mute/volume and stops on book changes or tab hiding. Keep referenced art

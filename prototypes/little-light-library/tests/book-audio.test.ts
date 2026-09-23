@@ -181,19 +181,23 @@ type FakeParameter = {
   linearRampToValueAtTime(value: number, time: number): void;
 };
 
-function fakeContext(durations = [2, 3, 4]) {
+function fakeContext(durations = [2, 3, 4, 5]) {
+  let currentTime = 0;
   const sources: Array<{
     buffer?: { duration: number };
     loop: boolean;
     playbackRate: { value: number };
     stopped: boolean;
+    stopCalls: Array<number | undefined>;
+    onended?: (() => void) | null;
+    disconnected: boolean;
     when?: number;
     offset?: number;
     duration?: number;
     connect(node: unknown): unknown;
     disconnect(): void;
-    stop(): void;
-    start(when: number, offset: number, duration: number): void;
+    stop(when?: number): void;
+    start(when: number, offset: number, duration?: number): void;
   }> = [];
   const gains: Array<{
     gain: FakeParameter;
@@ -215,7 +219,12 @@ function fakeContext(durations = [2, 3, 4]) {
     },
   });
   const context = {
-    currentTime: 0,
+    get currentTime() {
+      return currentTime;
+    },
+    set currentTime(value: number) {
+      currentTime = value;
+    },
     destination: {},
     resume: async () => {},
     createGain() {
@@ -232,12 +241,18 @@ function fakeContext(durations = [2, 3, 4]) {
         loop: false,
         playbackRate: { value: 1 },
         stopped: false,
+        stopCalls: [] as Array<number | undefined>,
+        onended: null as (() => void) | null,
+        disconnected: false,
         connect: (node: unknown) => node,
-        disconnect() {},
-        stop() {
-          this.stopped = true;
+        disconnect() {
+          this.disconnected = true;
         },
-        start(when: number, offset: number, duration: number) {
+        stop(when?: number) {
+          this.stopCalls.push(when);
+          if (when === undefined || when <= currentTime) this.stopped = true;
+        },
+        start(when: number, offset: number, duration?: number) {
           Object.assign(this, { when, offset, duration });
         },
       };
@@ -245,7 +260,7 @@ function fakeContext(durations = [2, 3, 4]) {
       return source;
     },
     async decodeAudioData() {
-      return { duration: durations[decodeIndex++] };
+      return { duration: durations[decodeIndex++] ?? 4 };
     },
   };
   return { context, sources, gains };
@@ -296,7 +311,7 @@ test("player loads serial assets and schedules bounded clips with fades and mast
     })),
     [
       { when: 0, offset: 0.5, duration: 1.5, loop: false, rate: 1 },
-      { when: 0.5, offset: 0, duration: 1, loop: false, rate: 1 },
+      { when: 0.5, offset: 0, duration: 4, loop: false, rate: 1 },
     ],
   );
   const soundtrackGain = fake.gains[2].gain.events;
@@ -322,14 +337,261 @@ test("resume midway through a fade, seek and speed reschedule from content time"
   fake.context.currentTime = 0.5;
   assert.equal(player.position, 2);
   player.speed(2);
-  assert.ok(fake.sources.slice(0, 3).every((source) => source.stopped));
-  assert.equal(fake.sources[4].offset, 1);
-  assert.equal(fake.sources[4].playbackRate.value, 2);
-  assert.equal(fake.sources[4].duration, 1.5);
+  assert.ok(fake.sources[0].stopped && fake.sources[1].stopped);
+  assert.equal(soundtrack.playbackRate.value, 2);
+  const remainingCue = fake.sources.find(
+    (source) => source.offset === 0 && source.when === 3.5,
+  );
+  assert.ok(
+    remainingCue,
+    "the next narration cue is scheduled at the new rate",
+  );
+  assert.equal(remainingCue.duration, 3);
+  assert.equal(
+    remainingCue.playbackRate.value,
+    2,
+    "the full three-second buffer cue plays at double speed instead of being truncated",
+  );
   player.seek(4);
   assert.equal(player.position, 4);
   player.pause();
   assert.equal(player.playing, false);
+});
+
+test("Play restarts the current page after its authored timeline ends", async () => {
+  const fixture = book();
+  fixture.soundtracks = [];
+  const fake = fakeContext([2, 3]);
+  const player = new BookAudio(fake.context as unknown as AudioContext);
+  await withFetch(async () => {
+    assert.equal(await player.load(fixture), true);
+  });
+  const page = player.timeline.pages[0];
+  player.setPageRange(page.start, page.end, false);
+  await player.play();
+
+  fake.context.currentTime = page.end;
+  assert.equal(player.playing, false);
+  await player.play();
+  assert.equal(player.position, page.start);
+  assert.equal(player.playing, true);
+  player.pause();
+  player.dispose();
+});
+
+test("looping beds outlive a page clock and keep the same source across covered pages", async () => {
+  const fixture = book();
+  fixture.spreads.push({
+    ...fixture.spreads[1],
+    id: "three",
+    title: "Three",
+  });
+  fixture.soundtracks![0].loop = true;
+  fixture.soundtracks![0].endPage = "three";
+  fixture.soundtracks![0].endOffset = 0;
+  const fake = fakeContext();
+  const player = new BookAudio(fake.context as unknown as AudioContext);
+  await withFetch(async () => {
+    assert.equal(await player.load(fixture), true);
+    const [first, second, third] = player.timeline.pages;
+    player.setPageRange(first.start, first.end, false);
+    await player.play();
+
+    const bed = fake.sources.find((source) => source.loop)!;
+    assert.ok(bed, "the authored bed starts on its first page");
+    assert.equal(
+      bed.duration,
+      undefined,
+      "a loop has no nominal wall-time stop",
+    );
+    fake.context.currentTime = 40;
+    assert.equal(player.position, first.end);
+    assert.equal(
+      player.playing,
+      true,
+      "the bed remains audible after page time ends",
+    );
+    assert.equal(bed.stopped, false);
+
+    player.preparePageTurn();
+    player.setPageRange(second.start, second.end, true);
+    await player.play();
+    assert.equal(fake.sources.filter((source) => source.loop).length, 1);
+    assert.equal(
+      fake.sources.find((source) => source.loop),
+      bed,
+    );
+    fake.context.currentTime = 100;
+    assert.equal(
+      player.playing,
+      true,
+      "the bed follows the authored range, not elapsed page seconds",
+    );
+
+    player.preparePageTurn();
+    player.setPageRange(third.start, third.end, true);
+    await player.play();
+    fake.context.currentTime = 200;
+    assert.equal(
+      player.playing,
+      true,
+      "a zero-offset loop stays audible while a child lingers on its final included page",
+    );
+    assert.equal(
+      fake.sources.find((source) => source.loop),
+      bed,
+    );
+
+    player.pause();
+    assert.equal(bed.stopped, true, "explicit pause stops the retained bed");
+    assert.equal(player.playing, false);
+  });
+});
+
+test("a looping bed fades at its trimmed end on the final included page and revives on a back turn", async () => {
+  const fixture = book();
+  fixture.soundtracks![0].loop = true;
+  fixture.soundtracks![0].endOffset = 1;
+  fixture.soundtracks![0].fadeOut = 0.6;
+  const fake = fakeContext();
+  const player = new BookAudio(fake.context as unknown as AudioContext);
+  await withFetch(async () => {
+    assert.equal(await player.load(fixture), true);
+    const [first, last] = player.timeline.pages;
+    const bedClip = player.timeline.clips.find((clip) => clip.id === "theme")!;
+    player.setPageRange(first.start, first.end, false);
+    await player.play();
+    const bed = fake.sources.find((source) => source.loop)!;
+    assert.equal(
+      bed.stopCalls.length,
+      0,
+      "the final-page fade is not scheduled on an earlier included page",
+    );
+
+    player.preparePageTurn();
+    player.setPageRange(last.start, last.end, true);
+    await player.play();
+    const endAt = fake.context.currentTime + (bedClip.end - last.start);
+    assert.ok(
+      fake.gains[2].gain.events.some(
+        ([kind, time, value]) =>
+          kind === "ramp" && Math.abs(time - endAt) < 1e-8 && value === 0,
+      ),
+      "the looping bed fades to silence at its endOffset within the last page",
+    );
+    assert.equal(
+      bed.stopCalls.length,
+      0,
+      "the loop is stopped after its audio-clock fade",
+    );
+
+    fake.context.currentTime = endAt - 0.2;
+    player.preparePageTurn();
+    player.setPageRange(first.start, first.end, true);
+    await player.play();
+    assert.equal(
+      fake.sources.filter((source) => source.loop).length,
+      1,
+      "turning back before the endpoint retains the same loop source",
+    );
+    assert.ok(
+      fake.gains[2].gain.events.some(
+        ([kind, time]) => kind === "ramp" && time > fake.context.currentTime,
+      ),
+      "the fading bed recovers smoothly when leaving its final page",
+    );
+    player.pause();
+  });
+});
+
+test("changed beds crossfade, rapid return remains stoppable, and pause releases every source", async () => {
+  const fixture = book();
+  fixture.assets.newMusic = {
+    kind: "audio",
+    src: "audio/new-music.mp3",
+    attribution: "Test",
+  };
+  fixture.soundtracks = [
+    {
+      ...fixture.soundtracks![0],
+      id: "first-bed",
+      startPage: "one",
+      endPage: "one",
+      startOffset: 0,
+      endOffset: 0,
+      fadeIn: 0,
+      fadeOut: 0.8,
+      loop: true,
+    },
+    {
+      ...fixture.soundtracks![0],
+      id: "second-bed",
+      label: "Second bed",
+      asset: "newMusic",
+      volume: 0.3,
+      startPage: "two",
+      endPage: "two",
+      startOffset: 0,
+      endOffset: 0,
+      fadeIn: 0,
+      fadeOut: 0.5,
+      loop: true,
+    },
+  ];
+  const fake = fakeContext([2, 3, 4, 5]);
+  const player = new BookAudio(fake.context as unknown as AudioContext);
+  await withFetch(async () => {
+    assert.equal(await player.load(fixture), true);
+    const [first, second] = player.timeline.pages;
+    player.setPageRange(first.start, first.end, false);
+    await player.play();
+    const firstBed = fake.sources.find((source) => source.loop)!;
+    fake.context.currentTime = 0.4;
+
+    player.preparePageTurn();
+    player.setPageRange(second.start, second.end, true);
+    assert.ok(
+      firstBed.stopCalls.some(
+        (when) => when !== undefined && Math.abs(when - 1.2) < 1e-8,
+      ),
+      "the outgoing bed fades to silence",
+    );
+    assert.equal(
+      firstBed.stopped,
+      false,
+      "a scheduled crossfade keeps the outgoing source alive until its fade ends",
+    );
+    await player.play();
+    const secondBed = fake.sources.find(
+      (source) => source.loop && source.buffer?.duration === 5,
+    )!;
+    assert.ok(secondBed, "the next bed begins on its authored page");
+    const secondGain = fake.gains.at(-1)!.gain.events;
+    assert.ok(
+      secondGain.some(
+        ([kind, time, value]) =>
+          kind === "ramp" && time === 0.75 && value === 0.3,
+      ),
+      "a new layer fades in even when its authored fade is zero",
+    );
+
+    player.preparePageTurn();
+    player.setPageRange(first.start, first.end, true);
+    await player.play();
+    const returnedBed = fake.sources.filter((source) => source.loop).at(-1)!;
+    assert.notEqual(
+      returnedBed,
+      firstBed,
+      "rapid return starts a fresh non-retiring source",
+    );
+    player.pause();
+    assert.ok(fake.sources.every((source) => source.stopped));
+    assert.ok(
+      firstBed.stopCalls.includes(undefined),
+      "Pause force-stops a source even when it is already retiring",
+    );
+    assert.equal(player.playing, false);
+  });
 });
 
 test("pause and stop invalidate late resume and load completions", async () => {

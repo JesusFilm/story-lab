@@ -2,8 +2,8 @@
 
 This documents the committed-book reader after editor retirement. It describes
 implemented runtime responsibilities and the retained legacy exception. Proposed
-showcase content and optional capabilities are separately labeled in
-[Future Feature work](feature-roadmap.md). For commands, use the
+showcase content and optional capabilities are separately labeled in the
+[feature roadmap](feature-roadmap.md). For commands, use the
 [creator guide](creator-guide.md); for checks actually executed and unresolved
 integration issues, use the main [implementation handoff](authoring-handoff.md).
 
@@ -50,7 +50,7 @@ IDs identify content. Do not write browser database keys into book definitions.
 | Book path     | Authoritative content                                                                                                | Why it remains                                                                                                      |
 | ------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | Eden and Noah | `public/content/<locale>.json`, `public/audio-manifest.json`, referenced media and existing stage direction/rig code | Preserves the existing eight-spread stories, nine locales, specialized motion and recordings without rewriting them |
-| Jonah         | `public/books/jonah-and-the-whale.book.json` plus its registered media                                               | Preserves the creator's three-spread draft; no narration has been supplied                                          |
+| Jonah         | `public/books/jonah-and-the-whale.book.json` plus its registered media                                               | Thirteen authored spreads use the generic contract; all nine locale editions are listed in the generated book index |
 
 The JSON book is the authoritative description of its spreads, text, placement,
 motion and media references. Its files are authoritative media bytes. Legacy
@@ -96,11 +96,12 @@ Narration or BookNarration → measured clock → highlight and motion
    motion. Missing/stale JSON narration leaves readable text and interactions,
    with a warning; it is not silently replaced by another phrase or language.
 
-The interface language and a JSON book's content language are separate. When a
-valid requested translation exists, it is resolved by stable IDs. If the selected
-UI language is unavailable or stale when opening that book, the reader uses its
-source locale. Changing the UI language later to an unavailable translation keeps
-the already selected book language; the content-language label makes this visible.
+The global language control sets the interface language and selects a JSON book's
+translation when a valid translation exists; translations resolve by stable IDs.
+If the selected language is unavailable or stale when opening a book, the reader
+uses its source locale. Changing the global language later to an unavailable
+translation keeps the already selected book language. The reader dialog contains
+the page title and story text without extra book-language or retelling metadata.
 No translation is generated. Eden/Noah retain all nine locale
 manifests: en-US, en-GB, es, fr, hi, it, ja, pt-BR and zh-CN.
 

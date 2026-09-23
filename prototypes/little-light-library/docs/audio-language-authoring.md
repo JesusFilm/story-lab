@@ -5,9 +5,10 @@ media and never calls Kokoro, a translation service or an API proxy. Preview all
 changes in the reader. The retired audio/language production screen and its
 reviewed-export workflow are no longer entrypoints.
 
-The first future showcase target is a complete English (US) experience. Preserve
-Eden/Noah's existing nine languages; editor cleanup does not generate translations,
-voices or missing Jonah audio.
+Eden and Noah retain their existing nine languages. Jonah now has matching text
+and recorded narration for all nine library locales. Those generated cues and
+translation fingerprints do not provide native-language or listening approval;
+recorded review evidence remains separate and honest.
 
 ## Choose the correct content path
 
@@ -42,8 +43,8 @@ npm run book:narrate -- public/books/my-book.book.json --dry-run --locale en-US
 npm run book:narrate -- public/books/my-book.book.json --locale en-US --voice af_heart --speed 1 --spread river-bank --segment welcome
 ```
 
-These are templates for an existing authored file and IDs, not commands to create
-Jonah's missing narration during cleanup. The script:
+These are templates for an existing authored file and IDs. Do not run an
+unfiltered replacement over Jonah's completed nine-locale cues. The script:
 
 - Reads existing text in one selected locale; it does not write a story or translate.
 - Skips cues whose text and voice/speed provenance match. Filters `--spread` and
@@ -97,22 +98,35 @@ words, clipping, pauses and pacing.
 
 A generic spread lasts `max(seconds ?? 8, sum(narration durations))`. Its
 narration cues follow one another on the measured audio clock. The reader uses
-decoded durations for highlighting and narration-triggered motions. The current
-reader exposes a page range on a full-book timeline; do not assume it automatically
-turns pages or guarantees gapless sound through book transitions.
+decoded durations for highlighting and narration-triggered motions. The reader
+does not turn pages automatically. Narration belongs to the selected spread;
+soundtrack layers use their authored page membership across physical turns.
 
 If any segment lacks current narration, narration for the whole spread is
 suppressed so phrases cannot skip or mismatch. Text and interactions remain
-available. Soundtracks may still play where configured. Jonah currently has
-three such missing cues; its narration-triggered whale gesture is not a completed
-spoken performance.
+available. Soundtracks may still play where configured. Jonah has one current
+spoken cue per spread in each of its nine locales. Whether the words, audio,
+story and scenes have been reviewed still depends on explicit human review; a
+matching fingerprint alone cannot establish that.
 
 A `soundtracks[]` layer names an audio asset, inclusive `startPage` and
 `endPage`, offsets trimming the range, `volume`, `fadeIn`, `fadeOut` and
-`loop`. Offsets must leave positive playable time. Non-looping media ends when
-its file or range ends; looping tracks end with their range. Fades are bounded
-by the clip's playable duration. Recheck timing whenever text/audio/page ordering
-changes, including any existing translation timeline.
+`loop`. Offsets must leave positive playable time. A layer starts on its first
+included page and keeps the same audio source through turns while the selected
+page remains inside its range. A looping layer follows page membership, not the
+page's elapsed clock: it can continue after narration ends while a child lingers
+on an included page, including the final page when `endOffset` is zero.
+
+A positive `endOffset` deliberately trims the final loop inside its last page;
+`fadeOut` runs before that trimmed endpoint and the loop stops there. With zero
+`endOffset`, the loop stays audible for the whole final page until the reader
+turns beyond the authored range. Leaving the range through a page turn fades an
+outgoing layer by its `fadeOut`, or by the shared 0.35-second transition default
+when no fade was authored. A continuing layer is not restarted. Non-looping
+media also continues across included pages and ends when its file or trimmed
+range ends. `fadeIn` and `fadeOut` are measured in content seconds and bounded
+by the clip's playable duration. Recheck timing whenever text, audio or page
+ordering changes, including any existing translation timeline.
 
 Set a quiet track gain under intelligible narration and verify the complete
 mix by ear, including fade boundaries and toy/effect levels. `narrationVolume`
@@ -120,9 +134,11 @@ controls narration relative to tracks; reader master volume/mute affects both.
 Generic books pause the legacy procedural ambience. No particular numerical
 gain guarantees a balanced mix across different recordings or phone speakers.
 
-Test Play/Pause, Replay, speed, mute, page turn, Library/Continue, book swap,
-language change and tab hiding. Muting preserves the clock; leaving/changing
-content must not leave old audio playing.
+Test Play/Pause, speed, mute, page turn, Library/Continue, book swap,
+language change and tab hiding. Explicit Pause and leaving/changing content stop
+both narration and soundtracks. Mute preserves the clock and mix state. A back
+turn before a positive end-offset endpoint cancels that pending fade and keeps
+the still-in-range layer alive.
 
 ## Languages and review records
 
@@ -133,9 +149,12 @@ and soundtrack settings stay in the source definition. The source fingerprint
 detects translations that became stale after source edits.
 
 The nine UI locales do not imply nine translations for every JSON book.
-A valid matching translation is used when available; otherwise the reader opens
-the book's source language and identifies it. It must not describe that fallback
-as a translated edition. Jonah currently contains en-US only.
+A valid matching translation is used when available; otherwise the reader uses
+the book's source language. The reading card omits a separate per-book language
+label, so inspect the book catalog and translation files when verifying content
+language. It must not describe a source-language fallback as a translated
+edition. Jonah declares all nine locales, including en-GB and
+translations for es, fr, hi, it, ja, pt-BR and zh-CN, with current segment audio.
 Toy labels remain in their source language.
 
 Existing `reviews[]` entries are explicit historical creator attestations,
@@ -156,8 +175,9 @@ Schema, reference and media failures exit unsuccessfully. Normal validation
 reports missing/stale narration, translations and review as warnings.
 `--strict` turns all shared warnings into failures; it still cannot certify
 editorial or listening approval. The present catalog deliberately retains Jonah's
-incomplete narrated draft, so strict catalog validation is not the cleanup's
-completion gate.
+draft review state: its nine editions have text and recorded cues, but page-level
+human review evidence has not been recorded. Strict validation therefore remains
+a review gate rather than proof that the authored media is correct.
 
 The CLI enforces 1,024 registered assets, 32 MiB per asset and 96 MiB of registered
 media bytes (after base64 decoding for recovered embedded documents). These are

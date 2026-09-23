@@ -2,11 +2,11 @@
 
 Version 1 is a small, declarative format for paper-stage books. A creator and a local agent edit the same committed JSON, run shared validation and preview through the reader. The format supports bounded behavior rather than executable scripts or arbitrary character rigs. There is no browser editor or import workflow.
 
-The existing, unrecorded draft example is [`public/books/jonah-and-the-whale.book.json`](../public/books/jonah-and-the-whale.book.json). Types are in [`src/authored-book.ts`](../src/authored-book.ts); executable schema and reference rules are in [`src/book-validation.ts`](../src/book-validation.ts). [`scripts/book.schema.json`](../scripts/book.schema.json) is generated from those rules with `npm run book:schema`. Update types, validation and the generated schema together when changing the contract.
+The current generic-book example is [`public/books/jonah-and-the-whale.book.json`](../public/books/jonah-and-the-whale.book.json), a 13-spread illustrated retelling. Its generated [book index](books/jonah-and-the-whale.md) catalogs its text, locale files, narration, ambience and stage assets. Types are in [`src/authored-book.ts`](../src/authored-book.ts); executable schema and reference rules are in [`src/book-validation.ts`](../src/book-validation.ts). [`scripts/book.schema.json`](../scripts/book.schema.json) is generated from those rules with `npm run book:schema`. Update types, validation and the generated schema together when changing the contract.
 
 The separate [catalog](../public/books/catalog.json) registers ordered entries as
 `{ "id": "jonah-and-the-whale", "path": "jonah-and-the-whale.book.json" }` or the retained
-`{ "id": "eden", "legacyStory": "eden" }` / Noah equivalent. It accepts 1–30
+`{ "id": "eden", "legacyStory": "eden", "appearance": { "coverColor": "#536C45", "spineColor": "#344831", "accentColor": "#D5B46A" } }` / Noah equivalent. Legacy entries may specify their physical cover appearance here; generic entries use the appearance in their book JSON. It accepts 1–30
 entries, rejects duplicates/unknown settings, and requires a JSON entry's ID to
 match its document. Catalog paths are plain filenames relative to `public/books/`;
 asset paths are relative to `public/`. Legacy Eden/Noah content is not a v1 JSON
@@ -35,7 +35,9 @@ book; the [architecture](architecture.md) documents that deliberate exception.
 
 Every document has `format: "little-light-book"`, `version: 1`, a stable slug `id`, display `title` and `subtitle`, one BCP-47-like `locale`, and `status: "draft"`. The top-level locale is the source language. Optional language versions, soundtracks and review records extend v1 without changing older documents; see the production fields below. `eden` and `noah` are reserved for the legacy books. `draft` is currently the only status; registration is not a publication/approval state.
 
-`source` describes the biblical or other source material. `retellingNote` identifies what kind of adaptation the words are. `cover` references an image in `assets`. `spreads` is the reading order; array position, not an ID naming pattern, controls that order.
+`source` describes the biblical or other source material. `retellingNote` identifies what kind of adaptation the words are. `cover` references an image in `assets`. Optional `appearance` gives the physical cover, spine and trim colors as six-digit `#RRGGBB` values; new books should set all three explicitly. Old v1 files use the shared warm-green default. `spreads` is the reading order; array position, not an ID naming pattern, controls that order.
+
+The reader composes one localized title-and-art cover texture and shares it between the shelf and the closed or open table book. The same appearance values color the cloth boards, spine and accent trim, so a book keeps one identity as it moves. Legacy Eden and Noah palettes live on their catalog entries; a generic book's palette lives in its JSON document.
 
 IDs are stable references, not display text. Keep book, spread, segment and element IDs unchanged when revising their labels or words. IDs must be unique within their scope.
 

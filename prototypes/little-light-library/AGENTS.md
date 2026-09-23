@@ -58,10 +58,10 @@ the relevant browser/origin. Recovery status belongs in the implementation hando
 
 ## Scope and verification
 
-The editor-retirement task preserves content and reader behavior. It does not
-complete Eden, Noah or Jonah as showcase books, generate translations, redesign
-the room or restart subjective quality scoring. Future feature work is separately
-specified in the roadmap.
+The original editor-retirement task preserved content and reader behavior. Its
+scope restriction did not extend to later explicit feature assignments; consult
+the current [feature roadmap](docs/feature-roadmap.md) and per-book indexes for
+work that has since been completed and for remaining creator review.
 
 Run checks proportionate to the change. For runtime changes, cover all three
 catalog entries, nested static paths, missing-resource failure/retry, desktop and

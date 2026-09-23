@@ -19,6 +19,8 @@ import {
 } from "./room-material";
 import { visiblePaintHit } from "./room-interaction";
 import * as THREE from "three";
+import { createBookCoverTexture, resolveBookAppearance } from "./book-cover";
+import type { BookAppearance } from "./authored-book";
 import { bookPose } from "./choreography";
 import { popupFoldAngle, popupActorsAtRest } from "./popup-fold";
 import { setPrintCrop } from "./print-crop";
@@ -162,34 +164,6 @@ function labelTexture(text: string, bg: string, fg: string) {
   texture.colorSpace = THREE.SRGBColorSpace;
   return texture;
 }
-function coverTitleTexture(text: string, bg: string) {
-  const canvas = document.createElement("canvas");
-  canvas.width = 512;
-  canvas.height = 256;
-  const ctx = canvas.getContext("2d")!;
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, 512, 256);
-  ctx.fillStyle = "#fff3d9";
-  ctx.textAlign = "center";
-  ctx.font = "bold 42px Georgia, serif";
-  const spaced = /\s/u.test(text);
-  const words = spaced ? text.split(" ") : Array.from(text);
-  const lines: string[] = [];
-  let line = "";
-  for (const word of words) {
-    const join = spaced && line ? " " : "";
-    if (ctx.measureText(`${line}${join}${word}`).width > 450 && line) {
-      lines.push(line);
-      line = word;
-    } else line += join + word;
-  }
-  if (line) lines.push(line);
-  lines.slice(0, 3).forEach((part, i) => ctx.fillText(part, 256, 103 + i * 50));
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return texture;
-}
-
 // Deterministic material studies: grain belongs to the timber, never to a screen overlay.
 function grainTexture(base: string, kind: "wood" | "cloth" | "paper") {
   const c = document.createElement("canvas");
@@ -294,6 +268,9 @@ export class LibraryScene {
   >;
   private coverArt?: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>;
   private closedMap?: THREE.Texture;
+  private tableCoverMaterial?: THREE.MeshStandardMaterial;
+  private tableSpineMaterial?: THREE.MeshStandardMaterial;
+  private tableAccentMaterial?: THREE.MeshStandardMaterial;
   private foldingOut = 0;
   private closing = 0;
   private reviewTime?: number;
@@ -1025,10 +1002,27 @@ export class LibraryScene {
   }
   private makeBook() {
     this.resetBookToTable();
+    const appearance = resolveBookAppearance();
+    const clothGrain = grainTexture("#ffffff", "cloth");
+    this.roomTextures.add(clothGrain);
     const cloth = new THREE.MeshStandardMaterial({
-      map: grainTexture("#244c48", "cloth"),
+      map: clothGrain,
+      color: appearance.coverColor,
       roughness: 0.83,
     });
+    const spineCloth = new THREE.MeshStandardMaterial({
+      map: clothGrain,
+      color: appearance.spineColor,
+      roughness: 0.83,
+    });
+    const accent = new THREE.MeshStandardMaterial({
+      color: appearance.accentColor,
+      metalness: 0.2,
+      roughness: 0.62,
+    });
+    this.tableCoverMaterial = cloth;
+    this.tableSpineMaterial = spineCloth;
+    this.tableAccentMaterial = accent;
     paper.map = grainTexture("#f3e1b9", "paper");
     paper.needsUpdate = true;
     for (const [leaf, side] of [
@@ -1049,21 +1043,10 @@ export class LibraryScene {
         );
       box(leaf, 2.98, 3.43, 0.018, paper, side * 1.53, 0, 0.03);
       for (const y of [-1.55, 1.55])
-        box(leaf, 2.7, 0.014, 0.009, brass, side * 1.53, y, 0.048);
+        box(leaf, 2.7, 0.014, 0.009, accent, side * 1.53, y, 0.048);
       this.bookRoot.add(leaf);
     }
-    box(this.bookRoot, 0.13, 3.64, 0.16, cloth, 0, 0, -0.12);
-    const ribbon = box(
-      this.bookRoot,
-      0.13,
-      2.3,
-      0.008,
-      new THREE.MeshStandardMaterial({ color: 0xaf6449 }),
-      0.15,
-      -1.1,
-      0.065,
-    );
-    ribbon.rotation.z = 0.07;
+    box(this.bookRoot, 0.13, 3.64, 0.16, spineCloth, 0, 0, -0.12);
     this.turningLeaf = createTurningLeaf(3.02, 3.43, paper);
     this.turningPage.position.z = 0.11;
     this.turningPage.add(this.turningLeaf.mesh);
@@ -1106,7 +1089,27 @@ export class LibraryScene {
     this.bookRoot.rotation.set(-Math.PI / 2, 0, 0);
     this.bookRoot.scale.set(1, 1, 1);
   }
-  async room(locale: LocaleData, books?: RoomShelfBook[]) {
+  private setTableBookAppearance(appearance?: Partial<BookAppearance>) {
+    const resolved = resolveBookAppearance(appearance);
+    this.tableCoverMaterial?.color.set(resolved.coverColor);
+    this.tableSpineMaterial?.color.set(resolved.spineColor);
+    this.tableAccentMaterial?.color.set(resolved.accentColor);
+  }
+  private showSharedCover(texture: THREE.Texture) {
+    if (this.closedMap && this.closedMap !== texture) this.closedMap.dispose();
+    this.closedMap = undefined;
+    if (!this.coverArt) return;
+    this.coverArt.material.map = texture;
+    this.coverArt.material.needsUpdate = true;
+  }
+  private showOwnedCover(texture: THREE.Texture) {
+    this.closedMap?.dispose();
+    this.closedMap = texture;
+    if (!this.coverArt) return;
+    this.coverArt.material.map = texture;
+    this.coverArt.material.needsUpdate = true;
+  }
+  async room(locale: LocaleData, books: RoomShelfBook[]) {
     this.clearCreatureTargets();
     this.clearReadingFocus();
     this.readingWideEnsemble = false;
@@ -1137,14 +1140,7 @@ export class LibraryScene {
     this.pageRoot.visible = false;
 
     this.resize();
-    const initialBooks =
-      books ??
-      locale.stories.slice(0, 2).map((story) => ({
-        key: story.id,
-        title: story.title,
-        cover: `./assets/art/${story.id === "eden" ? "eden-01" : "noah-02"}.webp`,
-      }));
-    await this.setShelfBooks(initialBooks);
+    await this.setShelfBooks(books);
     if (generation !== this.loadGeneration || this.disposed) return;
   }
   private clearShelfButtons() {
@@ -1170,6 +1166,12 @@ export class LibraryScene {
     await this.roomShelf.setBooks(books);
     if (this.disposed) return;
     this.roomShelf.setTableKey(this.tableShelfKey);
+    if (this.tableShelfKey) {
+      const cover = this.roomShelf.coverTexture(this.tableShelfKey);
+      const definition = this.roomShelf.entry(this.tableShelfKey)?.definition;
+      if (cover) this.showSharedCover(cover);
+      if (definition) this.setTableBookAppearance(definition.appearance);
+    }
     this.pickables = this.pickables.filter(
       (object) => !String(object.userData.pick || "").startsWith("shelf:"),
     );
@@ -1544,26 +1546,14 @@ export class LibraryScene {
     const definition = await this.roomShelf.landPreview(this.reduced);
     if (!definition) throw new Error(`Shelf book ${key} is unavailable`);
     this.tableShelfKey = key;
+    this.setTableBookAppearance(definition.appearance);
     this.roomShelf.setTableKey(key);
     this.bookRoot.visible = true;
     this.resetBookToTable();
     this.leftLeaf.rotation.y = Math.PI;
     this.pageRoot.visible = false;
     const cover = this.roomShelf.coverTexture(key);
-    if (cover && this.coverArt) {
-      const canvas = document.createElement("canvas");
-      canvas.width = 768;
-      canvas.height = 1152;
-      const context = canvas.getContext("2d")!;
-      context.fillStyle = "#34524f";
-      context.fillRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(cover.image as CanvasImageSource, 24, 24, 720, 1104);
-      this.closedMap?.dispose();
-      this.closedMap = new THREE.CanvasTexture(canvas);
-      this.closedMap.colorSpace = THREE.SRGBColorSpace;
-      this.coverArt.material.map = this.closedMap;
-      this.coverArt.material.needsUpdate = true;
-    }
+    if (cover) this.showSharedCover(cover);
     this.landedShelfBook = true;
   }
   async spread(story: Story, page: Page, locale: LocaleData) {
@@ -2036,36 +2026,25 @@ export class LibraryScene {
     this.bookRoot.userData.shelfX = shelfPosition?.x ?? 0;
     this.bookRoot.userData.shelfY = shelfPosition?.y ?? 3.61;
     this.bookRoot.userData.shelfZ = shelfPosition?.z ?? -2.7;
-    const c = document.createElement("canvas");
-    c.width = 1024;
-    c.height = 1536;
-    const ctx = c.getContext("2d")!;
-    ctx.fillStyle = authored
-      ? "#34524f"
-      : story.id === "eden"
-        ? "#244c48"
-        : "#29455e";
-    ctx.fillRect(0, 0, 1024, 1536);
-    ctx.drawImage(
-      (authored ? this.authoredStage!.coverTexture : texture)
-        .image as CanvasImageSource,
-      36,
-      36,
-      952,
-      984,
+    const shelfCover = this.tableShelfKey
+      ? this.roomShelf.coverTexture(this.tableShelfKey)
+      : undefined;
+    const shelfDefinition = this.tableShelfKey
+      ? this.roomShelf.entry(this.tableShelfKey)?.definition
+      : undefined;
+    const appearance = resolveBookAppearance(
+      authored?.book.appearance ?? shelfDefinition?.appearance,
     );
-    const title = coverTitleTexture(story.title, ctx.fillStyle);
-    ctx.drawImage(title.image, 0, 1024, 1024, 512);
-    title.dispose();
-    ctx.strokeStyle = "#c4a061";
-    ctx.lineWidth = 8;
-    ctx.strokeRect(20, 20, 984, 1496);
-    this.closedMap?.dispose();
-    this.closedMap = new THREE.CanvasTexture(c);
-    this.closedMap.colorSpace = THREE.SRGBColorSpace;
-    if (this.coverArt) {
-      this.coverArt.material.map = this.closedMap;
-      this.coverArt.material.needsUpdate = true;
+    this.setTableBookAppearance(appearance);
+    if (shelfCover) this.showSharedCover(shelfCover);
+    else {
+      this.showOwnedCover(
+        createBookCoverTexture(
+          story.title,
+          authored ? this.authoredStage!.coverTexture : texture,
+          appearance,
+        ),
+      );
     }
 
     this.leftLeaf.rotation.y = this.reduced || !wasRoom ? 0 : Math.PI;
@@ -2166,6 +2145,8 @@ export class LibraryScene {
     return { left, right, top, bottom };
   }
   debug() {
+    const materialColor = (material?: THREE.MeshStandardMaterial) =>
+      material ? `#${material.color.getHexString()}` : null;
     return {
       shelfHint: this.shelfHint.debug(),
       mode: this.mode,
@@ -2237,6 +2218,19 @@ export class LibraryScene {
       authored: this.authoredStage?.debug() ?? null,
       shelf: this.roomShelf.debug(),
       tableShelfKey: this.tableShelfKey ?? null,
+      tableCoverTexture: this.coverArt?.material.map?.uuid ?? null,
+      tableCoverMatchesShelf: Boolean(
+        this.tableShelfKey &&
+          this.roomShelf.coverTexture(this.tableShelfKey) ===
+            this.coverArt?.material.map,
+      ),
+      tableCoverAppearance:
+        this.coverArt?.material.map?.userData.bookAppearance ?? null,
+      tableBookMaterials: {
+        coverColor: materialColor(this.tableCoverMaterial),
+        spineColor: materialColor(this.tableSpineMaterial),
+        accentColor: materialColor(this.tableAccentMaterial),
+      },
       shelfBrowsingTable: this.shelfBrowsingTable,
       closedBookBounds:
         this.shelfBrowsingTable && this.coverArt
@@ -2731,6 +2725,7 @@ export class LibraryScene {
     this.actors.forEach((a) => a.dispose());
     this.pageMaps.forEach((t) => t.dispose());
     this.roomTextures.forEach((t) => t.dispose());
+    this.closedMap?.dispose();
     this.roomTextures.clear();
     this.roomShelf.dispose();
     this.shelfToys.forEach((toy) => this.disposeToy(toy));
@@ -2742,6 +2737,9 @@ export class LibraryScene {
         materials.forEach((m) => m.dispose());
       }
     });
+    this.tableCoverMaterial = undefined;
+    this.tableSpineMaterial = undefined;
+    this.tableAccentMaterial = undefined;
     this.renderer.dispose();
     this.renderer.domElement.remove();
   }

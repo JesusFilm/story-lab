@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-20T19:54:53.734Z",
+  "generatedAt": "2026-09-23T20:27:33.090Z",
   "method": "Playwright against a production build at a nested static URL, using an isolated browser context, committed catalog, stale authoring-storage fixture, and intercepted dense catalog.",
-  "browser": "153.0.8010.48",
+  "browser": "153.0.8010.53",
   "host": {
     "platform": "darwin",
     "arch": "arm64"
@@ -11,7 +11,7 @@
     {
       "name": "Physical shelf selection, reading, returning and toy lifecycle",
       "passed": true,
-      "durationMs": 25214,
+      "durationMs": 28210,
       "detail": {
         "table": "builtin:eden",
         "page": 0,
@@ -25,7 +25,7 @@
     {
       "name": "Busy lock rejects rapid shelf taps",
       "passed": true,
-      "durationMs": 1848,
+      "durationMs": 1896,
       "detail": {
         "inspected": "builtin:eden",
         "headerLocked": true
@@ -34,7 +34,7 @@
     {
       "name": "Reduced motion and narrow room controls remain usable",
       "passed": true,
-      "durationMs": 585,
+      "durationMs": 588,
       "detail": {
         "width": 390,
         "controlsVisible": true,
@@ -44,7 +44,7 @@
     {
       "name": "Committed catalog ignores and preserves stale browser authoring storage",
       "passed": true,
-      "durationMs": 1042,
+      "durationMs": 1145,
       "detail": {
         "keys": [
           "builtin:eden",
@@ -58,19 +58,19 @@
     {
       "name": "Committed Jonah and disposable narrated fixture retain navigation and interactions",
       "passed": true,
-      "durationMs": 18621,
+      "durationMs": 39472,
       "detail": {
         "committedBooks": 1,
         "fixtureBooks": 1,
-        "spreads": 5,
+        "spreads": 15,
         "fixtureNarration": true,
-        "jonahMissingNarrationReadable": true
+        "jonahNarrationComplete": true
       }
     },
     {
       "name": "Reader settings persist mute and volume and remain keyboard accessible",
       "passed": true,
-      "durationMs": 2852,
+      "durationMs": 5110,
       "detail": {
         "persistedMute": true,
         "persistedVolume": 0.35,
@@ -78,20 +78,21 @@
       }
     },
     {
-      "name": "Fixture book language control and soundtrack survive editor CSS removal",
+      "name": "Reader stays concise with global language access and a looping soundtrack",
       "passed": true,
-      "durationMs": 4356,
+      "durationMs": 20751,
       "detail": {
         "fixtureOnly": true,
-        "phoneLanguageControl": true,
-        "languageSwitch": true,
+        "conciseReader": true,
+        "globalLanguageSwitch": true,
+        "equalControls": true,
         "decodedSoundtrackLoop": true
       }
     },
     {
       "name": "Thirty spine-out books and top toys fit at desktop and phone sizes",
       "passed": true,
-      "durationMs": 25617,
+      "durationMs": 30917,
       "detail": {
         "books": 30,
         "rows": 2,
@@ -107,7 +108,7 @@
       "durationMs": 0,
       "detail": {
         "nestedPath": "/acceptance/little-light-library/",
-        "audioResources": 14,
+        "audioResources": 29,
         "allRequestsWithinStaticBuild": true
       }
     }
@@ -117,39 +118,55 @@
   "failedResponses": [],
   "requestFailures": [],
   "audioRequests": [
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s1-1e6c52c5e1efa3a274bc.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-02/s2-347e3fbf75cbdd3624e9.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/eden/eden-02/s1-d1f6ff0104c9ca151190.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/eden/eden-02/s2-ad48d0b0d33d04922da0.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/noah/noah-01/s1-14671746b05cb849a2ad.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/noah/noah-01/s2-77998a7e92862a5d3c56.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/eden/eden-01/s2-39a2f06f1fcb8541306d.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/es/eden/eden-01/s1-77549a66ded934b16cb5.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
-    "http://127.0.0.1:54786/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav"
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/es/eden/eden-02/s2-ad48d0b0d33d04922da0.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/es/eden/eden-02/s1-d1f6ff0104c9ca151190.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/es/noah/noah-01/s1-14671746b05cb849a2ad.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/es/noah/noah-01/s2-77998a7e92862a5d3c56.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/es/eden/eden-01/s2-39a2f06f1fcb8541306d.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/es/eden/eden-01/s1-77549a66ded934b16cb5.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/jonah-called-segment-1-225beca98c9fc7ff8476.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/jonah-boards-ship-segment-1-b494e2e3af9633691742.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/storm-at-sea-segment-1-4f381c811ae9c37e7cb7.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/jonah-overboard-segment-1-2dc4e6178d593052bb06.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/jonah-rescued-segment-1-8a93037c407dba6b44b0.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/jonah-prays-segment-1-926506debc00fcf644b9.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/jonah-ashore-segment-1-c5242829716eb551f12a.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/nineveh-warning-segment-1-2be626de96bde0f3a0af.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/nineveh-turns-segment-1-9f671e98b4df62edb954.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/jonah-angry-segment-1-4182bec23ace78dc0799.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/shade-for-jonah-segment-1-f47d50fd3decce0f9f45.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/plant-withers-segment-1-77e62b1298c30d6e1e70.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/en-US/jonah-mercy-segment-1-46fbbcf4a9288eb45c54.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/soundtracks/harbor-calm-surf.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/soundtracks/storm-wind-and-rain.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/soundtracks/deep-water-prayer.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/books/jonah-and-the-whale/audio/soundtracks/warm-nineveh-breeze.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s1-d8527e49d2451a69a856.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/eden/eden-01/s2-51db259a9498f9fc5814.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s2-4120e5e2601b1d6eec10.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s1-68dcf17b757e6c5e9f32.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-02/s2-37aa5fc5568182fa6ee4.wav",
+    "http://127.0.0.1:49752/acceptance/little-light-library/assets/audio/en-US/noah/noah-01/s1-76b35c45778fd80a4640.wav"
   ],
   "transitionCaptures": [
     {
@@ -160,15 +177,26 @@
         "index": 1,
         "state": "preview",
         "visible": true,
+        "appearance": {
+          "coverColor": "#79543e",
+          "spineColor": "#503829",
+          "accentColor": "#d6b16b"
+        },
+        "coverTexture": "b89fb39c-e238-4454-9679-3a941fe129b7",
         "position": [
-          -1.4573676487676999,
-          3.5525264525745475,
-          -1.1744362530649377
+          -1.46910442063347,
+          3.5547212184621806,
+          -1.177049069597834
         ],
         "rotation": [
           0,
-          1.019246549187007,
+          1.027454954411932,
           0
+        ],
+        "scale": [
+          1.2237705582412997,
+          1.2237705582412997,
+          1.2237705582412997
         ]
       },
       "tableTransform": {
@@ -197,15 +225,26 @@
         "index": 1,
         "state": "preview",
         "visible": true,
+        "appearance": {
+          "coverColor": "#79543e",
+          "spineColor": "#503829",
+          "accentColor": "#d6b16b"
+        },
+        "coverTexture": "b89fb39c-e238-4454-9679-3a941fe129b7",
         "position": [
-          0.30864161742727125,
-          2.9268427646745643,
-          -0.4641979782159109
+          0.30680801531946056,
+          2.9289408286248477,
+          -0.4664899808506743
         ],
         "rotation": [
-          -0.3107776403530727,
+          -0.308931348394257,
           0,
           0
+        ],
+        "scale": [
+          1.7442385360490227,
+          1.6393306126128104,
+          1.3865657932023665
         ]
       },
       "tableTransform": {

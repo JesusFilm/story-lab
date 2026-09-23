@@ -56,7 +56,11 @@ export class BookNarration {
       },
     };
   }
-  async loadBook(book: AuthoredBook, page: number) {
+  async loadBook(
+    book: AuthoredBook,
+    page: number,
+    options: { preserveSoundtracks?: boolean } = {},
+  ) {
     const token = ++this.generation;
     this.pending = true;
     try {
@@ -69,7 +73,11 @@ export class BookNarration {
       if (token !== this.generation) return false;
       this.page = page;
       const range = this.player.timeline.pages[page];
-      this.player.setRange(range.start, range.end);
+      this.player.setPageRange(
+        range.start,
+        range.end,
+        options.preserveSoundtracks ?? false,
+      );
       return true;
     } finally {
       if (token === this.generation) this.pending = false;
@@ -83,6 +91,11 @@ export class BookNarration {
   }
   pause() {
     this.player.pause();
+  }
+  preparePageTurn() {
+    this.generation++;
+    this.pending = false;
+    this.player.preparePageTurn();
   }
   stop() {
     this.generation++;

@@ -49,13 +49,15 @@ file while another book or locale still references it.
    `spreads` array is the reading order.
 5. Reuse appropriate local art or prepare only the assets needed for this pass.
    Add every image/audio reference to `assets` with a truthful attribution.
-   Set a cover image; titles and spine labels remain readable rendered text.
+   Set a cover image and choose a distinct `appearance` palette for the cloth
+   cover, spine and trim; titles and spine labels remain readable rendered text.
 6. Validate, register the book locally, and preview it from its shelf spine.
    Iterate on a small, visible change. Missing narration is acceptable during
    composition, but remains an explicit gap until matching recordings exist.
 
-The cleanup assignment does not authorize producing the three showcase books.
-Their future content work is described in the [Feature roadmap](feature-roadmap.md).
+The generated [book indexes](books/README.md) link each committed title's text,
+translations, media and source files. They are navigation aids, not duplicate
+editable content or creator-review attestations.
 
 To create a scaffold using an existing, reviewed local image:
 
@@ -64,7 +66,9 @@ npm run book:create -- public/books/my-book.book.json --id my-book --title "My B
 ```
 
 The cover file must already exist. The command refuses to overwrite a file and
-creates one provisional page with TODO text and the cover as its backdrop. It
+creates one provisional page with TODO text, a safe default cover palette and
+the cover as its backdrop. Change that palette to suit the book and distinguish
+it on the shelf. It
 does not generate a story/media or register the book. Replace the TODO content
 and provisional scene with the requested story before inclusion.
 
@@ -80,15 +84,41 @@ against light and dark scenery. Avoid baked lettering in cover or scene artwork.
 An upright `backdrop` and optional horizontal `ground` are separate surfaces.
 Each actor/prop has `placement` in page units, not pixels. Negative `x` is left;
 positive `depth` is toward the backdrop. Start with modest values within the
-contract bounds. Use a bottom anchor for planted figures, keep feet above the page, and
-inspect the gutter, page edges, faces and reading-card overlap on a phone.
+contract bounds. A bottom anchor aligns the visible alpha edge to the page even
+when a cutout contains transparent padding; a center anchor keeps the full card
+centered. Check feet, knees, hulls and wave crests against the actual surface.
+
+Review each spread against a short visual-logic checklist before calling it
+ready:
+
+- The upright backdrop meets the horizontal ground, and the ground covers the
+  intended page area with narrow margins.
+- Figures and objects make physical contact where expected: planted feet/knees
+  touch the ground, boats sit in the water, and floating bodies remain above
+  or behind the intended wave layers.
+- Character body sizes look consistent, including groups of adults, children
+  and figures at different distances.
+- Gaze and gesture point toward the intended person, object or action; facial
+  expression fits the spoken story beat.
+- An actor already included inside a combined illustration is not placed a
+  second time as a separate figure.
+- Foreground occlusion still reads correctly through a complete animation
+  cycle, including the beginning, middle and end of looping motion.
+- The image stays readable on desktop and phone, with the reading card open,
+  and in reduced-motion mode.
+
+These are visual judgments. Schema and geometry tests can catch missing IDs,
+bad page coverage values, misplaced depth ordering and stale translation
+structure, but they cannot establish that the artwork tells the right story.
+Inspect the rendered art directly rather than treating passing tests as visual
+approval.
 
 A horizontal atlas `pose` chooses a fixed cell. A `motion` transforms the whole
 card using `rock`, `float`, `sway`, `pulse` or `spin`; it does not create
 joints or animate atlas frames. Use a quiet once-only response when that tells
 the story. A narration-triggered gesture requires a valid segment and current
-recording; Jonah's existing narration-triggered motion cannot be assessed as a
-spoken cue until its missing audio is supplied.
+recording. Check the cue for the selected locale in the book index and use reader
+playback to verify its timing and mix.
 
 Interactions use named DOM buttons and visible text responses; `sound: "tap"`
 is the supported page interaction sound. Essential story meaning belongs in the
@@ -171,7 +201,6 @@ checks that were not performed.
 Schema/reference/media errors fail the command. Missing/stale narration,
 translation and review issues normally warn; `--strict` on validate, register
 or catalog makes all shared warnings fail. It does not establish creator approval.
-Jonah's three missing recordings remain intentional draft warnings during cleanup.
 `book:catalog` also validates the retained legacy content, theatre and audio pack.
 Use `--public-root DIR` for disposable generic-book fixtures; legacy validation
 requires the actual prototype root. `book:register --catalog PATH` and
