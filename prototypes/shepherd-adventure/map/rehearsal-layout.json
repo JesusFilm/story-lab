@@ -12764,49 +12764,17 @@
     {
       "kind": "decoration-wall",
       "a": {
-        "x": -8.825473228345992,
-        "z": 21.117901574810137
+        "x": -7.048766499759256,
+        "z": 18.5
       },
       "b": {
-        "x": -8.3,
-        "z": 23.7
+        "x": -5,
+        "z": 17
       },
       "width": 0.58,
       "height": 1.05,
       "pathIndex": 2,
       "startHost": "House 1",
-      "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": -8.3,
-        "z": 23.7
-      },
-      "b": {
-        "x": -10,
-        "z": 25
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 2,
-      "startHost": null,
-      "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": -10,
-        "z": 25
-      },
-      "b": {
-        "x": -12,
-        "z": 22
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 2,
-      "startHost": null,
       "endHost": null
     },
     {
@@ -12892,12 +12860,12 @@
     {
       "kind": "decoration-wall",
       "a": {
-        "x": 11.353325718814038,
-        "z": -19.96829546872657
+        "x": 9.181818347969614,
+        "z": -18.198135730671833
       },
       "b": {
-        "x": 8.676662859407019,
-        "z": -20.984147734363283
+        "x": 7,
+        "z": -15.25
       },
       "width": 0.58,
       "height": 1.05,
@@ -12908,28 +12876,12 @@
     {
       "kind": "decoration-wall",
       "a": {
-        "x": 8.676662859407019,
-        "z": -20.984147734363283
-      },
-      "b": {
-        "x": 6,
-        "z": -22
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 5,
-      "startHost": null,
-      "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": 6,
-        "z": -22
+        "x": 7,
+        "z": -15.25
       },
       "b": {
         "x": 8,
-        "z": -25
+        "z": -16
       },
       "width": 0.58,
       "height": 1.05,

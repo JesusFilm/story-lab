@@ -13,12 +13,14 @@ export const HOUSE_ANNEXES=[
 export const DECORATIVE_WALL_PATHS=[
  [[-13,41.7],[-10.5,41.7],[-8.5,40.8],[-6.8,38.2]],
  [[3,26],[4.2,30],[5.6,34],[6.5,38.5],[7.4,39.6],[14,41]],
- // Keep the House 1 run on the north side of the gate-to-hearth lane.
- [[-8.8,21.5],[-8.3,23.7],[-10,25],[-12,22]],
+ // Keep the House 1 run on the east side of both house orientations and
+ // clear of the attached north/south annex in canonical and rehearsal maps.
+ [[-5.5,18.5],[-5,17]],
  [[15.5,14],[21,11.2]],
  [[23,2],[25.5,.5],[28,0]],
- // Turn the House 8 annex run south before it reaches the square-to-pen lane.
- [[14,-19],[6,-22],[8,-25]],
+ // Attach the House 8 annex run on its north side, then turn east clear of
+ // the House 8 footprint in both canonical and rehearsal orientations.
+ [[6,-8],[7,-15.25],[8,-16]],
  // The square is a route junction, so leave a deliberate opening between the
  // two attached decorative-wall sections rather than blocking its approaches.
  [[-5,-12.8],[-2.9,-13],[-0.1,-12.8]],

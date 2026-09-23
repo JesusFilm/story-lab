@@ -60,21 +60,21 @@
       ]
     }
   },
-  "wallSegments": 178,
+  "wallSegments": 177,
   "routeWallRegressions": [
     {
       "route": "lane-0",
       "wallPaths": [
         2
       ],
-      "minClearance": 0.45238345966297444
+      "minClearance": 3.799498049827371
     },
     {
       "route": "lane-14",
       "wallPaths": [
         5
       ],
-      "minClearance": 5.1648115488421915
+      "minClearance": 0.36352398805542496
     },
     {
       "route": "lane-13",
@@ -117,6 +117,206 @@
       "minClearance": 2.6946896657869845
     }
   ],
+  "canonicalWallStructureRegressions": {
+    "layout": "canonical",
+    "wallPaths": [
+      2,
+      5
+    ],
+    "wallSegments": 4,
+    "structureFootprints": [
+      {
+        "label": "Quiet animal pen",
+        "kind": "pen",
+        "vertices": 19
+      },
+      {
+        "label": "House 1",
+        "kind": "house",
+        "vertices": 26
+      },
+      {
+        "label": "House 2",
+        "kind": "house",
+        "vertices": 26
+      },
+      {
+        "label": "House 3",
+        "kind": "house",
+        "vertices": 26
+      },
+      {
+        "label": "House 4",
+        "kind": "house",
+        "vertices": 26
+      },
+      {
+        "label": "House 5",
+        "kind": "house",
+        "vertices": 26
+      },
+      {
+        "label": "House 6",
+        "kind": "house",
+        "vertices": 26
+      },
+      {
+        "label": "House 7",
+        "kind": "house",
+        "vertices": 26
+      },
+      {
+        "label": "House 8",
+        "kind": "house",
+        "vertices": 26
+      },
+      {
+        "label": "House 9",
+        "kind": "house",
+        "vertices": 26
+      },
+      {
+        "label": "House 10",
+        "kind": "house",
+        "vertices": 26
+      },
+      {
+        "label": "House 11",
+        "kind": "house",
+        "vertices": 26
+      },
+      {
+        "label": "Empty stall 1",
+        "kind": "empty-stall",
+        "vertices": 30
+      },
+      {
+        "label": "Empty stall 2",
+        "kind": "empty-stall",
+        "vertices": 30
+      },
+      {
+        "label": "Animal pen",
+        "kind": "pen",
+        "vertices": 28
+      },
+      {
+        "label": "Vegetables 1",
+        "kind": "vegetable-stall",
+        "vertices": 20
+      },
+      {
+        "label": "Vegetables 2",
+        "kind": "vegetable-stall",
+        "vertices": 20
+      },
+      {
+        "label": "Pottery 1",
+        "kind": "pottery-stall",
+        "vertices": 28
+      },
+      {
+        "label": "Pottery 2",
+        "kind": "pottery-stall",
+        "vertices": 28
+      },
+      {
+        "label": "Tanner",
+        "kind": "tanner-stall",
+        "vertices": 20
+      },
+      {
+        "label": "House 1 annex",
+        "kind": "annex",
+        "vertices": 35
+      },
+      {
+        "label": "House 2 annex",
+        "kind": "annex",
+        "vertices": 35
+      },
+      {
+        "label": "House 3 annex",
+        "kind": "annex",
+        "vertices": 35
+      },
+      {
+        "label": "House 5 annex",
+        "kind": "annex",
+        "vertices": 35
+      },
+      {
+        "label": "House 8 annex",
+        "kind": "annex",
+        "vertices": 35
+      },
+      {
+        "label": "House 9 annex",
+        "kind": "annex",
+        "vertices": 35
+      }
+    ],
+    "minimumClearance": -0.29,
+    "minimumNonHostClearance": 0.5582665556949107,
+    "reported": [
+      {
+        "pathIndex": 2,
+        "feature": "House 1 annex",
+        "label": "House 1 annex clearance",
+        "minimumClearance": 1.9299629378844578
+      },
+      {
+        "pathIndex": 2,
+        "feature": "House 1",
+        "label": "House 1 host join",
+        "minimumClearance": -0.29
+      },
+      {
+        "pathIndex": 5,
+        "feature": "House 8",
+        "label": "House 8 clearance",
+        "minimumClearance": 0.5582665556949107
+      },
+      {
+        "pathIndex": 5,
+        "feature": "House 8 annex",
+        "label": "House 8 annex host join",
+        "minimumClearance": -0.29
+      }
+    ],
+    "hostJoinExceptions": [
+      {
+        "pathIndex": 2,
+        "feature": "House 1",
+        "segment": {
+          "a": {
+            "x": -6.979545068004409,
+            "z": 18.5
+          },
+          "b": {
+            "x": -5,
+            "z": 17
+          }
+        },
+        "clearance": -0.29
+      },
+      {
+        "pathIndex": 5,
+        "feature": "House 8 annex",
+        "segment": {
+          "a": {
+            "x": 3.139302884844953,
+            "z": -16.74523308893513
+          },
+          "b": {
+            "x": 5.069651442422477,
+            "z": -15.997616544467565
+          }
+        },
+        "clearance": -0.29
+      }
+    ]
+  },
   "nature": {
     "placements": [
       {
@@ -976,12 +1176,12 @@
       "bytes": 1113992
     },
     {
-      "url": "/assets/stone-well-tripo.glb",
-      "bytes": 2086868
-    },
-    {
       "url": "/assets/timber-gate-tripo.glb",
       "bytes": 1802148
+    },
+    {
+      "url": "/assets/stone-well-tripo.glb",
+      "bytes": 2086868
     },
     {
       "url": "/assets/house-01-tripo-v2.glb",
@@ -1032,6 +1232,18 @@
       "bytes": 1203940
     },
     {
+      "url": "/assets/nature/DeadTree_2.gltf",
+      "bytes": 1629
+    },
+    {
+      "url": "/assets/nature/TwistedTree_3.gltf",
+      "bytes": 2820
+    },
+    {
+      "url": "/assets/nature/Rock_Medium_2.gltf",
+      "bytes": 1337
+    },
+    {
       "url": "/assets/nature/CommonTree_2.gltf",
       "bytes": 2861
     },
@@ -1040,24 +1252,12 @@
       "bytes": 1343
     },
     {
-      "url": "/assets/nature/Rock_Medium_3.gltf",
-      "bytes": 1344
-    },
-    {
-      "url": "/assets/nature/Rock_Medium_2.gltf",
-      "bytes": 1337
-    },
-    {
-      "url": "/assets/nature/DeadTree_2.gltf",
-      "bytes": 1629
-    },
-    {
       "url": "/assets/nature/TwistedTree_1.gltf",
       "bytes": 2822
     },
     {
-      "url": "/assets/nature/TwistedTree_3.gltf",
-      "bytes": 2820
+      "url": "/assets/nature/Rock_Medium_3.gltf",
+      "bytes": 1344
     },
     {
       "url": "/assets/nature/Pebble_Round_2.gltf",

@@ -12,6 +12,7 @@ const {createJourneyWorld}=await import('../src/journey-world.mjs');
 const {JOURNEY_POI_MODELS,fitJourneyPOI}=await import('../src/journey-poi-models.mjs');
 const {HOUSE_ANNEXES}=await import('../src/village-layout.mjs');
 const {HOUSE_DECORATIONS}=await import('../src/house-decorations.mjs');
+const {verifyDecorativeWallStructureClearance}=await import('./wall-structure-regressions.mjs');
 const {Journey}=await import('../src/journey-model.mjs');
 globalThis.document={createElement:()=>({width:0,height:0,getContext:()=>({createImageData:(w,h)=>({data:new Uint8ClampedArray(w*h*4)}),putImageData(){},beginPath(){},ellipse(){},fill(){},fillRect(){},createRadialGradient:()=>({addColorStop(){}})})})};
 const origin=process.env.WATCH_GAME_TEST_ORIGIN||'http://127.0.0.1:8766';
@@ -121,6 +122,7 @@ const routeWallRegressions=repairedRouteWallPairs.map(({wallPaths,route})=>{
  assert(minClearance>.25,`${route} / wall paths ${wallPaths.join(',')} clearance regressed: ${minClearance}`);
  return {route,wallPaths,minClearance};
 });
+const canonicalWallStructureRegressions=verifyDecorativeWallStructureClearance(world,THREE,'canonical');
 // Keep the outer boundary well away from the current buildings.
 for(const {rect:[x,z,x2,z2]} of world.fits){assert(x-(-40)>6&&40-x2>6&&z-(-80)>6&&42-z2>6,'Perimeter crowds a settlement structure');}
 
@@ -149,5 +151,5 @@ const camera=new THREE.PerspectiveCamera();camera.position.copy(gate.position).a
 journey.discoveries.delete('gate');for(let i=0;i<240;i++)world.update(1/60,i/60,journey);assert(Math.abs(hinge.rotation.y)<.001,'Reset closes the leaf');
 world.updateOcclusion(camera,journey.position,1/60);
 writeFileSync(new URL('./journey-poi-scene-geometry.json',import.meta.url),JSON.stringify({models:world.modelCount,fits:world.fits,occluders:world.occluders,occlusionBounds:world.occlusionBounds},null,2)+'\n');
-const report={status:'passed',modelCount:world.modelCount,modelCategories,sceneryCounts,nativityCounts,placedPOIGeometry,wallSegments:world.wallSegments.length,routeWallRegressions,nature:world.nature,lanternCount:world.lanternCount,lanternScaleAndStateVerified:true,fetched,wellReplacesBlockRing:true,wellPosition:well.position.toArray(),wellPathClearance,gateReplacesBarMeshes:true,closedGateBounds:{min:closed.min.toArray(),max:closed.max.toArray()},openedGateBounds:{min:opened.min.toArray(),max:opened.max.toArray()},gatePostsStayFixed:true,movingOcclusionBoundsVerified:true,canonicalSourcesUnchanged:true,minimumStructurePathClearance:Math.min(...world.fits.map(f=>f.clearance)),limits:'Headless geometry/material loading and HTTP check; image decoding, visual composition, hinge hardware appearance and device performance not reviewed.'};
+const report={status:'passed',modelCount:world.modelCount,modelCategories,sceneryCounts,nativityCounts,placedPOIGeometry,wallSegments:world.wallSegments.length,routeWallRegressions,canonicalWallStructureRegressions,nature:world.nature,lanternCount:world.lanternCount,lanternScaleAndStateVerified:true,fetched,wellReplacesBlockRing:true,wellPosition:well.position.toArray(),wellPathClearance,gateReplacesBarMeshes:true,closedGateBounds:{min:closed.min.toArray(),max:closed.max.toArray()},openedGateBounds:{min:opened.min.toArray(),max:opened.max.toArray()},gatePostsStayFixed:true,movingOcclusionBoundsVerified:true,canonicalSourcesUnchanged:true,minimumStructurePathClearance:Math.min(...world.fits.map(f=>f.clearance)),limits:'Headless geometry/material loading and HTTP check; image decoding, visual composition, hinge hardware appearance and device performance not reviewed.'};
 writeFileSync(new URL('./journey-poi-verification.json',import.meta.url),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
