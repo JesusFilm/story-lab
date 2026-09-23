@@ -1367,7 +1367,7 @@
     "prototypes/shepherd-adventure/assets/quality/minimal/workbench/stall.webp": "f936eed54a82ffa74951d02aab08b901c7099fa984435963fa338c62285f31cd",
     "prototypes/shepherd-adventure/src/asset-loading.mjs": "b0eb6d24d700b576df4fabb57105c955bea40847536004b243b7062c895e6cb7",
     "prototypes/shepherd-adventure/src/quality-assets.js": "229d1fbe3d6a08157aced014df08afabed77b51e14cc67759ecc038efeec0a0f",
-    "prototypes/shepherd-adventure/src/startup.js": "a0eb9c2f44bb46aca40d86753a455c68fee3bb4885eedf2ea7469dd1cdc16cb4"
+    "prototypes/shepherd-adventure/src/startup.js": "3177407ed83425f3dd2d7f68530ee9216bc81b1083716adc76f0e77d7d380036"
   },
   "local_only_prototypes": []
 }

@@ -12,6 +12,7 @@
  const append=(list,item)=>{if(list.length<2000)list.push(item);};
  const mark=(phase,detail={})=>{append(marks,{phase,ms:performance.now(),...detail});window.startupProbe?.mark(phase,detail);};
  const asset=url=>{
+  if(tier!=='existing'&&!window.shepherdAssetVariants?.[tier])throw Error('Small asset list unavailable. Reload to try again.');
   const absolute=new URL(url,document.baseURI),part=absolute.pathname.match(/(?:^|\/)assets\/.*$/)?.[0]?.replace(/^\//,'');
   const mapped=window.shepherdAssetVariants?.[tier]?.[part];
   if(!mapped)return String(url);

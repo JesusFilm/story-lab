@@ -81,3 +81,9 @@ test('staged later-route check: deferred shelter loads once, renders and reports
  const resources=await page.evaluate(()=>shepherdStartup.report().resources);expect(resources.some(r=>r.path.includes('/minimal/optimized/square-nativity-stall.glb'))).toBe(true);expect(assetViolations(resources,'minimal')).toEqual([]);
  await page.evaluate(()=>{document.querySelector('#jump-point').value='9';document.querySelector('#jump').click();});await rendered(page);await capture(page,info,'minimal-shelter-staged');
 });
+
+test('missing small-asset table fails closed without original downloads',async({page})=>{
+ const originals=[];page.on('request',request=>{if(/\/assets\/.*\.(glb|gltf|png|jpg)$/.test(request.url())&&!request.url().includes('/quality/'))originals.push(request.url());});
+ await page.route('**/src/quality-assets.js',route=>route.abort());
+ await page.goto(entry+'?quality=minimal');await expect(page.locator('.loading-retry')).toBeVisible();expect(originals).toEqual([]);await expect(page.locator('#story-overlay')).toBeHidden();
+});
