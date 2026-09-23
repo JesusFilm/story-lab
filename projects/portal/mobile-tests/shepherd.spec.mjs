@@ -14,8 +14,8 @@ async function pixels(page){
   resolve(window.mobileLastPixels={colours:colours.size,lit:lit/n,width:w,height:h});
  })));
 }
-async function rendered(page){
- await expect.poll(async()=>{const p=await pixels(page);return p.colours>24&&p.lit>.03;},{message:'actual varied, illuminated 3D pixels',timeout:45000}).toBe(true);
+async function rendered(page,{intro=false}={}){
+ await expect.poll(async()=>{const p=await pixels(page);return p.colours>(intro?12:24)&&p.lit>(intro?.005:.03);},{message:'actual varied, illuminated 3D pixels',timeout:45000}).toBe(true);
 }
 async function capture(page,info,name){
  await rendered(page);
@@ -31,9 +31,10 @@ async function opening(page){
  await page.locator('#story-skip').tap();
  await expect(page.locator('#loading')).toBeHidden({timeout:150000});
  await expect(page.locator('#skip-opening')).toBeVisible();
- await rendered(page); // Real running introduction, before Skip intro.
+ await rendered(page,{intro:true}); // Wide night-sky shot is intentionally darker.
  await page.locator('#skip-opening').tap();
  await expect(page.locator('#advance')).toHaveText('Find a lamp');
+ await rendered(page);
 }
 
 test.beforeEach(async({page})=>{
@@ -93,7 +94,7 @@ test('cold story → rendered world → touch lamp assembly, rotation and contex
  await page.locator('.loading-retry').tap();
  await expect(page.locator('#story-overlay')).toBeVisible();page.__mobileLogs.length=0;
  await page.locator('#story-skip').tap();await expect(page.locator('#loading')).toBeHidden({timeout:150000});
- await rendered(page);expect(page.__mobileLogs).toEqual([]);
+ await rendered(page,{intro:true});await page.locator('#skip-opening').tap();await rendered(page);expect(page.__mobileLogs).toEqual([]);
 });
 
 test('required model failure is actionable and reload recovers',async({page},info)=>{
@@ -105,7 +106,7 @@ test('required model failure is actionable and reload recovers',async({page},inf
  await info.attach('expected-asset-failure-log',{body:JSON.stringify(page.__mobileLogs),contentType:'application/json'});
  await page.unroute('**/shepherd-tripo-v2.glb');await page.locator('.loading-retry').tap();
  await expect(page.locator('#story-overlay')).toBeVisible();page.__mobileLogs.length=0;await page.locator('#story-skip').tap();
- await expect(page.locator('#loading')).toBeHidden({timeout:150000});await rendered(page);expect(page.__mobileLogs).toEqual([]);
+ await expect(page.locator('#loading')).toBeHidden({timeout:150000});await rendered(page,{intro:true});await page.locator('#skip-opening').tap();await rendered(page);expect(page.__mobileLogs).toEqual([]);
 });
 
 test('pixel check rejects a renderer that only clears its canvas',async({page})=>{
