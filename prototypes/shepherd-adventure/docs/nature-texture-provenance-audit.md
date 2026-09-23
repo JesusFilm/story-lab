@@ -1,30 +1,37 @@
 # Nature texture provenance audit — 2026-09-23
 
 `checks/verify-nature-assets.mjs` failed on `Bark_DeadTree.png`. This audit checked
-every record for the Quaternius nature assets, not only the first failure.
+every record for the Quaternius nature assets, not only the first failure. The
+metadata-only history of the eight runtime PNGs is inferred, not proven: the
+pre-strip runtime bytes are unavailable, so their former byte sequences cannot
+be compared directly.
 
 ## Finding
 
 The runtime and source PNGs are the intended files. Their manifests recorded
 hashes from before the library simplification, which stripped PNG metadata without
 recompressing pixels (see [library simplification](../../../docs/handoffs/library-simplification.md)).
-Every affected file has had the same bytes since the repository's first commit. The
-provenance was simply never updated after the strip.
+The repository history shows no later asset-byte edits, but it does not recover the
+pre-strip runtime bytes. The conclusion that the eight runtime PNGs changed only by
+metadata handling is therefore an evidence-backed inference, not a byte-for-byte
+proof.
 
 Evidence:
 
-- **Upstream proof (two originals).** The pinned mirror bytes for
-  `PathRocks_Diffuse.png` and `Rocks_Diffuse.png` match the recorded source hashes
+- **Exact upstream proof boundary (two originals).** The pinned mirror bytes for
+  `PathRocks_Diffuse.png` and `Rocks_Diffuse.png` match the recorded upstream hashes
   exactly. The repository copies differ only by a missing 21-byte `pHYs` (72 dpi)
   chunk. Their IDAT streams and decoded pixels are byte-identical to the mirror.
-- **Strip preserves encoding.** The stripped originals keep libpng's 8 KiB IDAT
-  layout. The downscaled runtime textures keep their resizer's different
-  16 KiB/`78 01` layout. If the strip had re-encoded the files, they would share one
-  layout. Every runtime file is a single well-formed zlib stream of the expected size.
-- **Small, uniform deltas.** The six bark textures each lost exactly 80 bytes and
-  `Rocks_Diffuse.png` lost 153. Re-encoding would change the sizes by variable and
-  much larger amounts. The pre-strip runtime bytes are not in the repository, so
-  their removed chunks cannot be reconstructed byte for byte.
+  This proves the metadata-only transformation for those two reconstructable source
+  originals; it does not prove the unavailable pre-strip runtime bytes.
+- **Supporting inference for the eight runtime PNGs.** The six bark textures,
+  `PathRocks_Diffuse.png` and `Rocks_Diffuse.png` retain the expected PNG/zlib
+  structure and documented dimensions. The stripped originals keep libpng's 8 KiB
+  IDAT layout, while the downscaled runtime textures keep their resizer's different
+  16 KiB/`78 01` layout. The six bark textures each lost exactly 80 bytes and
+  `Rocks_Diffuse.png` lost 153. These observations are consistent with metadata
+  stripping and resize output, but they are not proof of the missing historical
+  runtime byte sequences.
 - **Content matches the documented export.** Each 1024 px runtime texture differs
   from a bicubic 2048→1024 downscale of its canonical original by a mean of
   0.26–0.50/255, and alpha is unchanged. This is a faithful resize, not substituted
@@ -42,7 +49,11 @@ Evidence:
 - Updated the two stripped source records (`PathRocks_Diffuse.png`,
   `Rocks_Diffuse.png`) in both library manifests. They retain the mirror's values
   as `upstream_sha256`/`upstream_bytes`, so the upstream link stays verifiable.
-- The verifier now checks byte counts as well as hashes.
+- The verifier now checks source and runtime byte counts as well as hashes, compares
+  the prototype/library/runtime-export manifests, and maps every nature entry in
+  `assets/sources.json` to both its runtime and source record.
+- Deterministic fixtures cover stale source hashes, stale source sizes, manifest
+  disagreement and optional upstream metadata disagreement.
 
 Not changed: `assets/shepherd-prototype.blend` also mismatches its
 `sources.json` hash. The simplification handoff records that the Blender files were
@@ -82,6 +93,7 @@ sanitized. That file is outside the nature asset scope.
 | `TwistedTree_3.bin` | `04ad394055b72a3d3717d8e3617ae733ea155580330d94d7387238928755eaca` | 771,176 | matched |
 | `TwistedTree_3.gltf` | `50f5133306d694e80598a5a1aaccea4d419852493e58e731026eca53a403e9e7` | 2,820 | matched |
 
-Source records: 27 of 29 matched; the two above were updated with upstream values
-retained. After the change, 145 records across the three manifests and all
-`sources.json` nature entries match disk. `verify-nature-assets.mjs` passes.
+Source records: 27 of 29 matched before the two above were updated with upstream
+values retained. After the change, all 145 records across the three manifests and
+all 29 `sources.json` nature entries agree with the on-disk source/runtime files.
+`verify-nature-assets.mjs` and its deterministic fixture tests pass.
