@@ -225,7 +225,7 @@ Actual browser captures, with no personal phone/browser chrome:
 - [Minimal village entry](shepherd-constrained-evidence/ci-minimal-entry.png).
 - [Minimal House 1 after lamp and refusal](shepherd-constrained-evidence/ci-minimal-first-house.png).
 - [Minimal deferred shelter, staged route position](shepherd-constrained-evidence/ci-minimal-shelter-staged.png).
-- [WebKit lamp carried](shepherd-constrained-evidence/webkit-lamp-carried.png).
+- [WebKit lamp carried](shepherd-constrained-evidence/captures/webkit-minimal-lamp-carried.png).
 
 The night silhouette, paths, houses, player and lit carried lamp remain readable.
 Minimal has visibly softer house textures and coarser, sometimes jagged static

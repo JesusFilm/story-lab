@@ -20,7 +20,7 @@ interpretation, exact constraints, commands, limitations and PR/CI links.
 - `route/`: complete route state/geometry and camera samples for all three tiers.
 - `regeneration.json`: byte-identical repeat generation of all 178 checked outputs.
 - `codecs.json`: native image encoding/decode measurements, with units and samples.
-- `webkit-local.json` / `webkit-*.png`: the earlier local Noble-container WebKit
+- `webkit-local.json` / `captures/webkit-*.png`: the earlier local Noble-container WebKit
   checks and captures that diagnosed coarse colour-quantization loss.
 
 Browser timing/resource evidence is from the VM, not a physical A50. JS heap,
