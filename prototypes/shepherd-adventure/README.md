@@ -89,6 +89,45 @@ images remain in `review/` as historical evidence.
 
 ## Validation
 
+### VM Firefox visual smoke check
+
+On Jacobuntu, use Node.js 22+, Python 3, the installed Firefox and geckodriver.
+Headed mode requires an existing display (`DISPLAY=:0` on this VM); the shared
+`:0` display must remain undisturbed while the check runs, and other windows
+must not steal focus. If no display is available, set `FIREFOX_HEADLESS=1`
+before running for a non-visual fallback. From this directory run:
+
+```sh
+node checks/verify-firefox-playability.mjs
+```
+
+The script starts `serve.py` on a free localhost port and geckodriver, then
+closes both. To use an already running server instead, set
+`WATCH_GAME_TEST_ORIGIN=http://127.0.0.1:8766`. It requests a deterministic
+1440 × 900 WebDriver window, verifies the CSS viewport, and records the actual
+size. Headed focus and visibility are recorded to diagnose focus flakes.
+
+The check waits for a visible Firefox tab, finished asset loading, an active
+WebGL 2 canvas whose context is not lost, and the game's ready state. It
+records the game's exposed walking frame/progress signals when available and
+requires an independent animation-frame probe to advance across the live
+WebGL scene.
+It advances the opening, enters the rendered village, starts the first route
+leg, pauses as soon as movement is observed, verifies destination 0 remains a
+stable walking state, resumes, and restarts. Screenshots and `trace.json` go
+under the ignored `captures/firefox-playability/<timestamp>/` directory. Open
+the paused-walking PNG and direct ending-preview PNG to visually confirm
+rendered content and framing; route-entry is recorded as state-only so the
+first movement can be paused before screenshot capture. State assertions alone
+do not judge image quality, and no pixel threshold or image-diff score is
+claimed.
+
+It then opens `story-preview.html?story=ending`, which is an isolated review of
+the ending story component and its replay control. That direct preview is not
+the game's ending diorama/arrival transition and does not walk the ten-stop
+route. The full ten-stop route, lamp/arrival journey, pixel scoring, and
+device/mobile coverage remain deferred.
+
 With the adventure server running, run from this folder:
 
 ```sh
@@ -238,7 +277,9 @@ this does not guarantee immediate OS memory reclamation. Each story’s scriptur
 its media lease; only the small loader/player modules stay in the module cache.
 
 [Review both stories without loading 3D](story-preview.html) (opening then ending,
-repeating for review); add `?story=ending` to begin at the Nativity.
+repeating for review); add `?story=ending` to begin at the Nativity. This direct
+story preview is a component review, not the game's walking arrival or ending
+diorama transition.
 Ten native ImageGen scenes use Follow the Light AA v003. The opening moves through
 quiet watch, alarm, reassurance, a gathering heavenly host, joyful praise and
 departure. The ending shows the Nativity, sharing the news, Mary pondering and the
