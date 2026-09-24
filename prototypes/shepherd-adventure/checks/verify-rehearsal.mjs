@@ -5,6 +5,7 @@ import {loadSettlement,THREE} from './load-settlement.mjs';
 import {SEARCH_POINTS} from '../src/house-tracks.mjs';
 import {JourneyCamera,routeLookahead,blocked} from '../src/journey-camera.mjs';
 import {height} from '../src/journey-terrain.mjs';
+import {verifyDecorativeWallStructureClearance} from './wall-structure-regressions.mjs';
 function stall(j){j.step(3.6);assert(j.actAtStall());j.step(4.6);assert(j.actAtStall());j.step(4.9);j.step(3.1);j.step(2.6);}
 function sighting(j){j.knockOnHouse();j.step(3);for(let i=0;i<4;i++)assert(j.advanceSighting());}
 function owner(j){j.knockOnHouse();j.step(3);for(let i=0;i<4;i++)assert(j.advanceOwner());while(j.reunion.phase==='arriving')j.step(.05);for(let i=0;i<3;i++)assert(j.advanceReunion());while(!j.reunion.canFollow)j.step(.05);}
@@ -57,6 +58,7 @@ assert.equal(j.jump(-1),false);assert.equal(j.jump(10),false);j.reset();assert.d
 const canonical=JSON.parse(readFileSync(new URL('../map/settlement-layout.json',import.meta.url)));
 const map=JSON.parse(readFileSync(new URL('../map/rehearsal-layout.json',import.meta.url)));
 const {world,scene}=await loadSettlement({routePaths:CORRIDORS,houseApproaches:HOUSE_APPROACHES});
+const rehearsalWallStructureRegressions=verifyDecorativeWallStructureClearance(world,THREE,'rehearsal');
 assert.equal(world.settlementFeatures.length,map.features.length);
 const fixedLights=scene.children.filter(o=>o.isPointLight);
 assert.equal(fixedLights.length,5,'Only three helpful houses, workbench and nativity have fixed lights');
@@ -130,7 +132,7 @@ for(const [index,corridor] of [...CORRIDORS,{points:sampleCorridor(SEARCH_POINTS
  legs.push({number:index+1,title:STOPS[index]?.title||'House 5 inspection / departure',metres:lengthOf(corridor.points),closest});
 }
 const folder=new URL(process.env.REHEARSAL_REVIEW_OUTPUT||'../review/2026-09-14-empty-stall/',import.meta.url);mkdirSync(folder,{recursive:true});
-writeFileSync(new URL('geometry-and-state.json',folder),JSON.stringify({status:failures.length?'failed':'passed',fullDistance,unchangedCentres:world.settlementFeatures.length,orientedHouses:Object.keys(HOUSE_APPROACHES),legs,failures,limits:'Sampled path clearance against projected model hulls and wall centerlines, plus state transitions. Not a live camera or enjoyment test.'},null,2)+'\n');
+writeFileSync(new URL('geometry-and-state.json',folder),JSON.stringify({status:failures.length?'failed':'passed',fullDistance,unchangedCentres:world.settlementFeatures.length,orientedHouses:Object.keys(HOUSE_APPROACHES),rehearsalWallStructureRegressions,legs,failures,limits:'Sampled path clearance against projected model hulls and wall centerlines, plus state transitions. Continuous decorative-wall versus transformed-structure checks cover all wall segments with only intended endpoint host joins excepted.'},null,2)+'\n');
 console.log(JSON.stringify({fullDistance,legs,failures:failures.slice(0,12),failureCount:failures.length},null,2));
 assert.equal(failures.length,0,'Rehearsal corridor needs at least 45 cm clearance from current structures and walls');
 const cameras=[];

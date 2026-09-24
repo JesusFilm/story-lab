@@ -10677,49 +10677,17 @@
     {
       "kind": "decoration-wall",
       "a": {
-        "x": -8.819418002640234,
-        "z": 21.208729960396504
+        "x": -6.979545068004409,
+        "z": 18.5
       },
       "b": {
-        "x": -8.3,
-        "z": 23.7
+        "x": -5,
+        "z": 17
       },
       "width": 0.58,
       "height": 1.05,
       "pathIndex": 2,
       "startHost": "House 1",
-      "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": -8.3,
-        "z": 23.7
-      },
-      "b": {
-        "x": -7.8,
-        "z": 24
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 2,
-      "startHost": null,
-      "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": -7.8,
-        "z": 24
-      },
-      "b": {
-        "x": -4.2,
-        "z": 23.4
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 2,
-      "startHost": null,
       "endHost": null
     },
     {
@@ -10853,12 +10821,12 @@
     {
       "kind": "decoration-wall",
       "a": {
-        "x": 3.989535173135766,
-        "z": -18.983824263107977
+        "x": 3.139302884844953,
+        "z": -16.74523308893513
       },
       "b": {
-        "x": 7.2421513798518244,
-        "z": -19.612868197330982
+        "x": 5.069651442422477,
+        "z": -15.997616544467565
       },
       "width": 0.58,
       "height": 1.05,
@@ -10869,12 +10837,12 @@
     {
       "kind": "decoration-wall",
       "a": {
-        "x": 7.2421513798518244,
-        "z": -19.612868197330982
+        "x": 5.069651442422477,
+        "z": -15.997616544467565
       },
       "b": {
-        "x": 10.494767586567882,
-        "z": -20.24191213155399
+        "x": 7,
+        "z": -15.25
       },
       "width": 0.58,
       "height": 1.05,
@@ -10885,28 +10853,12 @@
     {
       "kind": "decoration-wall",
       "a": {
-        "x": 10.494767586567882,
-        "z": -20.24191213155399
+        "x": 7,
+        "z": -15.25
       },
       "b": {
-        "x": 13.747383793283941,
-        "z": -20.870956065776994
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 5,
-      "startHost": null,
-      "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": 13.747383793283941,
-        "z": -20.870956065776994
-      },
-      "b": {
-        "x": 17,
-        "z": -21.5
+        "x": 8,
+        "z": -16
       },
       "width": 0.58,
       "height": 1.05,
@@ -10921,8 +10873,8 @@
         "z": -13.310987890319248
       },
       "b": {
-        "x": -2.934301853254166,
-        "z": -13.040658593546166
+        "x": -2.9,
+        "z": -13
       },
       "width": 0.58,
       "height": 1.05,
@@ -10933,114 +10885,18 @@
     {
       "kind": "decoration-wall",
       "a": {
-        "x": -2.934301853254166,
-        "z": -13.040658593546166
+        "x": -2.9,
+        "z": -13
       },
       "b": {
-        "x": -0.11715092662708315,
-        "z": -12.770329296773083
+        "x": -0.10000000000000009,
+        "z": -12.8
       },
       "width": 0.58,
       "height": 1.05,
       "pathIndex": 6,
       "startHost": null,
       "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": -0.11715092662708315,
-        "z": -12.770329296773083
-      },
-      "b": {
-        "x": 2.7,
-        "z": -12.5
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 6,
-      "startHost": null,
-      "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": 2.7,
-        "z": -12.5
-      },
-      "b": {
-        "x": 3.5,
-        "z": -11.9
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 6,
-      "startHost": null,
-      "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": 3.5,
-        "z": -11.9
-      },
-      "b": {
-        "x": 4.2,
-        "z": -8.5
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 6,
-      "startHost": null,
-      "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": 4.2,
-        "z": -8.5
-      },
-      "b": {
-        "x": 5.2,
-        "z": -5
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 6,
-      "startHost": null,
-      "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": 5.2,
-        "z": -5
-      },
-      "b": {
-        "x": 5.876044235344088,
-        "z": -3.026044235344086
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 6,
-      "startHost": null,
-      "endHost": null
-    },
-    {
-      "kind": "decoration-wall",
-      "a": {
-        "x": 5.876044235344088,
-        "z": -3.026044235344086
-      },
-      "b": {
-        "x": 6.552088470688175,
-        "z": -1.052088470688172
-      },
-      "width": 0.58,
-      "height": 1.05,
-      "pathIndex": 6,
-      "startHost": null,
-      "endHost": "House 4"
     },
     {
       "kind": "decoration-wall",
@@ -11329,6 +11185,38 @@
       "pathIndex": 10,
       "startHost": null,
       "endHost": "House 11"
+    },
+    {
+      "kind": "decoration-wall",
+      "a": {
+        "x": 5.2,
+        "z": -5
+      },
+      "b": {
+        "x": 5.9,
+        "z": -3
+      },
+      "width": 0.58,
+      "height": 1.05,
+      "pathIndex": 11,
+      "startHost": null,
+      "endHost": null
+    },
+    {
+      "kind": "decoration-wall",
+      "a": {
+        "x": 5.9,
+        "z": -3
+      },
+      "b": {
+        "x": 6.552088470688175,
+        "z": -1.052088470688172
+      },
+      "width": 0.58,
+      "height": 1.05,
+      "pathIndex": 11,
+      "startHost": null,
+      "endHost": "House 4"
     },
     {
       "kind": "perimeter-wall",
@@ -13410,7 +13298,7 @@
       "name": "Rock_Medium_1",
       "kind": "boulder",
       "x": 51.40304006039421,
-      "z": 22.740030745655332,
+      "z": 22.740030745655336,
       "height": 0.8778156707761808,
       "outside": true
     },
