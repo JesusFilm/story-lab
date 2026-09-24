@@ -16,14 +16,30 @@ export type LegacyStageMotion =
       phaseRadians?: number;
     };
 
-export interface ActorDirection {
+interface ActorDirectionBase {
   kind: PaperActorKind;
-  pose: 0 | 1 | 2;
   x: number;
   depth: number;
   mood: PaperActorMood;
   flipX?: boolean;
+  motion?: LegacyStageMotion;
 }
+
+/** A selectable stage actor may use the shared pose atlas or a printed cutout. */
+export type ActorDirection =
+  | (ActorDirectionBase & {
+      /** Fixed atlas pose for the legacy character rig. */
+      pose: 0 | 1 | 2;
+      image?: never;
+      width?: never;
+    })
+  | (ActorDirectionBase & {
+      /** Public-root-relative image path or theatre shorthand. */
+      image: string;
+      /** Visible width in page units; height follows the painted alpha bounds. */
+      width: number;
+      pose?: never;
+    });
 
 /** A transparent printed cutout. Width describes visible art after alpha trim. */
 export interface StageProp {

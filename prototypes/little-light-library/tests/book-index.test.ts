@@ -71,11 +71,36 @@ test("each committed book index links every authoritative story and media source
           fs.existsSync(`public/${legacyAssetPath(stage.ground)}`),
           `${entry.id}/${page.id} ground exists`,
         );
-        for (const actor of stage.actors)
+        for (const actor of stage.actors) {
+          const artwork = actor.image
+            ? legacyAssetPath(actor.image)
+            : `assets/art/theatre/${actor.kind}-poses.webp`;
           assert.ok(
-            index.includes(`assets/art/theatre/${actor.kind}-poses.webp`),
-            `${entry.id}/${page.id} ${actor.kind} pose atlas`,
+            index.includes(artwork),
+            `${entry.id}/${page.id} ${actor.kind} artwork`,
           );
+          assert.ok(
+            fs.existsSync(`public/${artwork}`),
+            `${entry.id}/${page.id} ${actor.kind} artwork exists`,
+          );
+          if (actor.image) {
+            assert.ok(
+              actor.width > 0,
+              `${entry.id}/${page.id} ${actor.kind} image needs visible width`,
+            );
+            assert.ok(
+              index.includes(`visible width ${actor.width}`),
+              `${entry.id}/${page.id} ${actor.kind} width is documented`,
+            );
+          }
+          if (actor.motion)
+            assert.ok(
+              index.includes(
+                `${actor.motion.kind} motion (${actor.motion.strength}`,
+              ),
+              `${entry.id}/${page.id} ${actor.kind} motion is documented`,
+            );
+        }
         for (const prop of stage.props ?? [])
           assert.ok(
             index.includes(legacyAssetPath(prop.file)),

@@ -82,10 +82,18 @@ const legacyStagePage = (page: LegacyPage) => {
   const lines = [
     `- Painted backdrop: ${mediaLink(legacyAssetPath(stage.background))}`,
     `- Full-page ground print: ${mediaLink(legacyAssetPath(stage.ground))}`,
-    ...stage.actors.map(
-      (actor) =>
-        `- ${actor.kind} actor: pose ${actor.pose}, mood \`${actor.mood}\`, position (${actor.x}, ${actor.depth})${actor.flipX ? ", mirrored horizontally" : ""}; artwork ${mediaLink(`assets/art/theatre/${actor.kind}-poses.webp`)}.`,
-    ),
+    ...stage.actors.map((actor) => {
+      const image = actor.image
+        ? legacyAssetPath(actor.image)
+        : `assets/art/theatre/${actor.kind}-poses.webp`;
+      const pose = actor.pose === undefined ? "" : `pose ${actor.pose}, `;
+      const width =
+        actor.width === undefined ? "" : `, visible width ${actor.width}`;
+      const motion = actor.motion
+        ? `, ${actor.motion.kind} motion (${actor.motion.strength}${actor.motion.kind === "sway" ? "°" : " page units"}, ${actor.motion.periodSeconds ?? 3.4}s cycle)`
+        : "";
+      return `- ${actor.kind} actor: ${pose}mood \`${actor.mood}\`, position (${actor.x}, ${actor.depth})${width}${actor.flipX ? ", mirrored horizontally" : ""}${motion}; artwork ${mediaLink(image)}.`;
+    }),
     ...(stage.props ?? []).map(
       (prop) =>
         `- ${prop.file} prop: visible width ${prop.width}, position (${prop.x}, ${prop.depth})${prop.flipX ? ", mirrored horizontally" : ""}${prop.motion ? `, ${prop.motion.kind} motion (${prop.motion.strength}${prop.motion.kind === "sway" ? "°" : " page units"}, ${prop.motion.periodSeconds ?? 3.4}s cycle)` : ""}; artwork ${mediaLink(legacyAssetPath(prop.file))}.`,

@@ -54,6 +54,7 @@ function paintedPngSize(filename: string) {
   let maxX = -1;
   let minY = height;
   let maxY = -1;
+  let transparentPixels = 0;
   let cursor = 0;
   for (let y = 0; y < height; y++) {
     const filter = decoded[cursor++];
@@ -82,7 +83,10 @@ function paintedPngSize(filename: string) {
       row[i] = (row[i] + predictor) & 0xff;
     }
     for (let x = 0; x < width; x++) {
-      if (row[x * 4 + 3] <= 32) continue;
+      if (row[x * 4 + 3] <= 32) {
+        transparentPixels++;
+        continue;
+      }
       minX = Math.min(minX, x);
       maxX = Math.max(maxX, x);
       minY = Math.min(minY, y);
@@ -91,7 +95,11 @@ function paintedPngSize(filename: string) {
     prior = row;
   }
   assert.ok(maxX >= minX && maxY >= minY, "source has painted pixels");
-  return { width: maxX - minX + 1, height: maxY - minY + 1 };
+  return {
+    width: maxX - minX + 1,
+    height: maxY - minY + 1,
+    transparentPixels,
+  };
 }
 
 test("Eden has explicit staging for all eight pages with matching ground assets", () => {
@@ -147,7 +155,11 @@ test("Eden scene beats stay distinct and the actors remain readable", () => {
   const companion = edenStageDirections["eden-02"].actors.find(
     (actor) => actor.kind === "eve",
   );
-  assert.equal(companion?.flipX, true, "Eve faces Adam on the companion page");
+  assert.equal(
+    companion?.flipX,
+    true,
+    "the new Eve bush portrait is mirrored to face Adam on the companion page",
+  );
 
   assert.equal(
     edenStageDirections["eden-03"].props?.find(
@@ -158,39 +170,16 @@ test("Eden scene beats stay distinct and the actors remain readable", () => {
   );
 
   const hiding = edenStageDirections["eden-04"];
-  const screen = hiding.props?.find(
-    (prop) => prop.file === "assets/art/theatre/fig-leaf-hiding-screen.webp",
-  );
-  assert.ok(screen, "shame-and-hiding scene has foreground leaves");
-  const actorSpan = Math.abs(hiding.actors[1].x - hiding.actors[0].x);
   assert.ok(
-    screen.width >= actorSpan * 2,
-    "leaf screen reaches across both character positions",
+    hiding.actors.every((actor) => !!actor.image),
+    "shame-and-hiding uses separately selectable leaf-clothed actors",
   );
-  const alphaBounds = paintedPngSize(
-    edenSourcePath("fig-leaf-hiding-screen.png"),
-  );
-  const leafHeight = screen.width / (alphaBounds.width / alphaBounds.height);
-  const actorHeight = 1.95;
-  assert.ok(
-    leafHeight >= actorHeight * 0.55 && leafHeight <= actorHeight * 0.68,
-    `leaf screen height ${leafHeight.toFixed(2)} stays below faces while hiding lower bodies`,
-  );
-  assert.ok(
-    hiding.actors.every(
-      (actor) => Math.abs(screen.depth - actor.depth) <= 0.15,
-    ),
-    "leaf screen is close to each actor's ground depth so it hides lower bodies",
-  );
-  assert.ok(
-    hiding.actors.every((actor) => screen.depth < actor.depth),
-    "leaf screen is in the foreground of both adult figures",
-  );
-  assert.ok(
-    hiding.actors.every(
-      (actor) => actor.kind === "adam" || actor.kind === "eve",
-    ),
-    "the image keeps both faces as separate readable character cutouts",
+  assert.equal(
+    hiding.props?.some((prop) =>
+      prop.file.includes("fig-leaf-hiding-screen"),
+    ) ?? false,
+    false,
+    "clothing replaces the earlier broad foreground screen",
   );
 
   const guardedWay = edenStageDirections["eden-06"];
@@ -207,13 +196,8 @@ test("Eden scene beats stay distinct and the actors remain readable", () => {
 
   const work = edenStageDirections["eden-07"];
   assert.ok(
-    work.actors.every((actor) => actor.pose === 0 && actor.mood === "work"),
-  );
-  assert.ok(
-    work.props?.some(
-      (prop) => prop.file === "assets/art/theatre/fieldwork-tools.webp",
-    ),
-    "the field-work page shows tools instead of repeating the hiding pose",
+    work.actors.every((actor) => !!actor.image && actor.mood === "work"),
+    "fieldwork retains individual selectable hide-garment actors",
   );
 
   const promise = edenStageDirections["eden-08"];
@@ -222,4 +206,89 @@ test("Eden scene beats stay distinct and the actors remain readable", () => {
     undefined,
     "the exile page does not reuse Eden's fruit tree",
   );
+});
+
+test("Eden modesty follows the story using individually selectable transparent actors", () => {
+  const pages = {
+    "eden-01": { mood: "welcome", actors: { adam: "adam-behind-garden-bush" } },
+    "eden-02": {
+      mood: "welcome",
+      actors: {
+        adam: "adam-behind-garden-bush",
+        eve: "eve-behind-garden-bush",
+      },
+    },
+    "eden-03": {
+      mood: "warn",
+      actors: {
+        adam: "adam-fruit-receiving-behind-garden-bush",
+        eve: "eve-fruit-behind-garden-bush",
+      },
+    },
+    "eden-04": {
+      mood: "sad",
+      actors: { adam: "adam-leaf-shame", eve: "eve-leaf-shame" },
+    },
+    "eden-05": {
+      mood: "sad",
+      actors: {
+        adam: "adam-leaf-consequences",
+        eve: "eve-leaf-consequences",
+      },
+    },
+    "eden-06": {
+      mood: "sad",
+      actors: { adam: "adam-hide-walking", eve: "eve-hide-walking" },
+    },
+    "eden-07": {
+      mood: "work",
+      actors: { adam: "adam-hide-work", eve: "eve-hide-work" },
+    },
+    "eden-08": {
+      mood: "hope",
+      actors: { adam: "adam-hide-hope", eve: "eve-hide-hope" },
+    },
+  } as const;
+
+  for (const [id, expected] of Object.entries(pages)) {
+    const stage = edenStageDirections[id];
+    assert.deepEqual(
+      stage.actors.map((actor) => actor.kind).sort(),
+      Object.keys(expected.actors).sort(),
+      `${id} keeps the intended individual actors`,
+    );
+    for (const [kind, stem] of Object.entries(expected.actors)) {
+      const actor = stage.actors.find((candidate) => candidate.kind === kind);
+      assert.ok(actor?.image, `${id}/${kind} uses its modesty-card image`);
+      if (!actor?.image) continue;
+      assert.equal(actor.pose, undefined, `${id}/${kind} avoids the old atlas`);
+      assert.equal(actor.mood, expected.mood, `${id}/${kind} keeps its beat`);
+      assert.ok(actor.width > 0, `${id}/${kind} declares visible width`);
+      assert.equal(
+        theatrePath(actor.image),
+        path.resolve(publicRoot, `assets/art/theatre/eden-${stem}.webp`),
+        `${id}/${kind} uses the intended art for this story state`,
+      );
+
+      const sourceStem = stem;
+      const source = edenSourcePath(`${sourceStem}.png`);
+      const prompt = path.resolve(edenSourceRoot, `prompts/${sourceStem}.txt`);
+      assert.ok(existsSync(source), `${id}/${kind} editable PNG source`);
+      assert.ok(existsSync(prompt), `${id}/${kind} image prompt`);
+      const alpha = paintedPngSize(source);
+      assert.ok(
+        alpha.transparentPixels > 0,
+        `${id}/${kind} source retains transparent cutout pixels`,
+      );
+      const visibleHeight = actor.width * (alpha.height / alpha.width);
+      assert.ok(
+        visibleHeight <= 2.2,
+        `${id}/${kind} painted silhouette stays below 2.2 page units (${visibleHeight.toFixed(2)})`,
+      );
+      assert.ok(
+        Math.abs(visibleHeight - 1.95) <= 0.25,
+        `${id}/${kind} standing-adult silhouette stays near the 1.95-unit common height (${visibleHeight.toFixed(2)})`,
+      );
+    }
+  }
 });

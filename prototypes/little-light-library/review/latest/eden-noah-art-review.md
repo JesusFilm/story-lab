@@ -1,19 +1,53 @@
-# Eden and Noah art review
+# Eden modesty and Noah rig review
 
-Review snapshot: 2026-09-24. This report covers the new Eden and Noah paper-theatre staging and its reader regressions. It is a visual/staging report; it does not attest to editorial, native-language, or human audio review.
+Review snapshot: 2026-09-24. This revision adds story-matched Eden clothing and
+concealment, and rigid character motion for Eden and Noah. It does not attest to
+editorial, native-language, or human audio review.
 
-## Staging changes
+## Current visual review
 
-- **Eden (8 pages):** Pages 1–5 now use an opaque, continuous garden floor paired with the garden backcloth. Eve faces Adam on page 2. Page 4 adds a low fig-leaf screen that conceals the lower bodies while keeping both faces clear. Page 6 uses a natural rocky garden boundary with symbolic firelight and no divine figure. Pages 6–8 use a matching dry-earth floor; page 7 shows the working poses with separate field tools, and page 8 no longer stages Eden’s fruit tree in exile.
-- **Noah (8 pages):** The book now has distinct worksite, storm-water, ark-interior, and shore floor prints paired with the appropriate backcloths. Boarding uses a correctly turned animal group; the storm page stages three independent animated wave layers around a gently floating ark. The ark-interior page has a built-in window onto receding water and a returning dove. The shore departure uses a sober family pose and animals at the boarding scale. The covenant pages share a shore backdrop with a painted rainbow; page 7 adds a separate altar prop.
+- All eight Eden pages were reviewed in Chrome at 1280×900 and 390×844. Pages
+  1–3 show standing adults concealed behind tall shrubs, with their faces,
+  shoulders, and arms visible. Pages 4–5 use leaf garments; pages 6–8 use
+  animal-hide garments. The painted silhouettes use alpha-derived widths for a
+  common 1.95-page-unit adult height; page 7 is 1.75 units for its crouched pose.
+  Both actors remain individually selectable, including Eve's p2 interaction.
+- Noah pages 3, 7, and 8 retain their intended actor scale on desktop and phone.
+  The final p2 hammer was inspected at deterministic raised/strike frames of
+  0, 0.86, and 1.15 seconds; the joint reads cleanly with no duplicate arm/tool
+  or rotating cuff wedge.
+- The six retained curated captures now include an updated Eden p2 desktop view
+  with the tall-shrub treatment; the other five remain historical. The current
+  capture is [Eden p2 at 1280×900](../../docs/captures/eden-1280.png).
 
-## Verification
+## Mechanical verification
 
-- Computer-use review covered all 16 Eden and Noah spreads at 1280×900 desktop and 390×844 phone sizes. The final Eden page-4 hiding screen and Noah page-6 animal staging passed. The Jonah page-1 visual regression and the Library Continue paused-position behavior also passed.
-- `npm run verify` passed: lint, typecheck, book index/catalog checks, build, and 181 tests. The room suite passed 9/9 checks, failure recovery passed 5/5, and audio continuity passed with the authored loop source spanning three pages.
-- SHA checks found the 325 existing locale, audio-manifest, and narration files unchanged. No story text, translations, or narration were edited. Jonah’s 117 missing-human-review warnings remain; no human editorial, native-language, or listening attestations were added.
-- The six curated screenshots in [`docs/captures/`](../../docs/captures/) are historical and were not regenerated. Current visual evidence comes from the desktop-and-phone read-through above.
-- `scripts/garden-floor-check.mjs` passed all four modes against the final static build: lazy loading, missing-ground inline Retry, header locking during a held request, page navigation, and reduced motion. This test required updating its stale shelf selectors and retry expectations to match the shared reader.
-- The portal publication check passed against a temporary Git index containing the reviewed worktree snapshot; the real index was not staged. The Little Light Library list contains 344 explicit files and its static build contains 557 files with digest `25cd45f611913b5883ee2159f01773e086950d11b3bd6f048700c5b5b07521ff`. The manifest has 750 reviewed hashes overall, all current. This is publication preparation only; no release or deployment was performed.
+- `npm run verify` passed: lint, index freshness, typecheck, catalog validation,
+  production build, and all 185 tests. This used local-server access for the
+  narration test fixtures; the sandbox-only run had been blocked by `listen
+  EPERM`.
+- Focused Eden/Noah staging and index tests passed 13/13. `paper-actor.test.ts`
+  passed 12/12 after the latest hammer-contour change. The Eden test measures
+  source alpha bounds and constrains the painted actor height to catch oversized
+  stage widths.
+- The production room suite passed 9/9 and the failure-recovery suite passed
+  5/5. Both reported zero page errors, failed responses, or unexpected requests.
+  Fresh machine results are retained in [`room-results.json`](room-results.json)
+  and [`failure-results.json`](failure-results.json).
+- A before/after byte comparison found all nine locale JSON files, the shared
+  audio manifest, and all 315 narration WAVs unchanged.
 
-Fresh room and failure artifacts were copied from `.test-output/room/` into `review/latest/room-results.json` and `review/latest/failure-results.json`; all nine room checks and all five failure checks report passing.
+## Prior completion-run evidence
+
+The earlier Jonah completion run reviewed its 13 pages, and earlier shared
+reader checks covered Eden/Noah pages and the Japanese p6 text view. The generic
+audio-continuity browser check passed with one loop source spanning three pages.
+These results predate the current Eden wardrobe and Noah hammer refinements.
+
+Regular book validation passes with warnings. Strict human-review validation
+remains blocked by 117 `MISSING_REVIEW` records; no creator, native-language, or
+listening attestations were added. The portal publication check passed against
+an isolated temporary Git index, without staging the real index. The Little
+Light entry now lists 387 reviewed source/runtime files; its 571-file static
+build digest is `44c6e624845036fe42bf216fa67a873c31fd21758b16b38f4c4a7ca52874be71`.
+No publication or deployment has been performed.

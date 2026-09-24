@@ -15,7 +15,7 @@ review/latest/*
 !review/latest/garden-performance.json
 docs/captures/*
 !docs/captures/room-1366.png
-!docs/captures/eden-1366.png
+!docs/captures/eden-1280.png
 !docs/captures/flood-1366.png
 !docs/captures/aftermath-1366.png
 !docs/captures/eden-360.png

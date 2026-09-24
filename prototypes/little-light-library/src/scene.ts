@@ -56,6 +56,7 @@ import {
 } from "./authored-stage";
 import {
   createPaperActor,
+  createRigidPaperActor,
   type PaperActor,
   type PaperActorMood,
 } from "./paper-actor";
@@ -1820,26 +1821,43 @@ export class LibraryScene {
       }
       for (const actorDirection of direction.actors) {
         const kind = actorDirection.kind;
-        const tex = await loader
-          .loadAsync(`./assets/art/theatre/${kind}-poses.webp`)
-          .catch(() => loader.loadAsync(`./assets/art/${kind}-figurine.webp`));
+        const imageActor = Boolean(actorDirection.image);
+        const tex = imageActor
+          ? await loader.loadAsync(stageAssetUrl(actorDirection.image!))
+          : await loader
+              .loadAsync(`./assets/art/theatre/${kind}-poses.webp`)
+              .catch(() =>
+                loader.loadAsync(`./assets/art/${kind}-figurine.webp`),
+              );
         if (this.disposed || generation !== this.loadGeneration) {
           tex.dispose();
           return;
         }
         tex.colorSpace = THREE.SRGBColorSpace;
-        const atlas = tex.image.width / tex.image.height > 1;
-        fitCutout(tex, atlas ? actorDirection.pose : 0, atlas ? 3 : 1);
+        const atlas = imageActor
+          ? false
+          : tex.image.width / tex.image.height > 1;
+        if (imageActor) fitCutout(tex);
+        else fitCutout(tex, atlas ? actorDirection.pose : 0, atlas ? 3 : 1);
         tex.userData.poseAtlas = atlas;
-        tex.userData.pose = actorDirection.pose;
+        if (!imageActor) tex.userData.pose = actorDirection.pose;
         this.pageMaps.push(tex);
-        const actor = createPaperActor(tex, kind, 1.95);
+        const actor = imageActor
+          ? createRigidPaperActor(tex, kind, actorDirection.width!)
+          : createPaperActor(tex, kind, 1.95);
         actor.root.scale.x = mirroredScaleX(
           actor.root.scale.x || 1,
           actorDirection.flipX,
         );
         const g = popup(actorDirection.x, actorDirection.depth);
         g.add(actor.root);
+        if (actorDirection.motion)
+          this.stageMotions.push({
+            target: actor.root,
+            motion: actorDirection.motion,
+            baseY: actor.root.position.y,
+            baseRotationZ: actor.root.rotation.z,
+          });
         const index = this.actors.length;
         const button = document.createElement("button");
         button.className = "paper-target";
@@ -2608,7 +2626,13 @@ export class LibraryScene {
         !this.pageRoot.visible;
       this.actors.forEach((actor, i) => {
         const head = actor.root
-          .localToWorld(new THREE.Vector3(0, 2.08, 0))
+          .localToWorld(
+            new THREE.Vector3(
+              0,
+              (Number(actor.root.userData.visibleHeight) || 2.08) * 0.96,
+              0,
+            ),
+          )
           .project(this.camera);
         const foot = actor.root
           .localToWorld(new THREE.Vector3(0, 0, 0))

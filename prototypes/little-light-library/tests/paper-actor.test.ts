@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import * as THREE from "three";
-import { createPaperActor, type PaperActorKind } from "../src/paper-actor";
+import {
+  createPaperActor,
+  createRigidPaperActor,
+  type PaperActorKind,
+} from "../src/paper-actor";
 
 function fixture(kind: PaperActorKind, atlas = false) {
   const texture = new THREE.Texture();
@@ -25,7 +29,7 @@ function fixture(kind: PaperActorKind, atlas = false) {
   };
 }
 
-test("touch changes the selected paper actor locally while feet and root remain planted", () => {
+test("legacy actor art stays rigid while selection uses only a restrained root lean", () => {
   for (const kind of ["adam", "eve", "noah"] as const) {
     for (const atlas of [false, true]) {
       const selected = fixture(kind, atlas);
@@ -36,46 +40,92 @@ test("touch changes the selected paper actor locally while feet and root remain 
       // Repeated time settles mood identically; only selection differs.
       other.actor.update(2, "listen", false, false);
       selected.actor.update(2, "listen", false, false, 1);
-      let headChange = 0;
-      let handsChange = 0;
-      for (let i = 0; i < selected.positions.count; i++) {
-        const j = i * 3;
-        const y = selected.rest[j + 1];
-        const distance = Math.hypot(
-          ...[0, 1, 2].map(
-            (axis) =>
-              selected.positions.array[j + axis] -
-              other.positions.array[j + axis],
-          ),
-        );
-        if (y > 0.85) headChange = Math.max(headChange, distance);
-        if (y > 0.4 && y < 0.78) handsChange = Math.max(handsChange, distance);
-        if (y < 0.08) {
-          for (const axis of [0, 1, 2])
-            assert.equal(
-              selected.positions.array[j + axis],
-              selected.rest[j + axis],
-            );
-        }
-        assert.ok(Number.isFinite(distance));
-        assert.ok(
-          distance < 0.05,
-          "reaction stays restrained relative to actor height",
-        );
-      }
-      assert.ok(headChange > 0.006, `${kind}: perceivable head acknowledgment`);
-      assert.ok(handsChange > 0.003, `${kind}: local hand/shoulder response`);
+      assert.deepEqual(selected.positions.array, selected.rest);
+      assert.deepEqual(other.positions.array, other.rest);
+      assert.ok(Math.abs(selected.actor.root.rotation.z) <= 0.04);
+      assert.ok(Math.abs(other.actor.root.rotation.z) <= 0.04);
+      assert.notEqual(
+        selected.actor.root.rotation.z,
+        other.actor.root.rotation.z,
+        `${kind}: selection creates a small whole-card acknowledgment`,
+      );
       assert.deepEqual(selected.actor.root.position.toArray(), [2, 3, 4]);
-      assert.deepEqual(selected.actor.root.rotation.toArray(), [
-        0,
-        0,
-        0,
-        "XYZ",
-      ]);
+      assert.deepEqual(selected.actor.root.scale.toArray(), [1, 1, 1]);
       assert.equal(other.mesh.material.emissiveIntensity, 0);
       assert.ok(selected.mesh.material.emissiveIntensity > 0);
       selected.release();
       other.release();
+    }
+  }
+});
+
+test("image-backed actor uses alpha-trimmed visible width and never deforms its card", () => {
+  const texture = new THREE.Texture();
+  texture.userData.aspect = 0.5;
+  const actor = createRigidPaperActor(texture, "eve", 1.1);
+  const card = actor.root.children[0] as THREE.Mesh<
+    THREE.PlaneGeometry,
+    THREE.MeshStandardMaterial
+  >;
+  const rest = new Float32Array(card.geometry.getAttribute("position").array);
+  assert.equal(card.geometry.parameters.width, 1.1);
+  assert.equal(card.geometry.parameters.height, 2.2);
+  assert.equal(actor.root.userData.visibleHeight, 2.2);
+  for (let frame = 0; frame < 260; frame++) {
+    actor.update(frame / 60, "work", true, false, frame === 130 ? 1 : 0);
+    assert.deepEqual(card.geometry.getAttribute("position").array, rest);
+    assert.deepEqual(actor.root.scale.toArray(), [1, 1, 1]);
+  }
+  actor.update(5, "work", true, false, 1);
+  assert.ok(card.material.emissiveIntensity > 0);
+  let textureDisposals = 0;
+  texture.addEventListener("dispose", () => textureDisposals++);
+  actor.dispose();
+  assert.equal(
+    textureDisposals,
+    0,
+    "the caller retains ownership of the image texture",
+  );
+  texture.dispose();
+});
+
+test("legacy actor meshes keep fixed vertices through every mood and full action cycle", () => {
+  for (const kind of ["adam", "eve", "noah"] as const) {
+    for (const atlas of [false, true]) {
+      const f = fixture(kind, atlas);
+      const meshRest = f.actor.root.children.map((child) => {
+        const mesh = child as THREE.Mesh;
+        return new Float32Array(mesh.geometry.getAttribute("position").array);
+      });
+      for (const mood of [
+        "welcome",
+        "listen",
+        "warn",
+        "sad",
+        "work",
+        "hope",
+      ] as const) {
+        for (const time of [0, 0.55, 1, 2, 2.6, 4.3, 6.4, 9.2]) {
+          f.actor.update(time, mood, true, false);
+          f.actor.root.children.forEach((child, index) => {
+            const mesh = child as THREE.Mesh;
+            assert.deepEqual(
+              mesh.geometry.getAttribute("position").array,
+              meshRest[index],
+              `${kind} ${mood} at ${time}s preserves authored pixels`,
+            );
+          });
+          assert.deepEqual(f.actor.root.scale.toArray(), [1, 1, 1]);
+          assert.ok(Math.abs(f.actor.root.rotation.z) <= 0.04);
+        }
+      }
+      f.actor.update(10, "work", false, true);
+      assert.deepEqual(f.actor.root.rotation.toArray(), [0, 0, 0, "XYZ"]);
+      const arm = f.actor.root.getObjectByName(`rigid-${kind}-forearm`) as
+        | THREE.Mesh
+        | undefined;
+      if (arm) assert.equal(arm.rotation.z, 0);
+      f.release();
     }
   }
 });
@@ -85,6 +135,7 @@ test("reduced motion gives static touch and hover feedback without deforming the
   f.actor.update(1, "sad", true, false, 1);
   f.actor.update(2, "sad", true, true, 1, true);
   assert.deepEqual(new Float32Array(f.positions.array), f.rest);
+  assert.deepEqual(f.actor.root.rotation.toArray(), [0, 0, 0, "XYZ"]);
   assert.ok(f.mesh.material.emissiveIntensity > 0.1);
   f.actor.update(3, "sad", false, true, 0, true);
   assert.deepEqual(new Float32Array(f.positions.array), f.rest);
@@ -98,33 +149,19 @@ test("reduced motion gives static touch and hover feedback without deforming the
   f.release();
 });
 
-test("a sad actor acknowledges touch without acquiring the expansive welcome gesture", () => {
+test("a sad actor acknowledges touch with less whole-card lean than a welcome actor", () => {
   const sad = fixture("adam");
   const welcome = fixture("adam");
   for (let i = 0; i < 120; i++) {
     sad.actor.update(i / 60, "sad", false, false, 1);
     welcome.actor.update(i / 60, "welcome", false, false, 1);
   }
-  // Inspect the left hand region: sadness keeps it closer to the body.
-  let sadReach = 0;
-  let welcomeReach = 0;
-  for (let i = 0; i < sad.positions.count; i++) {
-    if (
-      sad.rest[i * 3] < -0.16 &&
-      sad.rest[i * 3 + 1] > 0.4 &&
-      sad.rest[i * 3 + 1] < 0.55
-    ) {
-      sadReach = Math.max(
-        sadReach,
-        Math.abs(sad.positions.getX(i) - sad.rest[i * 3]),
-      );
-      welcomeReach = Math.max(
-        welcomeReach,
-        Math.abs(welcome.positions.getX(i) - welcome.rest[i * 3]),
-      );
-    }
-  }
-  assert.ok(sadReach < welcomeReach / 2);
+  assert.ok(
+    Math.abs(sad.actor.root.rotation.z) <
+      Math.abs(welcome.actor.root.rotation.z),
+  );
+  assert.deepEqual(sad.positions.array, sad.rest);
+  assert.deepEqual(welcome.positions.array, welcome.rest);
   sad.release();
   welcome.release();
 });
@@ -149,6 +186,36 @@ test("Noah's rigid forearm partitions the illustration without duplicate UV cove
     "noah-body-without-forearm",
   ) as THREE.Mesh;
   const arm = f.actor.root.getObjectByName("rigid-noah-forearm") as THREE.Mesh;
+  const joint = f.actor.root.getObjectByName(
+    "noah-hammer-joint-underlap",
+  ) as THREE.Mesh;
+  assert.ok(joint, "a stationary source-matched print covers the elbow seam");
+  assert.equal(joint.position.z, 0.01);
+  let jointArea = 0;
+  const jointUv = joint.geometry.getAttribute("uv");
+  for (let i = 0; i < jointUv.count; i += 3)
+    jointArea +=
+      Math.abs(
+        (jointUv.getX(i + 1) - jointUv.getX(i)) *
+          (jointUv.getY(i + 2) - jointUv.getY(i)) -
+          (jointUv.getY(i + 1) - jointUv.getY(i)) *
+            (jointUv.getX(i + 2) - jointUv.getX(i)),
+      ) / 2;
+  assert.ok(
+    jointArea > 0.01 && jointArea < 0.025,
+    "soft underlap stays local to the source-matched elbow",
+  );
+  const jointAlpha = joint.geometry.getAttribute("color");
+  assert.ok(jointAlpha.count > 0);
+  assert.ok(
+    Array.from(jointAlpha.array).some(
+      (value, i) => i % 4 === 3 && value === 0,
+    ) &&
+      Array.from(jointAlpha.array).some(
+        (value, i) => i % 4 === 3 && value === 1,
+      ),
+    "rounded overlap feathers outward instead of ending in a hard cuff edge",
+  );
   let area = 0;
   for (const mesh of [body, arm]) {
     const uv = mesh.geometry.getAttribute("uv");
@@ -165,10 +232,22 @@ test("Noah's rigid forearm partitions the illustration without duplicate UV cove
     Math.abs(area - 1) < 0.00001,
     "complementary body and forearm cover the original texture once",
   );
+  const armUv = arm.geometry.getAttribute("uv");
+  let cuffRightEdge = -Infinity;
+  const cuffBoundaryV = 1 - (310 - 123) / 732;
+  for (let i = 0; i < armUv.count; i++)
+    if (armUv.getY(i) <= cuffBoundaryV)
+      cuffRightEdge = Math.max(cuffRightEdge, armUv.getX(i));
+  assert.ok(
+    cuffRightEdge <= (160 - 108) / 440 + 1e-5,
+    "moving cutout narrows to the source skin/cuff boundary before the blue sleeve",
+  );
   const armRest = new Float32Array(arm.geometry.getAttribute("position").array);
   f.actor.update(0, "work", false, false);
   assert.equal(f.mesh.visible, false);
-  assert.ok(body.visible && arm.visible);
+  assert.ok(body.visible && arm.visible && joint.visible);
+  let minAngle = 0;
+  let maxAngle = 0;
   for (let frame = 0; frame < 157; frame++) {
     f.actor.update(frame / 60, "work", false, false);
     assert.deepEqual(
@@ -176,16 +255,33 @@ test("Noah's rigid forearm partitions the illustration without duplicate UV cove
       armRest,
       "rigid hand/tool never melt",
     );
+    minAngle = Math.min(minAngle, arm.rotation.z);
+    maxAngle = Math.max(maxAngle, arm.rotation.z);
     assert.ok(Number.isFinite(arm.rotation.z));
+    assert.ok(
+      Math.abs(arm.rotation.z) <= 1.91,
+      "arm stays within its authored work arc",
+    );
+    assert.deepEqual(
+      f.positions.array,
+      f.rest,
+      "the actor card itself never deforms",
+    );
+    assert.deepEqual(f.actor.root.scale.toArray(), [1, 1, 1]);
     for (let i = 0; i < f.positions.count; i++)
       if (f.rest[i * 3 + 1] < 0.08) {
         assert.equal(f.positions.getX(i), f.rest[i * 3]);
         assert.equal(f.positions.getY(i), f.rest[i * 3 + 1]);
       }
   }
+  assert.ok(
+    minAngle < -1.8 && maxAngle === 0,
+    "full strike and return occur in one 2.6 second cycle",
+  );
   f.actor.update(3, "work", false, true);
   assert.ok(f.mesh.visible);
   assert.equal(arm.visible, false);
+  assert.equal(joint.visible, false);
   assert.equal(body.visible, false);
   assert.deepEqual(new Float32Array(f.positions.array), f.rest);
   const hits: THREE.Intersection[] = [];
@@ -344,7 +440,7 @@ function adamPresentationFixture(pose = 0) {
   };
 }
 
-test("Adam presentation partitions skin once, holds rigid dimensions and restores the complete original pose", () => {
+test("Adam presentation partitions skin once without distorting the printed body", () => {
   const f = adamPresentationFixture();
   const full = f.actor.root.children[0] as THREE.Mesh;
   const arm = f.actor.root.getObjectByName("rigid-adam-forearm") as THREE.Mesh;
@@ -405,26 +501,13 @@ test("Adam presentation partitions skin once, holds rigid dimensions and restore
       Array.from(arm.geometry.getAttribute("position").array),
       armRest,
     );
-    const bodyPositions = body.geometry.getAttribute("position");
-    for (let i = 0; i < bodyPositions.count; i++) {
-      if (bodyRest[i * 3 + 1] <= 1.95 * 0.795) {
-        assert.equal(bodyPositions.getX(i), bodyRest[i * 3]);
-        assert.equal(bodyPositions.getY(i), bodyRest[i * 3 + 1]);
-        assert.equal(bodyPositions.getZ(i), bodyRest[i * 3 + 2]);
-      }
-      assert.ok(
-        Number.isFinite(bodyPositions.getX(i)) &&
-          Number.isFinite(bodyPositions.getY(i)) &&
-          Number.isFinite(bodyPositions.getZ(i)),
-      );
-    }
-    assert.ok(
-      Array.from(bodyPositions.array).some(
-        (value, i) => Math.abs(value - bodyRest[i]) > 1e-5,
-      ),
-      "existing head articulation remains alive",
+    assert.deepEqual(
+      Array.from(body.geometry.getAttribute("position").array),
+      bodyRest,
+      "head, torso, and clothing remain a rigid printed card",
     );
     assert.ok(Number.isFinite(arm.rotation.z));
+    assert.deepEqual(f.actor.root.scale.toArray(), [1, 1, 1]);
     f.actor.root.updateMatrixWorld(true);
     const armPositions = arm.geometry.getAttribute("position");
     for (let i = 0; i < armPositions.count; i++) {
@@ -472,7 +555,7 @@ test("Adam presentation partitions skin once, holds rigid dimensions and restore
   f.release();
 });
 
-test("Adam presentation leaves other poses and moods on their existing full-pose animation", () => {
+test("Adam presentation leaves other poses and moods on a rigid full-pose card", () => {
   const rig = adamPresentationFixture(),
     plain = adamPresentationFixture(1);
   assert.equal(

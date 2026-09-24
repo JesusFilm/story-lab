@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-23T23:18:10.386Z",
+  "generatedAt": "2026-09-24T01:16:25.590Z",
   "method": "Fresh isolated browser contexts against a production build at a nested static URL; failures injected only with Playwright routes.",
   "urlPath": "/acceptance/little-light-library/",
   "checks": [

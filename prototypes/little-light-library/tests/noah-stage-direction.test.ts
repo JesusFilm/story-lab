@@ -114,6 +114,20 @@ test("the shore stages hold the changed-world mood and covenant art", () => {
   assert.equal(remembrance.rainbow, undefined);
 });
 
+test("Noah actor directions preserve their authored motion moods", () => {
+  for (const [id, pose, mood] of [
+    ["noah-03", 2, "welcome"],
+    ["noah-07", 2, "hope"],
+    ["noah-08", 2, "hope"],
+  ] as const) {
+    const actor = noahStageDirections[id].actors.find(
+      (direction) => direction.kind === "noah",
+    );
+    assert.equal(actor?.pose, pose, `${id} keeps its authored atlas pose`);
+    assert.equal(actor?.mood, mood, `${id} keeps its authored motion mood`);
+  }
+});
+
 test("every Noah-owned stage print has a source PNG and a reader WebP", () => {
   const root = "assets/books/noah-and-the-great-flood";
   const stems = [

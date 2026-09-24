@@ -18,7 +18,7 @@ Generated per-book review index. Source text stays in locale files; page staging
 The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/assets/art/eden-01.webp). Eden and Noah retain their established localized voice and character rigs.
 
 - Book-specific art notes and source inventory: [assets/books/eden/README.md](../../assets/books/eden/README.md).
-- Editable source art and prompts: [assets/books/eden/prompts/continuous-garden-ground.txt](../../assets/books/eden/prompts/continuous-garden-ground.txt), [assets/books/eden/prompts/eden-guarded-way-backcloth.txt](../../assets/books/eden/prompts/eden-guarded-way-backcloth.txt), [assets/books/eden/prompts/exile-earth-ground.txt](../../assets/books/eden/prompts/exile-earth-ground.txt), [assets/books/eden/prompts/fieldwork-tools.txt](../../assets/books/eden/prompts/fieldwork-tools.txt), [assets/books/eden/prompts/fig-leaf-hiding-screen.txt](../../assets/books/eden/prompts/fig-leaf-hiding-screen.txt), [assets/books/eden/source-art/continuous-garden-ground.png](../../assets/books/eden/source-art/continuous-garden-ground.png), [assets/books/eden/source-art/eden-guarded-way-backcloth.png](../../assets/books/eden/source-art/eden-guarded-way-backcloth.png), [assets/books/eden/source-art/exile-earth-ground.png](../../assets/books/eden/source-art/exile-earth-ground.png), [assets/books/eden/source-art/fieldwork-tools.png](../../assets/books/eden/source-art/fieldwork-tools.png), [assets/books/eden/source-art/fig-leaf-hiding-screen.png](../../assets/books/eden/source-art/fig-leaf-hiding-screen.png).
+- Editable source art and prompts: [assets/books/eden/prompts/adam-behind-garden-bush.txt](../../assets/books/eden/prompts/adam-behind-garden-bush.txt), [assets/books/eden/prompts/adam-fruit-receiving-behind-garden-bush.txt](../../assets/books/eden/prompts/adam-fruit-receiving-behind-garden-bush.txt), [assets/books/eden/prompts/adam-hide-hope.txt](../../assets/books/eden/prompts/adam-hide-hope.txt), [assets/books/eden/prompts/adam-hide-walking.txt](../../assets/books/eden/prompts/adam-hide-walking.txt), [assets/books/eden/prompts/adam-hide-work.txt](../../assets/books/eden/prompts/adam-hide-work.txt), [assets/books/eden/prompts/adam-leaf-consequences.txt](../../assets/books/eden/prompts/adam-leaf-consequences.txt), [assets/books/eden/prompts/adam-leaf-shame.txt](../../assets/books/eden/prompts/adam-leaf-shame.txt), [assets/books/eden/prompts/continuous-garden-ground.txt](../../assets/books/eden/prompts/continuous-garden-ground.txt), [assets/books/eden/prompts/eden-guarded-way-backcloth.txt](../../assets/books/eden/prompts/eden-guarded-way-backcloth.txt), [assets/books/eden/prompts/eve-behind-garden-bush.txt](../../assets/books/eden/prompts/eve-behind-garden-bush.txt), [assets/books/eden/prompts/eve-fruit-behind-garden-bush.txt](../../assets/books/eden/prompts/eve-fruit-behind-garden-bush.txt), [assets/books/eden/prompts/eve-hide-hope.txt](../../assets/books/eden/prompts/eve-hide-hope.txt), [assets/books/eden/prompts/eve-hide-walking.txt](../../assets/books/eden/prompts/eve-hide-walking.txt), [assets/books/eden/prompts/eve-hide-work.txt](../../assets/books/eden/prompts/eve-hide-work.txt), [assets/books/eden/prompts/eve-leaf-consequences.txt](../../assets/books/eden/prompts/eve-leaf-consequences.txt), [assets/books/eden/prompts/eve-leaf-shame.txt](../../assets/books/eden/prompts/eve-leaf-shame.txt), [assets/books/eden/prompts/exile-earth-ground.txt](../../assets/books/eden/prompts/exile-earth-ground.txt), [assets/books/eden/prompts/fieldwork-tools.txt](../../assets/books/eden/prompts/fieldwork-tools.txt), [assets/books/eden/prompts/fig-leaf-hiding-screen.txt](../../assets/books/eden/prompts/fig-leaf-hiding-screen.txt), [assets/books/eden/source-art/adam-behind-garden-bush.png](../../assets/books/eden/source-art/adam-behind-garden-bush.png), [assets/books/eden/source-art/adam-fruit-receiving-behind-garden-bush.png](../../assets/books/eden/source-art/adam-fruit-receiving-behind-garden-bush.png), [assets/books/eden/source-art/adam-hide-hope.png](../../assets/books/eden/source-art/adam-hide-hope.png), [assets/books/eden/source-art/adam-hide-walking.png](../../assets/books/eden/source-art/adam-hide-walking.png), [assets/books/eden/source-art/adam-hide-work.png](../../assets/books/eden/source-art/adam-hide-work.png), [assets/books/eden/source-art/adam-leaf-consequences.png](../../assets/books/eden/source-art/adam-leaf-consequences.png), [assets/books/eden/source-art/adam-leaf-shame.png](../../assets/books/eden/source-art/adam-leaf-shame.png), [assets/books/eden/source-art/continuous-garden-ground.png](../../assets/books/eden/source-art/continuous-garden-ground.png), [assets/books/eden/source-art/eden-guarded-way-backcloth.png](../../assets/books/eden/source-art/eden-guarded-way-backcloth.png), [assets/books/eden/source-art/eve-behind-garden-bush.png](../../assets/books/eden/source-art/eve-behind-garden-bush.png), [assets/books/eden/source-art/eve-fruit-behind-garden-bush.png](../../assets/books/eden/source-art/eve-fruit-behind-garden-bush.png), [assets/books/eden/source-art/eve-hide-hope.png](../../assets/books/eden/source-art/eve-hide-hope.png), [assets/books/eden/source-art/eve-hide-walking.png](../../assets/books/eden/source-art/eve-hide-walking.png), [assets/books/eden/source-art/eve-hide-work.png](../../assets/books/eden/source-art/eve-hide-work.png), [assets/books/eden/source-art/eve-leaf-consequences.png](../../assets/books/eden/source-art/eve-leaf-consequences.png), [assets/books/eden/source-art/eve-leaf-shame.png](../../assets/books/eden/source-art/eve-leaf-shame.png), [assets/books/eden/source-art/exile-earth-ground.png](../../assets/books/eden/source-art/exile-earth-ground.png), [assets/books/eden/source-art/fieldwork-tools.png](../../assets/books/eden/source-art/fieldwork-tools.png), [assets/books/eden/source-art/fig-leaf-hiding-screen.png](../../assets/books/eden/source-art/fig-leaf-hiding-screen.png).
 - Book-local runtime art: shared theatre paths listed per page.
 
 ## Page sequence, text, art, and scene direction
@@ -38,7 +38,7 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 - Painted backdrop: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
 - Full-page ground print: [assets/art/theatre/continuous-garden-ground.webp](../../public/assets/art/theatre/continuous-garden-ground.webp)
-- adam actor: pose 0, mood `welcome`, position (-0.4, -0.5); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
+- adam actor: mood `welcome`, position (-0.4, -0.5), visible width 1.1551, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-adam-behind-garden-bush.webp](../../public/assets/art/theatre/eden-adam-behind-garden-bush.webp).
 - Eden tree cutout: [assets/art/eden-tree.webp](../../public/assets/art/eden-tree.webp).
 - Scene elements: tree at -2.15.
 
@@ -57,8 +57,8 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 - Painted backdrop: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
 - Full-page ground print: [assets/art/theatre/continuous-garden-ground.webp](../../public/assets/art/theatre/continuous-garden-ground.webp)
-- adam actor: pose 0, mood `welcome`, position (-0.65, -0.5); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
-- eve actor: pose 0, mood `welcome`, position (0.8, -0.25), mirrored horizontally; artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
+- adam actor: mood `welcome`, position (-0.65, -0.5), visible width 1.1551, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-adam-behind-garden-bush.webp](../../public/assets/art/theatre/eden-adam-behind-garden-bush.webp).
+- eve actor: mood `welcome`, position (0.8, -0.25), visible width 1.2723, mirrored horizontally, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-eve-behind-garden-bush.webp](../../public/assets/art/theatre/eden-eve-behind-garden-bush.webp).
 - Eden tree cutout: [assets/art/eden-tree.webp](../../public/assets/art/eden-tree.webp).
 - Scene elements: tree at -2.3.
 
@@ -77,8 +77,8 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 - Painted backdrop: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
 - Full-page ground print: [assets/art/theatre/continuous-garden-ground.webp](../../public/assets/art/theatre/continuous-garden-ground.webp)
-- adam actor: pose 0, mood `warn`, position (-0.65, 0.05); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
-- eve actor: pose 1, mood `warn`, position (0.55, -0.7); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
+- adam actor: mood `warn`, position (-0.7, -0.5), visible width 1.164, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-adam-fruit-receiving-behind-garden-bush.webp](../../public/assets/art/theatre/eden-adam-fruit-receiving-behind-garden-bush.webp).
+- eve actor: mood `warn`, position (0.7, -0.45), visible width 1.014, mirrored horizontally, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-eve-fruit-behind-garden-bush.webp](../../public/assets/art/theatre/eden-eve-fruit-behind-garden-bush.webp).
 - serpent-branch prop: visible width 1.25, position (1.75, 0.1); artwork [assets/art/theatre/serpent-branch.webp](../../public/assets/art/theatre/serpent-branch.webp).
 
 ### 04. Shame and hiding (`eden-04`)
@@ -96,9 +96,8 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 - Painted backdrop: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
 - Full-page ground print: [assets/art/theatre/continuous-garden-ground.webp](../../public/assets/art/theatre/continuous-garden-ground.webp)
-- adam actor: pose 1, mood `sad`, position (-0.65, -0.45); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
-- eve actor: pose 2, mood `sad`, position (0.65, -0.5); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
-- assets/art/theatre/fig-leaf-hiding-screen.webp prop: visible width 4.9, position (0, -0.55), sway motion (0.12°, 5.1s cycle); artwork [assets/art/theatre/fig-leaf-hiding-screen.webp](../../public/assets/art/theatre/fig-leaf-hiding-screen.webp).
+- adam actor: mood `sad`, position (-0.65, -0.45), visible width 0.6188, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-adam-leaf-shame.webp](../../public/assets/art/theatre/eden-adam-leaf-shame.webp).
+- eve actor: mood `sad`, position (0.65, -0.5), visible width 0.4809, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-eve-leaf-shame.webp](../../public/assets/art/theatre/eden-eve-leaf-shame.webp).
 - Eden tree cutout: [assets/art/eden-tree.webp](../../public/assets/art/eden-tree.webp).
 - Scene elements: tree at 2.2.
 
@@ -117,8 +116,8 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 - Painted backdrop: [assets/art/theatre/garden.webp](../../public/assets/art/theatre/garden.webp)
 - Full-page ground print: [assets/art/theatre/continuous-garden-ground.webp](../../public/assets/art/theatre/continuous-garden-ground.webp)
-- adam actor: pose 1, mood `sad`, position (-0.7, -0.65); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
-- eve actor: pose 2, mood `sad`, position (0.6, -0.4); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
+- adam actor: mood `sad`, position (-0.7, -0.65), visible width 0.6893, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-adam-leaf-consequences.webp](../../public/assets/art/theatre/eden-adam-leaf-consequences.webp).
+- eve actor: mood `sad`, position (0.6, -0.4), visible width 0.5077, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-eve-leaf-consequences.webp](../../public/assets/art/theatre/eden-eve-leaf-consequences.webp).
 - Eden tree cutout: [assets/art/eden-tree.webp](../../public/assets/art/eden-tree.webp).
 - Scene elements: tree at -2.1.
 
@@ -137,8 +136,8 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 - Painted backdrop: [assets/art/theatre/eden-guarded-way-backcloth.webp](../../public/assets/art/theatre/eden-guarded-way-backcloth.webp)
 - Full-page ground print: [assets/art/theatre/exile-earth-ground.webp](../../public/assets/art/theatre/exile-earth-ground.webp)
-- adam actor: pose 1, mood `sad`, position (-0.85, -0.4); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
-- eve actor: pose 2, mood `sad`, position (0.8, -0.25); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
+- adam actor: mood `sad`, position (-0.85, -0.4), visible width 0.8404, mirrored horizontally, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-adam-hide-walking.webp](../../public/assets/art/theatre/eden-adam-hide-walking.webp).
+- eve actor: mood `sad`, position (0.8, -0.25), visible width 0.7082, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-eve-hide-walking.webp](../../public/assets/art/theatre/eden-eve-hide-walking.webp).
 
 ### 07. Life beyond Eden (`eden-07`)
 
@@ -155,9 +154,8 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 - Painted backdrop: [assets/art/theatre/exile.webp](../../public/assets/art/theatre/exile.webp)
 - Full-page ground print: [assets/art/theatre/exile-earth-ground.webp](../../public/assets/art/theatre/exile-earth-ground.webp)
-- adam actor: pose 0, mood `work`, position (-0.45, -0.75); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
-- eve actor: pose 0, mood `work`, position (0.45, -0.45); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
-- assets/art/theatre/fieldwork-tools.webp prop: visible width 1.75, position (1.65, -1.05); artwork [assets/art/theatre/fieldwork-tools.webp](../../public/assets/art/theatre/fieldwork-tools.webp).
+- adam actor: mood `work`, position (-0.75, -0.75), visible width 1.1392, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-adam-hide-work.webp](../../public/assets/art/theatre/eden-adam-hide-work.webp).
+- eve actor: mood `work`, position (0.75, -0.45), visible width 0.9342, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-eve-hide-work.webp](../../public/assets/art/theatre/eden-eve-hide-work.webp).
 
 ### 08. A promise carried forward (`eden-08`)
 
@@ -174,8 +172,8 @@ The cover artwork begins with page one, [assets/art/eden-01.webp](../../public/a
 
 - Painted backdrop: [assets/art/theatre/exile.webp](../../public/assets/art/theatre/exile.webp)
 - Full-page ground print: [assets/art/theatre/exile-earth-ground.webp](../../public/assets/art/theatre/exile-earth-ground.webp)
-- adam actor: pose 2, mood `hope`, position (-0.75, -0.4); artwork [assets/art/theatre/adam-poses.webp](../../public/assets/art/theatre/adam-poses.webp).
-- eve actor: pose 0, mood `hope`, position (0.65, -0.25); artwork [assets/art/theatre/eve-poses.webp](../../public/assets/art/theatre/eve-poses.webp).
+- adam actor: mood `hope`, position (-0.75, -0.4), visible width 0.8109, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-adam-hide-hope.webp](../../public/assets/art/theatre/eden-adam-hide-hope.webp).
+- eve actor: mood `hope`, position (0.65, -0.25), visible width 0.8778, mirrored horizontally, sway motion (0.35°, 6.2s cycle); artwork [assets/art/theatre/eden-eve-hide-hope.webp](../../public/assets/art/theatre/eden-eve-hide-hope.webp).
 
 ## Narration files by locale
 

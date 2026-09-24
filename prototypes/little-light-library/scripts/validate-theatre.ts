@@ -60,9 +60,21 @@ for (const [id, direction] of Object.entries(stageDirections)) {
   addAsset(direction.background, `${id} backdrop`);
   addAsset(direction.ground, `${id} required full-page ground`);
   for (const actor of direction.actors) {
-    addAsset(`${actor.kind}-poses.webp`, `${id} ${actor.kind} pose atlas`);
     assert.ok(Math.abs(actor.x) < 2.5, `${id}: actor stays on page`);
-    assert.ok(actor.pose >= 0 && actor.pose < 3, `${id}: pose is supported`);
+    if (actor.image) {
+      addAsset(actor.image, `${id} ${actor.kind} artwork`);
+      assert.ok(
+        actor.width > 0,
+        `${id}: image-backed actor width must be positive`,
+      );
+      assert.ok(
+        Math.abs(actor.x) + actor.width / 2 < 3.1,
+        `${id}: image-backed actor stays inside the pages`,
+      );
+    } else {
+      addAsset(`${actor.kind}-poses.webp`, `${id} ${actor.kind} pose atlas`);
+      assert.ok(actor.pose >= 0 && actor.pose < 3, `${id}: pose is supported`);
+    }
     assert.ok(actor.flipX === undefined || typeof actor.flipX === "boolean");
   }
   for (const prop of direction.props ?? []) addProp(prop, `${id} ${prop.file}`);

@@ -37,6 +37,33 @@ test("all sixteen retained pages have local backdrops and explicit matching grou
       fs.existsSync(localPath(direction.ground)),
       `${id} ground exists`,
     );
+    for (const actor of direction.actors) {
+      const artwork =
+        actor.image ?? `assets/art/theatre/${actor.kind}-poses.webp`;
+      assert.ok(fs.existsSync(localPath(artwork)), `${id} ${actor.kind} art`);
+      if (actor.image) {
+        assert.ok(actor.width > 0, `${id} image actor has a positive width`);
+        assert.ok(
+          Math.abs(actor.x) + actor.width / 2 < 3.1,
+          `${id} image actor fits the page`,
+        );
+      } else {
+        assert.ok(
+          actor.pose === 0 || actor.pose === 1 || actor.pose === 2,
+          `${id} legacy actor selects one fixed pose`,
+        );
+      }
+      if (actor.motion) {
+        assert.ok(
+          Number.isFinite(actor.motion.strength),
+          `${id} motion amount`,
+        );
+        assert.ok(
+          (actor.motion.periodSeconds ?? 3.4) > 0,
+          `${id} motion cycle is positive`,
+        );
+      }
+    }
     for (const prop of direction.props ?? []) {
       assert.ok(prop.width > 0 && (prop.scale ?? 1) > 0, `${id} prop size`);
       assert.ok(
