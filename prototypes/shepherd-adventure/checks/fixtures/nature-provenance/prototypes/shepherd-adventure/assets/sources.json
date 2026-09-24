@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "file": "assets/nature/LICENSE.txt",
+      "source": "assets/nature/quaternius-stylized-nature/originals/License_Standard.txt",
+      "sha256": "6b2fcdf8b9815320ca1486ad974a49833e826c4d68db747877124d5120c6fe5b",
+      "bytes": 18
+    },
+    {
+      "file": "assets/nature/runtime.dat",
+      "source": "assets/nature/quaternius-stylized-nature/originals/source.dat",
+      "sha256": "d6383332cfbedbc471b49932d0ae413ae6627d8295564f8bb785d9d0af9bbf9c",
+      "bytes": 29,
+      "upstream_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "upstream_bytes": 32
+    }
+  ]
+}

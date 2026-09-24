@@ -88,8 +88,10 @@
     },
     {
       "path": "originals/glTF/PathRocks_Diffuse.png",
-      "sha256": "85a04abb2c136fee53b376daf3b7d7f96fdf3966de0258dff6fe2b24da792b23",
-      "bytes": 811732
+      "sha256": "df31c0574686b94109b40d56057eb3551224c539bd9ff44f719b24622883df1b",
+      "bytes": 811711,
+      "upstream_sha256": "85a04abb2c136fee53b376daf3b7d7f96fdf3966de0258dff6fe2b24da792b23",
+      "upstream_bytes": 811732
     },
     {
       "path": "originals/glTF/Pebble_Round_2.bin",
@@ -133,8 +135,10 @@
     },
     {
       "path": "originals/glTF/Rocks_Diffuse.png",
-      "sha256": "b813696df6081f469a127092eb0ce45cc39d56f3ccc0699152bfcd3804810b48",
-      "bytes": 2517398
+      "sha256": "7616d35e4b41e88702c34c866715c8b4dbc4638f47d8a1a279e27b9fc95a41e9",
+      "bytes": 2517377,
+      "upstream_sha256": "b813696df6081f469a127092eb0ce45cc39d56f3ccc0699152bfcd3804810b48",
+      "upstream_bytes": 2517398
     },
     {
       "path": "originals/glTF/TwistedTree_1.bin",

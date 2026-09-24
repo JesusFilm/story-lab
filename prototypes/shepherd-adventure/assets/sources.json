@@ -74,7 +74,7 @@
     {
       "file": "assets/nature/Bark_DeadTree.png",
       "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_DeadTree.png",
-      "sha256": "498c5a20e54df4be73f543a786497e7df840ae907242e142621e22dd16a07aec",
+      "sha256": "0e382ca7ecd69226b9db4d65bd6099706e154384d6ec4f13ccec119edd8f5f24",
       "origin": "third-party-non-tripo",
       "author": "Quaternius",
       "license": "CC0-1.0"
@@ -82,7 +82,7 @@
     {
       "file": "assets/nature/Bark_DeadTree_Normal.png",
       "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_DeadTree_Normal.png",
-      "sha256": "d3a0dc287eba6512851a0e3aca12cb348e2168dc6787ea3b01ef622514642988",
+      "sha256": "0f525d156830a6b8d80ada85de9c9c85df8f18b3eede1854c697b4941f0ff4f5",
       "origin": "third-party-non-tripo",
       "author": "Quaternius",
       "license": "CC0-1.0"
@@ -90,7 +90,7 @@
     {
       "file": "assets/nature/Bark_NormalTree.png",
       "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_NormalTree.png",
-      "sha256": "f40d425d875500b4fb4a9543cc361c5330f5058468e4d0f905631de516dda8c0",
+      "sha256": "01ca34489206d36a872b6122515157675e826ae92da2ffc834721351520dc838",
       "origin": "third-party-non-tripo",
       "author": "Quaternius",
       "license": "CC0-1.0"
@@ -98,7 +98,7 @@
     {
       "file": "assets/nature/Bark_NormalTree_Normal.png",
       "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_NormalTree_Normal.png",
-      "sha256": "17a53781868cada06020a478a88efe449322637f3e2924ea489b087c92aeab3b",
+      "sha256": "7503846d460b56b55489e2bd0e68bee279f2c239c9fd70bda4e02c889e4ad421",
       "origin": "third-party-non-tripo",
       "author": "Quaternius",
       "license": "CC0-1.0"
@@ -106,7 +106,7 @@
     {
       "file": "assets/nature/Bark_TwistedTree.png",
       "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_TwistedTree.png",
-      "sha256": "b721ec3a567efdd52aba75021c3ec4562a4392dc916c5e11b08b9afd2c8c8db4",
+      "sha256": "2f6f8388e7d2f09d267360bb481c1a99d23d9039a6669dd47b9d631c420532f8",
       "origin": "third-party-non-tripo",
       "author": "Quaternius",
       "license": "CC0-1.0"
@@ -114,7 +114,7 @@
     {
       "file": "assets/nature/Bark_TwistedTree_Normal.png",
       "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Bark_TwistedTree_Normal.png",
-      "sha256": "d3a0dc287eba6512851a0e3aca12cb348e2168dc6787ea3b01ef622514642988",
+      "sha256": "0f525d156830a6b8d80ada85de9c9c85df8f18b3eede1854c697b4941f0ff4f5",
       "origin": "third-party-non-tripo",
       "author": "Quaternius",
       "license": "CC0-1.0"
@@ -194,7 +194,7 @@
     {
       "file": "assets/nature/PathRocks_Diffuse.png",
       "source": "assets/nature/quaternius-stylized-nature/originals/glTF/PathRocks_Diffuse.png",
-      "sha256": "85a04abb2c136fee53b376daf3b7d7f96fdf3966de0258dff6fe2b24da792b23",
+      "sha256": "df31c0574686b94109b40d56057eb3551224c539bd9ff44f719b24622883df1b",
       "origin": "third-party-non-tripo",
       "author": "Quaternius",
       "license": "CC0-1.0"
@@ -266,7 +266,7 @@
     {
       "file": "assets/nature/Rocks_Diffuse.png",
       "source": "assets/nature/quaternius-stylized-nature/originals/glTF/Rocks_Diffuse.png",
-      "sha256": "2dd54656f9a35aad155c9c13b9d1e0c3026509a1ab4926cbe6203a7f4b0834d5",
+      "sha256": "5d5a055fbac2e9d4d97300162f9117ccbbc873d8571e3138a04da0a75eeb4fc6",
       "origin": "third-party-non-tripo",
       "author": "Quaternius",
       "license": "CC0-1.0"
