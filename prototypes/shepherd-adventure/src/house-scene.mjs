@@ -21,10 +21,11 @@ export function createHouseScene(journey,scene,character,{isMuted=()=>false}={})
    voicePromise=loadAudioRecording(context,voiceURL).then(buffer=>{voiceBuffer=buffer;return buffer;}).catch(()=>{audioFailed=true;return null;});
   }catch{audioFailed=true;voicePromise=Promise.resolve(null);}
  }
- preloadVoice();
+
  function stopAudio(){for(const node of nodes){try{node.stop();node.disconnect();}catch{}}nodes=[];played.clear();}
  async function unlock(){
  if(isMuted())return;
+ if(!voicePromise)preloadVoice();
   try{context??=new AudioContext();await context.resume();await voicePromise;}
   catch{audioFailed=true;}
  }

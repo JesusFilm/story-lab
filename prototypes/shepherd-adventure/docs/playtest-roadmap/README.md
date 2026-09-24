@@ -19,6 +19,10 @@ the source captures and detailed before/after records; `WORKFLOW.md` explains ho
 an agent resumes a feedback session. The former visual companion was retired in
 D028 because it duplicated this record and was not used by the prototype.
 
+Latest loading follow-up: [D046](#d046--f19--i04--i08--r01--automatic-quality).
+PR14 Minimal now has a user-confirmed A50 full playthrough, but not visual acceptance.
+I04/I08/M1 remain partial; this automatic-selection follow-up awaits phone testing.
+
 ## Current direction at a glance
 
 - Keep opening/ending scripture unchanged and text-focused; show exact verse
@@ -134,6 +138,7 @@ below. D023–D027 close only their recorded copy/UI/reference scope.
 | F17 | Clunky movement and camera: looking around the well, tight camera turns | User examples; not recorded/reproduced yet. Separate authored motion from actual rendering freezes. | I07 |
 | F18 | Opening the gate sends the player flying backward instead of a small step | User example; opening-gate scene likely point 08, exact beat still to confirm. Source has authored positional offsets; root cause unproven. | I07 |
 | F16 | Show exact verse addresses in the opening/ending | Added in clarification; preserve scripture wording and show cue-specific references. | T06 |
+| F19 | Android Chrome shows HTML controls over a white game area after the diorama | Reported 23 September 2026 with one screenshot. Phone/GPU, OS/browser versions and CSS viewport are unknown. The small broken-content icon does not establish a renderer crash. Original image is excluded from public source. [Investigation](../../../../docs/reports/shepherd-adventure-mobile-rendering.md). | I04 / R01 / D044 |
 
 The following are **product requirements added during planning**, rather than
 observations from the initial playtest. They use separate IDs to preserve that distinction.
@@ -398,9 +403,9 @@ House 1's refusal and House 5's silence separate from this illustrated-house rul
 **Proposed priority:** high diagnostic work; fixes follow measured cause.
 **Size:** unknown until trace. **Status:** independent investigation authorized by direction;
 initial memory baseline captured (D041) and optimization proof of concept implemented
-(D042), but no in-route freeze root cause established.
+(D042, accepted in D043). D044 adds a bounded Android-launch rendering budget and mobile PR coverage; technical validation passed (9 mobile CI cases) and physical-device acceptance remains open. No in-route freeze root cause is established.
 [Full-route evidence](evidence/2026-09-18-memory/README.md).
-**Covers:** F08, R01 and resource costs underlying F09.
+**Covers:** F08, F19, R01 and resource costs underlying F09.
 **Reproduction leads:** both M1 Air and M4 Mac show freezes. Start with engine/render
 resource handling and camera state/turn logic. Browser versions are incidental
 metadata unless a trace later implicates them. **Optimization target:** lower-powered
@@ -707,7 +712,7 @@ IDs are retained; no earlier milestone is renamed or silently considered complet
 | Milestone | Deliverable | Dependencies / exit |
 | --- | --- | --- |
 | M0 — Evidence and direction | Feedback register and baseline; House 8, loader/audio direction and audience priority resolved | Core direction recorded. Gather missing motion/audio/trace evidence during the relevant initiative; browser-version collection is not a gate. |
-| M1 — Reliability diagnosis and focused repairs | Independent engine/camera freeze investigation, lower-end budgets, House 1 voice reproduction and I08 loading-strategy comparison | I01/I04 diagnosis can begin now. Measure before choosing resource fixes or eliminating staged loading. Each repair needs evidence. |
+| M1 — Reliability diagnosis and focused repairs | Partial: D043 memory initiative accepted; D044 Android-launch slice technically verified; awaiting physical-device playtest. Independent freeze investigation, physical lower-end evidence, House 1 voice reproduction and I08 loading-strategy comparison remain open. | I01/I04 diagnosis can begin now. Measure before choosing resource fixes or eliminating staged loading. Each repair needs evidence. |
 | M2 — House 8 exemplar and scripture controls | T01 copy/UI and T06 references accepted (D023–D027). The first House 8 framing/farewell slice is accepted after playtest (D031); scripture back navigation and deeper viewpoint alternatives remain open. | I02/I03 direction settled for the current slice. A later human review may still choose composited shepherd versus first person if F06 is reopened. |
 | M3 — Integrated journey | Audit all five houses; roll accepted handoff to illustrated houses; audio through loading, matching loader art, companion search and grounded motion | I01–I05/I07/I08 integrated. Include fast/slow preparation and normal-speed start→ending playtests. |
 | M4 — Quality and feedback-programme acceptance | Selected I06 corrections, physical lower-end playtest, higher-end regression, outstanding issues triaged, public build checks | Human acceptance distinct from technical checks. Initial feedback programme accepted or explicitly deferred items recorded. Deployment still requires separate authorization. |
@@ -823,6 +828,9 @@ alternatives. Link deferred items to their revisit trigger. “Verified” is te
 | 2026-09-18 | D032 / I01-I08 scope clarification | Split the next audio pass into gameplay ambience/effects and a later loading/transition investigation. Gameplay scope includes the night bed, movement and decision cues, contextual sources and distance attenuation; the intro-diorama handoff and resource unloading are deferred. | User direction recorded in D032; source audit found a synthesized gameplay bed, separate scene contexts and reunion-only footsteps. | Direction accepted; exact sound palette and mix await an implementation prototype and listening review. | Implement the first I01 slice, then revisit I08 after resource-lifecycle mapping. |
 | 2026-09-18 | D032 / I01 gameplay audio slice | Added a shared gameplay audio owner, synthesized night bed, movement-distance footsteps, quiet decision cue, sound control and shared mute behavior for existing scene effects. | [First-slice evidence and limits](evidence/2026-09-18-gameplay-audio/README.md). `node --check` changed modules; `verify-journey-audio`, House 8/9 state checks, full rehearsal/camera checks, CUA normal/rehearsal checks and `git diff --check` passed. | Awaiting user playtest; technical checks do not establish sound quality. | Listen to the full route. Keep or revise the bed/steps/cue, then consider one sheep source and one muffled lit-house source. Intro handoff/loading remain deferred. |
 | 2026-09-18 | D033 / I01 gameplay audio revision | Removed the continuous wind buffer; replaced the robotic oscillator cricket chime with filtered noise chirps; lowered the occasional breeze rustle; replaced the digital button tone with low-volume wood/stone-like taps and a softer assembly variant; retained distance-attenuated sheep near the animal pen and muffled low voices near lit houses. Rehearsal starts the same owner on its first pointer/keyboard gesture. | [Revised audio evidence and limits](evidence/2026-09-18-gameplay-audio/README.md). `node --check`, `verify-journey-audio` including filtered-cricket/proximity assertions, scene checks, full rehearsal/camera checks, CUA reload/toggle/House 8 flow and `git diff --check` passed. | Awaiting user playtest; source scheduling is verified but the mix still needs listening. | Listen for calmness, audibility and distance falloff. Adjust levels/radii if needed; add more regional animal/fire detail only after this pass. Intro handoff/loading remain deferred. |
+| 2026-09-23 | F19 / I04 / R01 | Mobile texture/framebuffer/light budget, first-frame loading gate, renderer/context error recovery and production-build mobile PR matrix. | [Report and validation](../../../../docs/reports/shepherd-adventure-mobile-rendering.md); D044. All 9 mobile CI cases passed; local WebKit 3/3; captures visually inspected. | No physical-device or player-facing acceptance inferred. | [Draft PR #13](https://github.com/JesusFilm/story-lab/pull/13); I04/M1 remain partial. |
+
+| 2026-09-23 | D046 / F19 / I04 / I08 / R01 | Automatic Minimal for phones/tablets, Original for desktops; removed player chooser and persistent overrides. | [Policy, checks and limits](../../../../docs/reports/shepherd-adventure-auto-quality.md). | User completed PR14 Minimal on A50/4 Mbps Wi-Fi; visuals below sharing quality. J061 phone test pending. | I04/I08/M1 remain partial; no merge/deployment or art acceptance. |
 
 For every future completed part, add its item IDs, actual scope, before/after
 evidence, checks/results, limitations, user verdict, commit/PR if any and remaining
@@ -1007,3 +1015,76 @@ physical modest-device validation and later-route allocation work remain open.
 I08/F01/F09 remain open for loading architecture and music/visual continuity.
 User acceptance covers this measured initiative; no additional human sensory
 playtest is inferred. Release follows a clean PR review and passing CI.
+
+
+### D044 / F19 / I04 / R01 — Android launch repair and mobile PR verification
+
+23 September 2026. The user requests a focused repair for Android Chrome showing
+HTML controls over a white game area after the opening diorama, plus mobile
+production-build PR checks and a draft PR. This authorizes the bounded implementation
+and PR, not merge, deployment, new art or an unmeasured loading-architecture rewrite.
+It does not close F08's separate intermittent camera-freeze investigation.
+
+[Investigation, changes, checks and reproduction limits](../../../../docs/reports/shepherd-adventure-mobile-rendering.md).
+The screenshot alone does not classify the failure. Current source retains a large
+texture footprint and lacks post-load context-loss recovery. The implementation
+caps mobile model textures at 512 px, framebuffer DPR at 1, nearby point lights at
+four, and disables mobile multisample antialiasing and real-time shadows. It keeps
+original geometry, animation, story and route. CPU texture resizing precedes GPU
+upload. The first opening frame precedes loader dismissal; renderer/resource
+failures show actionable reload and stop play. Reload restarts through the story.
+This is a resource-budget choice for the reported mobile launch, not a claimed
+physical-device memory/performance guarantee or general visual acceptance.
+
+Tests use actual WebGL pixels, touch-driven lamp assembly, portrait/landscape/high
+DPR, rotation, model failure/reload, real context loss/reload and controlled missing
+draw calls. Desktop Chromium/SwiftShader and Linux WebKit emulation are explicitly
+separate from physical Android/iOS. A first assertion incorrectly required the
+wide night-sky opening to have the same illuminated area as the closer village;
+the corrected suite retains a stronger village criterion after the intro and
+checks that a clear-only renderer cannot pass either criterion.
+
+Status: technically verified in draft PR #13 (runtime `31d36ae`, CI run
+35828071550); all nine mobile cases passed. Human/physical-device playtest remains
+open. Final 512 px scene texture estimate is 104.2 MiB versus the recorded
+1,100.2 MiB baseline; geometry is unchanged. See the report for artifacts and limits. No release or unrelated roadmap completion is implied.
+
+### D045 / F19 / I04 / I08 / R01 — constrained A50 startup and small asset tiers
+
+23 September 2026. The updated report names Samsung Galaxy A50 and a reported
+4 Mbps Wi-Fi internet line, with a freeze before visible diorama and a loader
+beyond 100 seconds. Preserve D044's earlier white-world screenshot as a separate
+observation; the phone's tested revision and failure mechanism remain unknown.
+The user authorizes a constrained-device investigation, runtime/asset changes,
+benchmarks and a draft PR, without merge, deployment or paid device services.
+
+[Implementation, reproducible evidence and limits](../../../../docs/reports/shepherd-adventure-constrained-startup.md).
+The bounded slice chooses minimal/low/original assets before download and decode,
+uses reproducible texture/geometry derivatives, removes world preparation behind
+the scripture, streams music independently, bounds asset work and defers the final
+area. It retains story/route interactions and adds a persistent user override,
+opt-in diagnostics, first-frame GPU completion and constrained PR regression.
+
+The 4 Mbps/4× CPU VM test has passed through a visible responsive diorama, actual
+rendered world, touch lamp assembly and the first-house response. All three tiers
+pass whole-route geometry/state and portrait/landscape camera-sample checks.
+Draft PR #14 and the report above retain the final matrix, captures, exact CI
+coverage and failures. Technical validation does not close A50 hardware,
+art/sound acceptance or the separate F08 camera issue.
+Desktop throttling/SwiftShader cannot establish a physical-device performance floor.
+
+### D046 / F19 / I04 / I08 / R01 — automatic quality
+
+23 September 2026. User confirmed a **full playthrough on Samsung A50, 4 Mbps
+Wi-Fi, Smallest download / Minimal** in merged PR14. This supersedes D045's
+pending functional A50 check for that build only, not visual acceptance: the user
+considers its visuals below sharing quality. They request automatic selection
+without a player choice. D046 supersedes D045's persistent quality chooser.
+
+Phones/tablets now select Minimal, desktops Original, before media/models load.
+No RAM/core-based phone promotion; Low remains available through explicit,
+nonpersistent diagnostic URLs. Legacy saved choices are ignored. The scope retains
+PR14's assets, pipeline, deferred preparation, progress, retry and GPU pacing.
+[Policy, verification and limits](../../../../docs/reports/shepherd-adventure-auto-quality.md).
+This follow-up needs a physical-phone playtest. I04/I08/M1 remain partial;
+no visual acceptance, universal compatibility, merge or deployment is implied.

@@ -98,8 +98,11 @@ for proto in MANIFEST['prototypes']:
     for name in proto['files']:
         p = source(name)
         relative = name.removeprefix(base)
-        if p.suffix in {'.html', '.css', '.mjs'}:
+        if p.suffix in {'.html', '.css', '.mjs'} or relative == 'src/startup.js':
             text = p.read_text()
+            if relative == 'src/startup.js':
+                identity = hashlib.sha256(''.join(MANIFEST['reviewed_files'][f] for f in sorted(proto['files'])).encode()).hexdigest()[:16]
+                text = text.replace('__SHEPHERD_BUILD__', identity)
             # Browser requests resolve against each prototype document, including /story-lab/.
             text = text.replace('/vendor/three/', '../../vendor/three/')
             text = re.sub(r'''(["'`])(/(?:assets|maps)/)''', r'\1.\2', text)

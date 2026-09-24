@@ -1,5 +1,6 @@
 // Dependency-free loading theatre. Copy into each prototype; no shared runtime paths.
 (() => {
+ performance.mark('shepherd-loader');
  const root=document.getElementById('loading'); if(!root)return;
  const option=Math.max(0,Math.min(2,Number(root.dataset.loadingOption||1)-1));
  const canvas=root.querySelector('canvas'),ctx=canvas.getContext('2d');

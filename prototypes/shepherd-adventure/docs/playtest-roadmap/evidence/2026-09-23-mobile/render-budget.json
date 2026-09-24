@@ -1,0 +1,61 @@
+{
+  "method": "Existing opt-in scene inventory after all models were prepared, while the opening diorama remained visible. Estimates are RGBA/mipmap sizes, not measured GPU residency or total RAM. Source geometry is unchanged. Historical baseline used a different desktop run; this is a resource-quality comparison, not a matched performance benchmark.",
+  "baselineSource": "../2026-09-18-memory-optimization/after-full-route.json",
+  "baseline": {
+    "meshes": 799,
+    "geometries": 618,
+    "materials": 641,
+    "textureObjects": 91,
+    "imageSources": 91,
+    "geometryArrayBufferBytes": 105211950,
+    "textureRGBAEstimatedBytes": 1153614507,
+    "decodedImageRGBAEstimatedBytes": 865212416,
+    "placedTriangles": 7167328
+  },
+  "mobileExperiments": [
+    {
+      "maxTextureSize": 1024,
+      "browser": "140.0.7339.16",
+      "viewport": [
+        393,
+        851
+      ],
+      "deviceScaleFactor": 3,
+      "mode": "waiting",
+      "renderedFrames": 0,
+      "graphics": {
+        "meshes": 799,
+        "geometries": 618,
+        "materials": 641,
+        "textureObjects": 80,
+        "imageSources": 80,
+        "geometryArrayBufferBytes": 105211950,
+        "textureRGBAEstimatedBytes": 432188075,
+        "decodedImageRGBAEstimatedBytes": 324141056,
+        "placedTriangles": 7167328
+      }
+    },
+    {
+      "maxTextureSize": 512,
+      "browser": "140.0.7339.16",
+      "viewport": [
+        393,
+        851
+      ],
+      "deviceScaleFactor": 3,
+      "mode": "waiting",
+      "renderedFrames": 0,
+      "graphics": {
+        "meshes": 799,
+        "geometries": 618,
+        "materials": 641,
+        "textureObjects": 80,
+        "imageSources": 80,
+        "geometryArrayBufferBytes": 105211950,
+        "textureRGBAEstimatedBytes": 109226667,
+        "decodedImageRGBAEstimatedBytes": 81920000,
+        "placedTriangles": 7167328
+      }
+    }
+  ]
+}

@@ -21,7 +21,7 @@ export function createLampScene(journey,onChange,onIgnite=()=>{}){
   const item=a.current;
   $('lamp-title').textContent=item?.title||'Lamp is lit';
   // Reserve visible feedback for image failure, not a second instruction.
-  const filename=item?.image||'lamp.png';if(filename!==imageName){imageFailed=false;imageName=filename;$('lamp-image').hidden=false;$('lamp-image').src=`./assets/lamp-assembly/${filename}`;}
+  const filename=item?.image||'lamp.png';if(filename!==imageName){imageFailed=false;imageName=filename;$('lamp-image').hidden=false;$('lamp-image').src=window.shepherdStartup?.asset(`./assets/lamp-assembly/${filename}`)||`./assets/lamp-assembly/${filename}`;}
   $('lamp-feedback').textContent=imageFailed?'The item picture could not load. You can still prepare your lamp.':'';
   $('lamp-image').alt=item?.alt||'Your bronze lantern, ready to carry';
   region.classList.toggle('is-lit',a.lit);

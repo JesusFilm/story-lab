@@ -3,8 +3,9 @@
 export const ease=t=>{t=Math.max(0,Math.min(1,t));return t*t*t*(t*(t*6-15)+10);};
 export function blendFrame(a,b,t){const u=ease(t),mix=(x,y)=>Object.fromEntries(['x','y','z'].map(k=>[k,x[k]+(y[k]-x[k])*u]));return {position:mix(a.position,b.position),look:mix(a.look,b.look)};}
 export function terrainSurface(position,x,z){
- const gx=Math.max(0,Math.min(239.999999,(x+110)/220*240)),gz=Math.max(0,Math.min(259.999999,(z+140)/240*260));
- const ix=Math.floor(gx),iz=Math.floor(gz),u=gx-ix,v=gz-iz,a=iz*241+ix,b=a+241;
+ const [sx,sz]=position.gridSegments||[240,260];
+ const gx=Math.max(0,Math.min(sx-.000001,(x+110)/220*sx)),gz=Math.max(0,Math.min(sz-.000001,(z+140)/240*sz));
+ const ix=Math.floor(gx),iz=Math.floor(gz),u=gx-ix,v=gz-iz,a=iz*(sx+1)+ix,b=a+sx+1;
  const A=position.getY(a),B=position.getY(b),C=position.getY(b+1),D=position.getY(a+1);
  // PlaneGeometry uses triangles (a,b,d) and (b,c,d).
  return u+v<=1?A+(D-A)*u+(B-A)*v:C+(B-C)*(1-u)+(D-C)*(1-v);

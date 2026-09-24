@@ -6,6 +6,12 @@ on:
       - projects/portal/build.py
       - projects/portal/publication.json
       - projects/portal/shepherd-adventure-smoke.mjs
+      - projects/portal/playwright.mobile.config.mjs
+      - projects/portal/mobile-tests/**
+      - projects/portal/startup-tests/**
+      - projects/portal/tests/**
+      - projects/portal/playwright.startup.config.mjs
+      - projects/portal/serve.py
       - projects/portal/package.json
       - projects/portal/package-lock.json
       - .github/workflows/shepherd-adventure-smoke.yml
@@ -15,7 +21,12 @@ permissions:
   contents: read
 jobs:
   smoke:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [android-portrait-dpr3, android-landscape-dpr4, webkit-iphone]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -35,15 +46,29 @@ jobs:
         working-directory: prototypes/sermon-in-the-crowd
       - run: npm ci --ignore-scripts --no-audit --no-fund
         working-directory: prototypes/little-light-library
-      - run: npm run build
+      - run: npm run build && npm test && npm run test:unit && npm run check:publication
+        working-directory: projects/portal
+      - name: Install pinned mobile test browsers
+        run: npx playwright install --with-deps chromium webkit
         working-directory: projects/portal
       - name: Smoke test Shepherd Adventure
+        if: matrix.target == 'android-portrait-dpr3'
         run: npm run test:shepherd-adventure
         working-directory: projects/portal
-      - name: Upload failure screenshot
-        if: failure()
+      - name: Mobile rendering and touch regression tests
+        run: npm run test:mobile -- --project=${{ matrix.target }}
+        working-directory: projects/portal
+      - name: Constrained startup and quality regression
+        if: matrix.target == 'android-portrait-dpr3'
+        run: npm run test:startup
+        working-directory: projects/portal
+      - name: Upload mobile screenshots, traces and logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: shepherd-adventure-smoke-failure
-          path: projects/portal/test-results/
+          name: shepherd-adventure-${{ matrix.target }}
+          path: |
+            projects/portal/test-results/
+            projects/portal/playwright-report/
+          retention-days: 14
           if-no-files-found: ignore
