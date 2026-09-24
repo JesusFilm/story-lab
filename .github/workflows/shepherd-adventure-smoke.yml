@@ -4,6 +4,8 @@ on:
     paths:
       - prototypes/shepherd-adventure/**
       - projects/portal/build.py
+      - projects/portal/publication_utils.py
+      - projects/portal/verify.py
       - projects/portal/publication.json
       - projects/portal/shepherd-adventure-smoke.mjs
       - projects/portal/playwright.mobile.config.mjs

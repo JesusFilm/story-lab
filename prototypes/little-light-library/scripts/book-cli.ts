@@ -5,6 +5,7 @@ import { execFile } from "node:child_process";
 import { promisify, parseArgs } from "node:util";
 import { bookSchema } from "../src/book-validation";
 import type { AuthoredBook, BookAsset } from "../src/authored-book";
+import { DEFAULT_BOOK_APPEARANCE } from "../src/book-cover";
 import { parseCatalog } from "../src/book-catalog";
 import {
   atomicJson,
@@ -52,6 +53,7 @@ function scaffold(
     retellingNote:
       "TODO: distinguish source quotations, retelling, and invented staging.",
     cover: "cover-art",
+    appearance: { ...DEFAULT_BOOK_APPEARANCE },
     assets: { "cover-art": { kind: "image", src: cover, attribution } },
     spreads: [
       {

@@ -1,4 +1,6 @@
 import type { AuthoredBook } from "./authored-book";
+import type { BookAppearance } from "./authored-book";
+import { resolveBookAppearance } from "./book-cover";
 import { parseCatalog } from "./book-catalog";
 import { resolveBook } from "./book-localization";
 import { validateBook } from "./book-validation";
@@ -8,6 +10,7 @@ export interface ResolvedRoomEntry {
   key: string;
   title: string;
   cover: string;
+  appearance: BookAppearance;
   book?: AuthoredBook;
   storyId?: string;
 }
@@ -38,6 +41,7 @@ export class RoomLibrary {
             storyId: entry.id,
             title: story.title,
             cover: story.pages[0].image,
+            appearance: resolveBookAppearance(entry.appearance),
           };
         }
         const result = validateBook(await this.json(`./books/${entry.path}`));
@@ -64,6 +68,7 @@ export class RoomLibrary {
           key: `book:${entry.id}`,
           title,
           cover: `./${book.assets[book.cover].src}`,
+          appearance: resolveBookAppearance(book.appearance),
           book,
         };
       }),

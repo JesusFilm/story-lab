@@ -8,7 +8,7 @@ A well-loved picture book in a warm child's room. The art is dense, hand-painted
 
 ## Story treatment
 
-People of the Genesis stories have Middle Eastern appearance, natural proportions, simple linen garments, and human expressions. Eden begins abundant and luminous, then narrows into uncertainty, sorrow, and a difficult landscape. The flood is large and dangerous. The ark is a massive timber structure that dwarfs people and trees. Waves and dark skies show peril; non-graphic distant staging can establish human loss. Do not turn the flood into a cheerful boat ride. The covenant is hopeful with the destruction still remembered. Do not picture God as a human figure.
+People of the Genesis stories have Middle Eastern appearance, natural proportions, and human expressions. Eden's modest clothing follows the story: pages 1–3 conceal torsos and hips behind foreground bushes while heads, shoulders and arms remain visible; pages 4–5 use simple leaf garments; pages 6–8 use plain garments made from animal skins. Do not depict nudity. Other books use simple, modest period clothing. Eden begins abundant and luminous, then narrows into uncertainty, sorrow, and a difficult landscape. The flood is large and dangerous. The ark is a massive timber structure that dwarfs people and trees. Waves and dark skies show peril; non-graphic distant staging can establish human loss. Do not turn the flood into a cheerful boat ride. The covenant is hopeful with the destruction still remembered. Do not picture God as a human figure.
 
 ## Asset rules
 
@@ -29,7 +29,7 @@ People of the Genesis stories have Middle Eastern appearance, natural proportion
 
 The book must be a physical object on the table. A selection travels from its shelf to the reading surface; the cover pivots around the spine; scenery folds from paper hinges after landing. Standees stand perpendicular to the paper with visible cast shadows and paper supports. No duplicated painted people behind the actors; use the new empty theatre plates. Faces and gestures stay clear of foliage and the reading card.
 
-Actors remain planted on their paper tabs. Head, shoulders, hands and garments can act independently; moving an entire rigid card up and down is not character animation. Distinguish welcoming, warning, sorrow, work and hope. Use subdued motion and minor-mode ambience during judgment; never make the flood jaunty. Reduced motion shows a fully unfolded static stage. Sound is subtle beneath narration and respects mute, volume and tab visibility.
+Animate characters through rigid joints and separate paper layers: preserve the size and silhouette of every body part and garment, with no squash, stretch or scale animation. Small translations and rotations may serve a clear action while keeping feet and page contact believable. Distinguish welcoming, warning, sorrow, work and hope. Use subdued motion and minor-mode ambience during judgment; never make the flood jaunty. Reduced motion shows a fully unfolded static stage. Sound is subtle beneath narration and respects mute, volume and tab visibility.
 
 Runtime review must include small/intermediate windows, not only a wide screenshot. A room improvement that makes books or figurines hard to find is a regression. A character must never float above its base or stand beyond the cabinet. See the [iterative review log](../../prototypes/little-light-library/review/README.md) for evidence and current scores.
 
@@ -39,4 +39,4 @@ Runtime review must include small/intermediate windows, not only a wide screensh
 
 ## Printed stage surfaces
 
-[Garden ground](../../assets/textures/little-light-garden-floor/README.md) connects a garden backcloth to planted characters with quiet earthy detail and restrained foliage. Print on the horizontal paper while preserving cream margins, the gutter, ribbon and readable cast shadows. It must still look like a crafted book, not an opaque terrain slab. Keep characters dominant and do not carry lush garden staging into exile or flood scenes.
+[Garden ground](../../assets/textures/little-light-garden-floor/README.md) connects a garden backcloth to planted characters with quiet earthy detail and restrained foliage. Print on the horizontal paper while preserving cream margins, the gutter and readable cast shadows. It must still look like a crafted book, not an opaque terrain slab. Keep characters dominant and do not carry lush garden staging into exile or flood scenes.

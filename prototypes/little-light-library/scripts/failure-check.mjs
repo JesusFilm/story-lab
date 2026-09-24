@@ -342,7 +342,7 @@ try {
           ids,
           book.spreads[0].elements.map(({ id }) => id),
         );
-        await page.locator("#replay").click();
+        await page.locator("#play").click();
         await page.waitForFunction(
           () =>
             window.libraryDebug?.().playing &&

@@ -12,6 +12,7 @@ const locale = {
   type: "string",
   pattern: "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$",
 };
+const hexColor = { type: "string", pattern: "^#[0-9A-Fa-f]{6}$" };
 const num = (minimum: number, maximum: number) => ({
   type: "number",
   minimum,
@@ -123,6 +124,11 @@ export const bookSchema = {
       source: text,
       retellingNote: text,
       cover: id,
+      appearance: object({
+        coverColor: hexColor,
+        spineColor: hexColor,
+        accentColor: hexColor,
+      }),
       assets: {
         type: "object",
         minProperties: 1,

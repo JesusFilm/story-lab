@@ -2,9 +2,12 @@
 
 A biblical picture-book reader in a child's dimensional bedroom. The committed
 shelf contains **Adam, Eve, and the Garden**, **Noah and the Great Flood**,
-and **Jonah and the Whale**. Eden and Noah retain eight spreads
-each, nine locales and recorded narration. Jonah is an existing three-spread, English-only draft
-with no narration recordings. Shelf inclusion does not certify editorial readiness.
+and **Jonah and the Whale**. Eden and Noah retain eight spreads each, nine locales
+and recorded narration. Jonah is a 13-spread retelling of Jonah 1–4 with text in
+all nine library locales. Its current media are listed in the
+[per-book index](docs/books/jonah-and-the-whale.md), and the completion report
+records this pass's review and verification limits. Shelf inclusion does not
+certify editorial readiness.
 
 Creators work with a local coding agent on book files and media, preview in this
 reader, then include reviewed content through a repository commit. The visual
@@ -22,10 +25,13 @@ npm run dev
 
 Open the URL Vite prints; do not assume a free port. Choose a language and enter
 the library. Select a spine to slide out its book and reveal its cover, then choose
-**Read** or **Return**. Previous/Next turns pages; Play/Pause and Replay control
-narration where recordings exist. **Library** closes the current book on the table;
-**Continue reading** restores its page and paused narration position. Selecting
-another book returns the previous one before placing the next.
+**Read** or **Return**. Previous and Next turn pages; Next is disabled on the
+last page. Play/Pause controls
+narration where recordings exist, and Play starts the current page again after
+its narration ends. The three reader controls have equal width. **Library** closes
+the current book on the table; **Continue reading** restores its page and paused
+narration position. Selecting another book returns the previous one before
+placing the next.
 
 The globe opens language selection. Settings control speed, mute and volume.
 Muting preserves timing; hiding the tab pauses playback. Use Tab and Enter/Space
@@ -45,8 +51,10 @@ toy definitions show none. See [room behavior](docs/room-shelf.md).
   agent workflow; [draft recovery](docs/draft-recovery.md) preserves old browser work.
 - [Architecture](docs/architecture.md): catalog, runtime boundaries, legacy adapter
   and static packaging.
-- [Future Feature work](docs/feature-roadmap.md): existing inventory,
-  gaps and acceptance for the three showcase books; this is future work.
+- [Per-book indexes](docs/books/README.md): generated paths to each book's text,
+  illustrations, audio, staging and animation sources.
+- [Feature roadmap](docs/feature-roadmap.md): the historical showcase brief and
+  remaining review needs; see per-book indexes for current content and media.
 
 The shelf source is [`public/books/catalog.json`](public/books/catalog.json).
 New books use `public/books/<id>.book.json`, assets under `public/assets/`, and
@@ -55,8 +63,8 @@ specialized paper rigs through a compatibility adapter. Do not rewrite them
 merely to make their storage look like newer books.
 
 Agents start with [AGENTS.md](AGENTS.md). The historical autonomous quality loop
-is parked. Existing content and working translations are preserved during cleanup;
-completing or polishing the showcase books requires a future feature assignment.
+is parked. Changes to book content and media follow the explicit scope of each
+assignment; indexes report the committed state without implying creator approval.
 
 ## Validate and package
 
@@ -69,9 +77,10 @@ npm run test:recovery
 npm run test:failures
 ```
 
-Read warnings as well as the exit status: Jonah's missing narration is a known
-draft gap. Structural validation and measured duration checks cannot establish
-story quality, pronunciation or listening approval.
+Read warnings as well as the exit status. Structural validation and measured
+duration checks cannot establish story quality, pronunciation or listening
+approval. Current per-locale narration and review status is recorded in the
+[Jonah index](docs/books/jonah-and-the-whale.md) and the latest completion report.
 
 `npm run verify:all` runs verification, the current room browser suite, draft recovery
 and missing-resource/retry checks;

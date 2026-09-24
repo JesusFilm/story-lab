@@ -20,7 +20,7 @@ test("clock uses measured segment boundaries across all speeds without cumulativ
     assert.ok(Math.abs(c.position - 4.29) < 1e-9);
   }
 });
-test("rate changes preserve cursor, replay resets, ending never advances a page", () => {
+test("rate changes preserve cursor, Play restarts an ended page, ending never advances", () => {
   let now = 0;
   const c = new PlaybackClock(() => now);
   c.load([2, 3]);
@@ -37,6 +37,11 @@ test("rate changes preserve cursor, replay resets, ending never advances a page"
   now = 20;
   assert.equal(c.position, 5);
   assert.equal(c.ended, true);
+  c.play();
+  assert.equal(c.position, 0);
+  assert.equal(c.playing, true);
+  now = 21;
+  assert.equal(c.position, 1.5);
   c.load([4]);
   assert.equal(c.position, 0);
   assert.equal(c.playing, false);

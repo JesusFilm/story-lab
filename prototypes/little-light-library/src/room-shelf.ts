@@ -1,9 +1,16 @@
 import * as THREE from "three";
+import type { BookAppearance } from "./authored-book";
+import {
+  createBookCoverTexture,
+  createBookSpineTexture,
+  resolveBookAppearance,
+} from "./book-cover";
 
 export interface RoomShelfBook {
   key: string;
   title: string;
   cover: string;
+  appearance?: BookAppearance;
 }
 
 export interface RoomToy {
@@ -96,79 +103,6 @@ function coverUrl(src: string) {
       : `./${src}`;
 }
 
-function composedCover(title: string, artwork?: THREE.Texture) {
-  const canvas = document.createElement("canvas");
-  canvas.width = 384;
-  canvas.height = 576;
-  const context = canvas.getContext("2d")!;
-  context.fillStyle = "#315954";
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  context.strokeStyle = "#caa96b";
-  context.lineWidth = 10;
-  context.strokeRect(18, 18, canvas.width - 36, canvas.height - 36);
-  if (artwork?.image) {
-    const image = artwork.image as CanvasImageSource & {
-      width: number;
-      height: number;
-    };
-    const scale = Math.min(324 / image.width, 355 / image.height);
-    const width = image.width * scale;
-    const height = image.height * scale;
-    context.drawImage(
-      image,
-      30 + (324 - width) / 2,
-      30 + (355 - height) / 2,
-      width,
-      height,
-    );
-  }
-  context.fillStyle = "#fff0d1";
-  context.font = "600 30px Georgia, serif";
-  context.textAlign = "center";
-  context.textBaseline = "middle";
-  const words = title.split(/\s+/);
-  const lines: string[] = [];
-  let line = "";
-  for (const word of words) {
-    const next = `${line} ${word}`.trim();
-    if (context.measureText(next).width > 310 && line) {
-      lines.push(line);
-      line = word;
-    } else line = next;
-  }
-  if (line) lines.push(line);
-  lines
-    .slice(0, 4)
-    .forEach((text, index, all) =>
-      context.fillText(text, 192, 474 + (index - (all.length - 1) / 2) * 36),
-    );
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return texture;
-}
-
-function spineTexture(title: string) {
-  const canvas = document.createElement("canvas");
-  canvas.width = 160;
-  canvas.height = 768;
-  const context = canvas.getContext("2d")!;
-  context.fillStyle = "#315954";
-  context.fillRect(0, 0, 160, 768);
-  context.strokeStyle = "#caa96b";
-  context.lineWidth = 5;
-  context.strokeRect(12, 20, 136, 728);
-  context.translate(80, 384);
-  context.rotate(Math.PI / 2);
-  context.fillStyle = "#fff0d1";
-  context.font = "600 48px Georgia, serif";
-  context.textAlign = "center";
-  context.textBaseline = "middle";
-  context.fillText(title, 0, 0, 660);
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return texture;
-}
-
 interface ShelfEntry {
   definition: RoomShelfBook;
   root: THREE.Group;
@@ -213,6 +147,7 @@ export class RoomShelf {
     texture: THREE.Texture,
     index: number,
   ) {
+    const appearance = resolveBookAppearance(definition.appearance);
     const root = new THREE.Group();
     root.name = `shelf-book:${definition.key}`;
     root.userData.pick = `shelf:${definition.key}`;
@@ -220,7 +155,11 @@ export class RoomShelf {
     root.rotation.y = SHELF_BOOK_YAW;
     const { width, height, thickness } = SHELF_BOOK_SIZE;
     const cloth = new THREE.MeshStandardMaterial({
-      color: 0x315954,
+      color: appearance.coverColor,
+      roughness: 0.76,
+    });
+    const spineMaterial = new THREE.MeshStandardMaterial({
+      color: appearance.spineColor,
       roughness: 0.76,
     });
     for (const z of [-1, 1]) {
@@ -240,7 +179,7 @@ export class RoomShelf {
     root.add(pages);
     const spine = new THREE.Mesh(
       new THREE.BoxGeometry(0.04, height, thickness),
-      cloth,
+      spineMaterial,
     );
     spine.position.x = -width / 2 + 0.02;
     root.add(spine);
@@ -252,7 +191,9 @@ export class RoomShelf {
     root.add(art);
     const title = new THREE.Mesh(
       new THREE.PlaneGeometry(thickness, height),
-      new THREE.MeshBasicMaterial({ map: spineTexture(definition.title) }),
+      new THREE.MeshBasicMaterial({
+        map: createBookSpineTexture(definition.title, appearance),
+      }),
     );
     title.position.x = -width / 2 - 0.001;
     title.rotation.y = -Math.PI / 2;
@@ -321,11 +262,19 @@ export class RoomShelf {
         try {
           const texture = await loader.loadAsync(coverUrl(definition.cover));
           texture.colorSpace = THREE.SRGBColorSpace;
-          const cover = composedCover(definition.title, texture);
+          const cover = createBookCoverTexture(
+            definition.title,
+            texture,
+            definition.appearance,
+          );
           texture.dispose();
           return cover;
         } catch {
-          return composedCover(definition.title);
+          return createBookCoverTexture(
+            definition.title,
+            undefined,
+            definition.appearance,
+          );
         }
       }),
     );
@@ -542,8 +491,11 @@ export class RoomShelf {
               ? "preview"
               : "shelf") as ShelfBookState,
           visible: entry.root.visible,
+          appearance: resolveBookAppearance(entry.definition.appearance),
+          coverTexture: entry.cover.uuid,
           position: entry.root.position.toArray(),
           rotation: entry.root.rotation.toArray().slice(0, 3),
+          scale: entry.root.scale.toArray().slice(0, 3),
         };
       }),
     };

@@ -1,9 +1,15 @@
 import * as THREE from "three";
 
-/** Two printed page surfaces. Texture belongs to the caller's stage, never to this helper. */
-export function createGardenFloor(texture: THREE.Texture) {
+/**
+ * Two matching printed page surfaces. The atlas is shared across the gutter and
+ * vertically oriented as viewed by the reader. Texture ownership stays with
+ * the caller's stage.
+ */
+export function createPageGround(texture: THREE.Texture, assetPath = "") {
   const root = new THREE.Group();
-  root.name = "garden-floor";
+  root.name = "stage-ground";
+  root.userData.assetPath = assetPath;
+  root.userData.gardenGround = assetPath.includes("continuous-garden-ground");
   root.userData.staticPageSurface = true;
   root.position.z = 0.045;
   const halfWidth = 2.86,
@@ -33,9 +39,13 @@ export function createGardenFloor(texture: THREE.Texture) {
       roughness: 1,
     });
     const panel = new THREE.Mesh(geometry, material);
-    panel.name = side < 0 ? "garden-floor-left" : "garden-floor-right";
+    panel.name = side < 0 ? "stage-ground-left" : "stage-ground-right";
     panel.receiveShadow = true;
     root.add(panel);
   }
   return root;
 }
+
+/** Kept as a source-compatible alias for the earlier one-ground implementation. */
+export const createGardenFloor = (texture: THREE.Texture) =>
+  createPageGround(texture, "assets/art/theatre/continuous-garden-ground.webp");

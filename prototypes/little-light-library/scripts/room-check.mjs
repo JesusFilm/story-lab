@@ -179,11 +179,21 @@ const page = await context.newPage();
 await page.addInitScript(() => {
   const connections = new Map();
   const starts = [];
+  const automation = new WeakMap();
   const connect = AudioNode.prototype.connect;
   AudioNode.prototype.connect = function (destination, ...args) {
     connections.set(this, destination);
     return connect.call(this, destination, ...args);
   };
+  for (const method of ["setValueAtTime", "linearRampToValueAtTime"]) {
+    const schedule = AudioParam.prototype[method];
+    AudioParam.prototype[method] = function (value, time) {
+      const events = automation.get(this) || [];
+      events.push({ method, value, time });
+      automation.set(this, events);
+      return schedule.call(this, value, time);
+    };
+  }
   const start = AudioBufferSourceNode.prototype.start;
   AudioBufferSourceNode.prototype.start = function (...args) {
     const gains = [];
@@ -202,6 +212,10 @@ await page.addInitScript(() => {
       loop: source.loop,
       duration: source.buffer?.duration,
       gains: gains.map((gain) => gain.value),
+      gainSchedule: gains.map((gain) => ({
+        initialValue: gain.value,
+        events: automation.get(gain) || [],
+      })),
     }));
 });
 page.on("response", (response) => {
@@ -317,6 +331,30 @@ const assertTablePose = (state) => {
     close(pose.scale[index], value, `table scale ${index}`),
   );
   close(state.scene.hinge, 0, "open table-book hinge");
+};
+const assertCoverContinuity = (state, key) => {
+  const shelfBook = state.scene.shelf.books.find((book) => book.key === key);
+  assert.ok(shelfBook, `${key} remains represented by its shelf copy`);
+  assert.equal(state.scene.tableCoverMatchesShelf, true);
+  assert.equal(state.scene.tableCoverTexture, shelfBook.coverTexture);
+  assert.deepEqual(state.scene.tableCoverAppearance, shelfBook.appearance);
+  assert.deepEqual(state.scene.tableBookMaterials, shelfBook.appearance);
+};
+const assertCanonicalShelfPose = (state, key) => {
+  const shelfBook = state.scene.shelf.books.find((book) => book.key === key);
+  assert.ok(shelfBook, `${key} has a registered shelf copy`);
+  [0, Math.PI / 2, 0].forEach((value, index) =>
+    assert.ok(
+      Math.abs(shelfBook.rotation[index] - value) < 1e-6,
+      `${key} shelf rotation ${index}: expected ${value}, received ${shelfBook.rotation[index]}`,
+    ),
+  );
+  [1, 1, 1].forEach((value, index) =>
+    assert.ok(
+      Math.abs(shelfBook.scale[index] - value) < 1e-6,
+      `${key} shelf scale ${index}: expected ${value}, received ${shelfBook.scale[index]}`,
+    ),
+  );
 };
 const waitForOpenTablePose = () =>
   page.waitForFunction(
@@ -436,12 +474,20 @@ await check(
     assert.equal(
       state.scene.shelf.endStops.length,
       1,
-      "Four committed books have one occupied shelf and a book stop",
+      "Three committed books have one occupied shelf and a book stop",
     );
     assert.deepEqual(
       state.shelf.books.map(({ key }) => key),
       committedKeys,
     );
+    for (const key of committedKeys) assertCanonicalShelfPose(state, key);
+    for (const key of ["coverColor", "spineColor", "accentColor"])
+      assert.equal(
+        new Set(state.scene.shelf.books.map((book) => book.appearance[key]))
+          .size,
+        committedKeys.length,
+        `committed books have distinct ${key}`,
+      );
     assert.equal(
       await page.locator(".book-choices,.room-footer,#story-choices").count(),
       0,
@@ -461,11 +507,14 @@ await check(
     state = await debug();
     assert.equal(state.shelf.table, null);
     assert.equal(state.scene.shelf.previewKey, null);
+    assertCanonicalShelfPose(state, "builtin:eden");
 
     await selectBook("builtin:eden");
     await readSelected("builtin:eden");
     state = await debug();
     assert.equal(state.state.book, "eden");
+    assertCoverContinuity(state, "builtin:eden");
+    assertCanonicalShelfPose(state, "builtin:eden");
     assert.deepEqual(
       state.shelf.toys.map(({ id }) => id),
       ["adam", "eve", "garden-tree"],
@@ -493,6 +542,7 @@ await check(
     assert.equal(state.shelf.toys.length, 3);
     assert.equal(state.scene.stageVisible, false);
     assert.equal(state.scene.shelfBrowsingTable, true);
+    assertCoverContinuity(state, "builtin:eden");
     await page.screenshot({ path: path.join(output, "room-browsing.png") });
 
     const pausedPosition = state.position;
@@ -509,6 +559,7 @@ await check(
     state = await debug();
     assert.equal(state.state.page, 1);
     assert.equal(state.playing, false);
+    assertCoverContinuity(state, "builtin:eden");
     assert.ok(Math.abs(state.position - pausedPosition) < 0.01);
     await page.locator("#shelf").click();
     await waitForClosedBrowsingTable();
@@ -560,6 +611,8 @@ await check(
     assert.equal(state.shelf.table, "builtin:eden");
     assert.equal(state.state.book, "eden");
     assert.equal(state.state.page, 1);
+    assertCanonicalShelfPose(state, "builtin:eden");
+    assertCanonicalShelfPose(state, "builtin:noah");
     assert.deepEqual(
       state.shelf.toys.map(({ id }) => id),
       ["adam", "eve", "garden-tree"],
@@ -571,6 +624,7 @@ await check(
     state = await debug();
     assertTablePose(state);
     assert.equal(state.state.book, "noah");
+    assertCoverContinuity(state, "builtin:noah");
     assert.equal(state.state.page, 0);
     assert.deepEqual(
       state.shelf.toys.map(({ id }) => id),
@@ -584,6 +638,8 @@ await check(
       state.scene.shelf.books.find(({ key }) => key === "builtin:noah").state,
       "table",
     );
+    assertCanonicalShelfPose(state, "builtin:eden");
+    assertCanonicalShelfPose(state, "builtin:noah");
     await waitForSettledSpread();
     await page.screenshot({
       path: path.join(output, "second-book-desktop.png"),
@@ -790,7 +846,10 @@ await check(
       await selectBook("book:" + id);
       await readSelected("book:" + id);
       await waitForOpenTablePose();
-      assertTablePose(await debug());
+      const opened = await debug();
+      assertTablePose(opened);
+      if (id === "jonah-and-the-whale")
+        assertCoverContinuity(opened, `book:${id}`);
       for (const [index, spread] of book.spreads.entries()) {
         await page.waitForFunction(
           (pageNumber) =>
@@ -808,6 +867,13 @@ await check(
           spread.segments.map(({ text }) => text),
         );
         assert.equal(await page.locator("#previous").isDisabled(), index === 0);
+        assert.equal(
+          await page.locator("#next").isDisabled(),
+          index === book.spreads.length - 1,
+          "Next is disabled on the last page instead of changing its action",
+        );
+        assert.equal(await page.locator(".reader-controls button").count(), 3);
+        assert.equal(await page.locator("#replay").count(), 0);
         for (const element of spread.elements.filter(
           ({ interaction }) => interaction,
         )) {
@@ -818,12 +884,26 @@ await check(
           );
         }
         if (id === "fixture-book" && index === 0) {
-          await page.locator("#replay").click();
+          const play = page.locator("#play");
+          await play.focus();
+          if (!(await debug()).playing) await page.keyboard.press("Enter");
           await page.waitForFunction(
             () =>
               window.libraryDebug?.().playing &&
               window.libraryDebug?.().position > 0.15,
           );
+          assert.equal(
+            await play.locator(".transport-label").textContent(),
+            "Pause",
+          );
+          await page.keyboard.press("Enter");
+          await page.waitForFunction(() => !window.libraryDebug?.().playing);
+          assert.equal(
+            await play.locator(".transport-label").textContent(),
+            "Play",
+          );
+          await page.keyboard.press("Enter");
+          await page.waitForFunction(() => window.libraryDebug?.().playing);
           assert.equal(
             await page
               .locator('.story-text [data-segment="0"]')
@@ -845,8 +925,8 @@ await check(
         if (id === "jonah-and-the-whale") {
           assert.equal(
             await page.locator("#play").isDisabled(),
-            true,
-            "Unrecorded pages should remain readable without pretend narration",
+            false,
+            "completed Jonah pages expose their recorded narration",
           );
         }
         if (index === 0) {
@@ -875,14 +955,20 @@ await check(
       );
       await page.locator("#shelf").click();
       await waitForClosedBrowsingTable();
+      if (id === "jonah-and-the-whale")
+        assertCanonicalShelfPose(await debug(), `book:${id}`);
+      if (id === "jonah-and-the-whale")
+        assertCoverContinuity(await debug(), `book:${id}`);
     }
     await removeFixture();
     return {
       committedBooks: 1,
       fixtureBooks: 1,
-      spreads: 5,
+      spreads:
+        bookFixture("jonah-and-the-whale").spreads.length +
+        readerFixture(root).spreads.length,
       fixtureNarration: true,
-      jonahMissingNarrationReadable: true,
+      jonahNarrationComplete: true,
     };
   },
 );
@@ -905,10 +991,12 @@ await check(
     assert.equal(state.speed, 1.25);
     await selectBook("builtin:eden");
     await readSelected("builtin:eden");
+    if ((await debug()).playing) await page.locator("#play").click();
+    await page.waitForFunction(() => !window.libraryDebug?.().playing);
     const previousStarts = await page.evaluate(
       () => window.readerAudioProbe().length,
     );
-    await page.locator("#replay").click();
+    await page.locator("#play").click();
     await page.waitForFunction(
       () =>
         window.libraryDebug?.().playing &&
@@ -942,7 +1030,7 @@ await check(
 );
 
 await check(
-  "Fixture book language control and soundtrack survive editor CSS removal",
+  "Reader stays concise with global language access and a looping soundtrack",
   async () => {
     const book = bookFixture("fixture-book");
     book.languages = ["en-US", "fr"];
@@ -972,25 +1060,41 @@ await check(
       await selectBook("book:fixture-book");
       await readSelected("book:fixture-book");
       await waitForSettledSpread();
-      const control = page.getByRole("combobox", {
-        name: "Book language",
-        exact: true,
-      });
-      assert.equal(await control.isVisible(), true);
-      const bounds = await control.boundingBox();
-      assert.ok(
-        bounds &&
-          bounds.x >= 0 &&
-          bounds.x + bounds.width <= 390.5 &&
-          bounds.height >= 40,
+      assert.equal(await page.locator("#language").count(), 1);
+      assert.equal(
+        await page.locator("#language").getAttribute("aria-label"),
+        "Language",
       );
+      assert.equal(
+        await page.locator(".reader h1").textContent(),
+        book.spreads[0].title,
+      );
+      assert.equal(
+        await page.locator(".reader-meta").textContent(),
+        `Page 1 of ${book.spreads.length}`,
+      );
+      assert.equal(await page.locator(".reader-footer small").count(), 0);
+      assert.equal(
+        await page
+          .locator(".book-note, .book-context, .reader-book-language")
+          .count(),
+        0,
+      );
+      assert.equal(await page.locator(".reader-controls button").count(), 3);
+      assert.equal(await page.locator("#replay").count(), 0);
+      const controlWidths = await page
+        .locator(".reader-controls button")
+        .evaluateAll((buttons) =>
+          buttons.map((button) => button.getBoundingClientRect().width),
+        );
+      assert.ok(Math.max(...controlWidths) - Math.min(...controlWidths) < 1);
       assert.equal(
         await page.evaluate(
           () => document.documentElement.scrollWidth <= innerWidth + 2,
         ),
         true,
       );
-      // Audio now starts after the fold, so let the authored 100 ms fade finish.
+      // Audio now starts after the fold, so let the scheduled fade finish.
       await page.waitForFunction(
         () =>
           window.libraryDebug?.().playing &&
@@ -999,34 +1103,138 @@ await check(
       const audio = await page.evaluate(() => window.readerAudioProbe());
       assert.ok(
         audio.some(
-          ({ loop, duration, gains }) =>
+          ({ loop, duration, gainSchedule }) =>
             loop &&
             duration > 1 &&
-            gains.some((value) => Math.abs(value - 0.15) < 0.01),
+            gainSchedule.some(
+              ({ events }) =>
+                events.some(
+                  ({ method, value }) =>
+                    method === "setValueAtTime" && value === 0,
+                ) &&
+                events.some(
+                  ({ method, value }) =>
+                    method === "linearRampToValueAtTime" &&
+                    Math.abs(value - 0.15) < 0.01,
+                ),
+            ),
         ),
         "Fixture soundtrack schedules a decoded looping source at its authored gain",
       );
       await page.screenshot({
-        path: path.join(output, "fixture-book-language-phone.png"),
+        path: path.join(output, "fixture-reader-phone.png"),
       });
-      await control.selectOption("fr");
-      await page.waitForFunction(
-        () =>
-          document.querySelector(".reader h1")?.textContent ===
-          "Fixture translated page",
-      );
-      assert.equal(await page.locator(".reader").getAttribute("lang"), "fr");
-      await control.selectOption("en-US");
-      await page.waitForFunction(
-        (title) =>
-          document.querySelector(".reader h1")?.textContent === title &&
-          window.libraryDebug?.().ready,
-        book.spreads[0].title,
-      );
+      if ((await debug()).playing) await page.locator("#play").click();
+      await page.waitForFunction(() => !window.libraryDebug?.().playing);
+      for (const language of [
+        "en-US",
+        "en-GB",
+        "es",
+        "fr",
+        "hi",
+        "it",
+        "ja",
+        "pt-BR",
+        "zh-CN",
+      ]) {
+        if ((await debug()).state.language !== language) {
+          await page.locator("#language").click();
+          await page.locator(`[data-locale="${language}"]`).click();
+          await page.waitForFunction(
+            (id) =>
+              window.libraryDebug?.().state.language === id &&
+              window.libraryDebug?.().ready,
+            language,
+          );
+          await page.locator("#enter").click();
+        }
+        const ui = JSON.parse(
+          fs.readFileSync(path.join(root, `content/${language}.json`), "utf8"),
+        ).ui;
+        assert.deepEqual(
+          await page
+            .locator(".reader-controls .transport-label")
+            .allTextContents(),
+          [ui.previous, ui.play, ui.next],
+          `${language} transport text is visible and localized`,
+        );
+        assert.deepEqual(
+          await page
+            .locator(".reader-controls button")
+            .evaluateAll((buttons) =>
+              buttons.map((button) => button.getAttribute("aria-label")),
+            ),
+          [ui.previous, ui.play, ui.next],
+          `${language} transport actions have localized accessible names`,
+        );
+        const controlMetrics = await page
+          .locator(".reader-controls button")
+          .evaluateAll((buttons) =>
+            buttons.map((button) => {
+              const rect = button.getBoundingClientRect();
+              const label = button.querySelector(".transport-label");
+              return {
+                x: rect.x,
+                right: rect.right,
+                width: rect.width,
+                height: rect.height,
+                labelWidth: label?.clientWidth ?? 0,
+                labelScrollWidth: label?.scrollWidth ?? 0,
+                weight: Number(getComputedStyle(label).fontWeight),
+              };
+            }),
+          );
+        assert.ok(
+          Math.max(...controlMetrics.map(({ width }) => width)) -
+            Math.min(...controlMetrics.map(({ width }) => width)) <
+            1,
+          `${language} transport buttons have equal width`,
+        );
+        assert.ok(
+          controlMetrics.every(
+            ({ x, right, height, labelWidth, labelScrollWidth, weight }) =>
+              x >= 0 &&
+              right <= 390.5 &&
+              height >= 44 &&
+              labelScrollWidth <= labelWidth + 1 &&
+              weight >= 700,
+          ),
+          `${language} labels fit the phone controls and use bold text`,
+        );
+        if ((await debug()).playing) await page.locator("#play").click();
+        await page.waitForFunction(() => !window.libraryDebug?.().playing);
+        assert.equal(
+          await page.locator("#play .transport-label").textContent(),
+          ui.play,
+        );
+        await page.locator("#play").click();
+        await page.waitForFunction(() => window.libraryDebug?.().playing);
+        assert.equal(
+          await page.locator("#play .transport-label").textContent(),
+          ui.pause,
+        );
+        assert.equal(
+          await page.locator("#play").getAttribute("aria-pressed"),
+          "true",
+        );
+        await page.locator("#play").click();
+        await page.waitForFunction(() => !window.libraryDebug?.().playing);
+      }
+      if ((await debug()).state.language !== "en-US") {
+        await page.locator("#language").click();
+        await page.locator('[data-locale="en-US"]').click();
+        await page.waitForFunction(
+          () =>
+            window.libraryDebug?.().state.language === "en-US" &&
+            window.libraryDebug?.().ready,
+        );
+        await page.locator("#enter").click();
+      }
       return {
         fixtureOnly: true,
-        phoneLanguageControl: true,
-        languageSwitch: true,
+        conciseReader: true,
+        globalLanguageSwitch: true,
+        equalControls: true,
         decodedSoundtrackLoop: true,
       };
     } finally {

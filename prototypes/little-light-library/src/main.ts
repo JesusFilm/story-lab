@@ -286,6 +286,13 @@ const escaped = (s: string) =>
 const t = (key: string) => locale?.ui[key] || window.lightBootUi?.[key] || key;
 const button = (id: string, label: string, cls = "") =>
   `<button id="${id}" class="${cls}">${label}</button>`;
+const transportButton = (
+  id: "previous" | "play" | "next",
+  icon: string,
+  label: string,
+  cls = "",
+) =>
+  `<button id="${id}" class="reader-transport ${cls}" aria-label="${escaped(label)}"><span class="transport-icon" aria-hidden="true">${icon}</span><span class="transport-label">${escaped(label)}</span></button>`;
 const persist = () => savePreferences(localStorage, prefs);
 function notice(message = "", language: string = locale?.id) {
   $("#notice").lang = language;
@@ -480,15 +487,15 @@ function failure(error?: unknown) {
   );
   window.storyLoading.fail(t("error"));
 }
-function showPage(autoplay: boolean, resume = false) {
+function showPage(autoplay: boolean, resume = false, pageTurn = false) {
   if (!resume) readerNeedsReload = false;
-  const loading = renderPage(autoplay, resume).finally(() => {
+  const loading = renderPage(autoplay, resume, pageTurn).finally(() => {
     if (pendingPage !== loading) return;
     pendingPage = undefined;
     const previous = document.querySelector<HTMLButtonElement>("#previous");
     const next = document.querySelector<HTMLButtonElement>("#next");
     if (previous) previous.disabled = state.page === 0;
-    if (next) next.disabled = false;
+    if (next) next.disabled = next.dataset.lastPage === "true";
   });
   pendingPage = loading;
   document
@@ -496,12 +503,18 @@ function showPage(autoplay: boolean, resume = false) {
     .forEach((button) => (button.disabled = true));
   return loading;
 }
-async function renderPage(autoplay: boolean, resume = false) {
+async function renderPage(autoplay: boolean, resume = false, pageTurn = false) {
   const token = ++operation;
   const previousReady = ready;
   ready = false;
   lastHighlight = "";
-  if (!resume) narration.stop();
+  const preserveBookSoundtrack = Boolean(
+    pageTurn && narration instanceof BookNarration,
+  );
+  if (!resume) {
+    if (preserveBookSoundtrack) bookNarration.preparePageTurn();
+    else narration.stop();
+  }
   notice();
   document.body.classList.add("reading");
   header();
@@ -521,74 +534,52 @@ async function renderPage(autoplay: boolean, resume = false) {
           ? "storm"
           : "hope",
   );
+  const pageCount = `${t("page")} ${state.page + 1} ${t("of")} ${story.pages.length}`;
   $("#panel").innerHTML =
-    `<article class="reader"><div class="reader-meta"><span>${escaped(story.title)}</span><span>${state.page + 1} / ${story.pages.length}</span></div><h1>${escaped(page.title)}</h1><div class="story-text">${page.segments.map((s, i) => `<span data-segment="${i}">${escaped(s.text)}</span>`).join(" ")}</div><div class="reader-footer"><small>${escaped(t("source"))} · ${escaped(page.passage)}</small><span id="play-status" role="status">${escaped(t("loading"))}</span></div><div class="reader-controls">${button("previous", "←")}${button("play", "▶ " + escaped(t("play")), "primary")}${button("replay", "↻")}${button("next", "→")}</div></article>`;
+    `<article class="reader"><div class="reader-meta"><span>${escaped(pageCount)}</span></div><h1>${escaped(page.title)}</h1><div class="story-text">${page.segments.map((s, i) => `<span data-segment="${i}">${escaped(s.text)}</span>`).join(" ")}</div><div class="reader-footer"><span id="play-status" role="status">${escaped(t("loading"))}</span></div><div class="reader-controls">${transportButton("previous", "←", t("previous"))}${transportButton("play", "▶", t("play"), "primary")}${transportButton("next", "→", t("next"))}</div></article>`;
+  const next = $<HTMLButtonElement>("#next");
+  next.dataset.lastPage = String(state.page >= story.pages.length - 1);
+  next.disabled = next.dataset.lastPage === "true";
   if (page.authored) {
     const { book, spread } = page.authored;
     $(".reader").setAttribute("lang", book.locale);
     $(".reader-controls").setAttribute("lang", locale.id);
-    const note = document.createElement("p");
-    note.className = "book-note";
-    note.textContent = `Draft retelling · ${book.locale} · ${book.retellingNote}`;
-    $(".reader-meta").after(note);
-    if (activeBook && productionLanguages(activeBook).length > 1) {
-      const label = document.createElement("label");
-      label.className = "reader-book-language";
-      label.textContent = "Book language ";
-      const select = document.createElement("select");
-      select.setAttribute("aria-label", "Book language");
-      select.innerHTML = productionLanguages(activeBook)
-        .map(
-          (id) =>
-            `<option value="${escaped(id)}" ${id === bookLocale ? "selected" : ""} ${translationIssues(activeBook!, id).length ? "disabled" : ""}>${escaped(names[id as LocaleId] ?? id)}</option>`,
-        )
-        .join("");
-      select.onchange = () => {
-        bookLocale = select.value;
-        void showPage(false);
-      };
-      label.append(select);
-      note.after(label);
+    const interactiveElements = spread.elements.filter((e) => e.interaction);
+    if (interactiveElements.length) {
+      const interactions = document.createElement("div");
+      interactions.className = "authored-interactions";
+      interactions.setAttribute("aria-label", "Story interactions");
+      for (const element of interactiveElements) {
+        const b = document.createElement("button");
+        b.textContent = element.interaction!.label;
+        b.dataset.element = element.id;
+        b.onclick = () => {
+          const result = scene.activateAuthored(element.id);
+          if (result) {
+            notice(result.response, book.locale);
+            if (result.sound) soundscape?.cue(result.sound);
+          }
+        };
+        interactions.append(b);
+      }
+      $(".reader-controls").before(interactions);
     }
-    const interactions = document.createElement("div");
-    interactions.className = "authored-interactions";
-    interactions.setAttribute("aria-label", "Story interactions");
-    for (const element of spread.elements.filter((e) => e.interaction)) {
-      const b = document.createElement("button");
-      b.textContent = element.interaction!.label;
-      b.dataset.element = element.id;
-      b.onclick = () => {
-        const result = scene.activateAuthored(element.id);
-        if (result) {
-          notice(result.response, book.locale);
-          if (result.sound) soundscape?.cue(result.sound);
-        }
-      };
-      interactions.append(b);
-    }
-    $(".reader-controls").before(interactions);
   }
   $("#previous").setAttribute("aria-label", t("previous"));
-  $("#next").setAttribute(
-    "aria-label",
-    t(state.page === story.pages.length - 1 ? "library" : "next"),
-  );
-  $("#replay").setAttribute("aria-label", t("replay"));
+  $("#next").setAttribute("aria-label", t("next"));
   $<HTMLButtonElement>("#previous").disabled = state.page === 0;
   $("#previous").onclick = () => {
     if (shelfBusy || pendingPage) return;
     soundscape?.cue("page");
     state.turn(state.page - 1);
-    void showPage(true);
+    void showPage(true, false, true);
   };
   $("#next").onclick = () => {
     if (shelfBusy || pendingPage) return;
-    if (state.page === story.pages.length - 1) void room();
-    else {
-      soundscape?.cue("page");
-      state.turn(state.page + 1);
-      void showPage(true);
-    }
+    if (state.page >= story.pages.length - 1) return;
+    soundscape?.cue("page");
+    state.turn(state.page + 1);
+    void showPage(true, false, true);
   };
   $("#play").onclick = async () => {
     if (shelfBusy || pendingPage) return;
@@ -613,26 +604,6 @@ async function renderPage(autoplay: boolean, resume = false) {
     }
     updatePlayback();
   };
-  $("#replay").onclick = async () => {
-    if (shelfBusy || pendingPage) return;
-    if (!ready) {
-      await showPage(true);
-      return;
-    }
-    lastHighlight = "";
-    const active = narration;
-    active.pause();
-    state.hide();
-    if (
-      !(await scene.waitForUnfold(
-        () => token === operation && narration === active,
-      ))
-    )
-      return;
-    await active.replay();
-    if (token !== operation || narration !== active || !ready) return;
-    if (active.clock.playing) state.play();
-  };
   if (resume) {
     ready = previousReady;
     if (
@@ -644,7 +615,6 @@ async function renderPage(autoplay: boolean, resume = false) {
       !page.authored.book.soundtracks?.length
     ) {
       $<HTMLButtonElement>("#play").disabled = true;
-      $<HTMLButtonElement>("#replay").disabled = true;
       $("#play-status").textContent = "Narration needs an update";
     }
     updatePlayback();
@@ -678,13 +648,14 @@ async function renderPage(autoplay: boolean, resume = false) {
       $("#play-status").textContent = "Narration needs an update";
       if (!authored.book.soundtracks?.length) {
         $<HTMLButtonElement>("#play").disabled = true;
-        $<HTMLButtonElement>("#replay").disabled = true;
         state.hide();
         return;
       }
     }
     const loaded = authored
-      ? await bookNarration.loadBook(authored.book, state.page)
+      ? await bookNarration.loadBook(authored.book, state.page, {
+          preserveSoundtracks: preserveBookSoundtrack,
+        })
       : await standardNarration.load(
           page.segments.map(
             (s) => manifest[`${locale.id}/${story.id}/${page.id}/${s.id}`],
@@ -731,10 +702,17 @@ async function playToy(id: string) {
 }
 function updatePlayback() {
   if (!state.book) return;
-  const playing = narration?.clock.playing;
-  const b = $("#play");
-  const label = (playing ? "Ⅱ " : "▶ ") + t(playing ? "pause" : "play");
-  if (b && b.textContent !== label) b.textContent = label;
+  const playing = Boolean(narration?.clock.playing);
+  const b = document.querySelector<HTMLButtonElement>("#play");
+  if (b) {
+    const label = t(playing ? "pause" : "play");
+    const icon = b.querySelector<HTMLElement>(".transport-icon");
+    const text = b.querySelector<HTMLElement>(".transport-label");
+    if (icon) icon.textContent = playing ? "Ⅱ" : "▶";
+    if (text && text.textContent !== label) text.textContent = label;
+    b.setAttribute("aria-label", label);
+    b.setAttribute("aria-pressed", String(playing));
+  }
   if (
     playing &&
     ready &&

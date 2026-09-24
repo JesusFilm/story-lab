@@ -1,9 +1,29 @@
+import type { BookAppearance } from "./authored-book";
+
 /** The committed shelf order. Legacy entries preserve existing rigs and locales. */
 export type CatalogEntry =
-  | { id: string; legacyStory: "eden" | "noah"; path?: never }
+  | {
+      id: string;
+      legacyStory: "eden" | "noah";
+      appearance?: BookAppearance;
+      path?: never;
+    }
   | { id: string; path: string; legacyStory?: never };
 
 export const ROOM_SHELF_LIMIT = 30;
+const validAppearance = (value: unknown): value is BookAppearance =>
+  Boolean(
+    value &&
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      Object.keys(value).length === 3 &&
+      ["coverColor", "spineColor", "accentColor"].every(
+        (key) =>
+          typeof (value as Record<string, unknown>)[key] === "string" &&
+          /^#[\da-f]{6}$/i.test((value as Record<string, string>)[key]),
+      ),
+  );
+
 export function parseCatalog(value: unknown): CatalogEntry[] {
   if (!Array.isArray(value) || !value.length || value.length > ROOM_SHELF_LIMIT)
     throw Error("books/catalog.json: expected 1–30 ordered book entries.");
@@ -23,7 +43,7 @@ export function parseCatalog(value: unknown): CatalogEntry[] {
     ids.add(entry.id);
     if (
       Object.keys(entry).some(
-        (key) => !["id", "path", "legacyStory"].includes(key),
+        (key) => !["id", "path", "legacyStory", "appearance"].includes(key),
       )
     )
       throw Error(`${location}: unsupported catalog setting.`);
@@ -36,12 +56,21 @@ export function parseCatalog(value: unknown): CatalogEntry[] {
         throw Error(
           `${location}: legacyStory must match eden/noah with no path.`,
         );
-      return { id: entry.id, legacyStory: entry.legacyStory };
+      if (entry.appearance !== undefined && !validAppearance(entry.appearance))
+        throw Error(
+          `${location}: appearance must define valid coverColor, spineColor and accentColor hex colors.`,
+        );
+      return {
+        id: entry.id,
+        legacyStory: entry.legacyStory,
+        ...(entry.appearance ? { appearance: entry.appearance } : {}),
+      };
     }
     if (
       typeof entry.path !== "string" ||
       !/^[a-z0-9-]+\.book\.json$/.test(entry.path) ||
-      ["eden", "noah"].includes(entry.id)
+      ["eden", "noah"].includes(entry.id) ||
+      entry.appearance !== undefined
     )
       throw Error(
         `${location}: expected a relative .book.json filename and non-reserved id.`,

@@ -1,3 +1,4 @@
+import json
 import sys
 import unittest
 from html.parser import HTMLParser
@@ -18,6 +19,35 @@ class Links(HTMLParser):
 
 
 class DirectoryRenderingTests(unittest.TestCase):
+    def test_soundtrack_generator_is_reviewed_but_not_exported(self):
+        portal = Path(__file__).resolve().parents[1]
+        manifest = json.loads((portal / 'publication.json').read_text())
+        prototype = next(
+            item for item in manifest['prototypes'] if item['slug'] == 'little-light-library'
+        )
+        generator = (
+            'prototypes/little-light-library/assets/books/jonah-and-the-whale/'
+            'audio/generate_soundtracks.py'
+        )
+
+        self.assertNotIn(generator, prototype['files'])
+        self.assertIn(generator, manifest['reviewed_files'])
+
+    def test_eden_character_source_art_stays_reviewed_but_is_not_exported(self):
+        portal = Path(__file__).resolve().parents[1]
+        manifest = json.loads((portal / 'publication.json').read_text())
+        prototype = next(
+            item for item in manifest['prototypes'] if item['slug'] == 'little-light-library'
+        )
+        character_sources = {
+            name for name in manifest['reviewed_files']
+            if '/assets/books/eden/source-art/' in name
+            and Path(name).name.startswith(('adam-', 'eve-'))
+        }
+
+        self.assertEqual(len(character_sources), 14)
+        self.assertTrue(character_sources.isdisjoint(prototype['files']))
+
     def test_prototype_row_escapes_content_and_preserves_entry(self):
         proto = {
             'slug': 'story-diorama-lab',

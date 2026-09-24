@@ -52,12 +52,23 @@ try {
     for (const speed of speeds) {
       const duration = manifest[`${locale}/eden/eden-01/s1`]?.duration;
       assert.ok(duration > 0, `Missing duration for ${locale}`);
+      await page.locator("#next").click();
+      await page.waitForFunction(
+        () =>
+          window.libraryDebug().state.page === 1 && window.libraryDebug().ready,
+      );
+      await page.locator("#previous").click();
+      await page.waitForFunction(
+        () =>
+          window.libraryDebug().state.page === 0 &&
+          window.libraryDebug().ready &&
+          window.libraryDebug().playing,
+      );
       await page.locator("#settings").click();
       await page.locator("#speed").selectOption(String(speed));
       await page.locator("#audio").check();
       await page.locator("#volume").fill("0.8");
       await page.locator("#settings-close").click();
-      await page.locator("#replay").click();
       await page.waitForFunction(() => window.libraryDebug().position > 0.3);
 
       await page.locator("#settings").click();

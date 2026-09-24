@@ -1,10 +1,16 @@
-# Future Feature work — three showcase books
+# Feature roadmap — showcase books
 
-**Status: future Feature work, separate from editor retirement and architecture
-cleanup.** This roadmap is a handoff for a later assignment to complete and
-polish **Adam, Eve, and the Garden**, **Noah and the Great Flood**, and
-**Jonah and the Whale**. It does not authorize new story pages, artwork,
-recordings, translations or room redesign during cleanup.
+**Status:** This roadmap began as a pre-completion brief. Jonah's 13-spread
+retelling, nine localized text/narration editions, page staging and four ranged
+soundtracks are now in the committed book files. Its generated
+[book index](books/jonah-and-the-whale.md) and
+[completion report](../review/latest/jonah-completion.md) describe current work;
+the Jonah baseline below is retained as historical context, not as current state.
+Story, art, localization and listening still need honest human review where noted.
+
+Remaining showcase review work for **Adam, Eve, and the Garden** and
+**Noah and the Great Flood** follows their sections below. This roadmap does not
+authorize changes beyond a task's explicit scope.
 
 Build a complete **English (US)** experience first. Preserve the existing
 working language content throughout. The collection contains only these three books.
@@ -21,7 +27,7 @@ context, not current visual/listening evidence.
 | ------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | Eden         | Eight spreads, two segments each; Genesis 2–3; nine locales                   | Eight page paintings; garden/exile theatre plates; Adam/Eve pose atlases and specialized rigs; tree, serpent, painted garden floor          | Sixteen narrated phrases per locale, procedural ambience/effects; Adam, Eve, tree compatibility toys |
 | Noah         | Eight spreads, two segments each; Genesis 6–9; nine locales                   | Eight page paintings; shipyard/boarding/storm/receding-water/shore plates; Noah rig, family, animal pairs, ark, waves, dove and other props | Sixteen narrated phrases per locale, procedural ambience/effects; Noah, ark, dove compatibility toys |
-| Jonah        | Three spreads with one sentence each; source notes cite Jonah 1–4; en-US only | Five PNGs: shore/cover, sandy ground, Jonah cutout, whale cutout, underwater backdrop; generic placement/motion/interactions                | No narration recordings, soundtrack or toy definitions                                               |
+| Jonah        | Thirteen spreads, Jonah 1–4; text and measured narration in all nine locales | Harbor, ship, storm, deep-water, Nineveh and plant scenes; shared contract motions; Jonah, sailors, fish and Nineveh residents                | 117 localized narration cues; four cross-page ambience beds; no book-specific toys                                  |
 
 Eden/Noah text lives in `public/content/<locale>.json`; their cues live in
 `public/audio-manifest.json`. The retained pack has 315 phrase/name clips across
@@ -199,6 +205,14 @@ current, measured and heard in context. All retained locales remain available,
 with any post-edit translation gaps recorded honestly.
 
 ## Jonah and the Whale
+
+### Historical baseline, superseded by the current book index
+
+The following inventory, gap list, milestones and acceptance criteria record
+the state before the Jonah completion work. They are retained for context and
+should not be read as claims about current page, art, narration or translation
+availability. Use the current [per-book index](books/jonah-and-the-whale.md)
+and [completion report](../review/latest/jonah-completion.md).
 
 ### Existing material to preserve and reuse
 

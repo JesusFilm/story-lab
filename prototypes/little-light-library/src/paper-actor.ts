@@ -9,7 +9,7 @@ export type PaperActorMood =
   | "hope";
 export type PaperActorKind = "adam" | "eve" | "noah";
 
-/** An illustrated paper puppet. Its feet and root never move during acting. */
+/** A printed actor whose geometry stays rigid while the anchored root can lean. */
 export interface PaperActor {
   root: THREE.Group;
   update(
@@ -73,29 +73,44 @@ function partitionForearm(
           [1000, 203],
         ]
       : [
+          // Keep the broad mallet/hand silhouette, then taper the lower edge
+          // at the cream cuff so the blue robe sleeve stays in the body.
           [90, 100],
           [265, 100],
           [265, 200],
-          [175, 365],
-          [90, 365],
+          [230, 230],
+          [198, 260],
+          [174, 280],
+          [158, 300],
+          [154, 320],
+          [154, 342],
+          [135, 342],
+          [130, 322],
+          [115, 304],
+          [100, 285],
+          [90, 264],
+          [100, 240],
+          [124, 214],
+          [99, 190],
         ];
   const polygon = sourcePolygon.map(([x, y]) => ({
     x: (x - crop[0]) / crop[2],
     y: 1 - (y - crop[1]) / crop[3],
   }));
-  const elbow = presenting ? [440, 335] : fruit ? [1023, 244] : [140, 340];
-  const masks = presenting
-    ? THREE.ShapeUtils.triangulateShape(
-        polygon.map((p) => new THREE.Vector2(p.x, p.y)),
-        [],
-      ).map((indices) => {
-        const triangle = indices.map((i) => polygon[i]);
-        const [a, b, c] = triangle;
-        if ((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x) > 0)
-          triangle.reverse();
-        return triangle;
-      })
-    : [polygon];
+  const elbow = presenting ? [440, 335] : fruit ? [1023, 244] : [150, 340];
+  const masks =
+    presenting || kind === "noah"
+      ? THREE.ShapeUtils.triangulateShape(
+          polygon.map((p) => new THREE.Vector2(p.x, p.y)),
+          [],
+        ).map((indices) => {
+          const triangle = indices.map((i) => polygon[i]);
+          const [a, b, c] = triangle;
+          if ((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x) > 0)
+            triangle.reverse();
+          return triangle;
+        })
+      : [polygon];
   const body: PaperVertex[][] = [],
     arm: PaperVertex[][] = [];
   const uv = source.getAttribute("uv");
@@ -174,11 +189,142 @@ function partitionForearm(
   return {
     body: make(body),
     arm: make(arm),
+    // A small stationary print at Noah's elbow hides the moving edge of the
+    // cutout throughout the hammer arc. It samples the same original pixels,
+    // so it behaves as a natural overlap rather than a painted-on joint.
+    joint:
+      kind === "noah"
+        ? (() => {
+            const [cx, cy] = elbow;
+            const segments = 48;
+            const innerRadius = [17, 32];
+            const outerRadius = [28, 45];
+            const coordinates = (rx: number, ry: number, angle: number) => {
+              const sourceX = cx + Math.cos(angle) * rx;
+              const sourceY = cy + Math.sin(angle) * ry;
+              return {
+                x: ((sourceX - crop[0]) / crop[2] - 0.5) * width,
+                y: (1 - (sourceY - crop[1]) / crop[3]) * height,
+                u: (sourceX - crop[0]) / crop[2],
+                v: 1 - (sourceY - crop[1]) / crop[3],
+              };
+            };
+            const positions: number[] = [];
+            const uvs: number[] = [];
+            const colors: number[] = [];
+            const triangle = (
+              a: PaperVertex,
+              alphaA: number,
+              b: PaperVertex,
+              alphaB: number,
+              c: PaperVertex,
+              alphaC: number,
+            ) => {
+              for (const [point, alpha] of [
+                [a, alphaA],
+                [b, alphaB],
+                [c, alphaC],
+              ] as const) {
+                positions.push(point.x, point.y, 0);
+                uvs.push(point.u, point.v);
+                colors.push(1, 1, 1, alpha);
+              }
+            };
+            const center = coordinates(0, 0, 0);
+            for (let i = 0; i < segments; i++) {
+              const a = (i / segments) * Math.PI * 2;
+              const b = ((i + 1) / segments) * Math.PI * 2;
+              const innerA = coordinates(innerRadius[0], innerRadius[1], a);
+              const innerB = coordinates(innerRadius[0], innerRadius[1], b);
+              const outerA = coordinates(outerRadius[0], outerRadius[1], a);
+              const outerB = coordinates(outerRadius[0], outerRadius[1], b);
+              triangle(center, 1, innerA, 1, innerB, 1);
+              triangle(innerA, 1, outerA, 0, innerB, 1);
+              triangle(innerB, 1, outerA, 0, outerB, 0);
+            }
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute(
+              "position",
+              new THREE.Float32BufferAttribute(positions, 3),
+            );
+            geometry.setAttribute(
+              "uv",
+              new THREE.Float32BufferAttribute(uvs, 2),
+            );
+            geometry.setAttribute(
+              "color",
+              new THREE.Float32BufferAttribute(colors, 4),
+            );
+            geometry.computeVertexNormals();
+            return geometry;
+          })()
+        : undefined,
     pivot: new THREE.Vector3(
       ((elbow[0] - crop[0]) / crop[2] - 0.5) * width,
       (1 - (elbow[1] - crop[1]) / crop[3]) * height,
       0.02,
     ),
+  };
+}
+
+/** A selectable, alpha-trimmed illustration with no articulated geometry. */
+export function createRigidPaperActor(
+  texture: THREE.Texture,
+  kind: PaperActorKind,
+  width: number,
+): PaperActor {
+  const root = new THREE.Group();
+  root.name = `paper-actor-${kind}`;
+  const image = texture.image as
+    | { width?: number; height?: number }
+    | undefined;
+  const aspect =
+    Number(texture.userData.aspect) ||
+    (image?.width || 1024) / (image?.height || 1536);
+  const height = width / aspect;
+  const geometry = new THREE.PlaneGeometry(width, height);
+  geometry.translate(0, height / 2, 0);
+  const material = new THREE.MeshStandardMaterial({
+    map: texture,
+    side: THREE.DoubleSide,
+    alphaTest: 0.35,
+    roughness: 0.95,
+    metalness: 0,
+    emissive: 0x9d642b,
+    emissiveIntensity: 0,
+  });
+  const imageCard = new THREE.Mesh(geometry, material);
+  imageCard.name = `rigid-cutout-${kind}`;
+  imageCard.castShadow = true;
+  imageCard.receiveShadow = true;
+  imageCard.userData.visibleWidth = width;
+  imageCard.userData.visibleHeight = height;
+  imageCard.raycast = function (
+    this: THREE.Mesh,
+    raycaster: THREE.Raycaster,
+    hits: THREE.Intersection[],
+  ) {
+    if (this.visible) THREE.Mesh.prototype.raycast.call(this, raycaster, hits);
+  };
+  root.userData.visibleHeight = height;
+  root.add(imageCard);
+  let disposed = false;
+  return {
+    root,
+    update(_time, _mood, _speaking, _reduced, reaction = 0, hover = false) {
+      if (disposed) return;
+      const touch = Number.isFinite(reaction)
+        ? THREE.MathUtils.clamp(reaction, 0, 1)
+        : 0;
+      material.emissiveIntensity = touch * 0.16 + (hover ? 0.035 : 0);
+    },
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      geometry.dispose();
+      material.dispose();
+      root.clear();
+    },
   };
 }
 
@@ -197,11 +343,8 @@ export function createPaperActor(
     Number(texture.userData.aspect) ||
     (image?.width || 1024) / (image?.height || 1536);
   const width = height * aspect;
-  const geometry = new THREE.PlaneGeometry(width, height, 24, 40);
+  const geometry = new THREE.PlaneGeometry(width, height);
   geometry.translate(0, height / 2, 0);
-  const positions = geometry.getAttribute("position") as THREE.BufferAttribute;
-  positions.setUsage(THREE.DynamicDrawUsage);
-  const rest = new Float32Array(positions.array);
   const material = new THREE.MeshStandardMaterial({
     map: texture,
     side: THREE.DoubleSide,
@@ -214,6 +357,7 @@ export function createPaperActor(
   });
   const puppet = new THREE.Mesh(geometry, material);
   puppet.name = `articulated-${kind}`;
+  root.userData.visibleHeight = height;
   puppet.castShadow = true;
   puppet.receiveShadow = true;
   // Keep dynamic head/hand edges inside the culling volume.
@@ -243,6 +387,17 @@ export function createPaperActor(
       : undefined;
   const workBody = split ? new THREE.Mesh(split.body, material) : undefined;
   const forearm = split ? new THREE.Mesh(split.arm, material) : undefined;
+  const jointMaterial = split?.joint ? material.clone() : undefined;
+  if (jointMaterial) {
+    jointMaterial.vertexColors = true;
+    jointMaterial.transparent = true;
+    jointMaterial.alphaTest = 0;
+    jointMaterial.depthWrite = false;
+  }
+  const joint =
+    split?.joint && kind === "noah"
+      ? new THREE.Mesh(split.joint, jointMaterial!)
+      : undefined;
   const garmentPatch =
     split && presentationPose
       ? new THREE.Mesh(split.arm.clone(), material)
@@ -275,31 +430,27 @@ export function createPaperActor(
       root.add(mesh);
     }
   }
-  const workPositions = workBody?.geometry.getAttribute("position") as
-    | THREE.BufferAttribute
-    | undefined;
-  const workRest = workPositions
-    ? new Float32Array(workPositions.array)
-    : undefined;
-  const phase = kind === "adam" ? 0 : kind === "eve" ? 1.8 : 3.6;
+  if (joint) {
+    joint.name = "noah-hammer-joint-underlap";
+    joint.position.z = 0.01;
+    joint.visible = false;
+    joint.raycast = visibleRaycast;
+    root.add(joint);
+  }
   let lastTime: number | undefined;
-  let currentGesture = 0;
-  let currentTilt = 0;
-  let currentSpeech = 0;
-  let frozen = false;
+  let currentLean = 0;
   let disposed = false;
 
   return {
     root,
     update(time, mood, speaking, reduced, reaction = 0, hover = false) {
       if (disposed) return;
-      // The caller owns the transient envelope; selection never moves the root.
+      // The caller owns the transient envelope. Character art remains a rigid
+      // printed card; only the root leans by a few degrees in response to mood.
       const touch = Number.isFinite(reaction)
         ? THREE.MathUtils.clamp(reaction, 0, 1)
         : 0;
       material.emissiveIntensity = touch * 0.16 + (hover ? 0.035 : 0);
-      // Sadness stays an inward acknowledgment, not a cheerful wave.
-      const acknowledgment = touch * (mood === "sad" ? 0.045 : 0.075);
       const hammering = Boolean(
         split && kind === "noah" && mood === "work" && !reduced,
       );
@@ -315,54 +466,30 @@ export function createPaperActor(
       if (workBody && forearm) {
         workBody.visible = forearm.visible = articulated;
       }
+      if (joint) joint.visible = hammering;
       if (reduced) {
-        if (!frozen) {
-          positions.array.set(rest);
-          positions.needsUpdate = true;
-          geometry.computeVertexNormals();
-          frozen = true;
-        }
+        root.rotation.z = 0;
+        if (forearm) forearm.rotation.z = 0;
         lastTime = time;
         return;
       }
-      frozen = false;
       const dt =
         lastTime === undefined
           ? 1 / 60
           : Math.min(0.08, Math.max(0, time - lastTime));
       lastTime = time;
       const blend = dt === 0 ? 1 : 1 - Math.exp(-dt * 5);
-      const gestureTarget = {
-        welcome: 0.12,
-        listen: 0.012,
-        warn: 0.19,
-        sad: -0.018,
-        work: 0.16,
-        hope: 0.12,
-      }[mood];
-      const tiltTarget = {
+      const leanTarget = {
         welcome: -0.018,
-        listen: 0.018,
-        warn: -0.025,
-        sad: 0.052,
-        work: 0.028,
-        hope: -0.035,
+        listen: 0,
+        warn: -0.012,
+        sad: 0.004,
+        work: 0.004,
+        hope: -0.008,
       }[mood];
-      currentGesture += (gestureTarget - currentGesture) * blend;
-      currentTilt += (tiltTarget - currentTilt) * blend;
-      currentSpeech += ((speaking ? 1 : 0) - currentSpeech) * blend;
-      const t = time + phase;
-      const breath = Math.sin(t * 1.45) * 0.0035;
-      // Long pauses between gestures prevent a constant pendulum effect.
-      const phrase = Math.pow((Math.sin(t * 0.78) + 1) / 2, 3);
-      const gesture =
-        currentGesture * (0.3 + phrase * 0.7) +
-        touch * (mood === "sad" ? -0.018 : 0.055);
-      const headTilt =
-        currentTilt +
-        Math.sin(t * 0.67) * 0.013 +
-        currentSpeech * Math.sin(t * 3.4) * 0.01 +
-        acknowledgment;
+      const reactionLean = touch * (mood === "sad" ? 0.003 : -0.012);
+      currentLean += (leanTarget + reactionLean - currentLean) * blend;
+      root.rotation.z = currentLean + (speaking ? -0.002 : 0);
       // Pose 0 has the mallet in the raised image-left hand. Pause, strike,
       // briefly hold, then recover: a task beat rather than perpetual waving.
       const hammerPhase = (((time % 2.6) + 2.6) % 2.6) / 2.6;
@@ -392,83 +519,6 @@ export function createPaperActor(
             : consideringFruit
               ? fruitAngle
               : hammerAngle) || 0;
-      const turn = Math.sin(t * 0.48) * 0.09;
-      const cos = Math.cos(headTilt);
-      const sin = Math.sin(headTilt);
-      const targets = [{ positions, rest }];
-      if ((hammering || presenting) && workPositions && workRest)
-        targets.push({ positions: workPositions, rest: workRest });
-      for (const { positions, rest } of targets) {
-        for (let i = 0; i < positions.count; i++) {
-          const j = i * 3;
-          const x = rest[j];
-          const y = rest[j + 1];
-          const u = x / width + 0.5;
-          const v = y / height;
-          // Below the ankles is exactly fixed, even during emphatic speech.
-          const anchor = smooth(0.08, 0.34, v);
-          const torso = smooth(0.37, 0.62, v) * (1 - smooth(0.79, 0.88, v));
-          let nx = x + x * breath * torso;
-          let ny = y + height * (breath + touch * 0.004) * torso;
-          let nz = height * breath * 0.5 * torso;
-          // The raised mallet shares the face's height, but is not part of its joint.
-          const head =
-            smooth(0.795, 0.865, v) * (hammering ? smooth(0.3, 0.45, u) : 1);
-          const neckX = width * 0.015;
-          const neckY = height * 0.795;
-          const hx = x - neckX;
-          const hy = y - neckY;
-          nx += (hx * cos - hy * sin - hx) * head;
-          ny += (hx * sin + hy * cos - hy) * head;
-          // Turn the paper head in depth, with only cosine foreshortening of the face.
-          nx += hx * (Math.cos(turn) - 1) * head;
-          nz += -hx * Math.sin(turn) * head;
-          if (presenting && positions === workPositions) {
-            // Keep the cuff and garment fill registered while retaining the existing head joint.
-            positions.setXYZ(
-              i,
-              x + (hx * cos - hy * sin - hx + hx * (Math.cos(turn) - 1)) * head,
-              y + (hx * sin + hy * cos - hy) * head,
-              -hx * Math.sin(turn) * head || 0,
-            );
-            continue;
-          }
-          if (kind === "eve" && !texture.userData.poseAtlas) {
-            // Her hands are clasped at the chest; preserve the painted embrace.
-            const hands =
-              (1 - smooth(0.12, 0.25, Math.abs(u - 0.52))) *
-              smooth(0.58, 0.66, v) *
-              (1 - smooth(0.73, 0.78, v));
-            ny += height * gesture * 0.13 * hands;
-            nz += height * gesture * 0.17 * hands;
-          } else {
-            const armHeight =
-              smooth(0.37, 0.46, v) * (1 - smooth(0.73, 0.82, v));
-            const left = (1 - smooth(0.3, 0.43, u)) * armHeight;
-            const right = smooth(0.59, 0.72, u) * armHeight;
-            const reach = height * 0.78 - y;
-            nx -= reach * gesture * left;
-            nx += reach * gesture * 0.65 * right;
-            ny += height * gesture * 0.18 * (left + right);
-            if (mood === "work" && !hammering)
-              ny += height * 0.035 * Math.sin(t * 3.2) * left;
-            nz += reach * gesture * (left + right) * 0.8;
-          }
-          // Garment motion is local to the loose outer cloth, not sliding feet.
-          const hem = smooth(0.17, 0.29, v) * (1 - smooth(0.47, 0.58, v));
-          const outer = smooth(0.11, 0.27, Math.abs(u - 0.5));
-          nx += height * 0.0018 * Math.sin(t * 1.1 + v * 4) * hem * outer;
-          positions.setXYZ(
-            i,
-            x + (nx - x) * anchor,
-            y + (ny - y) * anchor,
-            nz * anchor,
-          );
-        }
-        positions.needsUpdate = true;
-      }
-      geometry.computeVertexNormals();
-      if (hammering || presenting) workBody?.geometry.computeVertexNormals();
     },
     dispose() {
       if (disposed) return;
@@ -476,6 +526,8 @@ export function createPaperActor(
       geometry.dispose();
       split?.body.dispose();
       split?.arm.dispose();
+      split?.joint?.dispose();
+      jointMaterial?.dispose();
       garmentPatch?.geometry.dispose();
       material.dispose();
       root.clear();

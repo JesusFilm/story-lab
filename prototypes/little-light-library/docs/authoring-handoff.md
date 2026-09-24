@@ -1,5 +1,10 @@
 # Editor retirement and committed-book handoff
 
+This handoff records the editor-retirement delivery before the later Jonah book
+completion. Its Jonah draft, media and translation statements are historical;
+the [current book index](books/jonah-and-the-whale.md) and
+[completion report](../review/latest/jonah-completion.md) supersede them.
+
 The visual editor is retired. This document supersedes its historical delivery notes.
 The active product is the room and reader; local agents author committed files.
 The autonomous quality-scoring program remains parked.
@@ -7,7 +12,7 @@ The autonomous quality-scoring program remains parked.
 ## Current implementation
 
 - `public/books/catalog.json` is the explicit ordered shelf. Every visitor gets
-  Eden, Noah and the existing Jonah draft without browser setup.
+  Eden, Noah and the generic Jonah book without browser setup.
 - Generic books use the existing v1 JSON contract, shared validation, paper stage,
   measured narration, soundtrack mixer, translation resolution and toys.
 - Eden/Noah retain their localized manifests and bespoke rigs through an explicit
@@ -22,16 +27,14 @@ The autonomous quality-scoring program remains parked.
   and selectively narrate with the existing local Kokoro Voice Lab. No provider,
   account, editor application or publishing service was added.
 
-The editor retirement preserved existing content byte-for-byte. At the creator's
-request on 21 September 2026, the technical demonstration's JSON and registration
-were removed. The three remaining books and all shared Eden assets are unchanged.
-Jonah remains three spreads without narration.
+At the editor-retirement point, the creator's request on 21 September 2026 removed
+the technical demonstration's JSON and registration. The paragraphs below record
+Jonah's earlier three-spread state before its later feature work; do not treat them
+as a current content description.
 
-Jonah TODOs also include its bookend treatment and likely book-content
-translations after the English story is settled. Target languages still need
-creator confirmation; translated reader UI is not translated story content.
-See the [Jonah roadmap](feature-roadmap.md#jonah-and-the-whale) for sequencing
-and review requirements. These are notes for future work, not changes made here.
+Jonah TODOs at that point included a bookend treatment and book-content
+translations. The [Jonah index](books/jonah-and-the-whale.md) and completion
+report record the current content and remaining review limits.
 
 ## Start and author
 
@@ -67,9 +70,9 @@ human editorial, translation, pronunciation or listening approval.
 
 [Architecture](architecture.md) explains catalog loading, runtime/content/tool
 boundaries, asset ownership, contract behavior and the legacy exception.
-[Feature roadmap](feature-roadmap.md) is the future-agent handoff for Adam/Eve,
-Noah and Jonah. It identifies existing content, missing media, genuine blockers,
-optional capabilities, milestones and creator decisions.
+[Feature roadmap](feature-roadmap.md) retains the original showcase brief. Its
+Jonah inventory is explicitly historical; the per-book index and completion
+report provide current Jonah evidence.
 
 No showcase text, artwork, narration, translations or new reader interactions
 were produced in this cleanup. Future polish and any larger rig migration require
