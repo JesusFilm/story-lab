@@ -71,6 +71,10 @@ for base in ['/', '/story-lab/', '/story-lab-demos/']:
       assert (OUT/Path(document).parent/target).is_dir(),target
      else:check(base,document,target)
 for proto in manifest['prototypes']:
+ if proto.get('url'):
+  assert not (OUT/'prototypes'/proto['slug']).exists(), 'External prototypes must not be hosted here'
+  assert not proto['files'] and not proto.get('static_build')
+  assert (OUT/'index.html').read_text().count(f'href="{proto["url"]}"') == 3
  if proto['slug']=='story-diorama-lab':
   root=OUT/'prototypes'/proto['slug']
   for filename in ['building.png','animals.png','flood.png','promise.png','reverie.mp3','childhood.mp3','hiraeth.mp3']:

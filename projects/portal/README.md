@@ -25,6 +25,11 @@ npm test
 npm run test:unit
 ```
 
+Little Light Library is an external listing at
+https://jesusfilm.github.io/little-light-library/. Its `url` sends the preview,
+title and action links directly to that site; its `files` list stays empty and
+Story Lab does not build or publish its runtime. Only its listing image is retained.
+
 `publication.json` lists the files needed by each demo and gallery entry. Reviewed
 hashes prevent accidentally exporting changed content. Review the actual change
 before updating its hash. Include runtime dependencies and license files explicitly.
