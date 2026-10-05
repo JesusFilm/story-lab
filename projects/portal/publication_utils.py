@@ -45,7 +45,7 @@ PROTOTYPE_FORMATS = {
 
 def prototype_card(proto, retrospective_link=''):
     base = f"prototypes/{proto['slug']}/"
-    entry = base + proto.get('entry', '')
+    entry = html.escape(proto.get('url') or base + proto.get('entry', ''), quote=True)
     image = proto.get('image', proto['slug'] + '.jpg')
     image += ('?v=' + proto['image_version']) if proto.get('image_version') else ''
     kind, topic = PROTOTYPE_FORMATS.get(proto['slug'], ('Prototype', ''))

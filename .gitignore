@@ -61,3 +61,6 @@ venv/
 
 # Private session material: conversations, emails, summaries and focus notes.
 catch-ups/
+
+# Extracted into its own project; ignore leftover local build/cache files.
+/prototypes/little-light-library/

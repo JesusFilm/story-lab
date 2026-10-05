@@ -8,7 +8,6 @@ From the repository root, install/build the portal and its bundled dependencies:
 ```sh
 npm ci --prefix projects/portal
 npm ci --prefix prototypes/sermon-in-the-crowd
-npm ci --prefix prototypes/little-light-library
 npm --prefix projects/portal run build
 cd projects/portal
 npx playwright install --with-deps chromium webkit

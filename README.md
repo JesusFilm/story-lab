@@ -43,6 +43,9 @@ Each has its own setup instructions.
 - [Among the Crowd](prototypes/sermon-in-the-crowd/README.md): explore a sermon
   with audio, timed captions and an internal V1/V2 character selector.
 
+- [Little Light Library](https://jesusfilm.github.io/little-light-library/): read
+  and listen to illustrated Bible retellings in its standalone project.
+
 To launch the two shepherd prototypes from this checkout with Python 3.9+ and Node.js 22+:
 
 ```sh

@@ -19,34 +19,21 @@ class Links(HTMLParser):
 
 
 class DirectoryRenderingTests(unittest.TestCase):
-    def test_soundtrack_generator_is_reviewed_but_not_exported(self):
+    def test_little_light_library_links_to_standalone_site_without_runtime(self):
         portal = Path(__file__).resolve().parents[1]
         manifest = json.loads((portal / 'publication.json').read_text())
         prototype = next(
             item for item in manifest['prototypes'] if item['slug'] == 'little-light-library'
         )
-        generator = (
-            'prototypes/little-light-library/assets/books/jonah-and-the-whale/'
-            'audio/generate_soundtracks.py'
-        )
-
-        self.assertNotIn(generator, prototype['files'])
-        self.assertIn(generator, manifest['reviewed_files'])
-
-    def test_eden_character_source_art_stays_reviewed_but_is_not_exported(self):
-        portal = Path(__file__).resolve().parents[1]
-        manifest = json.loads((portal / 'publication.json').read_text())
-        prototype = next(
-            item for item in manifest['prototypes'] if item['slug'] == 'little-light-library'
-        )
-        character_sources = {
-            name for name in manifest['reviewed_files']
-            if '/assets/books/eden/source-art/' in name
-            and Path(name).name.startswith(('adam-', 'eve-'))
-        }
-
-        self.assertEqual(len(character_sources), 14)
-        self.assertTrue(character_sources.isdisjoint(prototype['files']))
+        links = Links()
+        links.feed(prototype_card(prototype))
+        self.assertEqual(links.links, ['https://jesusfilm.github.io/little-light-library/'] * 3)
+        self.assertEqual(prototype['files'], [])
+        self.assertNotIn('static_build', prototype)
+        self.assertNotIn('static_output_digest', prototype)
+        self.assertFalse(any(name.startswith('prototypes/little-light-library/')
+                             for name in manifest['reviewed_files']))
+        self.assertTrue((portal / 'public' / prototype['image']).is_file())
 
     def test_prototype_row_escapes_content_and_preserves_entry(self):
         proto = {
@@ -69,9 +56,9 @@ class DirectoryRenderingTests(unittest.TestCase):
             'slug': 'little-light-library',
             'title': 'Little Light Library',
             'description': 'A storybook.',
-            'image': 'prototypes/little-light-library/docs/captures/room-1366.png',
+            'image': 'little-light-library.jpg',
         })
-        self.assertIn('src="prototypes/little-light-library/docs/captures/room-1366.png"', markup)
+        self.assertIn('src="little-light-library.jpg"', markup)
 
     def test_asset_category_uses_path_segment(self):
         self.assertEqual(asset_category('assets/animals/sheep/reference-prompt.txt'), 'Animals')

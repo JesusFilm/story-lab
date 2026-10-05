@@ -4,13 +4,16 @@ Independent playable experiments. Each prototype owns its code and asset copies.
 Copy assets from the [collection](../assets/README.md) or another prototype into
 your own folder, then change that copy as needed.
 
-| Prototype | Experience | Local URL |
+| Prototype | Experience | Preview URL |
 |---|---|---|
 | [Shepherd Maze](shepherd-maze/README.md) | Automatic walking, junction choices and memory; Blender/Tripo presentations. | [8765](http://127.0.0.1:8765/) |
 | [Shepherd Adventure](shepherd-adventure/README.md) | Lantern preparation, clues and discovery on the journey to the Nativity. | [8766](http://127.0.0.1:8766/) |
 | [Among the Crowd](sermon-in-the-crowd/README.md) | Walk through a sermon with audio, captions and V1/V2 characters. | [8767](http://127.0.0.1:8767/) |
-| [Little Light Library](little-light-library/README.md) | Three committed illustrated Bible retellings, with narration in a child’s bedroom. | [8771](http://127.0.0.1:8771/) |
+| [Little Light Library](https://jesusfilm.github.io/little-light-library/) | Three committed illustrated Bible retellings, with narration in a child’s bedroom. | [Official site](https://jesusfilm.github.io/little-light-library/) |
 | [Story Diorama Lab](story-diorama-lab/README.md) | Explore story playback, image transitions, scrolling text and soundtrack timing with Noah. | [8769](http://127.0.0.1:8769/) |
+
+Little Light Library now lives in its own project. Story Lab links to its official
+site and does not host its code or runtime.
 
 Among the Crowd runs independently with `npm run dev:static -- --port 8767` from
 its directory. See its README for installation and static export.
